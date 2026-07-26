@@ -1,0 +1,165 @@
+# Grand Portage
+
+**Transport typing and obstruction tracking for computational algebra.**
+
+A computation produces an artifact. The artifact does not carry its own license
+to conclude. Grand Portage records what each modelling step *loses*, and
+refuses the conclusions that loss does not support.
+
+```
+$ gp check
+UNSOUND_CONCLUSION  TRANSPORT:INF-C08-HIST
+    the C08 residue equation has no solution with all leading coefficients nonzero
+      asserted: the branch of the option tree does not exist -- consumed as
+                GEOMETRIC emptiness over the theorem's arbitrary char-0 K
+      refused : BASE_EXTENSION licenses EMPTY along the extension only at scope
+                SCHEME; this claim has scope 'Q(sqrt 17)' (certificate
+                NONSQUARE_CLASS, which does not base-change)
+      contradicted by: CL-C08-REAL
+        (the C08 support has real (hence complex) torus points)
+    E8     ALONG   NO  ...
+    -> DISCHARGE: Produce a certificate that BASE-CHANGES -- exhibit 1 in the
+       ideal over the base field, or a resultant nonzero in the base field --
+       and the emptiness transports unchanged.  If no such certificate exists,
+       the claim is a fact about Q(sqrt 17) only [...]
+```
+
+That finding is a real error that shipped in a public artifact. It took an
+independent field-scope audit to find. Here it is a type error at the moment
+the edge is drawn.
+
+## Status
+
+Layers 0–3 are built and gated. The MCP server and the enforcement hook are
+next. See [DESIGN.md](DESIGN.md).
+
+| layer | module | status |
+|---|---|---|
+| kernel — the transport table | `grandportage/kernel.py` | **done** |
+| store — append-only graph log | `grandportage/store.py` | **done** |
+| checker — findings and exit code | `grandportage/check.py` | **done** |
+| discharge — refusal → next move | `grandportage/discharge.py` | **done** |
+| MCP server — record at the CAS call | `grandportage/mcp.py` | not started |
+| hook — refuse after the call | `grandportage/hook.py` | not started |
+
+## The five relaxation types
+
+Edges point **tighter → looser**: `V(src) ⊆ V(dst)`. `AGAINST` is reasoning
+looser → tighter, which is the direction emptiness travels and the direction
+that closes cases.
+
+Printed by the kernel itself with `gp table`, so a document quoting it and the
+code applying it cannot drift apart.
+
+| edge type | dir | EMPTY | NONEMPTY | PREDICATE | IDENTITY |
+|---|---|---|---|---|---|
+| `EQUIVALENCE` | ALONG | yes | yes | yes | yes |
+| `EQUIVALENCE` | AGAINST | yes | yes | yes | yes |
+| `NECESSARY_CONDITION` | **ALONG** | NO | yes | **NO** | if denominator-free |
+| `NECESSARY_CONDITION` | AGAINST | yes | NO | yes | if denominator-free |
+| `BASE_EXTENSION` | **ALONG** | **only with a certificate** | **yes** | NO | yes |
+| `BASE_EXTENSION` | AGAINST | yes | NO | yes | yes |
+| `IMAGE_CLOSURE` | ALONG | NO | yes | if Zariski-closed | if denominator-free |
+| `IMAGE_CLOSURE` | **AGAINST** | yes | **NO** | yes | if denominator-free |
+| `SPECIALIZATION` | both | **NO** | **NO** | NO | if denominator-free |
+
+Three rows carry most of the value:
+
+* **`BASE_EXTENSION` reverses the asymmetry.** Everywhere else emptiness
+  travels freely and witnesses do not. Here a `k`-point *is* a `K`-point, so
+  `NONEMPTY` travels along the arrow and `EMPTY` needs a certificate. Anyone
+  who internalised "emptiness always transports" is primed to get this exactly
+  backwards, which is how the erratum above happened.
+* **`IMAGE_CLOSURE` AGAINST / `NONEMPTY` is Chevalley.** A point of the Zariski
+  closure need not lift. This is why elimination is a sound way to *derive*
+  equations and an unsound source of *witnesses* — and why a cell that survives
+  everything is an artifact candidate rather than a reason to buy solver time.
+* **`SPECIALIZATION` carries nothing.** char 0 → char p transports no existence
+  statement in either direction, and that is a theorem, not caution: Fano is
+  empty over `Q` and nonempty over `F₂`, non-Fano is the reverse.
+
+## Scope is derived, never declared
+
+The single most load-bearing line in the system. An emptiness claim's scope
+comes from its **certificate kind**, not from the author's label:
+
+```
+UNIT_IDEAL_CERT            -> SCHEME   (1 in I over Q stays 1 in I over K)
+NONZERO_RESULTANT          -> SCHEME   (res in Q* stays in K*)
+EXACT_VALUATION_COLLISION  -> SCHEME   (an inequality between integers)
+NONSQUARE_CLASS            -> field-relative, by construction
+NO_RATIONAL_POINT_SEARCH   -> field-relative, by construction
+```
+
+Declaring a field-relative certificate at `SCHEME` scope is a **fold error**,
+not a finding: the graph refuses to state it at all.
+
+## Quick start
+
+```bash
+gp init                          # create .portage/graph.jsonl
+gp check                         # type-check; exit 1 if anything is unsound
+gp check --json                  # machine-readable findings
+gp table                         # print the transport table and certificates
+gp show                          # print the graph
+
+gp --graph fixtures/jc2/graph.jsonl check      # the JC(2) retrodiction
+gp --graph fixtures/matroid/graph.jsonl check  # the matroid retrodiction
+```
+
+Pure stdlib. No solver, no network, no model in the loop. Under a second.
+
+## The retrodiction gate
+
+```bash
+python -m pytest        # 93 checks
+```
+
+Grand Portage's credibility rests on reproducing, from **data**, what two
+hardcoded prototypes produced with their DAGs compiled into the checker:
+
+| domain | flags | positive controls | ground truth |
+|---|---:|---:|---|
+| JC(2) plane (72,108) | 4 + taint + coverage | 9 | three errors that **actually shipped** |
+| matroid realizability | 6 | 6 | externally published (Oxley, MacLane, Brandt–Wiebe) |
+
+Both answer keys were pinned before this code existed. Zero false positives in
+either domain. Severities are **derived** from contradictions in the graph
+rather than assigned by hand, and reproduce the prototypes' hand grading on
+9 of 10 findings; the tenth is a declared override carrying its reason.
+
+Twenty-odd mutations assert the gate has teeth — each perturbs one declared
+attribute and requires the verdict to move. Some produce a *refused fold*
+rather than a different verdict, which is stronger: the graph cannot state the
+mutated claim at all.
+
+## What this does not do
+
+Stated plainly, because the failure mode of a tool like this is that four
+tracked hazards start feeling like a guarantee.
+
+* **It does not find missing equations.** It routes attention to the place or
+  the step where one is missing. Every actual advance in the source campaign
+  was an equation; the claim here is only that a typed graph shortens the
+  search for *which* one.
+* **It requires the edge to exist.** If a step is taken without any model
+  declaring that a field changed or a chart changed, there is nothing to type.
+* **Coverage detects absent structure, never weak structure.** A declared
+  component that is merely too weak is invisible, and that is a limitation of
+  the whole coverage tradition, not a bug here.
+* **The cost is modelling, not typing.** Measured on the second domain: ~95% of
+  the effort was deciding what the models *are*; ~5% was assigning types. Any
+  plan that treats this as tooling rather than as a discipline will spend its
+  money in the wrong place.
+
+## Provenance
+
+Grand Portage is the successor to `whetstone/` in the `math-stuff` repo, where
+the same discipline exists as three single-file prototypes with their domains
+hardcoded. The design, the transport table, the certificate registry and both
+fixtures come from there. The generalization — graph as data, derived
+severities, path continuity, probes, merge semantics — is what is new.
+
+The name is the 8.5-mile haul around the Pigeon River falls: the deliberate,
+effortful carry between two bodies of water, where you are acutely aware of
+what you can bring.
