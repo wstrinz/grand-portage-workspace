@@ -163,9 +163,14 @@ def check_transport(graph):
         counter = contradicting_claims(graph, inf["concludes_at"],
                                        inf["concludes_kind"],
                                        exclude=(inf["claim"],))
-        if edge["type"] == K.UNTYPED:
-            derived = DEBT
-        elif counter:
+        # An UNTYPED EDGE is a hole, and a hole you have recorded is DEBT.
+        # DRAWING A CONCLUSION ACROSS ONE is not: it asserts something no
+        # declared relation supports, which is the definition of an unsound
+        # premise.  Grading it DEBT would put it below the blocking floor, so
+        # the untyped steps -- the very thing the type is for -- would be the
+        # ones that never stop anybody.  The UNTYPED-EDGE rule still reports
+        # the hole itself at DEBT; this is about the traffic over it.
+        if counter:
             derived = UNSOUND_CONCLUSION
         else:
             derived = UNSOUND_PREMISE

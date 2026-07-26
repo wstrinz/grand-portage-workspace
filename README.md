@@ -30,7 +30,7 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: 144 checks, live against Singular 4.2.1.
+All five layers are built and gated: 156 checks, live against Singular 4.2.1.
 See [DESIGN.md](DESIGN.md).
 
 | layer | module | what it does |
@@ -42,9 +42,8 @@ See [DESIGN.md](DESIGN.md).
 | CAS + MCP | `grandportage/cas.py`, `mcp.py` | **declare the transport or no process spawns** |
 | hook | `grandportage/hook.py` | runs the checker after each tool call and refuses |
 
-Not yet done: a run against `d2_plane_72_108`'s **live** frontier. The
-retrodiction proves it reproduces known verdicts; the frontier is where it
-either earns its keep on open work or does not.
+Pointed at `d2_plane_72_108`'s live front — see
+[the live front](#the-live-front) below.
 
 ## The loop, end to end
 
@@ -144,7 +143,7 @@ Pure stdlib. No solver, no network, no model in the loop. Under a second.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # 144 checks
+python -m pytest        # 156 checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two
@@ -188,6 +187,37 @@ axis recovers the other's item — so both are necessary.
 
 What this does **not** establish is discrimination *within* an axis. That needs
 more than one incident per axis, and the source repo does not contain one.
+
+## The live front
+
+`fixtures/gamma_window/` is not a retrodiction. It models the γ-window compiler
+work targeting (75,125), which is open right now, so there is no answer key and
+none is claimed. Four obligations, all currently standing:
+
+| finding | what it is |
+|---|---|
+| `GI-GAMMA-IMPORT` | GGV3 §5 asserts γ ∈ {2,3} *without proof*; the corner layer derives only γ ∈ {2,3,4}. A `PREDICATE` moved ALONG a `NECESSARY_CONDITION` edge. |
+| `GI-REPLAY-TRANSFER` | the (50,75) certificate is a *replay* of published algebra with `a³=2` supplied as a given. Nothing relates it to (75,125). |
+| `GI-BRIDGE` | `a2_certificate()` and `tower_step()` share **not one variable**; the sentence joining them is a `print` statement. |
+| `GI-WINDOW-CONFLATION` | two different objects wear the word "window" — a cone that degenerates to a ray, and a depth ledger. |
+
+**Grand Portage discovered none of these.** All four are already written down,
+in `SESSION_HANDOFF.md`'s prose and `F2_TOWER.md`'s banner. What changes is the
+form: a banner is prose a reader has to find and believe, and it is the first
+thing lost at a compaction. A typed edge blocks the conclusion that depends on
+it and names its own discharge.
+
+Two things the run showed that the prose does not:
+
+* **`GI-BRIDGE` is the clearest case for the whole approach.** Neither
+  computation is wrong; both are individually well-evidenced. The defect is a
+  *join* between two computations that share no variable. No evidence ladder
+  catches that, because grading either half tells you nothing about the seam.
+* **Naming the type is not enough — the direction is a claim.** Typing the
+  bridge `NECESSARY_CONDITION` as drawn does *not* discharge it, because a
+  `PREDICATE` still cannot travel ALONG. Discharging it requires asserting that
+  the kill layer *refines* the period layer, and being accountable for that.
+  Which is precisely the assertion the `print` statement skipped.
 
 ## What this does not do
 
