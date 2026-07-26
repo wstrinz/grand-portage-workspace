@@ -106,7 +106,7 @@ failure is specific enough to name the move; vague failures do not generate work
 **The honest limit, and it should be read every time this is quoted: it routes
 attention to where an equation is missing. It does not find the equation.**
 
-### 1.4 MCP server — not built
+### 1.4 MCP server — `grandportage/mcp.py` + `cas.py`
 
 The forcing function. The tool signature makes the transport declaration a
 **required argument**:
@@ -140,9 +140,19 @@ Two constraints on the implementation:
   ring variable `g0` produced confident false `UNIT` verdicts at every prime for
   months, and the blast radius was contained only by a standing social rule.
 
-### 1.5 hook — not built
+### 1.5 hook — `grandportage/hook.py`
 
-`PostToolUse`, exit 2 with the finding. The only part with teeth.
+`PostToolUse`, exit 2 with the finding on stderr. The only part with teeth.
+
+Two decisions that cost something to get wrong. It **fails closed on a
+malformed graph** — that is a real defect and the agent just caused it — but
+**open on a missing one**, because most tool calls in most repos have nothing to
+do with a proof campaign and a hook that blocks every session gets disabled
+within a day. And it blocks on findings **not in `.portage/baseline.json`**: a
+campaign mid-flight legitimately carries unrepaired errata, and blocking on
+those forever trains the operator to turn the hook off, which is worse than no
+hook. Accepting a finding is a decision with a cost, so the baseline is a file a
+reviewer can read rather than someone's memory of the normal warnings.
 
 ## 2. Data model
 
