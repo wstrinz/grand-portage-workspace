@@ -177,3 +177,25 @@ def test_known_conservatism_is_recorded_not_hidden():
         t, d, k = entry["cell"]
         assert K.TRANSPORT[t][d][k] is entry["kernel_says"]
         assert entry["why_kept"]
+
+
+def test_an_unjustified_equivalence_is_reported():
+    """EQUIVALENCE is the only type that forbids nothing, so one mistyped row
+    licenses every transport across that step in both directions.  An
+    EQUIVALENCE resting on neither a witness nor a citation is a claim resting
+    on the author's confidence."""
+    from grandportage import check as C
+    import helpers as H
+    bare = H.mutate("jc2", H.set_field("edge", "E3", cite="", witness=""))
+    ids = {f.fid for f in C.run(bare)}
+    assert "UNJUSTIFIED-EQUIVALENCE:E3" in ids
+
+
+def test_a_documented_equivalence_is_not_reported():
+    """Both real fixtures type a step EQUIVALENCE and both cite where the
+    converse is proved.  Flagging those would make the rule noise."""
+    from grandportage import check as C
+    import helpers as H
+    for domain in H.DOMAINS:
+        rules = {f.rule for f in C.run(H.load(domain))}
+        assert "UNJUSTIFIED-EQUIVALENCE" not in rules, domain

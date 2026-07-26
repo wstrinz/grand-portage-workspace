@@ -323,6 +323,48 @@ def check_refinement(graph):
     return findings
 
 
+def check_unjustified_equivalence(graph):
+    """An EQUIVALENCE asserted on nothing is the most dangerous row in a graph.
+
+    Every other type forbids something; EQUIVALENCE forbids nothing, so one
+    mistyped equivalence silently licenses every transport across that step.
+    It is also the easiest type to reach for -- "this step should be
+    reversible" is a feeling, not a converse.
+
+    Reported at DEBT, not higher, and only when the edge offers NEITHER a
+    `witness` nor a `cite`.  A well-documented equivalence is not a finding;
+    an undocumented one is a claim resting on the author's confidence.
+
+    Prompted by the first live run, which observed that `witness` is optional,
+    was nearly skipped, and turned out to be where the best content went.  The
+    stronger form of that suggestion -- require a witness on every
+    NECESSARY_CONDITION -- was declined: most are obviously lossy, and a
+    required field people cannot fill gets filled with noise, which is worse
+    than an empty one.
+    """
+    findings = []
+    for eid in sorted(graph.edges):
+        e = graph.edges[eid]
+        if e["type"] != K.EQUIVALENCE:
+            continue
+        if e.get("witness") or e.get("cite"):
+            continue
+        findings.append(Finding(
+            "UNJUSTIFIED-EQUIVALENCE", "UNJUSTIFIED-EQUIVALENCE:%s" % eid,
+            DEBT, eid,
+            "edge %s (%s -> %s) is typed EQUIVALENCE with neither a `witness` "
+            "nor a `cite`.\n  EQUIVALENCE is the only type that forbids "
+            "nothing, so this one row licenses every transport across the "
+            "step, in both directions, unconditionally."
+            % (eid, e["src"], e["dst"]),
+            "Exhibit the converse -- the construction that recovers a point of "
+            "%s from a point of %s -- or cite where it is proved. If you "
+            "cannot do either, the step is a NECESSARY_CONDITION and should "
+            "say so; nothing is lost by the weaker type except conclusions you "
+            "were not entitled to." % (e["src"], e["dst"])))
+    return findings
+
+
 def run(graph):
     """All rules, in a stable order, most severe first."""
     transport_findings = check_transport(graph)
@@ -330,7 +372,8 @@ def run(graph):
                 + check_taint(graph, transport_findings)
                 + check_coverage(graph)
                 + check_refinement(graph)
-                + check_untyped(graph))
+                + check_untyped(graph)
+                + check_unjustified_equivalence(graph))
     findings.sort(key=lambda f: (-SEVERITY_RANK[f.severity], f.rule, f.fid))
     return findings
 
