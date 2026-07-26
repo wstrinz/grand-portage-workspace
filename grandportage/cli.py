@@ -148,16 +148,31 @@ def cmd_accept(args):
     from . import hook as H
     g = _load(args)
     findings = C.run(g)
+    before = H.load_baseline(args.root)
     if args.only:
+        unknown = sorted(set(args.only) - {f.fid for f in findings})
+        if unknown:
+            sys.stderr.write("no such finding: %s\nrun `gp check` for the "
+                             "current ids\n" % ", ".join(unknown))
+            return 2
         findings = [f for f in findings if f.fid in set(args.only)]
-    payload = H.save_baseline(args.root, findings, note=args.message)
-    print("accepted %d finding(s) into %s"
-          % (len(payload["accepted"]), H.baseline_path(args.root)))
-    for fid in payload["accepted"]:
-        print("  " + fid)
-    if not args.message:
-        print("\n(no -m given.  A baseline without a reason is a list of "
-              "warnings someone decided to stop reading.)")
+    payload = H.save_baseline(args.root, findings, note=args.message,
+                              prune=args.prune)
+    accepted = payload["accepted"]
+    added = sorted(set(accepted) - before)
+    print("baseline: %s" % H.baseline_path(args.root))
+    print("  %d carried, %d newly accepted" % (len(accepted), len(added)))
+    for fid in sorted(accepted):
+        mark = "+" if fid in added else " "
+        why = (accepted[fid].get("why") or "").strip()
+        print("  %s %s" % (mark, fid))
+        if why:
+            print("      %s" % (why[:120] + ("..." if len(why) > 120 else "")))
+    for fid in payload.get("dropped", []):
+        print("  - %s  (pruned: no longer in the graph)" % fid)
+    if not args.message and added:
+        print("\n(no -m given.  A baseline entry without a reason is a warning "
+              "someone decided to stop reading.)")
     return 0
 
 
@@ -201,7 +216,11 @@ def build_parser():
     a.add_argument("-m", "--message", default="",
                    help="why these are being carried")
     a.add_argument("--only", action="append",
-                   help="accept only this finding id; repeat for several")
+                   help="accept only this finding id (ADDS to the baseline; "
+                        "repeat for several)")
+    a.add_argument("--prune", action="store_true",
+                   help="also DROP accepted findings that no longer appear in "
+                        "the graph.  The only way to remove an acceptance.")
     a.set_defaults(func=cmd_accept)
 
     i = sub.add_parser("init", help="create an empty graph")

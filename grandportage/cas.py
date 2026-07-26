@@ -262,20 +262,46 @@ def _argv():
 
 
 def _parse_outputs(stdout, outputs):
-    """Read exactly one value per declared output, or refuse.
+    """Read exactly one value BLOCK per declared output, or refuse.
 
     Not a lenient regex, deliberately.  A laxer parser would have read a
     verdict out of a program that never ran.
+
+    THE WHOLE BLOCK, NOT THE FIRST LINE.  Singular prints an ideal one
+    generator per line as `NAME[i]=...`.  The first version captured a single
+    line, so a two-generator basis was reported as `GP_G[1]=f6` -- which a
+    reader can easily take for "the ideal is (f6)".  It is not; it is the first
+    element of a basis whose length was never shown.  Silently under-reporting
+    the size of a Groebner basis is exactly the kind of quiet mis-description
+    between a computation and its consumer that this project exists to refuse,
+    and it reached a user before it was caught.
+
+    Returns a list when the block has several lines, a string when it has one,
+    so single-value outputs stay ergonomic.
     """
     values = {}
     for out in outputs:
-        found = re.findall(r"^@@%s:\s*\n(.*)$" % re.escape(out.upper()),
-                           stdout, re.MULTILINE)
-        if len(found) != 1:
+        marker = "@@%s:" % out.upper()
+        starts = [m.end() for m in
+                  re.finditer(r"^%s[ \t]*$" % re.escape(marker), stdout,
+                              re.MULTILINE)]
+        if len(starts) != 1:
             raise CASError(
-                "expected exactly one value for output %r, found %d.  A CAS "
-                "that errored is not a CAS that answered." % (out, len(found)))
-        values[out] = found[0].strip()
+                "expected exactly one value block for output %r, found %d.  A "
+                "CAS that errored is not a CAS that answered."
+                % (out, len(starts)))
+        lines = []
+        for line in stdout[starts[0]:].lstrip("\n").splitlines():
+            if not line.strip() or line.startswith("@@"):
+                break
+            lines.append(line.rstrip())
+        if not lines:
+            raise CASError(
+                "output marker %r was printed with nothing behind it.  "
+                "Singular reports an error, keeps going, prints the markers "
+                "empty, and exits 0 -- so this is a failed run, not an empty "
+                "answer." % out)
+        values[out] = lines if len(lines) > 1 else lines[0]
     return values
 
 

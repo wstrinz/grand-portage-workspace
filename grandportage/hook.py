@@ -70,32 +70,83 @@ def baseline_path(root="."):
     return os.path.join(root, S.GRAPH_DIR, BASELINE)
 
 
-def load_baseline(root="."):
+def read_baseline(root="."):
+    """The raw baseline document, normalised.
+
+    `accepted` is stored as {finding id: {"why": ...}} so a REASON TRAVELS WITH
+    EACH FINDING rather than with the file.  A single campaign-level note cannot
+    say why one particular obligation is carried, and the first real user
+    immediately wanted to -- they wrote a paragraph about one finding into the
+    shared note because there was nowhere else to put it.
+
+    The legacy list form is still read, so an existing baseline keeps working.
+    """
     p = baseline_path(root)
     if not os.path.exists(p):
-        return set()
+        return {"accepted": {}, "note": ""}
     try:
         with open(p, "r", encoding="utf-8") as fh:
-            return set(json.load(fh).get("accepted", []))
+            doc = json.load(fh)
     except (ValueError, OSError):
-        return set()
+        return {"accepted": {}, "note": ""}
+    accepted = doc.get("accepted") or {}
+    if isinstance(accepted, list):        # legacy: a bare list of ids
+        accepted = {fid: {"why": ""} for fid in accepted}
+    doc["accepted"] = accepted
+    doc.setdefault("note", "")
+    return doc
 
 
-def save_baseline(root=".", findings=None, note=""):
+def load_baseline(root="."):
+    """The set of accepted finding ids."""
+    return set(read_baseline(root)["accepted"])
+
+
+def save_baseline(root=".", findings=None, note="", merge=True, prune=False):
     """Record the findings a campaign is knowingly carrying.
 
-    Accepting a finding is a decision with a cost, so it is written down where
-    a reviewer can see it, rather than living in someone's memory of which
-    warnings are 'the normal ones'.
+    MERGES BY DEFAULT, and that default is the whole point of this function.
+
+    The first version replaced the file wholesale.  Accepting one finding with
+    `--only` therefore DELETED every previously accepted entry and the note
+    explaining them -- silently, on a version-controlled file that humans read
+    as the authoritative record of what a campaign knows it is carrying.  It
+    was caught by luck: the hook went red again with untouched findings.  Had
+    it been the last accept of a session it would have destroyed the record
+    without a trace.
+
+    That is the failure this whole project exists to prevent, occurring inside
+    the tool, so the repair is not just "merge" -- it is that DESTROYING AN
+    ACCEPTANCE MUST BE AN EXPLICIT ACT.  `prune=True` is the only way to drop
+    entries, and it only drops findings that no longer appear in the graph.
     """
     p = baseline_path(root)
     d = os.path.dirname(p)
     if d and not os.path.isdir(d):
         os.makedirs(d)
-    payload = {"accepted": sorted(f.fid for f in (findings or [])),
-               "note": note or "findings this campaign is knowingly carrying"}
+
+    doc = read_baseline(root) if merge else {"accepted": {}, "note": ""}
+    accepted = dict(doc["accepted"])
+    for f in (findings or []):
+        entry = dict(accepted.get(f.fid) or {})
+        if note or not entry.get("why"):
+            entry["why"] = note or entry.get("why", "")
+        entry.setdefault("severity", f.severity)
+        accepted[f.fid] = entry
+
+    dropped = []
+    if prune:
+        live = {f.fid for f in (findings or [])}
+        dropped = sorted(k for k in accepted if k not in live)
+        for k in dropped:
+            del accepted[k]
+
+    payload = {"accepted": {k: accepted[k] for k in sorted(accepted)},
+               "note": doc.get("note") or
+               "findings this campaign is knowingly carrying"}
     with open(p, "w", encoding="utf-8") as fh:
         json.dump(payload, fh, indent=2)
+    payload["dropped"] = dropped
     return payload
 
 
@@ -131,24 +182,90 @@ def evaluate(root=".", floor=C.UNSOUND_PREMISE):
     return True, message
 
 
+# Tools that cannot change the graph and that you NEED in order to understand
+# a block.  A gate that stops you reading the thing it is complaining about
+# forces you to disable it to investigate, which is the same as not having it.
+#
+# The first real user hit exactly this: they could not write down what the hook
+# had blocked until they had un-blocked it.
+READ_ONLY_TOOLS = frozenset([
+    "Read", "Grep", "Glob", "NotebookRead", "TodoWrite", "WebFetch",
+    "WebSearch", "mcp__grand-portage__portage_check",
+    "mcp__grand-portage__portage_show",
+    "mcp__grand-portage__portage_transport_table",
+])
+
+LAST_BLOCK = "last-block"
+
+
+def _repeat_state(root, fids):
+    """Return (is_repeat, writer).  Suppresses re-printing an identical wall.
+
+    The same 40-line block arriving five times in a row is not five pieces of
+    information; it is one, and the repetition buries the discharge move under
+    its own restatement.
+    """
+    p = os.path.join(root, S.GRAPH_DIR, LAST_BLOCK)
+    key = "\n".join(sorted(fids))
+    previous = None
+    if os.path.exists(p):
+        try:
+            with open(p, "r", encoding="utf-8") as fh:
+                previous = fh.read()
+        except OSError:
+            previous = None
+
+    def write():
+        try:
+            d = os.path.dirname(p)
+            if d and not os.path.isdir(d):
+                os.makedirs(d)
+            with open(p, "w", encoding="utf-8") as fh:
+                fh.write(key)
+        except OSError:
+            pass
+
+    return previous == key, write
+
+
 def main(argv=None):
     argv = sys.argv[1:] if argv is None else argv
-    # The hook payload arrives on stdin.  We read it so the stream is drained
-    # and so `cwd` can be honoured, but nothing here depends on the tool that
-    # was called: the graph is the state, and the graph is what gets checked.
-    root = "."
+    root, tool = ".", ""
     try:
         raw = sys.stdin.read()
         if raw.strip():
-            root = json.loads(raw).get("cwd") or "."
+            payload = json.loads(raw)
+            root = payload.get("cwd") or "."
+            tool = payload.get("tool_name") or ""
     except (ValueError, OSError):
         pass
     if "--root" in argv:
         root = argv[argv.index("--root") + 1]
 
+    if tool in READ_ONLY_TOOLS:
+        return 0
+
     block, message = evaluate(root)
     if not block:
+        # Clear the repeat marker so the next genuine block prints in full.
+        marker = os.path.join(root, S.GRAPH_DIR, LAST_BLOCK)
+        if os.path.exists(marker):
+            try:
+                os.remove(marker)
+            except OSError:
+                pass
         return 0
+
+    fids = [l.split("  ", 1)[-1] for l in message.splitlines()
+            if l.startswith(tuple(C.SEVERITY_ORDER))]
+    repeat, remember = _repeat_state(root, fids)
+    remember()
+    if repeat:
+        sys.stderr.write(
+            "GRAND PORTAGE: still refused, unchanged -- %s.\n"
+            "Full detail and the discharge move were printed above, or run "
+            "`gp check`.\n" % (", ".join(fids) or "see gp check"))
+        return 2
     sys.stderr.write(message)
     return 2        # Claude Code feeds stderr back to the model as blocking
 

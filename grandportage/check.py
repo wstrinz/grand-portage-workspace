@@ -184,7 +184,9 @@ def check_transport(graph):
         findings.append(Finding(
             R_TRANSPORT, "%s:%s" % (R_TRANSPORT, iid), severity, iid, detail,
             discharge_for(edge["type"], direction, inf["concludes_kind"],
-                          graph=graph, edge=edge),
+                          graph=graph, edge=edge,
+                          fid="%s:%s" % (R_TRANSPORT, iid),
+                          traffic=True),
             trace=trace, derived_severity=derived,
             severity_why=inf.get("severity_why")))
     return findings

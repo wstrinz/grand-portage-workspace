@@ -28,6 +28,7 @@ import traceback
 
 from . import cas
 from . import check as C
+from . import hook as HK
 from . import kernel as K
 from . import store as S
 
@@ -144,7 +145,18 @@ TOOLS = [
                         "model, edge, claim, inference, built_by, note. An "
                         "EMPTY claim must carry a `certificate` kind, and its "
                         "scope is DERIVED from that certificate rather than "
-                        "from what you declare.")}},
+                        "from what you declare. "
+                        "A claim's optional `ladder` is its EVIDENCE GRADE and "
+                        "is ORTHOGONAL to transport -- it never licenses a "
+                        "step and the type system never grades evidence. "
+                        "Values, weakest first: open, claimed, exact-checked, "
+                        "independently-audited, certified. Use `claimed` for "
+                        "an assertion you have not verified (including a "
+                        "published one stated without proof), `exact-checked` "
+                        "for something a gated checker verifies, and "
+                        "`independently-audited` only when a SECOND "
+                        "implementation agrees. One gated checker is "
+                        "exact-checking, not audit.")}},
         ["events"]),
 
     _tool(
@@ -152,8 +164,23 @@ TOOLS = [
         "Type-check the accumulated graph. Returns findings with their "
         "discharge moves, and the list of inferences that came back clean.",
         {"floor": {"type": "string", "enum": list(C.SEVERITY_ORDER),
-                   "description": "lowest severity to report as failing"}},
+                   "description": "lowest severity to report as failing"},
+         "full": {"type": "boolean", "default": False,
+                  "description": (
+                      "also print the detail of findings already accepted "
+                      "into the baseline. Off by default: once a campaign has "
+                      "a real graph, re-printing every carried obligation is "
+                      "noise on every call.")}},
         []),
+
+    _tool(
+        "cas_health",
+        "Check that the CAS is reachable and answers correctly, WITHOUT "
+        "touching the graph. Runs a trivial ideal with a known answer. Use "
+        "this first on a new machine -- every other CAS tool requires "
+        "`produces` and `edge`, so the cheapest plumbing probe would otherwise "
+        "permanently add a model and an edge to the campaign.",
+        {}, []),
 
     _tool(
         "portage_show",
@@ -201,8 +228,18 @@ def h_cas_ideal_is_unit(args, root):
                 edge.get("type"), edge.get("src"))]
     if result["values"]:
         for k, v in sorted(result["values"].items()):
-            lines.append("%s = %s" % (k, v))
-        if result["values"].get("GP_G", "").replace(" ", "").endswith("=1"):
+            # Say how many generators there are.  Printing only the first line
+            # of a basis lets `GP_G[1]=f6` be read as "the ideal is (f6)".
+            if isinstance(v, list):
+                lines.append("%s: Groebner basis, %d generators" % (k, len(v)))
+                lines.extend("    " + row for row in v)
+            else:
+                lines.append("%s: Groebner basis, 1 generator" % k)
+                lines.append("    " + v)
+        gb = result["values"].get("GP_G")
+        gb_is_unit = (not isinstance(gb, list)
+                      and str(gb).replace(" ", "").endswith("=1"))
+        if gb_is_unit:
             lines.append("")
             lines.append(
                 "The ideal reduced to (1). That is EVIDENCE of emptiness and "
@@ -214,6 +251,49 @@ def h_cas_ideal_is_unit(args, root):
     if result["verdict"] == "ABORTED":
         lines.append("An unfinished run is not evidence of anything.")
     return _text("\n".join(lines))
+
+
+def h_cas_health(args, root):
+    """Prove the CAS answers, without writing anything.
+
+    Wanted by the first real user: every other path requires `produces` and
+    `edge`, so the cheapest possible "does Singular actually work from here"
+    probe permanently added a model and an edge.  That pushed them toward
+    composing the real call first and discovering plumbing failures inside it,
+    which is the opposite of what you want on a first run.
+    """
+    prog = cas.CASProgram(
+        cas.SINGULAR, ring="GP_HEALTH", ring_vars=["x", "y"],
+        decls=[("GPH_I", "ideal", "x-1,y-2"),
+               ("GPH_G", "ideal", "std(GPH_I)")],
+        body=[], outputs=["GPH_G"])
+    try:
+        result = cas._run_subprocess(prog, 60)
+    except cas.CASError as exc:
+        return _err("CAS UNREACHABLE via %s\n%s" % (cas._argv(), exc))
+    if result["aborted"]:
+        return _err("CAS aborted (%s) via %s"
+                    % (result["abort_reason"], result["argv"]))
+    if "? error" in result["stdout"] + result["stderr"]:
+        return _err("CAS reported an error:\n%s" % result["stdout"][-800:])
+    try:
+        values = cas._parse_outputs(result["stdout"], prog.outputs)
+    except cas.CASError as exc:
+        return _err("CAS output unparseable: %s" % exc)
+    gb = values["GPH_G"]
+    gb = gb if isinstance(gb, list) else [gb]
+    joined = "".join(gb).replace(" ", "")
+    ok = "y-2" in joined and "x-1" in joined
+    return _text(
+        "CAS reachable via %s\n"
+        "probe ideal (x-1, y-2) -> %d generator(s):\n%s\n%s\n"
+        "NOTHING was written to the graph."
+        % (" ".join(result["argv"]), len(gb),
+           "\n".join("    " + g for g in gb),
+           "answer is correct."
+           if ok else
+           "UNEXPECTED answer -- the CAS ran but did not return the known "
+           "basis. Do not trust verdicts from it until this is understood."))
 
 
 def h_portage_declare(args, root):
@@ -305,6 +385,7 @@ HANDLERS = {
     "cas_ideal_is_unit": h_cas_ideal_is_unit,
     "portage_declare": h_portage_declare,
     "portage_check": h_portage_check,
+    "cas_health": h_cas_health,
     "portage_show": h_portage_show,
     "portage_transport_table": h_portage_transport_table,
 }

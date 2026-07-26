@@ -140,6 +140,38 @@ RULE_MOVES = {
         "conclusion crosses this edge."),
 }
 
+# The discharge for TRAFFIC over an untyped edge, as opposed to the untyped
+# edge itself.
+#
+# The first version offered only "name the relaxation", and a first-time user
+# pointed out that this is THE ONE EXIT THAT IS CLOSED BY CONSTRUCTION: if they
+# could name the relaxation there would be no obligation to record.  They were
+# doing something the design intends -- recording a residual obligation AS a
+# type error, which is exactly the shape of the four obligations already in
+# their graph -- and the tool answered with a wall whose only signposted door
+# was locked.
+#
+# So both moves are named.  The order matters: typing it is still the real
+# repair, and accepting is explicitly framed as carrying a debt in the open
+# rather than as making a warning go away.
+_UNTYPED_TRAFFIC_MOVE = (
+    "You have drawn a conclusion across a step whose relaxation is not named, "
+    "so nothing licenses it.  TWO legitimate moves:\n"
+    "  (1) TYPE THE EDGE, if you can.  What does {src} -> {dst} LOSE?  "
+    "Nothing (converse exhibitable) -> EQUIVALENCE.  Equations -> "
+    "NECESSARY_CONDITION.  A larger field -> BASE_EXTENSION.  An elimination "
+    "or projection -> IMAGE_CLOSURE.  A change of characteristic -> "
+    "SPECIALIZATION.  Getting the DIRECTION right is part of this and is a "
+    "real claim about which model holds more information.\n"
+    "  (2) CARRY IT DELIBERATELY.  If the point of recording this was to put a "
+    "residual obligation ON THE RECORD as a type error -- a legitimate and "
+    "intended use -- accept it with a reason:\n"
+    "        gp accept --only {fid} -m \"<why it cannot be typed yet>\"\n"
+    "      It stops blocking, stays visible in `gp check` forever, and the "
+    "reason lands in a file a reviewer reads.  This is carrying a debt in the "
+    "open, NOT clearing it.\n"
+    "  The edge already records why it is untyped: {debt_why}")
+
 # Cells where the kernel is knowingly stricter than the mathematics, kept as
 # data so that "we refuse this soundly" and "we refuse this out of caution" are
 # never confused, and so that removing one is a deliberate act.
@@ -162,9 +194,17 @@ KNOWN_CONSERVATISM = [
 
 
 def discharge_for(rule_or_type, direction=None, kind=None, graph=None,
-                  edge=None, axis=None, missing=None):
-    """The canonical next move for a finding.  Never returns empty."""
-    if rule_or_type in RULE_MOVES:
+                  edge=None, axis=None, missing=None, fid=None,
+                  traffic=False):
+    """The canonical next move for a finding.  Never returns empty.
+
+    `traffic=True` means "a conclusion was drawn ACROSS this edge", as opposed
+    to "this edge exists and is untyped".  The two need different advice and
+    conflating them is what produced a discharge naming only the closed exit.
+    """
+    if rule_or_type == K.UNTYPED and traffic:
+        move = _UNTYPED_TRAFFIC_MOVE
+    elif rule_or_type in RULE_MOVES:
         move = RULE_MOVES[rule_or_type]
     else:
         move = MOVES.get((rule_or_type, direction, kind))
@@ -177,7 +217,9 @@ def discharge_for(rule_or_type, direction=None, kind=None, graph=None,
         "src": "(source)", "dst": "(target)", "drops": "(undeclared)",
         "map_kind": "(unknown)", "src_field": "its own field",
         "axis": axis or "(axis)",
-        "missing": ", ".join(missing or []) or "(indices)",
+        "missing": ", ".join(str(m) for m in (missing or [])) or "(indices)",
+        "fid": fid or "<finding id>",
+        "debt_why": "(none recorded)",
     }
     if edge:
         fields["src"] = edge.get("src", fields["src"])
@@ -185,6 +227,7 @@ def discharge_for(rule_or_type, direction=None, kind=None, graph=None,
         fields["map_kind"] = edge.get("map_kind", fields["map_kind"])
         drops = edge.get("drops") or []
         fields["drops"] = "; ".join(drops) if drops else "(none declared)"
+        fields["debt_why"] = edge.get("debt_why") or "(none recorded)"
         if graph is not None:
             srcm = graph.models.get(edge.get("src")) or {}
             fields["src_field"] = srcm.get("field") or "its own field"
