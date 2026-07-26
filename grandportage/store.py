@@ -133,7 +133,7 @@ class Graph(object):
                  % (where, ev["id"]))
         m = dict(ev)
         m["declares"] = {a: list(v) for a, v in declares.items()}
-        m["imposes"] = list(ev.get("imposes") or [])
+        m["touches"] = list(ev.get("touches") or [])
         m["reads"] = list(ev.get("reads") or [])
         # Axes on which this model ASSERTS coverage, i.e. claims to constrain
         # the object.  Only these are subject to the coverage rule: a model

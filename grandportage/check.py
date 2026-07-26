@@ -220,13 +220,29 @@ def coverage_gaps(graph, model):
     gaps = {}
     for axis in model.get("coverage_axes", []):
         touched = set()
-        for row in model["imposes"] + model["reads"]:
+        for row in model["touches"] + model["reads"]:
             if row.get("axis") == axis:
                 touched.update(row.get("at") or [])
-        missing = sorted(touched - set(model["declares"].get(axis, [])))
+        missing = _natural(touched - set(model["declares"].get(axis, [])))
         if missing:
             gaps[axis] = missing
     return gaps
+
+
+def _natural(values):
+    """Sort index labels so embedded integers order numerically.
+
+    Purely cosmetic, and worth the four lines: an order-axis gap reported as
+    M=-4, M=0, M=1, M=10, M=11, M=12, M=2 ... reads as noise, while the same
+    gap reported in order reads as "one interior rung, then a half-line", which
+    is the actual shape of the finding.
+    """
+    import re
+
+    def key(v):
+        return [int(p) if p.lstrip("-").isdigit() else p
+                for p in re.split(r"(-?\d+)", str(v)) if p != ""]
+    return sorted(values, key=key)
 
 
 def check_coverage(graph):
@@ -234,7 +250,7 @@ def check_coverage(graph):
     for mid in sorted(graph.models):
         m = graph.models[mid]
         for axis, missing in sorted(coverage_gaps(graph, m).items()):
-            imposing = sorted({r["name"] for r in m["imposes"]
+            imposing = sorted({r["name"] for r in m["touches"]
                                if r.get("axis") == axis
                                and set(r.get("at") or []) & set(missing)})
             reading = sorted({r["name"] for r in m["reads"]
@@ -242,9 +258,9 @@ def check_coverage(graph):
                               and set(r.get("at") or []) & set(missing)})
             detail = (
                 "model %s asserts coverage on axis %r but declares nothing at "
-                "%s.\n  declared: %s\n  imposes there: %s\n  reads there   : %s\n"
+                "%s.\n  declared: %s\n  touches there: %s\n  reads there   : %s\n"
                 "  Where nothing is declared the relaxation is UNBOUNDED: the "
-                "model imposes literally nothing at those indices."
+                "model constrains literally nothing at those indices."
                 % (mid, axis, ", ".join(missing),
                    ", ".join(m["declares"].get(axis, [])) or "(nothing)",
                    "; ".join(imposing) or "(none)",

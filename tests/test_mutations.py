@@ -105,14 +105,18 @@ def test_mut_declaring_the_missing_component_silences_the_coverage_gap():
     quiet.  Data-driven, not tuned."""
     g = H.mutate("jc2", H.set_field(
         "model", "WINDOW", declares={"place": ["y", "inf", "t"]}))
-    assert C.R_COVERAGE not in H.rules(g)
+    assert "COVERAGE:WINDOW:place" not in H.findings_by_id(g)
+    # ...and the OTHER axis is untouched, so this is a targeted silencing
+    # rather than the coverage rule going quiet everywhere.
+    assert "COVERAGE:GSYS:order" in H.findings_by_id(g)
 
 
 def test_mut_emptying_the_gauge_and_read_lists_silences_it_the_other_way():
     """The second, independent silencing.  Two mutations that kill the same
     detection from opposite sides is what distinguishes a rule from a constant."""
-    g = H.mutate("jc2", H.set_field("model", "WINDOW", imposes=[], reads=[]))
-    assert C.R_COVERAGE not in H.rules(g)
+    g = H.mutate("jc2", H.set_field("model", "WINDOW", touches=[], reads=[]))
+    assert "COVERAGE:WINDOW:place" not in H.findings_by_id(g)
+    assert "COVERAGE:GSYS:order" in H.findings_by_id(g)
 
 
 def test_mut_making_the_dictionary_rational_BREAKS_the_sound_leg():

@@ -52,6 +52,41 @@
       "pinned_as": "the place-coverage detection, WHETSTONE_DAG.md sec.3",
       "missing": ["t"],
       "note": "Error 2, the gauge leaks.  Must fire at exactly t, and at NEITHER y NOR inf, both of which have declared components."
+    },
+    "COVERAGE:GSYS:order": {
+      "severity": "UNSOUND_PREMISE",
+      "derived_severity": "UNSOUND_PREMISE",
+      "pinned_as": "NOT a reproduction -- P3 and P4 of MODELLING_GAPS.md sec.3.2, held back and never run",
+      "new_detection": true,
+      "missing": ["M=-4", "M=0", "M=1", "M=2", "M=3", "M=4", "M=5", "M=6",
+                  "M=7", "M=8", "M=9", "M=10", "M=11", "M=12"],
+      "note": [
+        "The second axis, and the only thing here that tells us whether the",
+        "coverage rule generalizes or whether we have one rule with a coat of",
+        "paint.  MODELLING_GAPS.md sec.3.2 pinned six candidate positives and",
+        "predicted, before anyone ran it, which would discriminate.  Two of",
+        "them land on this axis and this fixture catches both:",
+        "",
+        "  P3  M=-4, the lambda row G4 at u-weight 192 -- the missing interior",
+        "      rung of the ladder 156,168,180,[192],204 that",
+        "      full_system_bridge.G_generators() asserts.  AMBIGUOUS evidence",
+        "      by MODELLING_GAPS's own reckoning: G4_stripped has divisor",
+        "      4(0)+28(-1), so it has a PLACE story as well and would fire on",
+        "      either axis.  It discriminates nothing and is not counted.",
+        "",
+        "  P4  M=0..12, the half-line.  THE CLEAN ITEM.  The pipeline consumes",
+        "      only the M < 0 slices of P and of Q; every M >= 0 slice of",
+        "      either is unconsumed.  There is no place story here at all -- a",
+        "      truncation by sign of the slice index is an order phenomenon and",
+        "      nothing else.  This is what makes ORDER a necessary axis.",
+        "",
+        "So the discrimination requirement of MODELLING_GAPS.md sec.3.2 item 4",
+        "is met: deleting PLACE loses the t gap, deleting ORDER loses the",
+        "half-line, and neither axis catches the other's item.  What this does",
+        "NOT establish is that the rule discriminates WITHIN an axis -- that",
+        "needs more than one incident per axis, and sec.3.4 is explicit that",
+        "this repo does not contain one."
+      ]
     }
   },
   "clean_inferences": [
