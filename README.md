@@ -30,17 +30,49 @@ the edge is drawn.
 
 ## Status
 
-Layers 0–3 are built and gated. The MCP server and the enforcement hook are
-next. See [DESIGN.md](DESIGN.md).
+All five layers are built and gated: 144 checks, live against Singular 4.2.1.
+See [DESIGN.md](DESIGN.md).
 
-| layer | module | status |
+| layer | module | what it does |
 |---|---|---|
-| kernel — the transport table | `grandportage/kernel.py` | **done** |
-| store — append-only graph log | `grandportage/store.py` | **done** |
-| checker — findings and exit code | `grandportage/check.py` | **done** |
-| discharge — refusal → next move | `grandportage/discharge.py` | **done** |
-| MCP server — record at the CAS call | `grandportage/mcp.py` | not started |
-| hook — refuse after the call | `grandportage/hook.py` | not started |
+| kernel | `grandportage/kernel.py` | the transport table — the only code with mathematical judgement in it |
+| store | `grandportage/store.py` | append-only graph log; merge is concatenation |
+| checker | `grandportage/check.py` | findings, derived severities, exit code |
+| discharge | `grandportage/discharge.py` | refusal → canonical next move |
+| CAS + MCP | `grandportage/cas.py`, `mcp.py` | **declare the transport or no process spawns** |
+| hook | `grandportage/hook.py` | runs the checker after each tool call and refuses |
+
+Not yet done: a run against `d2_plane_72_108`'s **live** frontier. The
+retrodiction proves it reproduces known verdicts; the frontier is where it
+either earns its keep on open work or does not.
+
+## The loop, end to end
+
+```
+$ python -m grandportage.mcp          # registered in .claude/.mcp.json
+
+  cas_ideal_is_unit(ring_vars=[...], generators=[...],
+                    produces="RES_K", describes="the same support over K")
+  -> ERROR: no transport declared. A computation that produces a new model
+     must say how that model relates to its source.
+
+  cas_ideal_is_unit(..., edge={"src": "RES_L", "type": "BASE_EXTENSION",
+                               "why": "the coefficient field changes from
+                                       Q(sqrt 17) to arbitrary char-0 K"})
+  -> run: OK
+     recorded: model RES_K, edge E-RES_K (BASE_EXTENSION from RES_L)
+
+  portage_declare(events=[{claim: EMPTY, certificate: NONSQUARE_CLASS, ...},
+                          {inference: "hence empty over every char-0 K"}])
+  -> UNSOUND_PREMISE  TRANSPORT:INF-KILL
+       refused: BASE_EXTENSION licenses EMPTY along the extension only at
+                scope SCHEME; this claim has scope 'Q(sqrt 17)'
+       -> DISCHARGE: produce a certificate that base-changes, or restate the
+          claim at that scope and stop consuming it as geometric emptiness.
+```
+
+The hook then returns exit 2 on the next tool call, so the refusal blocks
+rather than scrolls past. See [examples/](examples/) for the wiring.
 
 ## The five relaxation types
 
@@ -112,7 +144,7 @@ Pure stdlib. No solver, no network, no model in the loop. Under a second.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # 93 checks
+python -m pytest        # 144 checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two
@@ -120,7 +152,7 @@ hardcoded prototypes produced with their DAGs compiled into the checker:
 
 | domain | flags | positive controls | ground truth |
 |---|---:|---:|---|
-| JC(2) plane (72,108) | 4 + taint + coverage | 9 | three errors that **actually shipped** |
+| JC(2) plane (72,108) | 4 + taint + 2 coverage axes | 9 | three errors that **actually shipped** |
 | matroid realizability | 6 | 6 | externally published (Oxley, MacLane, Brandt–Wiebe) |
 
 Both answer keys were pinned before this code existed. Zero false positives in
@@ -132,6 +164,30 @@ Twenty-odd mutations assert the gate has teeth — each perturbs one declared
 attribute and requires the verdict to move. Some produce a *refused fold*
 rather than a different verdict, which is stronger: the graph cannot state the
 mutated claim at all.
+
+### Coverage on two axes
+
+`MODELLING_GAPS.md` §3.4 is blunt that the three documented gauge leaks are
+**one incident with three witnesses**, so a rule tested only on them proves
+very little. The JC(2) fixture now runs a second axis:
+
+| axis | model | declared | gap |
+|---|---|---|---|
+| `place` | `WINDOW` | `y`, `∞` | **`t`** |
+| `order` | `GSYS` | the four consumed Q-slices `M=-1,-2,-3,-5` | **`M=-4`** and **`M=0..12`** |
+
+`M=-4` is the λ row at u-weight 192 — the missing interior rung of the ladder
+`156,168,180,[192],204` that `full_system_bridge.G_generators()` asserts. It is
+*ambiguous* evidence by `MODELLING_GAPS`'s own reckoning, since `G4_stripped`
+has divisor `4(0)+28(−1)` and so has a place story too.
+
+`M=0..12` is the clean one: the pipeline consumes only the `M < 0` slices, and
+a truncation by sign of the slice index has no place content at all. Deleting
+`place` loses the `t` gap, deleting `order` loses the half-line, and neither
+axis recovers the other's item — so both are necessary.
+
+What this does **not** establish is discrimination *within* an axis. That needs
+more than one incident per axis, and the source repo does not contain one.
 
 ## What this does not do
 
