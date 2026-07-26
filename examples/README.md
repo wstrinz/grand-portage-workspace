@@ -16,25 +16,41 @@ returns exit 2 when the graph licenses a conclusion it should not. Claude Code
 feeds the hook's stderr back to the model as blocking feedback, so the refusal
 and its discharge move arrive where the work is happening.
 
-## The baseline
+## Seed the baseline FIRST — this is not optional
 
-A campaign mid-flight legitimately carries unrepaired historical inferences. If
-the hook blocked on those it would fail every tool call forever, which trains
-the operator to disable it — and a disabled hook enforces nothing. So record
-what is knowingly carried:
+**Wiring the hook onto a graph that already has findings blocks every single
+tool call.** That is correct behaviour and a terrible first experience: it
+looks like a broken install, and the rational response to a broken install is
+to delete the hook. Do this before the first session:
 
-```python
-from grandportage import check as C, hook as HK, store as S
-HK.save_baseline(".", C.run(S.load(S.graph_path("."))),
-                 note="the recorded errata, tracked in ERRATA.md")
+```bash
+gp accept -m "the errata this campaign is knowingly carrying"
 ```
 
 That writes `.portage/baseline.json`. Only findings **not** in it block, so a
-new unsound step still stops the session. Commit the file: accepting a finding
-is a decision with a cost, and it belongs somewhere a reviewer can see it
-rather than in someone's memory of which warnings are the normal ones.
+new unsound step still stops the session. Accept one at a time when you can —
+`gp accept --only TRANSPORT:GI-BRIDGE -m "..."` — since accepting everything is
+the blunt instrument and accepting one thing is the honest one.
+
+Commit the file. Accepting a finding is a decision with a cost, and it belongs
+somewhere a reviewer can see it rather than in someone's memory of which
+warnings are the normal ones.
 
 `gp check` always reports the full picture, baseline or no baseline.
+
+## Order of operations
+
+```bash
+gp init                       # or drop an existing graph at .portage/graph.jsonl
+gp check                      # see what is there
+gp accept -m "..."            # record what you are carrying
+cp examples/.mcp.json .mcp.json
+cp examples/settings.json .claude/settings.json
+# now start the session
+```
+
+Reversing it is one file: delete `.claude/settings.json`'s hook block and the
+enforcement is gone, with `gp check` still available on demand.
 
 ## Environment
 

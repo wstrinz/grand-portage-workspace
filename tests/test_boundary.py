@@ -393,3 +393,61 @@ def test_live_run_emits_a_program_using_the_defects_own_variable_name(project):
     r = cas.ideal_is_unit(["x", "g0"], ["x*g0-1"], edge=EDGE, produces="E",
                           describes="d", root=project)
     assert r["verdict"] == "OK"
+
+
+def test_the_first_run_hint_appears_only_when_no_baseline_exists(project):
+    """The operational trap, caught as a test.
+
+    On a graph with existing history and no baseline, EVERY tool call blocks.
+    That is correct behaviour and a terrible first experience: it looks like a
+    broken install, and the rational response to a broken install is to delete
+    the hook.  So the first block has to name the one-command fix.
+    """
+    shutil.copy(H.graph_file("gamma_window"), S.graph_path(project))
+    block, message = HK.evaluate(project)
+    assert block and "--- FIRST RUN?" in message
+    assert "gp accept" in message
+
+    HK.save_baseline(project, C.run(S.load(S.graph_path(project))),
+                     note="knowingly carried")
+    block, _ = HK.evaluate(project)
+    assert not block
+
+
+def test_a_baseline_that_exists_suppresses_the_hint(project):
+    """Once a baseline exists, a NEW finding must read as a new finding -- not
+    as a setup problem the operator already solved."""
+    shutil.copy(H.graph_file("gamma_window"), S.graph_path(project))
+    HK.save_baseline(project, C.run(S.load(S.graph_path(project))), note="x")
+    S.append([{"ev": "inference", "id": "I-FRESH", "claim": "GC-A2-KILL",
+               "path": [["GE4", K.ALONG]],
+               "asserted": "and therefore (75,125) is dead too",
+               "era": "live"}], root=project)
+    block, message = HK.evaluate(project)
+    assert block and "I-FRESH" in message
+    assert "--- FIRST RUN?" not in message
+
+
+def test_gp_accept_records_a_reviewable_decision(project):
+    """The baseline is a file a reviewer reads, not a memory of which warnings
+    are the normal ones -- so the reason travels with it."""
+    from grandportage import cli
+    shutil.copy(H.graph_file("gamma_window"), S.graph_path(project))
+    assert cli.main(["--root", project, "accept", "-m", "the standing four"]) == 0
+    with open(HK.baseline_path(project), encoding="utf-8") as fh:
+        payload = json.load(fh)
+    assert payload["note"] == "the standing four"
+    assert "TRANSPORT:GI-BRIDGE" in payload["accepted"]
+
+
+def test_gp_accept_can_take_one_finding_at_a_time(project):
+    """Accepting everything is the blunt instrument.  Accepting one finding is
+    the honest one, and it keeps the rest blocking."""
+    from grandportage import cli
+    shutil.copy(H.graph_file("gamma_window"), S.graph_path(project))
+    cli.main(["--root", project, "accept", "-m", "just the bridge",
+              "--only", "TRANSPORT:GI-BRIDGE"])
+    block, message = HK.evaluate(project)
+    assert block
+    assert "GI-BRIDGE" not in message
+    assert "GI-GAMMA-IMPORT" in message

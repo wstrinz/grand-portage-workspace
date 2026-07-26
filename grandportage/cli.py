@@ -138,6 +138,29 @@ def cmd_show(args):
     return 0
 
 
+def cmd_accept(args):
+    """Record the findings this campaign is knowingly carrying.
+
+    Accepting a finding is a decision with a cost, so it lands in a file a
+    reviewer can read -- and one that belongs in version control -- rather than
+    in someone's memory of which warnings are the normal ones.
+    """
+    from . import hook as H
+    g = _load(args)
+    findings = C.run(g)
+    if args.only:
+        findings = [f for f in findings if f.fid in set(args.only)]
+    payload = H.save_baseline(args.root, findings, note=args.message)
+    print("accepted %d finding(s) into %s"
+          % (len(payload["accepted"]), H.baseline_path(args.root)))
+    for fid in payload["accepted"]:
+        print("  " + fid)
+    if not args.message:
+        print("\n(no -m given.  A baseline without a reason is a list of "
+              "warnings someone decided to stop reading.)")
+    return 0
+
+
 def cmd_init(args):
     path = S.graph_path(args.root)
     if os.path.exists(path):
@@ -172,6 +195,14 @@ def build_parser():
 
     s = sub.add_parser("show", help="print the graph")
     s.set_defaults(func=cmd_show)
+
+    a = sub.add_parser("accept",
+                       help="record findings this campaign knowingly carries")
+    a.add_argument("-m", "--message", default="",
+                   help="why these are being carried")
+    a.add_argument("--only", action="append",
+                   help="accept only this finding id; repeat for several")
+    a.set_defaults(func=cmd_accept)
 
     i = sub.add_parser("init", help="create an empty graph")
     i.set_defaults(func=cmd_init)

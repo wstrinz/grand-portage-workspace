@@ -45,6 +45,26 @@ conclusion drawn from it, so proceeding builds on an unsound premise.  Discharge
 the finding above, or record explicitly why the type is wrong, before continuing.
 """
 
+# Shown when the hook is live, the graph already has findings, and no baseline
+# has ever been recorded.  Without this the operator's first experience is
+# every tool call failing for reasons that look like a broken install, and the
+# rational response to that is to delete the hook.
+NO_BASELINE_HINT = """\
+
+--- FIRST RUN? ---
+No baseline has been recorded for this project, so every finding above is
+blocking -- including any this campaign already knew about and is deliberately
+carrying.  That is almost certainly not what you want on a graph with existing
+history.
+
+Record what is knowingly carried, once:
+
+    gp accept -m "why these are being carried"
+
+Only findings NOT in .portage/baseline.json block after that, so a NEW unsound
+step still stops the session.  `gp check` always shows the full picture.
+"""
+
 
 def baseline_path(root="."):
     return os.path.join(root, S.GRAPH_DIR, BASELINE)
@@ -105,7 +125,10 @@ def evaluate(root=".", floor=C.UNSOUND_PREMISE):
             body.append("    " + line)
         body.append("    -> DISCHARGE: %s" % f.discharge)
         body.append("")
-    return True, BLOCK_MESSAGE % {"body": "\n".join(body)}
+    message = BLOCK_MESSAGE % {"body": "\n".join(body)}
+    if not os.path.exists(baseline_path(root)):
+        message += NO_BASELINE_HINT
+    return True, message
 
 
 def main(argv=None):
