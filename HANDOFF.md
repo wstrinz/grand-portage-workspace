@@ -32,8 +32,39 @@ agent → MCP server (edge REQUIRED, no declaration → no CAS process)
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about four days. One real user session. Version 0.2.** Treat every claim
-in the docs as provisional.
+**Age: about six days. Five real sessions. Version 0.3.1. 294 checks.** Treat
+every claim in the docs as provisional.
+
+There is now a **public repo**: `github.com/wstrinz/grandportage`, Apache-2.0,
+the tool plus all three fixtures plus `DESIGN.md` / `REVIEW.md` /
+`docs/first-run/`. This repo is `grand-portage-workspace` (private) and holds
+the two things the public one deliberately omits: `TESTPLAN.md` and this file,
+because both describe traps in unrun blind trials.
+
+### Where the last three versions came from
+
+**Every structural change since v0.2 was forced by a live run failing**, not by
+review. Worth knowing because it predicts where the next one comes from.
+
+| test | verdict | what it forced |
+|---|---|---|
+| **T3** resumability | **FAIL** | no read path showed which findings were knowingly accepted, so a fresh agent read a healthy campaign as a failing one → `[CARRIED]` marking, `gp show` printing inferences and certificates, `portage_check`'s advertised-but-unread `full` flag |
+| **T1** blind run | **FAIL** | an agent superseded a refusal instead of satisfying it → `PARALLEL-EDGE`, `VACUOUS-CONCLUSION`, `SELF-BUILT`, `partition`, `premises`, typed discharge |
+| **T2** external review | 8 defects | the CAS boundary was still bypassable **through the fix for it** |
+| **T4** merge fan-out | **PASS / FAIL** | kind laundering, existence on the honour system, `gp merge` |
+
+Full results in `portage-depot/testing/`.
+
+**The recurring shape, three instances now:** a field that DETERMINES transport
+and is taken on the author's word. Certificates (pre-v0.2), `identity_origin`
+(pre-v0.3), `kind` (pre-v0.3.1). Each was found by someone *exploiting* it, not
+by review. The repair each time is the same: make it derivable, make it
+checkable, or make it compose with something already checked — never "try
+harder to fill it in correctly."
+
+**If you are looking for the fourth, `ladder` is the candidate.** It is
+unvalidated free text, it has now been demonstrably wrong three times, and
+nothing has ever attacked it.
 
 ### What v0.2 changed, and why it is not a feature release
 
@@ -140,7 +171,27 @@ four lenses. **The audit FAILED its declared pass condition on edge type.**
 
 ## 5. THE OPEN DECISIONS — these need a human
 
-### D1. Gap B — how to express a case-split edge *(design change, unresolved)*
+### D1. Gap B — how to express a case-split edge — **DECIDED AND BUILT (v0.3)**
+
+**Resolved by evidence rather than by choosing.** T1 produced the same defect a
+second time, independently: a blind agent typed a γ=4 branch as a total
+containment, and its `EMPTY` result landed on the whole parent while its own
+prose said "branch". An auditor who had never seen this section picked option 2
+— branch models — on the merits and specified it.
+
+Built as a `partition` event naming a parent, its branches, and an
+**exhaustiveness claim that must exist in the graph** rather than in a note.
+Plus `kernel.transport_over_partition`, because **a case split is not
+transport**: per-leg auditing correctly refuses each branch alone (`EMPTY` does
+not travel `ALONG` a `NECESSARY_CONDITION`), so it needed a second inference
+rule beside the table, cited via `via_partition`.
+
+The original text is kept below because the reasoning is still the record of
+why it was left open.
+
+---
+
+*(original, superseded)*
 
 Two independent auditors found that `GE7`/`GE8`/`GE9` are **case branches, not
 relaxations**. γ is a function of the counterexample, so `V(src) ⊆ V(dst)` is
