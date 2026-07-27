@@ -28,9 +28,26 @@ worthless as evidence.** An agent told what the trap is will avoid the trap.
 
 Just the tools and the work. The only instruction should be the task.
 
-**Task candidate.** Step 3 of the γ-window compiler, or the standing obligation
-`GI-GAMMA-IMPORT` (exclude γ = 4 at (5,20)). Both are real, both are bounded,
-and neither has a published answer to pattern-match.
+**STAGED AND READY:** `dev/gamma-delta4/`. Clean directory, its own pinned
+`math-stuff` submodule, campaign graph and baseline carried forward, MCP + hook
+wired, `TASK.md` and nothing else. No `BRIEF.md`, no `FINDINGS.md`, no
+`TESTPLAN.md`, and not adjacent to any directory containing them.
+
+**The task:** derive Δ′₄, the reduced polygon for the γ=4 chart, and turn the
+window cap α at γ=4 from an obligation into a number. Real, bounded, and the
+campaign's own named discharge for `GE10`.
+
+**The trap is left in, deliberately.** `α = 4^(3−γ)` fits both known values and
+hands you γ=4 for free. `TASK.md` does **not** warn against it — an earlier
+draft did, and that was a mistake: a warning in prose tests only whether an
+agent can follow an instruction. The warning already exists where it belongs,
+in the GRAPH, as `GI-G4-CAP-EXTRAPOLATION` and its baseline reason, reachable
+through `portage_check`.
+
+So T1 now also tests **whether the graph conveys a standing obligation to
+someone who was never told it exists** — which is T3's resumability claim
+arriving through the front door, on a case where falling for the shortcut has a
+visible consequence.
 
 **Pass condition, declared now:**
 
