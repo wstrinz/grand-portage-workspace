@@ -33,6 +33,7 @@ the edge is drawn.
 All five layers are built and gated: 171 checks, live against Singular 4.2.1,
 and it has had one real user session — see [docs/first-run/](docs/first-run/).
 
+* **[HANDOFF.md](HANDOFF.md) — start here if you have no context**
 * [DESIGN.md](DESIGN.md) — architecture and the decisions behind it
 * [REVIEW.md](REVIEW.md) — **where I am least confident**, for a reviewer
 * [TESTPLAN.md](TESTPLAN.md) — what to run next and what each run could falsify
