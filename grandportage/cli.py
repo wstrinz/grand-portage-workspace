@@ -14,7 +14,7 @@ from . import check as C
 from . import hook as H
 from . import kernel as K
 from . import store as S
-from .discharge import KNOWN_CONSERVATISM, KNOWN_UNSOUND
+from .discharge import DISCHARGE_KINDS, KNOWN_CONSERVATISM, KNOWN_UNSOUND
 
 
 def _graphs(args):
@@ -106,6 +106,45 @@ def cmd_check(args):
                   "accepted deliberately -- this campaign is carrying debt in "
                   "the open, not failing.")
     return C.exit_code(findings, args.floor)
+
+
+def cmd_merge(args):
+    """Fold several branch logs together and report every conflict at once."""
+    graphs = list(args.graph or [])
+    if len(graphs) < 2:
+        sys.stderr.write("gp merge needs at least two --graph paths\n")
+        return 2
+    try:
+        g, conflicts = S.merge_report(graphs)
+    except (S.GraphError, K.ScopeError) as exc:
+        sys.stderr.write("GRAPH ERROR (before any conflict)\n  %s\n" % exc)
+        return 2
+    if not conflicts:
+        print("MERGE COMPOSES. %d models, %d edges, %d claims, %d inferences."
+              % (len(g.models), len(g.edges), len(g.claims),
+                 len(g.inference_order)))
+        print("Concatenating these logs and folding gives a well-formed graph.")
+        return 0
+
+    print("MERGE CONFLICTS: %d\n" % len(conflicts))
+    for c in conflicts:
+        print("%s %r -- declared differently in two branches" % (c["kind"], c["id"]))
+        print("  fields that differ: %s" % ", ".join(c["fields"]))
+        for side in ("a", "b"):
+            s = c[side]
+            print("  %s  %s:%d" % (side.upper(), s["path"], s["line"]))
+            for f in c["fields"]:
+                print("        %-10s %s" % (f, json.dumps(s["event"].get(f))))
+        print()
+    print("Neither version is preferred and the fold will not blend them. Two "
+          "cases, with opposite resolutions:")
+    print("  SAME OBJECT, described differently -- both branches are right. "
+          "Reconcile the wording into one declaration; whoever merges picks it.")
+    print("  DIFFERENT OBJECTS that collided on a name -- rename one. If the "
+          "two are related, say how with an edge; if they are the same object "
+          "under two names, record a `same_as`.")
+    print("\nWhich it is, is mathematics. This can only put them side by side.")
+    return 1
 
 
 def cmd_table(args):
@@ -238,7 +277,8 @@ def cmd_accept(args):
             return 2
         findings = [f for f in findings if f.fid in set(args.only)]
     payload = H.save_baseline(args.root, findings, note=args.message,
-                              prune=args.prune)
+                              prune=args.prune,
+                              admits=getattr(args, "admits", None))
     accepted = payload["accepted"]
     added = sorted(set(accepted) - before)
     print("baseline: %s" % H.baseline_path(args.root))
@@ -305,7 +345,20 @@ def build_parser():
     a.add_argument("--prune", action="store_true",
                    help="also DROP accepted findings that no longer appear in "
                         "the graph.  The only way to remove an acceptance.")
+    a.add_argument("--admits", action="append",
+                   choices=list(DISCHARGE_KINDS),
+                   help="pin how this obligation may be discharged: DERIVE "
+                        "(supply the missing mathematics), RETYPE (the "
+                        "relation was mis-stated), ACCEPT.  Repeat to allow "
+                        "several.  A supersession offering any other kind is "
+                        "refused and the obligation stays live -- which is how "
+                        "'discharge by deriving, not by naming a relaxation' "
+                        "stops being prose.")
     a.set_defaults(func=cmd_accept)
+
+    m = sub.add_parser("merge",
+                       help="fold several branch logs and report every conflict")
+    m.set_defaults(func=cmd_merge)
 
     i = sub.add_parser("init", help="create an empty graph")
     i.set_defaults(func=cmd_init)

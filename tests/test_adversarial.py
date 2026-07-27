@@ -547,6 +547,53 @@ def test_store_severities_match_the_checker():
 
 
 # ===========================================================================
+# MERGE REPORTING.  T4's other half.
+# ===========================================================================
+def _branch(tmp_path, name, desc, extra=()):
+    p = tmp_path / ("%s.jsonl" % name)
+    evs = [{"ev": "model", "id": "SEED", "desc": "the shared starting point"},
+           {"ev": "model", "id": "SAT", "desc": desc}] + list(extra)
+    p.write_text("\n".join(json.dumps(e) for e in evs) + "\n", encoding="utf-8")
+    return str(p)
+
+
+def test_a_merge_reports_every_conflict_not_just_the_first(tmp_path):
+    """T4 failed its pass condition partly on this. The fold raises on the
+    FIRST conflicting redeclaration, so a real two-branch merge showed one
+    collision, and the second only appeared after the first was resolved and
+    the fold re-run.
+
+    On the live T4 logs there were two -- both agents independently chose `SAT`
+    for the saturated system AND `INF_ANSWER` for their answer -- and only one
+    was visible.
+    """
+    a = _branch(tmp_path, "a", "the closure of the x != 0 locus",
+                [{"ev": "model", "id": "OTHER", "desc": "A's version"}])
+    b = _branch(tmp_path, "b", "the closure of the x*y != 0 locus",
+                [{"ev": "model", "id": "OTHER", "desc": "B's version"}])
+    graph, conflicts = S.merge_report([a, b])
+    assert graph is None, "a conflicted merge must not yield a graph"
+    assert {c["id"] for c in conflicts} == {"SAT", "OTHER"}, (
+        "both conflicts must be reported at once, not one per run")
+    sat = [c for c in conflicts if c["id"] == "SAT"][0]
+    assert sat["fields"] == ["desc"], (
+        "the report must name WHICH fields differ, not print two JSON blobs")
+    assert sat["a"]["line"] and sat["b"]["line"]
+
+
+def test_a_clean_merge_composes_and_yields_the_folded_graph(tmp_path):
+    """The positive control: branches that agree must merge silently, which is
+    the property the append-only shape exists to give."""
+    a = _branch(tmp_path, "a", "same wording",
+                [{"ev": "model", "id": "A_ONLY", "desc": "A's own work"}])
+    b = _branch(tmp_path, "b", "same wording",
+                [{"ev": "model", "id": "B_ONLY", "desc": "B's own work"}])
+    graph, conflicts = S.merge_report([a, b])
+    assert conflicts == []
+    assert set(graph.models) == {"SEED", "SAT", "A_ONLY", "B_ONLY"}
+
+
+# ===========================================================================
 # TYPED DISCHARGE AND SUPERSESSION.  The CEGAR step.
 # ===========================================================================
 def _obligation(tmp_path, admits=None):

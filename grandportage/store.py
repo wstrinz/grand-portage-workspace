@@ -609,6 +609,59 @@ def load(*paths):
     return g.apply_all(batch).validate()
 
 
+def merge_report(paths):
+    """Fold several logs and collect EVERY conflict instead of raising on the first.
+
+    T4 -- the first merge of two logs written by agents working in isolation --
+    failed its declared pass condition on this. The fold refused correctly and
+    named both versions, which is the half that worked; but `TESTPLAN.md` also
+    said **fail** if "resolving it means hand-editing an append-only log", and
+    there was no guided path at all. You got one conflict, edited, re-ran, got
+    the next.
+
+    So this reports all of them at once, and distinguishes the two cases,
+    because they have opposite resolutions:
+
+      SAME OBJECT, described differently -- what T4 produced. Both branches are
+      right; the descriptions need reconciling into one, and whoever merges
+      picks the wording.
+
+      DIFFERENT OBJECTS that collided on a name -- rename one, and if they are
+      related, say how with an edge.
+
+    The tool cannot tell these apart; that is mathematics. What it can do is
+    put both versions side by side, name exactly which fields differ, and stop
+    the reader diffing two JSON blobs by eye.
+
+    Returns (graph_or_None, conflicts). `graph` is None when conflicts exist,
+    because a partially-folded graph is not a thing anyone should reason from.
+    """
+    seen, conflicts, events = {}, [], []
+    for p in paths:
+        for ev, n in load_events(p):
+            kind, eid = ev.get("ev"), ev.get("id")
+            if kind in (EV_NOTE, EV_BUILT_BY) or not eid:
+                events.append((ev, p, n))
+                continue
+            key, canon = (kind, eid), _canon(ev)
+            if key in seen and seen[key][0] != canon:
+                prior_ev, prior_p, prior_n = seen[key][1]
+                differing = sorted(
+                    k for k in set(prior_ev) | set(ev)
+                    if prior_ev.get(k) != ev.get(k))
+                conflicts.append({
+                    "kind": kind, "id": eid, "fields": differing,
+                    "a": {"path": prior_p, "line": prior_n, "event": prior_ev},
+                    "b": {"path": p, "line": n, "event": ev}})
+                continue
+            if key not in seen:
+                seen[key] = (canon, (ev, p, n))
+                events.append((ev, p, n))
+    if conflicts:
+        return None, conflicts
+    return Graph().apply_all(events).validate(), []
+
+
 def graph_path(root="."):
     return os.path.join(root, GRAPH_DIR, GRAPH_FILE)
 
