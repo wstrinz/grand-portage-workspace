@@ -982,3 +982,129 @@ def signature(etype):
     """
     return tuple((d, k, TRANSPORT[etype][d][k])
                  for d in DIRECTIONS for k in CLAIM_KINDS)
+
+
+# ---------------------------------------------------------------------------
+# SUPERSESSION FOR CLAIMS AND INFERENCES.
+#
+# Edges have had `supersedes` + `discharge_kind` since v0.2.  Claims and
+# inferences had nothing, and the LSEM census paid for it in the ordinary way:
+# a missing OPTIONAL attribute was noticed at check time, redeclaration with
+# different content is a hard fold error, so the campaign had to mint new ids
+# for the claim AND for the inference that referenced it.  The permanent cost
+# was two entities that are dead but indistinguishable from live ones, a note
+# explaining the situation to a human, and a baseline entry reading
+# "superseded, not carried on its merits" -- which dilutes what a baseline
+# entry means for every other entry in the file.
+#
+# THE HAZARD IS THE WORD "ONLY".  The census's actual amendment was described,
+# accurately, as "same claim, with coefficients_in_base declared".  But
+# `coefficients_in_base` is exactly what licenses an IDENTITY to cross a
+# BASE_EXTENSION.  "I only added an attribute" is the sentence through which a
+# transport-determining field arrives unexamined, and this project has now
+# found five separate defects that all reduce to a field whose value was taken
+# on the author's word.
+#
+# So AMEND is not a declaration, it is a COMPUTATION.  The tool holds both
+# versions of the claim and can see for itself whether anything that licenses a
+# transport moved.  An author who writes AMEND over a changed certificate is
+# refused and told which field they changed.
+# ---------------------------------------------------------------------------
+AMEND = "AMEND"          # nothing that licenses anything changed
+RELICENSE = "RELICENSE"  # an attribute that determines transport changed
+RESTATE = "RESTATE"      # the statement, kind or model itself changed
+RETRACT = "RETRACT"      # withdrawn, and nothing replaces it
+SUPERSESSION_KINDS = (AMEND, RELICENSE, RESTATE, RETRACT)
+
+# Fields whose value decides what a claim licenses.  Split in two because the
+# refusal is different: change what the claim SAYS and it is a different claim
+# (RESTATE); change what backs it and the claim is the same sentence with
+# different transport behind it (RELICENSE), which is the quieter and more
+# dangerous of the two.
+IDENTIFYING_FIELDS = ("kind", "model", "statement")
+LICENSING_FIELDS = ("certificate", "scope", "identity_origin",
+                    "coefficients_in_base", "witness_kind")
+
+# The same split for an inference.  What it ASSERTS identifies it; what it
+# RESTS ON licenses it.  Swapping a premise or re-routing a path leaves the
+# sentence at the bottom identical and changes everything above it, which is
+# precisely the change that most needs a second look.
+INFERENCE_IDENTIFYING_FIELDS = ("asserted", "concludes_kind")
+INFERENCE_LICENSING_FIELDS = ("premises",)
+
+
+class SupersessionError(KernelRefusal):
+    """A supersession whose declared kind does not match what changed."""
+
+
+def classify_supersession(old, new, entity="claim"):
+    """What ACTUALLY changed between two versions of a claim or inference.
+
+    Returns (kind, fields).  Pure inspection -- it reads the two records and
+    reports the strongest category of change it finds, so nothing here depends
+    on what the author believes they did.
+    """
+    ident, lic = ((INFERENCE_IDENTIFYING_FIELDS, INFERENCE_LICENSING_FIELDS)
+                  if entity == "inference"
+                  else (IDENTIFYING_FIELDS, LICENSING_FIELDS))
+    moved = [f for f in ident if old.get(f) != new.get(f)]
+    if moved:
+        return RESTATE, moved
+    moved = [f for f in lic if old.get(f) != new.get(f)]
+    if moved:
+        return RELICENSE, moved
+    return AMEND, []
+
+
+def check_supersession_kind(old, new, declared, claim_id="<claim>",
+                            entity="claim"):
+    """Refuse a supersession whose declared kind understates what changed.
+
+    ONE DIRECTION ONLY.  Declaring a change smaller than it is gets refused;
+    declaring it larger does not, because over-declaring costs a second look
+    and under-declaring costs the second look that was needed.
+    """
+    lic = (INFERENCE_LICENSING_FIELDS if entity == "inference"
+           else LICENSING_FIELDS)
+    if declared not in SUPERSESSION_KINDS:
+        raise SupersessionError(
+            "%s %s supersedes %r with discharge_kind %r; known kinds are "
+            "%s.\n"
+            "  AMEND      nothing that licenses a transport changed -- a "
+            "citation, a caveat, an evidence grade\n"
+            "  RELICENSE  an attribute that DECIDES transport changed: %s\n"
+            "  RESTATE    what it %s changed\n"
+            "  RETRACT    withdrawn, and nothing replaces it"
+            % (entity, claim_id, old.get("id"), declared,
+               ", ".join(SUPERSESSION_KINDS), ", ".join(lic),
+               "asserts" if entity == "inference" else "states"))
+    if declared == RETRACT:
+        return declared
+    actual, moved = classify_supersession(old, new, entity)
+    rank = {AMEND: 0, RELICENSE: 1, RESTATE: 2}
+    if rank[declared] < rank[actual]:
+        raise SupersessionError(
+            "%s %s supersedes %s and calls it %s, but %s changed, which is "
+            "%s.\n"
+            "  %s\n"
+            "  The tool compares the two records rather than taking the word "
+            "for it, because 'I only added an attribute' is how a field that "
+            "DECIDES transport arrives without being looked at. Declare %s, or "
+            "leave the field alone."
+            % (entity, claim_id, old.get("id"), declared, ", ".join(moved),
+               actual,
+               ("Re-routing an argument is not bookkeeping: the premises and "
+                "their paths are the entire reason the conclusion is licensed, "
+                "and the sentence at the bottom looks identical either way."
+                if entity == "inference" else
+                "A licensing attribute is not bookkeeping: `certificate` "
+                "decides whether emptiness survives a base change, "
+                "`identity_origin` and `coefficients_in_base` decide whether a "
+                "rewriting crosses one at all, and `witness_kind` decides "
+                "whether a point is a point or an assertion.")
+               if actual == RELICENSE else
+               "Something that says a different thing is a different %s, and "
+               "everything that used the old one has to be looked at again."
+               % entity,
+               actual))
+    return declared

@@ -365,9 +365,18 @@ def cmd_show(args):
             extra.append("by=%s" % c["established_by"])
         if c.get("ladder"):
             extra.append("ladder=%s" % c["ladder"])
-        print("CLAIM %-20s %-9s @%-14s scope=%-10s %s"
+        # A WITHDRAWN RECORD THAT LOOKS LIVE is the whole reason supersession
+        # exists.  Before it, a reminted claim left its predecessor sitting in
+        # the graph, printed identically to everything around it, and the only
+        # thing distinguishing the two was a prose note somebody had to read.
+        mark = ("  [SUPERSEDED by %s]" % c["superseded_by"]
+                if c.get("superseded_by") else "")
+        print("CLAIM %-20s %-9s @%-14s scope=%-10s %s%s"
               % (cid, c["kind"], c["model"], c.get("scope"),
-                 " ".join(extra)))
+                 " ".join(extra), mark))
+        if c.get("supersedes"):
+            print("    supersedes %s (%s)"
+                  % (c["supersedes"], c.get("discharge_kind")))
         # A caveat that is not printed is a caveat that was not recorded.
         if c.get("caveat"):
             print("    caveat: %s" % c["caveat"])
@@ -375,11 +384,16 @@ def cmd_show(args):
         print()
     for iid in g.inference_order:
         i = g.inferences[iid]
-        print("INFER %-20s %s via %s -> %s"
+        mark = ("  [SUPERSEDED by %s]" % i["superseded_by"]
+                if i.get("superseded_by") else "")
+        print("INFER %-20s %s via %s -> %s%s"
               % (iid, i["claim"],
                  " ".join("%s/%s" % s for s in i["path"]) or "(no path)",
-                 i["concludes_at"]))
+                 i["concludes_at"], mark))
         print("    %s" % i.get("asserted", ""))
+        if i.get("supersedes"):
+            print("    supersedes %s (%s)"
+                  % (i["supersedes"], i.get("discharge_kind")))
     return 0
 
 

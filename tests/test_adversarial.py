@@ -1429,3 +1429,140 @@ def test_an_unknown_origin_blocks_the_widening_but_not_the_restriction():
     g = _graph(events)
     assert not C.audit_inference(g, "WIDEN")[0]
     assert C.audit_inference(g, "RESTRICT")[0]
+
+
+# ===========================================================================
+# SUPERSESSION FOR CLAIMS AND INFERENCES.  Edges have had it since v0.2.
+# ===========================================================================
+_SUP_BASE = TWO_MODELS + [
+    {"ev": "edge", "id": "E", "src": "TIGHT", "dst": "LOOSE",
+     "type": K.NECESSARY_CONDITION, "why": "equations are dropped"},
+]
+# A PREDICATE moving ALONG a NECESSARY_CONDITION is refused: what holds of
+# every point of the tighter model need not hold of the looser one's extra
+# points.  Used here because it gives a finding to watch.
+_REFUSED = {"ev": "inference", "id": "I1", "claim": "C1",
+            "path": [["E", K.ALONG]], "concludes_kind": K.PREDICATE,
+            "asserted": "P holds on the looser model too"}
+_C1 = {"ev": "claim", "id": "C1", "model": "TIGHT", "kind": K.PREDICATE,
+       "statement": "P holds"}
+
+
+def test_amend_is_computed_not_declared():
+    """THE CENSUS'S OWN AMENDMENT, and it is the dangerous one.
+
+    A live campaign had to remint a claim to add `coefficients_in_base`, and
+    described the change -- accurately -- as "same claim, with
+    coefficients_in_base declared".  But that field is exactly what licenses an
+    IDENTITY to cross a BASE_EXTENSION.  "I only added an attribute" is the
+    sentence through which a transport-determining field arrives unexamined,
+    and five separate defects in this project reduce to a field whose value was
+    taken on the author's word.
+
+    So the tool holds both records and diffs them.  AMEND is a computation.
+    """
+    with pytest.raises(K.SupersessionError) as exc:
+        _graph(_SUP_BASE + [
+            {"ev": "claim", "id": "C1", "model": "TIGHT", "kind": K.IDENTITY,
+             "statement": "x = y", "identity_origin": K.DERIVED},
+            {"ev": "claim", "id": "C1R", "model": "TIGHT", "kind": K.IDENTITY,
+             "statement": "x = y", "identity_origin": K.DERIVED,
+             "coefficients_in_base": True,
+             "supersedes": "C1", "discharge_kind": K.AMEND}])
+    msg = str(exc.value)
+    assert "coefficients_in_base changed" in msg and "RELICENSE" in msg
+
+
+def test_over_declaring_a_supersession_is_allowed():
+    """One direction only.  Calling a citation fix a RESTATE costs a second
+    look; calling a certificate swap an AMEND costs the second look that was
+    needed.  Only the second is refused."""
+    g = _graph(_SUP_BASE + [
+        _C1,
+        {"ev": "claim", "id": "C1R", "model": "TIGHT", "kind": K.PREDICATE,
+         "statement": "P holds", "cite": "a better citation",
+         "supersedes": "C1", "discharge_kind": K.RESTATE}])
+    assert g.claims["C1"]["superseded_by"] == "C1R"
+
+
+def test_a_superseded_premise_is_graded_by_what_actually_changed():
+    """SUPERSESSION DELIBERATELY DOES NOT REPOINT ANYTHING.
+
+    Making an inference follow its premise to the replacement would credit an
+    argument against a record it was never checked against.  So the old
+    argument keeps pointing at the old claim and the checker says so -- at a
+    severity that depends on whether anything it relied on moved.
+
+    An author who could self-report that distinction would always report the
+    cheap one, which is why the kind is computed.
+    """
+    def stale(newer):
+        g = _graph(_SUP_BASE + [_C1, _REFUSED, newer])
+        return [f for f in C.run(g) if f.rule == C.R_STALE_PREMISE]
+
+    # Nothing that licenses a transport moved -> the argument stands.
+    amended = stale({"ev": "claim", "id": "C1R", "model": "TIGHT",
+                     "kind": K.PREDICATE, "statement": "P holds",
+                     "cite": "where it came from",
+                     "supersedes": "C1", "discharge_kind": K.AMEND})
+    assert len(amended) == 1 and amended[0].severity == C.DEBT
+    assert "stale is the pointer" in amended[0].detail
+
+    # A licensing attribute moved -> the argument is UNEXAMINED, not withdrawn.
+    relicensed = stale({"ev": "claim", "id": "C1R", "model": "TIGHT",
+                        "kind": K.PREDICATE, "statement": "P holds",
+                        "scope": "Q(sqrt 17)",
+                        "supersedes": "C1", "discharge_kind": K.RELICENSE})
+    assert len(relicensed) == 1
+    assert relicensed[0].severity == C.UNSOUND_PREMISE
+    assert "UNEXAMINED" in relicensed[0].detail
+
+
+def test_a_superseded_inference_stops_reporting_as_live_debt():
+    """THE BASELINE DILUTION, which is the cost the census actually paid.
+
+    With no supersession, a reminted inference stayed in the graph forever and
+    its findings kept reporting, so the baseline grew an entry meaning
+    "superseded, not carried on its merits".  One entry like that makes every
+    other entry in the file weaker.
+
+    Nothing is hidden: the superseding inference is audited in its own right.
+    """
+    live = _graph(_SUP_BASE + [_C1, _REFUSED])
+    assert [f for f in C.run(live) if f.rule == C.R_TRANSPORT
+            and f.subject == "I1"], "the control has to actually be flagged"
+
+    withdrawn = _graph(_SUP_BASE + [_C1, _REFUSED,
+        {"ev": "inference", "id": "I2", "claim": "C1",
+         "path": [["E", K.ALONG]], "concludes_kind": K.PREDICATE,
+         "asserted": "P holds on the looser model, restated",
+         "supersedes": "I1", "discharge_kind": K.RESTATE}])
+    flagged = {f.subject for f in C.run(withdrawn) if f.rule == C.R_TRANSPORT}
+    assert "I1" not in flagged, "a withdrawn inference is not live debt"
+    assert "I2" in flagged, (
+        "supersession must not be a way to make a finding disappear -- the "
+        "replacement has the same defect and must still be caught")
+
+
+def test_supersession_must_name_a_record_that_exists():
+    """Otherwise `supersedes` is a comment.  The failure mode is a typo that
+    silently withdraws nothing while reading as though it withdrew something.
+    """
+    with pytest.raises(S.GraphError) as exc:
+        _graph(_SUP_BASE + [
+            _C1,
+            {"ev": "claim", "id": "C1R", "model": "TIGHT", "kind": K.PREDICATE,
+             "statement": "P holds", "supersedes": "C-TYPO",
+             "discharge_kind": K.AMEND}])
+    assert "not a claim in this graph" in str(exc.value)
+
+
+def test_supersession_must_say_how():
+    """Same discipline edges have had since v0.2: replacing a record without
+    saying what kind of replacement it is transfers no information."""
+    with pytest.raises(S.GraphError) as exc:
+        _graph(_SUP_BASE + [
+            _C1,
+            {"ev": "claim", "id": "C1R", "model": "TIGHT", "kind": K.PREDICATE,
+             "statement": "P holds", "supersedes": "C1"}])
+    assert "without saying HOW" in str(exc.value)
