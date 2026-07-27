@@ -1,0 +1,186 @@
+# TESTPLAN.md — what to run next, and what each run could falsify
+
+One live session exists (`docs/first-run/`). It answered "does it work" and
+gave one data point on "is it useful". Everything below targets a claim that is
+currently **asserted but not demonstrated**.
+
+Each test declares its **pass condition before running**, because a test whose
+bar is set afterwards cannot fail. Ordered by value.
+
+---
+
+## T1 — THE BLIND RUN. Run this one first.
+
+**The claim at risk:** the tool does not induce plausible mislabelling.
+
+**Why the existing evidence is weak, stated plainly.** The first run's agent had
+read `BRIEF.md`, which names mislabelling as the worst failure mode and says
+`UNTYPED` is a legal first-class answer. It then avoided mislabelling and used
+`UNTYPED` correctly. **That is an observer effect and the finding is close to
+worthless as evidence.** An agent told what the trap is will avoid the trap.
+
+**Protocol.** A fresh session, in a fresh campaign directory, given:
+
+- a real bounded task (candidate below),
+- the MCP server and hook wired,
+- **no `BRIEF.md`, no `FINDINGS.md`, no mention that anything is being tested,
+  and no framing of `UNTYPED` as virtuous.**
+
+Just the tools and the work. The only instruction should be the task.
+
+**Task candidate.** Step 3 of the γ-window compiler, or the standing obligation
+`GI-GAMMA-IMPORT` (exclude γ = 4 at (5,20)). Both are real, both are bounded,
+and neither has a published answer to pattern-match.
+
+**Pass condition, declared now:**
+
+- Every edge the run declares survives an independent audit of its **type** and
+  its **direction** (T2 does this audit).
+- At least one `UNTYPED` edge is recorded **where one is warranted**, without
+  having been told that is allowed.
+- **Fail:** any edge typed `EQUIVALENCE` without an exhibitable converse, or
+  any `NECESSARY_CONDITION` whose direction is backwards, or a plausible-looking
+  type chosen where `UNTYPED` was the honest answer.
+
+**My prediction, before the run:** it will pick a defensible-but-wrong type at
+least once, most likely `NECESSARY_CONDITION` where the true relation is
+`IMAGE_CLOSURE`, because "this step drops conditions" is the easiest story to
+tell about almost any step. If that happens, the fix is not a better prompt —
+it is a `portage_lint` that asks the discriminating question per type ("can you
+exhibit the converse?", "is this an elimination?").
+
+---
+
+## T2 — INDEPENDENT EDGE-TYPE AUDIT
+
+**The claim at risk:** the types in the graph are correct, not merely
+defensible.
+
+**Protocol.** Hand a reviewer (GPT, or a fresh agent with no access to the
+session that produced them) `docs/first-run/campaign-graph.jsonl` and, for each
+edge, four questions:
+
+1. Is the type correct?
+2. Is the **direction** right — is `src` genuinely the more informative model?
+3. Does `drops` name what is lost, or restate `why`?
+4. Where `UNTYPED` was chosen, was that honest or evasive?
+
+Do **not** show the reviewer `FINDINGS.md` first; it argues for its own edges.
+
+**Pass condition:** ≥ 8 of 10 edges confirmed on type *and* direction, with any
+disagreement being a genuine judgement call rather than an error. **Fail:** any
+edge whose direction is wrong — that is a silent licensing bug, not a style
+disagreement.
+
+**Cheap and high value.** This is the single best use of an external reviewer,
+and it is better spent here than on the Python.
+
+---
+
+## T3 — RESUMABILITY
+
+**The claim at risk:** *"After three weeks the graph is the state, not the
+transcript. A fresh agent reads a typed artifact instead of reconstructing
+intent from 400 messages."* Asserted in `DESIGN.md` §1.1. **Never tested.**
+
+**Protocol.** New session. Give it the campaign directory and **nothing else**
+— no handoff document, no `STEP2_GAMMA_CHART.md`, no chat history. Ask: *"What
+is the state of this campaign, what is blocked, and what is the next move?"*
+
+**Pass condition, declared now:** from `portage_show` + `portage_check` alone it
+must name (a) the four standing obligations, (b) that the γ=4 cap is a located
+obligation rather than a number, and (c) at least one correct next action drawn
+from a discharge message.
+
+**Fail:** it needs the markdown to make sense of the graph. That would mean the
+graph is an index to the real state rather than the state, which is a weaker and
+much less interesting claim than the one in the design doc.
+
+---
+
+## T4 — MERGE UNDER REAL FAN-OUT
+
+**The claim at risk:** *"a merge of twenty agent branches either composes or
+fails loudly."* Unit-tested only; no two real agents have ever merged.
+
+**Protocol.** Two agents, same campaign, isolated worktrees, adjacent but
+overlapping subproblems — deliberately arranged so both will want to declare a
+model for the *same* object. Then concatenate the logs and fold.
+
+**Pass condition:** either the merge composes, or it fails with a conflict
+naming both versions. **Fail:** a silent blend, or a fold error so unhelpful
+that resolving it means hand-editing an append-only log.
+
+**Watch for the thing unit tests cannot show:** whether two agents naturally
+choose the *same id* for the same object. If they do not, the merge succeeds and
+produces a graph with two models for one thing — which folds cleanly and is
+wrong. **That is the real fan-out risk and no current check catches it.**
+
+---
+
+## T5 — A CAMPAIGN NOT BUILT FOR THE TOOL
+
+**The claim at risk:** zero false positives. Both retrodiction fixtures were
+authored by people who already knew the type system; the γ-window graph was
+authored through the tool. None of that tests what happens on a campaign that
+never heard of it.
+
+**Protocol.** Point it at the border-rank / SOS reconnaissance work (the second
+worktree named in `SESSION_HANDOFF.md`, branch
+`worktree-borderrank-sos-recon`). Model its steps *as recorded*, without
+adjusting the modelling to suit the checker, and count findings.
+
+**Pass condition:** every finding is either a real obligation a domain expert
+would accept, or explicable in one sentence. **Fail:** a wall of findings that
+have to be baselined en masse — which would mean the tool is tuned to campaigns
+that were already thinking in these terms.
+
+**This is the generalization test.** The matroid domain showed the *table*
+transfers; this would show the *practice* does.
+
+---
+
+## T6 — `portage_suggest_edge`, A/B
+
+**Only after T1.** The design is now specified by evidence: not "guess the type
+from the computation" but **"offer the sibling edge's declaration as a diff and
+make me change the field that differs."**
+
+**Protocol.** Build it, then run the same shaped task twice — once with, once
+without — and measure the ratio the first run reported: genuine modelling vs
+transcription.
+
+**Pass condition:** the transcription fraction drops below the observed ~1/3
+**and** T1's audit standard still holds. **Fail, and this is the one to watch
+for:** the modelling fraction drops too, because autofill removed the moment of
+thought. The first run's best finding — the determinant of −2 — came from
+having to fill in `map_kind` from scratch on `GE7`. If a diff would have
+pre-filled it from a sibling, that finding does not happen.
+
+**So the honest framing:** T6 risks trading the tool's best property for its
+worst annoyance. Measure both sides or do not build it.
+
+---
+
+## T7 — LONG-SESSION HOOK BEHAVIOUR
+
+Lowest value, cheapest to run — fold into any of the above.
+
+Watch for: repeat-suppression working across a long session; the baseline not
+churning; `.portage/last-block` not going stale after a genuine fix; the hook's
+cost per tool call staying invisible.
+
+---
+
+## What none of these test
+
+Stated so the plan is not mistaken for coverage:
+
+- **Whether the discipline finds equations.** It does not, by design. It routes
+  attention. Every actual advance in the source campaign was an equation.
+- **Whether the coverage rule discriminates within an axis.** Needs a second
+  incident on one axis; the source repo does not contain one, so this cannot be
+  tested here at all.
+- **Whether any of this survives a user who is not an LLM.** Every session so
+  far has been an agent that reads schemas carefully and does what
+  documentation says. A human under time pressure is a different adversary.
