@@ -1566,3 +1566,170 @@ def test_supersession_must_say_how():
             {"ev": "claim", "id": "C1R", "model": "TIGHT", "kind": K.PREDICATE,
              "statement": "P holds", "supersedes": "C1"}])
     assert "without saying HOW" in str(exc.value)
+
+
+# ===========================================================================
+# RESTRICTION.  The sixth type, and the first one a LIVE RUN forced.
+# ===========================================================================
+def test_restriction_is_not_necessary_condition_wearing_a_new_name():
+    """`signature` exists to assert exactly this, and a new type is where it
+    finally gets used in anger.
+
+    The six point-cells ARE identical to NECESSARY_CONDITION's -- they follow
+    from containment and nothing else, which is why NECESSARY_CONDITION was the
+    attractor for the census's PD-cone edge and why mislabelling it would have
+    licensed nothing false.  The IDENTITY row is where they diverge, and the
+    divergence is real: a restriction adds no equations, so there is no larger
+    ideal and no quotient, and the obstruction that stops a DERIVED identity
+    crossing a NECESSARY_CONDITION is simply absent.
+    """
+    import itertools
+    sigs = {t: K.signature(t) for t in K.ALL_TYPES}
+    dupes = [(a, b) for a, b in itertools.combinations(sorted(sigs), 2)
+             if sigs[a] == sigs[b]]
+    assert not dupes, "two types are the same table under different names: %s" % dupes
+
+    point_kinds = (K.EMPTY, K.NONEMPTY, K.PREDICATE)
+    for d, k in itertools.product(K.DIRECTIONS, point_kinds):
+        assert (K.transport(K.RESTRICTION, d, k).licensed
+                is K.transport(K.NECESSARY_CONDITION, d, k).licensed), (
+            "%s/%s should agree with NECESSARY_CONDITION -- both follow from "
+            "containment alone" % (d, k))
+
+
+def test_a_restriction_may_not_change_coordinates():
+    """The licence and the argument for it must not drift apart.
+
+    IDENTITY crosses a RESTRICTION AGAINST unconditionally, where a
+    NECESSARY_CONDITION needs a denominator-free map, for exactly one reason:
+    a restriction substitutes nothing, because the coordinates are the same
+    ones.  A RESTRICTION declared over a coordinate change would keep the
+    licence and lose the reason.
+    """
+    with pytest.raises(S.GraphError) as exc:
+        _graph(TWO_MODELS + [
+            {"ev": "edge", "id": "E", "src": "TIGHT", "dst": "LOOSE",
+             "type": K.RESTRICTION, "why": "positivity", "map_kind": "RATIONAL"}])
+    assert "SAME COORDINATES" in str(exc.value)
+
+
+def test_the_generic_versus_global_cell_refuses_and_says_why():
+    """THE CELL THE CENSUS EXISTS TO PROTECT.
+
+    A predicate holding at every point of a positivity cone is silent about
+    the ambient model, and stating it there anyway -- taking an identifiability
+    theorem proved off an exceptional locus and using it on data that may sit
+    in the bad locus -- is the recurring error in the applied literature.
+
+    The discharge must NOT offer a certificate, because there isn't one.  A
+    refusal that implies a fix exists sends someone looking for it.
+    """
+    g = _graph(TWO_MODELS + [
+        {"ev": "edge", "id": "E", "src": "TIGHT", "dst": "LOOSE",
+         "type": K.RESTRICTION, "why": "the positive-definite cone"},
+        {"ev": "claim", "id": "C", "model": "TIGHT", "kind": K.PREDICATE,
+         "statement": "lambda is identifiable"},
+        {"ev": "inference", "id": "I", "claim": "C", "path": [["E", K.ALONG]],
+         "concludes_kind": K.PREDICATE,
+         "asserted": "lambda is identifiable on the whole model"}])
+    found = [f for f in C.run(g) if f.rule == C.R_TRANSPORT and f.subject == "I"]
+    assert found, "a generic result stated globally must not pass"
+    assert "GENERIC-VERSUS-GLOBAL" in found[0].discharge
+    assert "no certificate to produce" in found[0].discharge
+
+
+def test_the_identity_cell_does_not_send_you_after_denominators():
+    """A WRONG DISCHARGE IS WORSE THAN A TERSE ONE, and this cell had one.
+
+    Before RESTRICTION got its own move, the IDENTITY refusal fell through to
+    the generic identity text -- "this needs a DENOMINATOR-FREE map" -- which
+    is NECESSARY_CONDITION's remedy and is irrelevant here.  A restriction
+    changes no coordinates, so there is no map to make polynomial, and anyone
+    following that advice would spend the effort and still be refused.
+    """
+    from grandportage.discharge import discharge_for
+    msg = discharge_for(K.RESTRICTION, K.ALONG, K.IDENTITY,
+                        edge={"src": "PD", "dst": "REAL"})
+    assert "zariski_dense" in msg
+    assert "NOT THE DENOMINATOR QUESTION" in msg
+    # And it names the counterexample rather than asserting the condition is
+    # usually fine, because "usually fine" is how a gate stops being consulted.
+    assert "x^2 + y^2" in msg
+
+
+def test_the_density_condition_is_declared_not_assumed():
+    """Over R the real points of a variety need not be Zariski-dense in it, so
+    the strongest cell of the strongest new type is gated by default."""
+    base = TWO_MODELS + [
+        {"ev": "claim", "id": "C", "model": "TIGHT", "kind": K.IDENTITY,
+         "statement": "x = y", "identity_origin": K.DERIVED},
+        {"ev": "inference", "id": "I", "claim": "C", "path": [["E", K.ALONG]],
+         "concludes_kind": K.IDENTITY, "asserted": "x = y on the whole model"}]
+    edge = {"ev": "edge", "id": "E", "src": "TIGHT", "dst": "LOOSE",
+            "type": K.RESTRICTION, "why": "cut by strict inequalities"}
+
+    gated = _graph([edge] + base)
+    assert [f for f in C.run(gated) if f.rule == C.R_TRANSPORT], (
+        "undeclared, the density cell must refuse")
+
+    declared = _graph([dict(edge, zariski_dense=True)] + base)
+    assert not [f for f in C.run(declared) if f.rule == C.R_TRANSPORT], (
+        "declared, the identity crosses -- otherwise the type buys nothing "
+        "over NECESSARY_CONDITION")
+
+
+def test_the_readme_transport_table_matches_the_kernel():
+    """THE README SAID IT COULD NOT DRIFT, AND IT HAD.
+
+    "Printed by the kernel itself with `gp table`, so a document quoting it and
+    the code applying it cannot drift apart" -- except nothing checked, and by
+    the time RESTRICTION landed the table in the README was wrong in FIVE
+    cells.  Every conditional IDENTITY cell still showed the PRE-v0.2 rule:
+    EQUIVALENCE unconditional rather than needing a ring isomorphism,
+    NECESSARY_CONDITION gated on denominators rather than on origin,
+    BASE_EXTENSION descending for free.  Those are the exact licences that were
+    found unsound and fixed, still documented as sound in the file a reader
+    meets first.
+
+    A claim of non-drift with nothing enforcing it is worse than no claim: it
+    tells a reader they need not check.
+    """
+    import os
+    import re
+    readme = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                          "README.md")
+    with open(readme, encoding="utf-8") as fh:
+        text = fh.read()
+
+    words = {"zariski_dense": "if Zariski-dense",
+             "ambient_identity": "if ambient",
+             "ring_isomorphism": "if ring iso",
+             "coefficients_in_base": "if defined over base",
+             "integral_identity": "if p-integral",
+             "map_polynomial": "if denominator-free",
+             "scheme_scope": "only with a certificate",
+             "closed_condition": "if Zariski-closed"}
+
+    documented = {}
+    for line in text.splitlines():
+        m = re.match(r"^\|\s*`([A-Z_]+)`\s*\|\s*\**(ALONG|AGAINST)\**\s*\|(.*)$",
+                     line.strip())
+        if not m:
+            continue
+        cells = [c.strip().replace("**", "")
+                 for c in m.group(3).rstrip("|").split("|")]
+        documented[(m.group(1), m.group(2))] = cells
+
+    missing = [t for t in K.ALL_TYPES
+               if not any(k[0] == t for k in documented)]
+    assert not missing, "types absent from the README table: %s" % missing
+
+    for (etype, direction), cells in sorted(documented.items()):
+        assert len(cells) == len(K.CLAIM_KINDS), (etype, direction, cells)
+        for kind, shown in zip(K.CLAIM_KINDS, cells):
+            rule = K.TRANSPORT[etype][direction][kind]
+            want = ("yes" if rule is True else "NO" if rule is False
+                    else words.get(rule, rule))
+            assert shown == want, (
+                "README documents %s/%s/%s as %r; the kernel says %r"
+                % (etype, direction, kind, shown, want))

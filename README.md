@@ -30,7 +30,7 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: 171 checks, live against Singular 4.2.1,
+All five layers are built and gated: 338 checks, live against Singular 4.2.1,
 and it has had one real user session — see [docs/first-run/](docs/first-run/).
 
 * **[HANDOFF.md](HANDOFF.md) — start here if you have no context**
@@ -78,7 +78,7 @@ $ python -m grandportage.mcp          # registered in .claude/.mcp.json
 The hook then returns exit 2 on the next tool call, so the refusal blocks
 rather than scrolls past. See [examples/](examples/) for the wiring.
 
-## The five relaxation types
+## The six relaxation types
 
 Edges point **tighter → looser**: `V(src) ⊆ V(dst)`. `AGAINST` is reasoning
 looser → tighter, which is the direction emptiness travels and the direction
@@ -89,15 +89,24 @@ code applying it cannot drift apart.
 
 | edge type | dir | EMPTY | NONEMPTY | PREDICATE | IDENTITY |
 |---|---|---|---|---|---|
-| `EQUIVALENCE` | ALONG | yes | yes | yes | yes |
-| `EQUIVALENCE` | AGAINST | yes | yes | yes | yes |
-| `NECESSARY_CONDITION` | **ALONG** | NO | yes | **NO** | if denominator-free |
+| `EQUIVALENCE` | ALONG | yes | yes | yes | if ring iso |
+| `EQUIVALENCE` | AGAINST | yes | yes | yes | if ring iso |
+| `NECESSARY_CONDITION` | **ALONG** | NO | yes | **NO** | if ambient |
 | `NECESSARY_CONDITION` | AGAINST | yes | NO | yes | if denominator-free |
 | `BASE_EXTENSION` | **ALONG** | **only with a certificate** | **yes** | NO | yes |
-| `BASE_EXTENSION` | AGAINST | yes | NO | yes | yes |
+| `BASE_EXTENSION` | AGAINST | yes | NO | yes | if defined over base |
 | `IMAGE_CLOSURE` | ALONG | NO | yes | if Zariski-closed | if denominator-free |
 | `IMAGE_CLOSURE` | **AGAINST** | yes | **NO** | yes | if denominator-free |
-| `SPECIALIZATION` | both | **NO** | **NO** | NO | if denominator-free |
+| `SPECIALIZATION` | ALONG | **NO** | **NO** | NO | if p-integral |
+| `SPECIALIZATION` | AGAINST | **NO** | **NO** | NO | NO |
+| `RESTRICTION` | **ALONG** | NO | yes | **NO** | if Zariski-dense |
+| `RESTRICTION` | AGAINST | yes | NO | yes | **yes** |
+
+Five of those cells were **wrong in this file** until a test started comparing
+it against the kernel. Every conditional `IDENTITY` cell still showed the
+pre-v0.2 rule — the licences that were found unsound and fixed, still
+documented as sound in the file a reader meets first. The sentence above about
+drift was true of `gp table` and false of this table, and nothing checked.
 
 Three rows carry most of the value:
 
@@ -113,6 +122,17 @@ Three rows carry most of the value:
 * **`SPECIALIZATION` carries nothing.** char 0 → char p transports no existence
   statement in either direction, and that is a theorem, not caution: Fano is
   empty over `Q` and nonempty over `F₂`, non-Fano is the reverse.
+* **`RESTRICTION` is `NECESSARY_CONDITION` on points and something else on
+  functions.** The six point-cells are *identical*, because both follow from
+  `V(src) ⊆ V(dst)` and nothing more — so typing a semialgebraic cut
+  `NECESSARY_CONDITION` licenses nothing false, which is exactly what makes it
+  the attractor. What it costs is the distinction between "identifiable
+  generically" and "identifiable on every dataset", which for a whole
+  literature is the only distinction that matters. The `IDENTITY` row is where
+  the mathematics genuinely differs: a restriction adds no equations, so the
+  obstruction that stops a derived identity crossing a `NECESSARY_CONDITION`
+  is simply absent, and the question becomes whether a polynomial vanishing on
+  an open piece vanishes throughout.
 
 ## Scope is derived, never declared
 
@@ -148,7 +168,7 @@ Pure stdlib. No solver, no network, no model in the loop. Under a second.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # 171 checks
+python -m pytest        # 338 checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

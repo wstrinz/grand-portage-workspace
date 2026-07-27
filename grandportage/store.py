@@ -291,6 +291,21 @@ class Graph(object):
         _require(mk in K.MAP_KINDS,
                  "%s: edge %r has map_kind %r; known: %s"
                  % (where, ev["id"], mk, ", ".join(K.MAP_KINDS)))
+        # A RESTRICTION IS A SUBSET INCLUSION, and its strongest cell depends
+        # on that.  IDENTITY travels AGAINST unconditionally -- where a
+        # NECESSARY_CONDITION needs a denominator-free map -- for exactly one
+        # reason: nothing is substituted, because the coordinates are the same
+        # ones.  A RESTRICTION declared over a coordinate change would keep
+        # that licence and lose the argument for it.
+        _require(not (ev.get("type") == K.RESTRICTION
+                      and mk not in (K.IDENTITY_MAP,)),
+                 "%s: edge %r is a RESTRICTION with map_kind %r. A RESTRICTION "
+                 "cuts a subset out of a model IN THE SAME COORDINATES -- it "
+                 "is an inclusion, not a map. If coordinates change, the step "
+                 "is a change of variables composed with a restriction; "
+                 "declare the two edges separately so each is typed for what "
+                 "it does."
+                 % (where, ev["id"], mk))
         if ev.get("supersedes"):
             _require(ev.get("discharge_kind"),
                      "%s: edge %r supersedes %r without saying HOW. A "

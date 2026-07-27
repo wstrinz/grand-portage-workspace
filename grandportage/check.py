@@ -172,7 +172,8 @@ def audit_inference(graph, iid):
                 identity_origin=claim.get("identity_origin"),
                 integral=claim.get("integral"),
                 ring_iso=e.get("ring_iso"),
-                coefficients_in_base=claim.get("coefficients_in_base"))
+                coefficients_in_base=claim.get("coefficients_in_base"),
+                zariski_dense=e.get("zariski_dense"))
             trace.append((eid, direction, r.licensed, r.reason))
             if not r.licensed:
                 ok = False
@@ -213,7 +214,8 @@ def probe(graph, claim_id, edge_id, direction, etype=None, map_kind=None,
                         if zariski_closed is None else zariski_closed),
         identity_origin=claim.get("identity_origin"),
         integral=claim.get("integral"), ring_iso=edge.get("ring_iso"),
-        coefficients_in_base=claim.get("coefficients_in_base"))
+        coefficients_in_base=claim.get("coefficients_in_base"),
+        zariski_dense=edge.get("zariski_dense"))
 
 
 def contradicting_claims(graph, model_id, kind, exclude=()):

@@ -75,6 +75,17 @@ EDGE_SCHEMA = {
                 "the closure need not lift.\n"
                 "  SPECIALIZATION - the characteristic changes. Carries no "
                 "existence statement in either direction.\n"
+                "  RESTRICTION - INEQUALITIES, not equations. src is a "
+                "semialgebraic subset of dst cut out by strict inequalities -- "
+                "a positivity cone, an open region, a nondegeneracy condition "
+                "-- in the SAME coordinates, with nothing added to the ideal. "
+                "Reach for this whenever you are about to write "
+                "NECESSARY_CONDITION for a step that dropped no equation: the "
+                "point-transports are identical, so the wrong label licenses "
+                "nothing false and hides whether a result is global or only "
+                "generic. An IDENTITY crosses ALONG only if the edge declares "
+                "`zariski_dense`, meaning dst is irreducible with its real "
+                "points Zariski-dense in it.\n"
                 "  UNTYPED - not yet known. Legal, but requires debt_why, and "
                 "no conclusion will cross this edge until it is typed.")},
         "why": {"type": "string",
@@ -124,6 +135,16 @@ EDGE_SCHEMA = {
                 "cannot know your remedy -- it will offer an illustration from "
                 "another domain if you do not say. One sentence naming the "
                 "computation or construction that would settle it.")},
+        "zariski_dense": {
+            "type": "boolean",
+            "description": (
+                "RESTRICTION only. True if the TARGET is irreducible and its "
+                "REAL points are Zariski-dense in it -- then a polynomial "
+                "relation holding on any nonempty open piece holds "
+                "throughout, and an IDENTITY established on the restricted "
+                "region pushes forward. Usually true and never automatic: "
+                "V(x^2+y^2) over R has one real point, and `x = 0` holds "
+                "there while being false on the variety.")},
         "debt_why": {"type": "string",
                      "description": "required when type is UNTYPED"},
         "cite": {"type": "string"},
