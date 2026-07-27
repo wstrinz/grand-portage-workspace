@@ -850,6 +850,38 @@ IMPOSSIBLE_EVIDENCE = {
         "produced this.  A checker that was not run has checked nothing",
 }
 
+# ---------------------------------------------------------------------------
+# THE HALF-GRADE.  Both evidence fields were optional on the reasoning that
+# grading licenses nothing, so an ungraded claim is merely ungraded.  That is
+# true of a claim with NO grade.  It is false of a claim with HALF a grade.
+#
+# `exact-checked` and above are not opinions about strength.  Each one asserts
+# that something HAPPENED -- a checker ran, a second implementation agreed, a
+# certificate was produced.  Left alone in the record, that assertion is the
+# one part of the evidence layer nothing can check, because every rule that
+# could contradict it lives in IMPOSSIBLE_EVIDENCE and every key there needs
+# an `established_by` to match on.  Omit the field and the cross-check does
+# not fire; it evaluates `(None, "exact-checked")`, which is in no table.
+#
+# Found in the LSEM identifiability census: all fourteen claims graded
+# themselves `exact-checked` with no `established_by`, so IMPOSSIBLE_EVIDENCE
+# -- "the first thing about evidence grading this tool has ever been able to
+# verify" -- never evaluated once.  The same session's central structural
+# result rested on an unrecorded sympy script, and its own report caught that
+# by hand.  The tool had the mechanism and the mechanism was switched off by
+# an absent field.
+#
+# So this is the fifth instance of one pattern, with a mutation.  The first
+# four -- certificates, identity_origin, kind, ladder -- were fields whose
+# VALUE was taken on the author's word.  This is a field whose ABSENCE
+# disables the check on a neighbouring field's value.  Optionality is not
+# neutral when another rule keys on it.
+#
+# The rule is narrow on purpose: `open` and `claimed` claim no event, so they
+# stay free.  Only a grade that says a run happened has to name the run.
+# ---------------------------------------------------------------------------
+LADDER_ASSERTS_A_RUN = ("exact-checked", "independently-audited", "certified")
+
 
 class EvidenceError(KernelRefusal):
     """A claim whose declared evidence contradicts itself."""
@@ -858,9 +890,11 @@ class EvidenceError(KernelRefusal):
 def check_evidence(established_by, ladder, claim_id="<claim>"):
     """Validate the two evidence axes and refuse impossible combinations.
 
-    Both fields are OPTIONAL -- unlike certificates and witnesses, evidence
-    grading licenses nothing, so a claim with no grade is merely ungraded
-    rather than unsound.  What is refused is a grade that is WRONG.
+    An UNGRADED claim is fine -- unlike certificates and witnesses, evidence
+    grading licenses nothing, so both fields may be absent together.  What is
+    refused is a grade that is WRONG, and a HALF grade: a `ladder` at
+    `exact-checked` or above asserts that a run happened, and must name it,
+    because IMPOSSIBLE_EVIDENCE can only contradict a named one.
     """
     if established_by is not None and established_by not in ESTABLISHED_BY:
         raise EvidenceError(
@@ -879,6 +913,29 @@ def check_evidence(established_by, ladder, claim_id="<claim>"):
             "  This field was unvalidated until a foreign campaign filled it "
             "with seven values and no overlap with these five."
             % (claim_id, ladder, ", ".join(LADDER)))
+    if established_by is None and ladder in LADDER_ASSERTS_A_RUN:
+        blocked = [b for b in ESTABLISHED_BY
+                   if (b, ladder) in IMPOSSIBLE_EVIDENCE]
+        survives = [b for b in ESTABLISHED_BY if b not in blocked]
+        raise EvidenceError(
+            "claim %s grades itself %s without an `established_by`.\n"
+            "  %s is not an opinion about strength -- it asserts that "
+            "something HAPPENED. Say what:\n"
+            "    RAN          you executed it here and it produced this\n"
+            "    READ         you read a source or a file, without running it\n"
+            "    CITED        you are relying on a paper or an authority\n"
+            "    NOT_REACHED  it was out of reach in this environment\n"
+            "  Against THIS grade, {%s} would be refused and only {%s} can "
+            "stand -- so naming it costs you an honest answer to `how` and may "
+            "cost you the grade. If nothing here backs it, it is `claimed`.\n"
+            "  Both fields may be omitted TOGETHER -- an ungraded claim is "
+            "merely ungraded. What cannot stand is half a grade, because every "
+            "rule that could contradict this one matches on `established_by`, "
+            "so leaving it out does not weaken the claim, it silences the "
+            "check."
+            % (claim_id, ladder, ladder,
+               ", ".join(blocked) or "nothing is",
+               ", ".join(survives)))
     why = IMPOSSIBLE_EVIDENCE.get((established_by, ladder))
     if why:
         raise EvidenceError(

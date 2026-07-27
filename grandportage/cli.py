@@ -131,16 +131,39 @@ def cmd_migrate(args):
     missing. An invalid `ladder` might belong in `established_by`, or in
     `caveat`, or be a genuine strength claim -- only the author knows, so those
     are reported and left alone.
+
+    THE HALF-GRADE IS THE THIRD CASE, and it is neither of those. A `ladder` of
+    `exact-checked` with no `established_by` is not missing a field and not
+    holding a wrong value: it is a value with nothing under it. There is no
+    ignorance value for `established_by` -- `NOT_REACHED` would be a lie, and
+    it is refused against these grades anyway -- so the ignorance value has to
+    be written on the OTHER axis. `claimed` is exactly it: the author says so,
+    and nothing recorded here says a run happened.
+
+    That downgrade can be wrong, and the direction it is wrong in is the point.
+    A claim that really was checked gets under-graded, which costs the campaign
+    a little standing and costs its conclusions nothing. The reverse -- leaving
+    an unsupported `exact-checked` in place -- is the failure this project
+    exists to avoid, so the migration takes the false negative every time and
+    says in the caveat where the strength went.
     """
     paths = _graphs(args)
     fills = {("claim", "identity_origin"): (K.UNKNOWN,
              lambda e: e.get("kind") == K.IDENTITY),
              ("claim", "witness_kind"): (K.ASSERTED,
              lambda e: e.get("kind") == K.NONEMPTY)}
-    changed, manual = [], []
+    changed, manual, downgraded = [], [], []
     for path in paths:
-        out = []
+        # A LINE-KEYED REWRITE, not a re-serialization.  The first version of
+        # this rebuilt the file from parsed events, which silently deleted
+        # every `#` comment and every blank line -- because `load_events`
+        # discards them, and anything a parser discards a round-trip destroys.
+        # An append-only log is a FILE FORMAT with human content in it, not the
+        # serialized form of a data structure.  So only the lines that actually
+        # changed are rewritten; every other byte in the file is left alone.
+        edits = {}
         for ev, n in S.load_events(path):
+            before = json.dumps(ev, sort_keys=True)
             for (kind, field), (value, applies) in sorted(fills.items()):
                 if ev.get("ev") == kind and applies(ev) and not ev.get(field):
                     ev[field] = value
@@ -148,11 +171,28 @@ def cmd_migrate(args):
             if ev.get("ev") == "claim" and ev.get("ladder") \
                     and ev["ladder"] not in K.LADDER:
                 manual.append((path, n, ev.get("id"), ev["ladder"]))
-            out.append(ev)
-        if not args.dry_run and changed:
+            elif ev.get("ev") == "claim" \
+                    and ev.get("ladder") in K.LADDER_ASSERTS_A_RUN \
+                    and not ev.get("established_by"):
+                was = ev["ladder"]
+                ev["ladder"] = "claimed"
+                note = ("DOWNGRADED BY MIGRATION from %r: the grade asserted a "
+                        "run and the log records no `established_by`, so "
+                        "nothing here vouches for it. If a run does back this "
+                        "claim, name it and restore the grade." % was)
+                ev["caveat"] = (ev["caveat"] + " | " + note
+                                if ev.get("caveat") else note)
+                downgraded.append((path, n, ev.get("id"), was))
+            after = json.dumps(ev, sort_keys=True)
+            if after != before:
+                edits[n] = after
+        if not args.dry_run and edits:
+            with open(path, "r", encoding="utf-8") as fh:
+                lines = fh.readlines()
+            for n, text in edits.items():
+                lines[n - 1] = text + "\n"
             with open(path, "w", encoding="utf-8") as fh:
-                for ev in out:
-                    fh.write(json.dumps(ev, sort_keys=True) + "\n")
+                fh.writelines(lines)
 
     for p, n, cid, field, value in changed:
         print("%s:%d  %s  %s <- %s" % (p, n, cid, field, value))
@@ -161,6 +201,15 @@ def cmd_migrate(args):
     if changed:
         print("Each is reported as a debt by `gp check`: the graph is now "
               "louder, not quieter.")
+    if downgraded:
+        print("\n%d claim(s) DOWNGRADED to `claimed` -- each graded itself on "
+              "a run it never named:" % len(downgraded))
+        for p, n, cid, was in downgraded:
+            print("  %s:%d  %s  ladder %s -> claimed" % (p, n, cid, was))
+        print("  No value for `established_by` would have been honest here, so "
+              "the ignorance went on the other axis. Each carries a caveat "
+              "saying where its strength went. If a run does back one of "
+              "these, name the run and take the grade back.")
     if manual:
         print("\n%d field(s) NEED A HUMAN -- the value is wrong, not missing, "
               "and only you know where it belongs:" % len(manual))

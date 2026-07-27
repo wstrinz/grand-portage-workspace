@@ -759,6 +759,127 @@ def test_evidence_is_optional_because_it_licenses_nothing():
     that is WRONG."""
     g = _claim()
     assert g.claims["CL"].get("ladder") is None
+    # Both axes blank together stays legal.  It is HALF a grade that does not.
+    _claim(established_by=K.RAN)
+
+
+@pytest.mark.parametrize("ladder", K.LADDER_ASSERTS_A_RUN)
+def test_a_grade_that_asserts_a_run_must_name_the_run(ladder):
+    """FIFTH INSTANCE OF THE PATTERN, WITH A MUTATION.
+
+    The first four -- certificates, identity_origin, kind, ladder -- were
+    fields whose VALUE was taken on the author's word.  This is a field whose
+    ABSENCE switched off the check on a neighbouring field's value.  Every key
+    in IMPOSSIBLE_EVIDENCE matches on `established_by`, so omitting it means
+    the pair evaluated is `(None, "exact-checked")`, which is in no table and
+    contradicts nothing.  Optionality is not neutral when another rule keys on
+    it.
+
+    FOUND IN THE LSEM CENSUS, where all fourteen claims graded themselves
+    exact-checked with no established_by -- so the cross-check, described in
+    the kernel as "the first thing about evidence grading this tool has ever
+    been able to verify", never evaluated once in a full live campaign.  That
+    same session's central structural result rested on an unrecorded script,
+    and its own report had to catch that by hand.
+
+    `open` and `claimed` assert no event and stay free; only a grade that says
+    a run happened has to say which.
+    """
+    with pytest.raises(K.EvidenceError) as exc:
+        _claim(ladder=ladder)
+    msg = str(exc.value)
+    assert "established_by" in msg
+    # The refusal must say which values could still stand against THIS grade.
+    # Naming all four every time would be wrong: at `exact-checked` only RAN
+    # survives, at `certified` three do.
+    survives = [b for b in K.ESTABLISHED_BY
+                if (b, ladder) not in K.IMPOSSIBLE_EVIDENCE]
+    assert "{%s}" % ", ".join(survives) in msg
+
+
+def test_the_half_grade_rule_does_not_fire_on_a_grade_that_claims_no_run():
+    """The positive control, and the reason the rule is narrow.
+
+    A rule that demanded provenance for every grade would push people back to
+    leaving the field blank, which is the state it was invented to fix.
+    `claimed` means the author says so, and that IS its own provenance.
+    """
+    for ladder in ("open", "claimed"):
+        g = _claim(ladder=ladder)
+        assert g.claims["CL"]["ladder"] == ladder
+        assert g.claims["CL"].get("established_by") is None
+
+
+def test_migrate_downgrades_a_half_grade_rather_than_inventing_a_provenance(tmp_path):
+    """There is NO ignorance value for `established_by`.
+
+    Every other migration fills an absent field with the value meaning "nobody
+    vouched" -- UNKNOWN for an identity's origin, ASSERTED for a witness.  Here
+    that value does not exist: NOT_REACHED would be a lie about the author, and
+    it is refused against these grades anyway.  So the ignorance goes on the
+    OTHER axis, and `claimed` is exactly it: the author says so, and nothing
+    recorded says a run happened.
+
+    The downgrade can be wrong, and the direction is the point.  A claim that
+    really was checked gets under-graded, costing its conclusions nothing.  The
+    reverse -- an unsupported `exact-checked` left standing -- is the failure
+    this project exists to avoid.
+    """
+    from grandportage import cli
+    p = _stale(tmp_path, [
+        {"ev": "model", "id": "M", "desc": "m"},
+        {"ev": "claim", "id": "CL", "model": "M", "kind": "PREDICATE",
+         "statement": "P", "ladder": "exact-checked", "caveat": "pre-existing"}])
+    with pytest.raises(K.EvidenceError):
+        S.load(p)
+    assert cli.main(["--root", str(tmp_path), "migrate"]) == 0
+    c = S.load(p).claims["CL"]
+    assert c["ladder"] == "claimed"
+    assert c.get("established_by") is None, (
+        "migrate must not invent a provenance -- there is no honest value")
+    # The caveat says where the strength went, and does not eat what was there.
+    assert "pre-existing" in c["caveat"] and "exact-checked" in c["caveat"]
+
+
+def test_migrate_leaves_every_line_it_did_not_change_byte_identical(tmp_path):
+    """WRITTEN AFTER MIGRATE DESTROYED TWO SHIPPED FIXTURES.
+
+    The first version rebuilt the file from parsed events, so every `#` comment
+    and every blank line vanished -- `load_events` discards them, and anything
+    a parser discards a round-trip destroys.  An append-only log is a FILE
+    FORMAT with human content in it, not the serialized form of a data
+    structure.
+
+    Four migrate regressions were written the session before this one and none
+    caught it, because all four asserted what migrate WRITES and none asserted
+    what it PRESERVES.
+    """
+    from grandportage import cli
+    p = S.graph_path(str(tmp_path))
+    os.makedirs(os.path.dirname(p), exist_ok=True)
+    raw = [
+        "# a header comment someone wrote by hand\n",
+        json.dumps({"ev": "model", "id": "M", "desc": "m"}) + "\n",
+        "\n",
+        "#   grouping comment, with trailing spaces   \n",
+        json.dumps({"ev": "claim", "id": "CL", "model": "M",
+                    "kind": "PREDICATE", "statement": "P",
+                    "ladder": "exact-checked"}) + "\n",
+        "\n",
+        json.dumps({"ev": "note", "text": "unaffected"}) + "\n",
+    ]
+    with open(p, "w", encoding="utf-8") as fh:
+        fh.writelines(raw)
+
+    assert cli.main(["--root", str(tmp_path), "migrate"]) == 0
+    after = open(p, encoding="utf-8").readlines()
+
+    assert len(after) == len(raw), "migrate changed the line count"
+    for i, (was, now) in enumerate(zip(raw, after)):
+        if i == 4:
+            assert was != now, "the claim line was supposed to change"
+        else:
+            assert was == now, "migrate rewrote line %d, which it never touched" % (i + 1)
 
 
 # ===========================================================================
