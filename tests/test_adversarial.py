@@ -547,6 +547,107 @@ def test_store_severities_match_the_checker():
 
 
 # ===========================================================================
+# TYPED DISCHARGE AND SUPERSESSION.  The CEGAR step.
+# ===========================================================================
+def _obligation(tmp_path, admits=None):
+    """A campaign carrying a refusal, optionally pinned to one discharge."""
+    path = S.graph_path(str(tmp_path))
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    evs = [
+        {"ev": "model", "id": "CHART", "desc": "the chart"},
+        {"ev": "model", "id": "LEDGER", "desc": "the chart plus a cap"},
+        {"ev": "edge", "id": "E-OLD", "src": "CHART", "dst": "LEDGER",
+         "type": "UNTYPED", "why": "relation unknown",
+         "debt_why": "the cap slope is not derived"},
+        {"ev": "claim", "id": "CL", "model": "LEDGER", "kind": "PREDICATE",
+         "statement": "the cap",
+         "cite": "NOT DERIVED. Recorded so using it is a type error."},
+        {"ev": "inference", "id": "INF", "claim": "CL",
+         "path": [["E-OLD", "AGAINST"]], "asserted": "the chart obeys the cap"},
+    ]
+    with open(path, "w", encoding="utf-8") as fh:
+        fh.write("\n".join(json.dumps(e) for e in evs) + "\n")
+    f = [x for x in C.run(S.load(path)) if x.rule == C.R_TRANSPORT][0]
+    H.save_baseline(str(tmp_path), [f],
+                    note="DISCHARGE BY DERIVING the cap, not by naming a "
+                         "relaxation")
+    if admits:
+        doc = H.read_baseline(str(tmp_path))
+        doc["accepted"][f.fid]["admits"] = list(admits)
+        with open(H.baseline_path(str(tmp_path)), "w", encoding="utf-8") as fh:
+            json.dump({"accepted": doc["accepted"], "note": doc.get("note", "")},
+                      fh, indent=2)
+    return path
+
+
+def _supersede(path, kind):
+    with open(path, "a", encoding="utf-8") as fh:
+        fh.write(json.dumps({
+            "ev": "edge", "id": "E-NEW", "src": "CHART", "dst": "LEDGER",
+            "type": "NECESSARY_CONDITION", "why": "typed successor",
+            "supersedes": "E-OLD", "discharge_kind": kind}) + "\n")
+
+
+def test_a_supersession_cannot_route_around_the_discharge_it_inherits(tmp_path):
+    """THE CEGAR STEP, and the exact move a blind run made.
+
+    The discharge recorded against the live obligation read, verbatim:
+    "DISCHARGE BY DERIVING Delta'_4, not by naming a relaxation." That is
+    exactly right and enforced nothing, because it was prose in a baseline
+    file -- so the run discharged it by naming a relaxation, declaring a
+    parallel edge with a permissive type, and every check stayed green.
+
+    A refusal should name the refinement that legitimately resolves it, and
+    only that refinement should count.
+    """
+    path = _obligation(tmp_path, admits=["DERIVE"])
+    _supersede(path, "RETYPE")
+    accepted = H.read_baseline(str(tmp_path))["accepted"]
+    sup = [f for f in C.run(S.load(path), accepted)
+           if f.rule == C.R_SUPERSEDE]
+    assert len(sup) == 1
+    assert sup[0].severity == C.UNSOUND_PREMISE
+    assert "admits only DERIVE" in sup[0].detail
+    assert "not by naming a relaxation" in sup[0].detail, (
+        "the original reason must be shown, so the reader can judge whether "
+        "the supersession answers it")
+
+
+def test_the_admitted_discharge_passes(tmp_path):
+    """The positive control: supplying what the obligation asked for clears
+    it. A gate that refuses every exit is not a gate."""
+    path = _obligation(tmp_path, admits=["DERIVE"])
+    _supersede(path, "DERIVE")
+    accepted = H.read_baseline(str(tmp_path))["accepted"]
+    assert not [f for f in C.run(S.load(path), accepted)
+                if f.rule == C.R_SUPERSEDE]
+
+
+def test_an_unpinned_obligation_accepts_any_discharge(tmp_path):
+    """Pinning is opt-in. An obligation that never said how it must be closed
+    does not get to complain about how it was."""
+    path = _obligation(tmp_path)
+    _supersede(path, "RETYPE")
+    accepted = H.read_baseline(str(tmp_path))["accepted"]
+    assert not [f for f in C.run(S.load(path), accepted)
+                if f.rule == C.R_SUPERSEDE]
+
+
+def test_superseding_without_saying_how_is_a_fold_error(tmp_path):
+    """Supersession TRANSFERS obligations rather than clearing them, so it has
+    to state what it supplies."""
+    path = _obligation(tmp_path)
+    with open(path, "a", encoding="utf-8") as fh:
+        fh.write(json.dumps({
+            "ev": "edge", "id": "E-NEW", "src": "CHART", "dst": "LEDGER",
+            "type": "NECESSARY_CONDITION", "why": "successor",
+            "supersedes": "E-OLD"}) + "\n")
+    with pytest.raises(S.GraphError) as exc:
+        S.load(path)
+    assert "discharge_kind" in str(exc.value)
+
+
+# ===========================================================================
 # CASE PARTITIONS.  The gap two independent agents walked into.
 # ===========================================================================
 PARTITION = [

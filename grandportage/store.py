@@ -251,6 +251,16 @@ class Graph(object):
         _require(mk in K.MAP_KINDS,
                  "%s: edge %r has map_kind %r; known: %s"
                  % (where, ev["id"], mk, ", ".join(K.MAP_KINDS)))
+        if ev.get("supersedes"):
+            _require(ev.get("discharge_kind"),
+                     "%s: edge %r supersedes %r without saying HOW. A "
+                     "supersession must declare `discharge_kind`: DERIVE (the "
+                     "missing mathematics now exists), RETYPE (the relation "
+                     "was mis-stated) or ACCEPT. Supersession transfers the "
+                     "older edge's obligations; it does not clear them, and an "
+                     "obligation may have been recorded as dischargeable only "
+                     "one way."
+                     % (where, ev["id"], ev["supersedes"]))
         e = dict(ev)
         e["map_kind"] = mk
         e["support"] = list(ev.get("support") or [])

@@ -35,6 +35,7 @@ R_REFINEMENT = "REFINEMENT-TYPE"
 R_IDENTITY_ORIGIN = "UNKNOWN-IDENTITY-ORIGIN"
 R_PARALLEL = "PARALLEL-EDGE"
 R_PARTITION = "PARTITION"
+R_SUPERSEDE = "SUPERSESSION"
 R_VACUOUS = "VACUOUS-CONCLUSION"
 R_SELF_BUILT = "SELF-BUILT-MODEL"
 
@@ -512,6 +513,77 @@ def check_unjustified_equivalence(graph):
     return findings
 
 
+def check_supersession(graph, accepted=None):
+    """A supersession must satisfy the obligation it inherits, not route round it.
+
+    THE CEGAR STEP.  A refusal names the refinement that would legitimately
+    resolve it; this makes only that refinement count.
+
+    The pieces already existed and could not talk to each other.  The discharge
+    recorded against the live obligation read, verbatim:
+
+        "DISCHARGE BY DERIVING Delta'_4, not by naming a relaxation."
+
+    That is exactly right and enforced nothing, because it is prose in a
+    baseline file.  A blind run then discharged it by naming a relaxation --
+    declaring a parallel edge with a permissive type -- and every check stayed
+    green.
+
+    A baseline entry may now pin `admits: ["DERIVE"]`.  A superseding edge
+    declares `discharge_kind`.  If the kind is not admitted, the supersession
+    is refused and the original obligation stays live, which is the whole
+    point: the only exit is the one the obligation asked for.
+    """
+    accepted = accepted or {}
+    findings = []
+    for eid in sorted(graph.edges):
+        e = graph.edges[eid]
+        old = e.get("supersedes")
+        if not old:
+            continue
+        if old not in graph.edges:
+            findings.append(Finding(
+                R_SUPERSEDE, "%s:%s" % (R_SUPERSEDE, eid), UNSOUND_PREMISE,
+                eid,
+                "edge %s supersedes %r, which is not an edge in this graph."
+                % (eid, old),
+                "Name the edge actually being replaced, or drop the field."))
+            continue
+        kind = e.get("discharge_kind")
+        # Which obligations did the superseded edge carry?
+        inherited = sorted(
+            fid for fid in accepted
+            if fid.endswith(":" + old)
+            or any(s[0] == old
+                   for iid in graph.inference_order
+                   for s in graph.inferences[iid]["path"]
+                   if fid == "%s:%s" % (R_TRANSPORT, iid)))
+        blocked = [fid for fid in inherited
+                   if (accepted[fid] or {}).get("admits")
+                   and kind not in (accepted[fid] or {}).get("admits", [])]
+        if blocked:
+            findings.append(Finding(
+                R_SUPERSEDE, "%s:%s" % (R_SUPERSEDE, eid), UNSOUND_PREMISE,
+                eid,
+                "edge %s supersedes %s with discharge_kind=%s, but %s was "
+                "carrying an obligation that admits only %s.\n  %s\n"
+                "  The obligation is INHERITED, not cleared: replacing the "
+                "edge does not supply what the refusal was waiting for."
+                % (eid, old, kind, old,
+                   " / ".join(sorted({k for fid in blocked
+                                      for k in accepted[fid]["admits"]})),
+                   "; ".join("%s -- %s" % (fid, (accepted[fid] or {}).get("why")
+                                           or "(no reason recorded)")
+                             for fid in blocked)),
+                "Supply the discharge the obligation actually asks for. If you "
+                "believe the obligation was mis-stated -- that retyping really "
+                "is the right move -- change what it admits explicitly and say "
+                "why; that is a judgement, and it should be visible as one "
+                "rather than routed around.",
+                semantic_key="%s->%s:%s" % (eid, old, kind)))
+    return findings
+
+
 def check_partitions(graph):
     """Branch edges must run BRANCH -> PARENT, and a covered parent is derivable.
 
@@ -819,8 +891,13 @@ def check_self_refuting_equivalence(graph):
     return findings
 
 
-def run(graph):
-    """All rules, in a stable order, most severe first."""
+def run(graph, accepted=None):
+    """All rules, in a stable order, most severe first.
+
+    `accepted` is the baseline, passed in only because supersession has to know
+    which obligations an edge inherited and what they will admit as a
+    discharge.  Everything else is a pure function of the graph.
+    """
     transport_findings = check_transport(graph)
     findings = (transport_findings
                 + check_taint(graph, transport_findings)
@@ -831,6 +908,7 @@ def run(graph):
                 + check_self_refuting_equivalence(graph)
                 + check_unknown_identity_origin(graph)
                 + check_partitions(graph)
+                + check_supersession(graph, accepted)
                 + check_parallel_edges(graph)
                 + check_vacuous_conclusions(graph)
                 + check_self_built(graph))
