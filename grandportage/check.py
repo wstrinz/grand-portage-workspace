@@ -1555,9 +1555,26 @@ def check_crosscuts(graph):
                 "claim %s asserts %d, and %s intersected with %s is %d: %s."
                 % (cid, asserted, a_id, b_id, len(overlap),
                    ", ".join(overlap) or "no members")
-                + "\n  %d member(s) of %s are already in %s, so they are "
-                  "counted by this result and bought by it too."
-                  % (a["settles"] - len(overlap), a_id, b_id),
+                # SAY BOTH NUMBERS, and say which is which.
+                #
+                # This printed `a.settles - len(overlap)` and called it "already
+                # in B" -- the count of members OUTSIDE B, described as being
+                # inside it. On the docstring's own worked example it announced
+                # 6 members "already in" when 6 is exactly the count that is
+                # NOT, and a live campaign caught it printing 2 where the
+                # answer was 1.
+                #
+                # The number was right and the sentence inverted its meaning,
+                # in the one message whose entire purpose is to correct a
+                # double-count. A finding that miscounts while explaining a
+                # miscount teaches the reader to distrust the rule, which is
+                # worse than silence.
+                + "\n  %d of %s's %d member(s) lie in %s (%s); the other %d do "
+                  "not. A count over one decomposition is not a count in "
+                  "another."
+                  % (len(overlap), a_id, a["settles"], b_id,
+                     ", ".join(overlap) or "none",
+                     a["settles"] - len(overlap)),
                 "State the intersection, %d, or say plainly which of the two "
                 "numbers the result is about. A count over one decomposition "
                 "is not a count in another." % len(overlap),
