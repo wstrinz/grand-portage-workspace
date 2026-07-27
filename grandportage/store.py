@@ -32,10 +32,11 @@ EV_EDGE = "edge"
 EV_CLAIM = "claim"
 EV_INFERENCE = "inference"
 EV_BUILT_BY = "built_by"
+EV_PARTITION = "partition"
 EV_NOTE = "note"          # free-form, carried but never interpreted
 
 EVENT_KINDS = (EV_CERTIFICATE, EV_MODEL, EV_EDGE, EV_CLAIM, EV_INFERENCE,
-               EV_BUILT_BY, EV_NOTE)
+               EV_BUILT_BY, EV_PARTITION, EV_NOTE)
 
 # Severities an inference may override to.  Named here rather than imported so
 # the store stays the bottom layer with no dependency on the checker;
@@ -76,6 +77,7 @@ class Graph(object):
         self.inferences = {}       # id -> inference dict
         self.inference_order = []  # declaration order, for stable reporting
         self.built_by = {}         # model id -> [inference id, ...]
+        self.partitions = {}       # id -> {parent, branches, exhaustive}
         self.notes = []
         self._seen = {}            # (kind, id) -> canonical event
 
@@ -158,6 +160,61 @@ class Graph(object):
                  "refuse." % (where, ev["id"]))
         self.certificates[ev["id"]] = ev["base_changes"]
         self.cert_source[ev["id"]] = where
+
+    def _apply_partition(self, ev, where):
+        """A parent model split into branches, with its exhaustiveness stated.
+
+        THE GAP TWO INDEPENDENT AGENTS WALKED INTO.  A model in this kernel IS
+        its solution set, and an edge asserts V(src) subset V(dst).  A CASE
+        BRANCH is neither: "the gamma=4 case of this object" is not a
+        relaxation of the object, it is a PIECE of it, and the type system had
+        no word for that.
+
+        So branches got typed as total containments, and the graph asserted
+        V(REDUCED) subset V(G2) AND subset V(G3) AND subset V(G4) for three
+        mutually exclusive targets -- consistent only if V(REDUCED) is empty,
+        which was the thing under proof.  A degree count covering ONE branch
+        then licensed emptiness of the WHOLE parent, and the agent's own prose
+        said "branch" while the graph said "everything".
+
+        A partition declares:
+
+            parent      the model being split
+            branches    the pieces; each must be a declared model
+            exhaustive  the id of a CLAIM asserting the branches cover the
+                        parent
+
+        `exhaustive` must name a claim IN THE GRAPH.  The checker cannot verify
+        that gamma in {2,3,4} really matches three branches -- that is
+        mathematics.  What it can do is refuse to let the completeness premise
+        live in a note, which is exactly where it went last time: carried,
+        never typed, and invisible to every rule while the conclusion resting
+        on it was reported clean.
+
+        Orientation follows from what a branch IS: branch = parent AND
+        condition, so V(branch) subset V(parent) and the edge runs
+        BRANCH -> PARENT.  `check_partition` flags the reverse, which is the
+        direction the mistake actually took.
+        """
+        _require(ev.get("parent"),
+                 "%s: partition %r needs `parent`" % (where, ev["id"]))
+        branches = ev.get("branches") or []
+        _require(isinstance(branches, list) and len(branches) >= 2,
+                 "%s: partition %r needs at least two `branches`; a split into "
+                 "one piece is just the parent" % (where, ev["id"]))
+        _require(ev.get("exhaustive"),
+                 "%s: partition %r needs `exhaustive`: the id of a claim "
+                 "asserting these branches COVER the parent.  Without it the "
+                 "split proves nothing jointly -- emptiness on every branch "
+                 "would say nothing about the parent -- and a completeness "
+                 "premise recorded as prose is one no rule can see."
+                 % (where, ev["id"]))
+        _require(ev.get("why"),
+                 "%s: partition %r must declare `why` -- what distinguishes "
+                 "the branches?" % (where, ev["id"]))
+        p = dict(ev)
+        p["branches"] = list(branches)
+        self.partitions[ev["id"]] = p
 
     def _apply_model(self, ev, where):
         declares = ev.get("declares") or {}
@@ -377,6 +434,23 @@ class Graph(object):
                 _require(e[end] in self.models,
                          "edge %r has undeclared %s model %r"
                          % (eid, end, e[end]))
+        for pid, p in sorted(self.partitions.items()):
+            _require(p["parent"] in self.models,
+                     "partition %r names undeclared parent model %r"
+                     % (pid, p["parent"]))
+            for b in p["branches"]:
+                _require(b in self.models,
+                         "partition %r names undeclared branch model %r"
+                         % (pid, b))
+                _require(b != p["parent"],
+                         "partition %r lists its own parent %r as a branch"
+                         % (pid, b))
+            _require(p["exhaustive"] in self.claims,
+                     "partition %r cites %r as its exhaustiveness claim, but "
+                     "no such CLAIM is declared.  It must be a claim in the "
+                     "graph, not a note and not prose: the whole point is that "
+                     "the premise making the split valid can be seen by a rule."
+                     % (pid, p["exhaustive"]))
         for mid, builders in sorted(self.built_by.items()):
             _require(mid in self.models,
                      "built_by names undeclared model %r" % mid)
@@ -405,7 +479,21 @@ class Graph(object):
                              % (iid, n, at, eid, direction, frm))
                     at = to
                 lands.append(at)
-            # EVERY PREMISE MUST ARRIVE AT THE SAME PLACE.  Premises that land
+            # A PARTITION-LICENSED INFERENCE is the one case where premises
+            # legitimately live apart: the branch claims sit in their own
+            # branches by construction, and it is the partition -- not any
+            # edge -- that carries them jointly to the parent.
+            if i.get("via_partition"):
+                pid = i["via_partition"]
+                _require(pid in self.partitions,
+                         "inference %r cites undeclared partition %r"
+                         % (iid, pid))
+                i["concludes_at"] = self.partitions[pid]["parent"]
+                i["concludes_kind"] = (
+                    i.get("concludes_kind")
+                    or self.claims[i["premises"][0]["claim"]]["kind"])
+                continue
+            # EVERY OTHER PREMISE MUST ARRIVE AT THE SAME PLACE.  Premises that land
             # in different models are not a joint argument -- they are two
             # separate statements with a conjunction written between them,
             # which is exactly the shape of the join `GI-BRIDGE` exists to

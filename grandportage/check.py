@@ -34,6 +34,7 @@ R_UNTYPED = "UNTYPED-EDGE"
 R_REFINEMENT = "REFINEMENT-TYPE"
 R_IDENTITY_ORIGIN = "UNKNOWN-IDENTITY-ORIGIN"
 R_PARALLEL = "PARALLEL-EDGE"
+R_PARTITION = "PARTITION"
 R_VACUOUS = "VACUOUS-CONCLUSION"
 R_SELF_BUILT = "SELF-BUILT-MODEL"
 
@@ -121,6 +122,26 @@ def audit_inference(graph, iid):
     """
     inf = graph.inferences[iid]
     trace, ok = [], True
+    # A CASE SPLIT IS NOT TRANSPORT.  No single edge licenses it -- each leg
+    # taken alone is correctly refused, since one branch dying says nothing
+    # about the parent.  It is the declared partition that carries the claim.
+    if inf.get("via_partition"):
+        p = graph.partitions[inf["via_partition"]]
+        kind = inf["concludes_kind"]
+        carried = {graph.claims[pr["claim"]]["model"] for pr in inf["premises"]
+                   if graph.claims[pr["claim"]]["kind"] == kind}
+        covered = all(b in carried for b in p["branches"])
+        cites_exhaustive = any(pr["claim"] == p["exhaustive"]
+                               for pr in inf["premises"])
+        r = K.transport_over_partition(kind, covered, cites_exhaustive)
+        missing = [b for b in p["branches"] if b not in carried]
+        detail = r.reason
+        if missing:
+            detail += " (no %s premise from: %s)" % (kind, ", ".join(missing))
+        if not cites_exhaustive:
+            detail += (" (the exhaustiveness claim %s is not among the "
+                       "premises)" % p["exhaustive"])
+        return r.licensed, [(inf["via_partition"], "COVERS", r.licensed, detail)]
     # EVERY premise, not just the first.  An argument is only as licensed as
     # its weakest leg, and before the multi-premise form existed the extra legs
     # were not in the graph to be audited at all.
@@ -491,6 +512,82 @@ def check_unjustified_equivalence(graph):
     return findings
 
 
+def check_partitions(graph):
+    """Branch edges must run BRANCH -> PARENT, and a covered parent is derivable.
+
+    A branch is `parent AND condition`, so V(branch) subset V(parent) and the
+    branch is the TIGHTER model.  Drawn the other way, the graph asserts the
+    parent is contained in each branch -- and since branches are mutually
+    exclusive, that is consistent only if the parent is EMPTY, which is
+    invariably the thing under investigation.
+
+    The live consequence, twice: an EMPTY claim established on ONE branch rode
+    `NECESSARY_CONDITION/AGAINST/EMPTY` and landed on the WHOLE parent, while
+    the inference's own prose said "branch".  A result about one of three cases
+    was recorded as a result about all of them, and nothing flagged it.
+
+    This rule also reports the GOOD case: when every branch of a partition
+    carries an EMPTY claim, emptiness of the parent is genuinely derivable --
+    that is what a partition is FOR -- and saying so turns a piece of
+    mathematics that previously lived in a note into a prompt to record it as
+    an inference the checker can see.
+    """
+    findings = []
+    for pid in sorted(graph.partitions):
+        p = graph.partitions[pid]
+        parent, branches = p["parent"], p["branches"]
+        for eid in sorted(graph.edges):
+            e = graph.edges[eid]
+            if e["src"] != parent or e["dst"] not in branches:
+                continue
+            findings.append(Finding(
+                R_PARTITION, "%s:%s:%s" % (R_PARTITION, pid, eid),
+                UNSOUND_PREMISE, eid,
+                "edge %s runs %s -> %s, from a partition PARENT to one of its "
+                "BRANCHES, and is typed %s.\n"
+                "  A branch is `parent AND condition`, so V(%s) is a SUBSET of "
+                "V(%s) and the edge belongs the other way round. As drawn, the "
+                "graph asserts the parent is contained in the branch -- and "
+                "since the branches of %s are alternatives, that holds only if "
+                "%s is empty, which is what a case split is normally trying to "
+                "decide.\n"
+                "  Consequence: a claim established on this one branch travels "
+                "to the whole parent as though it covered every case."
+                % (eid, parent, e["dst"], e["type"], e["dst"], parent, pid,
+                   parent),
+                "Reverse it: %s -> %s. Then a result on the branch reaches the "
+                "parent only ALONG the arrow, where the cells that would "
+                "wrongly generalise it are refused, and covering every case "
+                "becomes a joint argument over all %d branches rather than a "
+                "single hop." % (e["dst"], parent, len(branches))))
+        # The payoff case, reported so it gets recorded rather than assumed.
+        empty_at = {b: sorted(cid for cid, c in graph.claims.items()
+                              if c["model"] == b and c["kind"] == K.EMPTY)
+                    for b in branches}
+        if all(empty_at[b] for b in branches):
+            already = any(graph.inferences[i]["concludes_at"] == parent
+                          and graph.inferences[i]["concludes_kind"] == K.EMPTY
+                          for i in graph.inference_order)
+            if not already:
+                findings.append(Finding(
+                    R_PARTITION, "%s:%s:covered" % (R_PARTITION, pid), DEBT,
+                    pid,
+                    "every branch of partition %s carries an EMPTY claim (%s), "
+                    "and %s is asserted to cover %s -- so emptiness of %s "
+                    "follows, and the graph does not record it.\n"
+                    "  This is what the partition is for. Left unrecorded, the "
+                    "step lives in whoever's head assembled it."
+                    % (pid, "; ".join("%s: %s" % (b, ", ".join(empty_at[b]))
+                                      for b in branches),
+                       p["exhaustive"], parent, parent),
+                    "Record it as one inference with %d premises -- the EMPTY "
+                    "claim from each branch, plus %s -- all transported to %s. "
+                    "That puts the completeness premise where a rule can see "
+                    "it instead of in the prose around it."
+                    % (len(branches), p["exhaustive"], parent)))
+    return findings
+
+
 def check_parallel_edges(graph):
     """Two edges joining the same pair of models in the same direction.
 
@@ -733,6 +830,7 @@ def run(graph):
                 + check_unjustified_equivalence(graph)
                 + check_self_refuting_equivalence(graph)
                 + check_unknown_identity_origin(graph)
+                + check_partitions(graph)
                 + check_parallel_edges(graph)
                 + check_vacuous_conclusions(graph)
                 + check_self_built(graph))

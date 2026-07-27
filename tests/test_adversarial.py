@@ -547,6 +547,106 @@ def test_store_severities_match_the_checker():
 
 
 # ===========================================================================
+# CASE PARTITIONS.  The gap two independent agents walked into.
+# ===========================================================================
+PARTITION = [
+    {"ev": "model", "id": "PARENT", "desc": "the object under investigation"},
+    {"ev": "model", "id": "B2", "desc": "the gamma=2 case"},
+    {"ev": "model", "id": "B3", "desc": "the gamma=3 case"},
+    {"ev": "claim", "id": "C-COVER", "model": "PARENT", "kind": "PREDICATE",
+     "statement": "gamma is in {2,3}"},
+    {"ev": "partition", "id": "P", "parent": "PARENT", "branches": ["B2", "B3"],
+     "exhaustive": "C-COVER", "why": "gamma takes exactly one of two values"},
+    {"ev": "claim", "id": "CE2", "model": "B2", "kind": "EMPTY",
+     "statement": "case 2 is dead", "certificate": "UNIT_IDEAL_CERT"},
+    {"ev": "claim", "id": "CE3", "model": "B3", "kind": "EMPTY",
+     "statement": "case 3 is dead", "certificate": "UNIT_IDEAL_CERT"},
+]
+
+
+def _split(premises, kind="EMPTY"):
+    return _graph(PARTITION + [
+        {"ev": "inference", "id": "J", "via_partition": "P",
+         "premises": [{"claim": c} for c in premises],
+         "concludes_kind": kind, "asserted": "so the parent is empty"}])
+
+
+def test_a_case_split_is_licensed_by_the_partition_not_by_an_edge():
+    """No single edge licenses a case split, and the kernel is RIGHT to refuse
+    each leg: branch -> parent is a NECESSARY_CONDITION with the branch
+    tighter, and EMPTY does not travel ALONG, because one branch dying says
+    nothing about the parent.
+
+    Only all branches together, plus exhaustiveness, say anything -- so this is
+    a second inference rule beside the transport table, and it is kept separate
+    so a reader can see which of the two justified a step.
+    """
+    g = _split(["CE2", "CE3", "C-COVER"])
+    ok, trace = C.audit_inference(g, "J")
+    assert ok
+    assert g.inferences["J"]["concludes_at"] == "PARENT"
+    assert trace[0][1] == "COVERS", "the step is over the partition, not an edge"
+
+
+def test_a_case_split_with_a_branch_left_open_is_refused_by_name():
+    """The refusal has to say WHICH case is open, or it is just a no."""
+    ok, trace = C.audit_inference(_split(["CE2", "C-COVER"]), "J")
+    assert not ok
+    assert "B3" in trace[0][3]
+
+
+def test_a_case_split_without_exhaustiveness_is_refused():
+    """A split into cases nobody proved were ALL the cases proves nothing --
+    and that premise is exactly what a live run left in a prose note."""
+    ok, trace = C.audit_inference(_split(["CE2", "CE3"]), "J")
+    assert not ok
+    assert "COVER" in trace[0][3]
+
+
+def test_a_partition_must_name_a_real_claim_as_its_exhaustiveness():
+    """The whole point is that the completeness premise can be seen by a rule.
+    A note would not be."""
+    with pytest.raises(S.GraphError) as exc:
+        _graph([e for e in PARTITION if e.get("id") != "C-COVER"])
+    assert "not a note" in str(exc.value)
+
+
+def test_a_branch_edge_drawn_from_parent_to_branch_is_flagged():
+    """A branch is `parent AND condition`, so V(branch) is a SUBSET of
+    V(parent) and the edge runs BRANCH -> PARENT.
+
+    Drawn the other way the graph asserts the parent sits inside each branch --
+    and since branches are alternatives, that holds only if the parent is
+    empty, which is what the split is trying to decide. Both live agents drew
+    it backwards, and a result about one of three cases was recorded as a
+    result about all of them.
+    """
+    g = _graph(PARTITION + [
+        {"ev": "edge", "id": "E-BAD", "src": "PARENT", "dst": "B3",
+         "type": "NECESSARY_CONDITION", "why": "the gamma=3 chart"}])
+    bad = [f for f in C.run(g) if f.rule == C.R_PARTITION
+           and f.subject == "E-BAD"]
+    assert len(bad) == 1 and bad[0].severity == C.UNSOUND_PREMISE
+
+    good = _graph(PARTITION + [
+        {"ev": "edge", "id": "E-OK", "src": "B3", "dst": "PARENT",
+         "type": "NECESSARY_CONDITION", "why": "the gamma=3 case of the parent"}])
+    assert not [f for f in C.run(good) if f.rule == C.R_PARTITION
+                and f.subject == "E-OK"]
+
+
+def test_a_fully_covered_partition_prompts_for_the_conclusion():
+    """When every branch is dead the parent's emptiness FOLLOWS, and leaving it
+    unrecorded means the step lives in whoever's head assembled it."""
+    prompts = [f for f in C.run(_graph(PARTITION)) if f.rule == C.R_PARTITION]
+    assert len(prompts) == 1 and prompts[0].severity == C.DEBT
+    assert "premises" in prompts[0].discharge
+    # ...and stops once the inference exists.
+    assert not [f for f in C.run(_split(["CE2", "CE3", "C-COVER"]))
+                if f.rule == C.R_PARTITION]
+
+
+# ===========================================================================
 # MULTI-PREMISE INFERENCES.  The graph used to record chains but not joins.
 # ===========================================================================
 THREE_MODELS = TWO_MODELS + [{"ev": "model", "id": "SIDE", "desc": "elsewhere"}]
