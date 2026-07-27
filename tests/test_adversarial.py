@@ -1618,9 +1618,9 @@ def test_the_generic_versus_global_cell_refuses_and_says_why():
     """THE CELL THE CENSUS EXISTS TO PROTECT.
 
     A predicate holding at every point of a positivity cone is silent about
-    the ambient model, and stating it there anyway -- taking an identifiability
-    theorem proved off an exceptional locus and using it on data that may sit
-    in the bad locus -- is the recurring error in the applied literature.
+    the ambient model, and stating it there anyway -- taking a theorem proved
+    off an exceptional locus and using it on data that may sit in the bad
+    locus -- is a recurring error in the applied literature.
 
     The discharge must NOT offer a certificate, because there isn't one.  A
     refusal that implies a fix exists sends someone looking for it.
