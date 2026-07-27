@@ -252,7 +252,7 @@ def contradicting_claims(graph, model_id, kind, exclude=()):
     if opposite is None:
         return []
     return sorted(cid for cid, c in graph.claims.items()
-                  if c["model"] == model_id and c["kind"] == opposite
+                  if c.get("model") == model_id and c["kind"] == opposite
                   and cid not in exclude)
 
 
@@ -436,7 +436,7 @@ def check_taint(graph, transport_findings):
     for mid in sorted(tainted):
         direct, inherited = tainted[mid]
         downstream = sorted(cid for cid, c in graph.claims.items()
-                            if c["model"] == mid)
+                            if c.get("model") == mid)
         if direct:
             how = ("was BUILT BY a refused inference (%s)"
                    % ", ".join(direct))
@@ -850,7 +850,7 @@ def check_partitions(graph):
                 "single hop." % (e["dst"], parent, len(branches))))
         # The payoff case, reported so it gets recorded rather than assumed.
         empty_at = {b: sorted(cid for cid, c in graph.claims.items()
-                              if c["model"] == b and c["kind"] == K.EMPTY)
+                              if c.get("model") == b and c["kind"] == K.EMPTY)
                     for b in branches}
         if all(empty_at[b] for b in branches):
             already = any(graph.inferences[i]["concludes_at"] == parent
@@ -988,7 +988,7 @@ def check_vacuous_conclusions(graph):
         if inf["concludes_kind"] not in (K.PREDICATE, K.IDENTITY):
             continue
         empties = [cid for cid, c in sorted(graph.claims.items())
-                   if c["model"] == inf["concludes_at"] and c["kind"] == K.EMPTY]
+                   if c.get("model") == inf["concludes_at"] and c["kind"] == K.EMPTY]
         if not empties:
             continue
         findings.append(Finding(
@@ -1087,7 +1087,7 @@ def check_aliases(graph):
         kinds = {}
         for m in models:
             for cid, c in sorted(graph.claims.items()):
-                if c["model"] == m and c["kind"] in EXISTENCE_OPPOSITE:
+                if c.get("model") == m and c["kind"] in EXISTENCE_OPPOSITE:
                     kinds.setdefault(c["kind"], []).append((cid, m))
         if len(kinds) > 1:
             findings.append(Finding(
@@ -1127,7 +1127,7 @@ def check_unexhibited_witness(graph):
             "NONEMPTY claim %s at model %s is ASSERTED, not exhibited.\n"
             "  %s\n"
             "  Nothing here distinguishes holding the point from claiming to."
-            % (cid, c["model"], c["statement"]),
+            % (cid, c.get("model") or c.get("family"), c["statement"]),
             "If you have the point, put it in `witness` and declare "
             "witness_kind EXHIBITED -- `cas_check_witness` will substitute it "
             "into the model's generators and confirm it is a solution, which "

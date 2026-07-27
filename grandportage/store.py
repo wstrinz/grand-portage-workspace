@@ -536,7 +536,17 @@ class Graph(object):
                  "A family is an INDEX, not a variety: its members are objects, "
                  "a model's members are points, and a claim quantifies over one "
                  "or the other." % (where, ev["id"]))
-        kinds = K.CLAIM_KINDS + ((K.COUNT,) if at_family else ())
+        # AN IDENTITY IS ABOUT A COORDINATE RING AND AN INDEX HAS NONE.
+        #
+        # The other three kinds carry over to a family unchanged, because they
+        # are quantifiers and a family quantifies over members exactly as a
+        # model quantifies over points.  IDENTITY does not: it is a rewriting
+        # valid in a specific ring, and "the 1567 isomorphism classes" is not a
+        # ring.  Admitting it would mean either a silent reinterpretation as
+        # "in every member's ring" -- which is a PREDICATE and should be
+        # written as one -- or a claim about an object that does not exist.
+        kinds = ((K.EMPTY, K.NONEMPTY, K.PREDICATE, K.COUNT) if at_family
+                 else K.CLAIM_KINDS)
         _require(ev.get("kind") in kinds,
                  "%s: claim %r has kind %r; %s: %s"
                  % (where, ev["id"], ev.get("kind"),
