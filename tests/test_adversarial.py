@@ -1876,3 +1876,54 @@ def test_gp_accept_can_reach_a_supersession_finding(tmp_path):
                      "-m", "reviewed: retyping really is right here"]) == 0, (
         "gp accept must be able to reach the finding gp check prints")
     assert fids[0] in H.read_baseline(root)["accepted"]
+
+
+@pytest.mark.parametrize("slot_first", [False, True])
+def test_an_open_premise_slot_survives_the_whole_checker_not_just_the_audit(slot_first):
+    """`gp check` CRASHED on the construct built for T5's headline finding.
+
+    `audit_inference` emits the sentinel `(missing)` in the edge position for
+    an open slot -- nothing was traversed. `_first_refusal` looked that up in
+    `graph.edges` and raised KeyError, so any graph declaring a slot took down
+    the checker, the hook and the MCP server. A crashing checker is
+    indistinguishable from a checker nobody ran.
+
+    IT SURVIVED THE TEST WRITTEN FOR IT. The existing open-slot regression
+    calls `audit_inference` directly and never `run`, so the construct was
+    correct in every respect except being reachable. That is the same shape as
+    the defects a live campaign found in `gp accept` and `portage_show`: the
+    unit was right and the path through it was not.
+
+    Both premise orders, because when the slot comes FIRST the fold leaves the
+    legacy `claim` field None and two further lines used it as a dict key.
+    """
+    premises = [{"claim": "HAVE", "path": [["E", K.AGAINST]]},
+                {"required_kind": K.EMPTY, "at": "LOOSE",
+                 "missing_why": "the conclusion needs every case killed and "
+                                "the graph has no such claim"}]
+    if slot_first:
+        premises = premises[::-1]
+    g = _graph(TWO_MODELS + [
+        {"ev": "edge", "id": "E", "src": "TIGHT", "dst": "LOOSE",
+         "type": K.NECESSARY_CONDITION, "why": "drops equations"},
+        {"ev": "claim", "id": "HAVE", "model": "LOOSE", "kind": K.PREDICATE,
+         "statement": "what the artifact does supply"},
+        {"ev": "inference", "id": "INF", "premises": premises,
+         "concludes_kind": K.PREDICATE,
+         "asserted": "the artifact establishes X"}])
+
+    findings = C.run(g)                       # <-- the path, not the function
+    transport = [f for f in findings if f.rule == C.R_TRANSPORT]
+    assert len(transport) == 1
+    f = transport[0]
+    assert f.severity == C.UNSOUND_PREMISE
+    # It must name what is missing, not a transport cell that was never reached.
+    assert "needs a EMPTY claim at LOOSE" in f.detail
+    assert "SUPPLY THE MISSING CLAIM" in f.discharge
+    assert "no edge to retype" in f.discharge
+    # And it must not invite the one repair that would be a lie.
+    assert "as though it held" in f.discharge
+
+    # The whole surface, not just check.run: these all crashed too.
+    C.render(findings, {}, False)
+    assert C.exit_code(findings, C.UNSOUND_PREMISE) != 0

@@ -236,10 +236,34 @@ def contradicting_claims(graph, model_id, kind, exclude=()):
                   and cid not in exclude)
 
 
+MISSING_PREMISE = "(missing)"     # the sentinel audit_inference emits for an
+                                  # open slot; it is not an edge id
+
+
 def _first_refusal(graph, trace):
+    """The first refused step, and the edge it happened on IF there is one.
+
+    THERE IS NOT ALWAYS ONE.  An OPEN PREMISE SLOT refuses with the sentinel
+    `(missing)` in the edge position, because nothing was traversed -- the
+    argument names a claim the graph does not contain.  This used `graph.edges[
+    eid]` and raised KeyError on that sentinel, so `gp check` CRASHED on any
+    graph declaring the construct.
+
+    That is worse than it sounds twice over.  Open slots were built for a live
+    campaign's central finding -- that a published artifact requires a claim
+    which does not exist anywhere -- so the construct with the strongest claim
+    to being the point of the tool was the one that could not be checked.  And
+    a crashing checker is indistinguishable from a checker nobody ran, which is
+    the failure mode `store` already has a comment about.
+
+    IT SURVIVED A TEST WRITTEN SPECIFICALLY FOR IT.  The open-slot regression
+    calls `audit_inference` directly and never `run`, so it exercised the
+    function and not the path a user takes.  The construct was correct
+    everywhere except in being reachable.
+    """
     for eid, direction, ok, reason in trace:
         if not ok:
-            return graph.edges[eid], direction, reason
+            return graph.edges.get(eid), direction, reason
     return None, None, None
 
 
@@ -261,9 +285,14 @@ def check_transport(graph):
         if ok:
             continue
         edge, direction, reason = _first_refusal(graph, trace)
+        # AN ARGUMENT WHOSE FIRST PREMISE IS AN OPEN SLOT CARRIES NO CLAIM.
+        # `claim` is the legacy singular field and the fold fills it from the
+        # first premise, so it is None exactly when that premise is a slot --
+        # and two lines below used it as a dict key.
+        carried = graph.claims.get(inf.get("claim")) if inf.get("claim") else None
         counter = contradicting_claims(graph, inf["concludes_at"],
                                        inf["concludes_kind"],
-                                       exclude=(inf["claim"],))
+                                       exclude=(inf.get("claim"),))
         # An UNTYPED EDGE is a hole, and a hole you have recorded is DEBT.
         # DRAWING A CONCLUSION ACROSS ONE is not: it asserts something no
         # declared relation supports, which is the definition of an unsound
@@ -277,7 +306,10 @@ def check_transport(graph):
             derived = UNSOUND_PREMISE
         severity = inf.get("severity_override") or derived
         detail = "%s\n  asserted: %s\n  refused : %s" % (
-            graph.claims[inf["claim"]]["statement"], inf["asserted"], reason)
+            carried["statement"] if carried else
+            "(this argument names no claim it actually has -- its leading "
+            "premise is an open slot)",
+            inf["asserted"], reason)
         if counter:
             detail += ("\n  contradicted by: %s\n    (%s)"
                        % (", ".join(counter),
@@ -293,7 +325,14 @@ def check_transport(graph):
                for eid, d in inf["path"]])
         findings.append(Finding(
             R_TRANSPORT, "%s:%s" % (R_TRANSPORT, iid), severity, iid, detail,
-            discharge_for(edge["type"], direction, inf["concludes_kind"],
+            # NO EDGE MEANS NO TRANSPORT CELL, so there is no cell-specific
+            # remedy to offer.  Nothing was traversed: the argument names a
+            # claim the graph does not have, and the only moves are to supply
+            # it or to stop asserting the conclusion.  Handing back a transport
+            # discharge here would name a requirement about an edge that was
+            # never crossed.
+            discharge_for(MISSING_PREMISE if edge is None else edge["type"],
+                          direction, inf["concludes_kind"],
                           graph=graph, edge=edge,
                           fid="%s:%s" % (R_TRANSPORT, iid),
                           traffic=True),
@@ -439,11 +478,82 @@ def check_coverage(graph):
     return findings
 
 
+def withdrawn_edges(graph):
+    """Edge ids a LIVE edge declares it has replaced.
+
+    Claims and inferences carry the answer on their face: `store._supersede`
+    stamps `superseded_by` on the record being replaced, and `check_transport`
+    reads it.  EDGES DO NOT GET THAT STAMP -- `_apply_edge` requires
+    `discharge_kind` and writes no back-pointer -- so deadness here is read off
+    the successors instead of off the record itself.  Same question, computed
+    rather than stored.
+
+    THE WORD `LIVE` IS DOING WORK, and it is the whole reason this is a walk
+    rather than a set comprehension.  Nothing in the fold refuses a supersession
+    CYCLE for edges: two edges may each name the other, and under
+    `{e["supersedes"] for e in edges}` both would come out dead and both of
+    their findings would vanish, from a graph in which nothing was replaced by
+    anything and no current edge exists at all.  That is precisely the move
+    this rule must not permit -- supersession is a way to record that a defect
+    was repaired, never a way to make a finding go away.
+
+    So the walk starts from the HEADS -- the edges nothing claims to replace,
+    which are live by construction -- and marks what they reach backwards along
+    `supersedes`.  An edge in a closed cycle is reachable from no head, so it
+    stays live and keeps its findings.  A dangling `supersedes` withdraws
+    nothing either; `check_supersession` reports that one on its own.
+    """
+    replaced = {}
+    for eid in sorted(graph.edges):
+        old = graph.edges[eid].get("supersedes")
+        if old and old in graph.edges:
+            replaced[eid] = old
+    dead, frontier = set(), [eid for eid in sorted(graph.edges)
+                             if eid not in set(replaced.values())]
+    while frontier:
+        old = replaced.get(frontier.pop())
+        if old and old not in dead:
+            dead.add(old)
+            frontier.append(old)
+    return dead
+
+
+def live_crossings(graph, eids):
+    """Inferences that still ride any of `eids` and have not been withdrawn.
+
+    A superseded inference is not traffic.  Counting it as such would let a
+    campaign that reminted an argument keep the old route looking load-bearing
+    forever, which is the same dilution in a different place.
+    """
+    eids = set(eids)
+    return sorted(iid for iid in graph.inference_order
+                  if not graph.inferences[iid].get("superseded_by")
+                  and any(s[0] in eids for s in graph.inferences[iid]["path"]))
+
+
 def check_untyped(graph):
+    dead = withdrawn_edges(graph)
     findings = []
     for eid in sorted(graph.edges):
         e = graph.edges[eid]
         if e["type"] != K.UNTYPED:
+            continue
+        # A RETYPED EDGE IS NOT DEBT, for the reason `check_transport` already
+        # gives about withdrawn inferences.  The live case, and it cost a
+        # campaign a permanent entry: `E-IV-PD` was UNTYPED and carried this
+        # debt, `E-IV-PD-RESTRICT` superseded it with a RESTRICTION, the debt
+        # was genuinely discharged BY the retyping -- and this rule went on
+        # reporting it every run, forever, so the baseline grew a line whose
+        # stated reason was "this cannot be discharged, only carried".  That
+        # sentence is false about this debt, and one false line makes every
+        # true line in a file whose entire value is deliberateness weaker.
+        #
+        # Nothing goes quiet.  The replacement is audited in its own right, so
+        # a successor that is ALSO untyped gets its own finding below -- and
+        # traffic still riding the withdrawn edge is refused by
+        # `check_transport` against the type that edge actually declares, at
+        # UNSOUND_PREMISE, which is louder than this line rather than quieter.
+        if eid in dead:
             continue
         downstream = sorted(iid for iid in graph.inference_order
                             if any(s[0] == eid
@@ -705,22 +815,50 @@ def check_parallel_edges(graph):
     the same objects.  So this reports rather than refuses, and the discharge
     asks for the one thing that distinguishes the cases: say which edge is
     authoritative and why the other is not.
+
+    A WITHDRAWN EDGE IS NOT A SECOND EDGE.  This rule used to answer its own
+    discharge with a shrug: an author who did exactly what it asked -- named
+    the successor with `supersedes`, said how -- got the severity dropped to
+    DEBT and the finding kept, so a fully declared chain of three still read
+    "3 edges join A -> B" for the life of the campaign.  But the question this
+    rule asks is WHICH ONE BINDS, and a declared supersession answers it: the
+    replaced edge binds nothing.  Counting dead edges made the count say
+    something untrue about a graph that had already been repaired, and put
+    another undischargeable line in the baseline.
+
+    Two guards, because the whole hazard of this repair is that supersession
+    must never be a way to make a finding disappear:
+
+      TRAFFIC.  An edge some live inference still rides is NOT withdrawn in
+      effect, whatever its successor says, and it stays in the count.  This is
+      where the untyped rule and this one legitimately differ: an UNTYPED edge
+      that still carries traffic is refused loudly by `check_transport`, but a
+      dead PERMISSIVE edge licenses that traffic silently, and this finding is
+      the only thing in the system that would mention it.
+
+      NO DOWNGRADE FOR A SUPERSESSION OF SOMETHING ELSE.  What remains after
+      the dead are removed is by construction a set of edges none of which
+      replaces another, so the parallelism between them was declared by nobody
+      and the old `declared` downgrade would only fire for a `supersedes`
+      pointing outside the pair -- an override bought with an unrelated
+      sentence.  The severity now turns on traffic alone.
     """
+    dead = withdrawn_edges(graph)
     findings = []
     by_ends = {}
     for eid in sorted(graph.edges):
         e = graph.edges[eid]
         by_ends.setdefault((e["src"], e["dst"]), []).append(eid)
-    for (src, dst), eids in sorted(by_ends.items()):
+    for (src, dst), at_ends in sorted(by_ends.items()):
+        eids = [eid for eid in at_ends
+                if eid not in dead or live_crossings(graph, [eid])]
         if len(eids) < 2:
             continue
         types = {eid: graph.edges[eid]["type"] for eid in eids}
         # Traffic over any of them makes this live rather than latent.
-        crossing = sorted(iid for iid in graph.inference_order
-                          if any(s[0] in eids
-                                 for s in graph.inferences[iid]["path"]))
-        declared = [eid for eid in eids if graph.edges[eid].get("supersedes")]
-        sev = DEBT if declared else (UNSOUND_PREMISE if crossing else DEBT)
+        crossing = live_crossings(graph, eids)
+        sev = UNSOUND_PREMISE if crossing else DEBT
+        withdrawn = [eid for eid in at_ends if eid not in eids]
         findings.append(Finding(
             R_PARALLEL, "%s:%s->%s" % (R_PARALLEL, src, dst), sev,
             "%s->%s" % (src, dst),
@@ -730,10 +868,12 @@ def check_parallel_edges(graph):
             "cannot be retyped (the fold refuses a conflicting redeclaration), "
             "so declaring a second one is how a refusal gets overridden without "
             "the override being visible as one.\n"
-            "  inferences crossing them: %s"
+            "  inferences crossing them: %s%s"
             % (len(eids), src, dst,
                ", ".join("%s [%s]" % (e, types[e]) for e in eids),
-               ", ".join(crossing) or "(none yet)"),
+               ", ".join(crossing) or "(none yet)",
+               ("\n  not counted, superseded and unridden: %s"
+                % ", ".join(withdrawn)) if withdrawn else ""),
             "Name which edge is authoritative. If the newer one supersedes the "
             "older, say so with `supersedes` -- that transfers the older "
             "edge's obligations rather than silently clearing them, and the "

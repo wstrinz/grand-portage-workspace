@@ -269,6 +269,22 @@ MOVES[(K.SPECIALIZATION, K.AGAINST, K.IDENTITY)] = (
 
 # Rule-level moves, for findings that are not a transport refusal.
 RULE_MOVES = {
+    # An OPEN PREMISE SLOT.  Nothing was traversed, so no transport cell has an
+    # opinion and no side condition would help -- the argument names a claim
+    # the graph does not contain, deliberately, because entering a claim
+    # nobody has established would have been the worse of the two escapes.
+    "(missing)": (
+        "SUPPLY THE MISSING CLAIM, or stop asserting the conclusion.  This is "
+        "not a transport refusal and there is no edge to retype: the argument "
+        "declares a premise it does not have, and says so on purpose.\n"
+        "  The slot names the KIND and the MODEL it needs. Establish exactly "
+        "that and record it, and this argument becomes checkable in the "
+        "ordinary way.\n"
+        "  If it cannot be established, that is the finding -- and the slot is "
+        "how it stays visible. Do not close it by writing the claim as though "
+        "it held; a graph that states a falsehood is worse than one that "
+        "states a gap. Withdraw the conclusion instead, or weaken it to "
+        "something the premises you DO have will carry."),
     "TAINT": (
         "This model was BUILT by a step the type system refuses, so every "
         "conclusion drawn inside it is suspect even where its own transport is "
