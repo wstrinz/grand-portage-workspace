@@ -547,6 +547,128 @@ def test_store_severities_match_the_checker():
 
 
 # ===========================================================================
+# MULTI-PREMISE INFERENCES.  The graph used to record chains but not joins.
+# ===========================================================================
+THREE_MODELS = TWO_MODELS + [{"ev": "model", "id": "SIDE", "desc": "elsewhere"}]
+
+
+def test_an_argument_can_now_combine_two_premises():
+    """THE ACCEPTANCE TEST, taken from a live run that could not do this.
+
+    A blind agent's central case analysis was
+    `(gamma=4 branch EMPTY) AND (gamma in {2,3,4}) => gamma in {2,3}`.
+    `inference.claim` was a single string, so the completeness premise had
+    nowhere to go and ended up in a `note`, where nothing types it -- the
+    checker reported the conclusion as clean while the fact that made it valid
+    was invisible.
+
+    Both premises must be typed, both transports audited, and both must arrive
+    at the same model.
+    """
+    g = _graph(THREE_MODELS + [
+        {"ev": "edge", "id": "E1", "src": "TIGHT", "dst": "LOOSE",
+         "type": "NECESSARY_CONDITION", "why": "drops equations"},
+        {"ev": "edge", "id": "E2", "src": "TIGHT", "dst": "SIDE",
+         "type": "NECESSARY_CONDITION", "why": "drops other equations"},
+        {"ev": "claim", "id": "C-MAIN", "model": "LOOSE", "kind": "PREDICATE",
+         "statement": "every point satisfies P"},
+        {"ev": "claim", "id": "C-SIDE", "model": "SIDE", "kind": "PREDICATE",
+         "statement": "the completeness premise"},
+        {"ev": "inference", "id": "JOIN", "premises": [
+            {"claim": "C-MAIN", "path": [["E1", "AGAINST"]]},
+            {"claim": "C-SIDE", "path": [["E2", "AGAINST"]]}],
+         "concludes_kind": "PREDICATE",
+         "asserted": "P and the completeness premise together give Q"},
+    ])
+    i = g.inferences["JOIN"]
+    assert len(i["premises"]) == 2
+    assert i["concludes_at"] == "TIGHT", "both premises must land together"
+    ok, trace = C.audit_inference(g, "JOIN")
+    assert ok and len(trace) == 2, (
+        "every leg is audited, not just the first: %s" % trace)
+
+
+def test_premises_that_never_meet_are_a_fold_error():
+    """The reason conjunction is safe to offer.
+
+    `GI-BRIDGE` -- the defect this project exists to catch -- is a BAD JOIN:
+    two computations sharing no variable, welded by a sentence. Adding
+    conjunction would reintroduce it, except that a join is only expressible
+    when its premises PROVABLY MEET at a common model.
+
+    So a good join becomes expressible and a bad one becomes a FOLD ERROR,
+    which is strictly stronger than a finding: the log will not load at all.
+    """
+    with pytest.raises(S.GraphError) as exc:
+        _graph(THREE_MODELS + [
+            {"ev": "edge", "id": "E1", "src": "TIGHT", "dst": "LOOSE",
+             "type": "NECESSARY_CONDITION", "why": "drops equations"},
+            {"ev": "claim", "id": "C-MAIN", "model": "TIGHT",
+             "kind": "NONEMPTY", "statement": "a point", "scope": "Q"},
+            {"ev": "claim", "id": "C-FAR", "model": "SIDE", "kind": "PREDICATE",
+             "statement": "an unrelated fact"},
+            {"ev": "inference", "id": "BRIDGE", "premises": [
+                {"claim": "C-MAIN", "path": [["E1", "ALONG"]]},
+                {"claim": "C-FAR", "path": []}],
+             "asserted": "therefore the two are connected"}])
+    msg = str(exc.value)
+    assert "do not meet" in msg
+    assert "LOOSE" in msg and "SIDE" in msg, (
+        "the error must name where each premise actually arrived")
+
+
+def test_a_refused_leg_refuses_the_whole_argument():
+    """An argument is only as licensed as its weakest leg -- and before the
+    multi-premise form the extra legs were not in the graph to be audited."""
+    g = _graph(THREE_MODELS + [
+        {"ev": "edge", "id": "E1", "src": "TIGHT", "dst": "LOOSE",
+         "type": "NECESSARY_CONDITION", "why": "drops equations"},
+        {"ev": "edge", "id": "E2", "src": "TIGHT", "dst": "SIDE",
+         "type": "NECESSARY_CONDITION", "why": "drops other equations"},
+        {"ev": "claim", "id": "C-OK", "model": "LOOSE", "kind": "PREDICATE",
+         "statement": "fine"},
+        # NONEMPTY does NOT travel AGAINST a NECESSARY_CONDITION.
+        {"ev": "claim", "id": "C-BAD", "model": "SIDE", "kind": "NONEMPTY",
+         "statement": "a witness in the relaxation", "scope": "Q"},
+        {"ev": "inference", "id": "JOIN", "premises": [
+            {"claim": "C-OK", "path": [["E1", "AGAINST"]]},
+            {"claim": "C-BAD", "path": [["E2", "AGAINST"]]}],
+         "concludes_kind": "PREDICATE", "asserted": "both, therefore Q"},
+    ])
+    ok, trace = C.audit_inference(g, "JOIN")
+    assert not ok
+    assert [t[2] for t in trace] == [True, False], (
+        "the first leg is licensed and the second is not: %s" % trace)
+
+
+def test_the_single_premise_form_still_works_unchanged():
+    """Backward compatibility is not a courtesy here -- every fixture, every
+    retrodiction and two live campaign graphs use the old shape."""
+    g = _graph(TWO_MODELS + [
+        {"ev": "edge", "id": "E", "src": "TIGHT", "dst": "LOOSE",
+         "type": "NECESSARY_CONDITION", "why": "drops equations"},
+        {"ev": "claim", "id": "CL", "model": "LOOSE", "kind": "PREDICATE",
+         "statement": "P"},
+        {"ev": "inference", "id": "INF", "claim": "CL",
+         "path": [["E", "AGAINST"]], "asserted": "so P holds tighter"}])
+    i = g.inferences["INF"]
+    assert i["premises"] == [{"claim": "CL", "path": [("E", "AGAINST")]}]
+    assert i["claim"] == "CL" and i["concludes_at"] == "TIGHT"
+
+
+def test_declaring_both_forms_at_once_is_refused():
+    """Two sources of truth for the same field is how they drift apart."""
+    with pytest.raises(S.GraphError):
+        _graph(TWO_MODELS + [
+            {"ev": "edge", "id": "E", "src": "TIGHT", "dst": "LOOSE",
+             "type": "NECESSARY_CONDITION", "why": "w"},
+            {"ev": "claim", "id": "CL", "model": "LOOSE", "kind": "PREDICATE",
+             "statement": "P"},
+            {"ev": "inference", "id": "INF", "claim": "CL", "path": [],
+             "premises": [{"claim": "CL", "path": []}], "asserted": "x"}])
+
+
+# ===========================================================================
 # THE T1 DEFECTS.  A live blind run produced all three of these, and every one
 # needed a human auditor to find.  They now fail at declaration.
 # ===========================================================================

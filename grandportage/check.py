@@ -120,22 +120,27 @@ def audit_inference(graph, iid):
     route rather than only the step that failed.
     """
     inf = graph.inferences[iid]
-    claim = graph.claims[inf["claim"]]
     trace, ok = [], True
-    for eid, direction in inf["path"]:
-        e = graph.edges[eid]
-        r = K.transport(e["type"], direction, claim["kind"],
-                        scope=claim.get("scope"),
-                        certificate=claim.get("certificate"),
-                        map_kind=e["map_kind"],
-                        zariski_closed=claim.get("zariski_closed"),
-                        identity_origin=claim.get("identity_origin"),
-                        integral=claim.get("integral"),
-                        ring_iso=e.get("ring_iso"),
-                        coefficients_in_base=claim.get("coefficients_in_base"))
-        trace.append((eid, direction, r.licensed, r.reason))
-        if not r.licensed:
-            ok = False
+    # EVERY premise, not just the first.  An argument is only as licensed as
+    # its weakest leg, and before the multi-premise form existed the extra legs
+    # were not in the graph to be audited at all.
+    for pr in inf["premises"]:
+        claim = graph.claims[pr["claim"]]
+        for eid, direction in pr["path"]:
+            e = graph.edges[eid]
+            r = K.transport(
+                e["type"], direction, claim["kind"],
+                scope=claim.get("scope"),
+                certificate=claim.get("certificate"),
+                map_kind=e["map_kind"],
+                zariski_closed=claim.get("zariski_closed"),
+                identity_origin=claim.get("identity_origin"),
+                integral=claim.get("integral"),
+                ring_iso=e.get("ring_iso"),
+                coefficients_in_base=claim.get("coefficients_in_base"))
+            trace.append((eid, direction, r.licensed, r.reason))
+            if not r.licensed:
+                ok = False
     return ok, trace
 
 

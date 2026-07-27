@@ -225,26 +225,89 @@ class Graph(object):
         self.claims[ev["id"]] = c
 
     def _apply_inference(self, ev, where):
-        _require(ev.get("claim"),
-                 "%s: inference %r needs `claim`" % (where, ev["id"]))
+        """An inference has one or more PREMISES, each with its own path.
+
+        THE GRAPH USED TO RECORD CHAINS BUT NOT JOINS.  `claim` was a single id
+        and `path` a single route, so an argument combining two facts could not
+        be written down at all.
+
+        That is not a missing convenience.  `GI-BRIDGE` -- the defect this whole
+        project was built around -- is a BAD JOIN: two computations sharing no
+        variable, welded by a sentence.  So the tool detected bad joins by
+        making good joins inexpressible, and the overflow went where overflow
+        goes: a live run put the completeness premise of its central case
+        analysis into a `note`, where nothing types it, because there was
+        nowhere else to put it.
+
+        Multi-premise form:
+
+            {"ev": "inference", "id": ...,
+             "premises": [{"claim": "C1", "path": [["E1","AGAINST"]]},
+                          {"claim": "C2", "path": []}],
+             "concludes_kind": "PREDICATE",
+             "asserted": "..."}
+
+        Every premise must transport to the SAME model, and that model is the
+        conclusion point.  A premise with an empty path is one already at the
+        conclusion, which is how a side condition enters.
+
+        WHAT THIS DOES NOT CLAIM.  The checker verifies that each premise
+        legitimately REACHES the conclusion point.  It does not verify that the
+        premises ENTAIL the conclusion -- that is mathematics, and the kernel
+        has never pretended to do mathematics.  What changes is that the
+        premises are now IN THE GRAPH, so a reader can see what the argument
+        rests on and a missing premise is a visible absence rather than an
+        unwritten assumption.
+        """
+        _require(ev.get("claim") or ev.get("premises"),
+                 "%s: inference %r needs `claim` or `premises`"
+                 % (where, ev["id"]))
+        _require(not (ev.get("claim") and ev.get("premises")),
+                 "%s: inference %r declares both `claim` and `premises`; use "
+                 "one form or the other" % (where, ev["id"]))
         _require(ev.get("asserted"),
                  "%s: inference %r needs `asserted` -- the conclusion in words, "
                  "as it was actually used" % (where, ev["id"]))
-        path = ev.get("path") or []
-        _require(isinstance(path, list),
-                 "%s: inference %r `path` must be a list of [edge, direction]"
-                 % (where, ev["id"]))
-        norm = []
-        for step in path:
-            _require(isinstance(step, (list, tuple)) and len(step) == 2,
-                     "%s: inference %r has malformed path step %r"
-                     % (where, ev["id"], step))
-            _require(step[1] in K.DIRECTIONS,
-                     "%s: inference %r step %r: direction must be one of %s"
-                     % (where, ev["id"], step, ", ".join(K.DIRECTIONS)))
-            norm.append((step[0], step[1]))
+        def _norm_path(path, label):
+            _require(isinstance(path, list),
+                     "%s: inference %r %s must be a list of [edge, direction]"
+                     % (where, ev["id"], label))
+            out = []
+            for step in path:
+                _require(isinstance(step, (list, tuple)) and len(step) == 2,
+                         "%s: inference %r has malformed path step %r"
+                         % (where, ev["id"], step))
+                _require(step[1] in K.DIRECTIONS,
+                         "%s: inference %r step %r: direction must be one of %s"
+                         % (where, ev["id"], step, ", ".join(K.DIRECTIONS)))
+                out.append((step[0], step[1]))
+            return out
+
+        # The single-premise form is the multi-premise form with one entry.
+        # Normalising here rather than at every read site means the checker,
+        # the CLI and the MCP printer never learn there were two shapes.
+        if ev.get("premises"):
+            _require(isinstance(ev["premises"], list) and ev["premises"],
+                     "%s: inference %r `premises` must be a non-empty list of "
+                     "{claim, path}" % (where, ev["id"]))
+            premises = []
+            for n, pr in enumerate(ev["premises"]):
+                _require(isinstance(pr, dict) and pr.get("claim"),
+                         "%s: inference %r premise %d needs a `claim`"
+                         % (where, ev["id"], n))
+                premises.append({"claim": pr["claim"],
+                                 "path": _norm_path(pr.get("path") or [],
+                                                    "premise %d `path`" % n)})
+        else:
+            premises = [{"claim": ev["claim"],
+                         "path": _norm_path(ev.get("path") or [], "`path`")}]
         i = dict(ev)
-        i["path"] = norm
+        i["premises"] = premises
+        # `claim` and `path` stay populated from the FIRST premise so that
+        # everything reading an inference the old way keeps working.  The first
+        # premise is the one carrying the conclusion's claim kind.
+        i["claim"] = premises[0]["claim"]
+        i["path"] = premises[0]["path"]
         sev = ev.get("severity_override")
         if sev:
             # An unknown severity used to reach `check.run`'s sort key and raise
@@ -322,22 +385,42 @@ class Graph(object):
                          "built_by(%s) names undeclared inference %r" % (mid, b))
         for iid in self.inference_order:
             i = self.inferences[iid]
-            _require(i["claim"] in self.claims,
-                     "inference %r cites undeclared claim %r" % (iid, i["claim"]))
-            at = self.claims[i["claim"]]["model"]
-            for eid, direction in i["path"]:
-                _require(eid in self.edges,
-                         "inference %r cites undeclared edge %r" % (iid, eid))
-                e = self.edges[eid]
-                frm, to = ((e["src"], e["dst"]) if direction == K.ALONG
-                           else (e["dst"], e["src"]))
-                _require(at == frm,
-                         "inference %r: path is not connected.  The claim has "
-                         "reached model %r, but edge %r read %s starts at %r."
-                         % (iid, at, eid, direction, frm))
-                at = to
-            i["concludes_at"] = at
-            i["concludes_kind"] = self.claims[i["claim"]]["kind"]
+            lands = []
+            for n, pr in enumerate(i["premises"]):
+                _require(pr["claim"] in self.claims,
+                         "inference %r premise %d cites undeclared claim %r"
+                         % (iid, n, pr["claim"]))
+                at = self.claims[pr["claim"]]["model"]
+                for eid, direction in pr["path"]:
+                    _require(eid in self.edges,
+                             "inference %r cites undeclared edge %r"
+                             % (iid, eid))
+                    e = self.edges[eid]
+                    frm, to = ((e["src"], e["dst"]) if direction == K.ALONG
+                               else (e["dst"], e["src"]))
+                    _require(at == frm,
+                             "inference %r premise %d: path is not connected.  "
+                             "The claim has reached model %r, but edge %r read "
+                             "%s starts at %r."
+                             % (iid, n, at, eid, direction, frm))
+                    at = to
+                lands.append(at)
+            # EVERY PREMISE MUST ARRIVE AT THE SAME PLACE.  Premises that land
+            # in different models are not a joint argument -- they are two
+            # separate statements with a conjunction written between them,
+            # which is exactly the shape of the join `GI-BRIDGE` exists to
+            # refuse.  Enforcing co-location is what makes the multi-premise
+            # form safe to offer at all.
+            _require(len(set(lands)) == 1,
+                     "inference %r: its premises do not meet.  They arrive at "
+                     "%s respectively, so there is no single model at which "
+                     "they can be combined.  Transport them to a common model "
+                     "first, or they are separate statements joined by prose."
+                     % (iid, ", ".join("%s -> %s" % (p["claim"], m)
+                                       for p, m in zip(i["premises"], lands))))
+            i["concludes_at"] = lands[0]
+            i["concludes_kind"] = (ev_kind := i.get("concludes_kind")) or \
+                self.claims[i["premises"][0]["claim"]]["kind"]
         return self
 
 
