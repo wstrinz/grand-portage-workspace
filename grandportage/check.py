@@ -33,6 +33,9 @@ R_COVERAGE = "COVERAGE"
 R_UNTYPED = "UNTYPED-EDGE"
 R_REFINEMENT = "REFINEMENT-TYPE"
 R_IDENTITY_ORIGIN = "UNKNOWN-IDENTITY-ORIGIN"
+R_PARALLEL = "PARALLEL-EDGE"
+R_VACUOUS = "VACUOUS-CONCLUSION"
+R_SELF_BUILT = "SELF-BUILT-MODEL"
 
 EXISTENCE_OPPOSITE = {K.EMPTY: K.NONEMPTY, K.NONEMPTY: K.EMPTY}
 
@@ -483,6 +486,147 @@ def check_unjustified_equivalence(graph):
     return findings
 
 
+def check_parallel_edges(graph):
+    """Two edges joining the same pair of models in the same direction.
+
+    THE HOLE T1 WENT THROUGH.  The store refuses a CONFLICTING REDECLARATION of
+    an edge id -- that guarantee held perfectly -- so an agent that wanted to
+    retype an edge simply declared a NEW one with the same endpoints and the
+    type it wanted, and documented the move honestly as a "TYPED SUCCESSOR".
+
+    Append-only prevents MUTATION and permits SUPERSESSION, and supersession
+    has the same licensing effect with none of the visibility: the refusal and
+    its own override sit side by side with no relation between them the checker
+    can see.  In the live case, an UNTYPED edge was refusing a claim whose own
+    cite read "NOT DERIVED.  Recorded so that using it is a type error rather
+    than a habit"; the parallel edge handed that claim a licence, and `gp check`
+    went on printing the refusal as though it still bound.
+
+    Parallel edges are not always wrong -- two genuinely different maps can join
+    the same objects.  So this reports rather than refuses, and the discharge
+    asks for the one thing that distinguishes the cases: say which edge is
+    authoritative and why the other is not.
+    """
+    findings = []
+    by_ends = {}
+    for eid in sorted(graph.edges):
+        e = graph.edges[eid]
+        by_ends.setdefault((e["src"], e["dst"]), []).append(eid)
+    for (src, dst), eids in sorted(by_ends.items()):
+        if len(eids) < 2:
+            continue
+        types = {eid: graph.edges[eid]["type"] for eid in eids}
+        # Traffic over any of them makes this live rather than latent.
+        crossing = sorted(iid for iid in graph.inference_order
+                          if any(s[0] in eids
+                                 for s in graph.inferences[iid]["path"]))
+        declared = [eid for eid in eids if graph.edges[eid].get("supersedes")]
+        sev = DEBT if declared else (UNSOUND_PREMISE if crossing else DEBT)
+        findings.append(Finding(
+            R_PARALLEL, "%s:%s->%s" % (R_PARALLEL, src, dst), sev,
+            "%s->%s" % (src, dst),
+            "%d edges join %s -> %s: %s\n"
+            "  Whatever the strictest of these refuses, the most permissive "
+            "licenses, and nothing in the graph says which one binds.  An edge "
+            "cannot be retyped (the fold refuses a conflicting redeclaration), "
+            "so declaring a second one is how a refusal gets overridden without "
+            "the override being visible as one.\n"
+            "  inferences crossing them: %s"
+            % (len(eids), src, dst,
+               ", ".join("%s [%s]" % (e, types[e]) for e in eids),
+               ", ".join(crossing) or "(none yet)"),
+            "Name which edge is authoritative. If the newer one supersedes the "
+            "older, say so with `supersedes` -- that transfers the older "
+            "edge's obligations rather than silently clearing them, and the "
+            "checker will ask how each was discharged. If the two are "
+            "genuinely different relations between the same models, the models "
+            "are probably conflating two objects: split them.",
+            semantic_key="|".join("%s:%s" % (e, types[e]) for e in eids)))
+    return findings
+
+
+def check_vacuous_conclusions(graph):
+    """A conclusion drawn ABOUT a model the graph proves has no points.
+
+    Every predicate is true of the empty set, so a PREDICATE or IDENTITY
+    concluding at a model carrying an EMPTY claim says nothing -- while looking
+    exactly like a result, carrying an evidence grade, and counting as a clean
+    inference.
+
+    This is the failure mode the source campaign has logged three times (most
+    recently: 10 of a headline "30/30 published data points" could not fail),
+    and T1 produced a fourth: a cap slope recorded `exact-checked` at a model
+    the same batch proved empty, with the claim's own statement hedging "would
+    read".
+
+    Note it is NOT unsound -- vacuous truths are true.  It is graded TRIAGE
+    because the damage is to the reader, who counts it as evidence.
+    """
+    findings = []
+    for iid in graph.inference_order:
+        inf = graph.inferences[iid]
+        if inf["concludes_kind"] not in (K.PREDICATE, K.IDENTITY):
+            continue
+        empties = [cid for cid, c in sorted(graph.claims.items())
+                   if c["model"] == inf["concludes_at"] and c["kind"] == K.EMPTY]
+        if not empties:
+            continue
+        findings.append(Finding(
+            R_VACUOUS, "%s:%s" % (R_VACUOUS, iid), TRIAGE, iid,
+            "inference %s concludes a %s at model %s, and the graph carries an "
+            "EMPTY claim at that same model (%s).\n  asserted: %s\n"
+            "  Every predicate holds of the empty set, so this conclusion is "
+            "true and says nothing -- but it reads as a result and counts as a "
+            "clean inference."
+            % (iid, inf["concludes_kind"], inf["concludes_at"],
+               ", ".join(empties), inf["asserted"]),
+            "Either the emptiness is wrong, or this conclusion is vacuous and "
+            "should say so where a reader will see it. If the predicate was "
+            "derived BEFORE the emptiness was known, that is worth recording "
+            "explicitly -- it is the difference between a result and an "
+            "artifact of the order you found things in."))
+    return findings
+
+
+def check_self_built(graph):
+    """A model built by an inference that reasons from a claim inside it.
+
+    `built_by` records that a model owes its existence to an inference.  If
+    that inference's premise LIVES IN the model it builds, the record is
+    circular: the model is justified by reasoning conducted inside it, and
+    `propagate_taint` cannot terminate meaningfully at that node because the
+    model is its own antecedent.
+
+    Usually a mis-recording rather than a fraud -- the model was declared
+    earlier by other means and `built_by` was reached for to express "this
+    inference is about that model".  But that is what an inference already
+    says, and the two mean different things to the taint rule.
+    """
+    findings = []
+    for mid in sorted(graph.built_by):
+        for b in graph.built_by[mid]:
+            inf = graph.inferences.get(b)
+            if inf is None:
+                continue
+            premise = graph.claims[inf["claim"]]["model"]
+            if premise != mid:
+                continue
+            findings.append(Finding(
+                R_SELF_BUILT, "%s:%s:%s" % (R_SELF_BUILT, mid, b), DEBT, mid,
+                "model %s is declared BUILT BY inference %s, whose premise "
+                "(%s) lives in %s itself.\n  The model is recorded as owing "
+                "its existence to reasoning conducted inside it, which makes "
+                "the provenance circular and leaves the taint rule with no "
+                "antecedent to follow."
+                % (mid, b, inf["claim"], mid),
+                "If %s was declared by a computation or an earlier step, drop "
+                "the built_by -- the inference already records that it reasons "
+                "about this model. If it really was constructed by this "
+                "inference, the premise belongs at the model the construction "
+                "started FROM." % mid))
+    return findings
+
+
 def check_unknown_identity_origin(graph):
     """IDENTITY claims whose origin is recorded as not yet established.
 
@@ -583,7 +727,10 @@ def run(graph):
                 + check_untyped(graph)
                 + check_unjustified_equivalence(graph)
                 + check_self_refuting_equivalence(graph)
-                + check_unknown_identity_origin(graph))
+                + check_unknown_identity_origin(graph)
+                + check_parallel_edges(graph)
+                + check_vacuous_conclusions(graph)
+                + check_self_built(graph))
     findings.sort(key=lambda f: (-SEVERITY_RANK[f.severity], f.rule, f.fid))
     return findings
 

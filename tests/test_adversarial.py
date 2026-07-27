@@ -546,6 +546,93 @@ def test_store_severities_match_the_checker():
     assert list(S.C_SEVERITIES) == list(C.SEVERITY_ORDER)
 
 
+# ===========================================================================
+# THE T1 DEFECTS.  A live blind run produced all three of these, and every one
+# needed a human auditor to find.  They now fail at declaration.
+# ===========================================================================
+def test_a_parallel_edge_cannot_silently_override_a_refusal():
+    """THE HOLE T1 WENT THROUGH.
+
+    The fold refuses a CONFLICTING REDECLARATION of an edge id, and that
+    guarantee held perfectly -- so an agent wanting to retype an edge declared a
+    NEW one with the same endpoints and the type it wanted, honestly labelled a
+    "TYPED SUCCESSOR".
+
+    Append-only prevents MUTATION and permits SUPERSESSION, and supersession has
+    the same licensing effect with none of the visibility.  In the live case an
+    UNTYPED edge was refusing a claim whose own cite read "NOT DERIVED. Recorded
+    so that using it is a type error rather than a habit", and the parallel edge
+    handed that claim a licence while `gp check` went on printing the refusal.
+    """
+    g = _graph(TWO_MODELS + [
+        {"ev": "edge", "id": "E-OLD", "src": "TIGHT", "dst": "LOOSE",
+         "type": "UNTYPED", "why": "not yet known",
+         "debt_why": "the relation has not been derived"},
+        {"ev": "edge", "id": "E-NEW", "src": "TIGHT", "dst": "LOOSE",
+         "type": "NECESSARY_CONDITION", "why": "typed successor"},
+    ])
+    par = [f for f in C.run(g) if f.rule == C.R_PARALLEL]
+    assert len(par) == 1
+    assert "E-OLD" in par[0].detail and "E-NEW" in par[0].detail
+    assert "supersedes" in par[0].discharge
+
+
+def test_one_edge_between_two_models_is_not_a_finding():
+    """The positive control: the ordinary case must stay silent."""
+    g = _graph(TWO_MODELS + [
+        {"ev": "edge", "id": "E", "src": "TIGHT", "dst": "LOOSE",
+         "type": "NECESSARY_CONDITION", "why": "drops equations"}])
+    assert not [f for f in C.run(g) if f.rule == C.R_PARALLEL]
+
+
+def test_a_conclusion_at_a_model_proven_empty_is_flagged_vacuous():
+    """Every predicate holds of the empty set, so a PREDICATE concluding at a
+    model the graph proves EMPTY says nothing -- while reading as a result,
+    carrying an evidence grade, and counting as a CLEAN inference.
+
+    The source campaign has logged this failure mode three times; a live run
+    produced a fourth, recording a cap slope `exact-checked` at a model the
+    same batch proved empty, with the claim's own statement hedging "would
+    read".  Graded TRIAGE: vacuous truths are true, and the damage is to the
+    reader who counts them as evidence.
+    """
+    g = _graph(TWO_MODELS + [
+        {"ev": "edge", "id": "E", "src": "TIGHT", "dst": "LOOSE",
+         "type": "NECESSARY_CONDITION", "why": "drops equations"},
+        {"ev": "claim", "id": "C-EMPTY", "model": "TIGHT", "kind": "EMPTY",
+         "statement": "no points here", "certificate": "UNIT_IDEAL_CERT"},
+        {"ev": "claim", "id": "C-PRED", "model": "LOOSE", "kind": "PREDICATE",
+         "statement": "every point satisfies P"},
+        {"ev": "inference", "id": "INF", "claim": "C-PRED",
+         "path": [["E", "AGAINST"]],
+         "asserted": "so every point of the tighter model satisfies P"},
+    ])
+    findings = C.run(g)
+    vac = [f for f in findings if f.rule == C.R_VACUOUS]
+    assert len(vac) == 1 and vac[0].subject == "INF"
+    assert vac[0].severity == C.TRIAGE
+    # And it must still count as a clean transport -- the point is that being
+    # licensed and being informative are different questions.
+    assert "INF" in C.clean_inferences(g, findings)
+
+
+def test_a_model_built_by_reasoning_inside_itself_is_flagged():
+    """`built_by` records that a model owes its existence to an inference. If
+    that inference's premise lives IN the model it builds, the provenance is
+    circular and the taint rule has no antecedent to follow."""
+    g = _graph(TWO_MODELS + [
+        {"ev": "edge", "id": "E", "src": "TIGHT", "dst": "LOOSE",
+         "type": "NECESSARY_CONDITION", "why": "drops equations"},
+        {"ev": "claim", "id": "CL", "model": "TIGHT", "kind": "NONEMPTY",
+         "statement": "a point", "scope": "Q"},
+        {"ev": "inference", "id": "INF", "claim": "CL",
+         "path": [["E", "ALONG"]], "asserted": "the point is in LOOSE"},
+        {"ev": "built_by", "model": "TIGHT", "inference": "INF"},
+    ])
+    sb = [f for f in C.run(g) if f.rule == C.R_SELF_BUILT]
+    assert len(sb) == 1 and sb[0].subject == "TIGHT"
+
+
 def test_an_identity_with_no_origin_does_not_fold():
     """There is no safe default, and the argument is not that a default would
     be unsound -- DERIVED would be safe.  It is that a default writes an
