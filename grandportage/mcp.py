@@ -468,15 +468,44 @@ def h_portage_declare(args, root):
     events = args.get("events") or []
     if not isinstance(events, list):
         return _err("`events` must be a list of graph events")
-    S.append(events, root=root)
+    # NAME THE GRAPH BEING WRITTEN, ALWAYS.
+    #
+    # `GP_ROOT` defaults to "." and "." is the SERVER PROCESS's cwd, which is
+    # the session root -- not the directory the `.mcp.json` declaring it sits
+    # in.  A campaign whose `.mcp.json` says `GP_ROOT: "."` therefore writes to
+    # a DIFFERENT graph than `gp check` run inside that campaign reads, and
+    # nothing said so.
+    #
+    # A live lane hit this in the worst available way: the root graph happened
+    # to be in a refused state from an unrelated session, `declare` is
+    # transactional against the fold, and so the author's FIRST declaration came
+    # back rejected citing a claim id they had never seen, in a campaign they
+    # had just created.  They diagnosed it by diffing four copies of a fixture.
+    #
+    # Resolving the root differently is not available here -- the server does
+    # not know where its config lives.  Saying which graph it wrote is, costs
+    # one line, and turns a mystery into a fact on the first call.
+    where = os.path.abspath(S.graph_path(root))
+    try:
+        S.append(events, root=root)
+    except Exception as exc:
+        # The exception TYPE is part of the message on purpose -- a caller
+        # distinguishes a ScopeError from a GraphError by name, and an existing
+        # test pins it. The first version of this wrapper dropped it.
+        return _err("%s: %s\n\nTHE GRAPH BEING WRITTEN IS %s\nIf that is not "
+                    "the campaign you are working in, `GP_ROOT` resolved "
+                    "against this server's working directory rather than the "
+                    "directory its `.mcp.json` sits in. Nothing above may be "
+                    "about your campaign at all."
+                    % (type(exc).__name__, exc, where))
     kinds = {}
     for e in events:
         kinds[e.get("ev")] = kinds.get(e.get("ev"), 0) + 1
     summary = ", ".join("%d %s" % (v, k) for k, v in sorted(kinds.items()))
     accepted = HK.read_baseline(root)["accepted"]
     findings = C.run(S.load(S.graph_path(root)), accepted)
-    return _text("recorded %s\n\n%s"
-                 % (summary, C.render(findings, accepted)))
+    return _text("recorded %s in %s\n\n%s"
+                 % (summary, where, C.render(findings, accepted)))
 
 
 def h_portage_check(args, root):
