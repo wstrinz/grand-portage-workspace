@@ -32,7 +32,7 @@ agent → MCP server (edge REQUIRED, no declaration → no CAS process)
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about six days. Five real sessions. Version 0.3.1. 294 checks.** Treat
+**Age: about six days. Version 0.3.3. 307 checks.** Treat
 every claim in the docs as provisional.
 
 There is now a **public repo**: `github.com/wstrinz/grandportage`, Apache-2.0,
@@ -52,8 +52,73 @@ review. Worth knowing because it predicts where the next one comes from.
 | **T1** blind run | **FAIL** | an agent superseded a refusal instead of satisfying it → `PARALLEL-EDGE`, `VACUOUS-CONCLUSION`, `SELF-BUILT`, `partition`, `premises`, typed discharge |
 | **T2** external review | 8 defects | the CAS boundary was still bypassable **through the fix for it** |
 | **T4** merge fan-out | **PASS / FAIL** | kind laundering, existence on the honour system, `gp merge` |
+| **T5** foreign campaign | **PASS** | the `ladder` split, open premise slots, `CITED_PROOF`, `TYPE_MEANS` |
 
-Full results in `portage-depot/testing/`.
+Full results in `portage-depot/testing/`, each with its pass condition written
+*before* the run.
+
+**T5 is the one to read if you read one.** It pointed the tool at a border-rank
+/ SOS campaign that had never heard of it: **zero false positives**, and the
+checker escalated a finding to `UNSOUND_CONCLUSION` by noticing that a
+refereed bound recorded elsewhere in the graph contradicted what the inference
+would license. That reductio fell out of the fold. **The five edge types
+survived foreign mathematics** — contrary to both my prediction and the
+external review's, border rank did *not* break the ontology. Everything
+*around* the types is what didn't fit.
+
+### Where things are, physically
+
+```
+dev/
+  grand-portage/            THE TOOL, private. github.com/wstrinz/
+                            grand-portage-workspace
+  grand-portage-public/     the public mirror, pushed to
+                            github.com/wstrinz/grandportage (Apache-2.0).
+                            Sync = copy grandportage/ tests/ fixtures/ docs/
+                            DESIGN.md REVIEW.md. Root-level files do NOT sync,
+                            which is why DESIGN_DIRECTION.md stays private.
+  portage-depot/            campaigns + testing evidence. Local only, no remote.
+    campaigns/gamma-delta4/   the T1 run. Typing defects LEFT UNREPAIRED --
+                              that graph is the evidence.
+    campaigns/lsem-census/    the sustained run. See below.
+    testing/                  T3/T4/T5 conditions + results, T1 runbook
+    math-stuff/               one shared submodule, pinned 86d8fb0
+  math-stuff/               THE RESEARCH REPO. READ-ONLY, always.
+```
+
+### The sustained run, in flight
+
+`campaigns/lsem-census` — generic identifiability of linear structural equation
+models on small mixed graphs, via Macaulay2's `GraphicalModels`. A **census
+rather than a conjecture**, so sessions end when a case finishes instead of
+when someone gets stuck, and cases share models so the graph accumulates.
+
+This is the first test of the claim the whole design rests on: *after three
+weeks the graph is the state*. Every previous run was a single bounded task.
+
+**The measurement that matters more than the mathematics:** do three or four
+cases, let a week pass, return cold with no notes outside `.portage/` and no
+scrollback, and time how long until productive. If a returning *human* cannot
+resume from the graph, a returning agent certainly cannot.
+
+### `gp migrate` — read this before bumping a required field
+
+Required fields break existing graphs. That bill came due all at once:
+`witness_kind` and the `ladder` vocabulary stopped **three live campaign logs**
+from folding, including T1's own output.
+
+`gp migrate` fills them with the **ignorance value** — `UNKNOWN`, `ASSERTED`.
+The no-silent-defaults principle survives because those are not guesses; they
+are true, the claim having been recorded before anyone was asked. Both report
+as debt, so migrating makes the graph *louder*.
+
+It **refuses to touch a field whose value is wrong rather than missing** and
+exits nonzero. The T5 graph still does not fold for exactly this reason: four
+`ladder` values need a human to decide whether they belong in `established_by`,
+`caveat`, or are genuine strength claims.
+
+**Candidate 16th design invariant: every required field ships with a migration
+that fills the ignorance value.**
 
 **The recurring shape, three instances now:** a field that DETERMINES transport
 and is taken on the author's word. Certificates (pre-v0.2), `identity_origin`
