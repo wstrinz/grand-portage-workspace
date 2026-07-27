@@ -279,6 +279,100 @@ def cmd_migrate(args):
     return 1 if manual else 0
 
 
+def cmd_history(args):
+    """Where did this campaign STRUGGLE?  `gp show` cannot answer that.
+
+    `gp show` prints the FOLD -- what is being carried now -- which is right for
+    resumption and wrong for this.  Supersession and repair make a graph tidier
+    over time, so the fold systematically under-represents difficulty exactly
+    where the most work happened.  This session made that worse on purpose:
+    withdrawn edges, withdrawn inferences and their findings all stopped
+    reporting, which removed real baseline dilution and removed the scar tissue
+    with it.
+
+    The append-only log kept everything.  Nothing surfaced it.
+
+    WHAT IT CAN SEE, and the limit is worth stating first: the log records what
+    was DECLARED, never what was REFUSED.  A refusal that made an author think
+    again and write something different leaves no direct trace -- only the
+    something-different.  So this is a record of REPAIRS, not of attempts, and
+    the count of repairs is a floor on the difficulty rather than a measure of
+    it.
+
+    What survives is still the best struggle record available anywhere in the
+    system, because it is produced as a side effect of the soundness discipline
+    rather than by anybody remembering to write a log:
+
+      * supersession chains -- an object replaced once was reconsidered, an
+        object replaced three times was hard;
+      * the discharge kind that finally worked, against the ones tried before;
+      * obligations still carried, with the reasons their authors gave.
+
+    A finished proof erases its own search.  This is the search, retained
+    because an append-only log cannot help retaining it.
+    """
+    paths = _graphs(args)
+    events = []
+    for p in paths:
+        for ev, n in S.load_events(p):
+            events.append((p, n, ev))
+
+    # Supersession chains, in declaration order.
+    replaced_by = {}
+    order = {}
+    for i, (_p, _n, ev) in enumerate(events):
+        if ev.get("id") and ev.get("ev") in ("edge", "claim", "inference"):
+            order.setdefault((ev["ev"], ev["id"]), i)
+        if ev.get("supersedes"):
+            replaced_by[(ev["ev"], ev["supersedes"])] = (
+                ev["id"], ev.get("discharge_kind"), ev.get("ev"))
+    chains = []
+    for key in sorted(order, key=lambda k: order[k]):
+        if key in replaced_by and not any(
+                replaced_by.get(k, (None,))[0] == key[1] for k in replaced_by):
+            chain, cur = [key[1]], key
+            while cur in replaced_by:
+                nxt, kind, ent = replaced_by[cur]
+                chain.append("--%s-->" % (kind or "?"))
+                chain.append(nxt)
+                cur = (ent, nxt)
+            chains.append((key[0], chain))
+
+    print("HISTORY -- what this campaign reconsidered\n")
+    if chains:
+        print("SUPERSESSION CHAINS  (an object replaced N times was hard N times)")
+        for ent, chain in sorted(chains, key=lambda c: -len(c[1])):
+            print("  %-9s %s" % (ent, " ".join(chain)))
+        print()
+    else:
+        print("No supersessions recorded. Either nothing was reconsidered, or\n"
+              "reconsideration happened before anything was written down --\n"
+              "which the log cannot distinguish and should not pretend to.\n")
+
+    from . import hook as H
+    accepted = H.read_baseline(args.root)["accepted"]
+    if accepted:
+        print("OBLIGATIONS STILL CARRIED  (%d), with the reason given"
+              % len(accepted))
+        for fid in sorted(accepted):
+            why = (accepted[fid] or {}).get("why") or "(no reason recorded)"
+            admits = (accepted[fid] or {}).get("admits")
+            print("  %s%s" % (fid, "   admits only %s" % ", ".join(admits)
+                              if admits else ""))
+            print("      %s" % why[:200])
+        print()
+
+    notes = [ev for _p, _n, ev in events if ev.get("ev") == "note"]
+    print("%d model(s)/edge(s)/claim(s)/inference(s) declared across %d log "
+          "line(s); %d note(s) carried and never typed."
+          % (len(order), len(events), len(notes)))
+    if notes:
+        print("A note is prose that happens to live in a JSONL file. If a "
+              "load-bearing\npremise is in one, it is invisible to every rule "
+              "in the checker.")
+    return 0
+
+
 def cmd_why(args):
     """Explain one transport cell: what it means, what it licenses, what closes it.
 
@@ -727,6 +821,11 @@ def build_parser():
                    default=None)
     g.add_argument("kind", nargs="?", choices=list(K.CLAIM_KINDS), default=None)
     g.set_defaults(func=cmd_why)
+
+    g = sub.add_parser("history",
+                       help="where the campaign struggled: supersession "
+                            "chains, and the obligations still carried")
+    g.set_defaults(func=cmd_history)
 
     i = sub.add_parser("init", help="create an empty graph")
     i.set_defaults(func=cmd_init)

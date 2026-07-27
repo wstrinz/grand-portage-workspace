@@ -2344,3 +2344,64 @@ def test_gp_why_reads_the_kernel_rather_than_restating_it(capsys):
                 rule = K.TRANSPORT[etype][d][kd]
                 if rule is True:
                     assert "%-8s %-9s  licensed" % (d, kd) in out
+
+
+def test_history_shows_the_struggle_the_fold_hides(tmp_path, capsys):
+    """`gp show` prints the FOLD, and repair makes a fold tidier over time --
+    so it under-represents difficulty exactly where the most work happened.
+
+    This session made that worse deliberately: withdrawn edges, inferences and
+    their findings all stopped reporting, which removed real baseline dilution
+    and took the scar tissue with it. The append-only log kept everything and
+    nothing surfaced it.
+
+    A finished proof erases its own search. On a live campaign this shows an
+    inference restated THREE times -- the hardest object there -- of which the
+    fold displays only the survivor.
+    """
+    from grandportage import cli
+    _accept_fixture(tmp_path, TWO_MODELS + [
+        {"ev": "edge", "id": "E", "src": "TIGHT", "dst": "LOOSE",
+         "type": K.NECESSARY_CONDITION, "why": "drops equations"},
+        {"ev": "claim", "id": "C", "model": "LOOSE", "kind": K.PREDICATE,
+         "statement": "P"},
+        {"ev": "inference", "id": "I1", "claim": "C",
+         "path": [["E", K.AGAINST]], "concludes_kind": K.PREDICATE,
+         "asserted": "P at the tighter model"},
+        {"ev": "inference", "id": "I2", "claim": "C",
+         "path": [["E", K.AGAINST]], "concludes_kind": K.PREDICATE,
+         "asserted": "P at the tighter model, restated once",
+         "supersedes": "I1", "discharge_kind": K.RESTATE},
+        {"ev": "inference", "id": "I3", "claim": "C",
+         "path": [["E", K.AGAINST]], "concludes_kind": K.PREDICATE,
+         "asserted": "P at the tighter model, restated twice",
+         "supersedes": "I2", "discharge_kind": K.RESTATE},
+    ])
+    assert cli.main(["--root", str(tmp_path), "history"]) == 0
+    out = capsys.readouterr().out
+    assert "I1 --RESTATE--> I2 --RESTATE--> I3" in out, (
+        "the whole chain, not only the survivor")
+
+    # And the fold shows only the survivor -- which is correct for `show` and
+    # is exactly why `history` has to exist.
+    g = S.load(S.graph_path(str(tmp_path)))
+    assert C.clean_inferences(g, C.run(g)) == ["I3"]
+
+
+def test_history_is_honest_that_it_records_repairs_and_not_attempts(tmp_path,
+                                                                    capsys):
+    """The limit stated first, because overstating it would be the same error
+    the tool exists to catch.
+
+    The log records what was DECLARED, never what was REFUSED. A refusal that
+    made an author think again and write something different leaves no direct
+    trace -- only the something-different. So this is a floor on difficulty,
+    not a measure of it, and a campaign with no supersessions is not thereby a
+    campaign that found everything easy.
+    """
+    from grandportage import cli
+    _accept_fixture(tmp_path, TWO_MODELS)
+    assert cli.main(["--root", str(tmp_path), "history"]) == 0
+    out = capsys.readouterr().out
+    assert "No supersessions recorded" in out
+    assert "which the log cannot distinguish and should not pretend to" in out
