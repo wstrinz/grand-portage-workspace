@@ -18,10 +18,8 @@ citation.  The only deliberate changes are structural:
 import json
 import os
 
-OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                   "..", "..", "..", "..", "..", "..", "dev", "grand-portage",
-                   "fixtures", "jc2", "graph.jsonl")
-OUT = os.path.abspath(r"C:\Users\wstri\dev\grand-portage\fixtures\jc2\graph.jsonl")
+OUT = os.path.abspath(os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "..", "jc2", "graph.jsonl"))
 
 EV = []
 

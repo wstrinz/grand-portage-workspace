@@ -28,8 +28,8 @@ recorded here rather than buried:
 import json
 import os
 
-OUT = os.path.abspath(
-    r"C:\Users\wstri\dev\grand-portage\fixtures\matroid\graph.jsonl")
+OUT = os.path.abspath(os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "..", "matroid", "graph.jsonl"))
 
 EV = []
 

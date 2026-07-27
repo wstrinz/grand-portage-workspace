@@ -19,8 +19,9 @@ F2_TOWER.md, ENDPOINT_CONTRACT.md.  Line-level citations throughout.
 import json
 import os
 
-OUT = os.path.abspath(
-    r"C:\Users\wstri\dev\grand-portage\fixtures\gamma_window\graph.jsonl")
+OUT = os.path.abspath(os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "..", "gamma_window",
+    "graph.jsonl"))
 
 EV = []
 
