@@ -529,7 +529,9 @@ def h_portage_show(args, root):
         mark = ("  [SUPERSEDED by %s]" % c["superseded_by"]
                 if c.get("superseded_by") else "")
         out.append("CLAIM %-16s %-9s @%-14s scope=%s cert=%s%s"
-                   % (cid, c["kind"], c["model"], c.get("scope"),
+                   % (cid, c["kind"],
+                      c.get("model") or ("family:%s" % c.get("family")),
+                      c.get("scope"),
                       c.get("certificate"), mark))
         if c.get("supersedes"):
             out.append("    supersedes %s (%s)"

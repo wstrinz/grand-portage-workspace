@@ -647,8 +647,13 @@ def cmd_show(args):
         # thing distinguishing the two was a prose note somebody had to read.
         mark = ("  [SUPERSEDED by %s]" % c["superseded_by"]
                 if c.get("superseded_by") else "")
+        # A CLAIM SITS AT A MODEL OR AT A FAMILY.  Printing `c["model"]`
+        # unguarded crashed the designated handoff view on the first graph to
+        # carry a family -- the same subscript that took down five checker
+        # rules, in the one surface a human reads to resume.
+        home = c.get("model") or ("family:%s" % c["family"])
         print("CLAIM %-20s %-9s @%-14s scope=%-10s %s%s"
-              % (cid, c["kind"], c["model"], c.get("scope"),
+              % (cid, c["kind"], home, c.get("scope"),
                  " ".join(extra), mark))
         if c.get("supersedes"):
             print("    supersedes %s (%s)"
