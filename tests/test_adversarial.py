@@ -1629,10 +1629,10 @@ def test_the_generic_versus_global_cell_refuses_and_says_why():
         {"ev": "edge", "id": "E", "src": "TIGHT", "dst": "LOOSE",
          "type": K.RESTRICTION, "why": "the positive-definite cone"},
         {"ev": "claim", "id": "C", "model": "TIGHT", "kind": K.PREDICATE,
-         "statement": "lambda is identifiable"},
+         "statement": "the parameter is recoverable from the data"},
         {"ev": "inference", "id": "I", "claim": "C", "path": [["E", K.ALONG]],
          "concludes_kind": K.PREDICATE,
-         "asserted": "lambda is identifiable on the whole model"}])
+         "asserted": "the parameter is recoverable on the whole model"}])
     found = [f for f in C.run(g) if f.rule == C.R_TRANSPORT and f.subject == "I"]
     assert found, "a generic result stated globally must not pass"
     assert "GENERIC-VERSUS-GLOBAL" in found[0].discharge

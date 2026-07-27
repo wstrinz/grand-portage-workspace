@@ -126,9 +126,10 @@ Three rows carry most of the value:
   functions.** The six point-cells are *identical*, because both follow from
   `V(src) ⊆ V(dst)` and nothing more — so typing a semialgebraic cut
   `NECESSARY_CONDITION` licenses nothing false, which is exactly what makes it
-  the attractor. What it costs is the distinction between "identifiable
-  generically" and "identifiable on every dataset", which for a whole
-  literature is the only distinction that matters. The `IDENTITY` row is where
+  the attractor. What it costs is the distinction between a result that holds
+  **generically** and one that holds **everywhere** — which, wherever the
+  exceptional locus is reachable by real data, is the only distinction that
+  matters. The `IDENTITY` row is where
   the mathematics genuinely differs: a restriction adds no equations, so the
   obstruction that stops a derived identity crossing a `NECESSARY_CONDITION`
   is simply absent, and the question becomes whether a polynomial vanishing on
