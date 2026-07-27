@@ -31,18 +31,17 @@ SPECIALIZATION = "SPECIALIZATION"
 # RESTRICTION -- the sixth type, and the first added by a live run rather than
 # by review.
 #
-# THE LSEM IDENTIFIABILITY CENSUS could not type one edge: the positive-definite
-# cone sitting inside the real variety of a Gaussian model.  The step drops
-# INEQUALITIES, and the other five all drop equations, change a
-# coefficient ring, or project.  The campaign recorded it UNTYPED and carried
-# the debt rather than guess.
+# A LIVE CAMPAIGN could not type one edge: a positivity cone sitting inside the
+# real variety it was cut out of.  The step drops INEQUALITIES, and the other
+# five all drop equations, change a coefficient ring, or project.  The campaign
+# recorded it UNTYPED and carried the debt rather than guess.
 #
 # WHAT MAKES IT WORTH A TYPE IS THAT NECESSARY_CONDITION WOULD HAVE BEEN SOUND.
 # Every cell NECESSARY_CONDITION licenses depends only on V(src) subset V(dst),
 # and that containment genuinely holds here.  Nothing false would have been
-# licensed.  The census chose UNTYPED anyway, and its report says why: the
-# entire difference between "generically identifiable" and "identifiable on
-# every dataset" lives in whether the cut was equational or semialgebraic, and
+# licensed.  The campaign chose UNTYPED anyway, and its report says why: the
+# entire difference between a result holding GENERICALLY and holding EVERYWHERE
+# lived in whether the cut was equational or semialgebraic, and
 # NECESSARY_CONDITION is documented as "equations are dropped".  A sound label
 # that hides the one distinction a campaign exists to make is still the wrong
 # label -- and it is the ATTRACTOR, because it is sound and it makes the graph
@@ -968,13 +967,13 @@ IMPOSSIBLE_EVIDENCE = {
 # an `established_by` to match on.  Omit the field and the cross-check does
 # not fire; it evaluates `(None, "exact-checked")`, which is in no table.
 #
-# Found in the LSEM identifiability census: all fourteen claims graded
-# themselves `exact-checked` with no `established_by`, so IMPOSSIBLE_EVIDENCE
-# -- "the first thing about evidence grading this tool has ever been able to
-# verify" -- never evaluated once.  The same session's central structural
-# result rested on an unrecorded sympy script, and its own report caught that
-# by hand.  The tool had the mechanism and the mechanism was switched off by
-# an absent field.
+# Found in a live campaign: all fourteen of its claims graded themselves
+# `exact-checked` with no `established_by`, so IMPOSSIBLE_EVIDENCE -- "the
+# first thing about evidence grading this tool has ever been able to verify" --
+# never evaluated once in a full session.  That session's central structural
+# result rested on an unrecorded script, and its own report had to catch that
+# by hand.  The tool had the mechanism and the mechanism was switched off by an
+# absent field.
 #
 # So this is the fifth instance of one pattern, with a mutation.  The first
 # four -- certificates, identity_origin, kind, ladder -- were fields whose
@@ -1093,7 +1092,7 @@ def signature(etype):
 # SUPERSESSION FOR CLAIMS AND INFERENCES.
 #
 # Edges have had `supersedes` + `discharge_kind` since v0.2.  Claims and
-# inferences had nothing, and the LSEM census paid for it in the ordinary way:
+# inferences had nothing, and a live campaign paid for it in the ordinary way:
 # a missing OPTIONAL attribute was noticed at check time, redeclaration with
 # different content is a hard fold error, so the campaign had to mint new ids
 # for the claim AND for the inference that referenced it.  The permanent cost
@@ -1102,8 +1101,8 @@ def signature(etype):
 # "superseded, not carried on its merits" -- which dilutes what a baseline
 # entry means for every other entry in the file.
 #
-# THE HAZARD IS THE WORD "ONLY".  The census's actual amendment was described,
-# accurately, as "same claim, with coefficients_in_base declared".  But
+# THE HAZARD IS THE WORD "ONLY".  That campaign's actual amendment was
+# described, accurately, as "same claim, with coefficients_in_base declared".  But
 # `coefficients_in_base` is exactly what licenses an IDENTITY to cross a
 # BASE_EXTENSION.  "I only added an attribute" is the sentence through which a
 # transport-determining field arrives unexamined, and this project has now

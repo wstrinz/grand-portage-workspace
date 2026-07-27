@@ -448,8 +448,9 @@ def test_sp_against_identity():
 #
 # The six point-cells below are identical to NECESSARY_CONDITION's, and that
 # is not an oversight -- they follow from V(src) subset V(dst) and nothing
-# else.  It is why the LSEM census reported that typing its PD-cone edge
-# NECESSARY_CONDITION would have been SOUND, and why it chose UNTYPED anyway.
+# else.  It is why the live campaign that forced this type reported that
+# labelling its positivity-cone edge NECESSARY_CONDITION would have been SOUND,
+# and why it chose UNTYPED anyway.
 # ===========================================================================
 @cell(K.RESTRICTION, K.ALONG, K.EMPTY, False)
 def test_restriction_along_empty():
@@ -485,9 +486,9 @@ def test_restriction_against_nonempty():
 def test_restriction_along_predicate():
     """REFUTED. `det Sigma > 0` holds at every point of the PD cone and fails
     at diag(1,-1) in the ambient model. A universal statement about a subset
-    is silent about the points outside it -- and THIS IS THE CELL THE LSEM
-    CENSUS EXISTS TO PROTECT, since a generic identifiability result read as a
-    global one is the recurring error in the applied literature."""
+    is silent about the points outside it -- and THIS IS THE CELL THE TYPE
+    EXISTS TO PROTECT, since a result proved off an exceptional locus and then
+    read as a global one is a recurring error in the applied literature."""
 
 
 @cell(K.RESTRICTION, K.AGAINST, K.PREDICATE, True)
@@ -525,7 +526,7 @@ def test_restriction_along_identity_declared_dense():
     throughout, and the identity pushes forward.
 
     This is what lets a computation done on a positivity cone be stated about
-    the variety containing it -- the move the LSEM census had no type for."""
+    the variety containing it -- the move a live campaign had no type for."""
 
 
 @cell(K.RESTRICTION, K.AGAINST, K.IDENTITY, True)

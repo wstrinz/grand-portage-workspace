@@ -75,8 +75,9 @@ dev/
   grand-portage-public/     the public mirror, pushed to
                             github.com/wstrinz/grandportage (Apache-2.0).
                             Sync = copy grandportage/ tests/ fixtures/ docs/
-                            DESIGN.md REVIEW.md. Root-level files do NOT sync,
-                            which is why DESIGN_DIRECTION.md stays private.
+                            DESIGN.md README.md REVIEW.md. Root-level files do
+                            NOT sync, which is why DESIGN_DIRECTION.md and this
+                            file stay private.
   portage-depot/            campaigns + testing evidence. Local only, no remote.
     campaigns/gamma-delta4/   the T1 run. Typing defects LEFT UNREPAIRED --
                               that graph is the evidence.
@@ -85,6 +86,21 @@ dev/
     math-stuff/               one shared submodule, pinned 86d8fb0
   math-stuff/               THE RESEARCH REPO. READ-ONLY, always.
 ```
+
+**Anything under a syncing path names no live research domain, on purpose.**
+Code comments and test docstrings say "a live campaign" where they mean the
+identifiability census, because the census is unpublished and its later
+sessions are aimed at results worth first arrival on. Every design lesson
+survives the generalisation; only the domain pointer is dropped.
+
+The scrub is done **in this repo, not in the mirror**, so a sync stays a plain
+copy. A sync that needs a manual scrub step is a step whose correctness depends
+on someone remembering, which is the exact defect class §7 of REVIEW.md
+tracks. If you write a new comment citing a campaign, write it generic here —
+do not write it specific and plan to strip it later.
+
+The public/private split is about DOMAIN, not about candour. Findings against
+the tool itself stay fully specific in public: that is the point of the file.
 
 ### The sustained run, in flight
 

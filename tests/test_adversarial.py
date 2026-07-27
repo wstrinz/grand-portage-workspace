@@ -775,12 +775,12 @@ def test_a_grade_that_asserts_a_run_must_name_the_run(ladder):
     contradicts nothing.  Optionality is not neutral when another rule keys on
     it.
 
-    FOUND IN THE LSEM CENSUS, where all fourteen claims graded themselves
-    exact-checked with no established_by -- so the cross-check, described in
-    the kernel as "the first thing about evidence grading this tool has ever
-    been able to verify", never evaluated once in a full live campaign.  That
-    same session's central structural result rested on an unrecorded script,
-    and its own report had to catch that by hand.
+    FOUND IN A LIVE CAMPAIGN, where all fourteen of its claims graded
+    themselves exact-checked with no established_by -- so the cross-check,
+    described in the kernel as "the first thing about evidence grading this
+    tool has ever been able to verify", never evaluated once in a full
+    session.  That session's central structural result rested on an unrecorded
+    script, and its own report had to catch that by hand.
 
     `open` and `claimed` assert no event and stay free; only a grade that says
     a run happened has to say which.
@@ -1519,7 +1519,7 @@ def test_a_superseded_premise_is_graded_by_what_actually_changed():
 
 
 def test_a_superseded_inference_stops_reporting_as_live_debt():
-    """THE BASELINE DILUTION, which is the cost the census actually paid.
+    """THE BASELINE DILUTION, which is the cost a live campaign actually paid.
 
     With no supersession, a reminted inference stayed in the graph forever and
     its findings kept reporting, so the baseline grew an entry meaning
@@ -1577,9 +1577,10 @@ def test_restriction_is_not_necessary_condition_wearing_a_new_name():
 
     The six point-cells ARE identical to NECESSARY_CONDITION's -- they follow
     from containment and nothing else, which is why NECESSARY_CONDITION was the
-    attractor for the census's PD-cone edge and why mislabelling it would have
-    licensed nothing false.  The IDENTITY row is where they diverge, and the
-    divergence is real: a restriction adds no equations, so there is no larger
+    attractor for the positivity-cone edge that forced this type, and why
+    mislabelling it would have licensed nothing false.  The IDENTITY row is
+    where they diverge, and the divergence is real: a restriction adds no
+    equations, so there is no larger
     ideal and no quotient, and the obstruction that stops a DERIVED identity
     crossing a NECESSARY_CONDITION is simply absent.
     """
