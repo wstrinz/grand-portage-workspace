@@ -1136,6 +1136,13 @@ LICENSING_FIELDS = ("certificate", "scope", "identity_origin",
 INFERENCE_IDENTIFYING_FIELDS = ("asserted", "concludes_kind")
 INFERENCE_LICENSING_FIELDS = ("premises",)
 
+# And for an EDGE.  Exactly the fields `transport` reads off one -- not `type`
+# alone, which was the first version of this list and repeated the very mistake
+# the claim version was written to avoid.  An EQUIVALENCE gaining `ring_iso`,
+# or a RESTRICTION gaining `zariski_dense`, keeps its type and changes which
+# cells it opens; a `map_kind` moving off IDENTITY_MAP closes one.
+EDGE_LICENSING_FIELDS = ("type", "map_kind", "ring_iso", "zariski_dense")
+
 
 class SupersessionError(KernelRefusal):
     """A supersession whose declared kind does not match what changed."""

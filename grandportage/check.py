@@ -41,6 +41,7 @@ R_ALIAS = "ALIAS"
 R_VACUOUS = "VACUOUS-CONCLUSION"
 R_SELF_BUILT = "SELF-BUILT-MODEL"
 R_STALE_PREMISE = "STALE-PREMISE"
+R_STALE_PATH = "STALE-PATH"
 
 EXISTENCE_OPPOSITE = {K.EMPTY: K.NONEMPTY, K.NONEMPTY: K.EMPTY}
 
@@ -517,12 +518,13 @@ def check_coverage(graph):
 def withdrawn_edges(graph):
     """Edge ids a LIVE edge declares it has replaced.
 
-    Claims and inferences carry the answer on their face: `store._supersede`
-    stamps `superseded_by` on the record being replaced, and `check_transport`
-    reads it.  EDGES DO NOT GET THAT STAMP -- `_apply_edge` requires
-    `discharge_kind` and writes no back-pointer -- so deadness here is read off
-    the successors instead of off the record itself.  Same question, computed
-    rather than stored.
+    Edges DO carry `superseded_by` now -- `store._resolve_supersessions` stamps
+    all three entity kinds -- AND THE STAMP IS STILL NOT ENOUGH HERE.  It marks
+    every record some other record claims to replace, which in a CYCLE is both
+    of them: E-A names E-B, E-B names E-A, both get stamped, and reading the
+    stamp alone would call both dead in a graph where nothing is current.  So
+    deadness is computed from the successors rather than read off the record,
+    and the stamp is used only as a cross-check.
 
     THE WORD `LIVE` IS DOING WORK, and it is the whole reason this is a walk
     rather than a set comprehension.  Nothing in the fold refuses a supersession
@@ -604,6 +606,35 @@ def check_untyped(graph):
     return findings
 
 
+def _withdrawn_and_unridden(graph, eid, dead=None):
+    """Is this edge dead AND carrying no live traffic?
+
+    THE GUARD ON EVERY RULE THAT REPORTS AN EDGE'S OWN ATTRIBUTES.  Four rules
+    besides UNTYPED-EDGE report a defect in what an edge DECLARES -- a
+    refinement typed wrong, an EQUIVALENCE resting on nothing, a self-refuting
+    one, a partition branch pointing the wrong way -- and none of them asked
+    whether the edge was still current.  So a defect repaired by superseding
+    the edge reported forever, exactly as UNTYPED-EDGE did.
+
+    Confirmed on a live graph: both of its above-floor findings sat on
+    withdrawn edges, and the campaign had EARNED them by doing the right thing
+    -- adding a `converse_witness` requires superseding, so discharging
+    UNJUSTIFIED-EQUIVALENCE minted a permanent UNJUSTIFIED-EQUIVALENCE plus a
+    permanent PARALLEL-EDGE.
+
+    THE TRAFFIC HALF IS NOT OPTIONAL, and matters more here than it did for
+    UNTYPED-EDGE.  A dead UNTYPED edge licenses nothing, so traffic over it is
+    refused loudly elsewhere.  These edges carry PERMISSIVE types: a withdrawn
+    EQUIVALENCE that a live inference still rides goes on licensing silently,
+    and this finding is the only thing that would say so.  Three of the four
+    report above the blocking floor, so going quiet on one that is still
+    load-bearing would be a strictly worse trade than the noise it removes.
+    """
+    if dead is None:
+        dead = withdrawn_edges(graph)
+    return eid in dead and not live_crossings(graph, [eid])
+
+
 def check_refinement(graph):
     """Monotonicity is not a fourth type.
 
@@ -613,8 +644,11 @@ def check_refinement(graph):
     refinement edge typed as anything else is a modelling error.
     """
     findings = []
+    dead = withdrawn_edges(graph)
     for eid in sorted(graph.edges):
         e = graph.edges[eid]
+        if _withdrawn_and_unridden(graph, eid, dead):
+            continue
         if not e["refinement"] or e["type"] == K.NECESSARY_CONDITION:
             continue
         findings.append(Finding(
@@ -662,8 +696,11 @@ def check_unjustified_equivalence(graph):
     own finding below.
     """
     findings = []
+    dead = withdrawn_edges(graph)
     for eid in sorted(graph.edges):
         e = graph.edges[eid]
+        if _withdrawn_and_unridden(graph, eid, dead):
+            continue
         if e["type"] != K.EQUIVALENCE:
             continue
         if e.get("converse_witness") or e.get("cite"):
@@ -781,6 +818,8 @@ def check_partitions(graph):
         parent, branches = p["parent"], p["branches"]
         for eid in sorted(graph.edges):
             e = graph.edges[eid]
+            if _withdrawn_and_unridden(graph, eid):
+                continue
             if e["src"] != parent or e["dst"] not in branches:
                 continue
             findings.append(Finding(
@@ -1153,8 +1192,11 @@ def check_self_refuting_equivalence(graph):
     evidence denies.
     """
     findings = []
+    dead = withdrawn_edges(graph)
     for eid in sorted(graph.edges):
         e = graph.edges[eid]
+        if _withdrawn_and_unridden(graph, eid, dead):
+            continue
         # Legacy `witness` meant strictness in every existing use, so it is read
         # here too -- an old graph that documented an equivalence with its own
         # counterexample should surface, not stay quiet because it used the old
@@ -1244,6 +1286,73 @@ def check_stale_premises(graph):
     return findings
 
 
+def check_stale_paths(graph):
+    """A live inference ROUTED OVER an edge its author has replaced.
+
+    THE EXACT COMPLEMENT of `check_stale_premises`, and the precondition that
+    makes silencing findings on withdrawn edges safe.  Supersession never
+    repoints anything -- deliberately, since crediting an argument against a
+    record it was never checked against is the failure this refuses to
+    automate -- so an inference goes on riding the old edge after the author
+    has declared a better one.
+
+    Without this rule, the four edge-attribute rules would go quiet on a
+    withdrawn edge and nothing anywhere would mention that live traffic still
+    crosses it.  `_withdrawn_and_unridden` keeps them loud in that case; this
+    says WHY, and says it against the inference rather than the edge, which is
+    where the repair has to happen.
+
+    The severity turns on the same question as STALE-PREMISE: did anything that
+    LICENSES a transport actually move?  A successor that only gained a
+    `converse_witness` or a `discharge_hint` licenses exactly what its
+    predecessor did, so the argument stands as checked and the pointer is
+    merely stale.  A successor that was retyped, or gained `ring_iso` or
+    `zariski_dense`, licenses different cells -- and the argument was audited
+    against the other ones.
+    """
+    findings = []
+    dead = withdrawn_edges(graph)
+    if not dead:
+        return findings
+    successor = {}
+    for eid in sorted(graph.edges):
+        old = graph.edges[eid].get("supersedes")
+        if old in dead:
+            successor[old] = eid
+    for iid in graph.inference_order:
+        inf = graph.inferences[iid]
+        if inf.get("superseded_by"):
+            continue
+        for eid, direction in inf["path"]:
+            if eid not in dead:
+                continue
+            new_id = successor.get(eid)
+            newer = graph.edges.get(new_id) if new_id else None
+            moved = ([f for f in K.EDGE_LICENSING_FIELDS
+                      if graph.edges[eid].get(f) != newer.get(f)]
+                     if newer else [])
+            bookkeeping = newer is not None and not moved
+            findings.append(Finding(
+                R_STALE_PATH, "%s:%s:%s" % (R_STALE_PATH, iid, eid),
+                DEBT if bookkeeping else UNSOUND_PREMISE, iid,
+                "inference %s is routed over edge %s, which %s replaced."
+                % (iid, eid, new_id or "another edge")
+                + ("\n  It licenses exactly what %s licensed, so the argument "
+                   "stands as checked and only the pointer is stale."
+                   % eid if bookkeeping else
+                   "\n  %s changed, so this argument was audited against cells "
+                   "the current edge does not open. The conclusion is not "
+                   "withdrawn and is not licensed either -- it is UNEXAMINED."
+                   % (", ".join(moved) or "The relation")),
+                "Redeclare this inference over %s and mark the old one "
+                "`supersedes`. Supersession does not repoint a path on its "
+                "own: an argument credited against an edge it was never "
+                "checked against is the failure this refuses to automate."
+                % (new_id or "the current edge"),
+                semantic_key="%s|%s" % (iid, eid)))
+    return findings
+
+
 def run(graph, accepted=None):
     """All rules, in a stable order, most severe first.
 
@@ -1265,6 +1374,7 @@ def run(graph, accepted=None):
                 + check_partitions(graph)
                 + check_supersession(graph, accepted)
                 + check_stale_premises(graph)
+                + check_stale_paths(graph)
                 + check_parallel_edges(graph)
                 + check_vacuous_conclusions(graph)
                 + check_self_built(graph))

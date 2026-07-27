@@ -20,6 +20,8 @@ one, or none at all and a cycle instead, and the assertion is that each is
 still caught.
 """
 
+import pytest
+
 from grandportage import check as C
 from grandportage import kernel as K
 from grandportage import store as S
@@ -129,20 +131,31 @@ def test_two_edges_superseding_each_other_withdraw_nothing():
         "pair of models with nothing saying which binds")
 
 
-def test_a_dangling_supersession_withdraws_nothing():
+def test_a_dangling_supersession_is_refused_by_the_FOLD():
     """A typo must not withdraw a finding by accident.
 
     `supersedes: "E-IV-PB"` is one keystroke from the real id and reads, to a
-    human skimming, exactly like the repair.  It names no edge, so it replaces
-    nothing, and `check_supersession` reports it rather than this rule quietly
-    honouring it.
+    human skimming, exactly like the repair.
+
+    THE PROTECTION MOVED EARLIER AND GOT LOUDER.  This used to survive the fold
+    and be reported by `check_supersession`, which was already enough to stop
+    the rule honouring it.  Once supersession resolution moved into `validate()`
+    -- where every other cross-reference is checked -- a dangling `supersedes`
+    became what it always was: a referentially broken graph, in the same class
+    as an inference naming a claim that does not exist.
+
+    A finding can be accepted and carried. A graph whose references do not
+    resolve cannot be acted on at all, so refusing it is the honest answer.
     """
-    g = _graph(MODELS + [UNTYPED_OLD,
-        {"ev": "edge", "id": "E-IV-PD-RESTRICT", "src": "IV", "dst": "PD",
-         "type": "RESTRICTION", "why": "the cut-out subset",
-         "supersedes": "E-IV-PB", "discharge_kind": "RETYPE"}])
-    assert "UNTYPED-EDGE:E-IV-PD" in _rules(g, C.R_UNTYPED)
-    assert "SUPERSESSION:E-IV-PD-RESTRICT" in _rules(g, C.R_SUPERSEDE)
+    with pytest.raises(S.GraphError) as exc:
+        _graph(MODELS + [UNTYPED_OLD,
+            {"ev": "edge", "id": "E-IV-PD-RESTRICT", "src": "IV", "dst": "PD",
+             "type": "RESTRICTION", "why": "the cut-out subset",
+             "supersedes": "E-IV-PB", "discharge_kind": "RETYPE"}])
+    assert "not a edge in this graph" in str(exc.value)
+    assert "fold it too" in str(exc.value), (
+        "the message must say what to do when the older edge is in a log you "
+        "have not merged, which is the innocent version of this")
 
 
 # ===========================================================================
@@ -299,3 +312,67 @@ def test_withdrawal_is_computed_from_live_successors_only():
          "supersedes": "E-A", "discharge_kind": "RETYPE"}])
     assert C.withdrawn_edges(cycle) == set(), (
         "a closed cycle names no current edge, so it retires nothing")
+
+
+# ===========================================================================
+# STALE-PATH.  The precondition that makes the silence above safe.
+# ===========================================================================
+def test_a_live_inference_riding_a_withdrawn_edge_is_reported():
+    """THE MISSING COMPLEMENT of STALE-PREMISE, and the safety precondition for
+    every rule that now goes quiet on a withdrawn edge.
+
+    Supersession never repoints anything, so an inference goes on riding the
+    old edge after a better one is declared. Before this rule, four
+    edge-attribute rules could fall silent on that edge and NOTHING anywhere
+    said live traffic still crossed it.
+    """
+    g = _graph(MODELS + [UNTYPED_OLD, RETYPED, CLAIM, _rider("I", "E-IV-PD")])
+    found = {f.fid: f for f in C.run(g) if f.rule == C.R_STALE_PATH}
+    assert "STALE-PATH:I:E-IV-PD" in found
+    f = found["STALE-PATH:I:E-IV-PD"]
+    assert f.severity == C.UNSOUND_PREMISE, (
+        "UNTYPED -> RESTRICTION changes what the edge licenses, so the "
+        "argument was audited against cells the current edge does not open")
+    assert "UNEXAMINED" in f.detail
+    assert "E-IV-PD-RESTRICT" in f.discharge, "it must name the replacement"
+
+
+def test_a_stale_path_is_only_DEBT_when_nothing_licensing_moved():
+    """The severity turns on the same question as STALE-PREMISE. A successor
+    that only gained a `converse_witness` licenses exactly what its predecessor
+    did, so the argument stands as checked and the pointer is merely stale.
+
+    This is the case a live campaign actually hit: discharging
+    UNJUSTIFIED-EQUIVALENCE requires superseding, which is the right move and
+    must not be punished as though the mathematics had changed.
+    """
+    eq = {"ev": "edge", "id": "E-EQ", "src": "IV", "dst": "PD",
+          "type": K.EQUIVALENCE, "why": "reversible", "cite": "asserted"}
+    eq2 = dict(eq, id="E-EQ-2", converse_witness="the explicit inverse",
+               supersedes="E-EQ", discharge_kind="DERIVE")
+    g = _graph(MODELS + [eq, eq2, CLAIM, _rider("I", "E-EQ")])
+    found = [f for f in C.run(g) if f.rule == C.R_STALE_PATH]
+    assert len(found) == 1
+    assert found[0].severity == C.DEBT, (
+        "adding a converse opens no new cell; punishing the repair at the "
+        "blocking floor would make doing the right thing cost more than not")
+    assert "only the pointer is stale" in found[0].detail
+
+
+def test_a_withdrawn_edge_carrying_live_traffic_keeps_its_own_findings():
+    """The two halves have to agree. If STALE-PATH reports the traffic, the
+    edge-attribute rules may go quiet; if the edge is ridden they must NOT,
+    because a withdrawn EQUIVALENCE that a live inference still rides goes on
+    licensing silently and this is the only thing that would say so."""
+    eq = {"ev": "edge", "id": "E-EQ", "src": "IV", "dst": "PD",
+          "type": K.EQUIVALENCE, "why": "asserted reversible"}
+    eq2 = {"ev": "edge", "id": "E-EQ-2", "src": "IV", "dst": "PD",
+           "type": K.NECESSARY_CONDITION, "why": "it was never reversible",
+           "supersedes": "E-EQ", "discharge_kind": "RETYPE"}
+    ridden = _graph(MODELS + [eq, eq2, CLAIM, _rider("I", "E-EQ")])
+    assert "UNJUSTIFIED-EQUIVALENCE:E-EQ" in _rules(
+        ridden, "UNJUSTIFIED-EQUIVALENCE"), (
+        "still ridden, so the finding must stay")
+    unridden = _graph(MODELS + [eq, eq2])
+    assert not _rules(unridden, "UNJUSTIFIED-EQUIVALENCE"), (
+        "withdrawn and unridden: the defect was repaired by replacing it")

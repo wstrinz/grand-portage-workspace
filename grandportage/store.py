@@ -21,6 +21,7 @@ import json
 import os
 
 from . import kernel as K
+from .discharge import DISCHARGE_KINDS as D_KINDS
 
 GRAPH_DIR = ".portage"
 GRAPH_FILE = "graph.jsonl"
@@ -402,47 +403,94 @@ class Graph(object):
         # is WRONG, including a pair that contradicts itself.
         K.check_evidence(ev.get("established_by"), ev.get("ladder"),
                          claim_id=ev["id"])
-        self._supersede(c, self.claims, "claim", where)
         self.claims[ev["id"]] = c
 
-    def _supersede(self, new, registry, entity, where):
-        """Record that this record replaces an earlier one, and check the kind.
+    # -----------------------------------------------------------------------
+    # SUPERSESSION IS RESOLVED AFTER THE FOLD, NOT DURING IT.
+    #
+    # The first version checked it inside `_apply_claim`, which made the fold
+    # ORDER-DEPENDENT and quietly falsified the property that earns the
+    # append-only shape:
+    #
+    #     merge [old_branch, new_branch]  -> folds
+    #     merge [new_branch, old_branch]  -> "supersedes X, which is not a
+    #                                         claim in this graph"
+    #
+    # `load`'s docstring says order does not matter, DESIGN.md sells merging as
+    # concatenate-and-fold-again, and `apply_all`'s own comment says
+    # certificates are THE ONLY event kind whose prior presence changes how a
+    # later event folds.  Supersession made that sentence false the day it
+    # landed, in the same file that explains why it must not be.
+    #
+    # And the failure is not cosmetic: an unfoldable graph makes
+    # `hook.evaluate` fail CLOSED, so the wrong concatenation order blocks
+    # every tool call in a session.
+    #
+    # So it belongs here, with every other cross-reference.  Resolution is a
+    # pass over all three registries once the fold is complete, which also
+    # gives EDGES the treatment claims and inferences already had -- they were
+    # carrying `supersedes` with no existence check, no self-check and no
+    # back-pointer at all.
+    # -----------------------------------------------------------------------
+    _SUPERSEDABLE = ("claim", "inference", "edge")
 
-        REDECLARATION WITH DIFFERENT CONTENT IS A HARD FOLD ERROR, which is
-        right -- it is how a log stops being a log.  The consequence was that a
-        campaign noticing a missing optional attribute at check time had to
-        mint a new id and leave the old entity in the graph, dead but
-        indistinguishable from a live one, with a prose note to explain it and
-        a baseline entry that meant `superseded` rather than `carried on its
-        merits`.  One diluted entry is enough to make every other entry in a
-        baseline file weaker.
-
-        So the older record is MARKED rather than removed -- the log stays
-        append-only, and `gp check` can tell the difference.  What is not done
-        is repointing anything: an inference that used the old claim still
-        points at the old claim, and the checker says so.  Silently re-aiming
-        an argument at a record it was never checked against is the whole
-        failure mode this exists to prevent.
-        """
-        old_id = new.get("supersedes")
-        if not old_id:
-            return
-        _require(old_id != new["id"],
-                 "%s: %s %r supersedes itself." % (where, entity, new["id"]))
-        _require(old_id in registry,
-                 "%s: %s %r supersedes %r, which is not a %s in this graph. "
-                 "Supersession names the record being replaced; if the older "
-                 "one lives in a log you have not folded in, fold it too."
-                 % (where, entity, new["id"], old_id, entity))
-        old = registry[old_id]
-        _require(new.get("discharge_kind"),
-                 "%s: %s %r supersedes %r without saying HOW. Declare "
-                 "`discharge_kind`: %s."
-                 % (where, entity, new["id"], old_id,
-                    ", ".join(K.SUPERSESSION_KINDS)))
-        K.check_supersession_kind(old, new, new["discharge_kind"],
-                                  claim_id=new["id"], entity=entity)
-        old["superseded_by"] = new["id"]
+    def _resolve_supersessions(self):
+        for entity in self._SUPERSEDABLE:
+            registry = {"claim": self.claims, "inference": self.inferences,
+                        "edge": self.edges}[entity]
+            kinds = (D_KINDS if entity == "edge" else K.SUPERSESSION_KINDS)
+            for new_id in sorted(registry):
+                new = registry[new_id]
+                old_id = new.get("supersedes")
+                if not old_id:
+                    continue
+                _require(old_id != new_id,
+                         "%s %r supersedes itself." % (entity, new_id))
+                _require(old_id in registry,
+                         "%s %r supersedes %r, which is not a %s in this "
+                         "graph. Supersession names the record being replaced; "
+                         "if the older one lives in a log you have not folded "
+                         "in, fold it too."
+                         % (entity, new_id, old_id, entity))
+                kind = new.get("discharge_kind")
+                _require(kind, "%s %r supersedes %r without saying HOW. "
+                               "Declare `discharge_kind`: %s."
+                         % (entity, new_id, old_id, ", ".join(kinds)))
+                _require(kind in kinds,
+                         "%s %r supersedes %r with discharge_kind %r; for a %s "
+                         "the kinds are %s.\n"
+                         "  The two vocabularies are different on purpose. An "
+                         "EDGE supersession says what happened to the "
+                         "OBLIGATION the old edge carried; a CLAIM or "
+                         "INFERENCE supersession says what CHANGED about the "
+                         "record."
+                         % (entity, new_id, old_id, kind, entity,
+                            ", ".join(kinds)))
+                old = registry[old_id]
+                if entity == "edge":
+                    # NO COMPUTED CHECK HERE, and the reason is a distinction
+                    # worth keeping straight.
+                    #
+                    # A CLAIM's discharge_kind describes what CHANGED about the
+                    # record, so AMEND is checkable by diffing the two records
+                    # and is checked.  An EDGE's describes what happened to the
+                    # OBLIGATION the old edge carried -- DERIVE the missing
+                    # mathematics now exists, RETYPE the relation was
+                    # mis-stated, ACCEPT carry it deliberately with a reason.
+                    # Those live one level up from the record.
+                    #
+                    # A first version of this refused RETYPE when nothing in
+                    # EDGE_LICENSING_FIELDS moved, by analogy with AMEND. It
+                    # was wrong twice: it conflated the two levels, and it made
+                    # a legitimate edit inexpressible -- restating an UNTYPED
+                    # edge's `debt_why` more precisely changes no licensing and
+                    # is not a repair that did not happen. It broke five
+                    # well-reasoned tests and the tests were right.
+                    pass
+                else:
+                    K.check_supersession_kind(old, new, kind,
+                                              claim_id=new_id, entity=entity)
+                old["superseded_by"] = new_id
 
     def _apply_inference(self, ev, where):
         """An inference has one or more PREMISES, each with its own path.
@@ -581,7 +629,6 @@ class Graph(object):
                      "without `severity_why`.  A severity downgrade is a "
                      "judgement and must be visible as one."
                      % (where, ev["id"], sev))
-        self._supersede(i, self.inferences, "inference", where)
         self.inferences[ev["id"]] = i
         self.inference_order.append(ev["id"])
 
@@ -628,6 +675,7 @@ class Graph(object):
         and typing it would produce a confident verdict about a route nobody
         can walk.
         """
+        self._resolve_supersessions()
         for cid, c in sorted(self.claims.items()):
             _require(c["model"] in self.models,
                      "claim %r lives in undeclared model %r" % (cid, c["model"]))

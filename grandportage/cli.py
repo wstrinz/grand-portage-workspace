@@ -164,6 +164,7 @@ def cmd_migrate(args):
     # CLAIM, not the edge the author put them on. Guessing any of those is the
     # thing this command refuses to do.
     renames = {"ring_isomorphism": "ring_iso"}
+    _LADDER_MANUAL = set()   # which `manual` rows are bad-`ladder` rows
     changed, manual, downgraded, renamed = [], [], [], []
     for path in paths:
         # A LINE-KEYED REWRITE, not a re-serialization.  The first version of
@@ -180,6 +181,23 @@ def cmd_migrate(args):
                 if bad in ev:
                     ev[real] = ev.pop(bad)
                     renamed.append((path, n, ev.get("id"), bad, real))
+            # AN EDGE CARRYING A CLAIM'S DISCHARGE VOCABULARY. Silently
+            # accepted until edges got their supersession validated, and a live
+            # campaign had done it -- unsurprisingly, since the edge vocabulary
+            # appeared nowhere in the tool's own surface.
+            #
+            # NOT auto-mapped, and the reason is the usual one: RELICENSE says
+            # a transport-deciding attribute moved, which on an edge is true of
+            # both DERIVE (the missing mathematics now exists) and RETYPE (the
+            # relation was mis-stated). Those differ in whether the OLD edge
+            # was wrong or merely unproven, and only the author knows which.
+            if ev.get("ev") == "edge" and ev.get("supersedes") \
+                    and ev.get("discharge_kind") in K.SUPERSESSION_KINDS:
+                manual.append((path, n, ev.get("id"),
+                               "discharge_kind=%s is a CLAIM kind; an edge "
+                               "takes DERIVE (the missing mathematics now "
+                               "exists) or RETYPE (it was mis-stated) or "
+                               "ACCEPT" % ev["discharge_kind"]))
             for bad in sorted(set(S.Graph._NOT_A_FIELD) - set(renames)):
                 if bad in ev:
                     manual.append((path, n, ev.get("id"),
@@ -192,6 +210,7 @@ def cmd_migrate(args):
             if ev.get("ev") == "claim" and ev.get("ladder") \
                     and ev["ladder"] not in K.LADDER:
                 manual.append((path, n, ev.get("id"), ev["ladder"]))
+                _LADDER_MANUAL.add(ev["ladder"])
             elif ev.get("ev") == "claim" \
                     and ev.get("ladder") in K.LADDER_ASSERTS_A_RUN \
                     and not ev.get("established_by"):
@@ -238,13 +257,23 @@ def cmd_migrate(args):
               "saying where its strength went. If a run does back one of "
               "these, name the run and take the grade back.")
     if manual:
+        # ONE LIST, TWO KINDS OF PROBLEM, and the first version printed the
+        # `ladder` advice over both -- so an edge carrying a claim's discharge
+        # vocabulary was reported as `ladder=...` and told to consider
+        # `established_by`. A repair that misdescribes what it found is worse
+        # than one that says less.
+        ladder_bad = [m for m in manual if m[3] in _LADDER_MANUAL]
+        other = [m for m in manual if m[3] not in _LADDER_MANUAL]
         print("\n%d field(s) NEED A HUMAN -- the value is wrong, not missing, "
               "and only you know where it belongs:" % len(manual))
-        for p, n, cid, val in manual:
+        for p, n, cid, val in ladder_bad:
             print("  %s:%d  %s  ladder=%r" % (p, n, cid, val[:60]))
-        print("  `ladder` is a strength ordering (%s). How you came to believe "
-              "it is `established_by`; a limitation is `caveat`."
-              % ", ".join(K.LADDER))
+        if ladder_bad:
+            print("  `ladder` is a strength ordering (%s). How you came to "
+                  "believe it is `established_by`; a limitation is `caveat`."
+                  % ", ".join(K.LADDER))
+        for p, n, cid, val in other:
+            print("  %s:%d  %s\n      %s" % (p, n, cid, val))
     return 1 if manual else 0
 
 

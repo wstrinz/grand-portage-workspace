@@ -2094,3 +2094,100 @@ def test_migrate_refuses_to_guess_a_rule_name_whose_VALUE_must_change(tmp_path):
     assert cli.main(["--root", str(tmp_path), "migrate"]) == 1
     raw = open(p, encoding="utf-8").read()
     assert "map_polynomial" in raw, "left untouched for a human"
+
+
+@pytest.mark.parametrize("entity", ["claim", "edge", "inference"])
+def test_supersession_does_not_make_the_fold_order_dependent(entity):
+    """MERGING IS CONCATENATE-AND-FOLD, and supersession briefly broke that.
+
+    Checking `supersedes` inside `_apply_claim` meant the superseded record had
+    to have been folded already:
+
+        merge [old_branch, new_branch]  -> folds
+        merge [new_branch, old_branch]  -> "supersedes X, which is not a claim
+                                            in this graph"
+
+    `load`'s docstring says order does not matter, DESIGN.md sells merging as
+    concatenating logs, and `apply_all`'s own comment says CERTIFICATES ARE THE
+    ONLY event kind whose prior presence changes how a later event folds. That
+    sentence was falsified in the same file that explains why it must not be.
+
+    The failure is not cosmetic: an unfoldable graph makes `hook.evaluate` fail
+    CLOSED, so the wrong concatenation order blocks every tool call in a
+    session -- a merge order deciding whether you can work.
+
+    Fixed by resolving supersession in `validate()`, with every other
+    cross-reference. Parametrised over all three because edges got the check at
+    the same time and could regress independently.
+    """
+    models = [{"ev": "model", "id": "M", "desc": "m"},
+              {"ev": "model", "id": "N", "desc": "n"}]
+    old, new = {
+        "claim": ([{"ev": "claim", "id": "C", "model": "M",
+                    "kind": K.PREDICATE, "statement": "P"}],
+                  [{"ev": "claim", "id": "CR", "model": "M",
+                    "kind": K.PREDICATE, "statement": "P",
+                    "cite": "a better citation", "supersedes": "C",
+                    "discharge_kind": K.AMEND}]),
+        "edge": ([{"ev": "edge", "id": "E1", "src": "M", "dst": "N",
+                   "type": K.UNTYPED, "why": "?", "debt_why": "unknown"}],
+                 [{"ev": "edge", "id": "E2", "src": "M", "dst": "N",
+                   "type": K.NECESSARY_CONDITION, "why": "drops equations",
+                   "supersedes": "E1", "discharge_kind": "RETYPE"}]),
+        "inference": ([{"ev": "edge", "id": "E", "src": "M", "dst": "N",
+                        "type": K.NECESSARY_CONDITION, "why": "drops eqs"},
+                       {"ev": "claim", "id": "C", "model": "N",
+                        "kind": K.PREDICATE, "statement": "P"},
+                       {"ev": "inference", "id": "I1", "claim": "C",
+                        "path": [["E", K.AGAINST]],
+                        "concludes_kind": K.PREDICATE, "asserted": "P at M"}],
+                      [{"ev": "inference", "id": "I2", "claim": "C",
+                        "path": [["E", K.AGAINST]],
+                        "concludes_kind": K.PREDICATE,
+                        "asserted": "P at M, restated", "supersedes": "I1",
+                        "discharge_kind": K.RESTATE}]),
+    }[entity]
+
+    def fold(events):
+        g = S.Graph()
+        return g.apply_all(
+            [(e, "<log>", i) for i, e in enumerate(events)]).validate()
+
+    forward = fold(models + old + new)
+    backward = fold(models + new + old)     # the merge that used to fail
+    reg = {"claim": "claims", "edge": "edges", "inference": "inferences"}[entity]
+    assert (sorted(getattr(forward, reg)) == sorted(getattr(backward, reg)))
+    # And the back-pointer lands either way -- including on EDGES, which
+    # carried `supersedes` with no existence check and no stamp at all.
+    old_id = list(old)[-1]["id"]
+    assert getattr(backward, reg)[old_id].get("superseded_by")
+
+
+def test_an_edge_cannot_supersede_itself_or_a_record_that_is_not_there():
+    """Edges had NEITHER check. `_apply_edge` required `discharge_kind` and
+    stopped there, so `supersedes: <typo>` withdrew nothing while reading like
+    a repair, and `supersedes: <own id>` was expressible."""
+    for bad, msg in [("E1", "supersedes itself"),
+                     ("E-TYPO", "not a edge in this graph")]:
+        with pytest.raises(S.GraphError) as exc:
+            _graph(TWO_MODELS + [
+                {"ev": "edge", "id": "E1", "src": "TIGHT", "dst": "LOOSE",
+                 "type": K.NECESSARY_CONDITION, "why": "drops equations",
+                 "supersedes": bad, "discharge_kind": "RETYPE"}])
+        assert msg in str(exc.value)
+
+
+def test_the_two_discharge_vocabularies_are_not_interchangeable():
+    """An EDGE supersession says what happened to the OBLIGATION the old edge
+    carried; a CLAIM's says what CHANGED about the record. Borrowing across
+    them was silently accepted on edges, whose `discharge_kind` was validated
+    against nothing at all."""
+    with pytest.raises(S.GraphError) as exc:
+        _graph(TWO_MODELS + [
+            {"ev": "edge", "id": "E1", "src": "TIGHT", "dst": "LOOSE",
+             "type": K.UNTYPED, "why": "?", "debt_why": "unknown"},
+            {"ev": "edge", "id": "E2", "src": "TIGHT", "dst": "LOOSE",
+             "type": K.NECESSARY_CONDITION, "why": "drops equations",
+             "supersedes": "E1", "discharge_kind": K.AMEND}])
+    assert "for a edge the kinds are" in str(exc.value)
+    assert "OBLIGATION" in str(exc.value)
