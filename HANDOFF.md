@@ -24,7 +24,7 @@ Five layers, enforcement in exactly one:
 ```
 agent → MCP server (edge REQUIRED, no declaration → no CAS process)
       → .portage/graph.jsonl  (append-only; the graph is the state)
-      → kernel (5 edge types × 2 directions × 4 claim kinds)
+      → kernel (6 edge types × 2 directions × 4 claim kinds)
       → checker → findings → discharge moves
       → hook (runs after each tool call, exit 2 = refuse)
 ```
@@ -32,7 +32,7 @@ agent → MCP server (edge REQUIRED, no declaration → no CAS process)
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about six days. Version 0.3.3. 307 checks.** Treat
+**Age: about seven days. Version 0.4. <!--checks-->386<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 There is now a **public repo**: `github.com/wstrinz/grandportage`, Apache-2.0,
@@ -83,7 +83,8 @@ dev/
                               that graph is the evidence.
     campaigns/lsem-census/    the sustained run. See below.
     testing/                  T3/T4/T5 conditions + results, T1 runbook
-    math-stuff/               one shared submodule, pinned 86d8fb0
+    campaigns/jc2-chartmap/   a bounded run at the chart-map lead
+    math-stuff/               one shared submodule, pinned e145e8e
   math-stuff/               THE RESEARCH REPO. READ-ONLY, always.
 ```
 
@@ -136,16 +137,33 @@ exits nonzero. The T5 graph still does not fold for exactly this reason: four
 **Candidate 16th design invariant: every required field ships with a migration
 that fills the ignorance value.**
 
-**The recurring shape, three instances now:** a field that DETERMINES transport
+**The recurring shape, five instances now:** a field that DETERMINES transport
 and is taken on the author's word. Certificates (pre-v0.2), `identity_origin`
-(pre-v0.3), `kind` (pre-v0.3.1). Each was found by someone *exploiting* it, not
-by review. The repair each time is the same: make it derivable, make it
-checkable, or make it compose with something already checked — never "try
-harder to fill it in correctly."
+(pre-v0.3), `kind` (pre-v0.3.1), `ladder` (pre-v0.3.2, found by T5 when a
+foreign campaign filled it with seven values and no overlap with the five it
+declares), and `established_by` (pre-v0.4). Each was found by someone *using*
+or *exploiting* it, never by review.
 
-**If you are looking for the fourth, `ladder` is the candidate.** It is
-unvalidated free text, it has now been demonstrably wrong three times, and
-nothing has ever attacked it.
+**THE REPAIR RULE, and it is the best general principle in this corpus:** make
+it derivable, make it checkable, or make it compose with something already
+checked — never "try harder to fill it in correctly." This belongs in
+`DESIGN.md`'s design invariants and is currently only here.
+
+**The fifth instance is the one to learn from, because it is a mutation.** The
+first four were fields whose VALUE was taken on the author's word. The fifth
+was a field whose ABSENCE switched off the check on a neighbour: every key in
+`IMPOSSIBLE_EVIDENCE` matches on `established_by`, so omitting it meant the
+pair evaluated was `(None, "exact-checked")`, which is in no table and
+contradicts nothing. Optionality is not neutral when another rule keys on it.
+
+**AND THE REPAIR IS STILL INCOMPLETE, so this is where to look next.**
+`exact-checked` now forces you to say `RAN`, and `RAN` is the only value that
+survives against it — but nothing requires a run ARTIFACT. You can still write
+`established_by: RAN, ladder: exact-checked` with no evidence anywhere. That is
+the honour system with one more word on it. The rule above says derivable *or*
+checkable; what shipped is checkable-against-a-neighbour, which is weaker.
+Deriving the rung from an artifact needs the run/artifact layer, deferred from
+T5 and still deferred.
 
 ### What v0.2 changed, and why it is not a feature release
 
@@ -197,7 +215,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (171 checks, ~8 s) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->386<!--/checks--> checks, ~10 s) |
 
 ---
 

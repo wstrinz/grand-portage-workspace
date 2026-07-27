@@ -14,6 +14,7 @@ mathematics and therefore to every existing test.
 
 import json
 import os
+import sys
 
 import pytest
 
@@ -2191,3 +2192,86 @@ def test_the_two_discharge_vocabularies_are_not_interchangeable():
              "supersedes": "E1", "discharge_kind": K.AMEND}])
     assert "for a edge the kinds are" in str(exc.value)
     assert "OBLIGATION" in str(exc.value)
+
+
+# ===========================================================================
+# THE DOCUMENTS.  A read surface that lies is the defect this project is about.
+# ===========================================================================
+def _repo_root():
+    return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def test_every_marked_check_count_in_the_docs_is_the_real_one():
+    """SIX DIFFERENT COUNTS WERE LIVE AT ONCE -- 160, 171, 251, 273, 307, 338 --
+    against an actual 384. `HANDOFF.md`, the file labelled READ THIS FIRST IF
+    YOU HAVE NO CONTEXT, disagreed with the README, which disagreed with
+    REVIEW.md, which disagreed with TESTPLAN.md.
+
+    That is not housekeeping. This project's thesis is that prose read surfaces
+    rot first, and these are exactly the surfaces a cold session reads. A
+    campaign whose headline measurement is COLD RESUMPTION cannot have its
+    resumption documents lying about how much evidence exists. It is REVIEW.md
+    section 7 occurring inside the documents that argue for section 7.
+
+    A NAIVE `\d+ checks` SWEEP WOULD BE A FALSE-POSITIVE GENERATOR, which is
+    the one thing this tool must not ship. Several of those numbers are TRUE
+    HISTORY -- "the suite went 171 -> 251 checks", "171 checks agreed with an
+    unsound cell" -- and a rule that could not tell a current-state claim from
+    a narrative one would demand the history be falsified to go green. So only
+    MARKED spans are checked, and marking one is the author saying "this is a
+    claim about now".
+    """
+    import re
+    import subprocess
+    root = _repo_root()
+    out = subprocess.run(
+        [sys.executable, "-m", "pytest", "-q", "--collect-only",
+         os.path.join(root, "tests")],
+        capture_output=True, text=True, cwd=root).stdout
+    m = re.search(r"(\d+) tests? collected", out)
+    assert m, "could not collect the suite to compare against"
+    real = int(m.group(1))
+
+    span = re.compile(r"<!--checks-->(\d+)<!--/checks-->")
+    wrong, seen = [], 0
+    for name in sorted(os.listdir(root)):
+        if not name.endswith(".md"):
+            continue
+        with open(os.path.join(root, name), encoding="utf-8") as fh:
+            for n, line in enumerate(fh, 1):
+                for hit in span.finditer(line):
+                    seen += 1
+                    if int(hit.group(1)) != real:
+                        wrong.append("%s:%d says %s" % (name, n, hit.group(1)))
+    assert seen, (
+        "no document states the check count as a marked span, so this test "
+        "guards nothing -- the counts have gone back to being retyped")
+    assert not wrong, (
+        "the suite has %d checks and these documents say otherwise:\n  %s\n"
+        "Run `gp docs` to resync them." % (real, "\n  ".join(wrong)))
+
+
+def test_the_docs_do_not_disagree_about_how_much_evidence_exists():
+    """A version number drifting between mirrors is normal. A CLAIM ABOUT HOW
+    MUCH EVIDENCE EXISTS drifting is the one kind that must not.
+
+    The public README said "three live user sessions" while the private one
+    said one, and `TESTPLAN.md` listed T1 as STAGED AND READY while
+    `HANDOFF.md` recorded T1 as run and failed. A reader deciding how far to
+    trust this tool is reading exactly those sentences.
+    """
+    import re
+    root = _repo_root()
+    counts = {}
+    for name in ("README.md", "REVIEW.md", "HANDOFF.md"):
+        path = os.path.join(root, name)
+        if not os.path.exists(path):
+            continue
+        with open(path, encoding="utf-8") as fh:
+            text = fh.read()
+        for m in re.finditer(r"(\w+) live user sessions?", text):
+            counts.setdefault(m.group(1).lower(), []).append(name)
+    assert len(counts) <= 1, (
+        "these documents disagree about how many live sessions have happened, "
+        "which is a claim about how much evidence exists: %s"
+        % {k: v for k, v in counts.items()})

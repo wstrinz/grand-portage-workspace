@@ -8,6 +8,7 @@ a table lookup.
 import argparse
 import json
 import os
+import re
 import sys
 
 from . import check as C
@@ -275,6 +276,70 @@ def cmd_migrate(args):
         for p, n, cid, val in other:
             print("  %s:%d  %s\n      %s" % (p, n, cid, val))
     return 1 if manual else 0
+
+
+CHECKS_SPAN = re.compile(r"(<!--checks-->)(\d+)(<!--/checks-->)")
+
+
+def cmd_docs(args):
+    """Rewrite the machine-computable numbers in the documentation.
+
+    SIX DIFFERENT CHECK COUNTS were live across the docs at once -- 160, 171,
+    251, 273, 307, 338 -- against an actual 384.  The file labelled READ THIS
+    FIRST IF YOU HAVE NO CONTEXT disagreed with the README, which disagreed
+    with REVIEW.md, which disagreed with TESTPLAN.md.
+
+    That is not housekeeping.  The project's thesis is that prose read surfaces
+    rot first, and these are the surfaces a cold session reads; a campaign
+    whose headline measurement is cold resumption cannot have its resumption
+    documents lying about how much evidence exists.  It is REVIEW.md section 7
+    happening inside the documents that argue for section 7.
+
+    A NAIVE `\\d+ checks` SWEEP WOULD BE A FALSE-POSITIVE GENERATOR, which is
+    the one thing this project must not ship.  Several of those numbers are
+    TRUE HISTORY -- "the suite went 171 -> 251 checks", "171 checks agreed with
+    it" -- and a rule that cannot tell a current-state claim from a narrative
+    one would demand the history be falsified to go green.  So current-state
+    numbers are MARKED and only marked ones are checked:
+
+        gated: <!--checks-->384<!--/checks--> checks
+
+    The comment renders as nothing, so the prose reads normally.
+
+    Precedent: `gp table` prints from the kernel so a document quoting it
+    cannot drift from the code applying it.  This is that principle applied to
+    every number a machine can compute.
+    """
+    import subprocess
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    n = args.count
+    if n is None:
+        out = subprocess.run([sys.executable, "-m", "pytest", "-q",
+                              "--collect-only", os.path.join(root, "tests")],
+                             capture_output=True, text=True, cwd=root).stdout
+        m = re.search(r"(\d+) tests? collected", out)
+        if not m:
+            sys.stderr.write("could not collect the test count\n")
+            return 2
+        n = int(m.group(1))
+    changed = []
+    for name in sorted(os.listdir(root)):
+        if not name.endswith(".md"):
+            continue
+        path = os.path.join(root, name)
+        with open(path, encoding="utf-8") as fh:
+            text = fh.read()
+        new = CHECKS_SPAN.sub(lambda mm: mm.group(1) + str(n) + mm.group(3), text)
+        if new != text:
+            with open(path, "w", encoding="utf-8") as fh:
+                fh.write(new)
+            changed.append(name)
+    print("suite has %d checks" % n)
+    for c in changed:
+        print("  updated %s" % c)
+    if not changed:
+        print("  every marked span already agrees")
+    return 0
 
 
 def cmd_merge(args):
@@ -584,6 +649,14 @@ def build_parser():
     g.add_argument("--dry-run", action="store_true",
                    help="report what would change and write nothing")
     g.set_defaults(func=cmd_migrate)
+
+    g = sub.add_parser("docs",
+                       help="rewrite the machine-computable numbers in the "
+                            "documentation, so a document quoting the suite "
+                            "cannot drift from the suite")
+    g.add_argument("--count", type=int, default=None,
+                   help="use this count instead of collecting the suite")
+    g.set_defaults(func=cmd_docs)
 
     i = sub.add_parser("init", help="create an empty graph")
     i.set_defaults(func=cmd_init)
