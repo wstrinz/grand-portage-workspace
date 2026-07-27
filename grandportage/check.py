@@ -42,6 +42,9 @@ R_VACUOUS = "VACUOUS-CONCLUSION"
 R_SELF_BUILT = "SELF-BUILT-MODEL"
 R_STALE_PREMISE = "STALE-PREMISE"
 R_STALE_PATH = "STALE-PATH"
+R_FAMILY = "FAMILY"
+R_DIRECTION = "EVIDENCE-DIRECTION"
+R_CROSSCUT = "CROSS-CUT"
 
 EXISTENCE_OPPOSITE = {K.EMPTY: K.NONEMPTY, K.NONEMPTY: K.EMPTY}
 
@@ -1353,6 +1356,212 @@ def check_stale_paths(graph):
     return findings
 
 
+def _group_size(graph, gid):
+    """How many members the thing named `gid` covers: a family, or a group."""
+    if gid in graph.families:
+        return graph.families[gid]["count"]
+    if gid in graph.groups:
+        return graph.groups[gid]["settles"]
+    return None
+
+
+def check_families(graph):
+    """ENUMERATION and COVERAGE.  The arithmetic half of a classification.
+
+    ENUMERATION.  A family's `count` is an assertion somebody made, and a
+    result of the form "k of N" is worthless if N is wrong.  One census DID
+    check its own -- orbit sizes summing to 34,752 -- and that check had
+    nowhere to live, so it went into prose and a `note`.  The obligation is the
+    same shape as `partition.exhaustive`: name the claim, and the claim carries
+    its own evidence grade.
+
+    COVERAGE, and it is RECURSIVE.  The first version of this rule required
+    every disposition's groups to total the family, which is wrong the moment a
+    triage nests -- and a real one does: 1567 splits into 347 and 1220, then
+    the 347 splits again into 343 and 4.  A disposition totals THE THING IT
+    SPLITS, which may be a family or a group from an earlier split.
+
+    Coverage cannot catch a paper nobody mentioned.  A live frontier read "32
+    open" for months because five rows settled in the literature were sitting
+    inside the residue, and 32 + 2 = 34 totals perfectly.  No tool catches
+    that.  What it catches is the arithmetic, which is the half that is
+    checkable, and what the ENUMERATION obligation adds is that the sweep
+    itself becomes a graded claim rather than an assumption baked into a
+    subtraction.
+    """
+    findings = []
+    for fid in sorted(graph.families):
+        fam = graph.families[fid]
+        enum = fam.get("enumeration")
+        if not enum or enum not in graph.claims:
+            findings.append(Finding(
+                R_FAMILY, "%s:%s" % (R_FAMILY, fid), UNSOUND_PREMISE, fid,
+                "family %s declares count %d and names %s as the claim "
+                "establishing it."
+                % (fid, fam["count"],
+                   "no claim" if not enum else "%r, which is not a claim" % enum)
+                + "\n  Every 'k of N' result in this campaign divides by that "
+                  "N. An uncounted family makes each of them a statement about "
+                  "a number nobody vouched for.",
+                "Record the enumeration as a claim at this family and name it "
+                "in `enumeration` -- how the members were counted, and how you "
+                "know the count is complete. One census verified its own by "
+                "checking orbit sizes summed to the labelled total; that is "
+                "exactly the claim this field wants.",
+                semantic_key=fid))
+    for cid in sorted(graph.claims):
+        c = graph.claims[cid]
+        # A COUNT claim is either a DISPOSITION (it splits something) or a
+        # CROSS-COUNT (it intersects two groups). Only the first has coverage
+        # arithmetic to check; the second is check_crosscuts' business.
+        if c.get("kind") != K.COUNT or not c.get("splits"):
+            continue
+        parent = c["splits"]
+        size = _group_size(graph, parent)
+        if size is None:
+            findings.append(Finding(
+                R_FAMILY, "%s:%s" % (R_FAMILY, cid), UNSOUND_PREMISE, cid,
+                "COUNT claim %s splits %r, which is neither a family nor a "
+                "group declared by another disposition." % (cid, parent),
+                "Name the family, or the group id from the split that produced "
+                "this subset.", semantic_key=cid))
+            continue
+        total = sum(g["settles"] for g in c["groups"])
+        if total != size:
+            findings.append(Finding(
+                R_FAMILY, "%s:%s" % (R_FAMILY, cid), UNSOUND_PREMISE, cid,
+                "COUNT claim %s splits %s, which covers %d members, into "
+                "groups totalling %d: %s."
+                % (cid, parent, size, total,
+                   " + ".join("%s %d" % (g["id"], g["settles"])
+                              for g in c["groups"]))
+                + "\n  A member unaccounted for is a member no verdict was "
+                  "reached about, and a member counted twice is a verdict "
+                  "reached twice about one object.",
+                "Make the groups total %d, or declare the remainder as its own "
+                "group with an honest verdict -- `unsettled` is a verdict and "
+                "an empty residue is not the same as a covered one." % size,
+                semantic_key=cid))
+    return findings
+
+
+def check_evidence_direction(graph):
+    """A CLAIM RESTING ON THE VERDICT ITS METHOD DOES NOT PROVE.
+
+    THE RULE I WAS LEAST SURE EARNED ITS REQUIRED FIELD, kept because a live
+    census produced its evidence without being asked.  Its triage settled 1220
+    classes as "not generically finite-to-one" using full Jacobian rank at a
+    sampled point -- a method that proves the POSITIVE verdict, since a nonzero
+    minor at one point is a nonzero polynomial, and gives only evidence for the
+    negative.  The author knew: the report says deficiency "is only evidence,
+    so the max over several points is taken", and the 1220 was split into 852
+    forced by parameter counting and 368 resting on sampling.
+
+    That split is the finding.  It exists because the author felt the
+    difference and had nowhere to put it, so it survived as two numbers in a
+    table and one number in the headline.
+
+    A claim naming `rests_on: <group>` uses that group's verdict.  Whether the
+    verdict is established is a property of the METHOD, not of the author's
+    confidence, which is why the direction is declared per disposition and
+    checked here rather than graded per claim.
+    """
+    findings = []
+    for cid in sorted(graph.claims):
+        c = graph.claims[cid]
+        gid = c.get("rests_on")
+        if not gid or gid not in graph.groups:
+            continue
+        g = graph.groups[gid]
+        # The disposition NAMED which of its own groups its method establishes.
+        # Everything it did not name is evidence -- including, routinely, the
+        # other side of the same computation.
+        if g["proved"]:
+            continue
+        findings.append(Finding(
+            R_DIRECTION, "%s:%s" % (R_DIRECTION, cid), UNSOUND_PREMISE, cid,
+            "claim %s rests on group %s, whose verdict %r is EVIDENCE and not "
+            "proof.\n  The method was %r, and %s does not list %s among the "
+            "groups it proves.\n  %s"
+            % (cid, gid, g["verdict"], g["method"], g["by"], gid, g["why"]),
+            "Either establish this group by a method that proves its verdict, "
+            "or restate the claim as what the evidence supports. A method that "
+            "screens is not a method that decides, and the difference is "
+            "invisible once both are counts in the same table.",
+            semantic_key="%s|%s" % (cid, gid)))
+    return findings
+
+
+def check_crosscuts(graph):
+    """A RESULT PROVED OVER ONE DECOMPOSITION, COUNTED IN ANOTHER.
+
+    THE BEST-EVIDENCED RULE HERE, because the error is real, was caught by
+    hand, and is recorded with its correction.  A live project's class of nine
+    carries two decompositions of the same nine rows -- by status (2 settled, 7
+    open) and by invariant (8 sharing (a,b,t), 1 not).  A transfer result
+    proved for the 8 was read as buying 8 open rows.  Both settled rows are
+    (2,3,4) rows, so it buys SIX:
+
+        "So the 'transfers to eight of the nine' result buys 6 genuinely open
+        rows, not 8 -- the other two are already-settled and serve as controls."
+
+    Nothing about that is exotic.  Two true statements about one family, and
+    the product of two counts is not the count of the intersection.
+
+    AND IT IS COMPUTABLE ONLY FROM NAMES.  This is what decides `exhibited`
+    against a bare count, and it decides it honestly in both directions: at 34
+    rows you list members and the intersection is arithmetic; at 1567 you do
+    not, and then the claim is refused rather than guessed.  Silently allowing
+    it because the check is unavailable is precisely how "8 of 9" became "8
+    open rows".
+    """
+    findings = []
+    for cid in sorted(graph.claims):
+        c = graph.claims[cid]
+        a_id, b_id = c.get("rests_on"), c.get("counts_against")
+        if not a_id or not b_id:
+            continue
+        if a_id not in graph.groups or b_id not in graph.groups:
+            continue
+        a, b = graph.groups[a_id], graph.groups[b_id]
+        asserted = c.get("asserts_count")
+        if not a["exhibited"] or not b["exhibited"]:
+            findings.append(Finding(
+                R_CROSSCUT, "%s:%s" % (R_CROSSCUT, cid), UNSOUND_PREMISE, cid,
+                "claim %s counts group %s against group %s, and the members of "
+                "%s are not named."
+                % (cid, a_id, b_id,
+                   a_id if not a["exhibited"] else b_id)
+                + "\n  Two decompositions of one family cannot be intersected "
+                  "from their sizes. |A| = %d and |B| = %d bound |A and B| "
+                  "only between %d and %d."
+                  % (a["settles"], b["settles"],
+                     max(0, a["settles"] + b["settles"]
+                         - (_group_size(graph, a["of"]) or 0)),
+                     min(a["settles"], b["settles"])),
+                "Name the members of both groups with `exhibited`, or drop the "
+                "cross-count and state the result over the decomposition it "
+                "was actually proved in.",
+                semantic_key="%s|%s|%s" % (cid, a_id, b_id)))
+            continue
+        overlap = sorted(set(a["exhibited"]) & set(b["exhibited"]))
+        if asserted is not None and asserted != len(overlap):
+            findings.append(Finding(
+                R_CROSSCUT, "%s:%s" % (R_CROSSCUT, cid), UNSOUND_CONCLUSION,
+                cid,
+                "claim %s asserts %d, and %s intersected with %s is %d: %s."
+                % (cid, asserted, a_id, b_id, len(overlap),
+                   ", ".join(overlap) or "no members")
+                + "\n  %d member(s) of %s are already in %s, so they are "
+                  "counted by this result and bought by it too."
+                  % (a["settles"] - len(overlap), a_id, b_id),
+                "State the intersection, %d, or say plainly which of the two "
+                "numbers the result is about. A count over one decomposition "
+                "is not a count in another." % len(overlap),
+                semantic_key="%s|%s|%s" % (cid, a_id, b_id)))
+    return findings
+
+
 def run(graph, accepted=None):
     """All rules, in a stable order, most severe first.
 
@@ -1375,6 +1584,9 @@ def run(graph, accepted=None):
                 + check_supersession(graph, accepted)
                 + check_stale_premises(graph)
                 + check_stale_paths(graph)
+                + check_families(graph)
+                + check_evidence_direction(graph)
+                + check_crosscuts(graph)
                 + check_parallel_edges(graph)
                 + check_vacuous_conclusions(graph)
                 + check_self_built(graph))
