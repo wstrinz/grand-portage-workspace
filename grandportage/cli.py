@@ -15,7 +15,8 @@ from . import check as C
 from . import hook as H
 from . import kernel as K
 from . import store as S
-from .discharge import DISCHARGE_KINDS, KNOWN_CONSERVATISM, KNOWN_UNSOUND
+from .discharge import (DISCHARGE_KINDS, KNOWN_CONSERVATISM,
+                        KNOWN_UNSOUND, discharge_for)
 
 
 def _graphs(args):
@@ -276,6 +277,66 @@ def cmd_migrate(args):
         for p, n, cid, val in other:
             print("  %s:%d  %s\n      %s" % (p, n, cid, val))
     return 1 if manual else 0
+
+
+def cmd_why(args):
+    """Explain one transport cell: what it means, what it licenses, what closes it.
+
+    THE REFUSAL IS WHERE THIS TOOL DELIVERS ITS VALUE, and every piece of
+    evidence points the same way.  A campaign returning cold reported that the
+    only artifact doing real cross-session work was a hint attached to an edge
+    and surfaced at the moment of refusal, while every prose claim about the
+    vocabulary had rotted within one session.  Another campaign spent its most
+    expensive hour on a refusal that was correct and whose correct answer could
+    not be looked up from the tool.
+
+    So this reads the material the refusal path already uses -- `TYPE_MEANS`,
+    the transport table, `MOVES`, `KNOWN_CONSERVATISM` -- rather than restating
+    it anywhere.  A second copy of an explanation is a second thing to rot, and
+    this file has already watched five README cells document licences that were
+    withdrawn two versions earlier.
+
+    THE REGISTER IS PRINTED WITH THE CELL ON PURPOSE.  A refusal that is a
+    deliberate conservatism -- where the mathematics is on the user's side and
+    the tool is being careful -- reads exactly like a refusal that is a theorem,
+    and a user who cannot tell them apart learns to route around both.  Routing
+    around a refusal is the T1 failure mode.
+    """
+    etype, direction, kind = args.type, args.direction, args.kind
+    if etype not in K.DECLARABLE_TYPES:
+        sys.stderr.write("unknown type %r; declarable: %s\n"
+                         % (etype, ", ".join(K.DECLARABLE_TYPES)))
+        return 2
+    print("%s -- %s\n" % (etype, K.TYPE_MEANS[etype]))
+    dirs = [direction] if direction else list(K.DIRECTIONS)
+    kinds = [kind] if kind else list(K.CLAIM_KINDS)
+    for d in dirs:
+        for kd in kinds:
+            r = K.transport(etype, d, kd)
+            rule = K.TRANSPORT[etype][d][kd]
+            verdict = ("licensed" if rule is True else
+                       "REFUSED" if rule is False else
+                       "conditional on `%s`" % rule)
+            print("  %-8s %-9s  %s" % (d, kd, verdict))
+            if rule is not True and (direction or kind):
+                print("    %s" % r.reason)
+                print("    -> %s" % discharge_for(etype, d, kd).replace(
+                    "\n", "\n       "))
+            # THE MATHEMATICS IS ON YOUR SIDE AND THE TOOL IS NOT.
+            for c in KNOWN_CONSERVATISM:
+                if c["cell"] == (etype, d, kd):
+                    print("    NOTE -- THIS REFUSAL IS A DELIBERATE "
+                          "CONSERVATISM, not a theorem against you.")
+                    print("      the kernel says : %s" % c["kernel_says"])
+                    print("      the truth is    : %s" % c["truth"])
+                    print("      kept because    : %s" % c["why_kept"])
+            for c in KNOWN_UNSOUND:
+                if c.get("cell") == (etype, d, kd):
+                    print("    WARNING -- THIS CELL IS KNOWN UNSOUND: %s"
+                          % c.get("why", ""))
+        if not kind:
+            print()
+    return 0
 
 
 CHECKS_SPAN = re.compile(r"(<!--checks-->)(\d+)(<!--/checks-->)")
@@ -657,6 +718,15 @@ def build_parser():
     g.add_argument("--count", type=int, default=None,
                    help="use this count instead of collecting the suite")
     g.set_defaults(func=cmd_docs)
+
+    g = sub.add_parser("why",
+                       help="explain a transport cell: what the type means, "
+                            "what it licenses, and what would close a refusal")
+    g.add_argument("type", help="an edge type, e.g. RESTRICTION")
+    g.add_argument("direction", nargs="?", choices=list(K.DIRECTIONS),
+                   default=None)
+    g.add_argument("kind", nargs="?", choices=list(K.CLAIM_KINDS), default=None)
+    g.set_defaults(func=cmd_why)
 
     i = sub.add_parser("init", help="create an empty graph")
     i.set_defaults(func=cmd_init)

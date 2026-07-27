@@ -375,7 +375,10 @@ def check_transport(graph):
                           direction, inf["concludes_kind"],
                           graph=graph, edge=edge,
                           fid="%s:%s" % (R_TRANSPORT, iid),
-                          traffic=True),
+                          traffic=True,
+                          hints=collect_hints(
+                              graph, claim=inf.get("claim"),
+                              model=inf.get("concludes_at"))),
             trace=trace, derived_severity=derived,
             severity_why=inf.get("severity_why"), semantic_key=key))
     return findings
@@ -1680,3 +1683,31 @@ def exit_code(findings, floor=UNSOUND_PREMISE):
     """
     rank = SEVERITY_RANK[floor]
     return 1 if any(SEVERITY_RANK[f.severity] >= rank for f in findings) else 0
+
+
+def collect_hints(graph, **objects):
+    """Author-supplied remedies from every object a finding touches.
+
+    `discharge_for` knows what a CELL requires and cannot know what a CAMPAIGN
+    would do about it.  That gap used to be filled by edges alone, and the one
+    piece of evidence anybody has about cross-session handoff says it was the
+    right mechanism pointed at too few objects: a returning session found the
+    edge hint "came back verbatim in every refusal" and was "the only artifact
+    in the campaign that did real cross-session handoff work", in the same
+    report that found every prose claim about the tool had rotted within a
+    session.
+
+    So: models, claims, families and partitions carry one too.  Pass the
+    objects a finding is about; the ones that have something to say are
+    rendered, labelled by what they are, and the rest cost nothing.
+    """
+    out = []
+    for label in sorted(objects):
+        obj = objects[label]
+        if isinstance(obj, str):
+            obj = (graph.models.get(obj) or graph.claims.get(obj)
+                   or graph.families.get(obj) or graph.edges.get(obj)
+                   or graph.partitions.get(obj))
+        if obj and obj.get("discharge_hint"):
+            out.append((label, obj["discharge_hint"]))
+    return out

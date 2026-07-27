@@ -489,7 +489,7 @@ KNOWN_UNSOUND = []
 
 def discharge_for(rule_or_type, direction=None, kind=None, graph=None,
                   edge=None, axis=None, missing=None, fid=None,
-                  traffic=False):
+                  traffic=False, hints=()):
     """The canonical next move for a finding.  Never returns empty.
 
     `traffic=True` means "a conclusion was drawn ACROSS this edge", as opposed
@@ -541,6 +541,28 @@ def discharge_for(rule_or_type, direction=None, kind=None, graph=None,
     # to the campaign, and the campaign is the only thing that knows it -- so
     # an edge can say what would actually close a refusal across it, and that
     # is appended rather than replacing the requirement.
+    # EVERY OBJECT INVOLVED, not only the edge.
+    #
+    # THE ONE ARTIFACT WITH EVIDENCE OF WORKING.  A campaign returning cold
+    # after a context boundary reported that the `discharge_hint` written on an
+    # edge by the previous session "came back verbatim in every refusal, and it
+    # named the remedy precisely enough to execute", and called it "the only
+    # artifact in the campaign that did real cross-session handoff work.
+    # Nothing in the prose files did that."
+    #
+    # The same session found that every prose claim about the tool's vocabulary
+    # had ROTTED within one session, while this string had not -- because it is
+    # attached to the object it is about and surfaced at the moment the object
+    # blocks you, instead of sitting in a file somebody has to think to open.
+    #
+    # In Cognitive Dimensions terms this is SECONDARY NOTATION: author-supplied
+    # annotation the system does not interpret.  The finding is that the
+    # secondary notation outperformed every piece of primary notation for
+    # handoff, which is a known phenomenon with a known implication -- support
+    # it deliberately rather than treating it as decoration.  Only edges could
+    # carry one.  Now anything can.
+    for label, text in (hints or ()):
+        move += "\n  FOR THIS %s, the campaign says: %s" % (label.upper(), text)
     if edge and edge.get("discharge_hint"):
         move += ("\n  FOR THIS EDGE, the campaign says: %s"
                  % edge["discharge_hint"])

@@ -2275,3 +2275,72 @@ def test_the_docs_do_not_disagree_about_how_much_evidence_exists():
         "these documents disagree about how many live sessions have happened, "
         "which is a claim about how much evidence exists: %s"
         % {k: v for k, v in counts.items()})
+
+
+# ===========================================================================
+# THE REFUSAL SURFACE.  The one place with evidence of working.
+# ===========================================================================
+def test_a_hint_on_a_claim_or_a_model_reaches_the_refusal():
+    """ONLY EDGES COULD CARRY ONE, and it was the single artifact that survived
+    a context boundary.
+
+    A campaign returning cold reported the edge hint "came back verbatim in
+    every refusal, and it named the remedy precisely enough to execute" -- "the
+    only artifact in the campaign that did real cross-session handoff work.
+    Nothing in the prose files did that." The same report found every prose
+    claim about the tool's vocabulary had rotted within one session.
+
+    In Cognitive Dimensions terms it is SECONDARY NOTATION outperforming every
+    piece of primary notation, which has a known implication: support it
+    deliberately instead of treating it as decoration.
+    """
+    g = _graph(TWO_MODELS + [
+        {"ev": "edge", "id": "E", "src": "TIGHT", "dst": "LOOSE",
+         "type": K.NECESSARY_CONDITION, "why": "drops equations"},
+        {"ev": "claim", "id": "C", "model": "TIGHT", "kind": K.PREDICATE,
+         "statement": "P holds",
+         "discharge_hint": "P was only ever checked on the smooth locus"},
+        {"ev": "inference", "id": "I", "claim": "C", "path": [["E", K.ALONG]],
+         "concludes_kind": K.PREDICATE, "asserted": "P on the looser model"}])
+    f = [x for x in C.run(g) if x.rule == C.R_TRANSPORT][0]
+    assert "FOR THIS CLAIM" in f.discharge
+    assert "smooth locus" in f.discharge
+    # And the cell's own requirement is still there -- a hint is APPENDED to
+    # what the mathematics demands, never a replacement for it.
+    assert "re-derive it in the target model" in f.discharge
+
+
+def test_gp_why_prints_the_conservatism_register_with_the_cell(capsys):
+    """A REFUSAL THAT IS A DELIBERATE CONSERVATISM READS EXACTLY LIKE A THEOREM,
+    and a user who cannot tell them apart learns to route around both. Routing
+    around a refusal is the T1 failure mode.
+
+    IMAGE_CLOSURE/AGAINST/NONEMPTY is the case: sound under the existential
+    reading of NONEMPTY, unsound under the witness reading, and the table can
+    encode only one. A user hitting it should be told the mathematics may well
+    be on their side and the tool is being careful.
+    """
+    from grandportage import cli
+    assert cli.main(["why", "IMAGE_CLOSURE", "AGAINST", "NONEMPTY"]) == 0
+    out = capsys.readouterr().out
+    assert "DELIBERATE CONSERVATISM" in out
+    assert "not a theorem against you" in out
+    assert "Chevalley" in out, "the cell's own discharge must still print"
+
+
+def test_gp_why_reads_the_kernel_rather_than_restating_it(capsys):
+    """A second copy of an explanation is a second thing to rot, and this repo
+    has already watched five README cells document licences withdrawn two
+    versions earlier. `gp why` must render TYPE_MEANS and the transport table,
+    not a paraphrase kept beside them."""
+    from grandportage import cli
+    for etype in K.ALL_TYPES:
+        assert cli.main(["why", etype]) == 0
+        out = capsys.readouterr().out
+        assert K.TYPE_MEANS[etype].split(".")[0][:40] in out, (
+            "%s's printed meaning must come from TYPE_MEANS" % etype)
+        for d in K.DIRECTIONS:
+            for kd in K.CLAIM_KINDS:
+                rule = K.TRANSPORT[etype][d][kd]
+                if rule is True:
+                    assert "%-8s %-9s  licensed" % (d, kd) in out
