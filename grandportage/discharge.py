@@ -285,6 +285,26 @@ RULE_MOVES = {
         "it held; a graph that states a falsehood is worse than one that "
         "states a gap. Withdraw the conclusion instead, or weaken it to "
         "something the premises you DO have will carry."),
+    # A CASE SPLIT THAT DOES NOT COVER ITS PARENT.  Also not a transport
+    # refusal, and pointedly not the same remedy as a missing premise: nothing
+    # is absent from the graph, the argument is simply not yet an argument
+    # about the parent.
+    "(partition)": (
+        "COVER EVERY BRANCH, or conclude about a branch instead of the parent. "
+        "A case split reaches the parent only when NO case is left open -- one "
+        "branch dying says nothing whatever about the others, which is why no "
+        "single edge licenses this step and the partition carries it.\n"
+        "  Settle the branches the finding names, or narrow the conclusion to "
+        "the branches you have. Both are honest; asserting the parent from a "
+        "proper subset of its cases is not.\n"
+        "  If a branch cannot be settled, declare it as an OPEN SLOT rather "
+        "than omitting it. The coverage verdict is identical -- a slot settles "
+        "nothing, deliberately -- but the graph then says WHICH case is open "
+        "and why, instead of leaving a reader to diff the branch list against "
+        "the premises.\n"
+        "  And check the exhaustiveness claim is among the premises. That the "
+        "branches cover the parent is itself a claim, and it is the one a case "
+        "analysis most often assumes."),
     "TAINT": (
         "This model was BUILT by a step the type system refuses, so every "
         "conclusion drawn inside it is suspect even where its own transport is "

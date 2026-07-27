@@ -273,6 +273,7 @@ class Graph(object):
         self.models[ev["id"]] = m
 
     def _apply_edge(self, ev, where):
+        self._reject_rule_names(ev, where)
         _require(ev.get("type") in K.DECLARABLE_TYPES,
                  "%s: edge %r has type %r; declarable types are %s"
                  % (where, ev["id"], ev.get("type"),
@@ -323,7 +324,55 @@ class Graph(object):
         e["refinement"] = bool(ev.get("refinement"))
         self.edges[ev["id"]] = e
 
+    # ---------------------------------------------------------------------
+    # RULE NAMES THAT ARE NOT FIELD NAMES, and a silent ignore that a live
+    # campaign hit.
+    #
+    # A refusal reports the RULE that blocked it -- `ring_isomorphism` -- and
+    # the field you must actually set is `ring_iso`.  A campaign read the
+    # refusal, read `gp table`'s conditions column (which prints rule names in
+    # a list that reads like fields), declared `ring_isomorphism: true` on two
+    # edges, and it was accepted and ignored.  Nothing false was licensed there
+    # by luck; a graph relying on an EQUIVALENCE to carry an IDENTITY would
+    # have been refused with no hint why.
+    #
+    # WHAT MAKES THE MISTAKE REASONABLE IS THAT IT IS SOMETIMES RIGHT.  Two of
+    # the seven rule names -- `coefficients_in_base`, `zariski_dense` -- ARE
+    # the field.  So a user who correctly learned one infers the other, and the
+    # inference is sound about the vocabulary and wrong about this word.
+    #
+    # Renaming the rules to match would be the deeper fix and would rewrite
+    # every recorded refusal reason in every campaign log.  Refusing the near
+    # miss by name costs nothing and cannot silently do nothing.
+    # ---------------------------------------------------------------------
+    _NOT_A_FIELD = {
+        "ring_isomorphism": ("ring_iso", "an EQUIVALENCE that is an "
+                             "isomorphism of coordinate rings, not merely a "
+                             "bijection on points"),
+        "map_polynomial": ("map_kind", "one of %s" % (", ".join(K.MAP_KINDS),)),
+        "ambient_identity": ("identity_origin", "%s, on the CLAIM rather than "
+                             "the edge" % K.AMBIENT),
+        "integral_identity": ("integral", "on the CLAIM rather than the edge"),
+        "scheme_scope": ("certificate", "scope is DERIVED from the certificate "
+                         "kind and is never declared"),
+    }
+
+    def _reject_rule_names(self, ev, where):
+        for bad, (real, hint) in sorted(self._NOT_A_FIELD.items()):
+            if bad in ev:
+                raise GraphError(
+                    "%s: %s %r carries %r, which is the name of a transport "
+                    "RULE, not a field. It would have been stored and ignored.\n"
+                    "  You want `%s`: %s.\n"
+                    "  Refusals report the rule that blocked them, and for two "
+                    "rules -- coefficients_in_base, zariski_dense -- that name "
+                    "IS the field, which is what makes this worth refusing "
+                    "rather than silently accepting."
+                    % (where, ev.get("ev", "record"), ev.get("id"), bad,
+                       real, hint))
+
     def _apply_claim(self, ev, where):
+        self._reject_rule_names(ev, where)
         _require(ev.get("kind") in K.CLAIM_KINDS,
                  "%s: claim %r has kind %r; known: %s"
                  % (where, ev["id"], ev.get("kind"), ", ".join(K.CLAIM_KINDS)))

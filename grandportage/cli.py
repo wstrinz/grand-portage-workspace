@@ -152,7 +152,19 @@ def cmd_migrate(args):
              lambda e: e.get("kind") == K.IDENTITY),
              ("claim", "witness_kind"): (K.ASSERTED,
              lambda e: e.get("kind") == K.NONEMPTY)}
-    changed, manual, downgraded = [], [], []
+    # A RULE NAME USED AS A FIELD NAME.  Renaming is safe for exactly one of
+    # them: `ring_isomorphism` and `ring_iso` are both booleans meaning the
+    # same thing, so the key is wrong and the value is not, and the tool knows
+    # the single right answer.
+    #
+    # The others in `store._NOT_A_FIELD` are NOT renameable and are left to a
+    # human on purpose: `map_polynomial: true` has to become
+    # `map_kind: POLYNOMIAL` (a value change, and which of the three?), and
+    # `ambient_identity` / `integral_identity` / `scheme_scope` belong on the
+    # CLAIM, not the edge the author put them on. Guessing any of those is the
+    # thing this command refuses to do.
+    renames = {"ring_isomorphism": "ring_iso"}
+    changed, manual, downgraded, renamed = [], [], [], []
     for path in paths:
         # A LINE-KEYED REWRITE, not a re-serialization.  The first version of
         # this rebuilt the file from parsed events, which silently deleted
@@ -164,6 +176,15 @@ def cmd_migrate(args):
         edits = {}
         for ev, n in S.load_events(path):
             before = json.dumps(ev, sort_keys=True)
+            for bad, real in sorted(renames.items()):
+                if bad in ev:
+                    ev[real] = ev.pop(bad)
+                    renamed.append((path, n, ev.get("id"), bad, real))
+            for bad in sorted(set(S.Graph._NOT_A_FIELD) - set(renames)):
+                if bad in ev:
+                    manual.append((path, n, ev.get("id"),
+                                   "%s -> %s (value must change too)"
+                                   % (bad, S.Graph._NOT_A_FIELD[bad][0])))
             for (kind, field), (value, applies) in sorted(fills.items()):
                 if ev.get("ev") == kind and applies(ev) and not ev.get(field):
                     ev[field] = value
@@ -201,6 +222,12 @@ def cmd_migrate(args):
     if changed:
         print("Each is reported as a debt by `gp check`: the graph is now "
               "louder, not quieter.")
+    if renamed:
+        print("\n%d field(s) RENAMED -- a transport RULE name was used where "
+              "the field has a different name, so the value was being stored "
+              "and silently ignored:" % len(renamed))
+        for p_, n, cid, bad, real in renamed:
+            print("  %s:%d  %s  %s -> %s" % (p_, n, cid, bad, real))
     if downgraded:
         print("\n%d claim(s) DOWNGRADED to `claimed` -- each graded itself on "
               "a run it never named:" % len(downgraded))

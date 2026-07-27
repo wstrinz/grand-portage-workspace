@@ -1927,3 +1927,170 @@ def test_an_open_premise_slot_survives_the_whole_checker_not_just_the_audit(slot
     # The whole surface, not just check.run: these all crashed too.
     C.render(findings, {}, False)
     assert C.exit_code(findings, C.UNSOUND_PREMISE) != 0
+
+
+# ===========================================================================
+# PARTITIONS AND RULE NAMES.  Both found by the chart-map campaign.
+# ===========================================================================
+_PART_BASE = [
+    {"ev": "model", "id": "P", "desc": "parent"},
+    {"ev": "model", "id": "B1", "desc": "branch one"},
+    {"ev": "model", "id": "B2", "desc": "branch two"},
+    {"ev": "edge", "id": "EB1", "src": "B1", "dst": "P",
+     "type": K.NECESSARY_CONDITION, "why": "a branch"},
+    {"ev": "edge", "id": "EB2", "src": "B2", "dst": "P",
+     "type": K.NECESSARY_CONDITION, "why": "a branch"},
+    {"ev": "claim", "id": "X", "model": "B1", "kind": K.EMPTY,
+     "statement": "branch one is empty", "certificate": "UNIT_IDEAL_CERT"},
+    {"ev": "claim", "id": "EXH", "model": "P", "kind": K.PREDICATE,
+     "statement": "the branches are exhaustive"},
+    {"ev": "partition", "id": "PG", "parent": "P", "branches": ["B1", "B2"],
+     "exhaustive": "EXH", "why": "gamma is 2 or 3"},
+]
+
+
+def test_a_partition_reports_when_it_FAILS_not_only_when_it_succeeds():
+    """THE MECHANISM WAS UNREACHABLE IN THE CASE IT WAS BUILT FOR.
+
+    `audit_inference` returns the partition id in the trace's edge position,
+    and `_first_refusal` looked that up in `graph.edges` -- KeyError. So a case
+    split that COVERS its parent reported fine and one that did not took down
+    the checker. The uncovered-branch case is the entire reason the construct
+    exists; `transport_over_partition`'s own docstring names it.
+
+    A campaign hit this trying to record that a published case analysis leaves
+    one case open, and could not record the parent-level conclusion at all.
+    """
+    g = _graph(_PART_BASE + [
+        {"ev": "inference", "id": "IP", "via_partition": "PG",
+         "premises": [{"claim": "X", "path": []}, {"claim": "EXH", "path": []}],
+         "concludes_kind": K.EMPTY, "asserted": "the parent is empty"}])
+    found = [f for f in C.run(g) if f.rule == C.R_TRANSPORT]
+    assert len(found) == 1
+    assert "B2" in found[0].detail, "it must name the branch left open"
+    # And the discharge must be about COVERAGE, not about a transport cell or
+    # a missing premise -- neither of which is what went wrong.
+    assert "COVER EVERY BRANCH" in found[0].discharge
+    assert "no edge to retype" not in found[0].discharge
+
+
+def test_an_open_slot_inside_a_partition_names_the_unsettled_branch():
+    """`graph.claims[pr["claim"]]` with claim=None -- KeyError: None.
+
+    So the most honest thing a case analysis can say -- "this branch is not
+    settled, here is which and why" -- was the one thing that crashed. `store`
+    handles the same field correctly two files away.
+
+    A slot must contribute NOTHING to coverage: it is a declaration that the
+    branch is open, so the partition stays refused.
+    """
+    g = _graph(_PART_BASE + [
+        {"ev": "inference", "id": "IP", "via_partition": "PG",
+         "premises": [{"claim": "X", "path": []}, {"claim": "EXH", "path": []},
+                      {"required_kind": K.EMPTY, "at": "B2",
+                       "missing_why": "the gamma=4 case is not settled"}],
+         "concludes_kind": K.EMPTY, "asserted": "the parent is empty"}])
+    found = [f for f in C.run(g) if f.rule == C.R_TRANSPORT]
+    assert len(found) == 1, "a slot settles nothing, so this stays refused"
+    assert "the gamma=4 case is not settled" in found[0].detail
+
+
+@pytest.mark.parametrize("bad,real", [
+    ("ring_isomorphism", "ring_iso"),
+    ("map_polynomial", "map_kind"),
+])
+def test_a_rule_name_used_as_a_field_name_is_refused(bad, real):
+    """SILENTLY STORED AND IGNORED, which is the worst available outcome.
+
+    Refusals report the RULE that blocked them. For `ring_isomorphism` the
+    field you must actually set is `ring_iso`, and `gp table` prints rule names
+    in a column that reads like fields. A campaign declared
+    `ring_isomorphism: true` on two EQUIVALENCE edges; it was accepted and did
+    nothing. Nothing false was licensed there by luck -- but an EQUIVALENCE
+    relied on to carry an IDENTITY would have been refused with no hint why.
+
+    WHAT MAKES THE MISTAKE REASONABLE IS THAT IT IS SOMETIMES RIGHT: two of the
+    seven rule names ARE the field. So the user's inference about the
+    vocabulary is sound and wrong about this word, which is exactly the case
+    that must not fail silently.
+    """
+    with pytest.raises(S.GraphError) as exc:
+        _graph(TWO_MODELS + [
+            {"ev": "edge", "id": "E", "src": "TIGHT", "dst": "LOOSE",
+             "type": K.EQUIVALENCE, "why": "reversible",
+             "converse_witness": "the inverse construction", bad: True}])
+    msg = str(exc.value)
+    assert real in msg, "the refusal must name the field they meant"
+    assert "stored and ignored" in msg
+
+
+def test_a_withdrawn_inference_is_not_counted_as_a_positive_control():
+    """`clean_inferences` counted everything `check_transport` did not flag,
+    and `check_transport` correctly skips superseded inferences -- so every
+    withdrawn argument was promoted into the clean list.
+
+    A campaign's `gp check` reported "clean inferences (5)" of which four were
+    withdrawn. That number IS the credibility claim: it is what a reader uses
+    to decide the checker is not simply refusing everything.
+    """
+    # A PREDICATE travelling AGAINST a NECESSARY_CONDITION is licensed, so both
+    # of these would be clean -- which is the point: the bug promoted a
+    # WITHDRAWN clean inference, not a refused one.
+    g = _graph(_SUP_BASE + [
+        {"ev": "claim", "id": "CL", "model": "LOOSE", "kind": K.PREDICATE,
+         "statement": "P holds on the looser model"},
+        {"ev": "inference", "id": "I1", "claim": "CL",
+         "path": [["E", K.AGAINST]], "concludes_kind": K.PREDICATE,
+         "asserted": "P holds at the tighter model"},
+        {"ev": "inference", "id": "I2", "claim": "CL",
+         "path": [["E", K.AGAINST]], "concludes_kind": K.PREDICATE,
+         "asserted": "P holds at the tighter model, restated",
+         "supersedes": "I1", "discharge_kind": K.RESTATE}])
+    findings = C.run(g)
+    assert not [f for f in findings if f.rule == C.R_TRANSPORT], (
+        "the fixture must be clean, or this tests the wrong thing")
+    clean = C.clean_inferences(g, findings)
+    assert "I1" not in clean, "a withdrawn inference is not a positive control"
+    assert "I2" in clean, "and the live replacement still is"
+
+
+def test_migrate_renames_a_rule_name_used_as_a_field(tmp_path):
+    """The store now REFUSES `ring_isomorphism`, which breaks every graph that
+    already carries it -- and a live campaign's did, four times.
+
+    Renaming is safe here and nowhere else in that table: `ring_isomorphism`
+    and `ring_iso` are both booleans meaning the same thing, so the key is
+    wrong and the value is not. `map_polynomial: true` would have to become
+    `map_kind: POLYNOMIAL` -- a value change, and a choice among three -- so it
+    is reported for a human instead, and migrate exits nonzero.
+    """
+    from grandportage import cli
+    p = _stale(tmp_path, [
+        {"ev": "model", "id": "T", "desc": "t"},
+        {"ev": "model", "id": "L", "desc": "l"},
+        {"ev": "edge", "id": "E", "src": "T", "dst": "L",
+         "type": K.EQUIVALENCE, "why": "reversible",
+         "converse_witness": "the inverse", "ring_isomorphism": True}])
+    with pytest.raises(S.GraphError):
+        S.load(p)
+    assert cli.main(["--root", str(tmp_path), "migrate"]) == 0
+    e = S.load(p).edges["E"]
+    assert e.get("ring_iso") is True and "ring_isomorphism" not in e
+    # And the renamed field now actually does something.
+    assert K.transport(K.EQUIVALENCE, K.ALONG, K.IDENTITY,
+                       ring_iso=e["ring_iso"]).licensed
+
+
+def test_migrate_refuses_to_guess_a_rule_name_whose_VALUE_must_change(tmp_path):
+    """`map_polynomial: true` -> `map_kind: ???`. Only the author knows which
+    of the three, so it is reported and left alone."""
+    from grandportage import cli
+    p = _stale(tmp_path, [
+        {"ev": "model", "id": "T", "desc": "t"},
+        {"ev": "model", "id": "L", "desc": "l"},
+        {"ev": "edge", "id": "E", "src": "T", "dst": "L",
+         "type": K.NECESSARY_CONDITION, "why": "drops equations",
+         "map_polynomial": True}])
+    assert cli.main(["--root", str(tmp_path), "migrate"]) == 1
+    raw = open(p, encoding="utf-8").read()
+    assert "map_polynomial" in raw, "left untouched for a human"

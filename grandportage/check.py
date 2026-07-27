@@ -132,20 +132,36 @@ def audit_inference(graph, iid):
     if inf.get("via_partition"):
         p = graph.partitions[inf["via_partition"]]
         kind = inf["concludes_kind"]
+        # AN OPEN SLOT HAS NO `claim`, and this comprehension used it as a dict
+        # key -- so a case split that admits it has not settled a branch, which
+        # is the single most honest thing a partition can say, raised
+        # KeyError: None.  `store` handles the same field correctly two files
+        # away; only the checker did not.
+        #
+        # A slot contributes NOTHING to coverage, deliberately: it is a
+        # declaration that the branch is unsettled, so the branch stays
+        # uncovered and the partition is correctly refused.
         carried = {graph.claims[pr["claim"]]["model"] for pr in inf["premises"]
-                   if graph.claims[pr["claim"]]["kind"] == kind}
+                   if pr.get("claim")
+                   and graph.claims[pr["claim"]]["kind"] == kind}
         covered = all(b in carried for b in p["branches"])
-        cites_exhaustive = any(pr["claim"] == p["exhaustive"]
+        cites_exhaustive = any(pr.get("claim") == p["exhaustive"]
                                for pr in inf["premises"])
         r = K.transport_over_partition(kind, covered, cites_exhaustive)
         missing = [b for b in p["branches"] if b not in carried]
         detail = r.reason
         if missing:
             detail += " (no %s premise from: %s)" % (kind, ", ".join(missing))
+        slots = [pr for pr in inf["premises"] if pr.get("required_kind")]
+        for pr in slots:
+            detail += ("\n  and the argument itself declares %s at %s is not "
+                       "settled: %s"
+                       % (pr["required_kind"], pr.get("at"),
+                          pr.get("missing_why")))
         if not cites_exhaustive:
             detail += (" (the exhaustiveness claim %s is not among the "
                        "premises)" % p["exhaustive"])
-        return r.licensed, [(inf["via_partition"], "COVERS", r.licensed, detail)]
+        return r.licensed, [(UNCOVERED_PARTITION, "COVERS", r.licensed, detail)]
     # EVERY premise, not just the first.  An argument is only as licensed as
     # its weakest leg, and before the multi-premise form existed the extra legs
     # were not in the graph to be audited at all.
@@ -238,6 +254,24 @@ def contradicting_claims(graph, model_id, kind, exclude=()):
 
 MISSING_PREMISE = "(missing)"     # the sentinel audit_inference emits for an
                                   # open slot; it is not an edge id
+UNCOVERED_PARTITION = "(partition)"   # ditto, for a case split that does not
+                                      # cover its parent
+
+
+# The two trace positions that are NOT edge ids.  Kept as a lookup rather than
+# an `if` chain so that adding a third sentinel cannot silently fall through to
+# a transport discharge -- naming a requirement about an edge nobody crossed is
+# how a refusal sends someone to fix the wrong thing.
+_SENTINEL_MOVES = {MISSING_PREMISE: MISSING_PREMISE,
+                   UNCOVERED_PARTITION: UNCOVERED_PARTITION}
+
+
+def _refused_on(trace):
+    """The id in the edge position of the first refused step, or None."""
+    for eid, _direction, ok, _reason in trace:
+        if not ok:
+            return eid
+    return None
 
 
 def _first_refusal(graph, trace):
@@ -331,7 +365,9 @@ def check_transport(graph):
             # it or to stop asserting the conclusion.  Handing back a transport
             # discharge here would name a requirement about an edge that was
             # never crossed.
-            discharge_for(MISSING_PREMISE if edge is None else edge["type"],
+            discharge_for(_SENTINEL_MOVES.get(_refused_on(trace))
+                          or (MISSING_PREMISE if edge is None
+                              else edge["type"]),
                           direction, inf["concludes_kind"],
                           graph=graph, edge=edge,
                           fid="%s:%s" % (R_TRANSPORT, iid),
@@ -1242,9 +1278,24 @@ def clean_inferences(graph, findings):
     Reported because a framework that flags a sound step is a false-positive
     generator and unusable.  The positive controls are the load-bearing half of
     any credibility claim, so they get printed, not assumed.
+
+    A WITHDRAWN INFERENCE IS NOT A POSITIVE CONTROL.  `check_transport` skips
+    superseded inferences -- correctly, they license nothing -- and this
+    counted everything it did not flag, so every withdrawn argument was
+    promoted into the clean list.  A live campaign's `gp check` reported
+    "clean inferences (5)" of which FOUR were withdrawn and one was genuinely
+    clean.
+
+    That is the loudest possible version of the mistake, because this number is
+    the credibility claim: it is the count a reader uses to decide the checker
+    is not simply refusing everything.  Inflating it with dead records is the
+    same failure as `gp check` exiting 0 on a graph nobody audited, which the
+    reporting project's own trap list phrases as "a checker that exits 0 has
+    not necessarily proved its claim".
     """
     flagged = {f.subject for f in findings if f.rule == R_TRANSPORT}
-    return [i for i in graph.inference_order if i not in flagged]
+    return [i for i in graph.inference_order
+            if i not in flagged and not graph.inferences[i].get("superseded_by")]
 
 
 def render(findings, accepted=None, full=False):
