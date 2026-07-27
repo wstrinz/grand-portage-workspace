@@ -1734,3 +1734,145 @@ def test_the_readme_transport_table_matches_the_kernel():
             assert shown == want, (
                 "README documents %s/%s/%s as %r; the kernel says %r"
                 % (etype, direction, kind, shown, want))
+
+
+# ===========================================================================
+# THE ACCEPT PATH.  Both defects here were found by a live campaign, and both
+# are the same failure the baseline machinery exists to prevent, inside it.
+# ===========================================================================
+def _accept_fixture(tmp_path, events):
+    p = S.graph_path(str(tmp_path))
+    os.makedirs(os.path.dirname(p), exist_ok=True)
+    with open(p, "w", encoding="utf-8") as fh:
+        for e in events:
+            fh.write(json.dumps(e) + "\n")
+    return p
+
+
+_TWO_FINDINGS = [
+    {"ev": "model", "id": "T", "desc": "tight"},
+    {"ev": "model", "id": "L", "desc": "loose"},
+    {"ev": "edge", "id": "E1", "src": "T", "dst": "L",
+     "type": K.NECESSARY_CONDITION, "why": "drops equations"},
+    {"ev": "edge", "id": "E2", "src": "T", "dst": "L",
+     "type": K.NECESSARY_CONDITION, "why": "drops equations again"},
+    {"ev": "claim", "id": "C", "model": "T", "kind": K.PREDICATE,
+     "statement": "P"},
+    {"ev": "inference", "id": "I1", "claim": "C", "path": [["E1", K.ALONG]],
+     "concludes_kind": K.PREDICATE, "asserted": "P on the looser model"},
+]
+
+
+def test_only_with_prune_does_not_delete_live_acceptances(tmp_path):
+    """THE `--only` BASELINE WIPE, REINTRODUCED BY THE FLAG ADDED TO FIX IT.
+
+    `prune` computed the surviving set from the list being ACCEPTED. `gp accept
+    --only X` filters that list before calling, so `--only X --prune` deleted
+    every other acceptance and reported each as "pruned: no longer in the
+    graph" -- entries that were still live. The output did not merely get it
+    wrong, it asserted the one fact that would have justified the deletion.
+
+    One variable was carrying two questions: what am I accepting, and what
+    still exists. They are equal only when nothing was filtered.
+    """
+    from grandportage import cli
+    from grandportage import hook as H
+    _accept_fixture(tmp_path, _TWO_FINDINGS)
+    root = str(tmp_path)
+    assert cli.main(["--root", root, "accept", "-m", "carrying both"]) == 0
+    both = set(H.read_baseline(root)["accepted"])
+    assert len(both) >= 2, "the fixture must produce at least two findings"
+
+    keep = sorted(both)[0]
+    assert cli.main(["--root", root, "accept", "--only", keep, "--prune",
+                     "-m", "just this one"]) == 0
+    after = set(H.read_baseline(root)["accepted"])
+    assert after == both, (
+        "--only narrows what is ACCEPTED and must never narrow what counts as "
+        "still existing; lost %s" % sorted(both - after))
+    # And the untouched entry keeps ITS OWN reason, not the new one.
+    other = sorted(both - {keep})[0]
+    assert H.read_baseline(root)["accepted"][other]["why"] == "carrying both"
+
+
+def test_prune_still_drops_a_finding_that_really_left_the_graph(tmp_path):
+    """The counter-test, and the one that stops the fix being 'disable prune'.
+
+    A repair that makes a destructive operation safe by making it do nothing is
+    not a repair. `prune` exists so a baseline does not accumulate acceptances
+    for findings nobody can hit any more.
+    """
+    from grandportage import cli
+    from grandportage import hook as H
+    root = str(tmp_path)
+    _accept_fixture(tmp_path, _TWO_FINDINGS)
+    cli.main(["--root", root, "accept", "-m", "carrying both"])
+    before = set(H.read_baseline(root)["accepted"])
+
+    # Drop E2, so PARALLEL-EDGE genuinely no longer exists.
+    _accept_fixture(tmp_path, [e for e in _TWO_FINDINGS if e.get("id") != "E2"])
+    cli.main(["--root", root, "accept", "--prune", "-m", "sweep"])
+    after = set(H.read_baseline(root)["accepted"])
+    assert after < before, "prune must still drop what genuinely left"
+    assert not any(f.startswith("PARALLEL-EDGE") for f in after)
+
+
+def test_save_baseline_refuses_to_prune_without_being_told_what_is_live(tmp_path):
+    """There is deliberately no default that reproduces the bug.
+
+    A caller that cannot say what still exists has no business deleting
+    anything, so `live` is mandatory under `prune` rather than defaulting back
+    to the filtered list.
+    """
+    from grandportage import hook as H
+    with pytest.raises(ValueError) as exc:
+        H.save_baseline(str(tmp_path), [], prune=True)
+    assert "not the same list" in str(exc.value)
+
+
+def test_gp_accept_can_reach_a_supersession_finding(tmp_path):
+    """THE ONE FINDING CLASS THE ACCEPT PATH COULD NOT SEE.
+
+    `check_supersession` is the only rule that reads the baseline -- a
+    SUPERSESSION finding exists BECAUSE a baseline entry pinned `admits` and a
+    supersession offered a discharge outside it. `cmd_check` passed the
+    baseline in; `cmd_accept` did not. So the one class that is definitionally
+    baseline-derived was the one class `gp accept` reported as "no such
+    finding" while `gp check` printed it two functions away.
+
+    It fires at the hook's blocking floor and an append-only log cannot
+    un-declare the record that caused it, so a live campaign reached a state
+    where a finding could be neither discharged nor accepted and the hook
+    refused EVERY tool call until the CLI was bypassed by hand.
+    """
+    from grandportage import cli
+    from grandportage import hook as H
+    root = str(tmp_path)
+    _accept_fixture(tmp_path, [
+        {"ev": "model", "id": "T", "desc": "tight"},
+        {"ev": "model", "id": "L", "desc": "loose"},
+        {"ev": "edge", "id": "E1", "src": "T", "dst": "L", "type": K.UNTYPED,
+         "why": "unknown", "debt_why": "not yet worked out"},
+        {"ev": "claim", "id": "C", "model": "L", "kind": K.PREDICATE,
+         "statement": "P"},
+        {"ev": "inference", "id": "I1", "claim": "C",
+         "path": [["E1", K.AGAINST]], "concludes_kind": K.PREDICATE,
+         "asserted": "P at the tighter model"},
+    ])
+    cli.main(["--root", root, "accept", "--admits", "DERIVE",
+              "-m", "only a derivation closes this"])
+    with open(S.graph_path(root), "a", encoding="utf-8") as fh:
+        fh.write(json.dumps({
+            "ev": "edge", "id": "E2", "src": "T", "dst": "L",
+            "type": K.NECESSARY_CONDITION, "why": "drops equations",
+            "supersedes": "E1", "discharge_kind": "RETYPE"}) + "\n")
+
+    g = S.load(S.graph_path(root))
+    accepted = H.read_baseline(root)["accepted"]
+    fids = [f.fid for f in C.run(g, accepted) if f.rule == C.R_SUPERSEDE]
+    assert fids, "the fixture must actually produce a SUPERSESSION finding"
+
+    assert cli.main(["--root", root, "accept", "--only", fids[0],
+                     "-m", "reviewed: retyping really is right here"]) == 0, (
+        "gp accept must be able to reach the finding gp check prints")
+    assert fids[0] in H.read_baseline(root)["accepted"]

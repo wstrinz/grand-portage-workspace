@@ -406,7 +406,27 @@ def cmd_accept(args):
     """
     from . import hook as H
     g = _load(args)
-    findings = C.run(g)
+    # THE BASELINE HAS TO GO IN, and leaving it out made one whole finding
+    # class unacceptable.
+    #
+    # `check_supersession` is the only rule that reads the baseline, because a
+    # SUPERSESSION finding exists precisely WHEN a baseline entry pinned
+    # `admits` and a supersession offered a discharge outside it.  Running the
+    # checker without the baseline here meant that rule produced nothing, so
+    # the one finding class that is definitionally baseline-derived was the one
+    # class `gp accept` could not see: `--only SUPERSESSION:...` answered "no
+    # such finding" while `gp check`, two functions up this file, printed it.
+    #
+    # It fires at UNSOUND_PREMISE, which is the hook's blocking floor, and an
+    # append-only log cannot un-declare the record that caused it.  So a live
+    # campaign reached a state where a finding could be neither discharged nor
+    # accepted and the hook refused EVERY tool call -- Read, Write, Bash, the
+    # MCP writes -- until the author bypassed the CLI and wrote the baseline by
+    # hand.  `hook.py`'s own comment calls a hook that blocks every tool call
+    # "the day-one trap this module already warns about".
+    accepted_now = H.read_baseline(args.root)["accepted"]
+    findings = C.run(g, accepted_now)
+    live = list(findings)          # before any --only filtering; see below
     before = H.load_baseline(args.root)
     if args.only:
         unknown = sorted(set(args.only) - {f.fid for f in findings})
@@ -415,8 +435,11 @@ def cmd_accept(args):
                              "current ids\n" % ", ".join(unknown))
             return 2
         findings = [f for f in findings if f.fid in set(args.only)]
+    # `live` is the UNFILTERED set and `findings` may be a subset of it.  This
+    # is the whole repair: `--only` narrows what is being accepted, and must
+    # never narrow what counts as still existing.
     payload = H.save_baseline(args.root, findings, note=args.message,
-                              prune=args.prune,
+                              prune=args.prune, live=live,
                               admits=getattr(args, "admits", None))
     accepted = payload["accepted"]
     added = sorted(set(accepted) - before)
