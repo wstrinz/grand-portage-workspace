@@ -49,6 +49,25 @@ _GENERIC = ("Re-examine this step: the transport it needs is not licensed by "
 #            Legitimate, and the move most likely to be reached for when the
 #            mathematics is hard.
 #   ACCEPT   carry it deliberately, in the open, with a reason.
+#
+# `RETYPE` READS AS "I CHANGED THE TYPE FIELD" AND DOES NOT MEAN THAT, which is
+# a naming problem worth recording rather than a bug.  A campaign retyped an
+# UNTYPED edge to RESTRICTION -- literally editing the `type` field -- and its
+# own prose says "and this is the retype".  The correct kind was DERIVE: the
+# edge had never been MIS-STATED, its `why` described the step correctly, and
+# what it lacked was a vocabulary word that meant "drops inequalities".  Its own
+# discharge_hint had asked for exactly that, so the refusal went away because
+# the thing it was waiting for now existed.
+#
+# The author, reading `RETYPE` the natural way and finding it not quite right,
+# reached past both and wrote `RELICENSE` -- a CLAIM kind, which edges do not
+# take, and which was silently accepted until edges got their supersession
+# validated.  Three plausible words, one correct, and the incorrect ones are
+# incorrect for reasons the names actively obscure.
+#
+# Renaming is the obvious repair and is not free: `admits` pins in live
+# baselines name these strings, so a rename rewrites recorded obligations in
+# campaign logs.  Left as a decision, flagged here so it is not rediscovered.
 # ---------------------------------------------------------------------------
 DERIVE = "DERIVE"
 RETYPE = "RETYPE"
