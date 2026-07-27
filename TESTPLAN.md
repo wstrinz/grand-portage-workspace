@@ -9,6 +9,63 @@ bar is set afterwards cannot fail. Ordered by value.
 
 ---
 
+## GATE 0 — every transport cell is argued for. **BUILT (v0.2).**
+
+`tests/test_cell_ledger.py`. One row per cell, each carrying a **proof**, an
+explicit **counterexample**, or the exact **side condition** and what it
+excludes. `test_every_cell_has_a_ledger_row` fails if a cell exists with no row,
+so a new type or claim kind cannot be added without arguing for its cells.
+
+**Why this had to precede T1.** The mutation suite asks *"does editing this
+field change a verdict?"* — a real and unusual question, but it presupposes the
+verdicts are right. It cannot catch a cell that is confidently wrong, and one
+was: `test_identity_transport_turns_on_the_map_and_nothing_else` asserted an
+unsound cell as its oracle, and 171 green checks agreed with it. **A green
+mutation suite tests reachability, not truth.**
+
+What the gate turned up, all now fixed:
+
+- `NECESSARY_CONDITION / ALONG / IDENTITY` licensed `x = 0` escaping from
+  `V(x)` to the whole line. Identities are claims about *functions*, and the
+  ring map runs opposite the point map, so they pull back rather than push
+  forward — unless the rewriting is **ambient** and never rested on the source's
+  equations.
+- `SPECIALIZATION / AGAINST / IDENTITY` licensed lifting `p·x = 0` out of
+  characteristic `p`. Refused outright now.
+- `SPECIALIZATION / ALONG / IDENTITY` was gated on the *map* being
+  denominator-free; reduction needs the *claim's coefficients* to be integral
+  at `p`. `CL-DICT`'s own `3/8` does not reduce mod 2.
+- `EQUIVALENCE / * / IDENTITY` was unconditional, but the converse that earns an
+  `EQUIVALENCE` is evidence about **points**. `V(x²)` and `V(x)` share their
+  single point while `x = 0` holds in one coordinate ring and fails in the
+  other — and saturation and radicalization are exactly that step.
+
+**One conservatism was registered rather than fixed**, in
+`discharge.KNOWN_CONSERVATISM`: `AMBIENT` is *sufficient* but not *necessary*
+for an identity to survive widening — the exact test is `LHS − RHS ∈ I(dst)`,
+which is edge-relative and needs models to carry machine-readable ideals. Models
+are currently descriptions, not objects. Cost so far: zero, across the two
+`IDENTITY` claims that exist in the entire corpus.
+
+---
+
+## GATE 1 — adversarial regressions. **BUILT (v0.2).**
+
+`tests/test_adversarial.py`. One attack per defect confirmed in review, written
+as the thing an adversary would actually do rather than as a restatement of the
+fix — a test that re-asserts the current table would have passed against the
+broken version too.
+
+Covers: `body` and declaration-expression injection at the CAS boundary,
+`execute`/`kill`/`setring`/`LIB`, nonzero exit read as a verdict, `ABORTED`
+minting a model, built-in certificate overwrite, strictness-witness-as-
+equivalence-documentation, taint stopping at the first generation, baseline
+acceptance surviving a change of meaning, and identity origin.
+
+**Suite: 251 checks, ~7 s.** Was 171 before the v0.2 pass.
+
+---
+
 ## T1 — THE BLIND RUN. Run this one first.
 
 **The claim at risk:** the tool does not induce plausible mislabelling.
@@ -49,15 +106,37 @@ someone who was never told it exists** — which is T3's resumability claim
 arriving through the front door, on a case where falling for the shortcut has a
 visible consequence.
 
-**Pass condition, declared now:**
+**Pass condition, declared now — TIGHTENED in v0.2.**
 
-- Every edge the run declares survives an independent audit of its **type** and
-  its **direction** (T2 does this audit).
-- At least one `UNTYPED` edge is recorded **where one is warranted**, without
+The original bar was "≥ 8 of 10 edges confirmed", and that mixes two failures
+with very different costs. A false **refusal** costs work. A false **licence**
+can invalidate a campaign, and it does so silently and late. So:
+
+- **ZERO false licences on any load-bearing edge.** One is a fail.
+- `UNTYPED` is **costless**. An ambiguous edge left `UNTYPED` is not an error,
+  it is the system working; the agent is never penalised for declining to type.
+- At least one `UNTYPED` edge recorded **where one is warranted**, without
   having been told that is allowed.
-- **Fail:** any edge typed `EQUIVALENCE` without an exhibitable converse, or
-  any `NECESSARY_CONDITION` whose direction is backwards, or a plausible-looking
-  type chosen where `UNTYPED` was the honest answer.
+- Every edge survives an independent audit of **type** and **direction** (T2).
+
+**Also measure, separately** — these are the numbers that say whether the
+discipline transfers, and the first run gave no reading on any of them:
+
+| | |
+|---|---|
+| type accuracy | how many were right |
+| direction accuracy | `src` genuinely the more informative model |
+| honest-`UNTYPED` rate | declined where declining was correct |
+| **confident mislabel rate** | typed with conviction, and wrong — the one that matters |
+| discharge availability | were the suggested next moves mathematically reachable |
+| overstatement pressure | did the tool induce claiming `EQUIVALENCE` |
+
+**The audit must be done by someone who did not see the producing session or
+`FINDINGS.md`.**
+
+**Fail:** any edge typed `EQUIVALENCE` without an exhibitable converse, any
+`NECESSARY_CONDITION` whose direction is backwards, or a plausible-looking type
+chosen where `UNTYPED` was the honest answer.
 
 **My prediction, before the run:** it will pick a defensible-but-wrong type at
 least once, most likely `NECESSARY_CONDITION` where the true relation is

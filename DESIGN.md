@@ -205,19 +205,52 @@ and neither is a property of a recorded inference:
 
 Both prototypes needed this and neither named it.
 
-## 4. Known conservatism
+## 4. The two registers
 
-Cells where the kernel is stricter than the mathematics, kept as **data** in
-`discharge.KNOWN_CONSERVATISM` so that "we refuse this soundly" and "we refuse
-this out of caution" are never confused.
+Cells where the kernel and the mathematics disagree, kept as **data** rather
+than as prose, so that "we refuse this soundly", "we refuse this out of
+caution" and "we license this knowing better" are never confused. Both print in
+`gp table`.
 
-Currently one entry: `IMAGE_CLOSURE / ALONG / EMPTY`. The closure of the empty
-set is empty, so the step is sound; the kernel refuses it because the cell is
-derived from the generic inclusion `V(src) ⊆ V(dst)`, which licenses `ALONG`
-`EMPTY` for no lossy type. Kept because the cell is unreachable in practice —
-asserting the constructible image is empty requires computing the constructible
-image, which is the thing nobody computes — and because inheriting it unchanged
-keeps the retrodiction an exact regression.
+### `discharge.KNOWN_CONSERVATISM` — refused more strictly than the truth
+
+Three entries.
+
+1. **`IMAGE_CLOSURE / ALONG / EMPTY`.** The closure of the empty set is empty,
+   so the step is sound; the kernel refuses it because the cell derives from
+   the generic inclusion `V(src) ⊆ V(dst)`, which licenses `ALONG`/`EMPTY` for
+   no lossy type. Kept because it is unreachable in practice — asserting the
+   constructible image is empty requires computing the constructible image,
+   which is the thing nobody computes — and because inheriting it unchanged
+   keeps the retrodiction an exact regression.
+2. **`NECESSARY_CONDITION / ALONG / IDENTITY`.** `AMBIENT` is *sufficient* but
+   not *necessary*: the exact condition is that `LHS − RHS` lies in the
+   **target's** ideal, which a `DERIVED` identity can also satisfy. Edge-
+   relative, and the exact test needs models to carry machine-readable ideals —
+   today a model is a description, not an object with equations.
+3. **`IMAGE_CLOSURE / AGAINST / NONEMPTY`.** Sound under the existential
+   reading of `NONEMPTY`, false under the witness reading, and the table can
+   encode only one. The witness reading is pinned because it is the one every
+   claim in the corpus makes.
+
+### `discharge.KNOWN_UNSOUND` — licensed more loosely than the truth
+
+**Empty, and it prints as `(none)` rather than being omitted**, because an
+absent section is not an assertion and `(none)` is.
+
+This register exists because its absence let a real defect hide. When
+`BASE_EXTENSION / AGAINST / IDENTITY` was found to license a false descent —
+`x² + 1 = (x + i)(x − i)` travelling from `Q(i)` down to `Q`, where `i` is not
+merely unproved but *not expressible* — the admission was written into a test
+docstring, appeared in no `gp check`, no `gp table` and no design doc, and then
+survived a review that was specifically hunting it. An external reviewer had to
+rediscover it from the mathematics.
+
+The cell was fixed rather than registered, which is why the list is empty. **An
+entry here is a bug with a deadline, not a design decision:** it means the tool
+will confidently license something its own authors believe is false, which is
+this project's stated failure mode occurring inside the project. A test asserts
+the list stays empty.
 
 ## 5. What the port found in the prototypes
 

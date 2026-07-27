@@ -11,9 +11,10 @@ import os
 import sys
 
 from . import check as C
+from . import hook as H
 from . import kernel as K
 from . import store as S
-from .discharge import KNOWN_CONSERVATISM
+from .discharge import KNOWN_CONSERVATISM, KNOWN_UNSOUND
 
 
 def _graphs(args):
@@ -57,11 +58,26 @@ def cmd_check(args):
               % (len(g.models), len(g.edges), len(g.claims),
                  len(g.inference_order)))
         print()
+    accepted = H.read_baseline(args.root)["accepted"]
     for f in findings:
+        carried = f.fid in accepted
         if args.quiet:
-            print("%-18s %-20s %s" % (f.severity, f.rule, f.subject))
+            print("%-18s %-20s %-28s %s"
+                  % (f.severity, f.rule, f.subject,
+                     "CARRIED" if carried else "live"))
             continue
-        print("%s  %s" % (f.severity, f.fid))
+        if carried and not args.full:
+            # Compact, but never silent.  Printing nothing about accepted
+            # findings is what made a resuming agent report a healthy campaign
+            # as five live blockers.
+            print("%s  %s   [CARRIED]" % (f.severity, f.fid))
+            print("    because: %s"
+                  % ((accepted[f.fid] or {}).get("why")
+                     or "(no reason recorded)"))
+            print()
+            continue
+        print("%s  %s%s" % (f.severity, f.fid,
+                            "   [CARRIED]" if carried else ""))
         for line in f.detail.splitlines():
             print("    " + line)
         if f.overridden:
@@ -77,9 +93,17 @@ def cmd_check(args):
         clean = C.clean_inferences(g, findings)
         print("clean inferences (%d): %s" % (len(clean), ", ".join(clean)))
         print()
-        n = sum(1 for f in findings
-                if C.SEVERITY_RANK[f.severity] >= C.SEVERITY_RANK[args.floor])
-        print("%d finding(s) at or above %s" % (n, args.floor))
+        rank = C.SEVERITY_RANK[args.floor]
+        at_floor = [f for f in findings
+                    if C.SEVERITY_RANK[f.severity] >= rank]
+        live = [f for f in at_floor if f.fid not in accepted]
+        print("%d finding(s) at or above %s: %d LIVE, %d carried"
+              % (len(at_floor), args.floor, len(live),
+                 len(at_floor) - len(live)))
+        if at_floor and not live:
+            print("Nothing live. Every finding at this floor was examined and "
+                  "accepted deliberately -- this campaign is carrying debt in "
+                  "the open, not failing.")
     return C.exit_code(findings, args.floor)
 
 
@@ -102,9 +126,16 @@ def cmd_table(args):
             print("| %-*s | %-7s | %s |" % (width, t, d, " | ".join(cells)))
     print()
     print("Conditional cells resolve against edge/claim attributes:")
-    print("  scheme_scope     EMPTY base-changes only if its certificate does")
-    print("  map_polynomial   IDENTITY rewriting needs a denominator-free map")
-    print("  closed_condition only Zariski-closed predicates reach a closure")
+    print("  scheme_scope        EMPTY base-changes only if its certificate does")
+    print("  map_polynomial      IDENTITY rewriting needs a denominator-free map")
+    print("  closed_condition    only Zariski-closed predicates reach a closure")
+    print("  ambient_identity    a rewriting DERIVED from the source's own")
+    print("                      equations does not survive dropping them")
+    print("  ring_isomorphism    an EQUIVALENCE carries a rewriting only if it")
+    print("                      preserves the coordinate ring, not just points")
+    print("  integral_identity   reducing mod p needs p-integral coefficients")
+    print("  coefficients_in_base descending needs both sides defined over the")
+    print("                      base field")
     print()
     print("Certificates that base-change (an emptiness proved this way is")
     print("field-independent):")
@@ -114,8 +145,31 @@ def cmd_table(args):
     print("Known conservatism -- cells refused more strictly than the")
     print("mathematics requires, kept deliberately:")
     for kc in KNOWN_CONSERVATISM:
-        print("  %s/%s/%s: %s" % (kc["cell"] + (kc["truth"],)))
+        print("  %s/%s/%s:" % kc["cell"])
+        for line in _wrap(kc["truth"]):
+            print("      " + line)
+    print()
+    # Printed even when empty, and that is deliberate.  The absence of this
+    # register is why a knowingly-false licence once lived only in a test
+    # docstring; printing "(none)" is a positive assertion that there is
+    # nothing here, which a missing section would not be.
+    print("Known UNSOUND -- cells knowingly licensed more loosely than the")
+    print("mathematics allows.  Any entry is a bug with a deadline:")
+    if not KNOWN_UNSOUND:
+        print("  (none)")
+    for ku in KNOWN_UNSOUND:
+        print("  %s/%s/%s:" % ku["cell"])
+        for line in _wrap(ku["truth"]):
+            print("      " + line)
     return 0
+
+
+def _wrap(text, width=68):
+    import textwrap
+    out = []
+    for para in str(text).split("\n"):
+        out.extend(textwrap.wrap(para, width) or [""])
+    return out
 
 
 def cmd_show(args):
@@ -131,10 +185,36 @@ def cmd_show(args):
         print("EDGE  %-6s %-14s -> %-14s %s" % (eid, e["src"], e["dst"],
                                                 e["type"]))
     print()
+    # CERTIFICATE and ORIGIN are printed, and INFERENCES are printed at all.
+    #
+    # `gp show` used to print models, edges and claims only -- no inferences,
+    # and no certificate on a claim -- while the MCP `portage_show` printed
+    # both.  A fresh agent resuming a campaign through the CLI named exactly
+    # this as its biggest hole: "the two headline results are EMPTY claims
+    # whose field-independence I cannot check."  The certificate is the field
+    # `derive_scope` calls the most load-bearing in the system, and the one
+    # view a human is most likely to use was the one that hid it.
     for cid in sorted(g.claims):
         c = g.claims[cid]
-        print("CLAIM %-20s %-9s @%-14s scope=%s"
-              % (cid, c["kind"], c["model"], c.get("scope")))
+        extra = []
+        if c.get("certificate"):
+            extra.append("cert=%s" % c["certificate"])
+        if c.get("identity_origin"):
+            extra.append("origin=%s" % c["identity_origin"])
+        if c.get("ladder"):
+            extra.append("ladder=%s" % c["ladder"])
+        print("CLAIM %-20s %-9s @%-14s scope=%-10s %s"
+              % (cid, c["kind"], c["model"], c.get("scope"),
+                 " ".join(extra)))
+    if g.inference_order:
+        print()
+    for iid in g.inference_order:
+        i = g.inferences[iid]
+        print("INFER %-20s %s via %s -> %s"
+              % (iid, i["claim"],
+                 " ".join("%s/%s" % s for s in i["path"]) or "(no path)",
+                 i["concludes_at"]))
+        print("    %s" % i.get("asserted", ""))
     return 0
 
 
@@ -200,6 +280,9 @@ def build_parser():
     c = sub.add_parser("check", help="type-check the graph")
     c.add_argument("--json", action="store_true")
     c.add_argument("--quiet", action="store_true")
+    c.add_argument("--full", action="store_true",
+                   help="print the full detail of CARRIED findings too, not "
+                        "just their reason")
     c.add_argument("--floor", default=C.UNSOUND_PREMISE,
                    choices=C.SEVERITY_ORDER,
                    help="lowest severity that fails the run")

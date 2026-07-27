@@ -129,9 +129,26 @@ def save_baseline(root=".", findings=None, note="", merge=True, prune=False):
     accepted = dict(doc["accepted"])
     for f in (findings or []):
         entry = dict(accepted.get(f.fid) or {})
-        if note or not entry.get("why"):
-            entry["why"] = note or entry.get("why", "")
+        # A NOTE APPLIES TO WHAT IS BEING ACCEPTED NOW, NOT TO WHAT WAS
+        # ACCEPTED BEFORE.  `gp accept -m "..."` without `--only` used to
+        # overwrite the per-finding `why` of every already-accepted finding,
+        # replacing a version-controlled record of distinct reasons with one
+        # sentence.  That is the `--only` baseline wipe (REVIEW.md sec.7.4)
+        # again, narrower only because the ids survive: the reasons are the
+        # part a reviewer actually reads.
+        #
+        # An existing reason is now overwritten only by an explicit
+        # single-finding accept, which is a deliberate act aimed at one row.
+        if not entry.get("why"):
+            entry["why"] = note or ""
+        elif note and len(findings) == 1:
+            entry["why"] = note
         entry.setdefault("severity", f.severity)
+        # What was actually agreed to, not just which slot it sat in.  Writing
+        # it here is also the migration path: a legacy entry with no
+        # fingerprint is grandfathered by `evaluate` and acquires one the next
+        # time it is accepted.
+        entry["fingerprint"] = f.fingerprint
         accepted[f.fid] = entry
 
     dropped = []
@@ -163,13 +180,39 @@ def evaluate(root=".", floor=C.UNSOUND_PREMISE):
                       "nothing downstream of it can be trusted."
                       % (path, exc))
     findings = C.run(graph)
-    accepted = load_baseline(root)
+    accepted = read_baseline(root)["accepted"]
     rank = C.SEVERITY_RANK[floor]
-    new = [f for f in findings
-           if f.fid not in accepted and C.SEVERITY_RANK[f.severity] >= rank]
-    if not new:
+    new, stale = [], []
+    for f in findings:
+        if C.SEVERITY_RANK[f.severity] < rank:
+            continue
+        entry = accepted.get(f.fid)
+        if entry is None:
+            new.append(f)
+            continue
+        recorded = entry.get("fingerprint")
+        # A legacy entry predates fingerprinting.  Grandfather it rather than
+        # reopening every carried obligation at once -- a hook that blocks every
+        # tool call is the day-one trap this module already warns about -- and
+        # it acquires a fingerprint at the next `gp accept`.
+        if recorded and recorded != f.fingerprint:
+            stale.append((f, entry))
+    if not new and not stale:
         return False, ""
     body = []
+    for f, entry in stale:
+        body.append("%s  %s   [ACCEPTANCE IS STALE]" % (f.severity, f.fid))
+        body.append("    This finding was accepted, but what it SAYS has "
+                    "changed since -- the edge, the claim, the path or the "
+                    "refusal is no longer the one that was agreed to.")
+        body.append("    accepted because: %s" % (entry.get("why") or "(no reason recorded)"))
+        for line in f.detail.splitlines():
+            body.append("    " + line)
+        body.append("    -> DISCHARGE: re-read it against the reason above. If "
+                    "the obligation is still one you mean to carry, re-accept "
+                    "it (gp accept --only %s -m \"...\") and the record will "
+                    "match what is actually in the graph." % f.fid)
+        body.append("")
     for f in new:
         body.append("%s  %s" % (f.severity, f.fid))
         for line in f.detail.splitlines():

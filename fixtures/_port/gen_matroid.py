@@ -47,9 +47,11 @@ def model(mid, desc, field=None, cite=""):
 
 
 def edge(eid, src, dst, etype, why, map_kind="IDENTITY_MAP", drops=None,
-         cite="", witness=""):
+         cite="", witness="", ring_iso=None):
     e = {"ev": "edge", "id": eid, "src": src, "dst": dst, "type": etype,
          "why": why, "map_kind": map_kind, "cite": cite}
+    if ring_iso is not None:
+        e["ring_iso"] = ring_iso
     if drops:
         e["drops"] = drops
     if witness:
@@ -169,6 +171,11 @@ edge("M-E2", "ML8_C", "ML8_NORM_C", "EQUIVALENCE",
      "every field K.  Realizations and normalised solutions correspond "
      "bijectively -- an EQUIVALENCE, not a relaxation.",
      map_kind="POLYNOMIAL",
+     # A ring isomorphism: the normalisation is a linear change of coordinates
+     # by a UNIQUE element of PGL(3,K), so it is invertible on the coordinate
+     # ring and not merely bijective on realizations.  The uniqueness is what
+     # supplies the inverse; a bijection alone would not.
+     ring_iso=True,
      cite="standard; empirically confirmed by G-ML8-C-WITNESS, which lifts a "
           "normalised solution to a full realization satisfying all 56 rank "
           "conditions")

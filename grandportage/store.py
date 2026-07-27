@@ -37,6 +37,13 @@ EV_NOTE = "note"          # free-form, carried but never interpreted
 EVENT_KINDS = (EV_CERTIFICATE, EV_MODEL, EV_EDGE, EV_CLAIM, EV_INFERENCE,
                EV_BUILT_BY, EV_NOTE)
 
+# Severities an inference may override to.  Named here rather than imported so
+# the store stays the bottom layer with no dependency on the checker;
+# `test_store.py` pins this against `check.SEVERITY_ORDER` so the two cannot
+# drift, which is the same trick the CAS boundary uses to keep its identifier
+# check and its program text derived from one source.
+C_SEVERITIES = ("DEBT", "TRIAGE", "UNSOUND_PREMISE", "UNSOUND_CONCLUSION")
+
 
 class GraphError(ValueError):
     """The log does not fold into a well-formed graph."""
@@ -115,6 +122,32 @@ class Graph(object):
         getattr(self, "_apply_" + kind)(ev, where)
 
     def _apply_certificate(self, ev, where):
+        # A BUILT-IN CANNOT BE REDEFINED FROM A GRAPH.
+        #
+        # The registry is seeded from BUILTIN_CERTIFICATES but the redeclaration
+        # table starts empty, so the idempotent-redeclaration guard -- which is
+        # the whole of the merge story -- never saw the built-ins.  A graph
+        # event naming `UNIT_IDEAL_CERT` therefore overwrote it silently.
+        #
+        # That is the highest-leverage overwrite in the system: `derive_scope`
+        # reads this dict to decide FIELD-INDEPENDENCE, so flipping one entry
+        # to base_changes=false downgrades every SCHEME-scoped emptiness in the
+        # campaign, and flipping one to true mints field-independence that was
+        # never proved.  Neither produces a finding; both just change the answer.
+        #
+        # Restating a built-in with the SAME verdict stays legal, because
+        # idempotent redeclaration is how branches merge.
+        prior = K.BUILTIN_CERTIFICATES.get(ev["id"])
+        if prior is not None and ev.get("base_changes") != prior:
+            raise GraphError(
+                "%s: certificate %r is a BUILT-IN declaring base_changes=%s, "
+                "and this event redefines it to %r.  The certificate registry "
+                "is what `derive_scope` reads to decide field-independence, so "
+                "silently overriding a built-in changes the scope of every "
+                "emptiness that cites it.  If the built-in is wrong, that is a "
+                "kernel change with a test, not a graph event; if you need "
+                "different semantics, register them under a NEW name."
+                % (where, ev["id"], prior, ev.get("base_changes")))
         _require(isinstance(ev.get("base_changes"), bool),
                  "%s: certificate %r must declare `base_changes` as a boolean. "
                  "Does an emptiness proved by this certificate survive "
@@ -183,6 +216,12 @@ class Graph(object):
             ev["kind"], ev.get("certificate"), ev.get("scope"),
             certificates=self.certificates, claim_id=ev["id"])
         c["declared_scope"] = ev.get("scope")
+        # Same discipline, same place: an IDENTITY claim that does not say
+        # where its rewriting is valid is a malformed graph, not a finding.
+        # UNKNOWN is always available, so this is a required field with an
+        # honest answer rather than a required field people must invent.
+        c["identity_origin"] = K.derive_identity_origin(
+            ev["kind"], ev.get("identity_origin"), claim_id=ev["id"])
         self.claims[ev["id"]] = c
 
     def _apply_inference(self, ev, where):
@@ -208,6 +247,14 @@ class Graph(object):
         i["path"] = norm
         sev = ev.get("severity_override")
         if sev:
+            # An unknown severity used to reach `check.run`'s sort key and raise
+            # KeyError there, so `gp check` and the hook CRASHED instead of
+            # reporting a malformed graph -- and a crashing checker is
+            # indistinguishable from a checker nobody ran.
+            _require(sev in C_SEVERITIES,
+                     "%s: inference %r overrides severity to %r; known "
+                     "severities are %s"
+                     % (where, ev["id"], sev, ", ".join(C_SEVERITIES)))
             _require(ev.get("severity_why"),
                      "%s: inference %r overrides the derived severity to %r "
                      "without `severity_why`.  A severity downgrade is a "
@@ -215,6 +262,40 @@ class Graph(object):
                      % (where, ev["id"], sev))
         self.inferences[ev["id"]] = i
         self.inference_order.append(ev["id"])
+
+    def apply_all(self, batch):
+        """Fold a whole batch, CERTIFICATES FIRST.
+
+        `batch` is [(event, source, lineno)].
+
+        THE FOLD USED TO BE ORDER-DEPENDENT, which quietly falsified the
+        property that earns the append-only shape.  `_apply_claim` derives an
+        emptiness scope against `self.certificates` AS OF THAT LINE, so a claim
+        citing a graph-registered certificate had to appear after it:
+
+            merge [cert_branch, claim_branch]  -> folds, scope=SCHEME
+            merge [claim_branch, cert_branch]  -> ScopeError, unknown certificate
+
+        `load`'s own docstring says "Order does not matter for the result, only
+        for which line number a conflict is reported at", and DESIGN.md sec.1.1
+        sells merging as *concatenating logs and folding again*.  Neither was
+        true across a certificate boundary, and the failure is not a warning: an
+        unfoldable graph makes `hook.evaluate` fail CLOSED, so the wrong
+        concatenation order blocks every subsequent tool call in the session.
+
+        Two passes is the whole fix.  Certificates are the only event kind whose
+        prior presence changes how a later event FOLDS -- every other
+        cross-reference is checked in `validate()` after the fold, which is why
+        models and edges have never needed ordering.
+        """
+        batch = list(batch)
+        for want_cert in (True, False):
+            for ev, source, lineno in batch:
+                is_cert = (isinstance(ev, dict)
+                           and ev.get("ev") == EV_CERTIFICATE)
+                if is_cert is want_cert:
+                    self.apply(ev, source=source, lineno=lineno)
+        return self
 
     # -- referential integrity ---------------------------------------------
     def validate(self):
@@ -281,10 +362,8 @@ def load(*paths):
     the result, only for which line number a conflict is reported at.
     """
     g = Graph()
-    for p in paths:
-        for ev, n in load_events(p):
-            g.apply(ev, source=p, lineno=n)
-    return g.validate()
+    batch = [(ev, p, n) for p in paths for ev, n in load_events(p)]
+    return g.apply_all(batch).validate()
 
 
 def graph_path(root="."):
@@ -304,12 +383,11 @@ def append(events, root="."):
     if d and not os.path.isdir(d):
         os.makedirs(d)
     g = Graph()
+    batch = []
     if os.path.exists(path):
-        for ev, n in load_events(path):
-            g.apply(ev, source=path, lineno=n)
-    for k, ev in enumerate(events):
-        g.apply(ev, source="<new>", lineno=k + 1)
-    g.validate()
+        batch.extend((ev, path, n) for ev, n in load_events(path))
+    batch.extend((ev, "<new>", k + 1) for k, ev in enumerate(events))
+    g.apply_all(batch).validate()
     with open(path, "a", encoding="utf-8") as fh:
         for ev in events:
             fh.write(json.dumps(ev, sort_keys=True) + "\n")

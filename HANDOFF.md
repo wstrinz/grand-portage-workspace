@@ -32,8 +32,46 @@ agent → MCP server (edge REQUIRED, no declaration → no CAS process)
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about four days. One real user session. Version 0.1.** Treat every claim
+**Age: about four days. One real user session. Version 0.2.** Treat every claim
 in the docs as provisional.
+
+### What v0.2 changed, and why it is not a feature release
+
+An external review (GPT) plus a working pass found **eight defects, seven of
+them inside the parts the project advertises as its guarantees** rather than in
+the mathematics. All are fixed; suite went 171 → 251 checks.
+
+| where | was |
+|---|---|
+| `kernel` IDENTITY row | licensed `x = 0` escaping `V(x)` to the whole line; and lifting `p·x = 0` out of char `p` |
+| `kernel` EQUIVALENCE | licensed IDENTITY on the strength of a **point**-level converse; `V(x²)` vs `V(x)` refutes it |
+| `cas` boundary | `body` and declaration expressions went to Singular unvalidated — **the exact `poly g0 = ...` defect was rebuildable through the module claiming "there is no string path to a solver"** |
+| `cas` verdicts | nonzero exits outside three codes read as `OK`; `ABORTED` minted a model and a semantic edge |
+| `check` witness | `witness` was documented as evidence **against** an equivalence and accepted as documentation **for** one |
+| `check` taint | one pass, so second-generation taint was invisible — and that is the generation nobody inspects, because the step producing it is clean |
+| `store` certificates | a graph event could silently redefine a built-in, changing the field-scope of every emptiness citing it |
+| `hook` baseline | keyed by a finding id that is stable by construction, so an acceptance outlived the meaning it was given for |
+
+**The lesson worth carrying:** a green mutation suite tests *reachability*, not
+*truth*. It asks "does editing this field change a verdict?" and presupposes the
+verdicts are right. `test_identity_transport_turns_on_the_map_and_nothing_else`
+asserted an unsound cell as its oracle and 171 checks agreed with it — **the
+test's name was the false claim.** Gate 0 (`tests/test_cell_ledger.py`) is the
+missing half: one row per cell, each with a proof or a counterexample.
+
+**New concept: `identity_origin`.** An `IDENTITY` claim must say where its
+rewriting is valid — `AMBIENT` (holds before this model's equations, travels
+both ways), `DERIVED` (follows from them, restricts only), or `UNKNOWN`. Blank
+raises at fold time. `UNKNOWN` is the `UNTYPED` bargain one level down: the
+honest answer is always available, which is what makes the field requirable.
+Unlike `UNTYPED` it has a **mechanical** discharge — `cas_classify_identity`
+reduces `LHS − RHS` and answers `AMBIENT` / `DERIVED` / `FALSE_AT_MODEL`, so the
+tool names the computation instead of asking the author to introspect.
+
+The retrodiction gates reproduce **identically** — same findings, same clean
+inferences — but every `IDENTITY` verdict now rests on a stated reason instead
+of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
+`divisor_syzygy.py` (7/7, C3 residual 0 by symbolic expansion).
 
 ---
 
@@ -121,13 +159,47 @@ Option 3 is closest to what the original whetstone notes pinned as
 `MISS-C0-PARTITION` and explicitly put out of scope. **Do not pick one
 unilaterally.**
 
-### D2. Should T1 run before or after fixing B?
+### D2. Should T1 run before or after fixing B? — **DECIDED: before.**
 
 Argument for **before**: if a blind agent hits the same wall independently, that
-confirms the gap is systematic rather than one agent's slip.
+confirms the gap is systematic rather than one agent's slip. That is evidence
+you can only collect once, and fixing B first destroys it.
 Argument for **after**: T1 then tests a tool that can express the truth.
 
-My recommendation was *before*. Not decided.
+**Resolved in the v0.2 session, and the GPT review did not change it.** The
+distinction that settled it: v0.2's fixes split into *what the tool licenses*
+(table cells, witness polarity) and *boundary/bookkeeping* (CAS validation,
+taint, baseline). The second class is invisible to an agent doing honest
+modelling, so fixing it costs T1 nothing. The first class had to be fixed
+because T1 would otherwise audit against a broken oracle. **Gap B is in
+neither** — it is a missing expressive feature, and leaving it open is what
+makes T1 informative about it.
+
+**So: T1 is now unblocked and is the next thing to run.**
+
+### D4. Should IDENTITY transport become edge-relative? *(new, not urgent)*
+
+`AMBIENT` is *sufficient* but not *necessary* for a rewriting to survive
+widening. The exact condition is `LHS − RHS ∈ I(dst)` — edge-relative — and a
+`DERIVED` identity satisfies it whenever it follows from equations the target
+keeps. Verified: `x = 0` is `DERIVED` at `V(x,y)` and reduces to 0 at `V(x)`.
+
+**Registered as a deliberate conservatism**, not fixed, because the exact test
+needs the target's ideal and **a model in this system carries `desc`, `cite`,
+`chart`, `universe`, `declares`, `touches`, `reads` — it is a description, not
+an object with equations.** Requiring machine-readable ideals on every model
+changes what a model *is*.
+
+Cost so far: **zero**. Two `IDENTITY` claims exist across the whole corpus, both
+`AMBIENT`, both licensed; none at all in the matroid domain, the γ-window graph
+or the live first-run campaign.
+
+**The upgrade path, when a real false refusal appears:** put the evidence on the
+**inference**, not the model — an inference declares it checked the difference
+lies in the target's ideal, with the computation attached, and that unlocks the
+one cell. Same shape as `certificate` on an `EMPTY` claim. Do not reach for it
+before a campaign actually hits the refusal; the point of registering the
+conservatism is that it becomes visible when it starts to bite.
 
 ### D3. `portage_suggest_edge` — build it or not
 
@@ -194,7 +266,7 @@ Full detail in `docs/first-run/T2-SYNTHESIS.md`.
 
 | # | gap | status |
 |---|---|---|
-| **A** | **the certificate is never validated against the computation** | has a cheap fix, not built |
+| **A** | **the certificate is never validated against the computation** | still open — but see below, v0.2 built the *pattern* for it |
 | **B** | **no vocabulary for a case-split edge** | needs D1 |
 | **C** | an inference can attach to a **proxy edge** — nothing checks the path is the step `asserted` describes | not built |
 | **D** | **no retraction mechanism** — a wrong edge cannot be corrected without hand-editing an append-only log | not built |
@@ -212,6 +284,20 @@ field-independence.
 `1`, so the checker can cross-reference any `UNIT_IDEAL_CERT` claim against a
 recorded computation, and flag claims whose certificate has no computation
 behind it at all. That would have caught mine.
+
+**v0.2 built this pattern once already, for a different field.**
+`cas_classify_identity` decides `identity_origin` by computation instead of
+asking for it, and the design generalises directly: a tool that *answers* the
+question, a field the author still has to *declare*, and a checker that can tell
+a declaration with a computation behind it from one without. Deliberately kept
+separate — a tool that both decides a field and writes it leaves nobody holding
+the claim.
+
+Certificates are the harder instance and that is the only reason they are not
+done: *"does this computation support this certificate kind?"* needs
+interpretation, whereas origin classification is a normal-form reduction with a
+three-way answer and no room to argue. **Do A next if T1 is blocked for any
+reason** — the shape is now proven.
 
 **Known campaign-level errors** (in `portage-depot`'s graph, not the tool):
 `GE10` drawn backwards; `E-G3_ELIM_KILL` should be `NECESSARY_CONDITION` not

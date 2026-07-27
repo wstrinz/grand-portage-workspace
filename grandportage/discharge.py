@@ -92,6 +92,15 @@ MOVES = {
     (K.SPECIALIZATION, K.AGAINST, K.PREDICATE): None,
 }
 
+# Filled after the move texts are defined, below.
+_CONDITIONAL_IDENTITY_CELLS = [
+    (K.EQUIVALENCE, K.ALONG, K.IDENTITY),
+    (K.EQUIVALENCE, K.AGAINST, K.IDENTITY),
+    (K.NECESSARY_CONDITION, K.ALONG, K.IDENTITY),
+    (K.SPECIALIZATION, K.ALONG, K.IDENTITY),
+    (K.SPECIALIZATION, K.AGAINST, K.IDENTITY),
+]
+
 _SPECIALIZATION_MOVE = (
     "NO relaxation type carries an existence statement across a change of "
     "characteristic, and that is a theorem, not a gap in this table: Fano is "
@@ -105,12 +114,64 @@ for _key in list(MOVES):
     if MOVES[_key] is None:
         MOVES[_key] = _SPECIALIZATION_MOVE
 
+# The three cells v0.2 made conditional.  Without these rows every one of them
+# fell through to `_IDENTITY_MOVE`, which names the DENOMINATOR-FREE condition
+# -- so an edge already declared POLYNOMIAL was told to make its map polynomial.
+# A work queue pointing at a locked door is the same defect
+# `_UNTYPED_TRAFFIC_MOVE` was written to fix, and it invites exactly the
+# retype-to-silence-the-warning move that REVIEW.md names as failure mode 2.
+_RING_ISO_MOVE = (
+    "This EQUIVALENCE is not declared a ring isomorphism, and a rewriting is a "
+    "statement about FUNCTIONS. The converse that earns an EQUIVALENCE is "
+    "evidence about POINTS, and points do not determine the coordinate ring: "
+    "V(x^2) and V(x) have the same single solution while `x = 0` holds in one "
+    "and is false in the other.\n"
+    "  If {src} -> {dst} really is invertible ON THE COORDINATE RING -- a "
+    "linear change of variables, a re-presentation of the same ideal -- declare "
+    "`ring_iso: true` and say what the inverse is.\n"
+    "  If the step is a saturation, a radicalization, or anything else that "
+    "preserves solutions while changing the ring, then it does NOT carry "
+    "rewritings, and the other three claim kinds still travel across it "
+    "unaffected.")
+
+_AMBIENT_IDENTITY_MOVE = (
+    "This rewriting is recorded as DERIVED from {src}'s own equations, and "
+    "this step DROPS equations, so it cannot be assumed to survive: `x = 0` is "
+    "valid in k[x]/(x) and false in k[x].\n"
+    "  Three ways forward. (1) If the rewriting is really a DEFINITION -- a "
+    "substitution or change of variables true before any of {src}'s equations "
+    "are imposed -- it is AMBIENT, and `cas_classify_identity` will confirm "
+    "that by reducing LHS - RHS to 0 in the polynomial ring. (2) If it genuinely "
+    "follows from equations that {dst} KEEPS, that is sound but is not what the "
+    "claim-level origin can express; see KNOWN_CONSERVATISM. (3) Otherwise use "
+    "the rewriting only in {src}, where it holds.")
+
+_INTEGRAL_IDENTITY_MOVE = (
+    "Reducing a rewriting into characteristic p needs its COEFFICIENTS to be "
+    "integral at p. That is a property of the claim, not of the map, and a "
+    "denominator-free map does not supply it: `d2 = h_2 - (3/8)h_1^2` travels a "
+    "polynomial map and does not reduce mod 2.\n"
+    "  Clear the denominators and record what that costs, or declare "
+    "`integral: true` once you have checked no coefficient has p in its "
+    "denominator, or keep the rewriting in characteristic 0.")
+
 _IDENTITY_MOVE = (
     "Rewriting a dictionary across this edge needs a DENOMINATOR-FREE map, and "
     "this edge's map is {map_kind}.  Either exhibit the rewriting as a "
     "polynomial transform (in the source campaign the row transform was "
     "polynomial and that single attribute separated the sound leg from the "
     "unsound one), or clear denominators and record what that costs.")
+
+MOVES[(K.EQUIVALENCE, K.ALONG, K.IDENTITY)] = _RING_ISO_MOVE
+MOVES[(K.EQUIVALENCE, K.AGAINST, K.IDENTITY)] = _RING_ISO_MOVE
+MOVES[(K.NECESSARY_CONDITION, K.ALONG, K.IDENTITY)] = _AMBIENT_IDENTITY_MOVE
+MOVES[(K.SPECIALIZATION, K.ALONG, K.IDENTITY)] = _INTEGRAL_IDENTITY_MOVE
+MOVES[(K.SPECIALIZATION, K.AGAINST, K.IDENTITY)] = (
+    "A rewriting valid in characteristic p does not lift to characteristic 0, "
+    "ever: `p*x = 0` holds identically mod p and is the reduction of nothing. "
+    "There is no side condition that repairs this. Re-derive the rewriting in "
+    "characteristic 0 from that model's own equations, or keep it where it "
+    "holds. A mod-p run is RECONNAISSANCE.")
 
 # Rule-level moves, for findings that are not a transport refusal.
 RULE_MOVES = {
@@ -190,7 +251,91 @@ KNOWN_CONSERVATISM = [
             "computes.  Inherited from whetstone_dag.py unchanged so that the "
             "retrodiction gate stays an exact regression."),
     },
+    {
+        "cell": (K.NECESSARY_CONDITION, K.ALONG, K.IDENTITY),
+        # The cell is CONDITIONAL, not a flat False: it licenses an AMBIENT
+        # rewriting and refuses a DERIVED one.  The conservatism is in the
+        # condition, not in the cell being closed.
+        "kernel_says": K._AMBIENT_IDENTITY,
+        "truth": (
+            "AMBIENT is SUFFICIENT but not NECESSARY.  The exact condition for "
+            "a rewriting at M to survive into a looser M' is that LHS - RHS "
+            "lies in M''s ideal.  An identity that is DERIVED at M can still "
+            "cross, whenever it follows from equations M' KEEPS.  Verified: "
+            "`x = 0` is DERIVED at V(x,y) and reduces to 0 at V(x)."),
+        "why_kept": (
+            "AMBIENT is the only claim-level answer that is good for EVERY "
+            "edge -- a universal certificate -- and the exact test is "
+            "edge-relative.  Going edge-relative needs the TARGET'S IDEAL, and "
+            "a model in this system currently carries desc, cite, chart, "
+            "universe, declares, touches and reads: it is a DESCRIPTION, not "
+            "an object with equations.  Requiring machine-readable ideals on "
+            "every model is a change to what a model IS, not a kernel tweak.\n"
+            "  Cost so far: zero.  Two IDENTITY claims exist across the whole "
+            "corpus -- CL-KSYZ-ID and CL-DICT, both AMBIENT, both licensed -- "
+            "and none at all in the matroid domain, the gamma-window graph or "
+            "the live first-run campaign.  This conservatism has never once "
+            "refused anything.\n"
+            "  THE UPGRADE PATH, when a real false refusal appears: put the "
+            "evidence on the INFERENCE, not the model.  An inference declares "
+            "that it checked the difference lies in the target's ideal, with "
+            "the computation attached, and that unlocks this one cell.  Same "
+            "shape as `certificate` on an EMPTY claim: one optional field, no "
+            "new notion of model.  Do NOT reach for this before a campaign "
+            "actually hits the refusal -- the whole point of registering the "
+            "conservatism is that it is visible when it starts to bite."),
+    },
+    {
+        "cell": (K.IMAGE_CLOSURE, K.AGAINST, K.NONEMPTY),
+        "kernel_says": False,
+        "truth": (
+            "Sound under the EXISTENTIAL reading of NONEMPTY, unsound under the "
+            "WITNESS reading, and the table can encode only one.  If NONEMPTY "
+            "means 'some point exists' then cl(S) nonempty implies S nonempty, "
+            "because cl(empty) = empty -- the exact contrapositive of the "
+            "IMAGE_CLOSURE/ALONG/EMPTY row above, which is registered here for "
+            "the same reason.  If it means 'here is the point p' it is false: "
+            "0 lies in the closure of G_m and not in G_m, which is Chevalley."),
+        "why_kept": (
+            "The witness reading is pinned (see kernel.NONEMPTY) because it is "
+            "the one every claim in the corpus actually makes, and the one this "
+            "cell's discharge is written for -- 'exhibit a lift' is advice to "
+            "someone holding a point, not to someone holding an existence "
+            "proof.  So the refusal is right for every claim the system has "
+            "ever carried and is a false refusal only for an existential "
+            "nonemptiness, which nothing has yet recorded.\n"
+            "  FOUND BY INDEPENDENT REVIEW, and note what was wrong: the CELL "
+            "was right and the ARGUMENT for it was not.  The Gate 0 row refuted "
+            "'this specific point lifts' while the cell as stated said "
+            "something weaker.  No test could have caught it, because a test "
+            "checks a verdict and not a reason -- which is the whole argument "
+            "for the ledger carrying prose a human reads.\n"
+            "  UPGRADE, when an existential claim first appears: a claim-level "
+            "`existential` flag making this ONE cell conditional.  Not a second "
+            "claim kind, which would add ten rows to distinguish one."),
+    },
 ]
+
+# THE MIRROR OF THE ABOVE, and its absence is why a false licence survived.
+#
+# KNOWN_CONSERVATISM registers cells where the kernel is STRICTER than the
+# mathematics.  There was no register for the opposite -- a cell knowingly
+# LOOSER -- so when BASE_EXTENSION/AGAINST/IDENTITY was identified as licensing
+# a false descent, the admission went into a test docstring and appeared in no
+# `gp check`, no `gp table`, and no design document.  It then survived a review
+# that was specifically hunting it, and an external reviewer had to find it
+# again from the mathematics.
+#
+# This list is EMPTY, and that is the point: that cell was FIXED rather than
+# registered.  The slot exists so the next one cannot hide in a docstring, and
+# `gp table` prints both registers, so a reader sees "we refuse this out of
+# caution" and "we license this knowing better" side by side -- or sees that the
+# second is empty.
+#
+# AN ENTRY HERE IS A BUG WITH A DEADLINE, NOT A DESIGN DECISION.  It means the
+# tool will confidently license something its own authors believe is false,
+# which is this project's stated failure mode occurring inside the project.
+KNOWN_UNSOUND = []
 
 
 def discharge_for(rule_or_type, direction=None, kind=None, graph=None,

@@ -87,11 +87,35 @@ EDGE_SCHEMA = {
                          "rewritten across the edge.")},
         "drops": {"type": "array", "items": {"type": "string"},
                   "description": "the specific conditions this step discards"},
+        "strictness_witness": {
+            "type": "string",
+            "description": (
+                "explicit evidence that the step IS lossy -- e.g. a point of "
+                "the target that is not in the source. This REFUTES an "
+                "equivalence; it never documents one.")},
+        "converse_witness": {
+            "type": "string",
+            "description": (
+                "only for EQUIVALENCE: the construction that recovers a point "
+                "of the source from a point of the target. 'This step should "
+                "be reversible' is a feeling; this field is the converse. If "
+                "you cannot fill it, the step is a NECESSARY_CONDITION.")},
         "witness": {"type": "string",
                     "description": (
-                        "explicit evidence that the step is NOT an equivalence "
-                        "-- e.g. a point of the target that is not in the "
-                        "source")},
+                        "DEPRECATED, read as strictness_witness. Use the two "
+                        "fields above -- they have opposite polarity and one "
+                        "name for both meant evidence against an equivalence "
+                        "could document one.")},
+        "ring_iso": {
+            "type": "boolean",
+            "description": (
+                "EQUIVALENCE only. True if the step is an ISOMORPHISM OF "
+                "COORDINATE RINGS, not merely a bijection on solutions. "
+                "Required before a rewriting (an IDENTITY claim) may cross: "
+                "V(x^2) and V(x) have the same single solution, yet x = 0 "
+                "holds in one coordinate ring and is false in the other. "
+                "Saturation and radicalization are exactly that step, so "
+                "'the solutions are unchanged' is NOT sufficient here.")},
         "debt_why": {"type": "string",
                      "description": "required when type is UNTYPED"},
         "cite": {"type": "string"},
@@ -146,6 +170,17 @@ TOOLS = [
                         "EMPTY claim must carry a `certificate` kind, and its "
                         "scope is DERIVED from that certificate rather than "
                         "from what you declare. "
+                        "An IDENTITY claim must carry `identity_origin`, "
+                        "because it decides which way the rewriting travels. "
+                        "Ask: is this rewriting true BEFORE this model's "
+                        "equations are imposed? A definition, a substitution "
+                        "or a change of variables is AMBIENT and travels both "
+                        "ways. Something that follows FROM the model's "
+                        "equations is DERIVED: it restricts to tighter models "
+                        "but dies when those equations are dropped. If you "
+                        "have not established which, say UNKNOWN -- it is a "
+                        "legal answer, it licenses only what both do, and "
+                        "`cas_classify_identity` settles it by computation. "
                         "A claim's optional `ladder` is its EVIDENCE GRADE and "
                         "is ORTHOGONAL to transport -- it never licenses a "
                         "step and the type system never grades evidence. "
@@ -158,6 +193,29 @@ TOOLS = [
                         "implementation agrees. One gated checker is "
                         "exact-checking, not audit.")}},
         ["events"]),
+
+    _tool(
+        "cas_classify_identity",
+        "DECIDE whether a rewriting is AMBIENT or DERIVED, by computing it "
+        "rather than judging it. An IDENTITY claim must say where its "
+        "rewriting is valid, because that decides which way it can travel: an "
+        "AMBIENT rewriting holds in the coordinate ring before this model's "
+        "equations are imposed and so survives dropping them, while a DERIVED "
+        "one does not. This reduces LHS - RHS and answers from the normal "
+        "form. It can also report FALSE_AT_MODEL -- the rewriting does not "
+        "hold where it was claimed -- which no transport typing would catch. "
+        "Touches NOTHING in the graph; declare the answer yourself.",
+        {"ring_vars": {"type": "array", "items": {"type": "string"},
+                       "description": "ring variables, in order"},
+         "lhs": {"type": "string", "description": "left side of the rewriting"},
+         "rhs": {"type": "string", "description": "right side"},
+         "generators": {
+             "type": "array", "items": {"type": "string"},
+             "description": (
+                 "generators of the model's ideal. Omit if the model imposes "
+                 "no equations -- then AMBIENT and DERIVED coincide.")},
+         "characteristic": {"type": "integer", "default": 0}},
+        ["ring_vars", "lhs", "rhs"]),
 
     _tool(
         "portage_check",
@@ -306,7 +364,9 @@ def h_portage_declare(args, root):
         kinds[e.get("ev")] = kinds.get(e.get("ev"), 0) + 1
     summary = ", ".join("%d %s" % (v, k) for k, v in sorted(kinds.items()))
     findings = C.run(S.load(S.graph_path(root)))
-    return _text("recorded %s\n\n%s" % (summary, _render(findings)))
+    accepted = HK.read_baseline(root)["accepted"]
+    return _text("recorded %s\n\n%s"
+                 % (summary, C.render(findings, accepted)))
 
 
 def h_portage_check(args, root):
@@ -316,8 +376,14 @@ def h_portage_check(args, root):
     graph = S.load(path)
     findings = C.run(graph)
     clean = C.clean_inferences(graph, findings)
+    # `full` was declared in this tool's schema and never read here, so an
+    # agent could ask to see carried obligations and be handed the same output.
+    # A schema that lies is worse than a missing feature: it is a promise the
+    # caller reasons from.
+    accepted = HK.read_baseline(root)["accepted"]
     return _text("%s\nclean inferences (%d): %s"
-                 % (_render(findings), len(clean), ", ".join(clean) or "-"))
+                 % (C.render(findings, accepted, full=bool(args.get("full"))),
+                    len(clean), ", ".join(clean) or "-"))
 
 
 def _render(findings):
@@ -381,8 +447,41 @@ def h_portage_transport_table(args, root):
     return _text("\n".join(rows))
 
 
+def h_cas_classify_identity(args, root):
+    origin, ev = cas.classify_identity(
+        args["ring_vars"], args["lhs"], args["rhs"],
+        generators=args.get("generators") or [],
+        characteristic=args.get("characteristic", 0))
+    lines = ["origin: %s" % origin,
+             "  LHS - RHS in the polynomial ring : %s" % ev["difference"],
+             "  reduced modulo the model's ideal : %s"
+             % ev["reduced_modulo_ideal"], ""]
+    if origin == K.AMBIENT:
+        lines.append(
+            "The difference is identically zero, so the rewriting holds "
+            "before any of this model's equations are imposed. It travels in "
+            "BOTH directions -- it never depended on what you may drop. "
+            "Declare identity_origin AMBIENT.")
+    elif origin == K.DERIVED:
+        lines.append(
+            "The difference is NOT zero in the polynomial ring but lies in "
+            "the model's ideal, so the rewriting is a consequence of this "
+            "model's equations. It restricts to tighter models and does NOT "
+            "survive a step that drops equations. Declare identity_origin "
+            "DERIVED.")
+    else:
+        lines.append(
+            "NEITHER. The difference is nonzero in the polynomial ring AND "
+            "does not reduce to zero modulo the ideal, so the rewriting does "
+            "not hold at this model at all. This is not a transport question: "
+            "the claim is false where it was made. Do not record an origin -- "
+            "withdraw or correct the claim.")
+    return _text("\n".join(lines))
+
+
 HANDLERS = {
     "cas_ideal_is_unit": h_cas_ideal_is_unit,
+    "cas_classify_identity": h_cas_classify_identity,
     "portage_declare": h_portage_declare,
     "portage_check": h_portage_check,
     "cas_health": h_cas_health,

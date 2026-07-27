@@ -19,10 +19,42 @@ def test_table_is_total():
         assert k in K.TRANSPORT[t][d], (t, d, k)
 
 
-def test_equivalence_forbids_nothing():
-    """If it forbade anything it would not be an equivalence."""
+def test_equivalence_forbids_nothing_about_points():
+    """If it forbade anything about POINTS it would not be an equivalence.
+
+    IDENTITY is deliberately excluded, and the exclusion is the point.  The
+    evidence that earns an EQUIVALENCE is a converse -- a construction
+    recovering a point of the source from a point of the target -- which is a
+    statement about points.  An identity is a statement about functions, and a
+    bijection on points is not an isomorphism of coordinate rings.  So IDENTITY
+    is conditional on `ring_iso` while every point-level cell stays
+    unconditional.
+    """
     for d, k in itertools.product(K.DIRECTIONS, K.CLAIM_KINDS):
+        if k == K.IDENTITY:
+            continue
         assert K.TRANSPORT[K.EQUIVALENCE][d][k] is True
+
+
+def test_equivalence_licenses_identity_only_across_a_ring_isomorphism():
+    """COUNTEREXAMPLE, and it is reachable rather than exotic.
+
+    V(x^2) and V(x) have exactly the same solutions -- the single point 0 --
+    so any converse you like exists.  But `x = 0` is a valid rewriting in
+    k[x]/(x) and FALSE in k[x]/(x^2), where x is not zero; that is the whole
+    content of a double root.  Saturation and radicalization are precisely this
+    step, and `sat(I, nz)` is in this repository's own CAS helper, so "the
+    solutions are unchanged" is a natural and honest EQUIVALENCE declaration
+    that does not preserve the ring.
+
+    Verified against Singular in test_live_front.py: classifying `x = 0` gives
+    DERIVED at V(x) and FALSE_AT_MODEL at V(x^2).
+    """
+    for d in K.DIRECTIONS:
+        assert not K.transport(K.EQUIVALENCE, d, K.IDENTITY,
+                               identity_origin=K.AMBIENT).licensed
+        assert K.transport(K.EQUIVALENCE, d, K.IDENTITY,
+                           ring_iso=True).licensed
 
 
 def test_every_lossy_type_forbids_something_outright():
@@ -149,12 +181,47 @@ def test_the_refusal_is_not_unconditional():
     assert r.licensed
 
 
-def test_identity_transport_turns_on_the_map_and_nothing_else():
-    poly = K.transport(K.NECESSARY_CONDITION, K.ALONG, K.IDENTITY,
-                       map_kind=K.POLYNOMIAL)
+def test_identity_transport_turns_on_the_map_AND_where_the_identity_CAME_FROM():
+    """This test used to be called `..._turns_on_the_map_and_nothing_else`, and
+    that name was the bug.  It asserted the unsound cell as its oracle.
+
+    Denominator-freeness is a property of the MAP -- whether substituting
+    produces fractions.  Whether an identity SURVIVES is a property of where the
+    identity came from, and the two are independent.  The old rule licensed
+    `x = 0` escaping from V(x) to the whole affine line, because the inclusion
+    map is perfectly denominator-free.
+
+    Both conditions are needed, so both are exercised here.
+    """
+    ok = K.transport(K.NECESSARY_CONDITION, K.ALONG, K.IDENTITY,
+                     map_kind=K.POLYNOMIAL, identity_origin=K.AMBIENT)
     rat = K.transport(K.NECESSARY_CONDITION, K.ALONG, K.IDENTITY,
-                      map_kind=K.RATIONAL)
-    assert poly.licensed and not rat.licensed
+                      map_kind=K.RATIONAL, identity_origin=K.AMBIENT)
+    derived = K.transport(K.NECESSARY_CONDITION, K.ALONG, K.IDENTITY,
+                          map_kind=K.POLYNOMIAL, identity_origin=K.DERIVED)
+    unknown = K.transport(K.NECESSARY_CONDITION, K.ALONG, K.IDENTITY,
+                          map_kind=K.POLYNOMIAL, identity_origin=K.UNKNOWN)
+    assert ok.licensed
+    assert not rat.licensed, "a rational map still blocks the rewriting"
+    assert not derived.licensed, (
+        "x = 0 is valid in k[x]/(x) and false in k[x]; a DERIVED identity must "
+        "not push forward across a step that drops equations")
+    assert not unknown.licensed, (
+        "UNKNOWN licenses only what BOTH origins license, so it must be at "
+        "least as strict as DERIVED")
+
+
+def test_identity_pulls_back_regardless_of_origin():
+    """AGAINST is the direction the ring map actually points.
+
+    Points travel tighter -> looser; functions travel looser -> tighter.  So a
+    rewriting valid in the looser model restricts to the tighter one whatever
+    its origin, and this cell needs no origin condition at all.
+    """
+    for origin in K.IDENTITY_ORIGINS:
+        assert K.transport(K.NECESSARY_CONDITION, K.AGAINST, K.IDENTITY,
+                           map_kind=K.POLYNOMIAL,
+                           identity_origin=origin).licensed, origin
 
 
 def test_closure_predicate_transport_turns_on_zariski_closed():

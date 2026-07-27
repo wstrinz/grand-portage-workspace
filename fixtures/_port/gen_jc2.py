@@ -45,9 +45,11 @@ def model(mid, desc, chart=None, declares=None, coverage_axes=None,
 
 
 def edge(eid, src, dst, etype, why, map_kind="IDENTITY_MAP", support=None,
-         drops=None, refinement=False, cite="", witness=""):
+         drops=None, refinement=False, cite="", witness="", ring_iso=None):
     e = {"ev": "edge", "id": eid, "src": src, "dst": dst, "type": etype,
          "why": why, "map_kind": map_kind, "cite": cite}
+    if ring_iso is not None:
+        e["ring_iso"] = ring_iso
     if support:
         e["support"] = support
     if drops:
@@ -60,9 +62,12 @@ def edge(eid, src, dst, etype, why, map_kind="IDENTITY_MAP", support=None,
 
 
 def claim(cid, model_id, kind, statement, scope=None, certificate=None,
-          zariski_closed=None, ladder="claimed", cite=""):
+          zariski_closed=None, ladder="claimed", cite="",
+          identity_origin=None):
     e = {"ev": "claim", "id": cid, "model": model_id, "kind": kind,
          "statement": statement, "ladder": ladder, "cite": cite}
+    if identity_origin is not None:
+        e["identity_origin"] = identity_origin
     if scope is not None:
         e["scope"] = scope
     if certificate is not None:
@@ -301,6 +306,14 @@ edge("E3", "GSYS_K", "GSYS", "EQUIVALENCE",
      "weakening -- K is an exact Q[d]-combination of the generators and G5 is "
      "recovered from K.",
      map_kind="POLYNOMIAL",
+     # A RING ISOMORPHISM, and here in its strongest form: the two ideals are
+     # EQUAL, so the coordinate rings are not merely isomorphic but identical
+     # and the map is the identity.  This is what an EQUIVALENCE needs before
+     # an IDENTITY may cross it -- a converse on POINTS would not be enough,
+     # since V(x^2) and V(x) share their single point while `x = 0` holds in
+     # one coordinate ring and fails in the other.  Established by C1 (residual
+     # exactly 0) and C3 (G5 recovered), not by the type feeling reversible.
+     ring_iso=True,
      cite="DIVISOR_SYZYGY.md sec.1: 2*(G5 + d2*G3 + d1*G2 + d0*G1) == "
           "2*Phi - e*(d2*e^2 + 3*e*S + 3*R^2), residual exactly 0 (check C1); "
           "G5 = K/2 - d2*G3 - d1*G2 - d0*G1 (check C3).")
@@ -451,6 +464,15 @@ claim("CL-KSYZ", "GSYS_K", "EMPTY",
 claim("CL-KSYZ-ID", "GSYS", "IDENTITY",
       "G5 = K/2 - d2*G3 - d1*G2 - d0*G1: the dense G5 row is recovered from "
       "the sparse K row",
+      # AMBIENT, and this one is CHECKED rather than judged.  divisor_syzygy.py
+      # C3 computes `sp.expand(recovered - G5) == 0` -- symbolic expansion in
+      # the polynomial ring, no ideal reduction and no equation assumed -- and
+      # returns residual 0.  Re-run 2026-07-26: 7/7 pass.  So the relation holds
+      # before any of GSYS's equations are imposed and survives dropping them.
+      # DIVISOR_SYZYGY.md sec.1 already draws the distinction in prose without
+      # having a field for it: "K is not merely a consequence, it is
+      # exchangeable."
+      identity_origin="AMBIENT",
       ladder="exact-checked", cite="divisor_syzygy.py check C3")
 claim("CL-SUB2-EMPTY", "GSYS_POS", "EMPTY", "standard sub2 is EMPTY",
       certificate="NONZERO_RESULTANT", ladder="exact-checked",
@@ -465,7 +487,48 @@ claim("CL-PSLICE-COND", "GERM", "PREDICATE",
 claim("CL-DICT", "GERM", "IDENTITY",
       "the shift dictionary: d2 = h_2 - (3/8)h_1^2, e = h_5, "
       "R = h_6 + (1/4)h_1h_5, S = h_7 + (1/2)h_1h_6 + (1/16)h_1^2h_5",
-      ladder="independently-audited", cite="AT_LE9_AUDIT.md C1-C9")
+      # AMBIENT, and INDEPENDENTLY RECOMPUTED rather than read.  An external
+      # check derived the dictionary from scratch by two genuinely different
+      # routes -- series composition of (1-au)^4 H(u/(1-au)), and a literal
+      # Taylor shift x -> x - h_1/4 of the Laurent polynomial -- with the h_k
+      # as FREE symbols, importing nothing from the source repo.  Both match,
+      # difference exactly 0.  Ambience probes: adding h_9, h_10, h_11 leaves
+      # h~_0..h~_7 unchanged, and a generic rational specialisation satisfying
+      # NO equation still satisfies the dictionary.  So it holds before any
+      # germ equation is imposed and survives dropping them.
+      #
+      # THE ONE NON-FREE INPUT is the normalisation h_0 = D_4 = 1.  With h_0
+      # generic the shift is a = h_1/(4h_0) and the constants become
+      # 3/(8h_0), 1/(4h_0), 1/(16h_0^2) -- so 3/8 and friends encode "top
+      # degree 4, leading coefficient normalised", a coordinate choice, not an
+      # equation of the germ.  Ambient stands.
+      #
+      # CORRECTION TO AN EARLIER JUSTIFICATION IN THIS FILE.  A previous
+      # version of this comment credited AT_LE9_AUDIT.md's claim that the
+      # dictionary was "checked by two independent mechanisms (falling
+      # factorials, and the generating function) against each other".  THAT
+      # CLAIM IS FALSE and a mutation test proves it: swapping gbinom's falling
+      # factorial for a rising one breaks C4-C7 and leaves C9 PASSING, because
+      # gf_transform and htil are the same summation over the same shared
+      # gbinom primitive.  C9 has zero discriminating power over the
+      # dictionary.  The honest independent derivation is window_caps_verify.py
+      # W3, which does an actual sp.series recomposition -- so
+      # `independently-audited` stands, on different evidence than was cited.
+      #
+      # (That is a finding about the source repo's own evidence grading, inside
+      # the audit whose headline result C-1 is that two proofs were less
+      # independent than advertised.  Recorded here; not our repo to fix.)
+      #
+      # SCOPE LIMIT, and it matters: this is ambient as a COEFFICIENT identity
+      # only.  i3_audit.py E4b proves the d3-killing shift is NOT an
+      # automorphism of K[x,y], so divisibility and valuation conditions do not
+      # transport through it freely -- which is AT_LE9_AUDIT's severe finding
+      # C-2 against SLICE_PHI_YPLACE.md, and is why E13 carries only the
+      # dictionary and why GE-style chart edges stay lossy.
+      identity_origin="AMBIENT",
+      ladder="independently-audited",
+      cite="AT_LE9_AUDIT.md C4-C7; window_caps_verify.py W3 (the genuinely "
+           "independent derivation); recomputed from scratch 2026-07-26")
 claim("CL-ATLE9-SYZ", "SYZCOLL", "EMPTY",
       "a_t >= 10 is refuted: a_t + v_t(B) = 30 with v_t(B) forced too high",
       certificate="EXACT_VALUATION_COLLISION", ladder="independently-audited",
