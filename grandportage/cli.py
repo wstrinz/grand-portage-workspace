@@ -35,8 +35,12 @@ def _load(args):
     except S.GraphError as exc:
         sys.stderr.write("GRAPH ERROR\n  %s\n" % exc)
         raise SystemExit(2)
-    except K.ScopeError as exc:
-        sys.stderr.write("SCOPE ERROR\n  %s\n" % exc)
+    except K.KernelRefusal as exc:
+        # EVERY kernel refusal, not an enumeration of the ones that existed
+        # when this line was written.  Four subclasses were added in a week and
+        # none reached this clause, so a graph tripping them produced a Python
+        # traceback instead of the message written to explain it.
+        sys.stderr.write("REFUSED\n  %s\n" % exc)
         raise SystemExit(2)
 
 
@@ -116,7 +120,7 @@ def cmd_merge(args):
         return 2
     try:
         g, conflicts = S.merge_report(graphs)
-    except (S.GraphError, K.ScopeError) as exc:
+    except (S.GraphError, K.KernelRefusal) as exc:
         sys.stderr.write("GRAPH ERROR (before any conflict)\n  %s\n" % exc)
         return 2
     if not conflicts:
@@ -241,11 +245,16 @@ def cmd_show(args):
             extra.append("cert=%s" % c["certificate"])
         if c.get("identity_origin"):
             extra.append("origin=%s" % c["identity_origin"])
+        if c.get("established_by"):
+            extra.append("by=%s" % c["established_by"])
         if c.get("ladder"):
             extra.append("ladder=%s" % c["ladder"])
         print("CLAIM %-20s %-9s @%-14s scope=%-10s %s"
               % (cid, c["kind"], c["model"], c.get("scope"),
                  " ".join(extra)))
+        # A caveat that is not printed is a caveat that was not recorded.
+        if c.get("caveat"):
+            print("    caveat: %s" % c["caveat"])
     if g.inference_order:
         print()
     for iid in g.inference_order:
