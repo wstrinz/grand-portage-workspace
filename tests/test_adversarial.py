@@ -1472,7 +1472,7 @@ def test_amend_is_computed_not_declared():
              "coefficients_in_base": True,
              "supersedes": "C1", "discharge_kind": K.AMEND}])
     msg = str(exc.value)
-    assert "coefficients_in_base changed" in msg and "RELICENSE" in msg
+    assert "`coefficients_in_base` changed" in msg and "RELICENSE" in msg
 
 
 def test_over_declaring_a_supersession_is_allowed():
@@ -1756,6 +1756,44 @@ def _write(tmp_path, events):
     with open(str(d / "graph.jsonl"), "w", encoding="utf-8") as fh:
         for e in events:
             fh.write(json.dumps(e) + "\n")
+
+
+def test_a_model_can_be_superseded_and_it_shows(tmp_path):
+    """THE ANCHOR WAS THE ONE OBJECT YOU COULD CHANGE INVISIBLY.
+
+    Models were absent from `_SUPERSEDABLE`, so `supersedes` on one was
+    accepted with no existence check, no self-check, no back-pointer and no
+    discharge kind -- exactly the state edges were in before they were fixed,
+    and nobody noticed because models were fixed first in every other respect.
+
+    A live session corrected a model, was not refused, and then could not see
+    the change: `gp show` marked superseded claims and inferences but not
+    models, `gp history` had no model chain, and the claims still hanging off
+    the old model were not flagged. Every claim sits at a model and every edge
+    runs between two, so this is the worst object to be able to move quietly.
+    """
+    g = _graph([
+        {"ev": "model", "id": "M", "what": "the first reading"},
+        {"ev": "claim", "id": "C", "model": "M", "kind": K.PREDICATE,
+         "statement": "holds", "established_by": "CITED", "ladder": "claimed"},
+        {"ev": "model", "id": "M2", "what": "the corrected reading",
+         "supersedes": "M", "discharge_kind": K.RESTATE}])
+
+    assert g.models["M"].get("superseded_by") == "M2", (
+        "the back-pointer is what every read surface renders from")
+    stale = [f for f in C.run(g) if f.rule == C.R_STALE_MODEL]
+    assert [f.subject for f in stale] == ["C"], (
+        "a live claim anchored to a dead model must be reported")
+
+    # AND THE KIND IS COMPUTED FOR MODELS TOO.  `what` identifies a model, so
+    # changing it is a RESTATE however the author labels it.
+    with pytest.raises(K.SupersessionError) as exc:
+        _graph([
+            {"ev": "model", "id": "A", "what": "one thing"},
+            {"ev": "model", "id": "B", "what": "a different thing",
+             "supersedes": "A", "discharge_kind": K.AMEND}])
+    assert "`what` changed" in str(exc.value)
+    assert "RESTATE" in str(exc.value)
 
 
 def test_an_erratum_repairs_a_graph_that_cannot_be_repaired_otherwise(tmp_path):

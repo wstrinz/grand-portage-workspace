@@ -1361,6 +1361,25 @@ LICENSING_FIELDS = ("certificate", "scope", "identity_origin",
 INFERENCE_IDENTIFYING_FIELDS = ("asserted", "concludes_kind")
 INFERENCE_LICENSING_FIELDS = ("premises",)
 
+# And for a MODEL, which had no supersession machinery at all -- `supersedes`
+# on one was accepted with no existence check, no self-check, no back-pointer
+# and no discharge kind, exactly the state edges were in before they were
+# fixed.  A live session changed a model, was not refused, and then could not
+# see the change in `gp show` or `gp history`.
+#
+# THE ANCHOR IS THE WORST OBJECT TO BE ABLE TO CHANGE INVISIBLY.  Every claim
+# sits at a model and every edge runs between two, so a model that moves under
+# them takes the meaning of everything attached to it with no signal anywhere.
+#
+# `what` identifies it: change what the model IS and it is a different model.
+# `ring_vars` and `generators` LICENSE, and not by analogy -- `verify.
+# containment` reduces one model's generators modulo another's, and
+# `verify.identity` reduces a rewriting modulo the model's ideal.  Changing
+# either changes what a verification means, which is precisely the "I only
+# added an attribute" hazard the claim version exists to catch.
+MODEL_IDENTIFYING_FIELDS = ("what",)
+MODEL_LICENSING_FIELDS = ("ring_vars", "generators")
+
 # And for an EDGE.  Exactly the fields `transport` reads off one -- not `type`
 # alone, which was the first version of this list and repeated the very mistake
 # the claim version was written to avoid.  An EQUIVALENCE gaining `ring_iso`,
@@ -1380,9 +1399,11 @@ def classify_supersession(old, new, entity="claim"):
     reports the strongest category of change it finds, so nothing here depends
     on what the author believes they did.
     """
-    ident, lic = ((INFERENCE_IDENTIFYING_FIELDS, INFERENCE_LICENSING_FIELDS)
-                  if entity == "inference"
-                  else (IDENTIFYING_FIELDS, LICENSING_FIELDS))
+    ident, lic = {
+        "inference": (INFERENCE_IDENTIFYING_FIELDS,
+                      INFERENCE_LICENSING_FIELDS),
+        "model": (MODEL_IDENTIFYING_FIELDS, MODEL_LICENSING_FIELDS),
+    }.get(entity, (IDENTIFYING_FIELDS, LICENSING_FIELDS))
     moved = [f for f in ident if old.get(f) != new.get(f)]
     if moved:
         return RESTATE, moved
@@ -1421,7 +1442,8 @@ def check_supersession_kind(old, new, declared, claim_id="<claim>",
             "for it, because 'I only added an attribute' is how a field that "
             "DECIDES transport arrives without being looked at. Declare %s, or "
             "leave the field alone."
-            % (entity, claim_id, old.get("id"), declared, ", ".join(moved),
+            % (entity, claim_id, old.get("id"), declared,
+               ", ".join("`%s`" % f for f in moved),
                actual,
                ("Re-routing an argument is not bookkeeping: the premises and "
                 "their paths are the entire reason the conclusion is licensed, "

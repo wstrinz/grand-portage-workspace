@@ -48,6 +48,7 @@ R_CROSSCUT = "CROSS-CUT"
 R_CONTAINMENT = "CONTAINMENT"
 R_IDENTITY = "UNTESTED-IDENTITY"
 R_SIBLING = "SIBLING-EDGE"
+R_STALE_MODEL = "STALE-MODEL"
 
 EXISTENCE_OPPOSITE = {K.EMPTY: K.NONEMPTY, K.NONEMPTY: K.EMPTY}
 
@@ -1669,6 +1670,67 @@ def check_containment(graph):
     return findings
 
 
+def check_stale_models(graph):
+    """Claims and edges still anchored to a model that has been superseded.
+
+    THE ANCHOR IS THE WORST THING TO BE ABLE TO MOVE INVISIBLY.  Models had no
+    supersession machinery at all -- `supersedes` on one was accepted with no
+    existence check, no back-pointer and no discharge kind -- so a live session
+    corrected a model, was not refused, and then could not see the change in
+    `gp show` or `gp history`. Its claims sat on the old model until it noticed
+    by hand.
+
+    That is the same shape as STALE-PREMISE, one level down. A superseded claim
+    leaves inferences pointing at a dead record; a superseded model leaves
+    every claim AND every edge pointing at one, and the claim is where the
+    mathematics lives.
+    """
+    findings = []
+    for cid in sorted(graph.claims):
+        c = graph.claims[cid]
+        if c.get("superseded_by"):
+            continue
+        m = graph.models.get(c.get("model"))
+        if not m or not m.get("superseded_by"):
+            continue
+        findings.append(Finding(
+            R_STALE_MODEL, "%s:%s" % (R_STALE_MODEL, cid), TRIAGE, cid,
+            "claim %s sits at model %s, which was superseded by %s.\n"
+            "  The claim is live and its anchor is not. Whatever the new model "
+            "changed -- what it IS, its ring, its generators -- this claim was "
+            "written against the old reading and nothing has re-examined it."
+            % (cid, c.get("model"), m["superseded_by"]),
+            "If the claim still holds at %s, supersede it with the model "
+            "field repointed -- that is a RESTATE, because the model is part "
+            "of what identifies a claim. If it does not, retract it. If the "
+            "model supersession was itself a mistake, supersede the model "
+            "back rather than leaving two live readings of one object."
+            % m["superseded_by"],
+            semantic_key=cid))
+    dead = withdrawn_edges(graph)
+    for eid in sorted(graph.edges):
+        e = graph.edges[eid]
+        if eid in dead:
+            continue
+        for end in ("src", "dst"):
+            m = graph.models.get(e.get(end))
+            if not m or not m.get("superseded_by"):
+                continue
+            findings.append(Finding(
+                R_STALE_MODEL, "%s:%s:%s" % (R_STALE_MODEL, eid, end),
+                TRIAGE, eid,
+                "edge %s has its %s at model %s, which was superseded by %s.\n"
+                "  Every cell this edge licenses rests on V(src) subset "
+                "V(dst), and one of those two models has been replaced."
+                % (eid, end, e.get(end), m["superseded_by"]),
+                "Repoint the edge at %s and declare the supersession, or say "
+                "why the old model is still the right endpoint."
+                % m["superseded_by"],
+                semantic_key=eid))
+            break
+    return findings
+
+
 def check_sibling_edges(graph):
     """An edge between two branches of the same partition.
 
@@ -1893,6 +1955,7 @@ def run(graph, accepted=None):
                 + check_containment(graph)
                 + check_identity(graph)
                 + check_sibling_edges(graph)
+                + check_stale_models(graph)
                 + check_parallel_edges(graph)
                 + check_vacuous_conclusions(graph)
                 + check_self_built(graph))

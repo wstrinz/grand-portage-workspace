@@ -741,6 +741,14 @@ def cmd_show(args):
     for mid in sorted(g.models):
         m = g.models[mid]
         bits = [b for b in (m.get("chart"), m.get("field")) if b]
+        # A SUPERSEDED MODEL PRINTED LIKE A LIVE ONE, and the model is the
+        # anchor: every claim sits at one and every edge runs between two.
+        # `show` marked superseded claims and inferences and left models
+        # unmarked, so a live session's corrected model kept printing its
+        # wrong sentence with no signal, and the claims still hanging off the
+        # old one were not flagged either.
+        if m.get("superseded_by"):
+            bits.append("[SUPERSEDED by %s]" % m["superseded_by"])
         print("MODEL %-14s %s" % (mid, " ".join(bits)))
         print("    %s" % m.get("desc", ""))
         # WHAT THE MODEL IS, not only what it was called.  `desc` is a sentence
