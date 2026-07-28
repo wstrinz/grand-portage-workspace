@@ -438,9 +438,34 @@ def cmd_why(args):
     around a refusal is the T1 failure mode.
     """
     etype, direction, kind = args.type, args.direction, args.kind
+    # SUPERSESSION IS A VOCABULARY TOO, and `why` did not know it existed.
+    #
+    # This command takes EDGE TYPES, and its refusal listed only those -- so
+    # someone asking `gp why supersession`, or `gp why IDENTITY`, was told the
+    # word was unknown with no hint that the thing they asked about is real and
+    # documented somewhere else.  That is the same defect as a message pointing
+    # at a command that does not exist: it teaches that the answer is absent
+    # when it is merely elsewhere.
+    if etype and etype.upper() in K.SUPERSESSION_KINDS:
+        print("%s -- a SUPERSESSION kind, which is not a transport question.\n"
+              % etype.upper())
+        print(K.supersession_help())
+        return 0
+    if etype and etype.lower() in ("supersession", "supersede", "supersedes"):
+        print("SUPERSESSION -- how a record is replaced without erasing what "
+              "used it.\n")
+        print(K.supersession_help())
+        return 0
     if etype not in K.DECLARABLE_TYPES:
-        sys.stderr.write("unknown type %r; declarable: %s\n"
-                         % (etype, ", ".join(K.DECLARABLE_TYPES)))
+        sys.stderr.write(
+            "unknown type %r.\n"
+            "  edge types    : %s\n"
+            "  or ask about  : supersession, or any of %s\n"
+            "  claim KINDS (%s) are not asked about here -- they are the "
+            "third argument, as in `gp why NECESSARY_CONDITION ALONG "
+            "IDENTITY`.\n"
+            % (etype, ", ".join(K.DECLARABLE_TYPES),
+               ", ".join(K.SUPERSESSION_KINDS), ", ".join(K.CLAIM_KINDS)))
         return 2
     print("%s -- %s\n" % (etype, K.TYPE_MEANS[etype]))
     dirs = [direction] if direction else list(K.DIRECTIONS)

@@ -125,8 +125,21 @@ class Graph(object):
                 "  already: %s\n"
                 "  now    : %s\n"
                 "Two branches declared the same entity differently.  Resolve "
-                "it in the source graphs; the fold will not blend them."
-                % (where, kind, eid, self._seen[key], canon))
+                "it in the source graphs; the fold will not blend them.\n"
+                "\n"
+                "  IF YOU ARE NOT MERGING -- and in a single session you are "
+                "almost certainly not -- this is the wrong advice for what you "
+                "are doing.  The common case is wanting to ADD or CORRECT a "
+                "field on something already declared, and the move for that is "
+                "SUPERSESSION, not redeclaration: send the new version with "
+                "`supersedes: %r` and a `discharge_kind`.\n"
+                "  The old record stays in the log with every argument that "
+                "used it still attached, which is the point -- a redeclaration "
+                "would silently retarget them.  `gp why supersession` lists "
+                "which kind to use; briefly, AMEND adds without changing what "
+                "the record licenses, RESTATE changes what it says, RELICENSE "
+                "changes what it permits, RETRACT withdraws it."
+                % (where, kind, eid, self._seen[key], canon, eid))
         self._seen[key] = canon
 
         getattr(self, "_apply_" + kind)(ev, where)

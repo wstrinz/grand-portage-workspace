@@ -1308,6 +1308,34 @@ RESTATE = "RESTATE"      # the statement, kind or model itself changed
 RETRACT = "RETRACT"      # withdrawn, and nothing replaces it
 SUPERSESSION_KINDS = (AMEND, RELICENSE, RESTATE, RETRACT)
 
+
+def supersession_help(entity="claim"):
+    """The four kinds, explained once so `gp why` and the refusal agree.
+
+    EXTRACTED RATHER THAN RESTATED.  This text lived only inside
+    `check_supersession_kind`'s error, so it reached you exactly when you had
+    already got it wrong and never when you were deciding.  A second copy would
+    be a second thing to rot -- this file has watched five README cells
+    document licences withdrawn two versions earlier -- so the refusal now
+    calls this too.
+    """
+    lic = (INFERENCE_LICENSING_FIELDS if entity == "inference"
+           else LICENSING_FIELDS)
+    return (
+        "  AMEND      nothing that licenses a transport changed -- a "
+        "citation, a caveat, an evidence grade\n"
+        "  RELICENSE  an attribute that DECIDES transport changed: %s\n"
+        "  RESTATE    what it %s changed\n"
+        "  RETRACT    withdrawn, and nothing replaces it\n"
+        "\n"
+        "  AMEND IS COMPUTED, NOT DECLARED. The tool holds both versions and "
+        "checks for itself whether a licensing field moved, so writing AMEND "
+        "over a changed certificate is refused and tells you which field you "
+        "changed. That guard exists because \"I only added an attribute\" is "
+        "the sentence through which a transport-determining field arrives "
+        "unexamined."
+        % (", ".join(lic), "asserts" if entity == "inference" else "states"))
+
 # Fields whose value decides what a claim licenses.  Split in two because the
 # refusal is different: change what the claim SAYS and it is a different claim
 # (RESTATE); change what backs it and the claim is the same sentence with
@@ -1377,15 +1405,9 @@ def check_supersession_kind(old, new, declared, claim_id="<claim>",
     if declared not in SUPERSESSION_KINDS:
         raise SupersessionError(
             "%s %s supersedes %r with discharge_kind %r; known kinds are "
-            "%s.\n"
-            "  AMEND      nothing that licenses a transport changed -- a "
-            "citation, a caveat, an evidence grade\n"
-            "  RELICENSE  an attribute that DECIDES transport changed: %s\n"
-            "  RESTATE    what it %s changed\n"
-            "  RETRACT    withdrawn, and nothing replaces it"
+            "%s.\n%s"
             % (entity, claim_id, old.get("id"), declared,
-               ", ".join(SUPERSESSION_KINDS), ", ".join(lic),
-               "asserts" if entity == "inference" else "states"))
+               ", ".join(SUPERSESSION_KINDS), supersession_help(entity)))
     if declared == RETRACT:
         return declared
     actual, moved = classify_supersession(old, new, entity)

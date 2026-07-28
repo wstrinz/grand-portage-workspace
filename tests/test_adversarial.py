@@ -1666,6 +1666,49 @@ def test_the_identity_cell_does_not_send_you_after_denominators():
         "move, and that move must not be the denominator one")
 
 
+def test_no_message_points_at_a_command_that_does_not_exist():
+    """GATE 3, and it is here because the failure happened twice in one night.
+
+    `verify.py` shipped for two releases with `check` printing "run `gp
+    verify`" in two rules and its own docstring saying "`gp verify` will run
+    it" -- while no such subcommand existed and the module was unreachable from
+    every user surface.  A live session had to import it from Python.
+
+    Hours after fixing that, a redeclaration error was written pointing at `gp
+    why supersession`, which also did not exist.  The same defect, in the same
+    session, by the same author, while fixing the first one.
+
+    GATE 2 could not catch either.  It enumerates the surfaces that EXIST and
+    asserts each survives every fixture, which is completeness in one direction
+    only.  Whether a capability HAS a surface, and whether a surface we NAME is
+    real, are different questions.
+
+    So: every `gp <word>` in the shipped source names a real subcommand.  Cheap,
+    total, and it fails the moment somebody promises a command they have not
+    written.
+    """
+    import glob
+    import re
+    from grandportage import cli
+
+    real = set(cli.build_parser()._subparsers._group_actions[0].choices)
+    bad = []
+    for path in sorted(glob.glob(os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "grandportage", "*.py"))):
+        with open(path, encoding="utf-8") as fh:
+            for n, line in enumerate(fh, 1):
+                for word in re.findall(r"`gp ([a-z][a-z-]*)", line):
+                    if word not in real:
+                        bad.append("%s:%d says `gp %s`"
+                                   % (os.path.basename(path), n, word))
+    assert not bad, (
+        "these messages name a subcommand that does not exist, which is how "
+        "an unreachable module went two releases without anybody noticing: "
+        "%s.\n  Real subcommands: %s"
+        % ("; ".join(bad), ", ".join(sorted(real))))
+
+
 def test_verify_all_actually_writes_and_the_finding_goes_away(tmp_path):
     """THE RECORDING PATH HAD NEVER BEEN RUN, and it crashed on first contact.
 
