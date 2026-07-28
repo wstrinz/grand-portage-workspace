@@ -349,7 +349,15 @@ def _declare_epilog():
         "\n"
         "to CHANGE something already declared, do not redeclare it -- send the\n"
         "new version with `supersedes` and a `discharge_kind`. `gp why\n"
-        "supersession` explains the four kinds.\n"
+        "supersession` explains the four kinds. This works for EVERY record\n"
+        "kind above, evidence and doubts and citations included, so `answered`\n"
+        "and `decides` are reachable for a record already in the log.\n"
+        "\n"
+        "two things that have cost people real time:\n"
+        "  * in PowerShell `gp` is a built-in alias for Get-ItemProperty.\n"
+        "    Use `gp.exe`, or `python -m grandportage.cli`.\n"
+        "  * .portage/graph.jsonl opens with a `#` comment line. `load_events`\n"
+        "    skips blank and `#` lines; a naive json.loads per line will not.\n"
         % (", ".join(K.DECLARABLE_TYPES),
            ", ".join(K.CLAIM_KINDS),
            ", ".join(S.Graph.EVIDENCE_METHODS),
