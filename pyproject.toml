@@ -12,6 +12,18 @@ dependencies = []
 
 [project.scripts]
 gp = "grandportage.cli:main"
+# A SECOND NAME, because `gp` is a built-in PowerShell alias for
+# Get-ItemProperty and the alias WINS.  Measured: aliases beat functions in
+# PowerShell's resolution order, so a wrapper function cannot shadow it -- only
+# Set-Alias or Remove-Item Alias:gp will, and both override a built-in in
+# somebody else's shell.
+#
+# The collision is PowerShell-only; cmd.exe, bash and zsh all resolve `gp` to
+# the executable. So `gp` stays, because renaming it would tax every other
+# platform for one shell's quirk, and `gport` is here for the shell that needs
+# it. A live session lost time to this and its error message -- "Cannot find
+# path '...\check' because it does not exist" -- names neither cause nor cure.
+gport = "grandportage.cli:main"
 
 [project.optional-dependencies]
 test = ["pytest>=7"]

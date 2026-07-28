@@ -354,8 +354,11 @@ def _declare_epilog():
         "and `decides` are reachable for a record already in the log.\n"
         "\n"
         "two things that have cost people real time:\n"
-        "  * in PowerShell `gp` is a built-in alias for Get-ItemProperty.\n"
-        "    Use `gp.exe`, or `python -m grandportage.cli`.\n"
+        "  * in PowerShell `gp` is a built-in alias for Get-ItemProperty, and\n"
+        "    the alias WINS -- a wrapper function cannot shadow it. Use\n"
+        "    `gport`, which is the same command under a name that shell has\n"
+        "    not taken. (`gp.exe` and `python -m grandportage.cli` also work.)\n"
+        "    Everywhere else -- cmd, bash, zsh -- plain `gp` is fine.\n"
         "  * .portage/graph.jsonl opens with a `#` comment line. `load_events`\n"
         "    skips blank and `#` lines; a naive json.loads per line will not.\n"
         % (", ".join(K.DECLARABLE_TYPES),
