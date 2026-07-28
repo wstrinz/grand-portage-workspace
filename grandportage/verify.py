@@ -49,6 +49,7 @@ module that answered a question it had not asked would be the honour system
 wearing a computation.
 """
 
+import hashlib
 import os
 
 from . import cas
@@ -164,24 +165,46 @@ def identity(graph, cid, timeout=300, _runner=None):
     if not ring:
         return UNVERIFIED, "claim %s declares no ring variables" % cid
     model = graph.models.get(c.get("model")) or {}
-    gens = list(model.get("generators") or [])
+    if model.get("generators") is None:
+        # `containment` guards this and `identity` did not, which produced a
+        # verdict that named an ideal the model does not have -- sending a
+        # reader to look for equations that were never recorded.
+        #
+        # AND THE VERDICT SPACE COLLAPSES SILENTLY, which is the worse half.
+        # With no ideal there is nothing to reduce modulo, so DERIVED is
+        # unreachable by construction: every rewriting comes back AMBIENT or
+        # REFUTED, and REFUTED then means "not identically zero in the
+        # polynomial ring" rather than "false at this model".  Those are
+        # different statements and the caller cannot tell which one it got.
+        return UNVERIFIED, (
+            "claim %s sits at model %s, which records no generators. An "
+            "IDENTITY asserts lhs - rhs lies in the model's ideal, and there "
+            "is no ideal here to lie in.\n"
+            "  This is not a near miss. Without generators the question "
+            "degenerates to 'is lhs - rhs identically zero in the polynomial "
+            "ring', which is a strictly stronger and different claim -- "
+            "DERIVED becomes unreachable and a negative answer would not mean "
+            "what a refutation means. Record the model's generators, or state "
+            "the rewriting at a model that has them."
+            % (cid, c.get("model")))
+    gens = list(model["generators"])
     origin, evidence = cas.classify_identity(
         ring, lhs=c["lhs"], rhs=c["rhs"], generators=gens,
         timeout=timeout, _runner=_runner)
     if origin == K.AMBIENT:
         return AMBIENT, (
-            "%s - %s reduces to 0 in the polynomial ring itself, before any of "
+            "(%s) - (%s) reduces to 0 in the polynomial ring itself, before any of "
             "%s's equations are imposed. The rewriting is AMBIENT, and that is "
             "now a computed fact rather than a declared one."
             % (c["lhs"], c["rhs"], c.get("model")))
     if origin == K.DERIVED:
         return DERIVED, (
-            "%s - %s is nonzero in the polynomial ring but reduces to 0 modulo "
+            "(%s) - (%s) is nonzero in the polynomial ring but reduces to 0 modulo "
             "%s's ideal, so the rewriting holds in that coordinate ring and "
             "DERIVES from the model's own equations."
             % (c["lhs"], c["rhs"], c.get("model")))
     return REFUTED, (
-        "%s - %s does not reduce to 0 modulo %s's ideal -- it reduces to %s.\n"
+        "(%s) - (%s) does not reduce to 0 modulo %s's ideal -- it reduces to %s.\n"
         "  THIS ONE IS A REFUTATION, unlike a failed containment. The claim is "
         "that the difference lies in the ideal, and reduction modulo a "
         "Groebner basis DECIDES ideal membership. So the rewriting is false at "
@@ -191,18 +214,44 @@ def identity(graph, cid, timeout=300, _runner=None):
            (evidence or {}).get("reduced_modulo_ideal", "a nonzero form")))
 
 
-def verify_all(root=".", timeout=300, _runner=None):
-    """Verify every checkable edge and RECORD the answers in the graph.
+def _verdict_event(subject, of, verdict, why):
+    # Content-addressed id, so re-verifying an unchanged thing with an
+    # unchanged answer is an IDEMPOTENT redeclaration and the fold absorbs it.
+    # Re-verifying after something changed produces a different id and both
+    # verdicts stay in the log, which is what makes `gp history` able to show
+    # that the answer moved.
+    digest = hashlib.sha1(
+        ("%s|%s|%s|%s" % (subject, of, verdict, why)).encode("utf-8")
+    ).hexdigest()[:12]
+    return {"ev": S.EV_VERDICT, "id": "v.%s.%s" % (of, digest),
+            "subject": subject, "of": of, "verdict": verdict, "why": why}
+
+
+def verify_all(root=".", timeout=300, _runner=None, record=True):
+    """Verify every checkable edge AND claim, and RECORD the answers.
+
+    RECORDING WAS THE STATED POINT AND DID NOT HAPPEN.  This function's own
+    docstring promised the results were "appended as a supersession of the
+    edge, so the log stays append-only and `gp history` shows that the check
+    happened".  A live session measured it: the graph file was byte-identical
+    before and after, and there was no `append` anywhere in the module.  It
+    also iterated edges only, so the claim half had no batch entry point at
+    all.  Both are fixed here.
+
+    The answers go in as `verdict` events rather than as supersessions of the
+    thing verified.  A supersession says the record CHANGED; a verdict says
+    somebody CHECKED it, and the claim itself is untouched by having been
+    examined.  Conflating those would make `gp history` report every
+    verification as an amendment to the mathematics.
 
     Recording is the point.  A verification that lives in a terminal scrollback
     is a verification nobody can act on next week, and this project's whole
-    claim is that the graph is the state.  The result is appended as a
-    supersession of the edge, so the log stays append-only and `gp history`
-    shows that the check happened.
+    claim is that the graph is the state.
     """
     path = S.graph_path(root)
     graph = S.load(path)
-    results = []
+    results, events = [], []
+
     for eid in sorted(graph.edges):
         e = graph.edges[eid]
         if e.get("containment"):
@@ -214,5 +263,22 @@ def verify_all(root=".", timeout=300, _runner=None):
             continue
         verdict, why = containment(graph, eid, timeout=timeout,
                                    _runner=_runner)
-        results.append((eid, verdict, why))
+        results.append(("edge", eid, verdict, why))
+        events.append(_verdict_event("edge", eid, verdict, why))
+
+    for cid in sorted(graph.claims):
+        c = graph.claims[cid]
+        if c.get("kind") != K.IDENTITY or c.get("identity_verdict"):
+            continue
+        # Silent where the rewriting was never recorded.  An unstructured
+        # IDENTITY is not a failed verification, it is an unasked question,
+        # and `check` is where that hole gets reported.
+        if c.get("lhs") is None or c.get("rhs") is None:
+            continue
+        verdict, why = identity(graph, cid, timeout=timeout, _runner=_runner)
+        results.append(("claim", cid, verdict, why))
+        events.append(_verdict_event("claim", cid, verdict, why))
+
+    if record and events:
+        S.append(events, path)
     return results

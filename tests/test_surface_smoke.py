@@ -94,6 +94,28 @@ def _plain():
                       _inf("I", "C", [["E", K.ALONG]])]
 
 
+@construct("verified_identity", ["verdict"])
+def _verdict():
+    """A structured IDENTITY and the verifier's answer about it.
+
+    The `verdict` event exists because the fields it writes were readable by
+    the checker and writable by nobody -- so the only way to populate them was
+    to type them into a declare event, which let a caller assert the checker's
+    most severe finding with no computation behind it.  It gets a fixture
+    because every surface now has to render a claim that has been EXAMINED,
+    which is a state none of them had ever been shown.
+    """
+    return [{"ev": "model", "id": "X", "what": "a plane curve",
+             "ring_vars": ["x", "y"], "generators": ["y^2-x^3"]},
+            {"ev": "claim", "id": "C", "model": "X", "kind": K.IDENTITY,
+             "statement": "y^2 = x^3 at X", "lhs": "y^2", "rhs": "x^3",
+             "ring_vars": ["x", "y"], "identity_origin": K.DERIVED,
+             "established_by": "RAN", "ladder": "exact-checked"},
+            {"ev": "verdict", "id": "v.C.1", "subject": "claim", "of": "C",
+             "verdict": "VERIFIED_DERIVED",
+             "why": "y^2 - x^3 reduces to 0 modulo X's ideal"}]
+
+
 @construct("open_premise_slot", [])
 def _slot():
     """The construct that crashed `_first_refusal` on its sentinel."""

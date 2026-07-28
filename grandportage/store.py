@@ -36,11 +36,12 @@ EV_BUILT_BY = "built_by"
 EV_PARTITION = "partition"
 EV_SAME_AS = "same_as"
 EV_FAMILY = "family"      # a finite INDEX of objects, not a variety
+EV_VERDICT = "verdict"    # what a VERIFIER found; never declared
 EV_NOTE = "note"          # free-form, carried but never interpreted
 
 EVENT_KINDS = (EV_CERTIFICATE, EV_MODEL, EV_EDGE, EV_CLAIM, EV_INFERENCE,
                EV_BUILT_BY, EV_PARTITION, EV_SAME_AS, EV_FAMILY,
-               EV_NOTE)
+               EV_VERDICT, EV_NOTE)
 
 # Severities an inference may override to.  Named here rather than imported so
 # the store stays the bottom layer with no dependency on the checker;
@@ -129,6 +130,56 @@ class Graph(object):
         self._seen[key] = canon
 
         getattr(self, "_apply_" + kind)(ev, where)
+
+    # The verdicts a verifier may record, per subject.  Validated rather than
+    # accepted as free text: the checker matches these strings exactly, so an
+    # unrecognised one would land in the graph and quietly mean nothing.  A
+    # live session wrote `"refuted"` in lowercase and it suppressed the rule it
+    # was trying to trip.
+    _VERDICTS = {
+        "claim": {"identity_verdict": ("VERIFIED_AMBIENT", "VERIFIED_DERIVED",
+                                       "REFUTED", "UNVERIFIED"),
+                  "why_field": "identity_why"},
+        "edge": {"containment": ("VERIFIED", "NOT_BY_IDEAL", "UNVERIFIED"),
+                 "why_field": "containment_why"},
+    }
+
+    def _apply_verdict(self, ev, where):
+        """Record what a VERIFIER found.  Its own event kind, deliberately.
+
+        A verdict is not a declaration and must not be reachable from the
+        declare surface, because its entire value is that a computation stands
+        behind it -- `check` raises its most severe finding off one of these.
+        Keeping it a separate kind is the structural version of that rule: the
+        claim event has no field to smuggle it through, and this event carries
+        nothing else.
+
+        It is also the distinction the prior art keeps drawing between a RUN
+        and the specification it instantiates. The claim says what is asserted;
+        the verdict says what happened when somebody checked.
+        """
+        subject = ev.get("subject")
+        _require(subject in self._VERDICTS,
+                 "%s: verdict %r must name a `subject` of %s"
+                 % (where, ev.get("id"), " or ".join(sorted(self._VERDICTS))))
+        spec = self._VERDICTS[subject]
+        field = [k for k in spec if k != "why_field"][0]
+        target = self.claims if subject == "claim" else self.edges
+        of = ev.get("of")
+        _require(of in target,
+                 "%s: verdict %r is about %s %r, which is not in this graph"
+                 % (where, ev.get("id"), subject, of))
+        _require(ev.get("verdict") in spec[field],
+                 "%s: verdict %r records %r; for a %s the verdicts are %s.\n"
+                 "  These are matched exactly by the checker, so an "
+                 "unrecognised one would be stored and mean nothing."
+                 % (where, ev.get("id"), ev.get("verdict"), subject,
+                    ", ".join(spec[field])))
+        _require(ev.get("why"),
+                 "%s: verdict %r needs `why` -- the reduction that produced it"
+                 % (where, ev.get("id")))
+        target[of][field] = ev["verdict"]
+        target[of][spec["why_field"]] = ev["why"]
 
     def _apply_certificate(self, ev, where):
         # A BUILT-IN CANNOT BE REDEFINED FROM A GRAPH.
@@ -534,6 +585,43 @@ class Graph(object):
                          "kind and is never declared"),
     }
 
+    # FIELDS A VERIFIER WRITES AND A CALLER MAY NOT.
+    #
+    # `check` branches on these to raise findings, and until this guard existed
+    # nothing wrote them, so the only way to populate them was to type them
+    # into a declare event.  A live session proved out the consequence: it
+    # declared `identity_verdict: REFUTED` with no lhs, no rhs and no
+    # computation, and the checker duly reported UNSOUND_CONCLUSION saying the
+    # claim "was reduced and DOES NOT HOLD".  It had not been reduced.
+    #
+    # That is the honour system wearing a computation -- the precise thing
+    # `verify.py`'s docstring says it exists to refuse -- and it had been built
+    # into the surface underneath it.  Worse, the value was unvalidated free
+    # text, so `"refuted"` in lowercase silently SUPPRESSED the untested tier
+    # (the checker tests truthiness before matching) while never tripping the
+    # refuted tier.  A typo turned the rule off.
+    _COMPUTED_FIELDS = {
+        "identity_verdict": "verify.identity",
+        "identity_why": "verify.identity",
+        "containment": "verify.containment",
+        "containment_why": "verify.containment",
+    }
+
+    def _reject_computed_fields(self, ev, where):
+        for bad, writer in sorted(self._COMPUTED_FIELDS.items()):
+            if bad in ev:
+                raise GraphError(
+                    "%s: %s %r carries %r, which is a VERDICT and not a "
+                    "declaration. Only `%s` may write it, because the whole "
+                    "value of the field is that a computation stands behind "
+                    "it.\n"
+                    "  Declaring it by hand would let you assert the "
+                    "checker's most severe finding with nothing behind it, "
+                    "which is the honour system this verifier exists to "
+                    "replace. Run `gp verify` and it will be recorded for you."
+                    % (where, ev.get("ev", "record"), ev.get("id"), bad,
+                       writer))
+
     def _reject_rule_names(self, ev, where):
         for bad, (real, hint) in sorted(self._NOT_A_FIELD.items()):
             if bad in ev:
@@ -550,6 +638,7 @@ class Graph(object):
 
     def _apply_claim(self, ev, where):
         self._reject_rule_names(ev, where)
+        self._reject_computed_fields(ev, where)
         # A CLAIM SITS AT A MODEL OR AT A FAMILY, never both.
         #
         # A family is to its members as a model is to its points, so the claim

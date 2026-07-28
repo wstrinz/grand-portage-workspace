@@ -1314,7 +1314,16 @@ SUPERSESSION_KINDS = (AMEND, RELICENSE, RESTATE, RETRACT)
 # different transport behind it (RELICENSE), which is the quieter and more
 # dangerous of the two.
 IDENTIFYING_FIELDS = ("kind", "model", "statement")
+# `lhs`/`rhs`/`ring_vars` ARE LICENSING, and phase 3 shipped without saying so.
+# A live session superseded a claim with a FALSE `lhs`, everything else
+# byte-identical, under `AMEND` -- and the checker reported "Nothing that
+# licenses a transport changed, so the argument stands as checked."  That
+# sentence was false: the rewriting is what `identity_origin` is DERIVED from,
+# and the origin decides transport.  The guard that exists to stop "I only
+# added an attribute" from smuggling a licensing field past review was defeated
+# by the field the same release added.
 LICENSING_FIELDS = ("certificate", "scope", "identity_origin",
+                    "lhs", "rhs", "ring_vars",
                     "coefficients_in_base", "witness_kind")
 
 # The same split for an inference.  What it ASSERTS identifies it; what it

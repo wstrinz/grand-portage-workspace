@@ -279,6 +279,47 @@ def cmd_migrate(args):
     return 1 if manual else 0
 
 
+def cmd_verify(args):
+    """Run the verifiers and record what they found.
+
+    THIS COMMAND DID NOT EXIST FOR TWO RELEASES.  `verify.py` shipped with both
+    halves working, `check` printed "run `gp verify`" in two rules, and the
+    module's own docstring said "`gp verify` will run it" -- while the whole
+    module was unreachable from every user surface.  A live session had to
+    import it from Python to use it.
+
+    The suite did not notice because GATE 2 enumerates the surfaces that EXIST
+    and asserts each survives every fixture.  Nothing asked whether a
+    capability had a surface at all, which is a different question and the one
+    that was wrong here.
+    """
+    from . import verify as V
+    results = V.verify_all(root=args.root, timeout=args.timeout,
+                           record=not args.dry_run)
+    if not results:
+        print("nothing to verify: no edge or claim carries the data a "
+              "reduction needs.\n"
+              "  Edges need `generators` and `ring_vars` on BOTH endpoints; "
+              "IDENTITY claims need `lhs`, `rhs` and `ring_vars`.\n"
+              "  `gp check` reports which ones are missing them.")
+        return 0
+    bad = 0
+    for subject, oid, verdict, why in results:
+        print("%-16s %-8s %s" % (verdict, subject, oid))
+        for line in why.splitlines():
+            print("    " + line)
+        print()
+        if verdict in (V.REFUTED, V.NOT_BY_IDEAL):
+            bad += 1
+    if args.dry_run:
+        print("--dry-run: nothing was recorded.")
+    else:
+        print("recorded %d verdict(s); `gp history` shows them." % len(results))
+    # A refutation is a finding, not a crash: exit non-zero so a hook or a CI
+    # step can act on it, but say so plainly rather than raising.
+    return 1 if bad else 0
+
+
 def cmd_history(args):
     """Where did this campaign STRUGGLE?  `gp show` cannot answer that.
 
@@ -840,6 +881,14 @@ def build_parser():
                        help="where the campaign struggled: supersession "
                             "chains, and the obligations still carried")
     g.set_defaults(func=cmd_history)
+
+    v = sub.add_parser("verify",
+                       help="spend CAS time to settle what the graph takes "
+                            "on the author's word, and record the answers")
+    v.add_argument("--timeout", type=int, default=300)
+    v.add_argument("--dry-run", action="store_true",
+                   help="report the verdicts without recording them")
+    v.set_defaults(func=cmd_verify)
 
     i = sub.add_parser("init", help="create an empty graph")
     i.set_defaults(func=cmd_init)
