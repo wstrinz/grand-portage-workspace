@@ -2466,21 +2466,59 @@ def clean_inferences(graph, findings):
     # at the default floor `gp check` reported the inference CLEAN and exited
     # 0, with the only signal sitting below the failing floor.
     flagged |= {f.subject for f in findings if f.rule == R_IDENTITY}
-    out = []
-    for i in graph.inference_order:
-        inf = graph.inferences[i]
-        if i in flagged or inf.get("superseded_by"):
-            continue
-        touched = set()
-        for pr in inf.get("premises") or []:
-            if pr.get("claim"):
-                touched.add(pr["claim"])
-            for step in pr.get("path") or []:
-                touched.add(step[0] if isinstance(step, (list, tuple)) else step)
-        if touched & flagged:
-            continue
-        out.append(i)
+    return [i for i, _why in _partition_inferences(graph, flagged)[0]]
+
+
+def _touches(graph, iid):
+    """Everything an inference rests on: its premise claims and its path."""
+    inf = graph.inferences[iid]
+    out = set()
+    for pr in inf.get("premises") or []:
+        if pr.get("claim"):
+            out.add(pr["claim"])
+        for step in pr.get("path") or []:
+            out.add(step[0] if isinstance(step, (list, tuple)) else step)
     return out
+
+
+def _partition_inferences(graph, flagged):
+    """(clean, disqualified) -- and the second is why this function exists.
+
+    THE SILENT DISAPPEARANCE.  Making `clean_inferences` exclude anything
+    riding a flagged edge was right, and it created a third category nothing
+    reported: an inference that is not clean, because its edge is flagged, and
+    not in the findings either, because the finding names the EDGE.
+
+    A live campaign hit it on a TRUE, correctly-typed inference and said the
+    right thing about it -- "not refused; silently absent... that is the one
+    failure mode a tool like this must never have."
+
+    So the partition is explicit and both halves are returned.  A reader is
+    told which arguments are positive controls, which are refused, and which
+    are neither and why.
+    """
+    clean, disqualified = [], []
+    for iid in graph.inference_order:
+        inf = graph.inferences[iid]
+        if inf.get("superseded_by"):
+            continue
+        if iid in flagged:
+            continue          # reported in its own right
+        hit = sorted(_touches(graph, iid) & flagged)
+        if hit:
+            disqualified.append((iid, hit))
+        else:
+            clean.append((iid, []))
+    return clean, disqualified
+
+
+def disqualified_inferences(graph, findings):
+    """Inferences neither clean nor flagged, with what disqualified them."""
+    flagged = {f.subject for f in findings
+               if SEVERITY_RANK[f.derived_severity]
+               >= SEVERITY_RANK[UNSOUND_PREMISE]}
+    flagged |= {f.subject for f in findings if f.rule == R_IDENTITY}
+    return _partition_inferences(graph, flagged)[1]
 
 
 def render(findings, accepted=None, full=False):

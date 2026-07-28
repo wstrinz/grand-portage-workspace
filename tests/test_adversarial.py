@@ -3624,3 +3624,52 @@ def test_an_inference_on_an_unverified_identity_is_not_clean():
         "the claim is structured and unverified, so it must be reported")
     assert "I" not in C.clean_inferences(g, findings), (
         "and an inference resting on it must not be a positive control")
+
+
+def test_no_inference_disappears_from_both_lists():
+    """GATE 5.  THE ONE FAILURE MODE A TOOL LIKE THIS MUST NEVER HAVE.
+
+    Making `clean_inferences` exclude anything riding a flagged edge was
+    right, and it created a third category nothing reported: an inference that
+    is not clean, because its edge is flagged, and not in the findings either,
+    because the finding names the EDGE.
+
+    A live campaign lost a TRUE, correctly-typed inference that way -- its
+    edge carried a CONTAINMENT verdict that was itself wrong -- and said the
+    right thing about it: "not refused; silently absent."
+
+    A wrong verdict is arguable. A missing one is not even visible enough to
+    argue with, so this asserts the partition is TOTAL: every live inference
+    is clean, flagged, or explicitly held with a reason.
+    """
+    g = _graph([
+        {"ev": "model", "id": "A", "what": "a", "ring_vars": ["x"],
+         "generators": ["x^2"]},
+        {"ev": "model", "id": "B", "what": "b", "ring_vars": ["x"],
+         "generators": ["x^3"]},
+        {"ev": "edge", "id": "E", "src": "A", "dst": "B",
+         "type": K.NECESSARY_CONDITION, "why": "drops", "map_kind": K.POLYNOMIAL,
+         "containment": "NOT_BY_IDEAL", "containment_why": "does not reduce"},
+        {"ev": "claim", "id": "C", "model": "B", "kind": K.EMPTY,
+         "statement": "empty", "certificate": "UNIT_IDEAL_CERT",
+         "established_by": "RAN", "ladder": "exact-checked"},
+        {"ev": "inference", "id": "I", "claim": "C",
+         "path": [["E", K.AGAINST]], "concludes_kind": K.EMPTY,
+         "asserted": "so A is empty"}])
+    findings = C.run(g)
+
+    held = C.disqualified_inferences(g, findings)
+    assert ("I", ["E"]) in held, (
+        "the inference rests on a flagged edge and must be reported as held, "
+        "naming what held it")
+
+    # THE PARTITION IS TOTAL: every live inference lands in exactly one of the
+    # three buckets, and this is the assertion that keeps it that way.
+    live = [i for i in g.inference_order
+            if not g.inferences[i].get("superseded_by")]
+    clean = set(C.clean_inferences(g, findings))
+    flagged = {f.subject for f in findings}
+    accounted = clean | flagged | {i for i, _ in held}
+    assert set(live) <= accounted, (
+        "these inferences appear in no list at all: %s"
+        % ", ".join(sorted(set(live) - accounted)))

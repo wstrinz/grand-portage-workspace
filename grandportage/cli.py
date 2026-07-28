@@ -99,6 +99,17 @@ def cmd_check(args):
     if not args.quiet:
         clean = C.clean_inferences(g, findings)
         print("clean inferences (%d): %s" % (len(clean), ", ".join(clean)))
+        # THE THIRD CATEGORY, and it used to be invisible.  An inference whose
+        # EDGE is flagged is not clean and is not in the findings either --
+        # the finding names the edge.  A live campaign lost a true,
+        # correctly-typed inference that way and said the right thing about
+        # it: not refused, silently absent.
+        held = C.disqualified_inferences(g, findings)
+        if held:
+            print("not clean, not refused (%d) -- each rests on something "
+                  "flagged above:" % len(held))
+            for iid, why in held:
+                print("    %-24s rests on %s" % (iid, ", ".join(why)))
         print()
         rank = C.SEVERITY_RANK[args.floor]
         at_floor = [f for f in findings
