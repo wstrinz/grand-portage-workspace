@@ -30,15 +30,18 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->630<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->631<!--/checks--> checks, live against Singular 4.2.1,
 and it has had four live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
-* **[HANDOFF.md](HANDOFF.md) — start here if you have no context**
 * [DESIGN.md](DESIGN.md) — architecture and the decisions behind it
 * [REVIEW.md](REVIEW.md) — **where I am least confident**, for a reviewer
-* [TESTPLAN.md](TESTPLAN.md) — what to run next and what each run could falsify
-* [KILL-CRITERIA.md](KILL-CRITERIA.md) — **what would show this is not worth continuing**, written before the answer is known
+
+Three further documents — `HANDOFF.md`, `TESTPLAN.md` and `KILL-CRITERIA.md` —
+live in the private workspace only, because the first two describe traps in
+blind trials that have not been run yet. This file used to link them anyway,
+which is a broken link for every reader of the public repository and exactly
+the kind of drift the check-count spans exist to prevent.
 
 | layer | module | what it does |
 |---|---|---|
@@ -183,7 +186,7 @@ Pure stdlib. No solver, no network, no model in the loop. Under a second.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->630<!--/checks--> checks
+python -m pytest        # <!--checks-->631<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

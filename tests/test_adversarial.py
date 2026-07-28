@@ -1740,6 +1740,35 @@ def test_clean_inferences_ignore_triage_and_respect_derived_severity():
         "severity the author overrode")
 
 
+def test_the_public_readme_links_only_to_files_that_sync():
+    """A BROKEN LINK FOR EVERY READER OF THE PUBLIC REPOSITORY.
+
+    The sync is a plain copy of an enumerated list -- `grandportage/ tests/
+    fixtures/ docs/ DESIGN.md README.md REVIEW.md` -- and root-level files
+    deliberately do NOT travel, because two of them describe traps in blind
+    trials that have not been run.  README.md DOES travel, and it linked three
+    files that do not.
+
+    The same class as the check-count drift this file already gates: a document
+    asserting something about the repository that nothing checked.  It went
+    unnoticed through several releases, and the most recent addition to the
+    broken list was made while fixing an unrelated defect.
+    """
+    import re
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    syncs = {"DESIGN.md", "README.md", "REVIEW.md", "LICENSE"}
+    with open(os.path.join(root, "README.md"), encoding="utf-8") as fh:
+        readme = fh.read()
+    bad = []
+    for target in re.findall(r"\]\(([A-Za-z0-9_.-]+\.md)\)", readme):
+        if target not in syncs:
+            bad.append(target)
+    assert not bad, (
+        "README.md is copied to the public mirror and links these files, "
+        "which are not: %s.\n  Mention them in prose if a private reader "
+        "needs them; do not link them." % ", ".join(sorted(set(bad))))
+
+
 def test_no_message_points_at_a_command_that_does_not_exist():
     """GATE 3, and it is here because the failure happened twice in one night.
 
