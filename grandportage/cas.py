@@ -791,6 +791,46 @@ def check_witness(ring_vars, generators, point, characteristic=0, timeout=300,
                            if not g["vanishes"]]}
 
 
+_SYMBOL = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
+
+
+def foreign_symbols(ring_vars, *exprs):
+    """Symbols in `exprs` that are neither ring variables nor numbers.
+
+    WHAT `coefficients_in_base` IS ACTUALLY ASKING, and it was never asked.
+
+    That flag gates descent across a BASE_EXTENSION, and the kernel's own
+    counterexample says why: `x^2 + 1 = (x + i)(x - i)` is valid in Q(i)[x],
+    and transported to the Q-model `i` is "not merely unproved -- it is NOT
+    EXPRESSIBLE there.  The descended statement is not a false claim, it is
+    not a claim."
+
+    A shadow formalisation made the shape precise.  Descent does not fail
+    because reflection fails -- for a field extension `I^e cap k[x] = I` holds
+    automatically.  It fails because the claim cannot be WRITTEN in the smaller
+    ring.  And in a typed setting that condition vanishes into the type: state
+    the theorem with `f g : R` and expressibility is free, which is exactly why
+    the Lean version could not see the gate.
+
+    SO THE GATE IS A TYPING ARTIFACT.  It exists because a claim here is a
+    STRING, and a string carries no evidence about which ring it lives in.
+    That makes it decidable rather than declarable: collect the symbols and see
+    whether any is foreign to the declared ring.
+
+    Deliberately syntactic and deliberately conservative.  It cannot know that
+    `sqrt2` denotes an element of the base if somebody defined it that way, so
+    it REPORTS rather than refuses -- the caller still declares, and now has
+    something to declare against.
+    """
+    known = set(ring_vars)
+    found = []
+    for e in exprs:
+        for sym in _SYMBOL.findall(str(e or "")):
+            if sym not in known and sym not in found:
+                found.append(sym)
+    return found
+
+
 def unit_ideal_representation(ring_vars, generators, characteristic=0,
                               timeout=300, _runner=None):
     """The COFACTORS witnessing `1 = sum a_i f_i`, not just "the basis was 1".

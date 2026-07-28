@@ -13,6 +13,7 @@ import hashlib
 
 from . import kernel as K
 from . import store as S
+from .cas import foreign_symbols as cas_foreign_symbols
 from .discharge import discharge_for
 
 # Severities.  Not every finding is an accusation.
@@ -51,6 +52,7 @@ R_IDENTITY = "UNTESTED-IDENTITY"
 R_SIBLING = "SIBLING-EDGE"
 R_STALE_MODEL = "STALE-MODEL"
 R_STALE_REF = "STALE-REFERENCE"
+R_BASE_COEFFS = "FOREIGN-COEFFICIENT"
 R_CITATION = "AMBIGUOUS-CITATION"
 R_DOUBT = "DOUBT"
 R_EVIDENCE = "EVIDENCE-GRADE"
@@ -1710,6 +1712,57 @@ def check_containment(graph):
     return findings
 
 
+def check_coefficients_in_base(graph):
+    """A claim declaring `coefficients_in_base` whose own rewriting names a
+    symbol the ring does not have.
+
+    `coefficients_in_base` gates DESCENT across a BASE_EXTENSION, and it was
+    declared and never checked. A shadow formalisation showed why it had
+    resisted: descent does not fail because reflection fails -- for a field
+    extension that holds automatically -- it fails because the claim cannot be
+    WRITTEN in the smaller ring. In a typed setting that condition disappears
+    into the type, which is why the formal version could not see the gate at
+    all.
+
+    So the gate is a TYPING ARTIFACT: it exists because a claim is a string,
+    and a string carries no evidence about which ring it lives in. Which makes
+    it decidable. The kernel's own counterexample is caught by looking:
+    `x^2 + 1 = (x + i)(x - i)` names `i`, and `i` is not a ring variable.
+
+    Syntactic and conservative, so it REPORTS rather than refuses -- `sqrt2`
+    might have been defined as an element of the base, and this cannot know.
+    But a declaration that contradicts the text of its own claim is worth
+    saying out loud.
+    """
+    findings = []
+    for cid in sorted(graph.claims):
+        c = graph.claims[cid]
+        if not c.get("coefficients_in_base") or c.get("superseded_by"):
+            continue
+        if c.get("lhs") is None:
+            continue
+        foreign = cas_foreign_symbols(c.get("ring_vars") or [],
+                                      c["lhs"], c["rhs"])
+        if not foreign:
+            continue
+        findings.append(Finding(
+            R_BASE_COEFFS, "%s:%s" % (R_BASE_COEFFS, cid), TRIAGE, cid,
+            "claim %s declares `coefficients_in_base`, and its rewriting names "
+            "%s -- which the model's ring does not have.\n"
+            "  That flag is what licenses DESCENT across a BASE_EXTENSION, and "
+            "the reason it exists is this exact shape: `x^2 + 1 = (x + i)"
+            "(x - i)` is valid over Q(i) and, descended to Q, `i` is not "
+            "unproved -- it is not expressible. The descended statement is not "
+            "a false claim, it is not a claim."
+            % (cid, ", ".join("`%s`" % s for s in foreign)),
+            "If those symbols really do denote elements of the base, say so in "
+            "a caveat and carry this -- the check is syntactic and cannot know. "
+            "If they do not, the claim belongs at the extension only, and "
+            "`coefficients_in_base` should come off.",
+            semantic_key=cid))
+    return findings
+
+
 def check_doubts(graph):
     """Authored defeaters, rendered as findings.
 
@@ -2277,6 +2330,7 @@ def run(graph, accepted=None):
                 + check_stale_references(graph)
                 + check_citations(graph)
                 + check_doubts(graph)
+                + check_coefficients_in_base(graph)
                 + check_evidence(graph)
                 + check_parallel_edges(graph)
                 + check_vacuous_conclusions(graph)

@@ -3503,3 +3503,41 @@ def test_the_witness_discharge_names_the_right_model_at_each_end():
         "SOURCE, which is what the dropped conditions cost")
     assert "emptiness spend for LOOSE" in msg, (
         "and what it soundly buys is at the relaxation, not the source")
+
+
+def test_a_declared_base_coefficient_is_checked_against_the_rewriting():
+    """`coefficients_in_base` was DECLARED AND NEVER COMPUTED, and a shadow
+    formalisation is what showed it could be.
+
+    It gates DESCENT across a BASE_EXTENSION. The formal version could not see
+    the gate at all: stating descent with `f g : R` makes expressibility part
+    of the TYPE, so the theorem is true and the condition vanishes.
+
+    That is the finding. The gate is a TYPING ARTIFACT -- it exists because a
+    claim here is a string, and a string carries no evidence about which ring
+    it lives in. Which makes it decidable rather than declarable.
+
+    The kernel's own counterexample is caught by looking: `x^2 + 1 =
+    (x + i)(x - i)` names `i`, and `i` is not a ring variable.
+    """
+    base = [{"ev": "model", "id": "M", "what": "over Q",
+             "ring_vars": ["x"], "generators": ["x^2+1"]}]
+
+    caught = _graph(base + [
+        {"ev": "claim", "id": "C", "model": "M", "kind": K.IDENTITY,
+         "statement": "x^2+1 factors", "lhs": "x^2 + 1",
+         "rhs": "(x + i)*(x - i)", "ring_vars": ["x"],
+         "identity_origin": K.AMBIENT, "coefficients_in_base": True,
+         "established_by": "RAN", "ladder": "exact-checked"}])
+    found = [f for f in C.run(caught) if f.rule == C.R_BASE_COEFFS]
+    assert found and "`i`" in found[0].detail
+
+    # A claim genuinely over the base is silent -- a rule that fires on
+    # everything is a false-positive generator.
+    clean = _graph(base + [
+        {"ev": "claim", "id": "C", "model": "M", "kind": K.IDENTITY,
+         "statement": "a real factorisation", "lhs": "x^2 - 1",
+         "rhs": "(x + 1)*(x - 1)", "ring_vars": ["x"],
+         "identity_origin": K.AMBIENT, "coefficients_in_base": True,
+         "established_by": "RAN", "ladder": "exact-checked"}])
+    assert not [f for f in C.run(clean) if f.rule == C.R_BASE_COEFFS]
