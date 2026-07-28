@@ -31,9 +31,10 @@ capability inclusion does not supply.  The last three are SPECIALIZATION's, and
 they are weaker than inclusion for the reason above.  A generalisation that
 covers five rows and quietly mis-describes the sixth is the shape this project
 exists to catch.
-That makes it the SIXTH instance of the pattern this project keeps finding, at
-the lowest level available: a field that DETERMINES transport and is taken on
-the author's word.
+
+For the five that ARE relaxations, the containment was the SIXTH instance of
+the pattern this project keeps finding, at the lowest level available: a field
+that DETERMINES transport and is taken on the author's word.
 
 The containment follows from an ideal containment the other way round:
 
@@ -248,6 +249,101 @@ def identity(graph, cid, timeout=300, _runner=None):
             "is decided by normalising it." if bare else
             "The claim is that the difference lies in the ideal, and "
             "reduction modulo a Groebner basis DECIDES ideal membership.")))
+
+
+ISO_VERIFIED = "VERIFIED"
+ISO_NOT_ISO = "NOT_AN_ISOMORPHISM"
+
+
+def ring_iso(graph, eid, timeout=300, _runner=None):
+    """Check an EQUIVALENCE's `ring_iso` against the maps, by reduction.
+
+    THE MOST POWERFUL UNAUDITED BOOLEAN LEFT.  `ring_iso` is what licenses an
+    IDENTITY to cross an EQUIVALENCE in either direction, and the kernel's own
+    warning is that the evidence usually offered for it is the wrong kind:
+    V(x^2) and V(x) have the same single solution and any converse you like,
+    and `x = 0` holds in one coordinate ring and is false in the other.  Points
+    do not give it.
+
+    WHAT TO CHECK CAME FROM THE FORMALISATION.  `Reflects` -- the awkward half
+    -- quantifies over preimages, which is not something a CAS can search for.
+    But it is not primitive:
+
+        PullsBack psi I J  and  psi . phi = id   ==>   Reflects phi I J
+
+    so a verified isomorphism is three things a solver CAN do:
+
+        forward   every generator of I, substituted by phi, lies in J
+        backward  every generator of J, substituted by psi, lies in I
+        roundtrip psi(phi(x)) = x for each ring variable
+
+    None of them is a search.  All three are reductions or substitutions, and
+    `cas.classify_identity` already answers exactly that question.
+
+    The edge must carry `forward` and `inverse` as substitutions for this to be
+    askable; `check` reports when it declares `ring_iso` and does not.
+    """
+    e = graph.edges[eid]
+    if e.get("type") != K.EQUIVALENCE:
+        return UNVERIFIED, "edge %s is %s, not an EQUIVALENCE" % (
+            eid, e.get("type"))
+    fwd, inv = e.get("forward"), e.get("inverse")
+    if not fwd or not inv:
+        return UNVERIFIED, (
+            "edge %s declares no `forward`/`inverse` substitutions, so there "
+            "is nothing to reduce. `ring_iso` is a statement about the induced "
+            "map on coordinate rings, and without the map it can only be "
+            "taken on the author's word -- which is what it has been." % eid)
+    src, dst = graph.models.get(e["src"]) or {}, graph.models.get(e["dst"]) or {}
+    if src.get("generators") is None or dst.get("generators") is None:
+        return UNVERIFIED, "one endpoint carries no ideal"
+    ring = src.get("ring_vars") or []
+    if not ring or set(dst.get("ring_vars") or []) != set(ring):
+        return UNVERIFIED, (
+            "the two models are written in different rings; a substitution "
+            "between them needs both variable lists to agree")
+
+    # forward: each generator of I lands in J
+    for g in src["generators"]:
+        _, ok = cas.substitute_and_reduce(
+            ring, g, fwd, list(dst["generators"]), timeout=timeout,
+            _runner=_runner)
+        if not ok:
+            return ISO_NOT_ISO, (
+                "generator %r of %s does not land in %s's ideal under the "
+                "forward map. The map does not CARRY the ideal, so it is not "
+                "an isomorphism of coordinate rings whatever it does to points."
+                % (g, e["src"], e["dst"]))
+    # backward: each generator of J pulls back into I
+    for g in dst["generators"]:
+        _, ok = cas.substitute_and_reduce(
+            ring, g, inv, list(src["generators"]), timeout=timeout,
+            _runner=_runner)
+        if not ok:
+            return ISO_NOT_ISO, (
+                "generator %r of %s does not pull back into %s's ideal. "
+                "Without that the map does not REFLECT, and an identity may "
+                "cross one way and not the other -- which is the case "
+                "`ring_iso` exists to exclude."
+                % (g, e["dst"], e["src"]))
+    # roundtrip: psi(phi(v)) = v for each variable
+    for v in ring:
+        once, _ = cas.substitute_and_reduce(ring, v, fwd, [], timeout=timeout,
+                                            _runner=_runner)
+        twice, _ = cas.substitute_and_reduce(ring, once, inv, [],
+                                             timeout=timeout, _runner=_runner)
+        if twice.replace(" ", "") != v:
+            return ISO_NOT_ISO, (
+                "the maps do not compose to the identity on %r, so `inverse` "
+                "is not an inverse. Both ideal checks can pass for a map that "
+                "is not invertible, and then only one direction is licensed."
+                % v)
+    return ISO_VERIFIED, (
+        "the forward map carries %s's ideal into %s's, the inverse pulls it "
+        "back, and the two compose to the identity on every variable. That is "
+        "an isomorphism of COORDINATE RINGS, which is what an IDENTITY needs "
+        "and what a bijection on points does not give."
+        % (e["src"], e["dst"]))
 
 
 CERT_VERIFIED = "VERIFIED"

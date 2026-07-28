@@ -791,6 +791,54 @@ def check_witness(ring_vars, generators, point, characteristic=0, timeout=300,
                            if not g["vanishes"]]}
 
 
+def substitute_and_reduce(ring_vars, expr, images, generators=(),
+                          characteristic=0, timeout=300, _runner=None):
+    """Apply a SIMULTANEOUS substitution, then reduce modulo an ideal.
+
+    NESTED `subst` IS NOT SIMULTANEOUS, and getting that wrong is silent.
+    Swapping two variables by substituting one at a time sends `x*y - 1` to
+    `x*x - 1`: the first substitution puts `y` everywhere, and the second
+    rewrites the lot.  The bug reports the map as failing to carry an ideal it
+    carries perfectly well.
+
+    Singular's `map` does the whole substitution at once, which is what a
+    change of coordinates means.  Returns (reduced_form, reduces_to_zero).
+    """
+    if set(images) != set(ring_vars):
+        raise CASError(
+            "a substitution must give an image for every ring variable; got "
+            "%s for %s.  A partial map is not a change of coordinates."
+            % (", ".join(sorted(images)), ", ".join(ring_vars)))
+    # THE POLYNOMIAL MUST BE NAMED FIRST.  Singular's map application takes a
+    # named object, not an inline expression -- `GP_F(x*y-1)` is a syntax
+    # error, and the error it gives ("GP_F(<name>) expected") arrives three
+    # declarations later as "GP_R2 is undefined".
+    decls = [("GP_P", "poly", expr),
+             ("GP_F", "map",
+              "GP_R," + ",".join(images[v] for v in ring_vars)),
+             ("GP_E", "poly", "GP_F(GP_P)")]
+    outs = ["GP_E"]
+    if generators:
+        decls.append(("GP_I", "ideal", ",".join(generators)))
+        decls.append(("GP_S", "ideal", "std(GP_I)"))
+        decls.append(("GP_R2", "poly", "reduce(GP_E,GP_S)"))
+        outs.append("GP_R2")
+    prog = CASProgram(SINGULAR, ring="GP_R", ring_vars=list(ring_vars),
+                      decls=decls, body=[], outputs=outs,
+                      characteristic=characteristic)
+    result = (_runner or _run_subprocess)(prog, timeout)
+    if (result["aborted"] or result["returncode"] != 0
+            or "? error" in result["stdout"] + result["stderr"]):
+        raise CASError("the CAS did not apply the substitution:\n%s"
+                       % result["stdout"][-1500:])
+    vals = _parse_outputs(result["stdout"], outs)
+    key = "GP_R2" if generators else "GP_E"
+    got = vals[key]
+    got = " ".join(got) if isinstance(got, list) else str(got)
+    got = got.split("=", 1)[-1].strip()
+    return got, got == "0"
+
+
 _SYMBOL = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
 
 

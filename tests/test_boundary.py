@@ -743,3 +743,70 @@ def test_the_expansion_catches_cofactors_that_do_not_expand():
     with pytest.raises(C2.CASError) as exc:
         C2.check_unit_ideal_representation(["x", "y"], ["x", "1-x"], ["1"])
     assert "different ideal" in str(exc.value)
+
+
+@live
+def test_ring_iso_is_checkable_and_radicalisation_is_caught():
+    """THE MOST POWERFUL UNAUDITED BOOLEAN LEFT, and the formalisation is what
+    said how to check it.
+
+    `Reflects` -- the awkward half of an isomorphism -- quantifies over
+    preimages, which no CAS can search for. But it is not primitive: given an
+    inverse map, `PullsBack psi I J` plus `psi . phi = id` gives it. So a
+    verified iso is three reductions, not a search.
+
+    The case it must catch is the kernel's own warning: V(x^2) and V(x) have
+    the same single point and any converse you like, and `x = 0` holds in one
+    coordinate ring and is false in the other. Points do not give `ring_iso`.
+    """
+    from grandportage import verify as V
+
+    def mk(fwd, inv, sg, dg):
+        g = S.Graph().apply_all([(e, "t", i) for i, e in enumerate([
+            {"ev": "model", "id": "A", "what": "a", "ring_vars": ["x", "y"],
+             "generators": sg},
+            {"ev": "model", "id": "B", "what": "b", "ring_vars": ["x", "y"],
+             "generators": dg},
+            {"ev": "edge", "id": "E", "src": "A", "dst": "B",
+             "type": K.EQUIVALENCE, "why": "a change of variables",
+             "map_kind": K.POLYNOMIAL, "ring_iso": True,
+             "converse_witness": "the inverse substitution",
+             "forward": fwd, "inverse": inv}])])
+        g.validate()
+        return g
+
+    swap = {"x": "y", "y": "x"}
+    verdict, why = V.ring_iso(mk(swap, swap, ["x*y-1"], ["x*y-1"]), "E")
+    assert verdict == V.ISO_VERIFIED, why
+    assert "COORDINATE RINGS" in why
+
+    ident = {"x": "x", "y": "y"}
+    verdict, why = V.ring_iso(mk(ident, ident, ["x^2"], ["x"]), "E")
+    assert verdict == V.ISO_NOT_ISO
+    assert "does not pull back" in why, (
+        "radicalisation carries the ideal forward and does not reflect -- it "
+        "is the half that fails, and the message must say which")
+
+
+@live
+def test_a_substitution_is_simultaneous():
+    """NESTED `subst` IS NOT SIMULTANEOUS, and getting it wrong is silent.
+
+    Swapping two variables one at a time sends `x*y - 1` to `x*x - 1`: the
+    first substitution puts `y` everywhere and the second rewrites the lot. The
+    bug reported a map as failing to carry an ideal it carries perfectly well,
+    and it was caught only by testing a case that was supposed to PASS.
+    """
+    from grandportage import cas as C2
+    got, ok = C2.substitute_and_reduce(
+        ["x", "y"], "x*y-1", {"x": "y", "y": "x"}, ["x*y-1"])
+    assert ok, "the swap is an automorphism of this ideal; got %r" % got
+
+    got, _ = C2.substitute_and_reduce(["x", "y"], "x^2+y",
+                                      {"x": "y", "y": "x"}, [])
+    assert got.replace(" ", "") == "y2+x", (
+        "a genuinely asymmetric case, so the test is not passing by symmetry")
+
+    with pytest.raises(C2.CASError) as exc:
+        C2.substitute_and_reduce(["x", "y"], "x", {"x": "y"}, [])
+    assert "every ring variable" in str(exc.value)
