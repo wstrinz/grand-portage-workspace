@@ -273,7 +273,13 @@ _RESTRICTION_PREDICATE_MOVE = (
     "  If what you want is the exceptional locus itself, that is a separate "
     "model: declare it, and record what is true there.")
 
-MOVES[(K.RESTRICTION, K.ALONG, K.IDENTITY)] = _ZARISKI_DENSE_MOVE
+# RESTRICTION/ALONG/IDENTITY NO LONGER REFUSES, so it has no move.  The cell
+# was gated on a declared `zariski_dense` until the condition was found both
+# insufficient (the nodal cubic satisfies it and breaks the conclusion) and
+# beside the point (a restriction shares its ideal, so the identity is the same
+# statement at both ends).  `_ZARISKI_DENSE_MOVE` is kept below as the record
+# of advice this project once gave and has withdrawn -- it told callers to
+# declare a field that now gates nothing, which is worse than no advice.
 MOVES[(K.RESTRICTION, K.ALONG, K.PREDICATE)] = _RESTRICTION_PREDICATE_MOVE
 MOVES[(K.RESTRICTION, K.ALONG, K.EMPTY)] = (
     "Emptiness of a restricted region says nothing about the model it sits in: "

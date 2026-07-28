@@ -1648,15 +1648,22 @@ def test_the_identity_cell_does_not_send_you_after_denominators():
     is NECESSARY_CONDITION's remedy and is irrelevant here.  A restriction
     changes no coordinates, so there is no map to make polynomial, and anyone
     following that advice would spend the effort and still be refused.
+
+    AND THE CELL NO LONGER REFUSES AT ALL, which retires the move rather than
+    correcting it.  The gate it advised was found insufficient (the nodal cubic
+    satisfies it and breaks the conclusion) and beside the point (a restriction
+    shares its ideal, so the identity is the same statement at both ends).  So
+    the strongest form of this test is now the one below: nobody can be sent
+    after denominators here because nobody is refused here.
+
+    The wrong-advice hazard moved rather than vanishing.  `store` requires a
+    RESTRICTION's map_kind to be IDENTITY_MAP, so the denominator move is
+    unreachable from this row by construction, and what a caller needs instead
+    is `gp verify` -- which the UNTESTED-IDENTITY rule now tells them.
     """
-    from grandportage.discharge import discharge_for
-    msg = discharge_for(K.RESTRICTION, K.ALONG, K.IDENTITY,
-                        edge={"src": "PD", "dst": "REAL"})
-    assert "zariski_dense" in msg
-    assert "NOT THE DENOMINATOR QUESTION" in msg
-    # And it names the counterexample rather than asserting the condition is
-    # usually fine, because "usually fine" is how a gate stops being consulted.
-    assert "x^2 + y^2" in msg
+    assert K.transport(K.RESTRICTION, K.ALONG, K.IDENTITY).licensed, (
+        "the cell is unconditional; if this ever refuses again it needs a "
+        "move, and that move must not be the denominator one")
 
 
 def test_verify_all_actually_writes_and_the_finding_goes_away(tmp_path):
@@ -2319,7 +2326,7 @@ def _repo_root():
 
 
 def test_every_marked_check_count_in_the_docs_is_the_real_one():
-    """SIX DIFFERENT COUNTS WERE LIVE AT ONCE -- 160, 171, 251, 273, 307, 338 --
+    r"""SIX DIFFERENT COUNTS WERE LIVE AT ONCE -- 160, 171, 251, 273, 307, 338 --
     against an actual 384. `HANDOFF.md`, the file labelled READ THIS FIRST IF
     YOU HAVE NO CONTEXT, disagreed with the README, which disagreed with
     REVIEW.md, which disagreed with TESTPLAN.md.

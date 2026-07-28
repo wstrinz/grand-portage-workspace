@@ -83,9 +83,10 @@ EDGE_SCHEMA = {
                 "NECESSARY_CONDITION for a step that dropped no equation: the "
                 "point-transports are identical, so the wrong label licenses "
                 "nothing false and hides whether a result is global or only "
-                "generic. An IDENTITY crosses ALONG only if the edge declares "
-                "`zariski_dense`, meaning dst is irreducible with its real "
-                "points Zariski-dense in it.\n"
+                "generic. An IDENTITY crosses ALONG unconditionally, because a "
+                "restriction shares its ideal -- but only things that really "
+                "ARE identities: a relation observed to vanish at every point "
+                "of the region is a PREDICATE, and that does not cross.\n"
                 "  UNTYPED - not yet known. Legal, but requires debt_why, and "
                 "no conclusion will cross this edge until it is typed.")},
         "why": {"type": "string",
@@ -138,13 +139,17 @@ EDGE_SCHEMA = {
         "zariski_dense": {
             "type": "boolean",
             "description": (
-                "RESTRICTION only. True if the TARGET is irreducible and its "
-                "REAL points are Zariski-dense in it -- then a polynomial "
-                "relation holding on any nonempty open piece holds "
-                "throughout, and an IDENTITY established on the restricted "
-                "region pushes forward. Usually true and never automatic: "
-                "V(x^2+y^2) over R has one real point, and `x = 0` holds "
-                "there while being false on the variety.")},
+                "RETRACTED, and consulted by no cell. It used to gate "
+                "RESTRICTION/ALONG/IDENTITY on the target being irreducible "
+                "with Zariski-dense real points. That condition is NOT "
+                "SUFFICIENT -- the nodal cubic y^2 = x^2(x-1) satisfies every "
+                "word of it, and the region cut by x^2+y^2 < 1/2 is the "
+                "ISOLATED real point (0,0), where `x = 0` holds and on the "
+                "curve it does not. It was also beside the point: a "
+                "restriction shares its ideal, so an IDENTITY is the same "
+                "statement at both ends and there was nothing to gate. The "
+                "field is kept only so graphs that declared it keep folding. "
+                "Do not declare it on anything new.")},
         "debt_why": {"type": "string",
                      "description": "required when type is UNTYPED"},
         "cite": {"type": "string"},
@@ -221,6 +226,20 @@ TOOLS = [
                         "have not established which, say UNKNOWN -- it is a "
                         "legal answer, it licenses only what both do, and "
                         "`cas_classify_identity` settles it by computation. "
+                        "BETTER STILL, RECORD THE REWRITING ITSELF: an "
+                        "IDENTITY may carry `lhs`, `rhs` and `ring_vars`, and "
+                        "when it does the claim stops being prose and becomes "
+                        "decidable. An IDENTITY asserts that lhs - rhs lies in "
+                        "the model's ideal, reduction modulo a Groebner basis "
+                        "DECIDES that, and `portage_verify` will run it and "
+                        "record the answer -- including REFUTED, which means "
+                        "the rewriting is false at the model it was claimed "
+                        "at, something no amount of correct transport typing "
+                        "would ever surface. Give all three or none; half an "
+                        "identity is not a weaker identity. You may NOT "
+                        "declare `identity_verdict` -- it is what a verifier "
+                        "found, and its whole value is that a computation "
+                        "stands behind it. "
                         "A claim's optional `ladder` is its EVIDENCE GRADE and "
                         "is ORTHOGONAL to transport -- it never licenses a "
                         "step and the type system never grades evidence. "
@@ -339,6 +358,25 @@ TOOLS = [
                       "into the baseline. Off by default: once a campaign has "
                       "a real graph, re-printing every carried obligation is "
                       "noise on every call.")}},
+        []),
+
+    _tool(
+        "portage_verify",
+        "Spend CAS time to SETTLE what the graph currently takes on the "
+        "author's word, and record the answers. Two things get checked: every "
+        "IDENTITY claim carrying `lhs`/`rhs` is reduced (is lhs - rhs in the "
+        "model's ideal?), and every edge whose endpoints carry generators has "
+        "its central assertion V(src) subset V(dst) tested. `portage_check` "
+        "reports which objects are missing the data this needs. A REFUTED "
+        "identity means the rewriting is FALSE where it was claimed -- the one "
+        "error class transport typing can never surface, because every route "
+        "from a false premise is unsound no matter how it is typed.",
+        {"timeout": {"type": "integer", "default": 300},
+         "dry_run": {"type": "boolean", "default": False,
+                     "description": (
+                         "report the verdicts without recording them. Off by "
+                         "default: a verification that lives in a scrollback "
+                         "is one nobody can act on next week.")}},
         []),
 
     _tool(
@@ -526,6 +564,29 @@ def h_portage_check(args, root):
                     len(clean), ", ".join(clean) or "-"))
 
 
+def h_portage_verify(args, root):
+    from . import verify as V
+    path = S.graph_path(root)
+    if not os.path.exists(path):
+        return _text("no graph yet at %s" % path)
+    results = V.verify_all(root=root, timeout=int(args.get("timeout") or 300),
+                           record=not args.get("dry_run"))
+    if not results:
+        return _text(
+            "nothing to verify: no edge or claim carries the data a reduction "
+            "needs.\n"
+            "  Edges need `generators` and `ring_vars` on BOTH endpoints; "
+            "IDENTITY claims need `lhs`, `rhs` and `ring_vars`.\n"
+            "  `portage_check` reports which ones are missing them.")
+    lines = []
+    for subject, oid, verdict, why in results:
+        lines.append("%s  %s %s\n    %s" % (verdict, subject, oid, why))
+    lines.append("--dry-run: nothing was recorded."
+                 if args.get("dry_run")
+                 else "recorded %d verdict(s)." % len(results))
+    return _text("\n\n".join(lines))
+
+
 def _render(findings):
     if not findings:
         return "no findings: every recorded conclusion is licensed by the "\
@@ -666,6 +727,7 @@ HANDLERS = {
     "cas_classify_identity": h_cas_classify_identity,
     "portage_declare": h_portage_declare,
     "portage_check": h_portage_check,
+    "portage_verify": h_portage_verify,
     "cas_health": h_cas_health,
     "portage_show": h_portage_show,
     "portage_transport_table": h_portage_transport_table,
