@@ -2467,3 +2467,83 @@ def test_a_write_that_IS_your_fault_still_says_so(tmp_path):
     assert "ALREADY UNFOLDABLE" not in msg, (
         "this one IS the caller's fault and must not be excused")
     assert "MINE" in msg
+
+
+# ===========================================================================
+# W5 PHASE 1.  A model records what it IS, not only what it was called.
+# ===========================================================================
+def test_a_cas_run_records_the_ideal_it_was_given(tmp_path):
+    """EVERY CAS ENTRY POINT IS HANDED THE IDEAL AND THREW IT AWAY.
+
+    `ideal_is_unit(ring_vars, generators, ...)` receives the algebra, runs a
+    computation with it, mints a model, and kept only `desc` -- a sentence
+    somebody wrote. So the graph recorded what a model was CALLED and never
+    what it IS, and `KNOWN_CONSERVATISM` has carried the consequence since
+    v0.2: "models are currently descriptions, not objects".
+
+    That one gap is upstream of four documented others -- containment being
+    uncheckable, the exact identity condition being unrunnable, `integral` and
+    `coefficients_in_base` being unmergeable, `BASE_EXTENSION` being declarable
+    where it is detectable. Retaining it costs nothing; the caller already
+    passed it.
+
+    Tested at the seam rather than through a solver: no Singular is required to
+    assert that what came in comes out.
+    """
+    prog = cas.CASProgram(cas.SINGULAR, ring="GP_R", ring_vars=["x", "y"],
+                          decls=[("GP_I", "ideal", "x,y")], body=[],
+                          outputs=[], generators=["x", "y"])
+    assert prog.generators == ["x", "y"], "the program must retain them"
+
+    t = cas.Transport(src="M0", type=K.NECESSARY_CONDITION,
+                      why="drops equations")
+    model, _edge = t.events("E", "M1", "the quotient",
+                            ring_vars=prog.ring_vars,
+                            generators=prog.generators)
+    assert model["ring_vars"] == ["x", "y"]
+    assert model["generators"] == ["x", "y"]
+
+
+def test_generators_without_a_ring_are_refused(tmp_path):
+    """A polynomial is meaningless without the ring it lives in, and anything
+    reading these -- an ideal-containment check, an exact identity test -- would
+    have to guess it. A check that guesses its own ring is not a check."""
+    with pytest.raises(S.GraphError) as exc:
+        _graph([{"ev": "model", "id": "M", "desc": "a model",
+                 "generators": ["x", "y"]}])
+    assert "without the ring it lives in" in str(exc.value)
+
+
+def test_the_algebra_stays_optional_because_every_existing_graph_lacks_it():
+    """Requiring it would break every graph in the corpus to buy a field
+    nothing yet consumes, and `gp migrate` would have no ignorance value to
+    fill with -- "this model has no ideal" and "nobody recorded one" are
+    different facts and only the author knows which.
+
+    The three shipped fixtures are the check: none of them carries an ideal and
+    all of them must still fold.
+    """
+    for name in ("jc2", "matroid", "gamma_window"):
+        path = os.path.join(_repo_root(), "fixtures", name, "graph.jsonl")
+        if not os.path.exists(path):
+            continue
+        g = S.load(path)
+        assert g.models, "%s has models" % name
+        assert not any(m.get("generators") for m in g.models.values()), (
+            "%s predates the field, which is the point" % name)
+
+
+def test_gp_show_prints_what_a_model_is(tmp_path, capsys):
+    """A reader resuming a campaign cannot otherwise tell a model built from a
+    real ideal from one asserted into existence with a label."""
+    from grandportage import cli
+    _accept_fixture(tmp_path, [
+        {"ev": "model", "id": "M", "desc": "the quotient",
+         "ring_vars": ["x", "y"], "generators": ["x^2 - y", "y^3"]},
+        {"ev": "model", "id": "N", "desc": "asserted into existence"}])
+    cli.main(["--root", str(tmp_path), "show"])
+    out = capsys.readouterr().out
+    assert "ring   k[x, y]" in out
+    assert "ideal  (x^2 - y, y^3)" in out
+    # And a model with no algebra prints none, rather than an empty ring.
+    assert out.count("ring   k[") == 1

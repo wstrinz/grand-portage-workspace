@@ -411,6 +411,33 @@ class Graph(object):
         _require(isinstance(declares, dict),
                  "%s: model %r `declares` must be {axis: [values]}"
                  % (where, ev["id"]))
+        # THE ALGEBRA, IF THE MODEL WAS GIVEN ANY.
+        #
+        # Optional on purpose and for as long as it takes.  Most models in
+        # every existing campaign have none, because until now the CAS was
+        # handed the ideal and the model it minted kept only `desc`.  Requiring
+        # it would break every graph in the corpus to buy a field nothing yet
+        # consumes; the migration would have no ignorance value to fill with,
+        # since "this model has no ideal" and "nobody recorded one" are
+        # different facts and only the author knows which.
+        #
+        # What is checked is that a model claiming to have one is COHERENT:
+        # generators without ring variables cannot be parsed by anything, and a
+        # `V(src) subset V(dst)` check that has to guess the ring is not a
+        # check.
+        rv = ev.get("ring_vars")
+        gens = ev.get("generators")
+        _require(rv is None or isinstance(rv, list),
+                 "%s: model %r `ring_vars` must be a list" % (where, ev["id"]))
+        _require(gens is None or isinstance(gens, list),
+                 "%s: model %r `generators` must be a list" % (where, ev["id"]))
+        _require(not (gens is not None and not rv),
+                 "%s: model %r declares generators and no `ring_vars`. A "
+                 "polynomial is meaningless without the ring it lives in, and "
+                 "anything reading these -- an ideal-containment check, an "
+                 "exact identity test -- would have to guess it. A check that "
+                 "guesses its own ring is not a check."
+                 % (where, ev["id"]))
         m = dict(ev)
         m["declares"] = {a: list(v) for a, v in declares.items()}
         m["touches"] = list(ev.get("touches") or [])

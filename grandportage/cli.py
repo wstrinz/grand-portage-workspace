@@ -615,6 +615,15 @@ def cmd_show(args):
         bits = [b for b in (m.get("chart"), m.get("field")) if b]
         print("MODEL %-14s %s" % (mid, " ".join(bits)))
         print("    %s" % m.get("desc", ""))
+        # WHAT THE MODEL IS, not only what it was called.  `desc` is a sentence
+        # somebody wrote; this is the object.  Printed because a reader
+        # resuming a campaign cannot otherwise tell a model built from a real
+        # ideal from one asserted into existence with a label.
+        if m.get("ring_vars"):
+            print("    ring   k[%s]" % ", ".join(m["ring_vars"]))
+        if m.get("generators") is not None:
+            gens = m["generators"]
+            print("    ideal  (%s)" % (", ".join(gens) if gens else "0"))
     print()
     for eid in sorted(g.edges):
         e = g.edges[eid]
