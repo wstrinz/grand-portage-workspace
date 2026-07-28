@@ -136,4 +136,55 @@ A single `Carries` gate would have licensed descent, which the counterexample
 above refutes outright.  That is the concrete cost of the compression that did
 not happen. -/
 
+
+/-! ## A correction, and it is the most interesting thing here
+
+Above, `coefficients_in_base` is labelled REFLECTS.  Checking that against the
+Python kernel's own counterexample says otherwise.
+
+The kernel refuses descent with this:
+
+    x² + 1 = (x + i)(x - i) is a valid rewriting in ℚ(i)[x].  Transported
+    AGAINST to the ℚ-model, `i` is not merely unproved -- it is NOT
+    EXPRESSIBLE there.  The descended statement is not a false claim, it is
+    not a claim.
+
+That is not reflection failing.  For a field extension the reflection property
+`Iᵉ ∩ k[x] = I` holds automatically by faithful flatness; nothing needs gating.
+What fails is that the claim cannot be WRITTEN in the smaller ring at all.
+
+And notice where that condition went in `reflects_gives_descent`: it did not
+appear as a hypothesis, because `f g : R` puts it in the TYPE.  A claim about
+elements of `R` is expressible in `R` by construction, so the theorem is true
+and simply cannot see the gate.
+
+**So `coefficients_in_base` is a typing artifact.**  It exists because a Python
+claim is a STRING, and a string offers no evidence that what it denotes lives
+in the base ring.  In a typed setting the condition is discharged by the type
+and disappears.
+
+That is a real prediction about the implementation rather than about the
+mathematics: the gate is not protecting a mathematical fact, it is standing in
+for a type the representation does not have.  It should be checkable --
+"do these coefficients lie in the base?" is decidable -- rather than declared. -/
+
+/-- Expressibility, which is what the gate is really asking, and which the
+    typed statement above gets for free. -/
+def Expressible {R S : Type u} (φ : R → S) (y : S) : Prop := ∃ x, φ x = y
+
+/-- The honest form of descent when the claim is NOT known to be typed at `R`:
+    expressibility is a hypothesis, not a consequence. -/
+theorem descent_needs_expressibility {R S : Type u} [Sub R] [Sub S]
+    (φ : R → S) (hφ : ∀ a b : R, φ (a - b) = φ a - φ b)
+    {I : Ideal R} {J : Ideal S} (h : Reflects φ I J)
+    (y z : S) (hy : Expressible φ y) (hz : Expressible φ z) :
+    EqMod J y z → ∃ f g : R, φ f = y ∧ φ g = z ∧ EqMod I f g := by
+  intro huv
+  obtain ⟨f, hf⟩ := hy
+  obtain ⟨g, hg⟩ := hz
+  refine ⟨f, g, hf, hg, ?_⟩
+  apply h
+  rw [hφ, hf, hg]
+  exact huv
+
 end GrandPortage
