@@ -1795,6 +1795,98 @@ def test_a_doubt_is_a_finding_a_person_writes():
     assert not [f for f in C.run(g2) if f.rule == C.R_DOUBT]
 
 
+def test_an_enumeration_must_say_which_verdict_it_decides():
+    """THE SINGLE MOST IMPORTANT EPISTEMIC FACT ABOUT A FILTER, and it had no
+    field.
+
+    A live session swept a descent tree that keeps MORE branches alive at every
+    choice point, so a kill was definitive and a survival meant only that this
+    filter had not killed it. Its own words: "conservative: kills are safe,
+    survivals are not." That went into prose, and a reader taking the survivor
+    count at face value would have read an upper bound as an answer.
+
+    The same sufficient-not-necessary shape `verify.py` already has one layer
+    up, where a reduction that succeeds establishes the containment and one
+    that fails proves nothing.
+    """
+    base = [
+        {"ev": "model", "id": "M", "what": "a bounded lattice"},
+        {"ev": "claim", "id": "C", "model": "M", "kind": K.PREDICATE,
+         "statement": "40 pairs survive", "established_by": "RAN",
+         "ladder": "exact-checked"}]
+    silent = _graph(base + [
+        {"ev": "evidence", "id": "EV", "for": "C", "method": "ENUMERATION",
+         "ran": "sweep.py", "what": "swept every pair with u+v <= 50"}])
+    assert [f for f in C.run(silent) if f.rule == C.R_EVIDENCE], (
+        "an enumeration that does not say which verdict it decides must be "
+        "reported -- the count is what gets reused")
+
+    said = _graph(base + [
+        {"ev": "evidence", "id": "EV", "for": "C", "method": "ENUMERATION",
+         "ran": "sweep.py", "what": "swept every pair with u+v <= 50",
+         "decides": "EXCLUSIONS"}])
+    assert not [f for f in C.run(said) if f.rule == C.R_EVIDENCE]
+
+    with pytest.raises(S.GraphError):
+        _graph(base + [
+            {"ev": "evidence", "id": "EV", "for": "C",
+             "method": "ENUMERATION", "ran": "s.py", "what": "x",
+             "decides": "MOSTLY"}])
+
+
+def test_a_doubt_can_name_the_sentence_it_defeats():
+    """A doubt about a whole claim is a blunter instrument than people need.
+
+    A live session wanted to defeat ONE SENTENCE of a predecessor whose other
+    results it had independently reproduced and agreed with. It had to hang the
+    doubt on the entire claim, and named the consequence itself: this is what
+    will make people reach for supersession where supersession is wrong,
+    because superseding is the only way to change part of a record.
+
+    The quote must OCCUR in the target. One that does not is a typo or a
+    reference gone stale under a supersession, and an unanchored quote is the
+    honour system with punctuation.
+    """
+    base = [
+        {"ev": "model", "id": "M", "what": "a model"},
+        {"ev": "claim", "id": "C", "model": "M", "kind": K.PREDICATE,
+         "statement": "40 pairs survive, and 17 extras die by one argument",
+         "established_by": "RAN", "ladder": "exact-checked"}]
+    g = _graph(base + [
+        {"ev": "doubt", "id": "D", "about": "C", "kind": "INAPPLICABLE_RULE",
+         "quote": "17 extras die by one argument",
+         "why": "the argument reaches only 2 of the 17"}])
+    assert g.doubts["D"]["quote"] == "17 extras die by one argument"
+
+    with pytest.raises(S.GraphError) as exc:
+        _graph(base + [
+            {"ev": "doubt", "id": "D", "about": "C",
+             "kind": "INAPPLICABLE_RULE",
+             "quote": "a sentence that is not in the claim",
+             "why": "..."}])
+    assert "does not occur in" in str(exc.value)
+
+
+def test_a_hazard_nothing_can_trip_says_so():
+    """A citation hazard is matched against claim text, and a live session's
+    ambiguous identifiers lived in Python docstrings the graph points at but
+    does not contain. The record was correct, useful to a human, and
+    mechanically inert -- and the session learned that only by reading
+    `check.py`.
+
+    The checker reads the graph and no files, deliberately. What it can do is
+    stop the record looking more active than it is.
+    """
+    g = _graph([
+        {"ev": "model", "id": "M", "what": "a model"},
+        {"ev": "citation", "id": "CIT", "cites": "Foo Lemma 2.1",
+         "resolves_to": "Foo Lemma 2.4", "why": "a draft was cited",
+         "hazard": "Foo's actual 2.1 is a different statement"}])
+    dormant = [f for f in C.run(g) if f.rule == C.R_CITATION]
+    assert dormant and dormant[0].severity == C.DEBT
+    assert "never fire" in dormant[0].detail
+
+
 def test_a_computation_recorded_for_a_claim_that_was_only_cited():
     """WHERE A CITATION DRIFTS INTO A VERIFICATION, in the reporting
     session's own words.

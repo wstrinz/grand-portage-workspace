@@ -188,6 +188,30 @@ class Graph(object):
     # for something with no transport behaviour at all.
     EVIDENCE_METHODS = ("ENUMERATION", "REPLICATION")
 
+    # WHICH VERDICT AN ENUMERATION DECIDES, and this is the field a live
+    # session called the single most important epistemic fact about its run.
+    #
+    # It swept a descent tree that keeps MORE branches alive at every choice
+    # point -- both sub-cases explored, every admissible drop kept.  So a KILL
+    # is definitive and a SURVIVAL is a survival of that filter and nothing
+    # more.  Its own words: "conservative: kills are safe, survivals are not."
+    # There was no field for it, so it went into prose, and a reader taking the
+    # survivor count at face value would have read an upper bound as an answer.
+    #
+    # THE SAME DISTINCTION `verify.py` ALREADY MAKES, one layer up.  There, a
+    # reduction that succeeds establishes the containment and a reduction that
+    # fails proves nothing, because the test is sufficient and not necessary.
+    # An incomplete filter has exactly that shape, and every enumeration used
+    # as a filter has it.
+    DECIDES = {
+        "EXCLUSIONS": "a removal is definitive; a survival means only that "
+                      "this filter did not remove it",
+        "INCLUSIONS": "a survival is definitive; a removal may be an artifact "
+                      "of the filter being too aggressive",
+        "BOTH": "the enumeration is exact: it removes everything it should "
+                "and nothing it should not",
+    }
+
     def _apply_evidence(self, ev, where):
         _require(ev.get("for"),
                  "%s: evidence %r must say what it is `for`"
@@ -204,6 +228,11 @@ class Graph(object):
         _require(ev.get("what"),
                  "%s: evidence %r needs `what` -- what the computation "
                  "actually did, in a sentence." % (where, ev["id"]))
+        if ev.get("decides") is not None:
+            _require(ev["decides"] in self.DECIDES,
+                     "%s: evidence %r decides %r; the values are %s"
+                     % (where, ev["id"], ev["decides"],
+                        ", ".join(sorted(self.DECIDES))))
         if ev["method"] == "REPLICATION":
             _require(ev.get("agrees_with"),
                      "%s: evidence %r is a REPLICATION and must say what it "
@@ -252,6 +281,35 @@ class Graph(object):
                  "%s: doubt %r needs `why`. A doubt without its reason is a "
                  "mood, and the next reader cannot act on it."
                  % (where, ev["id"]))
+        # WHICH PART OF IT, because a doubt about a whole claim is a blunter
+        # instrument than people need.
+        #
+        # A live session wanted to defeat ONE SENTENCE of a predecessor whose
+        # other results it had independently reproduced and agreed with. It had
+        # to hang the doubt on the entire claim, so the next reader meets a
+        # defeater attached to something otherwise intact. Its own diagnosis:
+        # this is what will make people reach for supersession where
+        # supersession is wrong, because superseding is the only way to change
+        # part of a record.
+        #
+        # The quote must actually OCCUR in the target. A quotation that does
+        # not is either a typo or a reference that has gone stale under a
+        # supersession, and both are worth catching at fold time -- an
+        # unanchored quote is the honour system with punctuation.
+        if ev.get("quote"):
+            target = (self.claims.get(ev["about"])
+                      or self.inferences.get(ev["about"])
+                      or self.models.get(ev["about"])
+                      or self.edges.get(ev["about"]) or {})
+            hay = " ".join(str(target.get(f) or "")
+                           for f in ("statement", "asserted", "what", "why",
+                                     "note", "caveat"))
+            _require(ev["quote"] in hay,
+                     "%s: doubt %r quotes %r, which does not occur in %s.\n"
+                     "  A quote that is not in the record it doubts is a typo "
+                     "or a reference gone stale under a supersession. Either "
+                     "way the next reader cannot find what you meant."
+                     % (where, ev["id"], ev["quote"], ev["about"]))
         sev = ev.get("severity", "TRIAGE")
         _require(sev in C_SEVERITIES,
                  "%s: doubt %r has severity %r; the severities are %s"
@@ -293,6 +351,16 @@ class Graph(object):
                  "%s: citation %r needs `why`. A resolution asserted without "
                  "its reason is the honour system with a bibliography."
                  % (where, ev["id"]))
+        # AND WHAT THE SOURCE GETS WRONG, which is a different fact from what
+        # its identifiers denote.  Two sessions independently found the same
+        # misprint in one theorem's proof -- a displayed formula whose own
+        # printed conclusions contradict it -- and neither had anywhere to put
+        # it.  `erratum` voids records in OUR graph and is refused if they
+        # fold; this is about somebody else's paper.
+        #
+        # A FIELD RATHER THAN A KIND.  One distinct instance does not earn an
+        # event kind, and a citation record is already the place a reader looks
+        # to find out what an external reference really says.
         self.citations[ev["id"]] = dict(ev)
 
     def _apply_verdict(self, ev, where):

@@ -848,11 +848,17 @@ def cmd_show(args):
             print("    " + line)
         if v.get("agrees_with"):
             print("    agrees with: %s" % v["agrees_with"])
+        if v.get("decides"):
+            print("    decides: %s -- %s"
+                  % (v["decides"], S.Graph.DECIDES[v["decides"]]))
     for did in sorted(g.doubts):
         d = g.doubts[did]
         mark = "  [ANSWERED]" if d.get("answered") else ""
         print("DOUBT %-16s %-12s about %s%s"
               % (did, d["kind"], d["about"], mark))
+        if d.get("quote"):
+            for line in _wrap('of: "%s"' % d["quote"]):
+                print("    " + line)
         for line in _wrap(d["why"]):
             print("    " + line)
     for kid in sorted(g.citations):
@@ -863,6 +869,9 @@ def cmd_show(args):
             print("    " + line)
         if c.get("hazard"):
             for line in _wrap("HAZARD: " + c["hazard"]):
+                print("    " + line)
+        if c.get("corrects"):
+            for line in _wrap("CORRECTS THE SOURCE: " + c["corrects"]):
                 print("    " + line)
     for cid in sorted(g.claims):
         c = g.claims[cid]

@@ -1718,6 +1718,32 @@ def check_evidence(graph):
     findings = []
     for vid in sorted(graph.evidence):
         v = graph.evidence[vid]
+        # AN ENUMERATION THAT DOES NOT SAY WHICH VERDICT IT DECIDES.
+        #
+        # A live session called this the single most important epistemic fact
+        # about its run: its filter kept more branches alive at every choice
+        # point, so a kill was definitive and a survival meant only that this
+        # filter had not killed it. Without the field, a reader takes the
+        # survivor count at face value and reads an upper bound as an answer.
+        #
+        # Reported rather than required, because the census is sealed and two
+        # evidence records already exist without it. Same policy as `lhs`.
+        if v["method"] == "ENUMERATION" and not v.get("decides"):
+            findings.append(Finding(
+                R_EVIDENCE, "%s:decides:%s" % (R_EVIDENCE, vid), TRIAGE, vid,
+                "evidence %s is an ENUMERATION and does not say which verdict "
+                "it decides.\n"
+                "  A filter that keeps too much decides its EXCLUSIONS: a "
+                "removal is definitive and a survival means only that this "
+                "sweep did not remove it. A filter that discards too much "
+                "decides the opposite. Which one it is cannot be read off the "
+                "count, and the count is what gets reused."
+                % vid,
+                "Declare `decides`: EXCLUSIONS, INCLUSIONS, or BOTH. If the "
+                "sweep is exact -- it removes everything it should and nothing "
+                "it should not -- that is BOTH, and worth saying because it is "
+                "the rarer case.",
+                semantic_key=vid))
         c = graph.claims.get(v["for"]) or {}
         by = c.get("established_by")
         if by in (None, "RAN"):
@@ -1760,6 +1786,39 @@ def check_citations(graph):
     findings = []
     hazards = [(c["cites"], c) for c in graph.citations.values()
                if c.get("hazard")]
+    # A HAZARD NOTHING CAN TRIP.
+    #
+    # This rule substring-matches a citation's `cites` against claim and
+    # inference text. A live session recorded a real hazard whose ambiguous
+    # identifiers live in PYTHON DOCSTRINGS the graph points at but does not
+    # contain -- so the record was correct, useful to a human, and mechanically
+    # inert, and the session learned that only by reading this function.
+    #
+    # The checker cannot read files: it is deterministic and spawns nothing.
+    # What it can do is stop the record looking more active than it is.
+    for cites, c in hazards:
+        text = " ".join(str(o.get(f) or "")
+                        for o in list(graph.claims.values())
+                        + list(graph.inferences.values())
+                        for f in ("cite", "statement", "asserted"))
+        if cites in text:
+            continue
+        findings.append(Finding(
+            R_CITATION, "%s:dormant:%s" % (R_CITATION, c["id"]), DEBT,
+            c["id"],
+            "citation %s records a hazard about %r, and nothing in this graph "
+            "cites that string, so the hazard will never fire.\n"
+            "  It is not wrong -- a reader still gets it from `gp show` -- but "
+            "it is doing less than a recorded hazard looks like it is doing. "
+            "This checker reads the graph and no files, so an identifier that "
+            "appears only in a script or a document it points at is out of "
+            "reach by construction."
+            % (c["id"], cites),
+            "If something here really does depend on that reference, put the "
+            "identifier in the claim's `cite` or `statement` where the match "
+            "can see it. If the ambiguity lives entirely outside the graph, "
+            "leave this as documentation and accept the finding.",
+            semantic_key=c["id"]))
     if not hazards:
         return findings
     subjects = [("claim", cid, graph.claims[cid]) for cid in sorted(graph.claims)]
