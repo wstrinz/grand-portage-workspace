@@ -1740,6 +1740,89 @@ def test_clean_inferences_ignore_triage_and_respect_derived_severity():
         "severity the author overrode")
 
 
+_BAD = {"ev": "claim", "id": "C2", "model": "M", "kind": K.PREDICATE,
+        "statement": "corrected", "established_by": "CITED",
+        "ladder": "claimed", "supersedes": "C",
+        "supersession_kind": "AMEND"}       # the field is `discharge_kind`
+_GOOD = [{"ev": "model", "id": "M", "what": "a model"},
+         {"ev": "claim", "id": "C", "model": "M", "kind": K.PREDICATE,
+          "statement": "first", "established_by": "CITED",
+          "ladder": "claimed"}]
+
+
+def _write(tmp_path, events):
+    d = tmp_path / ".portage"
+    d.mkdir(exist_ok=True)
+    with open(str(d / "graph.jsonl"), "w", encoding="utf-8") as fh:
+        for e in events:
+            fh.write(json.dumps(e) + "\n")
+
+
+def test_an_erratum_repairs_a_graph_that_cannot_be_repaired_otherwise(tmp_path):
+    """THE WALL, and it cost a live session two repair cycles.
+
+    One wrong field name -- `supersession_kind` for `discharge_kind` -- made
+    `gp check` exit 2 permanently. Superseding the bad record does not help:
+    the error is ABOUT the bad record. `gp migrate` filled nothing, `gp accept`
+    carries findings rather than graph errors, and the only exit was rewriting
+    the append-only log, which its own header forbids. The session did that
+    twice.
+    """
+    _write(tmp_path, _GOOD + [_BAD])
+    with pytest.raises((S.GraphError, K.KernelRefusal)):
+        S.load(S.graph_path(str(tmp_path)))
+
+    # Superseding the bad record does NOT help -- the point of the whole thing.
+    _write(tmp_path, _GOOD + [_BAD, {
+        "ev": "claim", "id": "C3", "model": "M", "kind": K.PREDICATE,
+        "statement": "properly corrected", "established_by": "CITED",
+        "ladder": "claimed", "supersedes": "C2", "discharge_kind": "RESTATE"}])
+    with pytest.raises((S.GraphError, K.KernelRefusal)):
+        S.load(S.graph_path(str(tmp_path)))
+
+    _write(tmp_path, _GOOD + [_BAD, {
+        "ev": "erratum", "voids": "C2",
+        "why": "wrote `supersession_kind`; the field is `discharge_kind`"}])
+    g = S.load(S.graph_path(str(tmp_path)))
+    assert "C2" not in g.claims, "the voided record must not reach the fold"
+    assert "C" in g.claims, "and nothing else may be disturbed"
+
+
+def test_an_erratum_is_not_a_delete(tmp_path):
+    """The guard that keeps this from being a way to hide a finding.
+
+    Without it, a claim producing an inconvenient finding could be voided out
+    of a log whose entire premise is that nothing is quietly removed. So an
+    erratum is refused unless the record it voids genuinely fails to fold.
+    """
+    _write(tmp_path, _GOOD + [{
+        "ev": "erratum", "voids": "C",
+        "why": "I would rather this claim were not here"}])
+    with pytest.raises((S.GraphError, K.KernelRefusal)) as exc:
+        S.load(S.graph_path(str(tmp_path)))
+    msg = str(exc.value)
+    assert "FOLDS" in msg
+    assert "superseded, not voided" in msg
+
+
+def test_declare_refuses_without_writing(tmp_path):
+    """Every write went through ONE surface, and when it was down people
+    hand-edited past the only guard that would have caught them.
+
+    `store.append` is transactional -- it folds the batch first and writes
+    nothing if the result would not fold -- so the supported path cannot poison
+    a graph. But the supported path was the MCP server alone, reported
+    unreachable in two consecutive live sessions. `gp declare` is the second
+    door, and this asserts the property that makes it worth having.
+    """
+    _write(tmp_path, _GOOD)
+    with pytest.raises((S.GraphError, K.KernelRefusal)):
+        S.append([_BAD], str(tmp_path))
+    g = S.load(S.graph_path(str(tmp_path)))
+    assert "C2" not in g.claims, "a refused write must leave nothing behind"
+    assert set(g.claims) == {"C"}
+
+
 def test_the_public_readme_links_only_to_files_that_sync():
     """A BROKEN LINK FOR EVERY READER OF THE PUBLIC REPOSITORY.
 

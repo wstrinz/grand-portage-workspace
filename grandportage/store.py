@@ -36,12 +36,13 @@ EV_BUILT_BY = "built_by"
 EV_PARTITION = "partition"
 EV_SAME_AS = "same_as"
 EV_FAMILY = "family"      # a finite INDEX of objects, not a variety
+EV_ERRATUM = "erratum"    # voids a record that does not fold
 EV_VERDICT = "verdict"    # what a VERIFIER found; never declared
 EV_NOTE = "note"          # free-form, carried but never interpreted
 
 EVENT_KINDS = (EV_CERTIFICATE, EV_MODEL, EV_EDGE, EV_CLAIM, EV_INFERENCE,
                EV_BUILT_BY, EV_PARTITION, EV_SAME_AS, EV_FAMILY,
-               EV_VERDICT, EV_NOTE)
+               EV_ERRATUM, EV_VERDICT, EV_NOTE)
 
 # Severities an inference may override to.  Named here rather than imported so
 # the store stays the bottom layer with no dependency on the checker;
@@ -984,7 +985,7 @@ class Graph(object):
         self.inferences[ev["id"]] = i
         self.inference_order.append(ev["id"])
 
-    def apply_all(self, batch):
+    def apply_all(self, batch, _check_errata=True):
         """Fold a whole batch, CERTIFICATES FIRST.
 
         `batch` is [(event, source, lineno)].
@@ -1008,15 +1009,84 @@ class Graph(object):
         prior presence changes how a later event FOLDS -- every other
         cross-reference is checked in `validate()` after the fold, which is why
         models and edges have never needed ordering.
+
+        AND ERRATA ARE PASS ZERO, for a failure a live session hit twice in one
+        afternoon.  It wrote `supersession_kind` where the field is
+        `discharge_kind`, and `gp check` then exited 2 FOREVER: superseding the
+        bad record does not help, because the error is ABOUT the bad record.
+        `gp migrate` filled nothing and `gp accept` carries findings, not graph
+        errors.  The only exit was rewriting the append-only log -- the one
+        operation its own header forbids -- and the session did that twice.
+
+        An `erratum` voids a record so the fold skips it.  The log stays
+        append-only and the repair is itself a record, which is the same shape
+        as every other correction here.
+
+        IT IS DELIBERATELY NOT A GENERAL DELETE.  An erratum is refused unless
+        the record it voids genuinely fails to fold; a record that folds and is
+        merely WRONG must be superseded, with a discharge kind saying how.
+        Without that check this would be a mechanism for making a finding
+        disappear by voiding the claim that produced it, in a log whose whole
+        premise is that nothing is quietly removed.
         """
         batch = list(batch)
+        voided = {}
+        for ev, source, lineno in batch:
+            if not isinstance(ev, dict) or ev.get("ev") != EV_ERRATUM:
+                continue
+            where = "%s:%d" % (source, lineno)
+            _require(ev.get("voids"),
+                     "%s: erratum must name the record it `voids`" % where)
+            _require(ev.get("why"),
+                     "%s: erratum voiding %r needs `why`. A record removed "
+                     "from an append-only log without a reason is the thing "
+                     "this format exists to prevent."
+                     % (where, ev["voids"]))
+            voided[ev["voids"]] = (ev, where)
+
         for want_cert in (True, False):
             for ev, source, lineno in batch:
+                if isinstance(ev, dict):
+                    if ev.get("ev") == EV_ERRATUM:
+                        continue
+                    if ev.get("id") in voided:
+                        continue
                 is_cert = (isinstance(ev, dict)
                            and ev.get("ev") == EV_CERTIFICATE)
                 if is_cert is want_cert:
                     self.apply(ev, source=source, lineno=lineno)
+
+        if voided and _check_errata:
+            self._refuse_unneeded_errata(batch, voided)
         return self
+
+    def _refuse_unneeded_errata(self, batch, voided):
+        """An erratum must be REPAIRING something, not removing it.
+
+        Checked by re-folding the batch with this one erratum dropped.  If that
+        succeeds, the record it claims to void was fine and the erratum is
+        refused with the move that IS correct.
+        """
+        for vid, (ev, where) in sorted(voided.items()):
+            trimmed = [(e, s, n) for (e, s, n) in batch if e is not ev]
+            try:
+                Graph().apply_all(trimmed, _check_errata=False).validate()
+            except (GraphError, K.KernelRefusal):
+                continue
+            raise GraphError(
+                "%s: erratum voids %r, but that record FOLDS. An erratum is "
+                "for a record the graph cannot read at all -- a malformed "
+                "field, a name that is not a field, a shape no rule can "
+                "apply.\n"
+                "  A record that folds and is merely WRONG is superseded, not "
+                "voided: send the corrected version with `supersedes: %r` and "
+                "a `discharge_kind` saying how it changed. That keeps every "
+                "argument which used the old one attached to it, where a void "
+                "would silently drop them.\n"
+                "  This distinction is the whole reason an erratum is not a "
+                "delete. Without it, a finding could be made to disappear by "
+                "voiding the claim that produced it."
+                % (where, vid, vid))
 
     # -- referential integrity ---------------------------------------------
     def validate(self):

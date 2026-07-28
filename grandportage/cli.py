@@ -279,6 +279,68 @@ def cmd_migrate(args):
     return 1 if manual else 0
 
 
+def cmd_declare(args):
+    """Write events to the graph, transactionally.
+
+    THE ROOT CAUSE OF THE WORST DEFECT THIS PROJECT HAS RECORDED, and it was a
+    missing command rather than a broken one.
+
+    `store.append` is transactional: it folds the batch against the existing
+    graph first and writes nothing if the result would not fold.  So the
+    supported write path CANNOT poison a graph.  But the only supported write
+    path was the MCP server, and two consecutive live sessions reported it
+    unreachable -- at which point a careful agent's only remaining option was
+    to append JSONL by hand, bypassing the one guard that would have caught its
+    typo.
+
+    One of them did exactly that, wrote `supersession_kind` for
+    `discharge_kind`, and spent the rest of the session unable to run `gp
+    check`.  The unrecoverable graph error was the second-order consequence;
+    every write in the system going through a single point of failure was the
+    cause.
+
+    Reads JSON from a file or stdin, accepting either one event object or a
+    list of them.
+    """
+    if args.file:
+        with open(args.file, encoding="utf-8") as fh:
+            raw = fh.read()
+    else:
+        raw = sys.stdin.read()
+    if not raw.strip():
+        sys.stderr.write(
+            "nothing to declare: no events on stdin and no --file given.\n"
+            "  Send one event object or a list of them, e.g.\n"
+            "    gp declare --file events.json\n"
+            "    echo '{\"ev\":\"note\",\"text\":\"...\"}' | gp declare\n")
+        return 2
+    try:
+        events = json.loads(raw)
+    except ValueError as exc:
+        sys.stderr.write(
+            "that is not JSON: %s\n"
+            "  Nothing was written. The graph is unchanged.\n" % exc)
+        return 2
+    if isinstance(events, dict):
+        events = [events]
+    if not isinstance(events, list):
+        sys.stderr.write(
+            "expected one event object or a list of them, got %s.\n"
+            % type(events).__name__)
+        return 2
+    try:
+        S.append(events, args.root)
+    except (S.GraphError, K.KernelRefusal) as exc:
+        # THE WHOLE POINT: refused and NOTHING WRITTEN, so the next attempt
+        # starts from a graph that still folds.
+        sys.stderr.write("REFUSED\n  %s\n\n"
+                         "  Nothing was written. The graph is unchanged.\n"
+                         % exc)
+        return 2
+    print("declared %d event(s)." % len(events))
+    return 0
+
+
 def cmd_verify(args):
     """Run the verifiers and record what they found.
 
@@ -926,6 +988,12 @@ def build_parser():
     v.add_argument("--dry-run", action="store_true",
                    help="report the verdicts without recording them")
     v.set_defaults(func=cmd_verify)
+
+    d = sub.add_parser("declare",
+                       help="write events to the graph, transactionally: "
+                            "they fold first or nothing is written")
+    d.add_argument("--file", help="JSON file; omit to read stdin")
+    d.set_defaults(func=cmd_declare)
 
     i = sub.add_parser("init", help="create an empty graph")
     i.set_defaults(func=cmd_init)

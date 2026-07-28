@@ -94,6 +94,30 @@ def _plain():
                       _inf("I", "C", [["E", K.ALONG]])]
 
 
+@construct("voided_record", ["erratum"])
+def _erratum():
+    """A record the graph cannot read, and the erratum that repairs it.
+
+    The malformed claim writes `supersession_kind`, which is not a field --
+    the real one is `discharge_kind` -- so it folds to "supersedes X without
+    saying HOW" and poisons the graph permanently.  A live session made
+    exactly this typo twice and had to rewrite the append-only log to escape.
+
+    Every surface has to render a graph containing a record that is present in
+    the log and absent from the fold, which is a state none of them had seen.
+    """
+    return [{"ev": "model", "id": "M", "what": "a model"},
+            {"ev": "claim", "id": "C", "model": "M", "kind": K.PREDICATE,
+             "statement": "the first version", "established_by": "CITED",
+             "ladder": "claimed"},
+            {"ev": "claim", "id": "C2", "model": "M", "kind": K.PREDICATE,
+             "statement": "corrected", "established_by": "CITED",
+             "ladder": "claimed", "supersedes": "C",
+             "supersession_kind": "AMEND"},
+            {"ev": "erratum", "voids": "C2",
+             "why": "wrote `supersession_kind`; the field is `discharge_kind`"}]
+
+
 @construct("verified_identity", ["verdict"])
 def _verdict():
     """A structured IDENTITY and the verifier's answer about it.
