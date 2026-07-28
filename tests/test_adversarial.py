@@ -3411,3 +3411,71 @@ def test_gp_show_prints_what_a_model_is(tmp_path, capsys):
     assert "ideal  (x^2 - y, y^3)" in out
     # And a model with no algebra prints none, rather than an empty ring.
     assert out.count("ring   k[") == 1
+
+
+def test_specialization_has_no_containment_to_verify():
+    """FIVE OF THE SIX TYPES ARE RELAXATIONS. `verify.py` said all six were.
+
+    SPECIALIZATION relates the GENERIC fibre of a scheme over Spec Z to a
+    SPECIAL fibre, and those are different fibres rather than nested sets:
+    neither contains the other. This kernel's own counterexamples prove it --
+    the Fano plane is empty over Q and nonempty over F_2, the non-Fano matroid
+    the reverse, which is why all four existence cells on that row are False.
+
+    So `containment` had nothing to establish there, and worse: it passes no
+    characteristic to the reduction, so it would have reduced characteristic-p
+    generators in characteristic 0 and reported a confident verdict about a
+    relation that does not exist.
+
+    Found by measuring how much of the transport table follows from inclusion
+    alone. 27 of 36 point cells do; 3 more follow from inclusion in BOTH
+    directions (an EQUIVALENCE's converse); 3 need a capability inclusion does
+    not supply; and the last 3 are this row, which is WEAKER than inclusion. A
+    generalisation covering five rows and quietly mis-describing the sixth is
+    the shape this project exists to catch.
+    """
+    from grandportage import verify as V
+
+    g = _graph([
+        {"ev": "model", "id": "A", "what": "the generic fibre",
+         "ring_vars": ["x"], "generators": ["x^2+1"]},
+        {"ev": "model", "id": "B", "what": "the special fibre",
+         "ring_vars": ["x"], "generators": ["x^2+1"]},
+        {"ev": "edge", "id": "E", "src": "A", "dst": "B",
+         "type": K.SPECIALIZATION, "why": "reduce mod 2",
+         "map_kind": K.POLYNOMIAL}])
+    verdict, why = V.containment(g, "E")
+    assert verdict == V.UNVERIFIED
+    assert "not nested" in why and "Fano" in why
+
+
+def test_most_point_cells_follow_from_inclusion_alone():
+    """The measurement that found the bug above, kept as a gate.
+
+    If a future edit makes one of the 27 inclusion-derived cells disagree with
+    plain subset reasoning, that is either a discovery or a mistake -- and
+    either way it should be noticed rather than absorbed into the table.
+    """
+    inclusion = {
+        (K.ALONG, K.EMPTY): False, (K.ALONG, K.NONEMPTY): True,
+        (K.ALONG, K.PREDICATE): False,
+        (K.AGAINST, K.EMPTY): True, (K.AGAINST, K.NONEMPTY): False,
+        (K.AGAINST, K.PREDICATE): True,
+    }
+    # The three groups that legitimately differ, each for a stated reason.
+    stronger = {K.EQUIVALENCE}          # inclusion BOTH ways
+    conditional = {K.BASE_EXTENSION, K.IMAGE_CLOSURE}   # needs a capability
+    not_nested = {K.SPECIALIZATION}     # different fibres, not a subset
+
+    for etype in K.ALL_TYPES:
+        for d in K.DIRECTIONS:
+            for kind in (K.EMPTY, K.NONEMPTY, K.PREDICATE):
+                actual = K.TRANSPORT[etype][d][kind]
+                want = inclusion[(d, kind)]
+                if actual == want or isinstance(actual, str):
+                    continue
+                assert etype in stronger | conditional | not_nested, (
+                    "%s/%s/%s departs from plain inclusion (%s vs %s) and its "
+                    "type is not in a group with a recorded reason. Either the "
+                    "cell is wrong or a fourth reason exists and should be "
+                    "named." % (etype, d, kind, actual, want))

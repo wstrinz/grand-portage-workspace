@@ -12,8 +12,25 @@ That split is the same one the project already makes between a finding and its
 discharge, and it keeps the expensive thing opt-in.
 
 WHAT IS VERIFIED, and why it is the deepest thing here.  Every edge asserts
-`V(src) subset V(dst)`.  The kernel's opening comment says so and all six types
-are relaxations in that sense -- and it has never been checked, only declared.
+`V(src) subset V(dst)`.  The kernel's opening comment says so and FIVE of the
+six types are relaxations in that sense -- and it has never been checked, only
+declared.
+
+THE SIXTH IS NOT, AND THIS FILE USED TO SAY IT WAS.  SPECIALIZATION relates the
+GENERIC fibre of a scheme over Spec Z to a SPECIAL fibre.  Those are different
+fibres, not nested sets: neither contains the other, and the kernel's own
+counterexamples prove it -- the Fano plane is empty over Q and nonempty over
+F_2, the non-Fano matroid the reverse.  So there is no containment to check,
+and `containment` refuses the row rather than computing a confident answer
+about a relation that does not exist.
+
+Found by asking how much of the transport table follows from inclusion alone.
+Twenty-seven of thirty-six point cells do; three more follow from inclusion in
+BOTH directions, which is what an EQUIVALENCE's converse buys; three need a
+capability inclusion does not supply.  The last three are SPECIALIZATION's, and
+they are weaker than inclusion for the reason above.  A generalisation that
+covers five rows and quietly mis-describes the sixth is the shape this project
+exists to catch.
 That makes it the SIXTH instance of the pattern this project keeps finding, at
 the lowest level available: a field that DETERMINES transport and is taken on
 the author's word.
@@ -68,6 +85,22 @@ def containment(graph, eid, timeout=300, _runner=None):
     first failure is the whole answer and the rest cost money.
     """
     e = graph.edges[eid]
+    if e.get("type") == K.SPECIALIZATION:
+        # NOT A RELAXATION, so there is no containment to test -- and the
+        # reduction would have run in characteristic 0 against generators
+        # living in characteristic p, producing a confident verdict about a
+        # relation that does not exist.
+        return UNVERIFIED, (
+            "edge %s is a SPECIALIZATION, and that is the one type whose ends "
+            "are not nested. The generic fibre and a special fibre of a scheme "
+            "over Spec Z are DIFFERENT FIBRES: neither contains the other, and "
+            "this kernel's own counterexamples say so -- the Fano plane is "
+            "empty over Q and nonempty over F_2, the non-Fano matroid the "
+            "reverse.\n"
+            "  So `V(src) subset V(dst)` is not what this edge asserts, and "
+            "there is nothing here for a reduction to establish. The four "
+            "existence cells on this row are already False for exactly this "
+            "reason." % eid)
     src, dst = graph.models.get(e["src"]), graph.models.get(e["dst"])
     if not src or not dst:
         return UNVERIFIED, "an endpoint is not a declared model"
