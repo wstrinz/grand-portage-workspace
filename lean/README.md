@@ -45,9 +45,17 @@ The conjecture was that `ring_iso`, `identity_origin`, `integral` and
 | condition | shape |
 |---|---|
 | `identity_origin: AMBIENT` | the claim lives at a **smaller ideal** — nothing about the map |
-| `coefficients_in_base` | **Reflects** — the map pulls the target ideal back |
+| `coefficients_in_base` | **expressibility** — the claim cannot be *written* in the smaller ring |
 | `ring_iso` | **Carries and Reflects** |
-| `integral` | whether the induced map is **defined at all** |
+| `integral` | **partiality** — whether the induced map is defined at all |
+
+That table's second row is itself a correction. The formalisation's first answer
+was `Reflects`, and checking it against the Python kernel's own counterexample
+said otherwise: for a field extension `Iᵉ ∩ k[x] = I` holds automatically, so
+reflection is not what fails. What fails is that the claim cannot be *written*
+downstairs — and stating the theorem with `f g : R` puts that in the type, so
+the formal version could not see the gate at all. **That absence is what proved
+it is an artifact of claims being strings.**
 
 So the eight gated `IDENTITY` cells resisted compression because they answer
 four different questions: does the claim hold in a smaller ideal than declared,

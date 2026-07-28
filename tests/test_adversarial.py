@@ -3582,3 +3582,45 @@ def test_a_declared_integral_is_checked_against_the_prime():
     # And an integral rewriting is silent at 2.
     assert not [f for f in C.run(mk("h2 - 3*h1^2", 2))
                 if f.rule == C.R_INTEGRAL]
+
+
+def test_an_inference_on_an_unverified_identity_is_not_clean():
+    """AN UNVERIFIED IDENTITY DISQUALIFIES, though it is only TRIAGE.
+
+    The severity filter in `clean_inferences` is right in general -- a
+    VACUOUS-CONCLUSION at TRIAGE is a legitimate positive control. But
+    UNTESTED-IDENTITY is different in kind: it says the claim's CENTRAL
+    CONTENT has never been checked, and an argument resting on that is not
+    evidence that the checker declines to refuse sound steps.
+
+    Found via a review's counterexample. Localise `k[x,y]/(xy)` at `x`: in the
+    localisation `y = 0`, and in the ambient ring it does not. Declared as an
+    IDENTITY and transported ALONG, the table licenses it -- correctly, since a
+    RESTRICTION shares its ideal, so the fault is that `y = 0` is not an
+    IDENTITY at that model at all. `verify.identity` REFUTES it outright.
+
+    But at the default floor `gp check` called the inference CLEAN and exited
+    0, with the only signal below the failing floor. That is the "clean
+    inferences" number lying again, in a narrower way than this morning's fix
+    covered.
+    """
+    from grandportage import operations as O
+    op = O.localize("AMB", "x", "LOC", ["x", "y"], ["x*y"])
+    g = _graph(
+        [{"ev": "model", "id": "AMB", "what": "k[x,y]/(xy)",
+          "ring_vars": ["x", "y"], "generators": ["x*y"]}]
+        + op.events
+        + [{"ev": "claim", "id": "C", "model": "LOC", "kind": K.IDENTITY,
+            "statement": "y = 0 where x is invertible", "lhs": "y",
+            "rhs": "0", "ring_vars": ["x", "y"],
+            "identity_origin": K.DERIVED, "established_by": K.DERIVED,
+            "ladder": "claimed"},
+           {"ev": "inference", "id": "I", "claim": "C",
+            "path": [["E-LOC", K.ALONG]], "concludes_kind": K.IDENTITY,
+            "asserted": "so y = 0 in the ambient ring too"}])
+
+    findings = C.run(g)
+    assert [f for f in findings if f.rule == C.R_IDENTITY], (
+        "the claim is structured and unverified, so it must be reported")
+    assert "I" not in C.clean_inferences(g, findings), (
+        "and an inference resting on it must not be a positive control")

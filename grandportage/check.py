@@ -2450,6 +2450,22 @@ def clean_inferences(graph, findings):
     flagged = {f.subject for f in findings
                if SEVERITY_RANK[f.derived_severity]
                >= SEVERITY_RANK[UNSOUND_PREMISE]}
+    # AND AN UNVERIFIED IDENTITY DISQUALIFIES, though it is only TRIAGE.
+    #
+    # The severity filter is right in general -- a VACUOUS-CONCLUSION at TRIAGE
+    # is a legitimate positive control -- but UNTESTED-IDENTITY is different in
+    # kind. It says the claim's CENTRAL CONTENT has never been checked, and an
+    # argument resting on that is not evidence that the checker declines to
+    # refuse sound steps.
+    #
+    # Found via a review's counterexample: localise `k[x,y]/(xy)` at `x`, where
+    # `y = 0` holds in the localisation and not in the ambient ring. Declared
+    # as an IDENTITY and transported ALONG, the table licenses it -- correctly,
+    # because a RESTRICTION shares its ideal, so the fault is that `y = 0` is
+    # not an IDENTITY at that model at all. `verify.identity` REFUTES it. But
+    # at the default floor `gp check` reported the inference CLEAN and exited
+    # 0, with the only signal sitting below the failing floor.
+    flagged |= {f.subject for f in findings if f.rule == R_IDENTITY}
     out = []
     for i in graph.inference_order:
         inf = graph.inferences[i]
