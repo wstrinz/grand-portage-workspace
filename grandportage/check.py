@@ -49,6 +49,7 @@ R_CONTAINMENT = "CONTAINMENT"
 R_IDENTITY = "UNTESTED-IDENTITY"
 R_SIBLING = "SIBLING-EDGE"
 R_STALE_MODEL = "STALE-MODEL"
+R_CITATION = "AMBIGUOUS-CITATION"
 
 EXISTENCE_OPPOSITE = {K.EMPTY: K.NONEMPTY, K.NONEMPTY: K.EMPTY}
 
@@ -1670,6 +1671,58 @@ def check_containment(graph):
     return findings
 
 
+def check_citations(graph):
+    """Something cites an identifier already recorded as denoting elsewhere.
+
+    THE POINT OF TYPING A CITATION AT ALL.  Storing the resolution is worth
+    little if the next person has to know to look it up; what earns it is
+    firing when somebody cites the ambiguous name again.
+
+    A live session established that a paper's "GGV1 Remark 7.10" denotes what
+    the arXiv source numbers 7.14 -- the citing work used a pre-publication
+    draft -- and that arXiv 7.10 is a DIFFERENT statement about the same
+    subject. So the naive resolution does not fail loudly; it succeeds on the
+    wrong object. That is this project's trap number one and it had no type.
+
+    Substring matching, deliberately.  It fires only where a `hazard` was
+    recorded by hand, so the false-positive surface is exactly as large as
+    somebody chose to make it, and a citation with no hazard is silent.
+    """
+    findings = []
+    hazards = [(c["cites"], c) for c in graph.citations.values()
+               if c.get("hazard")]
+    if not hazards:
+        return findings
+    subjects = [("claim", cid, graph.claims[cid]) for cid in sorted(graph.claims)]
+    subjects += [("inference", iid, graph.inferences[iid])
+                 for iid in sorted(graph.inferences)]
+    for kind, oid, obj in subjects:
+        if obj.get("superseded_by"):
+            continue
+        text = " ".join(str(obj.get(f) or "")
+                        for f in ("cite", "statement", "asserted"))
+        for cites, c in hazards:
+            if cites not in text or obj.get("citation") == c["id"]:
+                continue
+            findings.append(Finding(
+                R_CITATION, "%s:%s:%s" % (R_CITATION, oid, c["id"]),
+                TRIAGE, oid,
+                "%s %s cites %r, and %s records that identifier as denoting "
+                "%s.\n"
+                "  %s\n"
+                "  HAZARD: %s"
+                % (kind, oid, cites, c["id"], c["resolves_to"],
+                   c.get("why"), c["hazard"]),
+                "If this %s means the object the citation resolves to, link it "
+                "with `citation: %s` and the finding goes quiet. If it means "
+                "the identifier's OTHER reading, say which -- because the "
+                "whole reason this is recorded is that resolving it naively "
+                "succeeds on the wrong object rather than failing."
+                % (kind, c["id"]),
+                semantic_key=oid))
+    return findings
+
+
 def check_stale_models(graph):
     """Claims and edges still anchored to a model that has been superseded.
 
@@ -1956,6 +2009,7 @@ def run(graph, accepted=None):
                 + check_identity(graph)
                 + check_sibling_edges(graph)
                 + check_stale_models(graph)
+                + check_citations(graph)
                 + check_parallel_edges(graph)
                 + check_vacuous_conclusions(graph)
                 + check_self_built(graph))

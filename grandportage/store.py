@@ -36,13 +36,14 @@ EV_BUILT_BY = "built_by"
 EV_PARTITION = "partition"
 EV_SAME_AS = "same_as"
 EV_FAMILY = "family"      # a finite INDEX of objects, not a variety
+EV_CITATION = "citation"  # which external object an identifier denotes
 EV_ERRATUM = "erratum"    # voids a record that does not fold
 EV_VERDICT = "verdict"    # what a VERIFIER found; never declared
 EV_NOTE = "note"          # free-form, carried but never interpreted
 
 EVENT_KINDS = (EV_CERTIFICATE, EV_MODEL, EV_EDGE, EV_CLAIM, EV_INFERENCE,
                EV_BUILT_BY, EV_PARTITION, EV_SAME_AS, EV_FAMILY,
-               EV_ERRATUM, EV_VERDICT, EV_NOTE)
+               EV_CITATION, EV_ERRATUM, EV_VERDICT, EV_NOTE)
 
 # Severities an inference may override to.  Named here rather than imported so
 # the store stays the bottom layer with no dependency on the checker;
@@ -87,6 +88,7 @@ class Graph(object):
         self.families = {}         # id -> {count, enumeration, members?}
         self.groups = {}           # group id -> {of, settles, exhibited, ...}
         self.aliases = {}          # id -> {models: [...], why}
+        self.citations = {}        # id -> which external object a name denotes
         self.notes = []
         self._seen = {}            # (kind, id) -> canonical event
 
@@ -157,6 +159,41 @@ class Graph(object):
         "edge": {"containment": ("VERIFIED", "NOT_BY_IDEAL", "UNVERIFIED"),
                  "why_field": "containment_why"},
     }
+
+    def _apply_citation(self, ev, where):
+        """Which external object an identifier actually denotes.
+
+        THE PROJECT'S OWN TRAP NUMBER ONE, and it had no type.  A live session
+        established that a paper's citation of "GGV1 Remark 7.10" denotes what
+        the arXiv source numbers Remark 7.14 -- because the citing work used a
+        pre-publication draft -- and, worse, that the arXiv text's ACTUAL 7.10
+        is a different statement about the same subject.  A reader resolving
+        the citation naively lands on a plausible wrong object with no signal.
+
+        That was the most useful thing found all session and the only container
+        that would take it was a PREDICATE at some model, used as a bag.  It is
+        not a statement about points of any variety; it is a fact about
+        identifiers.
+
+        NOT A MATHEMATICAL CLAIM, so it licenses nothing and transports
+        nowhere.  What it does is let the next reader inherit the resolution
+        instead of rediscovering it, and let `check` warn when something cites
+        an identifier already recorded as ambiguous.
+        """
+        _require(ev.get("cites"),
+                 "%s: citation %r needs `cites` -- the identifier AS WRITTEN "
+                 "in the citing source, e.g. 'GGV1 Remark 7.10'"
+                 % (where, ev["id"]))
+        _require(ev.get("resolves_to"),
+                 "%s: citation %r needs `resolves_to` -- the object it "
+                 "actually denotes. A citation record whose whole point is the "
+                 "resolution must carry one."
+                 % (where, ev["id"]))
+        _require(ev.get("why"),
+                 "%s: citation %r needs `why`. A resolution asserted without "
+                 "its reason is the honour system with a bibliography."
+                 % (where, ev["id"]))
+        self.citations[ev["id"]] = dict(ev)
 
     def _apply_verdict(self, ev, where):
         """Record what a VERIFIER found.  Its own event kind, deliberately.

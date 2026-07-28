@@ -94,6 +94,31 @@ def _plain():
                       _inf("I", "C", [["E", K.ALONG]])]
 
 
+@construct("ambiguous_citation", ["citation"])
+def _citation():
+    """A citation whose naive resolution succeeds on the WRONG object.
+
+    Drawn from the live case: a paper cites "GGV1 Remark 7.10", which denotes
+    what the arXiv source numbers 7.14 because the citing work used a
+    pre-publication draft -- and arXiv 7.10 is a different statement about the
+    same subject, so a reader looking it up lands somewhere plausible and
+    wrong with no signal at all.
+    """
+    return [{"ev": "model", "id": "M", "what": "the object under study"},
+            {"ev": "citation", "id": "CIT_R714",
+             "cites": "GGV1 Remark 7.10",
+             "source": "GGV3 (1406.0886) L1721",
+             "resolves_to": "GGV1 Remark 7.14 (arXiv:1401.1784 L4959-L4999)",
+             "why": "GGV3 cites a pre-publication draft; section 7 gained "
+                    "four numbered items before publication",
+             "hazard": "arXiv GGV1's actual 7.10 is a DIFFERENT corner "
+                       "statement, so the naive lookup succeeds on the wrong "
+                       "object rather than failing"},
+            {"ev": "claim", "id": "C", "model": "M", "kind": K.PREDICATE,
+             "statement": "the corner is fixed, by GGV1 Remark 7.10",
+             "established_by": "CITED", "ladder": "claimed"}]
+
+
 @construct("voided_record", ["erratum"])
 def _erratum():
     """A record the graph cannot read, and the erratum that repairs it.
