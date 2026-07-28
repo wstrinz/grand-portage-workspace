@@ -53,6 +53,22 @@ review. Worth knowing because it predicts where the next one comes from.
 | **T2** external review | 8 defects | the CAS boundary was still bypassable **through the fix for it** |
 | **T4** merge fan-out | **PASS / FAIL** | kind laundering, existence on the honour system, `gp merge` |
 | **T5** foreign campaign | **PASS** | the `ladder` split, open premise slots, `CITED_PROOF`, `TYPE_MEANS` |
+| **L1** toric containment | **premise refuted** | the containment model held but had never been under load → `verify.containment` |
+| **W5/L4** identity live-test | 13 defects | **the verifier had no surface at all** → `gp verify`, `portage_verify`, the `verdict` event kind, GATE 3 |
+| **GPT-2** prior-art review | 2 kernel errors | `SPECIALIZATION` ignored `identity_origin`; the `RESTRICTION` density gate was insufficient *and* mis-typed |
+
+### The reviews found the mathematics; the runs found the tool
+
+Worth stating because it corrects a complacency this document used to carry.
+For five live runs the score was **nine interaction defects to zero kernel
+errors**, and I read that as the mathematics being settled. It was not — it was
+nobody attacking it. An external review doing actual mathematics against the
+table found two false licences in an afternoon (a nodal cubic and a
+`p`-torsion example), both confirmed.
+
+So the two channels find different things and neither substitutes for the
+other. Live runs find what the tool does to a working user. Adversarial
+mathematics finds what the table licenses. **Run both.**
 
 Full results in `portage-depot/testing/`, each with its pass condition written
 *before* the run.
@@ -290,17 +306,34 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook. 171 checks, live against Singular 4.2.1 via WSL.
-Two domains of retrodiction (JC(2) and matroid realizability) against answer
-keys pinned before this code existed, reproducing 4+6 flags with zero false
-positives and 15 clean positive controls.
+server, enforcement hook, verifier. <!--checks-->628<!--/checks--> checks,
+live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
+matroid realizability) against answer keys pinned before this code existed,
+reproducing 4+6 flags with zero false positives and 15 clean positive controls.
 
-**Tested in anger once.** `docs/first-run/` — a real agent doing real
-open research (the γ-window compiler for a Jacobian Conjecture counterexample
-search). It produced genuine mathematics and a very good bug report.
+**Tested in anger repeatedly**, and that is where every structural change comes
+from — see the table in §1. `docs/first-run/` is the one to read: a real agent
+doing real open research, which produced genuine mathematics and a very good
+bug report. Five campaigns now exist in `portage-depot/campaigns/`.
 
-**Audited once.** `docs/first-run/T2-SYNTHESIS.md` — four independent auditors,
-four lenses. **The audit FAILED its declared pass condition on edge type.**
+**Audited twice.** `docs/first-run/T2-SYNTHESIS.md` — four independent
+auditors, four lenses, and **the audit FAILED its declared pass condition on
+edge type.** Then an external prior-art review found two false licences in the
+transport table itself, both confirmed and both fixed.
+
+**Three gates now guard the classes of defect that keep recurring:**
+
+| gate | what it prevents | how it was earned |
+|---|---|---|
+| **cell ledger** | a licensed cell with no argument behind it | 171 green checks once agreed with an unsound oracle |
+| **GATE 2** (`test_surface_smoke`) | a construct correct everywhere except in being *reachable* | three constructs in a row crashed `gp check` on first live contact |
+| **GATE 3** | a message naming a command that does not exist | `gp verify` was promised in two check rules for two releases and did not exist |
+
+GATE 2 and GATE 3 are complements and neither subsumes the other. GATE 2 asks
+whether every surface survives every event kind; GATE 3 asks whether every
+surface we *name* is real. **Neither asks whether a capability has a surface at
+all**, which is how `verify.py` shipped twice while being unreachable from
+every user-facing path. If you add a fourth gate, that is the gap.
 
 ---
 

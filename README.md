@@ -140,8 +140,14 @@ Three rows carry most of the value:
   matters. The `IDENTITY` row is where
   the mathematics genuinely differs: a restriction adds no equations, so the
   obstruction that stops a derived identity crossing a `NECESSARY_CONDITION`
-  is simply absent, and the question becomes whether a polynomial vanishing on
-  an open piece vanishes throughout.
+  is simply absent — both ends share a ring and an ideal, and an `IDENTITY`
+  is the same statement at each. That cell was gated on a declared
+  `zariski_dense` until an external review broke the condition with the nodal
+  cubic `y² = x²(x−1)`, whose real points *are* Zariski-dense and whose
+  restricted region is an isolated point. The gate was also answering the
+  wrong question: "vanishes at every point of the region" is a `PREDICATE`,
+  and that cell refuses. What replaced it is `gp verify`, which decides
+  `lhs − rhs ∈ I` by reduction instead of asking anyone to declare it.
 
 ## Scope is derived, never declared
 
