@@ -279,6 +279,37 @@ C:\Users\wstri\dev\
                     HEAD 0d24d35, clean, pushed.  171 checks green.
                     Installed editable (`pip install -e .`), so `gp` is on PATH
                     and edits take effect everywhere immediately.
+                    Two commands: `gp` and `gport`.  USE `gport` IN POWERSHELL
+                    -- `gp` is a built-in alias for Get-ItemProperty and the
+                    alias wins.
+
+  grand-portage\lean\   THE SHADOW FORMALISATION.  Lean 4, Mathlib-FREE, so
+                    `lake build` is seconds.  Not authoritative: its job is to
+                    try to break the ontology, not to bless it.  Does not sync
+                    to the public mirror (the sync copies an enumerated list).
+
+                    It has already taken four transport gates apart, and none
+                    was the shape it looked:
+
+                      identity_origin       a COROLLARY -- contravariance from
+                                            the zero ideal, true in any ring
+                      coefficients_in_base  a TYPING ARTIFACT.  The formal
+                                            version could not SEE the gate,
+                                            because `f g : R` puts
+                                            expressibility in the type -- and
+                                            that absence is what proved it is
+                                            an artifact of claims being strings
+                      ring_iso              CARRIES and REFLECTS, decomposed
+                                            into three reductions a CAS can run
+                      integral              PARTIALITY -- is the map defined
+
+                    What it has caught: a bad counterexample of mine, a wrong
+                    conjecture of mine, a mislabelling in its own file, a
+                    sequential-substitution bug in `verify.ring_iso`, and the
+                    SPECIALIZATION non-inclusion.  None of them "the table is
+                    correct".  The method is: state what a gate MEANS
+                    precisely enough to be wrong, then write the Python
+                    verifier against that statement rather than an intuition.
 
   portage-depot\    Workspace where the FIRST RUN happened.  Local only, no remote.
                     HEAD 9d42f49, clean.  Has math-stuff as a pinned submodule.
