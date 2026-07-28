@@ -65,6 +65,13 @@ Partially measurable now. Both sides of the ledger have entries:
 No honest ratio yet. Both columns need to keep being recorded, including the
 embarrassing one.
 
+Added since: a witness could transport between two **mutually exclusive
+branches of a partition** and the checker reported the inference CLEAN. That
+goes in the prevented column, and it matters for [B3](#b3) as well — it is a
+failure squarely *inside* the boundary this project claims to control, found by
+reasoning about the semantics rather than by watching a user. If the errors
+that matter were all in the surfaces, this one would not exist.
+
 ### A6. Operation validators become as complex as the CAS code
 
 Untested. Currently the validators are two functions of about forty lines each,
@@ -102,6 +109,7 @@ one that settles B1.
 
 The honest competitor, and it has never been run. See [experiment A](#experiment-a).
 
+<a id="b3"></a>
 ### B3. The principal failures keep happening outside any boundary this can control
 
 *Watch closely — this is the criterion the project's own record argues for.*
