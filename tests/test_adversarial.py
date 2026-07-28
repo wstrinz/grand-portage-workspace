@@ -2351,7 +2351,8 @@ def test_the_public_readme_links_only_to_files_that_sync():
     """
     import re
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    syncs = {"DESIGN.md", "README.md", "REVIEW.md", "LICENSE"}
+    syncs = {"DESIGN.md", "README.md", "REVIEW.md", "LICENSE",
+             "QUICKSTART.md"}
     with open(os.path.join(root, "README.md"), encoding="utf-8") as fh:
         readme = fh.read()
     bad = []
@@ -3479,3 +3480,26 @@ def test_most_point_cells_follow_from_inclusion_alone():
                     "type is not in a group with a recorded reason. Either the "
                     "cell is wrong or a fourth reason exists and should be "
                     "named." % (etype, d, kind, actual, want))
+
+
+def test_the_witness_discharge_names_the_right_model_at_each_end():
+    """IT NAMED THE WRONG MODEL TWICE IN ONE SENTENCE, at the exact moment the
+    tool claims its value.
+
+    A witness at the relaxation transported AGAINST is refused, correctly. The
+    discharge then said "lift it to {dst}" -- telling somebody to move a point
+    to where it already is -- and offered the sound reading as "a hard stop on
+    emptiness spend for {src}", which is the one model the witness says nothing
+    about.
+
+    Found by writing a quickstart and running its own example, which is a
+    reminder that the refusal text is read far more often than it is reviewed.
+    """
+    from grandportage.discharge import discharge_for
+    msg = discharge_for(K.NECESSARY_CONDITION, K.AGAINST, K.NONEMPTY,
+                        edge={"src": "TIGHT", "dst": "LOOSE"})
+    assert "Lift it to TIGHT" in msg, (
+        "the witness is at the relaxation; lifting means getting it into the "
+        "SOURCE, which is what the dropped conditions cost")
+    assert "emptiness spend for LOOSE" in msg, (
+        "and what it soundly buys is at the relaxation, not the source")
