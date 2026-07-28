@@ -187,4 +187,46 @@ theorem descent_needs_expressibility {R S : Type u} [Sub R] [Sub S]
   rw [hφ, hf, hg]
   exact huv
 
+/-! ## What a verifier would have to check for `ring_iso`
+
+`RingIso` above bundles `Carries` and `Reflects`, and `Reflects` is the awkward
+half: it quantifies over the SOURCE ring and says something about preimages,
+which is not a reduction a CAS can run directly.
+
+But it follows from two things that ARE reductions, given an inverse map:
+
+  * every generator of the TARGET ideal pulls back into the source one, and
+  * the two maps compose to the identity.
+
+That turns an unaudited boolean into two batches of substitutions -- exactly
+the shape `classify_identity` already answers. -/
+
+/-- The backward direction, stated as the verifier can check it. -/
+def PullsBack {R S : Type u} (ψ : S → R) (I : Ideal R) (J : Ideal S) : Prop :=
+  ∀ g, J g → I (ψ g)
+
+/-- `Reflects` is not primitive: an inverse map plus `PullsBack` gives it.
+
+    This is the specification a `verify_ring_iso` has to meet.  Neither
+    hypothesis needs a preimage search -- `PullsBack` is one reduction per
+    target generator, and the round trip is a substitution check. -/
+theorem reflects_of_pullsBack {R S : Type u} (φ : R → S) (ψ : S → R)
+    {I : Ideal R} {J : Ideal S}
+    (hback : PullsBack ψ I J) (hround : ∀ f, ψ (φ f) = f) :
+    Reflects φ I J := by
+  intro f hf
+  have := hback _ hf
+  rwa [hround] at this
+
+/-- So a verified iso is: forward carries, backward pulls back, and the maps
+    round-trip.  All three are checkable, and together they license IDENTITY in
+    both directions. -/
+theorem ringIso_of_checks {R S : Type u} [Sub R] [Sub S]
+    (φ : R → S) (ψ : S → R) (hφ : ∀ a b : R, φ (a - b) = φ a - φ b)
+    {I : Ideal R} {J : Ideal S}
+    (hfwd : Carries φ I J) (hback : PullsBack ψ I J)
+    (hround : ∀ f, ψ (φ f) = f) {f g : R} :
+    EqMod I f g ↔ EqMod J (φ f) (φ g) :=
+  ringIso_both_ways φ hφ ⟨hfwd, reflects_of_pullsBack φ ψ hback hround⟩
+
 end GrandPortage
