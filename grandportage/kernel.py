@@ -1377,6 +1377,11 @@ INFERENCE_LICENSING_FIELDS = ("premises",)
 # `verify.identity` reduces a rewriting modulo the model's ideal.  Changing
 # either changes what a verification means, which is precisely the "I only
 # added an attribute" hazard the claim version exists to catch.
+# A NOTE'S CONTENT IS ALL IT HAS, so any change to it is a RESTATE and there
+# is nothing a note can LICENSE -- it is prose the checker never reads.
+NOTE_IDENTIFYING_FIELDS = ("text",)
+NOTE_LICENSING_FIELDS = ()
+
 MODEL_IDENTIFYING_FIELDS = ("what",)
 MODEL_LICENSING_FIELDS = ("ring_vars", "generators")
 
@@ -1403,6 +1408,7 @@ def classify_supersession(old, new, entity="claim"):
         "inference": (INFERENCE_IDENTIFYING_FIELDS,
                       INFERENCE_LICENSING_FIELDS),
         "model": (MODEL_IDENTIFYING_FIELDS, MODEL_LICENSING_FIELDS),
+        "note": (NOTE_IDENTIFYING_FIELDS, NOTE_LICENSING_FIELDS),
     }.get(entity, (IDENTIFYING_FIELDS, LICENSING_FIELDS))
     moved = [f for f in ident if old.get(f) != new.get(f)]
     if moved:

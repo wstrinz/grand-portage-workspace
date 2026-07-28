@@ -1795,6 +1795,35 @@ def test_a_doubt_is_a_finding_a_person_writes():
     assert not [f for f in C.run(g2) if f.rule == C.R_DOUBT]
 
 
+def test_a_note_can_be_corrected():
+    """Notes were immutable prose, which is the worse half of being untyped.
+
+    A live session's shell ate a backquoted phrase mid-note. Notes had no id
+    and admitted no `supersedes`, so the only repair was a SECOND note saying
+    the first was wrong -- and `gp history` already warns that a note is prose
+    invisible to every rule. An invisible correction to an invisible error is
+    no better than the error.
+
+    Optional, so every existing note keeps folding untouched.
+    """
+    g = _graph([
+        {"ev": "note", "id": "N1", "text": "the shell ate a phrase here"},
+        {"ev": "note", "id": "N2", "text": "the corrected sentence",
+         "supersedes": "N1", "discharge_kind": K.RESTATE},
+        {"ev": "note", "text": "an old-style note with no id"}])
+    assert g.named_notes["N1"]["superseded_by"] == ["N2"]
+    assert len(g.notes) == 3, "unnamed notes are still carried as before"
+
+    # AND THE KIND IS COMPUTED HERE TOO. A note's content is all it has, so
+    # any change to it is a RESTATE however it is labelled.
+    with pytest.raises(K.SupersessionError) as exc:
+        _graph([
+            {"ev": "note", "id": "A", "text": "one thing"},
+            {"ev": "note", "id": "B", "text": "a different thing",
+             "supersedes": "A", "discharge_kind": K.AMEND}])
+    assert "`text` changed" in str(exc.value)
+
+
 def test_a_claim_can_be_split_and_the_split_is_not_lost():
     """A RECORD MAY BE SUPERSEDED BY SEVERAL, and the old single assignment
     lost all but the last SILENTLY.

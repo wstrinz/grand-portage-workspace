@@ -861,6 +861,17 @@ def cmd_show(args):
                 print("    " + line)
         for line in _wrap(d["why"]):
             print("    " + line)
+    # NAMED NOTES, and superseded ones marked.  Correcting a note was
+    # impossible until it could carry an id; rendering it is what makes the
+    # correction visible, which was the point -- an invisible correction to an
+    # invisible error is no better than the error.
+    for nid in sorted(g.named_notes):
+        n = g.named_notes[nid]
+        mark = ("  [SUPERSEDED by %s]" % S.successors(n)
+                if n.get("superseded_by") else "")
+        print("NOTE %-17s%s" % (nid, mark))
+        for line in _wrap(n["text"]):
+            print("    " + line)
     for kid in sorted(g.citations):
         c = g.citations[kid]
         print("CITATION %-13s %s" % (kid, c["cites"]))

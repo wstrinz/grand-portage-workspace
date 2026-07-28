@@ -109,6 +109,7 @@ class Graph(object):
         self.evidence = {}         # id -> a computation standing behind a claim
         self.doubts = {}           # id -> an authored defeater
         self.notes = []
+        self.named_notes = {}      # id -> note, for notes that can be corrected
         self._seen = {}            # (kind, id) -> canonical event
 
     # -- fold ---------------------------------------------------------------
@@ -121,8 +122,19 @@ class Graph(object):
                  % (where, kind, ", ".join(EVENT_KINDS)))
 
         if kind == EV_NOTE:
+            # A NOTE WITH AN ID CAN BE CORRECTED; one without stays as it was.
+            #
+            # Notes had no id and admitted no `supersedes`, so a live session
+            # whose shell ate a backquoted phrase mid-note could only write a
+            # SECOND note saying the first was wrong. `gp history` already
+            # warns that a note is prose invisible to every rule; it was also
+            # immutable prose, which is the worse half, because the correction
+            # is as invisible as the error.
+            #
+            # Optional, so every existing note keeps folding untouched.
             self.notes.append(ev)
-            return
+            if not ev.get("id"):
+                return
 
         if kind == EV_BUILT_BY:
             _require("model" in ev and "inference" in ev,
@@ -331,6 +343,12 @@ class Graph(object):
         d = dict(ev)
         d["severity"] = sev
         self.doubts[ev["id"]] = d
+
+    def _apply_note(self, ev, where):
+        """A note that carries an id, so a later one can correct it."""
+        _require(ev.get("text"),
+                 "%s: note %r needs `text`" % (where, ev["id"]))
+        self.named_notes[ev["id"]] = dict(ev)
 
     def _apply_citation(self, ev, where):
         """Which external object an identifier actually denotes.
@@ -1004,12 +1022,13 @@ class Graph(object):
     # carrying `supersedes` with no existence check, no self-check and no
     # back-pointer at all.
     # -----------------------------------------------------------------------
-    _SUPERSEDABLE = ("claim", "inference", "edge", "model")
+    _SUPERSEDABLE = ("claim", "inference", "edge", "model", "note")
 
     def _resolve_supersessions(self):
         for entity in self._SUPERSEDABLE:
             registry = {"claim": self.claims, "inference": self.inferences,
-                        "edge": self.edges, "model": self.models}[entity]
+                        "edge": self.edges, "model": self.models,
+                        "note": self.named_notes}[entity]
             kinds = (D_KINDS if entity == "edge" else K.SUPERSESSION_KINDS)
             for new_id in sorted(registry):
                 new = registry[new_id]
