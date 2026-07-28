@@ -1484,7 +1484,7 @@ def test_over_declaring_a_supersession_is_allowed():
         {"ev": "claim", "id": "C1R", "model": "TIGHT", "kind": K.PREDICATE,
          "statement": "P holds", "cite": "a better citation",
          "supersedes": "C1", "discharge_kind": K.RESTATE}])
-    assert g.claims["C1"]["superseded_by"] == "C1R"
+    assert g.claims["C1"]["superseded_by"] == ["C1R"]
 
 
 def test_a_superseded_premise_is_graded_by_what_actually_changed():
@@ -1795,6 +1795,40 @@ def test_a_doubt_is_a_finding_a_person_writes():
     assert not [f for f in C.run(g2) if f.rule == C.R_DOUBT]
 
 
+def test_a_claim_can_be_split_and_the_split_is_not_lost():
+    """A RECORD MAY BE SUPERSEDED BY SEVERAL, and the old single assignment
+    lost all but the last SILENTLY.
+
+    A live session had one claim asserting three rewritings. Structuring them
+    meant three claims; one could supersede the original and the other two were
+    related to it by nothing the graph could record, so the relationship went
+    into a caveat where nothing types it.
+
+    Measured before fixing: two claims superseding one were both ACCEPTED and
+    `superseded_by` held only the second. The graph then asserted a single
+    successor that was not the whole story -- worse than refusing, because a
+    reader following it gets a confident and incomplete answer.
+    """
+    g = _graph([
+        {"ev": "model", "id": "M", "what": "a model"},
+        {"ev": "claim", "id": "C", "model": "M", "kind": K.PREDICATE,
+         "statement": "three things at once", "established_by": "CITED",
+         "ladder": "claimed"},
+        {"ev": "claim", "id": "C1", "model": "M", "kind": K.PREDICATE,
+         "statement": "thing one", "established_by": "CITED",
+         "ladder": "claimed", "supersedes": "C", "discharge_kind": K.RESTATE},
+        {"ev": "claim", "id": "C2", "model": "M", "kind": K.PREDICATE,
+         "statement": "thing two", "established_by": "CITED",
+         "ladder": "claimed", "supersedes": "C", "discharge_kind": K.RESTATE}])
+
+    assert g.claims["C"]["superseded_by"] == ["C1", "C2"], (
+        "both successors must survive; keeping only the last is a confident "
+        "and incomplete answer")
+    assert S.successors(g.claims["C"]) == "C1 and C2", (
+        "and every message naming the successor must read naturally whether "
+        "there is one or three")
+
+
 def test_an_enumeration_must_say_which_verdict_it_decides():
     """THE SINGLE MOST IMPORTANT EPISTEMIC FACT ABOUT A FILTER, and it had no
     field.
@@ -1940,7 +1974,7 @@ def test_a_model_can_be_superseded_and_it_shows(tmp_path):
         {"ev": "model", "id": "M2", "what": "the corrected reading",
          "supersedes": "M", "discharge_kind": K.RESTATE}])
 
-    assert g.models["M"].get("superseded_by") == "M2", (
+    assert g.models["M"].get("superseded_by") == ["M2"], (
         "the back-pointer is what every read surface renders from")
     stale = [f for f in C.run(g) if f.rule == C.R_STALE_MODEL]
     assert [f.subject for f in stale] == ["C"], (

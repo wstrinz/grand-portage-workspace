@@ -65,6 +65,20 @@ def _require(cond, msg):
         raise GraphError(msg)
 
 
+def successors(record):
+    """The ids that superseded `record`, as a readable string.
+
+    `superseded_by` is a LIST because a record may be split into several, and
+    every message that names the successor should read naturally whether there
+    is one or three.
+    """
+    v = record.get("superseded_by")
+    if not v:
+        return ""
+    v = v if isinstance(v, list) else [v]
+    return v[0] if len(v) == 1 else ", ".join(v[:-1]) + " and " + v[-1]
+
+
 def _canon(ev):
     """Canonical form of an event, for the idempotent-redeclaration test.
 
@@ -1048,7 +1062,28 @@ class Graph(object):
                 else:
                     K.check_supersession_kind(old, new, kind,
                                               claim_id=new_id, entity=entity)
-                old["superseded_by"] = new_id
+                # A RECORD MAY BE SUPERSEDED BY SEVERAL, and the single
+                # assignment this replaces LOST ALL BUT THE LAST SILENTLY.
+                #
+                # A live session had one claim asserting three rewritings.
+                # Structuring them meant three claims; one could supersede the
+                # original and the other two were related to it by nothing the
+                # graph could record, so the relationship went into a caveat
+                # where nothing types it.
+                #
+                # Measured before fixing: two claims superseding one were both
+                # ACCEPTED, and `superseded_by` held only the second. The graph
+                # then asserted a single successor that was not the whole
+                # story, which is worse than refusing -- a reader following it
+                # gets a confident and incomplete answer.
+                #
+                # A list, because splitting a record is a legitimate act. Every
+                # reader that tests truthiness is unaffected; the few that name
+                # the successor render it through `_successors`.
+                prior = old.get("superseded_by")
+                old["superseded_by"] = (
+                    (prior if isinstance(prior, list) else [prior])
+                    + [new_id]) if prior else [new_id]
 
     def _apply_inference(self, ev, where):
         """An inference has one or more PREMISES, each with its own path.

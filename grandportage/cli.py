@@ -807,7 +807,7 @@ def cmd_show(args):
         # wrong sentence with no signal, and the claims still hanging off the
         # old one were not flagged either.
         if m.get("superseded_by"):
-            bits.append("[SUPERSEDED by %s]" % m["superseded_by"])
+            bits.append("[SUPERSEDED by %s]" % S.successors(m))
         print("MODEL %-14s %s" % (mid, " ".join(bits)))
         print("    %s" % m.get("desc", ""))
         # WHAT THE MODEL IS, not only what it was called.  `desc` is a sentence
@@ -900,7 +900,7 @@ def cmd_show(args):
         # exists.  Before it, a reminted claim left its predecessor sitting in
         # the graph, printed identically to everything around it, and the only
         # thing distinguishing the two was a prose note somebody had to read.
-        mark = ("  [SUPERSEDED by %s]" % c["superseded_by"]
+        mark = ("  [SUPERSEDED by %s]" % S.successors(c)
                 if c.get("superseded_by") else "")
         # A CLAIM SITS AT A MODEL OR AT A FAMILY.  Printing `c["model"]`
         # unguarded crashed the designated handoff view on the first graph to
@@ -920,7 +920,7 @@ def cmd_show(args):
         print()
     for iid in g.inference_order:
         i = g.inferences[iid]
-        mark = ("  [SUPERSEDED by %s]" % i["superseded_by"]
+        mark = ("  [SUPERSEDED by %s]" % S.successors(i)
                 if i.get("superseded_by") else "")
         print("INFER %-20s %s via %s -> %s%s"
               % (iid, i["claim"],

@@ -616,7 +616,7 @@ def h_portage_show(args, root):
                    % (eid, e["src"], e["dst"], e["type"]))
     for cid in sorted(g.claims):
         c = g.claims[cid]
-        mark = ("  [SUPERSEDED by %s]" % c["superseded_by"]
+        mark = ("  [SUPERSEDED by %s]" % S.successors(c)
                 if c.get("superseded_by") else "")
         out.append("CLAIM %-16s %-9s @%-14s scope=%s cert=%s%s"
                    % (cid, c["kind"],
@@ -645,7 +645,7 @@ def h_portage_show(args, root):
         premises = i["premises"]
         # A record that is dead and prints like a live one is the whole reason
         # supersession exists; it has to be visible in the handoff view too.
-        mark = ("  [SUPERSEDED by %s]" % i["superseded_by"]
+        mark = ("  [SUPERSEDED by %s]" % S.successors(i)
                 if i.get("superseded_by") else "")
         out.append("INFER %-16s %d premise%s -> %s%s"
                    % (iid, len(premises), "" if len(premises) == 1 else "s",

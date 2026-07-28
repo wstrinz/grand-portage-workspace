@@ -12,6 +12,7 @@ Those are orthogonal axes and conflating them is how a project ends up with an
 import hashlib
 
 from . import kernel as K
+from . import store as S
 from .discharge import discharge_for
 
 # Severities.  Not every finding is an accusation.
@@ -1273,15 +1274,20 @@ def check_stale_premises(graph):
             newer_id = old.get("superseded_by")
             if not newer_id:
                 continue
-            newer = graph.claims[newer_id]
-            kind = newer.get("discharge_kind")
-            bookkeeping = kind == K.AMEND
+            # A CLAIM MAY BE SPLIT INTO SEVERAL, so read every successor.
+            # Bookkeeping only if ALL of them are AMEND: if any one changed
+            # something that licenses a transport, the premise moved.
+            ids = newer_id if isinstance(newer_id, list) else [newer_id]
+            kinds = [graph.claims[i].get("discharge_kind")
+                     for i in ids if i in graph.claims]
+            kind = ", ".join(k for k in kinds if k) or None
+            bookkeeping = bool(kinds) and all(k == K.AMEND for k in kinds)
             findings.append(Finding(
                 R_STALE_PREMISE, "%s:%s:%s" % (R_STALE_PREMISE, iid, cid),
                 DEBT if bookkeeping else UNSOUND_PREMISE,
                 iid,
                 "inference %s rests on claim %s, which %s superseded (%s)."
-                % (iid, cid, newer_id, kind)
+                % (iid, cid, S.successors(old), kind)
                 + ("\n  Nothing that licenses a transport changed, so the "
                    "argument stands as checked. What is stale is the pointer."
                    if bookkeeping else
@@ -1289,14 +1295,17 @@ def check_stale_premises(graph):
                    "record that no longer says what it said. The conclusion is "
                    "not withdrawn and is not licensed either -- it is "
                    "UNEXAMINED."
-                   % (", ".join(K.classify_supersession(old, newer)[1])
+                   % (", ".join(sorted(set(
+                       f for i in ids if i in graph.claims
+                       for f in K.classify_supersession(
+                           old, graph.claims[i])[1])))
                       or "The premise")),
                 ("Redeclare this inference against %s and mark the old one "
                  "`supersedes`, so the graph says which argument is current. "
                  "Supersession does not repoint premises on its own: an "
                  "argument credited against a record it was never checked "
                  "against is the failure this refuses to automate."
-                 % newer_id),
+                 % S.successors(old)),
                 semantic_key="%s|%s" % (iid, cid)))
     return findings
 
@@ -1880,13 +1889,13 @@ def check_stale_models(graph):
             "  The claim is live and its anchor is not. Whatever the new model "
             "changed -- what it IS, its ring, its generators -- this claim was "
             "written against the old reading and nothing has re-examined it."
-            % (cid, c.get("model"), m["superseded_by"]),
+            % (cid, c.get("model"), S.successors(m)),
             "If the claim still holds at %s, supersede it with the model "
             "field repointed -- that is a RESTATE, because the model is part "
             "of what identifies a claim. If it does not, retract it. If the "
             "model supersession was itself a mistake, supersede the model "
             "back rather than leaving two live readings of one object."
-            % m["superseded_by"],
+            % S.successors(m),
             semantic_key=cid))
     dead = withdrawn_edges(graph)
     for eid in sorted(graph.edges):
@@ -1903,10 +1912,10 @@ def check_stale_models(graph):
                 "edge %s has its %s at model %s, which was superseded by %s.\n"
                 "  Every cell this edge licenses rests on V(src) subset "
                 "V(dst), and one of those two models has been replaced."
-                % (eid, end, e.get(end), m["superseded_by"]),
+                % (eid, end, e.get(end), S.successors(m)),
                 "Repoint the edge at %s and declare the supersession, or say "
                 "why the old model is still the right endpoint."
-                % m["superseded_by"],
+                % S.successors(m),
                 semantic_key=eid))
             break
     return findings
