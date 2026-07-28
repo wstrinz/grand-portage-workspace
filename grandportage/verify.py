@@ -110,6 +110,87 @@ def containment(graph, eid, timeout=300, _runner=None):
         % (e["dst"], e["src"], e["dst"], e["src"], e["src"], e["dst"]))
 
 
+AMBIENT = "VERIFIED_AMBIENT"
+DERIVED = "VERIFIED_DERIVED"
+REFUTED = "REFUTED"
+
+
+def identity(graph, cid, timeout=300, _runner=None):
+    """Does this IDENTITY claim hold at its own model?  Returns (verdict, why).
+
+    AND HERE, UNLIKE `containment`, REFUTATION IS AVAILABLE.  That asymmetry is
+    not an inconsistency and it is worth stating plainly, because the module's
+    other half spends a docstring refusing to say REFUTED.
+
+        containment   the claim is `V(src) subset V(dst)`, a statement about
+                      POINTS.  Reduction tests ideal membership, which is only
+                      SUFFICIENT for it -- the containment can hold through the
+                      radical -- so a failed reduction proves nothing.
+
+        identity      the claim IS `lhs - rhs` lies in I, a statement about
+                      FUNCTIONS.  Reduction modulo a Groebner basis DECIDES
+                      ideal membership.  So a failed reduction is not a failed
+                      cheap test; it is the answer.
+
+    The difference is the same one the kernel keeps making between points and
+    functions -- V(x) and V(x^2) have the same points and different coordinate
+    rings -- and it is why a single reduction means different things at the two
+    ends of this file.
+
+    The verdicts:
+
+        VERIFIED_AMBIENT   lhs - rhs is 0 in the polynomial ring.  The
+                           rewriting never used the model's equations, so
+                           `identity_origin: AMBIENT` is now MINTED BY
+                           COMPUTATION rather than declared.
+        VERIFIED_DERIVED   nonzero, but reduces to 0 modulo I.  It holds here
+                           and rests on this model's own equations.
+        REFUTED            it does not reduce.  The rewriting is FALSE at the
+                           model it was claimed at, which no amount of correct
+                           transport typing would ever have surfaced.
+        UNVERIFIED         the question could not be put.
+    """
+    c = graph.claims.get(cid)
+    if not c:
+        return UNVERIFIED, "no such claim"
+    if c.get("kind") != K.IDENTITY:
+        return UNVERIFIED, "claim %s is %s, not an IDENTITY" % (cid, c.get("kind"))
+    if c.get("lhs") is None or c.get("rhs") is None:
+        return UNVERIFIED, (
+            "claim %s states its rewriting only in prose. `lhs` and `rhs` are "
+            "what makes it a reduction question rather than a reading "
+            "question." % cid)
+    ring = c.get("ring_vars") or []
+    if not ring:
+        return UNVERIFIED, "claim %s declares no ring variables" % cid
+    model = graph.models.get(c.get("model")) or {}
+    gens = list(model.get("generators") or [])
+    origin, evidence = cas.classify_identity(
+        ring, lhs=c["lhs"], rhs=c["rhs"], generators=gens,
+        timeout=timeout, _runner=_runner)
+    if origin == K.AMBIENT:
+        return AMBIENT, (
+            "%s - %s reduces to 0 in the polynomial ring itself, before any of "
+            "%s's equations are imposed. The rewriting is AMBIENT, and that is "
+            "now a computed fact rather than a declared one."
+            % (c["lhs"], c["rhs"], c.get("model")))
+    if origin == K.DERIVED:
+        return DERIVED, (
+            "%s - %s is nonzero in the polynomial ring but reduces to 0 modulo "
+            "%s's ideal, so the rewriting holds in that coordinate ring and "
+            "DERIVES from the model's own equations."
+            % (c["lhs"], c["rhs"], c.get("model")))
+    return REFUTED, (
+        "%s - %s does not reduce to 0 modulo %s's ideal -- it reduces to %s.\n"
+        "  THIS ONE IS A REFUTATION, unlike a failed containment. The claim is "
+        "that the difference lies in the ideal, and reduction modulo a "
+        "Groebner basis DECIDES ideal membership. So the rewriting is false at "
+        "the model it was claimed at, and every transport that carried it "
+        "carried something untrue."
+        % (c["lhs"], c["rhs"], c.get("model"),
+           (evidence or {}).get("reduced_modulo_ideal", "a nonzero form")))
+
+
 def verify_all(root=".", timeout=300, _runner=None):
     """Verify every checkable edge and RECORD the answers in the graph.
 

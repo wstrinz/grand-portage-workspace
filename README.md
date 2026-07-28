@@ -100,7 +100,7 @@ code applying it cannot drift apart.
 | `IMAGE_CLOSURE` | **AGAINST** | yes | **if existential** | yes | if denominator-free |
 | `SPECIALIZATION` | ALONG | **NO** | **NO** | NO | if p-integral |
 | `SPECIALIZATION` | AGAINST | **NO** | **NO** | NO | NO |
-| `RESTRICTION` | **ALONG** | NO | yes | **NO** | if Zariski-dense |
+| `RESTRICTION` | **ALONG** | NO | yes | **NO** | yes |
 | `RESTRICTION` | AGAINST | yes | NO | yes | **yes** |
 
 Five of those cells were **wrong in this file** until a test started comparing

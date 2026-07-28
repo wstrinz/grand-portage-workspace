@@ -349,7 +349,56 @@ _COEFFICIENTS_IN_BASE = "coefficients_in_base"
 # shape as `ring_iso` on EQUIVALENCE and `coefficients_in_base` on
 # BASE_EXTENSION -- a licence that is usually available, never automatic, and
 # false exactly where somebody would have been surprised.
-# ---------------------------------------------------------------------------
+#
+# ===========================================================================
+# ALL OF WHICH IS RETRACTED.  Everything above this line is the reasoning that
+# put `zariski_dense` on the cell, and it is kept because the way it was wrong
+# is more useful than the fact that it was.
+#
+# THE CONDITION IS NOT SUFFICIENT.  An external review supplied a target that
+# satisfies every word of it and breaks the conclusion anyway:
+#
+#   COUNTEREXAMPLE.  X : y^2 = x^2(x - 1) over R, the nodal cubic.
+#     - IRREDUCIBLE over R: y^2 - x^2(x-1) factors only if x-1 is a square in
+#       R(x), and it is not.
+#     - REAL POINTS ZARISKI-DENSE in X: x^2(x-1) >= 0 forces x >= 1 or x = 0,
+#       so X(R) is an infinite branch plus the isolated point (0,0), and an
+#       infinite subset of an irreducible curve is dense in it.
+#     - Now cut with x^2 + y^2 < 1/2.  The branch starts at x = 1, so the
+#       restricted region U is exactly {(0,0)} -- nonempty, and relatively
+#       Euclidean-OPEN in X(R) because the point is isolated.
+#     - `x = 0` holds on all of U and is false on X at (1,0).
+#
+#   The gap: X(R) dense in X does NOT give an open PIECE of X(R) dense in X,
+#   because X(R) can be disconnected with a zero-dimensional component.  The
+#   density that matters is of U, not of X(R).
+#
+# AND THE DEEPER FAULT IS A TYPE ERROR, WHICH IS WHY THE FIX IS NOT A BETTER
+# CONDITION.  A RESTRICTION drops inequalities and adds no equations: src and
+# dst have the SAME RING and the SAME IDEAL.  This kernel defines IDENTITY as a
+# rewriting valid in the coordinate ring -- lhs - rhs in I.  Same I at both
+# ends, so an IDENTITY at src IS the IDENTITY at dst.  Unconditionally, for the
+# same reason 3 = 3.
+#
+# The gate was never serving identities.  It was quietly serving a DIFFERENT
+# claim -- "this relation was seen to vanish at every point of the region" --
+# which is a pointwise statement, i.e. a PREDICATE.  And RESTRICTION/ALONG/
+# PREDICATE is already False, correctly.  So the honest repair is to stop
+# gating the identity and let the mis-typed claim be refused where it always
+# should have been.
+#
+# WHAT REPLACES THE HESITATION.  A free gate that was checking nothing still
+# made people stop, and removing it would be a practical regression even as a
+# theoretical improvement.  So the stopping moves rather than vanishing:
+# `verify.identity` decides lhs - rhs in I by reduction, `check` reports every
+# IDENTITY that has not been put to that test, and a claim that is really a
+# pointwise observation FAILS it -- x does not reduce modulo (y^2+x^2-x^3).
+# The nodal cubic is refused by computation instead of by a declaration nobody
+# could check.
+#
+# `_ZARISKI_DENSE` is retained as a field so old graphs keep folding, and is
+# consulted by no cell.
+# ===========================================================================
 _ZARISKI_DENSE = "zariski_dense"
 
 # ---------------------------------------------------------------------------
@@ -437,8 +486,11 @@ TRANSPORT = {
         # they follow from V(src) subset V(dst) and nothing else -- which is
         # exactly why NECESSARY_CONDITION was the attractor for this edge and
         # why mislabelling it would have licensed nothing false.
+        # IDENTITY ALONG IS UNCONDITIONAL, and it took an external review and a
+        # nodal cubic to see that the gate here was answering a question nobody
+        # had asked.  See the retraction above _ZARISKI_DENSE.
         ALONG:   {EMPTY: False, NONEMPTY: True, PREDICATE: False,
-                  IDENTITY: _ZARISKI_DENSE},
+                  IDENTITY: True},
         # AGAINST/IDENTITY IS THE OTHER PLACE THIS DIFFERS, and it is
         # unconditional where NECESSARY_CONDITION needs a denominator-free map.
         # A restriction does not change coordinates at all -- it is a subset

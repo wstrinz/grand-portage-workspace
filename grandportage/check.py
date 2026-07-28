@@ -46,6 +46,7 @@ R_FAMILY = "FAMILY"
 R_DIRECTION = "EVIDENCE-DIRECTION"
 R_CROSSCUT = "CROSS-CUT"
 R_CONTAINMENT = "CONTAINMENT"
+R_IDENTITY = "UNTESTED-IDENTITY"
 
 EXISTENCE_OPPOSITE = {K.EMPTY: K.NONEMPTY, K.NONEMPTY: K.EMPTY}
 
@@ -1667,6 +1668,98 @@ def check_containment(graph):
     return findings
 
 
+def check_identity(graph):
+    """Report identities that nothing has put to the one test that decides them.
+
+    THIS IS WHERE A GATE USED TO BE.  RESTRICTION/ALONG/IDENTITY was licensed
+    only on a declared `zariski_dense`, and that declaration turned out to be
+    both insufficient (the nodal cubic satisfies it and breaks the conclusion)
+    and beside the point (a restriction shares its ideal, so the identity was
+    never in question).  Removing it was right, but a free gate that checked
+    nothing still made people stop, and losing the stop is a real regression
+    even when losing the gate is not.
+
+    So the hesitation moves here, and it moves to somewhere it can be settled:
+    an IDENTITY is `lhs - rhs` in I, reduction modulo a Groebner basis DECIDES
+    that, and `gp verify` will run it.  This rule reports; it spawns nothing.
+
+    TWO TIERS, because the two failures are not the same failure.
+
+      REFUTED       a verdict is recorded and it is negative.  The rewriting is
+                    false at its OWN model, so everything downstream of it is
+                    unsound -- not merely unsupported.
+      UNTESTED      the claim crosses the cell the gate used to guard and has
+                    never been reduced.  Triage: nothing is known to be wrong.
+
+    The UNTESTED tier is deliberately NARROW -- RESTRICTION, ALONG, IDENTITY,
+    and nothing else -- because it is replacing one specific stop and not
+    inventing a general campaign to structure every identity in the corpus.
+    """
+    findings = []
+    dead = withdrawn_edges(graph)
+    for cid in sorted(graph.claims):
+        c = graph.claims[cid]
+        if c.get("kind") != K.IDENTITY:
+            continue
+        if c.get("identity_verdict") == "REFUTED":
+            findings.append(Finding(
+                R_IDENTITY, "%s:%s" % (R_IDENTITY, cid),
+                UNSOUND_CONCLUSION, cid,
+                "claim %s was reduced and DOES NOT HOLD at %s: %s"
+                % (cid, c.get("model"), c.get("identity_why") or "(no detail)")
+                + "\n  This is a refutation and not a failed cheap test. An "
+                  "IDENTITY asserts that lhs - rhs lies in the ideal, and "
+                  "reduction modulo a Groebner basis decides ideal membership. "
+                  "So the rewriting is false where it was claimed, and every "
+                  "transport that carried it carried something untrue.",
+                "Fix the rewriting or withdraw the claim. Transport typing "
+                "cannot help here: no route is sound from a false premise, and "
+                "the error is at the origin rather than on any edge.",
+                semantic_key=cid))
+            continue
+        if c.get("identity_verdict"):
+            continue
+        if c.get("lhs") is not None:
+            continue
+        for iid in sorted(graph.inferences):
+            inf = graph.inferences[iid]
+            if inf.get("claim") != cid:
+                continue
+            for step in inf.get("path") or []:
+                eid = step[0] if isinstance(step, (list, tuple)) else step
+                direction = (step[1] if isinstance(step, (list, tuple))
+                             and len(step) > 1 else None)
+                e = graph.edges.get(eid)
+                if not e or eid in dead:
+                    continue
+                if e.get("type") != K.RESTRICTION or direction != K.ALONG:
+                    continue
+                findings.append(Finding(
+                    R_IDENTITY, "%s:%s:%s" % (R_IDENTITY, cid, eid),
+                    TRIAGE, cid,
+                    "claim %s crosses RESTRICTION %s as an IDENTITY, and "
+                    "states its rewriting only in prose.\n"
+                    "  That cell was gated on a declared `zariski_dense` until "
+                    "the declaration was found to be both insufficient and "
+                    "beside the point, and it is now unconditional. The cell "
+                    "is right -- a restriction shares its ideal, so an identity "
+                    "at one end IS the identity at the other -- but it is only "
+                    "right about things that are actually identities. A "
+                    "relation observed to vanish at every point of the region "
+                    "is a POINTWISE claim, and it crosses this edge by being "
+                    "mislabelled rather than by being transported."
+                    % (cid, eid),
+                    "Record `lhs`, `rhs` and `ring_vars` on the claim and run "
+                    "`gp verify`. Reduction decides it: if lhs - rhs lies in "
+                    "the model's ideal the claim is what it says it is, and if "
+                    "it does not, the claim was pointwise all along and belongs "
+                    "at the region as a PREDICATE -- which does not cross.",
+                    semantic_key=cid))
+                break
+            break
+    return findings
+
+
 def run(graph, accepted=None):
     """All rules, in a stable order, most severe first.
 
@@ -1693,6 +1786,7 @@ def run(graph, accepted=None):
                 + check_evidence_direction(graph)
                 + check_crosscuts(graph)
                 + check_containment(graph)
+                + check_identity(graph)
                 + check_parallel_edges(graph)
                 + check_vacuous_conclusions(graph)
                 + check_self_built(graph))

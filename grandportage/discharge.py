@@ -210,13 +210,28 @@ _AMBIENT_IDENTITY_MOVE = (
     "the rewriting only in {src}, where it holds.")
 
 _INTEGRAL_IDENTITY_MOVE = (
-    "Reducing a rewriting into characteristic p needs its COEFFICIENTS to be "
-    "integral at p. That is a property of the claim, not of the map, and a "
-    "denominator-free map does not supply it: `d2 = h_2 - (3/8)h_1^2` travels a "
-    "polynomial map and does not reduce mod 2.\n"
-    "  Clear the denominators and record what that costs, or declare "
+    "Reducing a rewriting into characteristic p needs TWO things, and which "
+    "one you are missing decides what to do.\n"
+    "\n"
+    "  (1) COEFFICIENTS INTEGRAL AT p. A property of the claim, not of the "
+    "map: `d2 = h_2 - (3/8)h_1^2` travels a polynomial map and does not reduce "
+    "mod 2. Clear the denominators and record what that costs, or declare "
     "`integral: true` once you have checked no coefficient has p in its "
-    "denominator, or keep the rewriting in characteristic 0.")
+    "denominator, or keep the rewriting in characteristic 0.\n"
+    "\n"
+    "  (2) AN AMBIENT ORIGIN. Integral coefficients are not enough on their "
+    "own, because a DERIVED rewriting also rides on the derivation that "
+    "produced it, and THAT can carry the p. In Z_(p)[x]/(px) the relation "
+    "`x = 0` holds on the generic fibre with coefficient 1, and is false mod p "
+    "-- because you get it from x = (1/p)*(px). Equivalently x is p-torsion.\n"
+    "  The move is to re-derive the rewriting AMBIENTLY: show LHS - RHS "
+    "reduces to 0 in the polynomial ring itself, before any of {src}'s "
+    "equations are imposed. `cas_classify_identity` decides that outright and "
+    "returns AMBIENT when it holds, so this is a computation rather than a "
+    "declaration. If it comes back DERIVED, the rewriting genuinely depends on "
+    "equations whose integrality this kernel cannot see, and the honest moves "
+    "are to exhibit a p-integral certificate by hand and record it as a note, "
+    "or to keep the rewriting in characteristic 0.")
 
 _IDENTITY_MOVE = (
     "Rewriting a dictionary across this edge needs a DENOMINATOR-FREE map, and "

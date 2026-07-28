@@ -537,36 +537,37 @@ def test_restriction_against_predicate():
     point of the subset does. Instantiation, nothing more."""
 
 
-@cell(K.RESTRICTION, K.ALONG, K.IDENTITY, False)
-def test_restriction_along_identity_undeclared():
-    """CONDITION, and it is the one cell where RESTRICTION is STRONGER than
-    NECESSARY_CONDITION -- so it is gated rather than open.
+@cell(K.RESTRICTION, K.ALONG, K.IDENTITY, True)
+def test_restriction_along_identity():
+    """PROOF, unconditional, and this cell used to be gated on a condition that
+    was both insufficient and beside the point.
 
-    A polynomial vanishing on a nonempty Euclidean-open subset U of an
-    irreducible variety X vanishes on all of X. So an identity established
-    only on the restricted region DOES push forward, unlike a DERIVED identity
-    across a NECESSARY_CONDITION, because a restriction adds no equations:
-    there is no larger ideal and no quotient, so the algebraic obstruction
-    simply is not there.
+    A RESTRICTION drops inequalities and adds no equations: src and dst have
+    the SAME ring and the SAME ideal. This kernel defines IDENTITY as a
+    rewriting valid in the coordinate ring -- lhs - rhs in I. Same I at both
+    ends, so an IDENTITY at src IS the IDENTITY at dst. There is nothing to
+    gate.
 
-    REFUTED WITHOUT THE CONDITION. Over R the argument needs the REAL points
-    Zariski-dense in an irreducible dst, and that fails: X = V(x^2 + y^2) over
-    R has real locus {(0,0)}. The identity `x = 0` holds on every open piece
-    of that real locus and is false on X.
+    WHAT THE OLD GATE WAS, AND WHY IT WENT. It required dst irreducible with
+    its real points Zariski-dense, on the argument that a polynomial vanishing
+    on a nonempty Euclidean-open piece vanishes throughout. An external review
+    broke it with the nodal cubic:
 
-    Undeclared, the cell refuses. Same shape as `ring_iso` and
-    `coefficients_in_base`: usually available, never automatic, false exactly
-    where somebody would have been surprised."""
+        X : y^2 = x^2(x - 1) over R.  Irreducible. X(R) is an infinite branch
+        (x >= 1) plus the ISOLATED point (0,0), so X(R) is Zariski-dense in X.
+        Cut by x^2 + y^2 < 1/2 the region U is exactly {(0,0)}, nonempty and
+        relatively open. `x = 0` holds on U and fails on X at (1,0).
 
+    X(R) dense in X does not make an open PIECE of X(R) dense in X. But the
+    repair is not a sharper condition, because the gate was serving the wrong
+    claim: "vanishes at every point of the region" is POINTWISE, i.e. a
+    PREDICATE, and RESTRICTION/ALONG/PREDICATE is already False. The gate let a
+    mis-typed claim through a door that was never meant for it.
 
-@cell(K.RESTRICTION, K.ALONG, K.IDENTITY, True, zariski_dense=True)
-def test_restriction_along_identity_declared_dense():
-    """CONDITION discharged. With dst irreducible and its real points
-    Zariski-dense, a relation holding on a nonempty open piece holds
-    throughout, and the identity pushes forward.
-
-    This is what lets a computation done on a positivity cone be stated about
-    the variety containing it -- the move a live campaign had no type for."""
+    THE HESITATION MOVED RATHER THAN VANISHING. `verify.identity` decides
+    lhs - rhs in I by reduction and `check` reports untested identities, so the
+    nodal cubic is now refused by computation -- x does not reduce modulo
+    (y^2 + x^2 - x^3) -- instead of by a declaration nobody could check."""
 
 
 @cell(K.RESTRICTION, K.AGAINST, K.IDENTITY, True)

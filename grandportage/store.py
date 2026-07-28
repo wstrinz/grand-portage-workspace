@@ -581,6 +581,32 @@ class Graph(object):
                     else "at a model the kinds are", ", ".join(kinds)))
         _require(ev.get("statement"),
                  "%s: claim %r needs `statement`" % (where, ev["id"]))
+        # AN IDENTITY MAY CARRY THE REWRITING ITSELF, and when it does the
+        # claim stops being free text and becomes checkable.
+        #
+        # OPTIONAL, AND THAT IS FORCED RATHER THAN CHOSEN.  Fourteen IDENTITY
+        # claims exist across the live graphs and not one carries `lhs`; six of
+        # them are in a sealed census that must keep folding untouched until
+        # its cold-return experiment ends.  Requiring the fields would make
+        # that graph unfoldable, which is the one outcome the seal exists to
+        # prevent.  So an unstructured IDENTITY stays legal and `check` reports
+        # the hole -- the same split this project already makes everywhere
+        # else: refuse nothing, surface everything.
+        if ev.get("lhs") is not None or ev.get("rhs") is not None:
+            _require(ev.get("kind") == K.IDENTITY,
+                     "%s: claim %r carries `lhs`/`rhs` but its kind is %r. A "
+                     "rewriting is what IDENTITY means; the other kinds are "
+                     "quantifiers and have no two sides."
+                     % (where, ev["id"], ev.get("kind")))
+            _require(ev.get("lhs") is not None and ev.get("rhs") is not None,
+                     "%s: claim %r gives only one side of the rewriting. Half "
+                     "an identity is not a weaker identity, it is not one."
+                     % (where, ev["id"]))
+            _require(ev.get("ring_vars"),
+                     "%s: claim %r carries a rewriting but no `ring_vars`. "
+                     "`lhs`/`rhs` are text until a ring says what the symbols "
+                     "are, and the whole point of recording them is that a "
+                     "reduction can be run." % (where, ev["id"]))
         if ev.get("kind") == K.COUNT:
             self._apply_disposition(ev, where)
         c = dict(ev)

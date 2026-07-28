@@ -1659,9 +1659,21 @@ def test_the_identity_cell_does_not_send_you_after_denominators():
     assert "x^2 + y^2" in msg
 
 
-def test_the_density_condition_is_declared_not_assumed():
-    """Over R the real points of a variety need not be Zariski-dense in it, so
-    the strongest cell of the strongest new type is gated by default."""
+def test_the_density_condition_was_retracted_and_gates_nothing():
+    """THE GATE WAS INSUFFICIENT AND ALSO BESIDE THE POINT, and both halves of
+    that matter, so this test replaces the one that asserted the gate.
+
+    Insufficient: the nodal cubic y^2 = x^2(x-1) over R is irreducible with
+    Zariski-dense real points, yet the region cut by x^2 + y^2 < 1/2 is the
+    isolated point {(0,0)}, where `x = 0` holds and on X it does not.
+
+    Beside the point: a RESTRICTION adds no equations, so src and dst share a
+    ring and an ideal, and an IDENTITY -- lhs - rhs in I -- is literally the
+    same statement at both ends. The gate was serving a POINTWISE claim, which
+    is a PREDICATE, and that cell is False already.
+
+    So the identity crosses whether or not the edge declares density, and the
+    field is retained only so old graphs keep folding."""
     base = TWO_MODELS + [
         {"ev": "claim", "id": "C", "model": "TIGHT", "kind": K.IDENTITY,
          "statement": "x = y", "identity_origin": K.DERIVED},
@@ -1670,14 +1682,42 @@ def test_the_density_condition_is_declared_not_assumed():
     edge = {"ev": "edge", "id": "E", "src": "TIGHT", "dst": "LOOSE",
             "type": K.RESTRICTION, "why": "cut by strict inequalities"}
 
-    gated = _graph([edge] + base)
-    assert [f for f in C.run(gated) if f.rule == C.R_TRANSPORT], (
-        "undeclared, the density cell must refuse")
+    for e in (edge, dict(edge, zariski_dense=True)):
+        assert not [f for f in C.run(_graph([e] + base))
+                    if f.rule == C.R_TRANSPORT], (
+            "the identity crosses a RESTRICTION unconditionally; declaring "
+            "density must neither be required nor change anything")
 
-    declared = _graph([dict(edge, zariski_dense=True)] + base)
-    assert not [f for f in C.run(declared) if f.rule == C.R_TRANSPORT], (
-        "declared, the identity crosses -- otherwise the type buys nothing "
-        "over NECESSARY_CONDITION")
+
+def test_the_nodal_cubic_is_refused_by_computation_not_declaration():
+    """WHAT REPLACED THE GATE, exercised on the counterexample that killed it.
+
+    The mis-typed claim -- `x = 0`, true at every point of the isolated region
+    and false on the curve -- is now caught where it is actually decidable: it
+    does not reduce modulo the curve's ideal, so it is false at its OWN model
+    and never reaches a transport question at all.
+    """
+    from grandportage import verify as V
+
+    g = S.Graph().apply_all([
+        ({"ev": "model", "id": "X", "what": "the nodal cubic over R",
+          "ring_vars": ["x", "y"], "generators": ["y^2+x^2-x^3"]}, "t", 1),
+        ({"ev": "claim", "id": "C", "model": "X", "kind": K.IDENTITY,
+          "statement": "x = 0 on the region", "lhs": "x", "rhs": "0",
+          # Still DECLARED at fold time even though the claim now carries
+          # enough to decide it: the fold spawns no process and must not, so
+          # verification MINTS the origin afterwards rather than at apply().
+          "identity_origin": K.DERIVED,
+          "ring_vars": ["x", "y"]}, "t", 2)])
+
+    def runner(prog, timeout):
+        # x - 0 is nonzero in R[x,y] and stays x after reduction modulo the
+        # curve: it is not in the ideal, and reduction DECIDES that.
+        return _fake_run(stdout="@@GP_D:\nx\n@@GP_RED:\nx\n")(prog, timeout)
+
+    verdict, why = V.identity(g, "C", _runner=runner)
+    assert verdict == V.REFUTED, why
+    assert "REFUTATION" in why
 
 
 def test_the_readme_transport_table_matches_the_kernel():
