@@ -150,7 +150,41 @@ measurement.
 | `jc2-chartmap` | exact affine + bibliographic |
 | `toric-phases` | exact affine |
 
-## 5. The test for whether something belongs
+## 5. The cut that decides what gets automated
+
+> **Automate the bookkeeping until it disappears; keep the judgment expensive
+> on purpose.**
+
+Bookkeeping is: which edge type, which direction, what scope this certificate
+carries. Judgment is: whether a join between two independently-sound
+computations is licensed at all.
+
+The two halves want opposite things and must not be traded off against each
+other. **The failure mode of any round of ergonomics work is easing friction on
+the judgment half**, because there the friction is the feature.
+
+The case that pins it down is a live one. Two computations, each individually
+well-evidenced, sharing not one variable, joined by a sentence in a `print`
+statement. No evidence grade catches that: grading either half tells you
+nothing whatever about the seam, and typing the bridge does not discharge it.
+Discharging it requires somebody asserting that one layer *refines* the other
+and being accountable for the assertion.
+
+So:
+
+- **Never infer a join.** A constructor must not emit a multi-premise
+  inference implicitly. `premises` stays something a person or agent states
+  and owns.
+- **Never self-certify exhaustiveness.** A partition constructor emits the
+  branches *and the obligation*; it does not discharge it.
+- **Never collapse typed uncertainty into a score.** "CITED but unchecked",
+  "exact but the parser is unaudited", and "formal but an interface assumption
+  is unsealed" are different debts. A number erases the difference.
+
+Everything else — the type, the orientation, the target presentation, the
+program, the scope a certificate carries — should be derived if it can be.
+
+## 6. The test for whether something belongs
 
 For any proposed feature:
 
