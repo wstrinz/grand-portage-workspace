@@ -38,6 +38,7 @@ for the first, written up in full.
 * [DESIGN.md](DESIGN.md) — architecture and the decisions behind it
 * [REVIEW.md](REVIEW.md) — **where I am least confident**, for a reviewer
 * [TESTPLAN.md](TESTPLAN.md) — what to run next and what each run could falsify
+* [KILL-CRITERIA.md](KILL-CRITERIA.md) — **what would show this is not worth continuing**, written before the answer is known
 
 | layer | module | what it does |
 |---|---|---|

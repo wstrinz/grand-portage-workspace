@@ -1,0 +1,203 @@
+# Kill criteria
+
+**What would show this project is not worth continuing, written down before the
+answer is known.**
+
+This document exists for the same reason the cell ledger does. Every transport
+cell must carry a proof, a counterexample, a condition, or a declared
+conservatism — no cell gets to be licensed because it seemed fine. The ledger
+points that discipline at the mathematics. This points it at the project.
+
+The specific failure it guards against: **friction is always reinterpretable as
+rigour.** Every time the tool refuses something and a person spends an hour
+satisfying it, that hour can be described either as "the tool forced useful
+thought" or as "the tool wasted an hour." Both stories fit every observation.
+Written in advance, the criteria below decide which story is true. Written
+afterwards, they would be chosen to fit whatever happened.
+
+Nothing here is a prediction. Several criteria are already measurable and two
+have been measured — one fired and one did not, and the one that fired turned
+out to mean something other than what it was written to detect. That is the
+document working.
+
+---
+
+## A. Narrow to an audit tool
+
+If these hold after several independent campaigns, Grand Portage should stop
+trying to wrap every exploratory computation and become a checkpoint tool used
+only at load-bearing transitions. **That is a real product, not a failure** —
+it would still catch the class of error that motivated the project.
+
+### A1. Contributors choose `UNTYPED` and never refine it
+
+*Status: **measured, and the measurement was misread.*** See §D1. The raw
+number fires and the finding underneath it is a different problem entirely.
+
+### A2. Structured operations cover too little of the actual CAS work
+
+Untested — blocked on structured operations existing. This is what
+[experiment B](#experiment-b) is for, and it should run **before** the
+investment, not after.
+
+### A3. Experts ignore the graph and reread the transcript
+
+Untested. The strongest available evidence would come from a cold return, and
+the L3 experiment is sealed until **2026-08-03**.
+
+### A4. Cold resumption is not materially improved
+
+Untested, same seal. This is the single most informative measurement the
+project has queued, and it is worth protecting from contamination — which is
+why the census is sealed rather than merely left alone.
+
+### A5. False refusals cost more than the errors prevented
+
+Partially measurable now. Both sides of the ledger have entries:
+
+- **Prevented:** a field-scope error that shipped in a public artifact and took
+  an independent audit to find; a `SPECIALIZATION` cell licensing a false
+  transport; a `RESTRICTION` gate that was insufficient *and* mis-typed.
+- **Cost:** at least one false refusal authored by this project and corrected
+  the same day — a guard that refused to verify identities at models with no
+  ideal, which is precisely where an ambient polynomial identity lives.
+
+No honest ratio yet. Both columns need to keep being recorded, including the
+embarrassing one.
+
+### A6. Operation validators become as complex as the CAS code
+
+Untested. Currently the validators are two functions of about forty lines each,
+against a CAS boundary of several hundred. The moment a validator needs its own
+test suite to be trusted, this criterion is live.
+
+### A7. The relation vocabulary does not transfer beyond polynomial systems
+
+**Not firing, with real evidence against it.** The six types survived a foreign
+campaign in border-rank and another in toric geometry. What broke in those runs
+was bookkeeping, grading, and read surfaces — not the edge types. One campaign
+did stretch `SPECIALIZATION` to cover an *index* restriction (3 of 527 cases),
+which is a genuine misuse, and it is documented in `kernel.py` rather than
+quietly accepted.
+
+---
+
+## B. Reconsider the endeavour
+
+Stronger conditions. If these hold, the central thesis is wrong rather than
+mis-scoped.
+
+### B1. Run-specific validation cannot meaningfully constrain mislabelling
+
+The core bet. If a validator cannot tell a correctly-typed operation from a
+plausibly-mistyped one, then the semantic layer is decoration over an honour
+system and the small trusted kernel is trusted for nothing.
+
+*Early evidence, weakly positive:* `verify.identity` caught a real arithmetic
+error in a live session — not a mislabelled type, but a false statement that
+correct typing would never have surfaced. That is the adjacent win, not the
+one that settles B1.
+
+### B2. RO-Crate + Lean blueprints + careful Markdown achieve the same result
+
+The honest competitor, and it has never been run. See [experiment A](#experiment-a).
+
+### B3. The principal failures keep happening outside any boundary this can control
+
+*Watch closely — this is the criterion the project's own record argues for.*
+Across five live runs the score is **nine interaction defects to zero kernel
+errors**, and then an external review found two kernel errors in an afternoon.
+The mathematics has been stable for weeks; the *interaction* has failed in a
+new way every session. If the errors that matter are consistently in the
+surfaces rather than the semantics, a semantic kernel is solving the wrong
+problem well.
+
+---
+
+## C. The case gets stronger
+
+Recorded for symmetry — a document that can only kill is as unfalsifiable as
+one that can only vindicate.
+
+- The same validators serve several distinct domains.
+- Cold agents resume from generated state without reconstructing history.
+- Newcomers produce reviewable, creditable contributions experts can reuse.
+- Independent reviewers find fewer hidden seams.
+- Verified capabilities replace caller-declared certificate labels.
+- Users adopt it because it removes CAS boilerplate, not because it is required.
+
+---
+
+## D. Measurements taken
+
+### D1. `UNTYPED` usage — the number fired and meant something else
+
+**Measured 2026-07-27**, across five campaigns: 57 edges, 6 `UNTYPED` (11%),
+and **zero ever refined away from `UNTYPED`**.
+
+The 11% does not fire A1 — that is a healthy minority, not a habit. The zero
+looked damning. Reading all six edges shows it is not the failure A1 describes:
+
+> **Five of the six are not relaxations at all.** They assert that *nothing
+> relates* the two models — "Nothing relates the two", "share NOT ONE
+> VARIABLE", "two distinct layers that share a NAME and nothing else".
+
+`UNTYPED` means *not yet known*: a promise to type later. These five use it for
+*known not to relate*, which is the opposite claim. **They can never be refined,
+because no edge type is correct — the correct answer is no edge.** Counting them
+as unrefined debt measures a vocabulary gap as if it were laziness.
+
+The sixth, `E-IV-PD`, is the genuine case: a real containment with no word for
+it, whose own `discharge_hint` asked for "a `RESTRICTION`/`SUBSET` edge type
+whose content is containment alone". That type was subsequently built. The edge
+was never refined because its graph was sealed first.
+
+So A1 is **not firing**, and the measurement produced a finding worth more than
+the criterion: *the graph has no way to say two things do not relate.*
+
+**Independently corroborated the same night.** An agent investigating whether a
+cited proposition supplied a missing premise found that it did not — wrong
+model, wrong claim kind, wrong subject — and explicitly declined to record an
+edge, reporting: "declaring an `UNTYPED` edge would assert that a map exists and
+is merely unclassified, the opposite of what was found." Its central result was
+expressible only as a `note`, which the tool's own `gp history` describes as
+invisible to every rule in the checker.
+
+Two independent lines of evidence, one from five campaigns of history and one
+from a live run, converge on the same missing relation. That is what promoted it
+from a review suggestion to queued work.
+
+### D2. Doc-count drift — not firing
+
+Six different check counts were once live across the documentation at the same
+time. A marked-span mechanism plus a test now keeps them equal, and that test
+has fired on genuine drift several times since — including during the changes
+that produced this document.
+
+---
+
+## The experiments
+
+### Experiment A
+
+Grand Portage versus excellent Markdown, matched on model, token budget, solver
+access, and stopping criteria. Primary metric is **false licences**, not
+findings or prose quality.
+
+*Not scheduled.* Its primary metric needs an answer key, and manufacturing
+tasks with known-correct semantic answers is most of the cost.
+
+### Experiment B
+
+Manual type declaration versus operation-derived contracts. Identical tasks run
+both ways; measure mislabelling rate and duplicated description.
+
+*Queued, and the gate on the structured-operations investment.* Chosen over A
+because it needs **no answer key** — the operation object knows the ground-truth
+relation, so declared labels are scored against what the constructor would have
+emitted.
+
+**Decision rule, set in advance:** if hand declarations are nearly as accurate
+and much cheaper, the frontend investment does not pay and §A applies. If
+operation-derived contracts sharply cut mislabelling, that validates the
+compiler direction.
