@@ -36,9 +36,17 @@ number fires and the finding underneath it is a different problem entirely.
 
 ### A2. Structured operations cover too little of the actual CAS work
 
-Untested — blocked on structured operations existing. This is what
-[experiment B](#experiment-b) is for, and it should run **before** the
-investment, not after.
+**Measured 2026-07-28 — and neither branch of the decision rule fires
+cleanly.** Hand-declared relation types are 88% accurate across 57 live edges
+(7 clear mislabels, 6 judgement calls). But the mislabels split into
+populations and constructors reach only about half: the largest single category
+is five edges where *no operation happened at all* and the author correctly
+determined that nothing relates the two models.
+
+So the criterion does not fire, and the useful output was not the rate. It was
+that **most observed mislabelling is not about operations**, which argues for
+narrowing #27 rather than cancelling or fully funding it. Full write-up in
+`EXPERIMENT-B.md`.
 
 ### A3. Experts ignore the graph and reread the transcript
 
@@ -141,7 +149,20 @@ one that can only vindicate.
 ### D1. `UNTYPED` usage — the number fired and meant something else
 
 **Measured 2026-07-27**, across five campaigns: 57 edges, 6 `UNTYPED` (11%),
-and **zero ever refined away from `UNTYPED`**.
+and zero ever refined away from `UNTYPED`.
+
+> **CORRECTION, 2026-07-28. The "zero refined" figure was a measurement
+> artifact.** The script looked for the same edge *id* changing type, and
+> supersession never does that — it mints a new id with a back-pointer.
+> Checking back-pointers instead finds `E-IV-PD → E-IV-PD-R →
+> E-IV-PD-RESTRICT`, a two-step refinement chain from `UNTYPED` to
+> `RESTRICTION`, plus `GE11` added as a typed successor to `GE10`. `UNTYPED`
+> **is** refined. See `EXPERIMENT-B.md`.
+>
+> The finding below survives — it was reached by reading all six edges, not
+> from the count — but the number that made it look alarming was measuring the
+> wrong thing, and a criterion evaluated on a broken measurement is worth no
+> more than no criterion at all.
 
 The 11% does not fire A1 — that is a healthy minority, not a habit. The zero
 looked damning. Reading all six edges shows it is not the failure A1 describes:
