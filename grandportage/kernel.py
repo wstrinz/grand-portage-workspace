@@ -532,12 +532,45 @@ TRANSPORT = {
         # though it is unsound as a source of witnesses.
         #
         # IDENTITY is licensed ALONG here and that is NOT an inconsistency with
-        # the NECESSARY_CONDITION row: the image is DENSE in its closure, so the
-        # pullback O(closure) -> O(image) is INJECTIVE and a relation vanishing
-        # on the image vanishes on the closure.  This is the cell that shows a
-        # uniform "identities only ever pull back" rule would be too strong --
-        # the direction follows from a property of the map, not from the name of
-        # the edge type.
+        # the NECESSARY_CONDITION row.  THE ARGUMENT USED TO BE DENSITY and it
+        # was the wrong argument twice over.
+        #
+        # It read: "the image is DENSE in its closure, so the pullback
+        # O(closure) -> O(image) is INJECTIVE and a relation vanishing on the
+        # image vanishes on the closure ... the direction follows from a
+        # PROPERTY OF THE MAP".
+        #
+        #   * DENSITY IS NOT A PROPERTY OF THE MAP.  A set is dense in its own
+        #     closure by the definition of closure.  Citing it as though the
+        #     map earned it dresses a tautology as a hypothesis, which is how
+        #     `zariski_dense` -- this project's other free gate -- survived as
+        #     long as it did.
+        #
+        #   * IT CONCLUDES ABOUT POINTS AND THE CLAIM IS ABOUT AN IDEAL.
+        #     "Vanishes on the closure" and "lies in the closure's ideal" agree
+        #     only when that ideal is radical, and an elimination ideal need
+        #     not be.  `verify.identity` decides MEMBERSHIP, by reduction.
+        #     lean/GrandPortage/ImageClosure.lean has the gap as `radMem_mem`.
+        #
+        # THE HONEST ARGUMENT IS THE ELIMINATION THEOREM, at the level the tool
+        # actually works at: I(dst) = I(src) cap k[remaining], so a rewriting
+        # in I(src) that is a SENTENCE IN THE TARGET RING is in I(dst) by
+        # membership, and the converse holds because that intersection sits
+        # inside I(src).  Both directions are exact and neither needs density,
+        # reducedness, or anything about the map.
+        #
+        # WHAT IT DOES NEED IS EXPRESSIBILITY, and nothing checked it: `x*y = 1`
+        # is true on the hyperbola and is not a sentence in k[x].  That is now
+        # INEXPRESSIBLE-CONCLUSION in `check`, and it puts this gate in the same
+        # class as `coefficients_in_base` -- an artifact of claims being strings
+        # rather than terms, which is why the formalisation could not see it.
+        #
+        # `_MAP_POLYNOMIAL` STAYS.  It is not the condition the elimination
+        # theorem needs, and it is not dead either: `operations.eliminate` mints
+        # these edges from a projection, whose map is polynomial always, but a
+        # hand-declared IMAGE_CLOSURE along a RATIONAL map can introduce
+        # denominators in the pullback and this refuses it.  Two real
+        # conditions; only one of them used to be checked.
         ALONG:   {EMPTY: False, NONEMPTY: True, PREDICATE: _CLOSED_CONDITION,
                   IDENTITY: _MAP_POLYNOMIAL},
         # A point of the closure need NOT lift: NONEMPTY does not travel here.

@@ -32,7 +32,7 @@ agent → MCP server (edge REQUIRED, no declaration → no CAS process)
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about seven days. Version 0.4.1. <!--checks-->731<!--/checks--> checks.** Treat
+**Age: about seven days. Version 0.4.1. <!--checks-->736<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 There is now a **public repo**: `github.com/wstrinz/grandportage`, Apache-2.0,
@@ -267,7 +267,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->731<!--/checks--> checks, ~10 s) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->736<!--/checks--> checks, ~10 s) |
 
 ---
 
@@ -303,10 +303,24 @@ C:\Users\wstri\dev\
                                             into three reductions a CAS can run
                       integral              PARTIALITY -- is the map defined
 
+                    THE TYPING-ARTIFACT CLASS NOW HAS TWO MEMBERS, which is
+                    the first evidence that it is a class and not one oddity.
+                    `ImageClosure.lean` found IMAGE_CLOSURE/ALONG/IDENTITY
+                    licensed on DENSITY -- wrong twice over, since a set is
+                    dense in its own closure by definition, and the argument
+                    concludes about POINTS while an IDENTITY here is ideal
+                    membership. The honest argument is the elimination theorem,
+                    and what it needs is EXPRESSIBILITY: exactly the same
+                    string-vs-term condition as `coefficients_in_base`. Not a
+                    fifth gate -- `_MAP_POLYNOMIAL` stays, and expressibility
+                    is checked (INEXPRESSIBLE-CONCLUSION) rather than gated,
+                    for the same reason the other one is.
+
                     What it has caught: a bad counterexample of mine, a wrong
                     conjecture of mine, a mislabelling in its own file, a
-                    sequential-substitution bug in `verify.ring_iso`, and the
-                    SPECIALIZATION non-inclusion.  None of them "the table is
+                    sequential-substitution bug in `verify.ring_iso`, the
+                    SPECIALIZATION non-inclusion, the RESTRICTION reading
+                    (same ideal, not the localized algebra), and this one.  None of them "the table is
                     correct".  The method is: state what a gate MEANS
                     precisely enough to be wrong, then write the Python
                     verifier against that statement rather than an intuition.
@@ -337,7 +351,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->731<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->736<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.

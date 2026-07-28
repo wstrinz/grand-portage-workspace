@@ -50,6 +50,7 @@ R_DIRECTION = "EVIDENCE-DIRECTION"
 R_CROSSCUT = "CROSS-CUT"
 R_CONTAINMENT = "CONTAINMENT"
 R_PENDING_IDEAL = "PENDING-IDEAL"
+R_INEXPRESSIBLE = "INEXPRESSIBLE-CONCLUSION"
 R_IDENTITY = "UNTESTED-IDENTITY"
 R_SIBLING = "SIBLING-EDGE"
 R_STALE_MODEL = "STALE-MODEL"
@@ -1709,6 +1710,125 @@ def check_crosscuts(graph):
     return findings
 
 
+def _legs(graph, cid):
+    """Every (inference, path) that carries claim `cid`.
+
+    PREMISES ONLY, and never `claim`/`path`.  The store normalises a
+    single-claim inference into a one-element `premises` list AND KEEPS the
+    original fields, so reading both counts every such inference twice --
+    which the first version of this helper did, reporting the hyperbola
+    finding two identical times.
+
+    Reading `claim`/`path` INSTEAD is the opposite bug and already cost a live
+    campaign: they are backfilled from `premises[0]` only, so any claim in slot
+    2 or later goes invisible, and that campaign had all three of its
+    structured identities in slots 2 to 4.  `check_identity` carries the
+    comment; this helper now carries the code, so there is one place to get it
+    right.
+    """
+    legs = []
+    for iid in sorted(graph.inferences):
+        inf = graph.inferences[iid]
+        if inf.get("superseded_by"):
+            continue
+        for pr in inf.get("premises") or []:
+            if pr.get("claim") == cid:
+                legs.append((iid, pr.get("path") or []))
+    return legs
+
+
+def check_inexpressible(graph):
+    """An IDENTITY transported into a ring that does not have its symbols.
+
+    THE GATE `IMAGE_CLOSURE/ALONG/IDENTITY` ACTUALLY NEEDS, and the one nothing
+    asked for.  That cell was licensed on density -- "the image is dense in its
+    closure, so a relation vanishing on the image vanishes on the closure" --
+    which is the wrong argument twice: a set is dense in its own closure by
+    definition, so the map earned nothing; and the conclusion is about POINTS
+    while an IDENTITY here is membership in an ideal, which `verify.identity`
+    decides by reduction.  The two agree only for radical ideals and an
+    elimination ideal need not be one.
+
+    The honest argument is the elimination theorem -- I(dst) = I(src) cap
+    k[remaining] -- and what it requires is that the rewriting BE A SENTENCE IN
+    THE TARGET RING.  `x*y = 1` is true on the hyperbola xy = 1, and after
+    eliminating y the target ring is k[x], where it is not a false claim: it is
+    not a claim.  The tool licensed it and `gp check` exited 0.
+
+    SAME SHAPE AS `coefficients_in_base`, which is why this is worth saying
+    twice.  Both gates exist only because a claim is a STRING and a string
+    carries no evidence about which ring it lives in; state the theorem with
+    `f g : R` and both conditions vanish into the type, which is exactly why
+    the formalisation could not see either one.
+
+    TWO TIERS, because sometimes the graph KNOWS and sometimes this is a guess.
+
+      UNSOUND_CONCLUSION  the target records the symbol in `eliminated`. Not an
+                          inference from names: the graph says that variable was
+                          projected away.
+      TRIAGE              the target declares `ring_vars` without the symbol.
+                          Syntactic and conservative -- the name might denote a
+                          constant -- so it reports.
+    """
+    findings = []
+    for cid in sorted(graph.claims):
+        c = graph.claims[cid]
+        if c.get("kind") != K.IDENTITY or c.get("superseded_by"):
+            continue
+        if c.get("lhs") is None:
+            continue
+        dead = withdrawn_edges(graph)
+        for iid, path in _legs(graph, cid):
+            for step in path:
+                eid = step[0] if isinstance(step, (list, tuple)) else step
+                direction = (step[1] if isinstance(step, (list, tuple))
+                             and len(step) > 1 else None)
+                e = graph.edges.get(eid)
+                if not e or eid in dead:
+                    continue
+                # WHERE THE CLAIM LANDS.  ALONG runs src -> dst, AGAINST runs
+                # dst -> src, and only the landing ring can be too small.
+                lands = e.get("dst") if direction == K.ALONG else e.get("src")
+                target = graph.models.get(lands) or {}
+                ring = target.get("ring_vars")
+                if not ring:
+                    continue
+                missing = cas_foreign_symbols(ring, c["lhs"], c["rhs"])
+                if not missing:
+                    continue
+                gone = [s for s in missing
+                        if s in set(target.get("eliminated") or [])]
+                findings.append(Finding(
+                    R_INEXPRESSIBLE, "%s:%s:%s" % (R_INEXPRESSIBLE, cid, eid),
+                    UNSOUND_CONCLUSION if gone else TRIAGE, cid,
+                    "inference %s carries IDENTITY %s across %s to %s, whose "
+                    "ring is k[%s] -- and the rewriting names %s.\n"
+                    "  %s"
+                    % (iid, cid, eid, lands, ", ".join(ring),
+                       ", ".join("`%s`" % s for s in missing),
+                       ("%s was ELIMINATED to build %s, so this is not a guess "
+                        "from names. The transported statement is not a false "
+                        "claim at %s -- it is not a claim there, and every "
+                        "cell downstream of it is reasoning about a sentence "
+                        "that does not parse in its own ring."
+                        % (", ".join("`%s`" % s for s in gone), lands, lands))
+                       if gone else
+                       ("The check is syntactic and cannot know whether those "
+                        "names denote constants rather than variables, so this "
+                        "reports rather than refuses. If they are variables, "
+                        "the conclusion is not expressible at %s." % lands)),
+                    ("Restate the rewriting in the target's variables, or "
+                     "keep the claim at its own model and transport something "
+                     "that survives the projection. Eliminating a variable "
+                     "does not make a statement about it into a statement "
+                     "about what is left.") if gone else
+                    ("If those names are constants of the base, say so in a "
+                     "caveat and carry this. If they are variables, the claim "
+                     "belongs at its own model only."),
+                    semantic_key="%s:%s" % (cid, eid)))
+    return findings
+
+
 def check_pending_ideals(graph):
     """Models whose ideal is a computation nobody has run yet.
 
@@ -2460,16 +2580,9 @@ def check_identity(graph):
                  "surfaced."),
                 semantic_key=cid))
             continue
-        # PREMISES, NOT `claim`/`path`.  Those two are backfilled from
-        # premises[0] only, so reading them made every IDENTITY in slot 2 or
-        # later invisible to this rule -- and a live campaign put all three of
-        # its structured identities in slots 2 to 4.
-        legs = []
-        for iid in sorted(graph.inferences):
-            inf = graph.inferences[iid]
-            for pr in inf.get("premises") or []:
-                if pr.get("claim") == cid:
-                    legs.append(pr.get("path") or [])
+        # PREMISES, NOT `claim`/`path` -- see `_legs`, which now owns both
+        # halves of that trap.
+        legs = [path for _, path in _legs(graph, cid)]
         for path in legs:
             hit = False
             for step in path:
@@ -2534,6 +2647,7 @@ def run(graph, accepted=None):
                 + check_families(graph)
                 + check_evidence_direction(graph)
                 + check_crosscuts(graph)
+                + check_inexpressible(graph)
                 + check_pending_ideals(graph)
                 + check_containment(graph)
                 + check_identity(graph)

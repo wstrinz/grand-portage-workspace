@@ -3788,3 +3788,112 @@ def test_one_bad_object_does_not_cost_the_whole_run(tmp_path):
     assert g.claims["GOOD"].get("identity_verdict"), (
         "verdicts must reach the graph -- the old code appended at the very "
         "end, so an exception meant nothing was written at all")
+
+
+# ===========================================================================
+# EXPRESSIBILITY: the gate IMAGE_CLOSURE/ALONG/IDENTITY actually needs.
+#
+# The cell was licensed on density -- "the image is dense in its closure, so a
+# relation vanishing on the image vanishes on the closure".  Wrong twice: a set
+# is dense in its own closure by definition, so the map earned nothing; and the
+# conclusion is about POINTS while an IDENTITY here is ideal membership, which
+# `verify.identity` decides by reduction.  Those agree only for radical ideals.
+#
+# The honest argument is the elimination theorem, and what it requires is that
+# the rewriting be a SENTENCE IN THE TARGET RING.  Nothing checked that, so
+# `x*y = 1` -- true on the hyperbola, and about y -- transported into k[x] and
+# `gp check` exited 0.
+#
+# lean/GrandPortage/ImageClosure.lean: `elim_along` needs expressibility and
+# nothing else; `radMem_mem` is the points/ideal gap.
+# ===========================================================================
+def _hyperbola(target_extra=None, direction="ALONG", lhs="x*y", rhs="1",
+               ring=("x", "y")):
+    """The projection that drops y, with an identity carried across it.
+
+    THE EDGE ALWAYS RUNS HYP -> IMG.  Only the claim's home moves, because the
+    store enforces that a path is connected: reading an edge AGAINST means the
+    claim has already reached its `dst`.  The first version of this helper
+    flipped `src` and `dst` along with the direction and built an unfoldable
+    graph, which is the store refusing correctly.
+    """
+    target = {"ev": "model", "id": "IMG", "desc": "the closure of the image",
+              "ring_vars": ["x"], "generators": []}
+    target.update(target_extra or {})
+    home = "HYP" if direction == "ALONG" else "IMG"
+    return _graph([
+        {"ev": "model", "id": "HYP", "desc": "the hyperbola xy = 1",
+         "ring_vars": ["x", "y"], "generators": ["x*y-1"]},
+        target,
+        {"ev": "edge", "id": "E", "src": "HYP", "dst": "IMG",
+         "type": K.IMAGE_CLOSURE, "map_kind": K.POLYNOMIAL,
+         "why": "projection to the x-line; the target is the CLOSURE"},
+        {"ev": "claim", "id": "CL", "model": home, "kind": K.IDENTITY,
+         "statement": "a rewriting", "lhs": lhs, "rhs": rhs,
+         "ring_vars": list(ring), "identity_origin": K.DERIVED},
+        {"ev": "inference", "id": "INF", "claim": "CL",
+         "path": [["E", direction]], "concludes_kind": K.IDENTITY,
+         "asserted": "so it holds at the other end"},
+    ])
+
+
+def test_an_identity_cannot_be_carried_into_a_ring_without_its_symbols():
+    """THE FALSE LICENCE. `x*y = 1` is not a false claim in k[x]; it is not a
+    claim. The tool licensed it and exited 0."""
+    findings = [f for f in C.run(_hyperbola())
+                if f.rule == C.R_INEXPRESSIBLE]
+    assert findings, "an identity about y still travels into k[x] unchallenged"
+    assert "`y`" in findings[0].detail
+
+
+def test_an_eliminated_variable_is_not_a_guess_from_names():
+    """TWO TIERS. When the target records what was projected away, the tool is
+    not inferring anything from spelling -- the graph says so."""
+    certain = [f for f in C.run(_hyperbola({"eliminated": ["y"]}))
+               if f.rule == C.R_INEXPRESSIBLE]
+    assert certain[0].severity == C.UNSOUND_CONCLUSION
+    assert "ELIMINATED" in certain[0].detail
+    assert C.exit_code(C.run(_hyperbola({"eliminated": ["y"]}))) == 1
+
+    # Without that record the same shape is only syntactic: the name might
+    # denote a constant, so it reports rather than refusing.
+    guessed = [f for f in C.run(_hyperbola()) if f.rule == C.R_INEXPRESSIBLE]
+    assert guessed[0].severity == C.TRIAGE
+
+
+def test_expressibility_is_asked_only_where_the_ring_can_shrink():
+    """AGAINST runs into the BIGGER ring, where every polynomial fits.
+
+    A rule that fired in both directions would refuse the sound half of the
+    cell, which is the shape of overreach this project keeps producing.
+    """
+    against = [f for f in C.run(_hyperbola(direction="AGAINST", lhs="x^2",
+                                           rhs="x*x", ring=("x",)))
+               if f.rule == C.R_INEXPRESSIBLE]
+    assert not against, (
+        "transport into a larger ring cannot fail to be expressible")
+    # And the pair pins WHICH endpoint is read: checking the claim's own model
+    # instead of where it lands would make the ALONG case above go quiet, since
+    # HYP has both variables.
+
+
+def test_an_expressible_identity_crosses_without_complaint():
+    """The positive control. `x^2 = x*x` says nothing about the eliminated
+    variable and travels."""
+    ok = [f for f in C.run(_hyperbola({"eliminated": ["y"]},
+                                      lhs="x^2", rhs="x*x"))
+          if f.rule == C.R_INEXPRESSIBLE]
+    assert not ok, "a rewriting entirely in the target's variables was refused"
+
+
+def test_a_single_claim_inference_is_not_counted_twice():
+    """REGRESSION. The store normalises `claim`/`path` into a one-element
+    `premises` list AND KEEPS the originals, so reading both reports every
+    single-claim inference twice -- which the first version of `_legs` did.
+
+    Reading `claim`/`path` INSTEAD is the opposite bug and already cost a live
+    campaign: they are backfilled from `premises[0]` only, so a claim in slot 2
+    or later goes invisible. `_legs` has to thread between them.
+    """
+    fids = [f.fid for f in C.run(_hyperbola()) if f.rule == C.R_INEXPRESSIBLE]
+    assert len(fids) == len(set(fids)) == 1, fids
