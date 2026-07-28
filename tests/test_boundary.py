@@ -651,3 +651,81 @@ def test_the_untyped_discharge_offers_BOTH_moves(project):
     assert "gp accept --only TRANSPORT:GI-REPLAY-TRANSFER" in d
     assert "carrying a debt in the open" in d
     assert "no transcription to copy" in d       # the edge's own debt_why
+
+
+@live
+def test_a_unit_ideal_certificate_is_checkable_by_expansion():
+    """THE LAST HONOUR-SYSTEM FIELD THAT CARRIES SCOPE.
+
+    `derive_scope` reads the certificate KIND to decide whether an emptiness
+    survives a base change. That was the fix for a declared `scope`, and it
+    moved the free choice one field along rather than removing it: nothing
+    relates the label `UNIT_IDEAL_CERT` to any computation, so a caller who
+    ran something and saw `1` gets the same scope as one who typed the name.
+
+    A representation `1 = sum a_i f_i` closes it, because confirming it is one
+    EXPANSION -- no Buchberger, no monomial order, no trust in the search that
+    found the cofactors. The checker shares no code path with the thing it
+    checks, which is the certifying-algorithms shape, and it is the clean
+    bridge to a proof assistant: Lean checks a polynomial identity and never
+    has to run a Groebner engine.
+    """
+    from grandportage import verify as V
+
+    g = S.Graph().apply_all([(e, "t", i) for i, e in enumerate([
+        {"ev": "model", "id": "M", "what": "an empty model",
+         "ring_vars": ["x", "y"], "generators": ["x", "1-x"]},
+        {"ev": "claim", "id": "C", "model": "M", "kind": K.EMPTY,
+         "statement": "no points", "certificate": "UNIT_IDEAL_CERT",
+         "established_by": "RAN", "ladder": "exact-checked"},
+    ])])
+    g.validate()
+    verdict, why, capability = V.unit_ideal(g, "C")
+    assert verdict == V.CERT_VERIFIED, why
+    assert capability["cofactors"] == ["1", "1"]
+    assert "WITHOUT recomputing a basis" in why
+
+
+@live
+def test_a_declared_certificate_that_is_false_is_caught():
+    """A claim may NAME `UNIT_IDEAL_CERT` over an ideal that is not the unit
+    ideal, and until the certificate was checkable nothing said so.
+
+    The verdict is deliberately about the CERTIFICATE and not about the
+    emptiness -- a model can be empty for other reasons, established by other
+    means, and this rules out one route rather than the conclusion.
+    """
+    from grandportage import verify as V
+
+    g = S.Graph().apply_all([(e, "t", i) for i, e in enumerate([
+        {"ev": "model", "id": "N", "what": "a model with points",
+         "ring_vars": ["x", "y"], "generators": ["x", "y"]},
+        {"ev": "claim", "id": "D", "model": "N", "kind": K.EMPTY,
+         "statement": "no points", "certificate": "UNIT_IDEAL_CERT",
+         "established_by": "RAN", "ladder": "exact-checked"},
+    ])])
+    g.validate()
+    verdict, why, capability = V.unit_ideal(g, "D")
+    assert verdict == V.CERT_NOT_UNIT
+    assert capability is None
+    assert "not the unit ideal" in why
+    assert "statement about the CERTIFICATE" in why
+
+
+@live
+def test_the_expansion_catches_cofactors_that_do_not_expand():
+    """The half a reader can check, exercised on a representation that is
+    wrong. A shorter cofactor list is refused rather than padded, because it
+    would verify an identity about a DIFFERENT ideal and report it as this
+    one."""
+    from grandportage import cas as C2
+
+    ok, got = C2.check_unit_ideal_representation(
+        ["x", "y"], ["x", "1-x"], ["1", "0"])
+    assert not ok and got == "x", (
+        "expanding 1*x + 0*(1-x) gives x, and the checker must say so rather "
+        "than agreeing with the search")
+
+    with pytest.raises(C2.CASError) as exc:
+        C2.check_unit_ideal_representation(["x", "y"], ["x", "1-x"], ["1"])
+    assert "different ideal" in str(exc.value)

@@ -791,6 +791,119 @@ def check_witness(ring_vars, generators, point, characteristic=0, timeout=300,
                            if not g["vanishes"]]}
 
 
+def unit_ideal_representation(ring_vars, generators, characteristic=0,
+                              timeout=300, _runner=None):
+    """The COFACTORS witnessing `1 = sum a_i f_i`, not just "the basis was 1".
+
+    THE DIFFERENCE BETWEEN EVIDENCE AND A CERTIFICATE ANYBODY CAN RECHECK.
+    `ideal_is_unit` returns a Groebner basis, and a caller who sees `1` then
+    DECLARES `certificate: UNIT_IDEAL_CERT` -- so the scope of every emptiness
+    resting on it derives from a string somebody typed after reading some
+    output. Nothing relates the label to the computation.
+
+    A representation fixes that, because it can be checked by ARITHMETIC. Given
+    the cofactors, confirming `sum a_i f_i = 1` is one expansion: no Buchberger,
+    no monomial order, no trust in the search that found it. That is the
+    certifying-algorithms shape -- an answer plus a witness a simpler checker
+    can validate -- and it is also the clean bridge to a proof assistant, which
+    can check a polynomial identity and should never have to run a Groebner
+    engine.
+
+    Returns the raw run. The cofactors come back in `GP_M`, in generator order.
+    """
+    # TWO CALLS, BECAUSE `lift` FAILS WHEN THERE IS NOTHING TO LIFT.
+    #
+    # Found by testing the negative case: on `(x, y)` -- a perfectly ordinary
+    # non-unit ideal -- `lift(I, ideal(1))` errors, because 1 is not a member
+    # and there is no representation to return. Asking for both in one program
+    # turned "this ideal is not the unit ideal", which is a fine and common
+    # answer, into a CAS error.
+    #
+    # So: ask whether it is a unit first, and pay for the representation only
+    # when there is one.
+    basis_prog = CASProgram(
+        SINGULAR, ring="GP_R", ring_vars=ring_vars, generators=generators,
+        decls=[("GP_I", "ideal", ",".join(generators)),
+               ("GP_G", "ideal", "std(GP_I)")],
+        body=[], outputs=["GP_G"], characteristic=characteristic)
+    basis_res = (_runner or _run_subprocess)(basis_prog, timeout)
+    if (basis_res["aborted"] or basis_res["returncode"] != 0
+            or "? error" in basis_res["stdout"] + basis_res["stderr"]):
+        raise CASError("the CAS did not compute a basis:\n%s"
+                       % basis_res["stdout"][-1500:])
+    basis = _parse_outputs(basis_res["stdout"], ["GP_G"])["GP_G"]
+    basis = basis if isinstance(basis, list) else [basis]
+    basis = [b.split("=", 1)[-1].strip() for b in basis]
+    if basis != ["1"]:
+        return {"is_unit": False, "cofactors": None, "basis": basis}
+
+    prog = CASProgram(
+        SINGULAR, ring="GP_R", ring_vars=ring_vars, generators=generators,
+        decls=[("GP_I", "ideal", ",".join(generators)),
+               ("GP_G", "ideal", "std(GP_I)"),
+               ("GP_M", "matrix", "lift(GP_I,ideal(1))")],
+        body=[], outputs=["GP_G", "GP_M"], characteristic=characteristic)
+    # A MEASURING INSTRUMENT, so it bypasses the transport forcing function --
+    # the same reason `classify_identity` does. `run_cas` demands an edge
+    # because it MINTS A MODEL; this mints nothing and touches no graph. It
+    # answers a question so the answer can be recorded with a computation
+    # behind it, and recording is a separate, deliberate act.
+    result = (_runner or _run_subprocess)(prog, timeout)
+    if (result["aborted"] or result["returncode"] != 0
+            or "? error" in result["stdout"] + result["stderr"]):
+        raise CASError("the CAS did not produce a representation:\n%s"
+                       % result["stdout"][-1500:])
+    out = _parse_outputs(result["stdout"], ["GP_G", "GP_M"])
+    # `GP_M[i,1]=...`, one row per generator and IN GENERATOR ORDER, which is
+    # the only thing that makes the check below meaningful -- a permuted list
+    # would verify a different identity and report it as this one.
+    rows = out["GP_M"]
+    rows = rows if isinstance(rows, list) else [rows]
+    cofactors = []
+    for i in range(len(generators)):
+        want = "GP_M[%d,1]=" % (i + 1)
+        hit = [r for r in rows if r.replace(" ", "").startswith(want)]
+        cofactors.append(hit[0].split("=", 1)[-1].strip() if hit else "0")
+    return {"is_unit": True, "cofactors": cofactors, "basis": basis}
+
+
+def check_unit_ideal_representation(ring_vars, generators, cofactors,
+                                    characteristic=0, timeout=300,
+                                    _runner=None):
+    """Expand `sum a_i f_i` and see whether it is 1.  NO GROEBNER BASIS.
+
+    This is the whole point.  The expensive, subtle computation found the
+    cofactors; this one multiplies and adds.  A checker that shares no code
+    path with the search is worth more than a second run of the search, and it
+    is the only part of the chain a reader has to trust.
+
+    Refuses a length mismatch rather than padding, because a cofactor list
+    shorter than the generator list would silently verify a DIFFERENT identity
+    -- one about a sub-ideal -- and report it as this one.
+    """
+    if len(cofactors) != len(generators):
+        raise CASError(
+            "%d cofactors for %d generators. A representation must give one "
+            "coefficient per generator, in the same order; a shorter list "
+            "would verify an identity about a different ideal and report it "
+            "as this one." % (len(cofactors), len(generators)))
+    terms = " + ".join("(%s)*(%s)" % (a, f)
+                       for a, f in zip(cofactors, generators))
+    prog = CASProgram(
+        SINGULAR, ring="GP_R", ring_vars=ring_vars, generators=generators,
+        decls=[("GP_SUM", "poly", terms)],
+        body=[], outputs=["GP_SUM"], characteristic=characteristic)
+    result = (_runner or _run_subprocess)(prog, timeout)
+    if (result["aborted"] or result["returncode"] != 0
+            or "? error" in result["stdout"] + result["stderr"]):
+        raise CASError("the CAS did not expand the representation:\n%s"
+                       % result["stdout"][-1500:])
+    got = _parse_outputs(result["stdout"], ["GP_SUM"])["GP_SUM"]
+    got = " ".join(got) if isinstance(got, list) else str(got)
+    got = got.split("=", 1)[-1].strip()
+    return got == "1", got
+
+
 def ideal_is_unit(ring_vars, generators, characteristic=0, name="GP_I",
                   **kw):
     """Convenience: does the ideal reduce to (1)?

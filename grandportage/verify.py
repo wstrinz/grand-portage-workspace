@@ -217,6 +217,82 @@ def identity(graph, cid, timeout=300, _runner=None):
             "reduction modulo a Groebner basis DECIDES ideal membership.")))
 
 
+CERT_VERIFIED = "VERIFIED"
+CERT_NOT_UNIT = "NOT_UNIT"
+
+
+def unit_ideal(graph, cid, timeout=300, _runner=None):
+    """Check an EMPTY claim's certificate against the computation, by expansion.
+
+    THE LAST HONOUR-SYSTEM FIELD THAT CARRIES SCOPE, and the one that produced
+    the erratum this whole project started from.
+
+    `derive_scope` reads the certificate KIND to decide whether an emptiness
+    survives a base change -- which was the fix for a declared `scope`, and
+    moved the free choice one field along rather than removing it. Nothing
+    relates the label `UNIT_IDEAL_CERT` to any computation. A caller who ran
+    something, saw `1`, and typed the name gets the same scope as a caller who
+    typed the name.
+
+    WHAT MAKES THIS DIFFERENT FROM RE-RUNNING THE SEARCH.  The expensive step
+    found cofactors `a_i` with `sum a_i f_i = 1`. Confirming that is one
+    expansion -- no Buchberger, no monomial order, no trust in the search. The
+    checker shares no code path with the thing it checks, which is the whole
+    idea behind a certifying algorithm, and it is also the clean bridge to a
+    proof assistant: Lean can check a polynomial identity and should never
+    have to run a Groebner engine.
+
+    Three verdicts:
+
+        VERIFIED    cofactors found AND their expansion is 1
+        NOT_UNIT    the ideal is not the unit ideal.  NOT a failed check --
+                    the claim's certificate is simply not this one
+        UNVERIFIED  the question could not be put
+    """
+    c = graph.claims.get(cid)
+    if not c:
+        return UNVERIFIED, "no such claim", None
+    if c.get("kind") != K.EMPTY:
+        return UNVERIFIED, "claim %s is %s, not EMPTY" % (cid, c.get("kind")), None
+    model = graph.models.get(c.get("model")) or {}
+    gens, ring = model.get("generators"), model.get("ring_vars")
+    if not gens or not ring:
+        return UNVERIFIED, (
+            "model %s carries no ideal to expand -- a certificate about an "
+            "ideal needs the ideal recorded, not only named"
+            % c.get("model")), None
+
+    rep = cas.unit_ideal_representation(ring, list(gens), timeout=timeout,
+                                        _runner=_runner)
+    if not rep["is_unit"]:
+        return CERT_NOT_UNIT, (
+            "%s's ideal reduces to %s, not 1, so it is not the unit ideal and "
+            "UNIT_IDEAL_CERT is not the certificate this claim has.\n"
+            "  That is a statement about the CERTIFICATE and not about the "
+            "emptiness: a model can be empty for other reasons, established by "
+            "other means."
+            % (c.get("model"), ", ".join(rep["basis"]))), None
+
+    ok, expanded = cas.check_unit_ideal_representation(
+        ring, list(gens), rep["cofactors"], timeout=timeout, _runner=_runner)
+    witness = " + ".join("(%s)*(%s)" % (a, f)
+                         for a, f in zip(rep["cofactors"], gens))
+    if not ok:
+        return CERT_NOT_UNIT, (
+            "the CAS returned cofactors for %s, and expanding them gives %s "
+            "rather than 1.\n"
+            "  This is the case the expansion exists to catch: the search said "
+            "one thing and the arithmetic says another, and the arithmetic is "
+            "the half a reader can check."
+            % (c.get("model"), expanded), None)
+
+    return CERT_VERIFIED, (
+        "1 = %s, expanded and confirmed WITHOUT recomputing a basis. The "
+        "certificate is now a computation rather than a name."
+        % witness), {"cofactors": list(rep["cofactors"]),
+                     "generators": list(gens), "ring_vars": list(ring)}
+
+
 def _verdict_event(subject, of, verdict, why):
     # Content-addressed id, so re-verifying an unchanged thing with an
     # unchanged answer is an IDEMPOTENT redeclaration and the fold absorbs it.
