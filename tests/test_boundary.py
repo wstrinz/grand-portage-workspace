@@ -810,3 +810,92 @@ def test_a_substitution_is_simultaneous():
     with pytest.raises(C2.CASError) as exc:
         C2.substitute_and_reduce(["x", "y"], "x", {"x": "y"}, [])
     assert "every ring variable" in str(exc.value)
+
+
+@live
+def test_the_verifier_reads_the_model_characteristic():
+    """A FALSE LICENCE, in the code written to prevent false licences.
+
+    A live campaign declared `characteristic: 23` on eight models, and nothing
+    read it. Every reduction the verifier ran was in characteristic 0. So
+    `verify.unit_ideal` returned VERIFIED for a claim the campaign KNEW was
+    false -- over F_23 the ideal is (y, x+10) and it had exhibited the singular
+    point -- and handed back a certificate whose every cofactor had 23 in the
+    denominator. Undefined at the very prime the model declares.
+
+    `gp check` reported zero findings on that graph, and `UNIT_IDEAL_CERT`
+    base-changes, so the emptiness was SCHEME-scoped and would have travelled
+    to every field.
+    """
+    from grandportage import verify as V
+
+    g = S.Graph().apply_all([(e, "t", i) for i, e in enumerate([
+        {"ev": "model", "id": "SING", "what": "the singular locus over F23",
+         "ring_vars": ["x", "y"],
+         "generators": ["y^2-x^3+x-1", "3*x^2-1", "2*y"],
+         "characteristic": 23},
+        {"ev": "claim", "id": "C", "model": "SING", "kind": K.EMPTY,
+         "statement": "no singular point", "certificate": "UNIT_IDEAL_CERT",
+         "established_by": "RAN", "ladder": "exact-checked"}])])
+    g.validate()
+    verdict, why, cap = V.unit_ideal(g, "C")
+    assert verdict == V.CERT_NOT_UNIT, (
+        "this ideal is (y, x+10) over F_23; a VERIFIED here is a false licence")
+    assert cap is None
+
+
+@live
+def test_a_true_containment_in_characteristic_two_is_not_refused():
+    """The same root cause, refusing something TRUE.
+
+    In characteristic 2, `y^2 + 1 = (y+1)^2`, so V(x+1,y+1) really is inside
+    V(y^2+1, x^2+1). Reducing in characteristic 0 the verifier reported that
+    `y^2+1` "reduces to 2" -- the number 2, which is ZERO in the ring both
+    models declare -- and escalated that to UNSOUND_PREMISE.
+    """
+    from grandportage import verify as V
+
+    g = S.Graph().apply_all([(e, "t", i) for i, e in enumerate([
+        {"ev": "model", "id": "PT", "what": "the point",
+         "ring_vars": ["x", "y"], "generators": ["x+1", "y+1"],
+         "characteristic": 2},
+        {"ev": "model", "id": "SING", "what": "the singular locus",
+         "ring_vars": ["x", "y"], "generators": ["y^2+1", "x^2+1"],
+         "characteristic": 2},
+        {"ev": "edge", "id": "E", "src": "PT", "dst": "SING",
+         "type": K.NECESSARY_CONDITION, "why": "drops equations",
+         "map_kind": K.POLYNOMIAL}])])
+    g.validate()
+    verdict, why = V.containment(g, "E")
+    assert verdict == V.VERIFIED, why
+
+
+@live
+def test_the_saturation_constructor_can_actually_run():
+    """IT COULD NEVER HAVE RUN.  `sat` lives in `elim.lib`, and `LIB` is in the
+    dialect's FORBIDDEN set -- deliberately, so no emitted program can pull in
+    arbitrary code. So the constructor emitted `sat(GP_I,GP_F)[1]` and Singular
+    answered "`int` expected while building `sat(`".
+
+    I tested `eliminate` against a real solver and did not test this one. A
+    live campaign found it by trying to use it.
+
+    Saturation by elimination needs no library:  I : f^oo = (I + (1-t*f)) ∩ R.
+    """
+    from grandportage import cas as C2
+    from grandportage import operations as O
+
+    op = O.saturate_closure("M", "x", "M_SAT", ["x", "y"], ["x*y"])
+    res = C2._run_subprocess(op.program, 120)
+    assert "? error" not in res["stdout"] + res["stderr"], res["stdout"][-400:]
+    assert "y" in res["stdout"], "sat((xy), x) is (y); got %r" % res["stdout"]
+
+    # AND AN EMPTY IDEAL IS NOT EXOTIC -- it is the ambient space, which is the
+    # motivating use of `localize`: the smooth locus of a plane is the plane
+    # with an inequality. `",".join([])` emitted `ideal GP_I = ;`.
+    for op in (O.localize("M", "f", "L", ["a", "b"], []),
+               O.saturate_closure("M", "a", "SS", ["a", "b"], []),
+               O.eliminate("M", ["b"], "E", ["a", "b"], [])):
+        res = C2._run_subprocess(op.program, 120)
+        assert "? error" not in res["stdout"] + res["stderr"], (
+            "%s on a zero ideal: %s" % (op.kind, res["stdout"][-200:]))

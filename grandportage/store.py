@@ -711,6 +711,24 @@ class Graph(object):
         self.partitions[ev["id"]] = p
 
     def _apply_model(self, ev, where):
+        # THE CHARACTERISTIC IS LOAD-BEARING AND WAS FREE TEXT.
+        #
+        # A live campaign declared `characteristic: 23` on eight models and
+        # nothing read it, so every reduction the verifier ran was in
+        # characteristic 0.  It then returned VERIFIED for a FALSE emptiness
+        # over F_23 and handed back a certificate whose every cofactor had 23
+        # in the denominator -- undefined at the very prime the model declares.
+        #
+        # `gp check` reported zero findings on that graph.
+        if ev.get("characteristic") is not None:
+            ch = ev["characteristic"]
+            _require(isinstance(ch, int) and not isinstance(ch, bool)
+                     and ch >= 0,
+                     "%s: model %r has characteristic %r; it must be 0 or a "
+                     "prime. Everything the verifier reduces is read in this "
+                     "characteristic, so a wrong one produces confident "
+                     "answers about a different ring."
+                     % (where, ev["id"], ch))
         declares = ev.get("declares") or {}
         _require(isinstance(declares, dict),
                  "%s: model %r `declares` must be {axis: [values]}"

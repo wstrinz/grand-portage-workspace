@@ -86,6 +86,18 @@ class Operation(object):
         self.derivation = derivation
 
 
+def _ideal(generators):
+    """An ideal declaration that survives having no generators.
+
+    `",".join([])` is the empty string, so an empty ideal emitted
+    `ideal GP_I = ;` -- a syntax error.  And the empty case is not exotic: it
+    is the AMBIENT SPACE, which is exactly the motivating use of `localize`.
+    "The smooth locus of the parameter plane" is the plane itself with an
+    inequality, and a live campaign hit that on its first try.
+    """
+    return ",".join(generators) if generators else "0"
+
+
 def _model(mid, what, ring_vars, generators, **extra):
     ev = {"ev": "model", "id": mid, "what": what,
           "ring_vars": list(ring_vars), "generators": list(generators)}
@@ -118,7 +130,7 @@ def localize(src, f, produces, ring_vars, generators, characteristic=0):
                     "The dropped condition is %s != 0." % f)
     prog = cas.CASProgram(
         cas.SINGULAR, ring="GP_R", ring_vars=list(ring_vars),
-        decls=[("GP_I", "ideal", ",".join(generators)),
+        decls=[("GP_I", "ideal", _ideal(generators)),
                ("GP_S", "ideal", "std(GP_I)")],
         body=[], outputs=["GP_S"], characteristic=characteristic)
     return Operation(
@@ -146,12 +158,29 @@ def saturate_closure(src, f, produces, ring_vars, generators,
     ev_edge = _edge("E-%s" % produces, produces, src, "SaturateClosure",
                     "Saturating at %s removes the components lying inside "
                     "V(%s)." % (f, f))
+    # SATURATION BY ELIMINATION, because `sat` LIVES IN A LIBRARY THIS BOUNDARY
+    # WILL NOT LOAD.
+    #
+    # The first version emitted `sat(GP_I,GP_F)[1]`, which Singular answers
+    # with "`int` expected while building `sat(`" -- the symbol is in
+    # `elim.lib`, and `LIB` is in the dialect's FORBIDDEN set precisely so no
+    # program can pull in arbitrary code.  So this constructor could never have
+    # run, and a live campaign found that by trying to use it.
+    #
+    # I tested `eliminate` against a real solver and did not test this one.
+    # The identity below needs no library:
+    #
+    #     I : f^oo  =  (I + (1 - t*f)) ∩ R,  eliminating t
+    #
+    # Verified against Singular on cases with known answers -- sat((xy), x) = (y)
+    # and sat((x^2y, xy^2), x) = (y) -- before being trusted here.
+    tvar = "GP_T"
     prog = cas.CASProgram(
-        cas.SINGULAR, ring="GP_R", ring_vars=list(ring_vars),
-        decls=[("GP_I", "ideal", ",".join(generators)),
-               ("GP_F", "poly", f),
-               ("GP_SAT", "ideal", "sat(GP_I,GP_F)[1]"),
-               ("GP_OUT", "ideal", "std(GP_SAT)")],
+        cas.SINGULAR, ring="GP_R", ring_vars=[tvar] + list(ring_vars),
+        decls=[("GP_I", "ideal",
+                _ideal(list(generators) + ["1-%s*(%s)" % (tvar, f)])),
+               ("GP_E", "ideal", "eliminate(GP_I,%s)" % tvar),
+               ("GP_OUT", "ideal", "std(GP_E)")],
         body=[], outputs=["GP_OUT"], characteristic=characteristic)
     return Operation(
         "SaturateClosure", [ev_model, ev_edge], prog,
@@ -189,7 +218,7 @@ def eliminate(src, variables, produces, ring_vars, generators,
                     "Eliminated: %s." % ", ".join(variables))
     prog = cas.CASProgram(
         cas.SINGULAR, ring="GP_R", ring_vars=list(ring_vars),
-        decls=[("GP_I", "ideal", ",".join(generators)),
+        decls=[("GP_I", "ideal", _ideal(generators)),
                ("GP_E", "ideal",
                 "eliminate(GP_I,%s)" % "*".join(variables)),
                ("GP_OUT", "ideal", "std(GP_E)")],

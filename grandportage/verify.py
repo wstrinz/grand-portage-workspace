@@ -110,6 +110,14 @@ def containment(graph, eid, timeout=300, _runner=None):
     ring = src.get("ring_vars") or []
     if not ring:
         return UNVERIFIED, "the source model declares no ring variables"
+    ch = src.get("characteristic") or 0
+    if (dst.get("characteristic") or 0) != ch:
+        return UNVERIFIED, (
+            "the endpoints declare different characteristics (%s vs %s). A "
+            "reduction happens in ONE ring; comparing ideals across a "
+            "characteristic change is what SPECIALIZATION is for, and it is "
+            "refused above for the same reason."
+            % (ch, dst.get("characteristic") or 0))
     if set(dst.get("ring_vars") or []) != set(ring):
         # NOT A FAILURE OF THE MATHEMATICS, a failure of the comparison.  Two
         # ideals in different rings are not comparable by reduction, and
@@ -123,7 +131,7 @@ def containment(graph, eid, timeout=300, _runner=None):
     for g in dst["generators"]:
         origin, evidence = cas.classify_identity(
             ring, lhs=g, rhs="0", generators=src_gens,
-            timeout=timeout, _runner=_runner)
+            characteristic=ch, timeout=timeout, _runner=_runner)
         if origin in (K.AMBIENT, K.DERIVED):
             continue
         return NOT_BY_IDEAL, (
@@ -223,6 +231,7 @@ def identity(graph, cid, timeout=300, _runner=None):
               else "modulo %s's ideal" % c.get("model"))
     origin, evidence = cas.classify_identity(
         ring, lhs=c["lhs"], rhs=c["rhs"], generators=gens,
+        characteristic=model.get("characteristic") or 0,
         timeout=timeout, _runner=_runner)
     if origin == K.AMBIENT:
         return AMBIENT, (
@@ -298,6 +307,12 @@ def ring_iso(graph, eid, timeout=300, _runner=None):
     if src.get("generators") is None or dst.get("generators") is None:
         return UNVERIFIED, "one endpoint carries no ideal"
     ring = src.get("ring_vars") or []
+    ch = src.get("characteristic") or 0
+    if (dst.get("characteristic") or 0) != ch:
+        return UNVERIFIED, (
+            "the endpoints declare different characteristics (%s vs %s); a "
+            "substitution between them is not a reduction in one ring"
+            % (ch, dst.get("characteristic") or 0))
     if not ring or set(dst.get("ring_vars") or []) != set(ring):
         return UNVERIFIED, (
             "the two models are written in different rings; a substitution "
@@ -306,8 +321,8 @@ def ring_iso(graph, eid, timeout=300, _runner=None):
     # forward: each generator of I lands in J
     for g in src["generators"]:
         _, ok = cas.substitute_and_reduce(
-            ring, g, fwd, list(dst["generators"]), timeout=timeout,
-            _runner=_runner)
+            ring, g, fwd, list(dst["generators"]), characteristic=ch,
+            timeout=timeout, _runner=_runner)
         if not ok:
             return ISO_NOT_ISO, (
                 "generator %r of %s does not land in %s's ideal under the "
@@ -317,8 +332,8 @@ def ring_iso(graph, eid, timeout=300, _runner=None):
     # backward: each generator of J pulls back into I
     for g in dst["generators"]:
         _, ok = cas.substitute_and_reduce(
-            ring, g, inv, list(src["generators"]), timeout=timeout,
-            _runner=_runner)
+            ring, g, inv, list(src["generators"]), characteristic=ch,
+            timeout=timeout, _runner=_runner)
         if not ok:
             return ISO_NOT_ISO, (
                 "generator %r of %s does not pull back into %s's ideal. "
@@ -328,9 +343,11 @@ def ring_iso(graph, eid, timeout=300, _runner=None):
                 % (g, e["dst"], e["src"]))
     # roundtrip: psi(phi(v)) = v for each variable
     for v in ring:
-        once, _ = cas.substitute_and_reduce(ring, v, fwd, [], timeout=timeout,
-                                            _runner=_runner)
+        once, _ = cas.substitute_and_reduce(ring, v, fwd, [],
+                                            characteristic=ch,
+                                            timeout=timeout, _runner=_runner)
         twice, _ = cas.substitute_and_reduce(ring, once, inv, [],
+                                             characteristic=ch,
                                              timeout=timeout, _runner=_runner)
         if twice.replace(" ", "") != v:
             return ISO_NOT_ISO, (
@@ -391,8 +408,9 @@ def unit_ideal(graph, cid, timeout=300, _runner=None):
             "ideal needs the ideal recorded, not only named"
             % c.get("model")), None
 
-    rep = cas.unit_ideal_representation(ring, list(gens), timeout=timeout,
-                                        _runner=_runner)
+    ch = model.get("characteristic") or 0
+    rep = cas.unit_ideal_representation(ring, list(gens), characteristic=ch,
+                                        timeout=timeout, _runner=_runner)
     if not rep["is_unit"]:
         return CERT_NOT_UNIT, (
             "%s's ideal reduces to %s, not 1, so it is not the unit ideal and "
@@ -403,7 +421,8 @@ def unit_ideal(graph, cid, timeout=300, _runner=None):
             % (c.get("model"), ", ".join(rep["basis"]))), None
 
     ok, expanded = cas.check_unit_ideal_representation(
-        ring, list(gens), rep["cofactors"], timeout=timeout, _runner=_runner)
+        ring, list(gens), rep["cofactors"], characteristic=ch,
+        timeout=timeout, _runner=_runner)
     witness = " + ".join("(%s)*(%s)" % (a, f)
                          for a, f in zip(rep["cofactors"], gens))
     if not ok:
