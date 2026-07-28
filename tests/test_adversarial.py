@@ -3673,3 +3673,58 @@ def test_no_inference_disappears_from_both_lists():
     assert set(live) <= accounted, (
         "these inferences appear in no list at all: %s"
         % ", ".join(sorted(set(live) - accounted)))
+
+
+def test_a_computed_origin_beats_a_declared_one():
+    """THE HONOUR SYSTEM SURVIVING INSIDE THE MACHINERY BUILT TO REPLACE IT.
+
+    `verify.identity` computes an identity's origin by reduction and RECORDS
+    it on the claim. The transport layer went on reading the author's declared
+    `identity_origin` -- so a claim declaring AMBIENT, with a stored verdict of
+    VERIFIED_DERIVED, transported ALONG a NECESSARY_CONDITION and was reported
+    CLEAN.
+
+    That cell is licensed only for AMBIENT, and the counterexample is the one
+    the kernel itself quotes: `x = 0` is valid in k[x]/(x) and false in k[x].
+    The tool spent CAS time computing the single field that decides the
+    transport, wrote the answer into the same graph, and licensed off the
+    declaration contradicting it.
+
+    A verdict is evidence; a declaration is a word. Where they disagree the
+    evidence wins -- and the disagreement is REPORTED, because a silent
+    correction leaves the graph showing a reader one thing and acting on
+    another.
+    """
+    evs = [
+        {"ev": "model", "id": "T", "what": "tight", "ring_vars": ["x"],
+         "generators": ["x"]},
+        {"ev": "model", "id": "L", "what": "loose", "ring_vars": ["x"],
+         "generators": []},
+        {"ev": "edge", "id": "E", "src": "T", "dst": "L",
+         "type": K.NECESSARY_CONDITION, "why": "drops x",
+         "map_kind": K.POLYNOMIAL},
+        {"ev": "claim", "id": "C", "model": "T", "kind": K.IDENTITY,
+         "statement": "x = 0", "lhs": "x", "rhs": "0", "ring_vars": ["x"],
+         "identity_origin": K.AMBIENT, "established_by": "RAN",
+         "ladder": "exact-checked"},
+        {"ev": "verdict", "id": "V", "subject": "claim", "of": "C",
+         "verdict": "VERIFIED_DERIVED", "why": "reduces modulo T only"},
+        {"ev": "inference", "id": "I", "claim": "C",
+         "path": [["E", K.ALONG]], "concludes_kind": K.IDENTITY,
+         "asserted": "so x = 0 in the looser model"}]
+    g = _graph(evs)
+    findings = C.run(g)
+
+    assert [f for f in findings if f.rule == C.R_TRANSPORT], (
+        "the computed DERIVED must refuse a cell licensed only for AMBIENT")
+    conflict = [f for f in findings if f.rule == C.R_ORIGIN_CONFLICT]
+    assert conflict and conflict[0].severity == C.UNSOUND_PREMISE, (
+        "declaring the STRONGER reading where the computation says otherwise "
+        "is a claim to a licence the mathematics does not give")
+    assert "I" not in C.clean_inferences(g, findings)
+
+    # Agreement is silent, and an UNDERSTATED declaration is only TRIAGE --
+    # claiming less than was established costs a look, not a licence.
+    agree = _graph(evs[:4] + [
+        dict(evs[4], verdict="VERIFIED_AMBIENT")] + evs[5:])
+    assert not [f for f in C.run(agree) if f.rule == C.R_ORIGIN_CONFLICT]

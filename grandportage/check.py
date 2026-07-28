@@ -55,6 +55,7 @@ R_STALE_MODEL = "STALE-MODEL"
 R_STALE_REF = "STALE-REFERENCE"
 R_BASE_COEFFS = "FOREIGN-COEFFICIENT"
 R_INTEGRAL = "NON-INTEGRAL-COEFFICIENT"
+R_ORIGIN_CONFLICT = "ORIGIN-CONTRADICTED"
 R_CITATION = "AMBIGUOUS-CITATION"
 R_DOUBT = "DOUBT"
 R_EVIDENCE = "EVIDENCE-GRADE"
@@ -202,7 +203,7 @@ def audit_inference(graph, iid):
                 certificate=claim.get("certificate"),
                 map_kind=e["map_kind"],
                 zariski_closed=claim.get("zariski_closed"),
-                identity_origin=claim.get("identity_origin"),
+                identity_origin=effective_origin(claim),
                 integral=claim.get("integral"),
                 ring_iso=e.get("ring_iso"),
                 coefficients_in_base=claim.get("coefficients_in_base"),
@@ -246,7 +247,7 @@ def probe(graph, claim_id, edge_id, direction, etype=None, map_kind=None,
         map_kind=map_kind or edge["map_kind"],
         zariski_closed=(claim.get("zariski_closed")
                         if zariski_closed is None else zariski_closed),
-        identity_origin=claim.get("identity_origin"),
+        identity_origin=effective_origin(claim),
         integral=claim.get("integral"), ring_iso=edge.get("ring_iso"),
         coefficients_in_base=claim.get("coefficients_in_base"),
         zariski_dense=edge.get("zariski_dense"),
@@ -1178,6 +1179,81 @@ def check_unexhibited_witness(graph):
             "DERIVED and record the inference. If it is genuinely an "
             "assertion -- a published claim you have not verified -- ASSERTED "
             "is the honest answer and this finding is the record of that."))
+    return findings
+
+
+# THE VERDICT BEATS THE DECLARATION, and until now it did not.
+#
+# `verify.identity` computes an identity's origin by reduction and RECORDS it
+# on the claim.  The transport layer went on reading the author's declared
+# `identity_origin` -- so a claim declaring AMBIENT, with a stored verdict of
+# VERIFIED_DERIVED, transported ALONG a NECESSARY_CONDITION and was reported
+# CLEAN.  That cell is licensed only for AMBIENT, and `x = 0` in k[x]/(x) is
+# exactly the counterexample the kernel quotes.
+#
+# The tool spent CAS time computing the one field that decides this transport,
+# wrote the answer into the same graph, and then licensed off the declaration
+# contradicting it.  That is the honour system surviving INSIDE the machinery
+# built to replace it.
+_VERDICT_ORIGIN = {"VERIFIED_AMBIENT": K.AMBIENT,
+                   "VERIFIED_DERIVED": K.DERIVED}
+
+
+def effective_origin(claim):
+    """The origin transport should use: computed if there is one, else declared.
+
+    A verdict is evidence and a declaration is a word.  Where they disagree the
+    evidence wins, and `check_origin_contradiction` says so out loud rather
+    than letting the correction happen silently.
+    """
+    return (_VERDICT_ORIGIN.get(claim.get("identity_verdict"))
+            or claim.get("identity_origin"))
+
+
+def check_origin_contradiction(graph):
+    """A claim whose declared origin the verifier disagreed with.
+
+    `effective_origin` makes the computed answer win, which is right -- a
+    verdict is evidence and a declaration is a word. But a silent correction
+    is its own defect: the author believes something the graph no longer acts
+    on, and the next reader sees a field that is not the one being used.
+
+    So the disagreement is reported, and at UNSOUND_PREMISE when the
+    declaration was the STRONGER of the two. Declaring AMBIENT where the
+    computation says DERIVED is a claim to a licence the mathematics does not
+    give, and it is the direction that produced a live false transport: the
+    claim rode a NECESSARY_CONDITION ALONG, a cell licensed only for AMBIENT,
+    and was reported clean while the graph already held the refutation.
+    """
+    findings = []
+    for cid in sorted(graph.claims):
+        c = graph.claims[cid]
+        if c.get("superseded_by"):
+            continue
+        computed = _VERDICT_ORIGIN.get(c.get("identity_verdict"))
+        declared = c.get("identity_origin")
+        if not computed or not declared or computed == declared:
+            continue
+        overclaimed = declared == K.AMBIENT and computed == K.DERIVED
+        findings.append(Finding(
+            R_ORIGIN_CONFLICT, "%s:%s" % (R_ORIGIN_CONFLICT, cid),
+            UNSOUND_PREMISE if overclaimed else TRIAGE, cid,
+            "claim %s declares `identity_origin: %s` and the verifier computed "
+            "%s.\n  %s"
+            % (cid, declared, computed,
+               ("AMBIENT is the STRONGER reading -- it says the rewriting never "
+                "used the model's equations -- and the computation says it "
+                "did. Transport is now decided by the computed value, so this "
+                "claim licenses less than its declaration asks for."
+                if overclaimed else
+                "The computed value is what transport now uses; the "
+                "declaration understates what was established.")),
+            "Supersede the claim with `identity_origin: %s` and a "
+            "`discharge_kind` -- that field is LICENSING, so the correction "
+            "gets the second look it deserves. Leaving the two disagreeing "
+            "means the graph shows a reader one thing and acts on another."
+            % computed,
+            semantic_key=cid))
     return findings
 
 
@@ -2386,6 +2462,7 @@ def run(graph, accepted=None):
                 + check_doubts(graph)
                 + check_coefficients_in_base(graph)
                 + check_integral(graph)
+                + check_origin_contradiction(graph)
                 + check_evidence(graph)
                 + check_parallel_edges(graph)
                 + check_vacuous_conclusions(graph)
