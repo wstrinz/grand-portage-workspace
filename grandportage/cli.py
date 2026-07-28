@@ -279,6 +279,54 @@ def cmd_migrate(args):
     return 1 if manual else 0
 
 
+def _declare_epilog():
+    """The event kinds and their required fields, derived where possible.
+
+    Written out because a live session had to read `store.py`'s `_apply_*`
+    methods to learn what an `evidence` record needs. Vocabularies come from
+    the modules that own them, so this cannot drift from the validation the
+    way a hand-kept list would.
+    """
+    return (
+        "event kinds and their REQUIRED fields (all take `id` except note,\n"
+        "built_by and erratum):\n"
+        "\n"
+        "  model       what\n"
+        "  edge        src, dst, type, why\n"
+        "  claim       model|family, kind, statement\n"
+        "  inference   claim|premises, concludes_kind, asserted\n"
+        "  partition   parent, branches, exhaustive\n"
+        "  family      count, enumeration\n"
+        "  same_as     models, why\n"
+        "  built_by    model, inference\n"
+        "  evidence    for, method, ran, what   (+ agrees_with if REPLICATION)\n"
+        "  doubt       about, kind, why         (+ severity, default TRIAGE)\n"
+        "  citation    cites, resolves_to, why  (+ hazard)\n"
+        "  erratum     voids, why               (only for a record that will\n"
+        "                                        not fold; supersede one that\n"
+        "                                        does)\n"
+        "  verdict     WRITTEN BY `gp verify`, never declared\n"
+        "  note        text -- untyped prose, invisible to every rule\n"
+        "\n"
+        "vocabularies:\n"
+        "  edge type        %s\n"
+        "  claim kind       %s\n"
+        "  evidence method  %s\n"
+        "  doubt kind       %s\n"
+        "  doubt severity   %s\n"
+        "  established_by   %s\n"
+        "\n"
+        "to CHANGE something already declared, do not redeclare it -- send the\n"
+        "new version with `supersedes` and a `discharge_kind`. `gp why\n"
+        "supersession` explains the four kinds.\n"
+        % (", ".join(K.DECLARABLE_TYPES),
+           ", ".join(K.CLAIM_KINDS),
+           ", ".join(S.Graph.EVIDENCE_METHODS),
+           ", ".join(S.Graph.DOUBT_KINDS),
+           ", ".join(S.C_SEVERITIES),
+           ", ".join(K.ESTABLISHED_BY)))
+
+
 def cmd_declare(args):
     """Write events to the graph, transactionally.
 
@@ -466,9 +514,20 @@ def cmd_history(args):
         print()
 
     notes = [ev for _p, _n, ev in events if ev.get("ev") == "note"]
-    print("%d model(s)/edge(s)/claim(s)/inference(s) declared across %d log "
+    # THE TALLY COUNTED FOUR KINDS OUT OF TWELVE.  A live session wrote six
+    # events -- a claim, two evidence records, two doubts and a citation --
+    # and watched this number move by one.  A count that silently omits most
+    # of what you just wrote is worse than no count: it reads as confirmation
+    # that little happened.
+    kinds = [ev.get("ev") for _p, _n, ev in events]
+    said = ", ".join("%d %s" % (kinds.count(w), w)
+                     for w in ("evidence", "doubt", "citation", "verdict",
+                               "erratum")
+                     if kinds.count(w))
+    print("%d model(s)/edge(s)/claim(s)/inference(s)%s declared across %d log "
           "line(s); %d note(s) carried and never typed."
-          % (len(order), len(events), len(notes)))
+          % (len(order), (", " + said) if said else "",
+             len(events), len(notes)))
     if notes:
         print("A note is prose that happens to live in a JSONL file. If a "
               "load-bearing\npremise is in one, it is invisible to every rule "
@@ -775,6 +834,36 @@ def cmd_show(args):
     # whose field-independence I cannot check."  The certificate is the field
     # `derive_scope` calls the most load-bearing in the system, and the one
     # view a human is most likely to use was the one that hid it.
+    # WRITE-ONLY RECORDS ARE NOTES WITH A SCHEMA, which is the sharpest thing
+    # a live session said about this layer.  Six typed events went in; `gp
+    # show` rendered none of them and `gp history`'s tally moved by one.  The
+    # session recorded WHAT it ran and no read command would ever have shown
+    # that to the next reader -- the exact failure `gp history` warns about
+    # for untyped notes, now reproduced for records the checker validates.
+    for vid in sorted(g.evidence):
+        v = g.evidence[vid]
+        print("EVIDENCE %-13s %-12s for %s" % (vid, v["method"], v["for"]))
+        print("    ran: %s" % v["ran"])
+        for line in _wrap(v["what"]):
+            print("    " + line)
+        if v.get("agrees_with"):
+            print("    agrees with: %s" % v["agrees_with"])
+    for did in sorted(g.doubts):
+        d = g.doubts[did]
+        mark = "  [ANSWERED]" if d.get("answered") else ""
+        print("DOUBT %-16s %-12s about %s%s"
+              % (did, d["kind"], d["about"], mark))
+        for line in _wrap(d["why"]):
+            print("    " + line)
+    for kid in sorted(g.citations):
+        c = g.citations[kid]
+        print("CITATION %-13s %s" % (kid, c["cites"]))
+        print("    resolves to: %s" % c["resolves_to"])
+        for line in _wrap(c["why"]):
+            print("    " + line)
+        if c.get("hazard"):
+            for line in _wrap("HAZARD: " + c["hazard"]):
+                print("    " + line)
     for cid in sorted(g.claims):
         c = g.claims[cid]
         extra = []
@@ -997,9 +1086,17 @@ def build_parser():
                    help="report the verdicts without recording them")
     v.set_defaults(func=cmd_verify)
 
-    d = sub.add_parser("declare",
-                       help="write events to the graph, transactionally: "
-                            "they fold first or nothing is written")
+    # THE HELP NAMED NOT ONE EVENT KIND AND NOT ONE FIELD.  A live session
+    # reported reading `store.py`'s `_apply_*` methods to find out what an
+    # `evidence` or `doubt` record needs -- "that is the exact place a person
+    # looks, and it is empty".  A write command whose help omits what may be
+    # written is a door with no sign on it.
+    d = sub.add_parser(
+        "declare",
+        help="write events to the graph, transactionally: they fold first "
+             "or nothing is written",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=_declare_epilog())
     d.add_argument("--file", help="JSON file; omit to read stdin")
     d.set_defaults(func=cmd_declare)
 
