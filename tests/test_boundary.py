@@ -360,6 +360,9 @@ class _Stdin(object):
 _UNREACHABLE = [None]   # the reason, once we know it
 
 
+_PROBED = []
+
+
 def _singular_available():
     """Is the solver there?  And SAY WHICH WAY IT IS ABSENT when it is not.
 
@@ -376,6 +379,8 @@ def _singular_available():
     absences -- a missing binary and a slow one need different reactions, and
     reporting them identically is how the slow one hid for weeks.
     """
+    if _PROBED:
+        return _PROBED[0]
     try:
         p = subprocess.run(cas._argv() + ["--version"], capture_output=True,
                            timeout=180)
@@ -388,16 +393,25 @@ def _singular_available():
         _UNREACHABLE[0] = "Singular could not be started: %r" % (exc,)
         return False
     if p.returncode == 0 or b"Singular" in (p.stdout + p.stderr):
+        _PROBED.append(True)
         return True
     _UNREACHABLE[0] = ("Singular answered but did not identify itself "
                        "(rc=%s)" % p.returncode)
     return False
 
 
-_AVAILABLE = _singular_available()
-live = pytest.mark.skipif(
-    not _AVAILABLE,
-    reason=_UNREACHABLE[0] or "Singular not reachable")
+# THE PROBE IS LAZY, and that is what makes a fast loop possible at all.
+#
+# It used to run at MODULE IMPORT, so every invocation paid for it -- including
+# `-m "not live"`, which deselects the only tests that need it.  With the
+# timeout raised to 180s to stop a cold WSL being misread as an absent solver,
+# that fixed cost dominated the suite: 706 deselected-live tests still took 83
+# seconds, essentially all of it waiting for a probe nobody was going to use.
+#
+# So the marker is plain, and the skip happens inside the test via a fixture in
+# `conftest.py`, which runs the probe at most once and only if a live test is
+# actually about to execute.
+live = pytest.mark.live
 
 
 @live
