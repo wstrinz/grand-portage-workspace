@@ -1795,6 +1795,141 @@ def test_a_doubt_is_a_finding_a_person_writes():
     assert not [f for f in C.run(g2) if f.rule == C.R_DOUBT]
 
 
+def test_every_id_bearing_kind_can_be_superseded():
+    """GATE 4, and it exists because the same omission happened three times.
+
+    `supersedes` on a kind absent from `_SUPERSEDABLE` is accepted with no
+    existence check, no back-pointer and no kind validation. The write reports
+    success and does nothing, and the original record keeps firing forever --
+    the worst error class there is, because nothing signals it.
+
+    It happened to `edge` (fixed), then to `evidence`/`doubt`/`citation`
+    (fixed), then to `partition` -- where a live session superseded one to
+    repoint its exhaustiveness claim, reported that it worked, and it had not.
+    Three instances of one omission, each found by a user rather than by a
+    test.
+
+    So: every event kind that carries an id is superedable, or is named here
+    with a reason. `built_by` has no id; `erratum` and `verdict` are not
+    declarations, and correcting either means voiding or re-running rather
+    than superseding.
+    """
+    exempt = {
+        "built_by": "carries no id -- it is a link, not a record",
+        "erratum": "voids a record that will not fold; nothing to supersede",
+        "verdict": "written by a verifier, not declared; re-run instead",
+    }
+    missing = [k for k in S.EVENT_KINDS
+               if k not in exempt and k not in S.Graph._SUPERSEDABLE]
+    assert not missing, (
+        "these kinds carry an id and cannot be superseded, so `supersedes` on "
+        "one is silently accepted and does nothing: %s" % ", ".join(missing))
+
+    # AND EACH ONE NEEDS A FIELD SPLIT. Without an entry, a kind falls back to
+    # a CLAIM's fields -- so its changes are graded against `kind`/`model`/
+    # `statement`, which it does not have, and every supersession reads as an
+    # AMEND. Quieter than the no-op above and just as wrong.
+    #
+    # `claim` is the fallback itself. `edge` takes DERIVE/RETYPE/ACCEPT through
+    # a separate path and never reaches this table.
+    no_split = [k for k in S.Graph._SUPERSEDABLE
+                if k not in K.FIELD_SPLITS and k not in ("claim", "edge")]
+    assert not no_split, (
+        "these are superedable with no identifying/licensing split, so every "
+        "change to one grades as AMEND: %s" % ", ".join(no_split))
+
+
+def test_a_branch_is_covered_by_a_derived_conclusion_too():
+    """THE ONE PLACE A REAL MATHEMATICAL RESULT COULD NOT BE RECORDED.
+
+    A live session closed the last open branch of a three-way split with a
+    clean, licensed inference concluding EMPTY at that branch. It contributed
+    ZERO to coverage, because this rule looked at where a premise LIVES and
+    never at where a path LANDS.
+
+    Its two ways out were both worse than the gap: duplicate the derived
+    conclusion as a second claim -- double-counting one argument as two records
+    -- or inline the transport, which the partition path does not accept. It
+    accepted an obligation instead, and a completed argument went unsigned.
+
+    The graph reasoned about claims and edges and treated its own conclusions
+    as second-class. A conclusion the checker has LICENSED is better evidence
+    than a claim somebody declared, not worse.
+    """
+    evs = [
+        {"ev": "model", "id": "P", "what": "the parent"},
+        {"ev": "model", "id": "A", "what": "branch a"},
+        {"ev": "model", "id": "B", "what": "branch b"},
+        {"ev": "claim", "id": "EX", "model": "P", "kind": K.PREDICATE,
+         "statement": "a or b", "established_by": "CITED",
+         "ladder": "claimed"},
+        {"ev": "partition", "id": "PART", "parent": "P",
+         "branches": ["A", "B"], "exhaustive": "EX", "why": "a dichotomy"},
+        # Branch A: an ordinary declared EMPTY claim.
+        {"ev": "claim", "id": "CA", "model": "A", "kind": K.EMPTY,
+         "statement": "branch a is empty", "certificate": "UNIT_IDEAL_CERT",
+         "established_by": "RAN", "ladder": "exact-checked"},
+        # Branch B: emptiness DERIVED, and nothing is declared EMPTY at B.
+        # B is the TIGHTER model here, so EMPTY travels AGAINST from L to B.
+        {"ev": "model", "id": "L", "what": "a relaxation containing b"},
+        {"ev": "edge", "id": "E", "src": "B", "dst": "L",
+         "type": K.NECESSARY_CONDITION, "why": "drops an equation",
+         "map_kind": K.POLYNOMIAL},
+        {"ev": "claim", "id": "CL", "model": "L", "kind": K.EMPTY,
+         "statement": "the relaxation is empty",
+         "certificate": "UNIT_IDEAL_CERT", "established_by": "RAN",
+         "ladder": "exact-checked"},
+        {"ev": "inference", "id": "IB", "claim": "CL",
+         "path": [["E", K.AGAINST]], "concludes_kind": K.EMPTY,
+         "concludes_at": "B", "asserted": "so branch b is empty too"},
+    ]
+    # The premise of the derived leg must not itself sit at B.
+    assert not [e for e in evs if e.get("ev") == "claim"
+                and e.get("model") == "B"], (
+        "if a claim is declared EMPTY at B the fixture tests nothing new")
+    findings = C.run(_graph(evs))
+    covered = [f for f in findings
+               if f.rule == C.R_PARTITION and "covered" in f.fid]
+    assert covered, (
+        "both branches are now EMPTY -- one declared, one derived -- so the "
+        "parent's emptiness follows and the payoff case must fire")
+    assert "derived" in covered[0].detail, (
+        "and it must say which branch was closed by an argument rather than "
+        "by a declaration")
+
+
+def test_a_partition_whose_covering_claim_moved_says_so():
+    """A PARTITION WHOSE COVERING CLAIM IS SUPERSEDED IS UNSATISFIABLE, and it
+    was silent about it.
+
+    A live session superseded a claim to fix a wrong coordinate. The partition
+    whose `exhaustive` named that claim went on demanding the retired id, so
+    passing the live successor was refused with "the exhaustiveness claim is
+    not among the premises". Nothing warned at declare time and nothing warned
+    in `check`; the session found the cause by going looking.
+
+    Not merely stale. The only id that would satisfy the rule is retired, so
+    the partition cannot be satisfied at all.
+    """
+    g = _graph([
+        {"ev": "model", "id": "P", "what": "the parent"},
+        {"ev": "model", "id": "A", "what": "branch a"},
+        {"ev": "model", "id": "B", "what": "branch b"},
+        {"ev": "claim", "id": "EX", "model": "P", "kind": K.PREDICATE,
+         "statement": "a or b, with a typo", "established_by": "CITED",
+         "ladder": "claimed"},
+        {"ev": "partition", "id": "PART", "parent": "P",
+         "branches": ["A", "B"], "exhaustive": "EX", "why": "a dichotomy"},
+        {"ev": "claim", "id": "EX2", "model": "P", "kind": K.PREDICATE,
+         "statement": "a or b, corrected", "established_by": "CITED",
+         "ladder": "claimed", "supersedes": "EX",
+         "discharge_kind": K.RESTATE}])
+    stale = [f for f in C.run(g) if f.rule == C.R_STALE_REF]
+    assert [f.subject for f in stale] == ["PART"]
+    assert "EX2" in stale[0].discharge, (
+        "and the move must name the successor to repoint at")
+
+
 def test_answering_a_doubt_actually_retires_it():
     """THE WORST ERROR CLASS THERE IS: told the move, accepted the move,
     reported success, no-op.

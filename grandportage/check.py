@@ -50,6 +50,7 @@ R_CONTAINMENT = "CONTAINMENT"
 R_IDENTITY = "UNTESTED-IDENTITY"
 R_SIBLING = "SIBLING-EDGE"
 R_STALE_MODEL = "STALE-MODEL"
+R_STALE_REF = "STALE-REFERENCE"
 R_CITATION = "AMBIGUOUS-CITATION"
 R_DOUBT = "DOUBT"
 R_EVIDENCE = "EVIDENCE-GRADE"
@@ -859,9 +860,36 @@ def check_partitions(graph):
                 "becomes a joint argument over all %d branches rather than a "
                 "single hop." % (e["dst"], parent, len(branches))))
         # The payoff case, reported so it gets recorded rather than assumed.
-        empty_at = {b: sorted(cid for cid, c in graph.claims.items()
-                              if c.get("model") == b and c["kind"] == K.EMPTY)
-                    for b in branches}
+        # A BRANCH IS COVERED BY A DERIVED CONCLUSION TOO, and reading only
+        # claims made a real result unrecordable.
+        #
+        # A live session closed the last open branch of a three-way split with
+        # a clean, licensed inference concluding EMPTY at that branch -- and it
+        # contributed ZERO here, because this looked at where a premise LIVES
+        # and never at where a path LANDS. Its two ways out were both worse
+        # than the gap: duplicate the derived conclusion as a second claim,
+        # double-counting one argument as two records, or inline the transport,
+        # which the partition path does not accept. It accepted an obligation
+        # instead, and the campaign's completed argument went unsigned.
+        #
+        # The graph reasoned about claims and edges and treated its own
+        # conclusions as second-class. A conclusion the checker has LICENSED is
+        # better evidence than a claim somebody declared, not worse.
+        derived_at = {}
+        for iid in graph.inference_order:
+            inf = graph.inferences[iid]
+            if inf.get("superseded_by"):
+                continue
+            if inf.get("concludes_kind") != K.EMPTY:
+                continue
+            at = inf.get("concludes_at")
+            if at in branches:
+                derived_at.setdefault(at, []).append(iid)
+        empty_at = {b: sorted(
+            [cid for cid, c in graph.claims.items()
+             if c.get("model") == b and c["kind"] == K.EMPTY]
+            + ["%s (derived)" % i for i in derived_at.get(b, [])])
+            for b in branches}
         if all(empty_at[b] for b in branches):
             already = any(graph.inferences[i]["concludes_at"] == parent
                           and graph.inferences[i]["concludes_kind"] == K.EMPTY
@@ -1791,9 +1819,13 @@ def check_evidence(graph):
             "on the strength of an attached script is exactly how a citation "
             "drifts into a verification."
             % (vid, v["method"], v["ran"], v["for"], by),
-            "If the computation established the claim, regrade it RAN -- and "
-            "note that changing `established_by` is a RELICENSE, so it will "
-            "be looked at. If the computation only CORROBORATES something "
+            "If the computation established the claim, regrade it RAN. That "
+            "is an AMEND, not a RELICENSE -- evidence grading licenses "
+            "nothing, which is the whole point of keeping it on a separate "
+            "axis from transport. (This advice used to say RELICENSE, which "
+            "contradicted the field list and was caught by a session that "
+            "regraded under AMEND and was silently accepted.) If the "
+            "computation only CORROBORATES something "
             "read or cited, say so in the evidence's `what`, and leave the "
             "grade where it is.",
             semantic_key=v["for"]))
@@ -1882,6 +1914,77 @@ def check_citations(graph):
                 "succeeds on the wrong object rather than failing."
                 % (kind, c["id"]),
                 semantic_key=oid))
+    return findings
+
+
+def check_stale_references(graph):
+    """A live record still naming one that has been superseded.
+
+    SUPERSESSION REPOINTS NOTHING, and until now only two of the places that
+    matters had a rule. STALE-PREMISE catches an inference whose premise moved;
+    STALE-MODEL catches a claim or edge whose model moved. Everything else
+    pointed at corpses in silence.
+
+    A live session hit the worst version. It superseded a claim to fix a wrong
+    coordinate, and the PARTITION whose `exhaustive` named that claim became
+    quietly unsatisfiable -- the coverage rule went on demanding an id that no
+    longer answered, while the session passed the live successor and was
+    refused with "the exhaustiveness claim is not among the premises". Nothing
+    warned at declare time and nothing warned in `check`; it found the cause by
+    going looking. In the same graph an `evidence` record still named a
+    superseded claim and nothing noticed at all.
+
+    A partition whose covering claim is superseded is not merely stale: it is
+    UNSATISFIABLE, because the only id that would satisfy it is retired.
+    """
+    findings = []
+    def dead(oid):
+        for reg in (graph.claims, graph.inferences, graph.edges,
+                    graph.models, graph.evidence, graph.doubts,
+                    graph.citations):
+            r = reg.get(oid)
+            if r is not None:
+                return r.get("superseded_by")
+        return None
+
+    refs = []
+    for pid, p in sorted(graph.partitions.items()):
+        refs.append(("partition", pid, "exhaustive", p.get("exhaustive"),
+                     "the coverage rule demands this exact id, so the "
+                     "partition cannot be satisfied at all while it names a "
+                     "retired one"))
+    for vid, v in sorted(graph.evidence.items()):
+        if not v.get("superseded_by"):
+            refs.append(("evidence", vid, "for", v.get("for"),
+                         "this records a computation standing behind a claim "
+                         "that has been replaced"))
+    for did, d in sorted(graph.doubts.items()):
+        if not d.get("superseded_by") and not d.get("answered"):
+            refs.append(("doubt", did, "about", d.get("about"),
+                         "this doubt is aimed at a record that has moved, so "
+                         "it may already be answered or may no longer apply"))
+
+    for kind, oid, field, target, why in refs:
+        if not target:
+            continue
+        successor = dead(target)
+        if not successor:
+            continue
+        findings.append(Finding(
+            R_STALE_REF, "%s:%s" % (R_STALE_REF, oid), TRIAGE, oid,
+            "%s %s names %s in `%s`, and %s was superseded by %s.\n  %s"
+            % (kind, oid, target, field, target, S.successors(
+                graph.claims.get(target) or graph.inferences.get(target)
+                or graph.edges.get(target) or graph.models.get(target)
+                or graph.evidence.get(target) or graph.doubts.get(target)
+                or graph.citations.get(target) or {}), why),
+            "Supersede %s with the reference repointed at %s. Supersession "
+            "does not repoint anything on its own, deliberately -- a record "
+            "silently re-aimed at a successor it was never checked against is "
+            "the failure this refuses to automate."
+            % (oid, successor if isinstance(successor, str)
+               else ", ".join(successor)),
+            semantic_key=oid))
     return findings
 
 
@@ -2171,6 +2274,7 @@ def run(graph, accepted=None):
                 + check_identity(graph)
                 + check_sibling_edges(graph)
                 + check_stale_models(graph)
+                + check_stale_references(graph)
                 + check_citations(graph)
                 + check_doubts(graph)
                 + check_evidence(graph)

@@ -1132,8 +1132,22 @@ NOT_REACHED = "NOT_REACHED"    # out of reach in this environment
 DERIVED = "DERIVED"
 ESTABLISHED_BY = (RAN, READ, CITED, DERIVED, NOT_REACHED)
 
-LADDER = ("open", "claimed", "exact-checked", "independently-audited",
-          "certified")
+# `derivation-checked` -- the argument was made HERE and a computation
+# confirmed its arithmetic, without the computation having established it.
+#
+# ADDING `DERIVED` TO ONE AXIS LEFT THE OTHER TOO NARROW, and a live session
+# found the gap immediately: it proved a result, wrote a script that re-checked
+# every number in the proof, and had nowhere above `claimed` to put it --
+# because `exact-checked` asserts a checker ESTABLISHED the claim, which would
+# be false.  So a proof with its arithmetic verified sat on the same rung as a
+# bare assertion, next to a claim whose only support was a citation.
+#
+# It is deliberately NOT in LADDER_ASSERTS_A_RUN.  That set exists to catch a
+# grade claiming a run nobody recorded; this grade claims a run CONFIRMED an
+# argument, which is a weaker and different thing, and the argument is what
+# carries the claim.
+LADDER = ("open", "claimed", "derivation-checked", "exact-checked",
+          "independently-audited", "certified")
 
 # Combinations that cannot both be true.  Not a soundness rule -- nothing here
 # licenses a transport -- but a record that says two incompatible things about
@@ -1158,6 +1172,11 @@ IMPOSSIBLE_EVIDENCE = {
         "a derivation is an argument, not a checker run.  If a computation "
         "confirmed it, the grade is RAN and the derivation is what you ran it "
         "against",
+    (CITED, "derivation-checked"):
+        "a citation is somebody else's argument.  `derivation-checked` says "
+        "YOU made the argument and checked its arithmetic",
+    (NOT_REACHED, "derivation-checked"):
+        "nothing was checked by a computation that was out of reach",
     (DERIVED, "independently-audited"):
         "one derivation is not a second implementation agreeing.  Two people "
         "deriving it separately is a REPLICATION -- record that as evidence",
@@ -1417,6 +1436,31 @@ NOTE_LICENSING_FIELDS = ()
 # changes what it does.  `answered` retires a doubt and `decides` changes what
 # an enumeration may be read as supporting, so both are licensing -- adding
 # either is a RELICENSE, which is exactly the second look they deserve.
+# THE THIRD TIME A KIND WAS LEFT OUT OF SUPERSESSION, so the remaining four go
+# in together and a gate below keeps the list honest.
+#
+# A live session superseded a PARTITION to repoint its exhaustiveness claim,
+# reported that it "worked", and it did not -- partitions were not superedable
+# either, so the old one stayed live and went on demanding a retired id. The
+# same silent no-op that had just been fixed for evidence, doubts and
+# citations, in a kind nobody thought to check.
+#
+# What LICENSES, in each case, is the field that decides what the record lets
+# through: a certificate's base_changes decides whether an emptiness survives
+# a field extension; a partition's exhaustive is the whole of its coverage
+# claim; a family's members decide what a COUNT is counting.
+CERTIFICATE_IDENTIFYING_FIELDS = ("why",)
+CERTIFICATE_LICENSING_FIELDS = ("base_changes",)
+
+PARTITION_IDENTIFYING_FIELDS = ("parent", "branches")
+PARTITION_LICENSING_FIELDS = ("exhaustive",)
+
+FAMILY_IDENTIFYING_FIELDS = ("count", "enumeration")
+FAMILY_LICENSING_FIELDS = ("members",)
+
+SAME_AS_IDENTIFYING_FIELDS = ("models",)
+SAME_AS_LICENSING_FIELDS = ()
+
 EVIDENCE_IDENTIFYING_FIELDS = ("for", "method", "ran")
 EVIDENCE_LICENSING_FIELDS = ("decides", "agrees_with")
 
@@ -1441,6 +1485,28 @@ class SupersessionError(KernelRefusal):
     """A supersession whose declared kind does not match what changed."""
 
 
+# THE FIELD SPLIT PER RECORD KIND, at module level so a gate can check that
+# every superedable kind has one.  Inside the function it was unreachable,
+# and a kind with no entry silently falls back to a CLAIM's fields -- which
+# grades its changes against the wrong list rather than failing.
+FIELD_SPLITS = {
+
+    "inference": (INFERENCE_IDENTIFYING_FIELDS,
+                  INFERENCE_LICENSING_FIELDS),
+    "model": (MODEL_IDENTIFYING_FIELDS, MODEL_LICENSING_FIELDS),
+    "note": (NOTE_IDENTIFYING_FIELDS, NOTE_LICENSING_FIELDS),
+    "evidence": (EVIDENCE_IDENTIFYING_FIELDS, EVIDENCE_LICENSING_FIELDS),
+    "doubt": (DOUBT_IDENTIFYING_FIELDS, DOUBT_LICENSING_FIELDS),
+    "citation": (CITATION_IDENTIFYING_FIELDS, CITATION_LICENSING_FIELDS),
+    "certificate": (CERTIFICATE_IDENTIFYING_FIELDS,
+                    CERTIFICATE_LICENSING_FIELDS),
+    "partition": (PARTITION_IDENTIFYING_FIELDS,
+                  PARTITION_LICENSING_FIELDS),
+    "family": (FAMILY_IDENTIFYING_FIELDS, FAMILY_LICENSING_FIELDS),
+    "same_as": (SAME_AS_IDENTIFYING_FIELDS, SAME_AS_LICENSING_FIELDS),
+}
+
+
 def classify_supersession(old, new, entity="claim"):
     """What ACTUALLY changed between two versions of a claim or inference.
 
@@ -1448,15 +1514,8 @@ def classify_supersession(old, new, entity="claim"):
     reports the strongest category of change it finds, so nothing here depends
     on what the author believes they did.
     """
-    ident, lic = {
-        "inference": (INFERENCE_IDENTIFYING_FIELDS,
-                      INFERENCE_LICENSING_FIELDS),
-        "model": (MODEL_IDENTIFYING_FIELDS, MODEL_LICENSING_FIELDS),
-        "note": (NOTE_IDENTIFYING_FIELDS, NOTE_LICENSING_FIELDS),
-        "evidence": (EVIDENCE_IDENTIFYING_FIELDS, EVIDENCE_LICENSING_FIELDS),
-        "doubt": (DOUBT_IDENTIFYING_FIELDS, DOUBT_LICENSING_FIELDS),
-        "citation": (CITATION_IDENTIFYING_FIELDS, CITATION_LICENSING_FIELDS),
-    }.get(entity, (IDENTIFYING_FIELDS, LICENSING_FIELDS))
+    ident, lic = FIELD_SPLITS.get(
+        entity, (IDENTIFYING_FIELDS, LICENSING_FIELDS))
     moved = [f for f in ident if old.get(f) != new.get(f)]
     if moved:
         return RESTATE, moved

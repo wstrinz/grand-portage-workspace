@@ -404,6 +404,12 @@ def cmd_declare(args):
             "    gp declare --file events.json\n"
             "    echo '{\"ev\":\"note\",\"text\":\"...\"}' | gp declare\n")
         return 2
+    # A BOM IS NOT A SYNTAX ERROR, it is a Windows editor being helpful.
+    # `Set-Content -Encoding utf8` in Windows PowerShell 5.1 writes one, and
+    # this refused the file with "Unexpected UTF-8 BOM" -- a message that
+    # diagnoses the problem perfectly and still costs a minute nobody needed
+    # to spend, since the fix is one strip.
+    raw = raw.lstrip("﻿")
     try:
         events = json.loads(raw)
     except ValueError as exc:
