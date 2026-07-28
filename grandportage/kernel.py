@@ -352,6 +352,35 @@ _COEFFICIENTS_IN_BASE = "coefficients_in_base"
 # ---------------------------------------------------------------------------
 _ZARISKI_DENSE = "zariski_dense"
 
+# ---------------------------------------------------------------------------
+# THE EXISTENTIAL READING, and this is the register's own prescription cashed.
+#
+# NONEMPTY is pinned to the WITNESS reading -- "here is a point p" -- because
+# that is the claim every entry in the corpus actually made.  The two readings
+# diverge in exactly ONE cell, IMAGE_CLOSURE/AGAINST/NONEMPTY:
+#
+#   existential  cl(S) nonempty => S nonempty, since cl(empty) = empty.  TRUE.
+#   witness      0 lies in cl(G_m) and not in G_m.  FALSE -- this is Chevalley.
+#
+# `discharge.KNOWN_CONSERVATISM` has carried that cell since v0.2 with a
+# standing note: the refusal "is a false refusal only for an existential
+# nonemptiness, WHICH NOTHING HAS YET RECORDED", and a pre-written upgrade --
+# "when an existential claim first appears: a claim-level `existential` flag
+# making this ONE cell conditional.  Not a second claim kind, which would add
+# ten rows to distinguish one."
+#
+# A fourth domain recorded one.  A toric phase was asserted nonempty because
+# its class is nonzero in the Chow ring, which FORCES a point without producing
+# one -- an existence proof, not a witness.  The trigger the register named has
+# occurred, so the upgrade it specified is earned rather than speculative, and
+# it is implemented exactly as written: one flag, one cell.
+#
+# It is deliberately NOT a second claim kind and NOT a widening of any other
+# cell.  Everywhere else the two readings agree, which is why the ambiguity was
+# harmless for as long as it lasted.
+# ---------------------------------------------------------------------------
+_EXISTENTIAL = "existential"
+
 # ===========================================================================
 # THE TRANSPORT TABLE.  This is the whole type system.
 # ===========================================================================
@@ -461,7 +490,7 @@ TRANSPORT = {
                   IDENTITY: _MAP_POLYNOMIAL},
         # A point of the closure need NOT lift: NONEMPTY does not travel here.
         # That single cell is Chevalley.
-        AGAINST: {EMPTY: True, NONEMPTY: False, PREDICATE: True,
+        AGAINST: {EMPTY: True, NONEMPTY: _EXISTENTIAL, PREDICATE: True,
                   IDENTITY: _MAP_POLYNOMIAL},
     },
     SPECIALIZATION: {
@@ -633,7 +662,8 @@ def derive_identity_origin(kind, origin, claim_id="<claim>"):
 def transport(etype, direction, kind, scope=None, certificate=None,
               map_kind=IDENTITY_MAP, zariski_closed=None,
               identity_origin=None, integral=None, ring_iso=None,
-              coefficients_in_base=None, zariski_dense=None):
+              coefficients_in_base=None, zariski_dense=None,
+              existential=None):
     """Return a Ruling for moving a claim of `kind` across an edge of `etype`.
 
     Deliberately takes plain values rather than objects: the kernel must be
@@ -674,6 +704,26 @@ def transport(etype, direction, kind, scope=None, certificate=None,
                       "SCHEME; this claim has scope %r (certificate %s, which "
                       "does not base-change)"
                       % (BASE_EXTENSION, scope, certificate), _SCHEME_SCOPE)
+    if rule == _EXISTENTIAL:
+        if existential:
+            return ruling(
+                True,
+                "licensed: this NONEMPTY is EXISTENTIAL -- it asserts a point "
+                "exists without holding one -- and the closure of the empty "
+                "set is empty, so a nonempty closure forces a nonempty image",
+                _EXISTENTIAL)
+        return ruling(
+            False,
+            "a point of the Zariski closure need not lift to the image "
+            "(Chevalley): 0 lies in the closure of G_m and not in G_m.  That "
+            "is decisive for a WITNESS -- a claim holding a specific point -- "
+            "and it is NOT decisive for an existence proof, because "
+            "cl(empty) = empty, so a nonempty closure does force a nonempty "
+            "image.  If this claim exhibits a point, the refusal stands and "
+            "the discharge is to lift it.  If it only proves one EXISTS, "
+            "declare `existential: true` and say how existence was "
+            "established without a witness",
+            _EXISTENTIAL)
     if rule == _ZARISKI_DENSE:
         if zariski_dense:
             return ruling(

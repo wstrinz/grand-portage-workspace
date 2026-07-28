@@ -600,3 +600,30 @@ def test_every_ledger_row_carries_an_argument():
     assert not weak, (
         "these ledger rows assert a verdict without arguing for it:\n  %s"
         % "\n  ".join("%s / %s / %s" % k for k in weak))
+
+
+@cell(K.IMAGE_CLOSURE, K.AGAINST, K.NONEMPTY, True, existential=True)
+def test_ic_against_nonempty_existential():
+    """CONDITION discharged, and the condition was PRESCRIBED FOUR VERSIONS
+    BEFORE IT WAS NEEDED.
+
+    PROOF given it. `cl(empty) = empty`, so a nonempty closure forces a
+    nonempty image. This is the exact contrapositive of IMAGE_CLOSURE / ALONG /
+    EMPTY.
+
+    The cell above it -- the same cell without the flag -- stays REFUTED, and
+    the two rows together are the whole content of the distinction: 0 lies in
+    the closure of G_m and not in G_m, which kills the WITNESS reading and says
+    nothing about the existential one.
+
+    `KNOWN_CONSERVATISM` carried this since v0.2 with the trigger named in
+    advance -- a false refusal "only for an existential nonemptiness, which
+    nothing has yet recorded" -- and the repair specified: a claim-level flag
+    making this ONE cell conditional, not a second claim kind. A fourth domain
+    recorded the first one: a toric phase asserted nonempty because its class
+    is nonzero in the Chow ring, which forces a point without producing one.
+
+    `store` refuses `existential` together with an EXHIBITED witness. A claim
+    that HAS the point is refused here for the opposite and equally good
+    reason, so being both is not a stronger claim, it is two claims.
+    """

@@ -1703,7 +1703,8 @@ def test_the_readme_transport_table_matches_the_kernel():
     with open(readme, encoding="utf-8") as fh:
         text = fh.read()
 
-    words = {"zariski_dense": "if Zariski-dense",
+    words = {"existential": "if existential",
+             "zariski_dense": "if Zariski-dense",
              "ambient_identity": "if ambient",
              "ring_isomorphism": "if ring iso",
              "coefficients_in_base": "if defined over base",

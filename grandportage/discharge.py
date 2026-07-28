@@ -435,8 +435,24 @@ KNOWN_CONSERVATISM = [
             "conservatism is that it is visible when it starts to bite."),
     },
     {
+        # THE UPGRADE THIS ENTRY SPECIFIED HAS LANDED, so the cell is no
+        # longer a blanket refusal and this row records a DISCHARGED
+        # conservatism rather than a live one.
+        #
+        # The entry stood since v0.2 saying the refusal "is a false refusal
+        # only for an existential nonemptiness, WHICH NOTHING HAS YET
+        # RECORDED", and prescribed the repair in advance: a claim-level flag
+        # making this ONE cell conditional. A fourth domain then recorded the
+        # first existential nonemptiness -- a toric phase asserted nonempty
+        # because its class is nonzero in the Chow ring, which forces a point
+        # without producing one. Trigger named before the fact, condition met,
+        # repair implemented as written.
+        #
+        # It stays in the register because the CONSERVATISM is still real for
+        # a witness claim, which is every other claim in the corpus: that
+        # refusal is Chevalley and is not going anywhere.
         "cell": (K.IMAGE_CLOSURE, K.AGAINST, K.NONEMPTY),
-        "kernel_says": False,
+        "kernel_says": "existential",
         "truth": (
             "Sound under the EXISTENTIAL reading of NONEMPTY, unsound under the "
             "WITNESS reading, and the table can encode only one.  If NONEMPTY "

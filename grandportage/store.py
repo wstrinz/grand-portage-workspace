@@ -574,6 +574,27 @@ class Graph(object):
         # certificate, existence needs to say how the point is known.
         c["witness_kind"] = K.derive_witness_kind(
             ev["kind"], ev.get("witness_kind"), claim_id=ev["id"])
+        # AN EXISTENTIAL CLAIM CANNOT ALSO EXHIBIT A POINT.
+        #
+        # `existential` says "a point exists and I do not hold it" -- it is the
+        # WEAKER reading, and it exists to open one cell that the witness
+        # reading correctly closes.  Declaring it alongside an EXHIBITED
+        # witness is not merely redundant: it would take a claim that HAS a
+        # point and use it to cross the one edge where having the point is the
+        # reason the crossing fails.  That is Chevalley pointing the wrong way.
+        _require(not (ev.get("existential")
+                      and c["witness_kind"] == K.EXHIBITED),
+                 "%s: claim %r declares `existential` AND exhibits a witness. "
+                 "Those are the two readings of NONEMPTY and this claim cannot "
+                 "be both.\n"
+                 "  `existential` is the WEAKER one -- a point exists, you do "
+                 "not hold it -- and it opens IMAGE_CLOSURE/AGAINST precisely "
+                 "because cl(empty) = empty.  A claim that HAS the point is "
+                 "refused at that cell for the opposite and equally good "
+                 "reason: a point of the closure need not lift.\n"
+                 "  If you hold the point, drop `existential` and lift it. If "
+                 "you only proved one exists, drop the witness."
+                 % (where, ev["id"]))
         # Evidence grading licenses nothing, so both fields are optional -- an
         # ungraded claim is merely ungraded.  What is refused is a grade that
         # is WRONG, including a pair that contradicts itself.

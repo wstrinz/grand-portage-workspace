@@ -30,7 +30,7 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->575<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->576<!--/checks--> checks, live against Singular 4.2.1,
 and it has had four live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
@@ -97,7 +97,7 @@ code applying it cannot drift apart.
 | `BASE_EXTENSION` | **ALONG** | **only with a certificate** | **yes** | NO | yes |
 | `BASE_EXTENSION` | AGAINST | yes | NO | yes | if defined over base |
 | `IMAGE_CLOSURE` | ALONG | NO | yes | if Zariski-closed | if denominator-free |
-| `IMAGE_CLOSURE` | **AGAINST** | yes | **NO** | yes | if denominator-free |
+| `IMAGE_CLOSURE` | **AGAINST** | yes | **if existential** | yes | if denominator-free |
 | `SPECIALIZATION` | ALONG | **NO** | **NO** | NO | if p-integral |
 | `SPECIALIZATION` | AGAINST | **NO** | **NO** | NO | NO |
 | `RESTRICTION` | **ALONG** | NO | yes | **NO** | if Zariski-dense |
@@ -120,6 +120,12 @@ Three rows carry most of the value:
   closure need not lift. This is why elimination is a sound way to *derive*
   equations and an unsound source of *witnesses* — and why a cell that survives
   everything is an artifact candidate rather than a reason to buy solver time.
+  The cell is conditional because `NONEMPTY` has two readings and they diverge
+  here alone: a claim that **holds a point** is refused, and one that only
+  proves a point **exists** may cross, since the closure of the empty set is
+  empty. The register carried that gap for four versions with the repair
+  written out, and a campaign finally recorded an existence proof with no
+  witness.
 * **`SPECIALIZATION` carries nothing.** char 0 → char p transports no existence
   statement in either direction, and that is a theorem, not caution: Fano is
   empty over `Q` and nonempty over `F₂`, non-Fano is the reverse.
@@ -170,7 +176,7 @@ Pure stdlib. No solver, no network, no model in the loop. Under a second.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->575<!--/checks--> checks
+python -m pytest        # <!--checks-->576<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two
