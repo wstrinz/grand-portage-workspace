@@ -37,11 +37,27 @@ for the first, written up in full.
 * [DESIGN.md](DESIGN.md) — architecture and the decisions behind it
 * [REVIEW.md](REVIEW.md) — **where I am least confident**, for a reviewer
 
-Three further documents — `HANDOFF.md`, `TESTPLAN.md` and `KILL-CRITERIA.md` —
-live in the private workspace only, because the first two describe traps in
-blind trials that have not been run yet. This file used to link them anyway,
-which is a broken link for every reader of the public repository and exactly
-the kind of drift the check-count spans exist to prevent.
+Five further documents live in the private workspace only — `HANDOFF.md` and
+`TESTPLAN.md` because they describe traps in blind trials not yet run, and
+`SCOPE.md`, `KILL-CRITERIA.md` and `EXPERIMENT-B.md` because they name live
+campaigns. This file used to *link* the first three, which is a broken link
+for every reader here and exactly the kind of drift the check-count spans
+exist to prevent.
+
+What they contain, since the summaries name no domain:
+
+* **`SCOPE.md`** — the boundary is a *semantic regime*, not a syntax class.
+  This kernel is for exact affine algebra; ordered-field inequalities,
+  optimisation, certified numerics and finite censuses are different regimes
+  that have each been met in live work and recorded in affine vocabulary
+  because that was the vocabulary available.
+* **`KILL-CRITERIA.md`** — what would show this is not worth continuing,
+  written before the answer is known, because friction is always
+  reinterpretable as rigour.
+* **`EXPERIMENT-B.md`** — hand-declared relation types measured against 57
+  live edges: **88% accurate**, and the errors are mostly not about
+  operations. That result is why the operation-constructor layer is three
+  functions rather than sixteen.
 
 | layer | module | what it does |
 |---|---|---|
