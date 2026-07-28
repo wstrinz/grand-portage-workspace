@@ -229,4 +229,37 @@ theorem ringIso_of_checks {R S : Type u} [Sub R] [Sub S]
     EqMod I f g ↔ EqMod J (φ f) (φ g) :=
   ringIso_both_ways φ hφ ⟨hfwd, reflects_of_pullsBack φ ψ hback hround⟩
 
+/-! ## `integral` — the fourth shape, and it is partiality
+
+Reduction mod `p` is not a total map on `ℤ_(p)`-coefficients: it is undefined
+on anything with `p` in its denominator.  The kernel's own instance is
+`d2 = h_2 - (3/8)h_1²`, which travels a perfectly polynomial map and does not
+reduce mod 2 because 8 = 2³.
+
+So `integral` is not a property of a map — it is the question of whether the
+map is DEFINED at this claim.  Modelled with a partial map, the transport
+theorem simply gains a definedness hypothesis, and nothing else changes. -/
+
+/-- A partial map, which is what reduction mod `p` actually is. -/
+def Defined {R S : Type u} (φ : R → Option S) (x : R) : Prop := (φ x).isSome
+
+/-- Transport across a partial map needs it defined at the difference.  The
+    conclusion is about the images, so there is nothing to say when there are
+    no images -- and that is the whole content of the gate. -/
+theorem partial_transport {R S : Type u} [Sub R] [Sub S]
+    (φ : R → Option S) {I : Ideal R} {J : Ideal S}
+    (hcarry : ∀ f y, I f → φ f = some y → J y)
+    {f g : R} {d : S} (hdef : φ (f - g) = some d) :
+    EqMod I f g → J d :=
+  fun hfg => hcarry _ _ hfg hdef
+
+/-- And the failure is not a false claim -- it is the absence of one.  With the
+    map undefined there is no image to state anything about, which is the same
+    shape as `coefficients_in_base`: the descended statement "is not a false
+    claim, it is not a claim". -/
+theorem undefined_gives_nothing {R S : Type u} [Sub R]
+    (φ : R → Option S) {f g : R} (h : φ (f - g) = none) :
+    ¬ Defined φ (f - g) := by
+  simp [Defined, h]
+
 end GrandPortage
