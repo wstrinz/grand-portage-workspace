@@ -12,6 +12,7 @@ BOUNDARY and BOOKKEEPING defects -- the ones that were invisible to the
 mathematics and therefore to every existing test.
 """
 
+import inspect
 import json
 import os
 import sys
@@ -1664,6 +1665,79 @@ def test_the_identity_cell_does_not_send_you_after_denominators():
     assert K.transport(K.RESTRICTION, K.ALONG, K.IDENTITY).licensed, (
         "the cell is unconditional; if this ever refuses again it needs a "
         "move, and that move must not be the denominator one")
+
+
+def test_a_witness_cannot_cross_between_partition_branches():
+    """THE OTHER HALF OF THE BUG PARTITIONS WERE BUILT TO FIX.
+
+    `check_partitions` reasons that branch = parent AND condition, so an edge
+    drawn parent -> branch asserts the reverse and is consistent only if the
+    parent is empty.  The identical argument applies SIDEWAYS -- an edge
+    between two branches asserts a containment between models whose case
+    conditions are mutually exclusive -- and nothing made it.
+
+    Measured before the rule existed: this exact fixture produced ZERO findings
+    and reported the inference CLEAN.  A witness exhibited in the gamma=3
+    branch transported into the gamma=4 branch, licensed.
+
+    It hid because the cells that refuse GENERICALLY -- EMPTY along a
+    NECESSARY_CONDITION -- made the shape look handled.  NONEMPTY along the
+    same edge is licensed, and there the hole is visible.
+    """
+    evs = [
+        {"ev": "model", "id": "P", "what": "the parent"},
+        {"ev": "model", "id": "A", "what": "the gamma=3 branch"},
+        {"ev": "model", "id": "B", "what": "the gamma=4 branch"},
+        {"ev": "claim", "id": "EX", "model": "P", "kind": K.PREDICATE,
+         "statement": "gamma is 3 or 4", "established_by": "CITED",
+         "ladder": "claimed"},
+        {"ev": "partition", "id": "PART", "parent": "P",
+         "branches": ["A", "B"], "exhaustive": "EX", "why": "a dichotomy"},
+        {"ev": "edge", "id": "E_AB", "src": "A", "dst": "B",
+         "type": K.NECESSARY_CONDITION, "why": "drops the case condition",
+         "map_kind": K.POLYNOMIAL},
+        {"ev": "claim", "id": "C1", "model": "A", "kind": K.NONEMPTY,
+         "statement": "a point with gamma=3", "witness_kind": "EXHIBITED",
+         "established_by": "RAN", "ladder": "exact-checked"},
+        {"ev": "inference", "id": "I1", "claim": "C1",
+         "path": [["E_AB", K.ALONG]], "concludes_kind": K.NONEMPTY,
+         "asserted": "so the gamma=4 branch has a point too"},
+    ]
+    g = _graph(evs)
+    findings = C.run(g)
+    assert [f for f in findings if f.rule == C.R_SIBLING], (
+        "an edge between two branches of one partition must be flagged")
+    assert "I1" not in C.clean_inferences(g, findings), (
+        "and the inference riding it must not be reported as a positive "
+        "control -- printing a refusal and a clean bill for the same argument "
+        "gives a reader no way to reconcile them")
+
+
+def test_clean_inferences_ignore_triage_and_respect_derived_severity():
+    """WHAT `clean` MUST AND MUST NOT COUNT, both learned by getting it wrong.
+
+    `clean_inferences` is the credibility number: the count a reader uses to
+    decide the checker is not simply refusing everything.  It counted only
+    TRANSPORT findings, so an argument riding an edge flagged by any other rule
+    was promoted into it.  Fixing that naively broke it twice:
+
+      TOO TIGHT.  Excluding on ANY finding dropped two pinned positive
+      controls carrying VACUOUS-CONCLUSION at TRIAGE -- transport entirely
+      correct, conclusion merely uninteresting.  That is what a positive
+      control IS.
+
+      TOO LOOSE.  Excluding on the OVERRIDDEN severity let the one inference in
+      the corpus that talks its own severity down reappear as clean.  An
+      argument the checker refused is not evidence the checker declines to
+      refuse sound arguments, however deliberately its author carries it.
+    """
+    assert C.SEVERITY_RANK[C.TRIAGE] < C.SEVERITY_RANK[C.UNSOUND_PREMISE], (
+        "the filter is a severity comparison; if this ordering changes the "
+        "reasoning above needs rechecking")
+    src = inspect.getsource(C.clean_inferences)
+    assert "derived_severity" in src, (
+        "clean must be computed from what the CHECKER concluded, not from a "
+        "severity the author overrode")
 
 
 def test_no_message_points_at_a_command_that_does_not_exist():

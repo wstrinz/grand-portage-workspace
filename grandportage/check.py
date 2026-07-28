@@ -47,6 +47,7 @@ R_DIRECTION = "EVIDENCE-DIRECTION"
 R_CROSSCUT = "CROSS-CUT"
 R_CONTAINMENT = "CONTAINMENT"
 R_IDENTITY = "UNTESTED-IDENTITY"
+R_SIBLING = "SIBLING-EDGE"
 
 EXISTENCE_OPPOSITE = {K.EMPTY: K.NONEMPTY, K.NONEMPTY: K.EMPTY}
 
@@ -1668,6 +1669,78 @@ def check_containment(graph):
     return findings
 
 
+def check_sibling_edges(graph):
+    """An edge between two branches of the same partition.
+
+    THE OTHER HALF OF THE BUG PARTITIONS WERE BUILT TO FIX, and it sat
+    unnoticed while the first half had a rule, a docstring and two live
+    instances behind it.
+
+    `check_partitions` reasons: branch = parent AND condition, so V(branch)
+    subset V(parent), and an edge drawn parent -> branch asserts the reverse --
+    consistent only if the parent is empty, which is invariably the thing under
+    proof.  Exactly the same argument applies SIDEWAYS and nothing made it:
+
+        A = parent AND c1,  B = parent AND c2,  c1 and c2 exclusive.
+        An edge A -> B asserts V(A) subset V(B), i.e. V(A) subset V(A and B)
+        = V(empty condition).  Consistent only if V(A) is empty.
+
+    Measured before writing this: a partition with branches A and B, a
+    NECESSARY_CONDITION edge from A to B, and an EXHIBITED witness at A
+    transporting ALONG it produced ZERO findings and the inference was reported
+    CLEAN.  The witness crossed into a branch its own case condition excludes.
+
+    Why nothing caught it: the cells that refuse generically (EMPTY along a
+    NECESSARY_CONDITION) hid the shape, because the refusal looked correct and
+    came from the transport table rather than from anything knowing about
+    partitions.  NONEMPTY along the same edge is licensed, and there the hole
+    is visible.
+
+    THE SOURCE BEING EMPTY IS THE ONE HONEST CASE, so the finding says so
+    rather than refusing outright -- if V(A) really is empty the edge is
+    vacuously fine, and the right move is to record that emptiness as a claim
+    where the checker can see it.
+    """
+    findings = []
+    branch_of = {}
+    for pid in sorted(graph.partitions):
+        for b in graph.partitions[pid].get("branches") or []:
+            branch_of.setdefault(b, []).append(pid)
+    dead = withdrawn_edges(graph)
+    for eid in sorted(graph.edges):
+        if eid in dead:
+            continue
+        e = graph.edges[eid]
+        shared = sorted(set(branch_of.get(e.get("src"), []))
+                        & set(branch_of.get(e.get("dst"), [])))
+        if not shared:
+            continue
+        pid = shared[0]
+        findings.append(Finding(
+            R_SIBLING, "%s:%s" % (R_SIBLING, eid), UNSOUND_PREMISE, eid,
+            "edge %s runs from %s to %s, and both are branches of partition "
+            "%s.\n"
+            "  Branches are pieces of the parent under MUTUALLY EXCLUSIVE "
+            "conditions, so this edge asserts V(%s) subset V(%s) for two "
+            "models whose case conditions cannot both hold. That is "
+            "consistent only if V(%s) is EMPTY -- which, in every campaign "
+            "that has drawn this, was the thing under proof.\n"
+            "  It is the same error a partition exists to prevent, turned "
+            "sideways: there the branch was typed as a total containment of "
+            "the parent, here as a containment of its sibling."
+            % (eid, e.get("src"), e.get("dst"), pid,
+               e.get("src"), e.get("dst"), e.get("src")),
+            "If %s really is empty, record that as an EMPTY claim -- then the "
+            "edge is vacuous and nothing needs to cross it. If it is not "
+            "empty, this is not an edge: the two branches are related through "
+            "their PARENT, so route the argument branch -> parent -> branch "
+            "and let each leg be typed on its own. If the conclusion needs "
+            "every branch, that is what the partition's exhaustiveness claim "
+            "is for." % e.get("src"),
+            semantic_key=eid))
+    return findings
+
+
 def check_identity(graph):
     """Report identities that nothing has put to the one test that decides them.
 
@@ -1819,6 +1892,7 @@ def run(graph, accepted=None):
                 + check_crosscuts(graph)
                 + check_containment(graph)
                 + check_identity(graph)
+                + check_sibling_edges(graph)
                 + check_parallel_edges(graph)
                 + check_vacuous_conclusions(graph)
                 + check_self_built(graph))
@@ -1846,10 +1920,57 @@ def clean_inferences(graph, findings):
     same failure as `gp check` exiting 0 on a graph nobody audited, which the
     reporting project's own trap list phrases as "a checker that exits 0 has
     not necessarily proved its claim".
+
+    AND IT COUNTED ONLY `TRANSPORT` FINDINGS, which is the same mistake in a
+    quieter register.  An inference whose every step was licensed by the table,
+    riding an edge that some OTHER rule had flagged, was promoted into the
+    clean list -- so an argument crossing an edge whose central containment
+    failed verification, or an edge between two mutually exclusive branches of
+    a partition, was reported as a positive control.
+
+    Found while closing the sibling-edge hole: the fixture that produced the
+    new UNSOUND_PREMISE finding also produced `clean inferences: ['I1']`, for
+    the inference riding the very edge that had just been flagged.  A reader
+    gets both statements and no way to reconcile them.
+
+    So clean now means: nothing UNSOUND on it, on its route, or on its
+    premises.  The number gets smaller and starts meaning what its own
+    docstring says it means.
+
+    SEVERITY, NOT MERE PRESENCE, and the first version of this fix got that
+    wrong.  Filtering on "any finding at all" dropped two pinned positive
+    controls carrying VACUOUS-CONCLUSION at TRIAGE -- inferences whose
+    transport is entirely correct and whose conclusion happens to be
+    uninteresting because its model was proved empty elsewhere.  Those are
+    exactly what a positive control IS: the checker declining to refuse a
+    sound step.  A TRIAGE finding is not a refusal, so it must not cost an
+    inference its clean status.
+
+    AND ON THE DERIVED SEVERITY, NOT THE OVERRIDDEN ONE.  Using `f.severity`
+    let the single inference in the corpus that talks its own severity DOWN
+    reappear as a positive control.  An argument the checker refused is not
+    evidence that the checker declines to refuse sound arguments, however
+    deliberately its author chose to carry it -- so the number a reader uses to
+    judge false-positive rate must be computed from what the checker concluded.
     """
-    flagged = {f.subject for f in findings if f.rule == R_TRANSPORT}
-    return [i for i in graph.inference_order
-            if i not in flagged and not graph.inferences[i].get("superseded_by")]
+    flagged = {f.subject for f in findings
+               if SEVERITY_RANK[f.derived_severity]
+               >= SEVERITY_RANK[UNSOUND_PREMISE]}
+    out = []
+    for i in graph.inference_order:
+        inf = graph.inferences[i]
+        if i in flagged or inf.get("superseded_by"):
+            continue
+        touched = set()
+        for pr in inf.get("premises") or []:
+            if pr.get("claim"):
+                touched.add(pr["claim"])
+            for step in pr.get("path") or []:
+                touched.add(step[0] if isinstance(step, (list, tuple)) else step)
+        if touched & flagged:
+            continue
+        out.append(i)
+    return out
 
 
 def render(findings, accepted=None, full=False):
