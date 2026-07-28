@@ -515,6 +515,26 @@ TRANSPORT = {
         #   are INTEGRAL AT p.  Denominator-freeness of the MAP does not give
         #   that: `d2 = h_2 - (3/8)h_1^2` travels a polynomial map and does not
         #   reduce mod 2.
+        #
+        #   AND INTEGRAL COEFFICIENTS ARE NOT ENOUGH EITHER.  An external review
+        #   found this cell licensing a false transport, and the field that
+        #   fixes it was already built and simply never consulted here.
+        #
+        #     COUNTEREXAMPLE.  A = Z_(p)[x]/(px).  On the generic fibre p is a
+        #     unit, so A[1/p] = Q[x]/(x) and `x = 0` holds.  Its coefficients
+        #     are as integral as coefficients get -- the coefficient is 1.  But
+        #     A/pA = F_p[x], where `x = 0` is false.
+        #
+        #   The integrality that matters is not the identity's but its
+        #   DERIVATION's.  You get `x = 0` by writing x = (1/p)*(px), and the
+        #   1/p is the whole problem: the ideal-membership certificate is not
+        #   p-integral, which is the same thing as x being p-torsion in A.
+        #
+        #   So this cell must consult `identity_origin`, exactly as
+        #   _AMBIENT_IDENTITY does two rules above it.  An AMBIENT rewriting has
+        #   no derivation beyond itself, so its coefficients ARE the whole
+        #   question and reduction is term-by-term.  A DERIVED one rides on a
+        #   certificate this kernel cannot see.
         #   AGAINST (lift to char 0) is unsound outright.  `p*x = 0` holds
         #   identically in characteristic p and lifts to nothing.
         ALONG:   {EMPTY: False, NONEMPTY: False, PREDICATE: False,
@@ -801,16 +821,30 @@ def transport(etype, direction, kind, scope=None, certificate=None,
             return ruling(False,
                           "IDENTITY rewriting needs a denominator-free map; "
                           "this edge's map is %s" % map_kind, _MAP_POLYNOMIAL)
-        if integral:
+        if not integral:
+            return ruling(False,
+                          "reducing an identity mod p needs its coefficients to "
+                          "be INTEGRAL AT p, which is a property of the CLAIM "
+                          "and not of the map.  This claim does not declare "
+                          "integrality", _INTEGRAL_IDENTITY)
+        if identity_origin == AMBIENT:
             return ruling(True,
-                          "licensed: the identity's coefficients are integral "
-                          "at the prime, so the relation reduces",
-                          _INTEGRAL_IDENTITY)
+                          "licensed: the rewriting is AMBIENT, so it has no "
+                          "derivation beyond itself and its coefficients are "
+                          "the whole question -- being integral at the prime, "
+                          "it reduces term by term", _INTEGRAL_IDENTITY)
         return ruling(False,
-                      "reducing an identity mod p needs its coefficients to be "
-                      "INTEGRAL AT p, which is a property of the CLAIM and not "
-                      "of the map.  This claim does not declare integrality",
-                      _INTEGRAL_IDENTITY)
+                      "this identity's COEFFICIENTS are integral at p, but it "
+                      "is %s rather than AMBIENT, and for a rewriting that "
+                      "follows from the model's own equations the coefficients "
+                      "are not the whole question -- its DERIVATION must be "
+                      "p-integral too.  In Z_(p)[x]/(px), `x = 0` holds on the "
+                      "generic fibre with coefficient 1, and is false mod p: "
+                      "you get it from x = (1/p)*(px), and that 1/p never "
+                      "appears in the identity itself.  Equivalently x is "
+                      "p-torsion.  This kernel cannot see the certificate, so "
+                      "it refuses"
+                      % (identity_origin or UNKNOWN), _INTEGRAL_IDENTITY)
     if rule == _CLOSED_CONDITION:
         if zariski_closed:
             return ruling(True,

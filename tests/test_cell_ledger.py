@@ -410,10 +410,50 @@ def test_specialization_carries_no_existence_statement(direction, kind):
 
 
 @cell(K.SPECIALIZATION, K.ALONG, K.IDENTITY, True, map_kind=K.POLYNOMIAL,
-      integral=True)
+      integral=True, identity_origin=K.AMBIENT)
 def test_sp_along_identity_integral():
-    """CONDITION: coefficients integral at p.  PROOF given it: a relation with
-    p-integral coefficients reduces mod p term by term."""
+    """CONDITION: coefficients integral at p AND the rewriting is AMBIENT.
+    PROOF given both: an ambient relation has no derivation beyond itself, so
+    its coefficients are the whole question and it reduces term by term."""
+
+
+@cell(K.SPECIALIZATION, K.ALONG, K.IDENTITY, False, map_kind=K.POLYNOMIAL,
+      integral=True, identity_origin=K.DERIVED)
+def test_sp_along_identity_derived():
+    """REFUTED with integral coefficients but a DERIVED origin.
+
+    THE LEDGER CAUGHT THIS ONE LATE.  The cell above carried a PROOF -- 'a
+    p-integral relation reduces term by term' -- which is true of the identity
+    and says nothing about how the identity was obtained.  An external review
+    supplied the counterexample:
+
+        A = Z_(p)[x]/(px).   Generic fibre A[1/p] = Q[x]/(x), so `x = 0`.
+                             Special fibre A/pA = F_p[x], so `x != 0`.
+
+    The coefficient of x is 1, which is integral at every prime.  What is not
+    integral is the DERIVATION: x = (1/p)*(px).  Equivalently, x is p-torsion
+    in A, and torsion is exactly what dies in the generic localization while
+    surviving mod p.
+
+    So `integral` and `identity_origin` are both load-bearing here, and only
+    the first was consulted.  `identity_origin` already existed -- it gates
+    NECESSARY_CONDITION/ALONG/IDENTITY two rules away in the same function --
+    which makes this a COVERAGE defect rather than a missing-field one: a
+    licensing field checked in one cell and ignored in another that needed it.
+    """
+
+
+@cell(K.SPECIALIZATION, K.ALONG, K.IDENTITY, False, map_kind=K.POLYNOMIAL,
+      integral=True, identity_origin=K.UNKNOWN)
+def test_sp_along_identity_unknown_origin():
+    """REFUTED with an undeclared origin, which keeps a standing invariant.
+
+    The kernel's note on `identity_origin` records that UNKNOWN and a silent
+    DERIVED default license exactly the same transports, DERIVED being the
+    weaker reading wherever origin is consulted.  Adding a consultation here
+    would break that invariant if UNKNOWN were treated as AMBIENT, so it is
+    not: an undeclared origin refuses, same as DERIVED.
+    """
 
 
 @cell(K.SPECIALIZATION, K.ALONG, K.IDENTITY, False, map_kind=K.POLYNOMIAL,
