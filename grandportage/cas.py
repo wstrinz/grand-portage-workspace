@@ -839,6 +839,42 @@ def substitute_and_reduce(ring_vars, expr, images, generators=(),
     return got, got == "0"
 
 
+_FRACTION = re.compile(r"(?<![A-Za-z0-9_])(\d+)\s*/\s*(\d+)")
+
+
+def non_integral_denominators(prime, *exprs):
+    """Denominators in `exprs` that `prime` divides.
+
+    WHAT `integral` IS ACTUALLY ASKING.  That flag gates reducing an IDENTITY
+    into characteristic p, and it was declared and never computed.  The
+    kernel's own instance is `d2 = h_2 - (3/8)h_1^2`, which travels a perfectly
+    polynomial map and does not reduce mod 2 because 8 = 2^3.
+
+    A shadow formalisation put it in a different class from the others.
+    `ring_iso` is a property of a map and `identity_origin` is a property of the
+    claim, but this is neither: reduction mod p is a PARTIAL map, undefined on
+    anything with p in its denominator, and `integral` asks whether it is
+    defined here at all.  Modelled that way the transport theorem gains a
+    definedness hypothesis and nothing else changes.
+
+    Undefined is not false.  With no image there is nothing to state, which is
+    the same shape as `coefficients_in_base`: not a false claim, not a claim.
+
+    Syntactic and conservative, like `foreign_symbols`.  It reads literal
+    fractions and cannot evaluate `1/(x-x+2)`; it REPORTS so a declaration has
+    something to answer to.
+    """
+    if not prime or prime < 2:
+        return []
+    bad = []
+    for e in exprs:
+        for _num, den in _FRACTION.findall(str(e or "")):
+            d = int(den)
+            if d and d % prime == 0 and den not in bad:
+                bad.append(den)
+    return bad
+
+
 _SYMBOL = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
 
 

@@ -14,6 +14,7 @@ import hashlib
 from . import kernel as K
 from . import store as S
 from .cas import foreign_symbols as cas_foreign_symbols
+from .cas import non_integral_denominators as cas_non_integral_denominators
 from .discharge import discharge_for
 
 # Severities.  Not every finding is an accusation.
@@ -53,6 +54,7 @@ R_SIBLING = "SIBLING-EDGE"
 R_STALE_MODEL = "STALE-MODEL"
 R_STALE_REF = "STALE-REFERENCE"
 R_BASE_COEFFS = "FOREIGN-COEFFICIENT"
+R_INTEGRAL = "NON-INTEGRAL-COEFFICIENT"
 R_CITATION = "AMBIGUOUS-CITATION"
 R_DOUBT = "DOUBT"
 R_EVIDENCE = "EVIDENCE-GRADE"
@@ -1763,6 +1765,58 @@ def check_coefficients_in_base(graph):
     return findings
 
 
+def check_integral(graph):
+    """A claim declaring `integral` whose rewriting has the prime downstairs.
+
+    `integral` gates reducing an IDENTITY into characteristic p, and it was
+    declared and never computed. The kernel's own instance is
+    `d2 = h_2 - (3/8)h_1^2`, which travels a perfectly polynomial map and does
+    not reduce mod 2 because 8 = 2^3.
+
+    A shadow formalisation put this in a different class from the other gates.
+    `ring_iso` is a property of a map; `identity_origin` is a property of the
+    claim; this is neither. Reduction mod p is a PARTIAL map, and `integral`
+    asks whether it is defined here at all. Undefined is not false -- with no
+    image there is nothing to state, the same shape as `coefficients_in_base`.
+
+    The prime comes from the SPECIALIZATION edge the claim would cross, since
+    integrality is only meaningful against one.
+    """
+    findings = []
+    primes = {}
+    for eid in sorted(graph.edges):
+        e = graph.edges[eid]
+        if e.get("type") == K.SPECIALIZATION and e.get("prime"):
+            primes[e["src"]] = (eid, e["prime"])
+    for cid in sorted(graph.claims):
+        c = graph.claims[cid]
+        if not c.get("integral") or c.get("superseded_by"):
+            continue
+        if c.get("lhs") is None or c.get("model") not in primes:
+            continue
+        eid, p = primes[c["model"]]
+        bad = cas_non_integral_denominators(p, c["lhs"], c["rhs"])
+        if not bad:
+            continue
+        findings.append(Finding(
+            R_INTEGRAL, "%s:%s" % (R_INTEGRAL, cid), TRIAGE, cid,
+            "claim %s declares `integral` and would reduce mod %s across %s, "
+            "and its rewriting has %s downstairs.\n"
+            "  Reduction mod p is a PARTIAL map -- undefined on a coefficient "
+            "with p in its denominator -- so this is not a false claim in "
+            "characteristic %s, it is not a claim there at all. The kernel's "
+            "own instance is `d2 = h_2 - (3/8)h_1^2`, which does not reduce "
+            "mod 2 because 8 = 2^3."
+            % (cid, p, eid,
+               ", ".join("`%s`" % d for d in bad), p),
+            "Clear the denominators and record what that costs, or keep the "
+            "rewriting in characteristic 0. If those fractions are not really "
+            "coefficients -- the check reads literal fractions and cannot "
+            "evaluate -- say so in a caveat and carry it.",
+            semantic_key=cid))
+    return findings
+
+
 def check_doubts(graph):
     """Authored defeaters, rendered as findings.
 
@@ -2331,6 +2385,7 @@ def run(graph, accepted=None):
                 + check_citations(graph)
                 + check_doubts(graph)
                 + check_coefficients_in_base(graph)
+                + check_integral(graph)
                 + check_evidence(graph)
                 + check_parallel_edges(graph)
                 + check_vacuous_conclusions(graph)

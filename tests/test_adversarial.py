@@ -3541,3 +3541,44 @@ def test_a_declared_base_coefficient_is_checked_against_the_rewriting():
          "identity_origin": K.AMBIENT, "coefficients_in_base": True,
          "established_by": "RAN", "ladder": "exact-checked"}])
     assert not [f for f in C.run(clean) if f.rule == C.R_BASE_COEFFS]
+
+
+def test_a_declared_integral_is_checked_against_the_prime():
+    """`integral` was the fourth gate declared and never computed, and the
+    formalisation put it in a class of its own.
+
+    `ring_iso` is a property of a map. `identity_origin` is a property of the
+    claim. This is neither: reduction mod p is a PARTIAL map, undefined on a
+    coefficient with p in its denominator, and `integral` asks whether it is
+    defined here at all. Undefined is not false -- with no image there is
+    nothing to state, the same shape as `coefficients_in_base`.
+
+    The kernel's own instance: `d2 = h_2 - (3/8)h_1^2` travels a perfectly
+    polynomial map and does not reduce mod 2, because 8 = 2^3.
+    """
+    def mk(rhs, prime):
+        return _graph([
+            {"ev": "model", "id": "Q", "what": "char 0",
+             "ring_vars": ["h1", "h2", "d2"], "generators": ["d2-h2"]},
+            {"ev": "model", "id": "F", "what": "char p",
+             "ring_vars": ["h1", "h2", "d2"], "generators": ["d2-h2"]},
+            {"ev": "edge", "id": "E", "src": "Q", "dst": "F",
+             "type": K.SPECIALIZATION, "why": "reduce mod p",
+             "map_kind": K.POLYNOMIAL, "prime": prime},
+            {"ev": "claim", "id": "C", "model": "Q", "kind": K.IDENTITY,
+             "statement": "the dictionary", "lhs": "d2", "rhs": rhs,
+             "ring_vars": ["h1", "h2", "d2"], "identity_origin": K.AMBIENT,
+             "integral": True, "established_by": "RAN",
+             "ladder": "exact-checked"}])
+
+    caught = [f for f in C.run(mk("h2 - (3/8)*h1^2", 2))
+              if f.rule == C.R_INTEGRAL]
+    assert caught and "`8`" in caught[0].detail
+
+    # The SAME rewriting is fine at a prime that does not divide 8 -- so the
+    # rule is about the pair, not about fractions.
+    assert not [f for f in C.run(mk("h2 - (3/8)*h1^2", 3))
+                if f.rule == C.R_INTEGRAL]
+    # And an integral rewriting is silent at 2.
+    assert not [f for f in C.run(mk("h2 - 3*h1^2", 2))
+                if f.rule == C.R_INTEGRAL]
