@@ -27,9 +27,10 @@ was not built.
 THE DISTINCTION THAT MOTIVATED THE FIRST TWO, stated once because getting it
 wrong is what the corpus shows people do:
 
-    Localize(I, f)          the OPEN locus D(f): same ideal, f inverted.
-                            Its points are points of V(I) with f != 0, so
-                            going back to V(I) DROPS AN INEQUALITY.
+    Localize(I, f)          the OPEN locus D(f): THE SAME IDEAL, with a
+                            condition on POINTS.  Its points are points of
+                            V(I) with f != 0, so going back to V(I) DROPS AN
+                            INEQUALITY and no equation.
                             -> RESTRICTION
 
     SaturateClosure(I, f)   the CLOSURE of that open locus, back in the
@@ -52,9 +53,9 @@ from . import kernel as K
 # be able to check that claim without reading the code that acts on it.
 DERIVES = {
     "Localize": (K.RESTRICTION,
-                 "the open locus D(f) has the same ideal with f inverted, so "
-                 "returning to the ambient model drops the inequality f != 0 "
-                 "and no equation"),
+                 "the open locus D(f) is cut out by the same ideal together "
+                 "with a condition on points, so returning to the ambient "
+                 "model drops the inequality f != 0 and no equation"),
     "SaturateClosure": (K.NECESSARY_CONDITION,
                         "I : f^oo contains I, so the saturated model is cut "
                         "by more equations; returning to the ambient model "
@@ -99,8 +100,20 @@ def _ideal(generators):
 
 
 def _model(mid, what, ring_vars, generators, **extra):
+    """`generators=None` means the ideal is COMPUTED, not that there is none.
+
+    The distinction is carried by omitting the key rather than by an empty
+    list, because an empty list is a real and different model -- the ambient
+    space -- and `_ideal` above exists precisely to emit it.  A caller passing
+    None should pass `ideal_pending` as well, saying what will fill it.  That
+    is not enforced in the store: most models in a real graph carry no algebra
+    at all, and refusing them would be a much larger change than this.  What
+    IS enforced there is that the two are not declared together.
+    """
     ev = {"ev": "model", "id": mid, "what": what,
-          "ring_vars": list(ring_vars), "generators": list(generators)}
+          "ring_vars": list(ring_vars)}
+    if generators is not None:
+        ev["generators"] = list(generators)
     ev.update(extra)
     return ev
 
@@ -115,16 +128,44 @@ def _edge(eid, src, dst, kind, why_extra=""):
 
 
 def localize(src, f, produces, ring_vars, generators, characteristic=0):
-    """The open locus where `f` does not vanish.
+    """The open locus where `f` does not vanish -- SAME IDEAL, fewer points.
 
     Emits a RESTRICTION, because the ideal does not change: only the
     inequality does.  `map_kind` is IDENTITY_MAP for the same reason -- a
-    localisation changes no coordinates, so there is no substitution that
+    restriction changes no coordinates, so there is no substitution that
     could introduce a denominator.
+
+    THE PROSE HERE USED TO SAY "with f inverted", WHICH IS A DIFFERENT
+    CONSTRUCTION FROM THE ONE THE CODE PERFORMS.  Two readings of "restrict to
+    where f is nonzero" were written a day apart and never reconciled:
+
+        (a) the same ring and ideal, with an open condition on POINTS
+        (b) the localized algebra A_f, a genuinely different coordinate ring
+
+    This function has always emitted (a) -- `generators` is copied across
+    untouched, three lines below -- while describing itself as (b).  The
+    difference is not cosmetic: `lean/GrandPortage/Localization.lean` exhibits
+    an element zero in the localization and nonzero in the ring (`3` at `2`
+    modulo `(6)`; in polynomials, `y` in `k[x,y]/(xy)` localized at `x`), so
+    under (b) an IDENTITY here would NOT transport back to the source and the
+    unconditional RESTRICTION/ALONG/IDENTITY cell would need a gate.
+
+    (a) is also the reading the rest of the system is built on.  Every one of
+    RESTRICTION's six point-cells is an instance of one generic theorem about
+    `Refines` between two models over a COMMON point set; reading (b) changes
+    the ring, so the two ends stop being comparable that way and the whole
+    column would have to be re-earned rather than inherited.
+
+    If you want (b), you want `saturate_closure`: `I : f^oo` is exactly the set
+    of things some power of `f` kills into `I`, which is exactly what becomes
+    zero in `A_f`.  It emits NECESSARY_CONDITION, and an identity there is
+    DERIVED -- which the kernel already refuses to transport ALONG.  The two
+    constructors were always the two readings.
     """
     ev_model = _model(
         produces,
-        "the open locus of %s where %s does not vanish" % (src, f),
+        "the open locus of %s where %s does not vanish -- the same equations, "
+        "restricted to the points where %s is invertible" % (src, f, f),
         ring_vars, generators, open_conditions=[f])
     ev_edge = _edge("E-%s" % produces, produces, src, "Localize",
                     "The dropped condition is %s != 0." % f)
@@ -148,13 +189,23 @@ def saturate_closure(src, f, produces, ring_vars, generators,
     saturated model carries more equations, so returning to the source drops
     them.  This is the constructor that a live campaign conflated with
     `localize`, and the two produce different edge types from the same words.
+
+    IT IS ALSO THE ONE THAT MEANS "f INVERTED".  `I : f^oo` is exactly the set
+    of elements some power of `f` carries into `I`, which is exactly what dies
+    in the localized algebra `A_f`.  So the reading `localize` used to CLAIM
+    is the reading this function DELIVERS -- and delivers soundly, because an
+    identity here is DERIVED and NECESSARY_CONDITION/ALONG/IDENTITY refuses to
+    transport a DERIVED rewriting back.  No new gate was needed; the two
+    constructors were always the two readings.
     """
     ev_model = _model(
         produces,
         "the Zariski closure of the part of %s where %s does not vanish"
         % (src, f),
-        ring_vars, ["<saturation of %s at %s>" % (src, f)],
-        saturated_at=f)
+        ring_vars, None,
+        saturated_at=f,
+        ideal_pending="the saturation %s : %s^oo, which is what this "
+                      "operation's program computes" % (src, f))
     ev_edge = _edge("E-%s" % produces, produces, src, "SaturateClosure",
                     "Saturating at %s removes the components lying inside "
                     "V(%s)." % (f, f))
@@ -212,8 +263,11 @@ def eliminate(src, variables, produces, ring_vars, generators,
         produces,
         "the Zariski closure of the image of %s after eliminating %s"
         % (src, ", ".join(variables)),
-        remaining, ["<elimination ideal of %s>" % src],
-        eliminated=list(variables))
+        remaining, None,
+        eliminated=list(variables),
+        ideal_pending="the elimination ideal of %s after removing %s, which "
+                      "is what this operation's program computes"
+                      % (src, ", ".join(variables)))
     ev_edge = _edge("E-%s" % produces, src, produces, "Eliminate",
                     "Eliminated: %s." % ", ".join(variables))
     prog = cas.CASProgram(

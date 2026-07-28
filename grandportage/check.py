@@ -49,6 +49,7 @@ R_FAMILY = "FAMILY"
 R_DIRECTION = "EVIDENCE-DIRECTION"
 R_CROSSCUT = "CROSS-CUT"
 R_CONTAINMENT = "CONTAINMENT"
+R_PENDING_IDEAL = "PENDING-IDEAL"
 R_IDENTITY = "UNTESTED-IDENTITY"
 R_SIBLING = "SIBLING-EDGE"
 R_STALE_MODEL = "STALE-MODEL"
@@ -1708,6 +1709,59 @@ def check_crosscuts(graph):
     return findings
 
 
+def check_pending_ideals(graph):
+    """Models whose ideal is a computation nobody has run yet.
+
+    THE POINT IS TO SAY IT BEFORE THE SOLVER DOES.  `saturate_closure` and
+    `eliminate` mint a model whose ideal only the CAS knows, and both used to
+    fill `generators` with a placeholder string.  Nothing objected: CONTAINMENT
+    reported that "both models carry ideals, so the containment is CHECKABLE",
+    which was false, and its DISCHARGE sent the author to `gp verify`, which
+    passed `<saturation of M at f>` to Singular and returned `expected
+    ideal-expression`.  Two layers agreed the graph was fine and the third
+    failed to parse.
+
+    A pending ideal is not a defect and this is not an accusation -- it is the
+    normal state of a model between being constructed and being computed.  What
+    it IS is a blocker: every reduction at that model, and every containment
+    across an edge touching it, is unanswerable until the program runs.  Saying
+    so costs one finding and replaces a Singular parse error.
+    """
+    findings = []
+    for mid in sorted(graph.models):
+        m = graph.models[mid]
+        if not m.get("ideal_pending") or m.get("superseded_by"):
+            continue
+        claims = sorted(c for c in graph.claims
+                        if graph.claims[c].get("model") == mid
+                        and not graph.claims[c].get("superseded_by"))
+        edges = sorted(e for e in graph.edges
+                       if mid in (graph.edges[e].get("src"),
+                                  graph.edges[e].get("dst"))
+                       and not graph.edges[e].get("superseded_by"))
+        blocked = (("%d claim(s) and %d edge(s) rest on it: %s."
+                    % (len(claims), len(edges),
+                       ", ".join(claims + edges)))
+                   if (claims or edges) else
+                   "Nothing rests on it yet.")
+        findings.append(Finding(
+            R_PENDING_IDEAL, "%s:%s" % (R_PENDING_IDEAL, mid), DEBT, mid,
+            "model %s does not carry an ideal yet -- it is waiting on %s."
+            % (mid, m["ideal_pending"])
+            + "\n  " + blocked + " No reduction at this model can be "
+              "answered until the computation runs, so `gp verify` will "
+              "return UNVERIFIED for all of them. This is a normal state for "
+              "a constructed model, not an error; it is reported so it does "
+              "not read as a solver failure later.",
+            "Run the operation's program, then record the generators it "
+            "returns with an AMEND that replaces `ideal_pending`. The two "
+            "cannot be declared together -- an ideal is either known or "
+            "waiting -- so the amend is what moves the model from one state "
+            "to the other.",
+            semantic_key=mid))
+    return findings
+
+
 def check_containment(graph):
     """The assertion the ENTIRE ontology rests on, and nothing ever checked it.
 
@@ -1747,6 +1801,13 @@ def check_containment(graph):
         e = graph.edges[eid]
         src, dst = graph.models.get(e["src"]), graph.models.get(e["dst"])
         if not src or not dst:
+            continue
+        # A PENDING IDEAL IS NOT AN IDEAL, and the sentence below says "both
+        # models carry ideals".  Saying it about a model still waiting on a
+        # saturation was a false statement about the graph, and its DISCHARGE
+        # sent the author to `gp verify` to reduce modulo something that does
+        # not exist yet.  `pending_ideals` reports that state on its own terms.
+        if src.get("ideal_pending") or dst.get("ideal_pending"):
             continue
         if src.get("generators") is None or dst.get("generators") is None:
             continue
@@ -2362,21 +2423,41 @@ def check_identity(graph):
             # way to record a verdict either, the phase-3 loop had no terminus:
             # you could structure a claim, not verify it, and never hear about
             # it again.  Structuring must not be how a claim goes dark.
+            # "ONE SOLVER CALL AWAY" IS FALSE IF THE IDEAL IS NOT THERE YET.
+            #
+            # Same class of wrong sentence as CONTAINMENT's "both models carry
+            # ideals": true of the common case, asserted unconditionally, and
+            # read by an author who then runs `gp verify` and gets nothing.
+            # PENDING-IDEAL already reports the model; this tier just stops
+            # promising an answer the graph cannot yet produce.
+            waiting = (graph.models.get(c.get("model")) or {}).get(
+                "ideal_pending")
             findings.append(Finding(
                 R_IDENTITY, "%s:untested:%s" % (R_IDENTITY, cid),
                 TRIAGE, cid,
                 "claim %s records its rewriting -- %s = %s -- and nothing has "
                 "reduced it.\n"
-                "  This is the cheap case. The claim asserts that lhs - rhs "
-                "lies in %s's ideal, reduction modulo a Groebner basis DECIDES "
-                "that, and the answer is one solver call away. Until it is "
-                "made, `identity_origin` is still the author's word for the "
-                "one field on this claim that decides where it may travel."
-                % (cid, c.get("lhs"), c.get("rhs"), c.get("model")),
-                "Run `gp verify`. It reduces every structured IDENTITY and "
-                "records the verdict, and a REFUTED answer here would mean the "
-                "rewriting is false at its own model -- which no transport "
-                "typing anywhere downstream would ever have surfaced.",
+                "  %s Until it is made, `identity_origin` is still the "
+                "author's word for the one field on this claim that decides "
+                "where it may travel."
+                % (cid, c.get("lhs"), c.get("rhs"),
+                   ("The claim asserts that lhs - rhs lies in %s's ideal, and "
+                    "THAT IDEAL HAS NOT BEEN COMPUTED YET -- the model is "
+                    "waiting on %s. The reduction is not one solver call away; "
+                    "it is one solver call away from being askable."
+                    % (c.get("model"), waiting)) if waiting else
+                   ("This is the cheap case. The claim asserts that lhs - rhs "
+                    "lies in %s's ideal, reduction modulo a Groebner basis "
+                    "DECIDES that, and the answer is one solver call away."
+                    % c.get("model"))),
+                ("Run the computation the model is waiting on and record its "
+                 "generators; `gp verify` can reduce this claim only once the "
+                 "ideal it names exists.") if waiting else
+                ("Run `gp verify`. It reduces every structured IDENTITY and "
+                 "records the verdict, and a REFUTED answer here would mean "
+                 "the rewriting is false at its own model -- which no "
+                 "transport typing anywhere downstream would ever have "
+                 "surfaced."),
                 semantic_key=cid))
             continue
         # PREMISES, NOT `claim`/`path`.  Those two are backfilled from
@@ -2453,6 +2534,7 @@ def run(graph, accepted=None):
                 + check_families(graph)
                 + check_evidence_direction(graph)
                 + check_crosscuts(graph)
+                + check_pending_ideals(graph)
                 + check_containment(graph)
                 + check_identity(graph)
                 + check_sibling_edges(graph)

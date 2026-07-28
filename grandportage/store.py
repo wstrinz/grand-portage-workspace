@@ -736,6 +736,40 @@ class Graph(object):
                      "characteristic, so a wrong one produces confident "
                      "answers about a different ring."
                      % (where, ev["id"], ch))
+        # "I DO NOT KNOW THIS IDEAL YET" IS A STATE, AND IT WAS NOT SAYABLE.
+        #
+        # `saturate_closure` and `eliminate` produce a model whose ideal only
+        # the CAS knows.  Both used to emit a PLACEHOLDER STRING in
+        # `generators` -- `<saturation of M at f>` -- which is not a
+        # polynomial.  `gp check` then read it as an ideal and reported that
+        # "both models carry ideals, so the containment is CHECKABLE", a false
+        # statement about the graph, and sent the author to `gp verify`, which
+        # handed the placeholder to Singular and got `expected ideal-
+        # expression` back.
+        #
+        # DROPPING `generators` INSTEAD WOULD HAVE BEEN WORSE.  An absent ideal
+        # already MEANS something here: `verify.identity` reads it as "the
+        # model imposes no equations" -- the SOS Gram case -- so a pending
+        # saturation would have been treated as the AMBIENT SPACE and any
+        # ambient-true identity would have verified AMBIENT at a model whose
+        # real ideal nobody had computed.  A parse error is a bad message; that
+        # would have been a false licence.
+        #
+        # So the two states get two spellings, and holding both at once is
+        # refused rather than resolved by precedence.
+        if ev.get("ideal_pending") is not None:
+            _require(isinstance(ev["ideal_pending"], str)
+                     and ev["ideal_pending"].strip(),
+                     "%s: model %r `ideal_pending` must say WHAT WILL FILL IT "
+                     "-- the computation whose output becomes the ideal. An "
+                     "empty marker records that something is missing without "
+                     "recording what." % (where, ev["id"]))
+            _require(ev.get("generators") is None,
+                     "%s: model %r declares both `generators` and "
+                     "`ideal_pending`. Those are contradictory states: either "
+                     "the ideal is known and reduction can proceed, or it is "
+                     "waiting on a computation. Record the generators once the "
+                     "computation has run." % (where, ev["id"]))
         declares = ev.get("declares") or {}
         _require(isinstance(declares, dict),
                  "%s: model %r `declares` must be {axis: [values]}"

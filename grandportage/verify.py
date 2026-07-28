@@ -79,6 +79,25 @@ NOT_BY_IDEAL = "NOT_BY_IDEAL"
 UNVERIFIED = "UNVERIFIED"
 
 
+def _pending_ideal(mid, model):
+    """The message for a model still waiting on the computation of its ideal.
+
+    ASKED BEFORE THE SOLVER, NOT AFTER.  A constructed model -- a saturation,
+    an elimination -- has an ideal that only the CAS knows, and it says so with
+    `ideal_pending` rather than by putting a placeholder in `generators`.  The
+    placeholder version reached Singular verbatim and came back `expected
+    ideal-expression`, an honest error about the wrong thing: nothing had gone
+    wrong with the solver, and nothing was wrong with the mathematics.  The
+    author simply had not run the program yet, and no layer said so.
+    """
+    if not model.get("ideal_pending"):
+        return None
+    return ("%s does not carry an ideal yet -- it is waiting on %s. There is "
+            "nothing to reduce modulo until that computation has run and its "
+            "generators have been recorded. This is not a failed check; it is "
+            "a check that cannot yet be put." % (mid, model["ideal_pending"]))
+
+
 def containment(graph, eid, timeout=300, _runner=None):
     """Is `I(dst)` inside `I(src)`?  Returns (verdict, why).
 
@@ -105,6 +124,9 @@ def containment(graph, eid, timeout=300, _runner=None):
     src, dst = graph.models.get(e["src"]), graph.models.get(e["dst"])
     if not src or not dst:
         return UNVERIFIED, "an endpoint is not a declared model"
+    pending = _pending_ideal(e["src"], src) or _pending_ideal(e["dst"], dst)
+    if pending:
+        return UNVERIFIED, pending
     if src.get("generators") is None or dst.get("generators") is None:
         return UNVERIFIED, "one endpoint carries no ideal"
     ring = src.get("ring_vars") or []
@@ -224,6 +246,17 @@ def identity(graph, cid, timeout=300, _runner=None):
     # ideal, DERIVED is unreachable by construction and REFUTED means "not
     # identically zero in the polynomial ring" rather than "false at this
     # model" -- both true, both worth saying, neither a reason to decline.
+    # ASK THIS BEFORE `bare`, BECAUSE `bare` WOULD ANSWER IT WRONGLY.
+    #
+    # Below, a model with no generators is read as "imposes no equations" --
+    # correct for an SOS Gram identity in the polynomial ring, and a FALSE
+    # LICENCE for a saturation nobody has computed: the rewriting would be
+    # reduced against the ambient ring and could come back VERIFIED_AMBIENT at
+    # a model whose real ideal is unknown.  The two states spell themselves
+    # differently for exactly this reason.
+    pending = _pending_ideal(c.get("model"), model)
+    if pending:
+        return UNVERIFIED, pending
     gens = list(model.get("generators") or [])
     bare = not gens
     modulo = ("in the polynomial ring, which is the whole question here "
@@ -247,17 +280,39 @@ def identity(graph, cid, timeout=300, _runner=None):
             "%s's ideal, so the rewriting holds in that coordinate ring and "
             "DERIVES from the model's own equations."
             % (c["lhs"], c["rhs"], c.get("model")))
+    # A REFUTATION AT AN OPEN MODEL IS THE ONE A READER WILL ARGUE WITH, so
+    # answer the argument here instead of leaving them to make it.
+    #
+    # `localize` emits a model carrying the SAME ideal plus `open_conditions`:
+    # the restriction is a condition on POINTS and adds no equations.  So a
+    # rewriting that only becomes true once f is inverted really is false at
+    # this model, and a reader who expected otherwise wanted the OTHER
+    # construction -- the saturation, where "some power of f kills it into I"
+    # is precisely what membership means.  Both readings are defensible; only
+    # one of them is the model in front of them, and the message should say
+    # which.  (lean/GrandPortage/Localization.lean separates the two.)
+    opens = [str(o) for o in (model.get("open_conditions") or [])]
+    hint = "" if not opens else (
+        "\n  NOTE THAT %s IS AN OPEN LOCUS, carrying the condition%s %s. That "
+        "restricts its POINTS and adds no equations -- its ideal is the "
+        "source's, unchanged -- so inverting %s is not available here. If the "
+        "rewriting holds only after inverting it, the model you want is the "
+        "closure of that open locus, whose ideal is the saturation; an "
+        "identity there is DERIVED and does not transport back."
+        % (c.get("model"), "" if len(opens) == 1 else "s",
+           ", ".join(opens), opens[0]))
     return REFUTED, (
         "(%s) - (%s) does not reduce to 0 %s -- it reduces to %s.\n"
         "  THIS ONE IS A REFUTATION, unlike a failed containment. %s So the "
         "rewriting is false where it was claimed, and every transport that "
-        "carried it carried something untrue."
+        "carried it carried something untrue.%s"
         % (c["lhs"], c["rhs"], modulo,
            (evidence or {}).get("reduced_modulo_ideal", "a nonzero form"),
            ("The claim is that the difference is identically zero, and that "
             "is decided by normalising it." if bare else
             "The claim is that the difference lies in the ideal, and "
-            "reduction modulo a Groebner basis DECIDES ideal membership.")))
+            "reduction modulo a Groebner basis DECIDES ideal membership."),
+           hint))
 
 
 ISO_VERIFIED = "VERIFIED"
@@ -304,6 +359,9 @@ def ring_iso(graph, eid, timeout=300, _runner=None):
             "map on coordinate rings, and without the map it can only be "
             "taken on the author's word -- which is what it has been." % eid)
     src, dst = graph.models.get(e["src"]) or {}, graph.models.get(e["dst"]) or {}
+    pending = _pending_ideal(e["src"], src) or _pending_ideal(e["dst"], dst)
+    if pending:
+        return UNVERIFIED, pending
     if src.get("generators") is None or dst.get("generators") is None:
         return UNVERIFIED, "one endpoint carries no ideal"
     ring = src.get("ring_vars") or []
@@ -510,7 +568,9 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
         src, dst = graph.models.get(e["src"]), graph.models.get(e["dst"])
         if not src or not dst:
             continue
-        if not e.get("containment") and src.get("generators") is not None                 and dst.get("generators") is not None:
+        if (not e.get("containment")
+                and src.get("generators") is not None
+                and dst.get("generators") is not None):
             run("edge", eid, lambda eid=eid: containment(
                 graph, eid, timeout=timeout, _runner=_runner))
         # RING_ISO HAD NO SURFACE AT ALL.  It worked, it caught a planted

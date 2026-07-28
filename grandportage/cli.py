@@ -364,6 +364,21 @@ def _declare_epilog():
         "kind above, evidence and doubts and citations included, so `answered`\n"
         "and `decides` are reachable for a record already in the log.\n"
         "\n"
+        "a model's ALGEBRA is optional, and there are THREE states, not two:\n"
+        "  generators: [..]      the ideal, known. reduction can proceed\n"
+        "  generators: []        the AMBIENT SPACE. imposes no equations, and\n"
+        "                        an identity there is AMBIENT by construction\n"
+        "  ideal_pending: '..'   the ideal is COMPUTED and has not been\n"
+        "                        computed yet -- a saturation, an elimination.\n"
+        "                        say what will fill it. `gp verify` refuses\n"
+        "                        the question rather than answering it in the\n"
+        "                        wrong ring, and `gp check` reports the model\n"
+        "                        as blocking whatever rests on it.\n"
+        "  (omitted entirely)    no algebra recorded. most models\n"
+        "declaring `generators` and `ideal_pending` together is refused: an\n"
+        "ideal is either known or waiting. record the generators with an AMEND\n"
+        "once the computation has run.\n"
+        "\n"
         "two things that have cost people real time:\n"
         "  * in PowerShell `gp` is a built-in alias for Get-ItemProperty, and\n"
         "    the alias WINS -- a wrapper function cannot shadow it. Use\n"
@@ -470,6 +485,9 @@ def cmd_verify(args):
               "reduction needs.\n"
               "  Edges need `generators` and `ring_vars` on BOTH endpoints; "
               "IDENTITY claims need `lhs`, `rhs` and `ring_vars`.\n"
+              "  A model carrying `ideal_pending` has none of this yet by "
+              "design -- it is waiting on the computation that produces its "
+              "ideal.\n"
               "  `gp check` reports which ones are missing them.")
         return 0
     bad = 0
@@ -878,6 +896,13 @@ def cmd_show(args):
         if m.get("generators") is not None:
             gens = m["generators"]
             print("    ideal  (%s)" % (", ".join(gens) if gens else "0"))
+        # A MODEL WAITING ON ITS IDEAL MUST NOT LOOK LIKE ONE WITH NO IDEAL.
+        # In this listing they were indistinguishable -- both simply had no
+        # `ideal` line -- which is the same conflation the store now refuses
+        # to let a declaration make.
+        if m.get("ideal_pending"):
+            print("    ideal  NOT YET COMPUTED -- waiting on %s"
+                  % m["ideal_pending"])
     print()
     for eid in sorted(g.edges):
         e = g.edges[eid]
