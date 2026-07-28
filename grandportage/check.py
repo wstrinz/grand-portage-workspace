@@ -45,6 +45,7 @@ R_STALE_PATH = "STALE-PATH"
 R_FAMILY = "FAMILY"
 R_DIRECTION = "EVIDENCE-DIRECTION"
 R_CROSSCUT = "CROSS-CUT"
+R_CONTAINMENT = "CONTAINMENT"
 
 EXISTENCE_OPPOSITE = {K.EMPTY: K.NONEMPTY, K.NONEMPTY: K.EMPTY}
 
@@ -1584,6 +1585,88 @@ def check_crosscuts(graph):
     return findings
 
 
+def check_containment(graph):
+    """The assertion the ENTIRE ontology rests on, and nothing ever checked it.
+
+    Every edge asserts `V(src) subset V(dst)`.  The kernel's opening comment
+    says so and all six types are relaxations in that sense.  It has never been
+    verified, only declared -- which makes it the SIXTH instance of the pattern
+    this project keeps finding, at the deepest level available: a field that
+    DETERMINES transport and is taken on the author's word.
+
+    A live lane stated the cost precisely.  A flop is an isomorphism in
+    codimension one, so neither variety contains the other; typed EQUIVALENCE
+    it "yields a false conclusion reported clean behind one prose-dischargeable
+    DEBT", and "nothing in the tool would have stopped me if I had not done the
+    mathematics first".  RESTRICTION, the newest and most inviting type,
+    "matches a flop on every clause except the one that matters".
+
+    IT IS CHECKABLE NOW, for the first time, because models can carry their
+    ideals: `I(dst) subset I(src)` implies `V(src) subset V(dst)`, and testing
+    it is one reduction per generator -- exactly what `cas.classify_identity`
+    already does.
+
+    THIS RULE DOES NOT RUN IT.  The checker is deterministic with no solver and
+    no network, and that is worth more than the convenience.  So the split is:
+    this reports the HOLE, and `gp verify` fills it by spending CAS time and
+    recording the answer on the edge.  An unverified containment is a debt you
+    can see; a refuted one is an unsound premise.
+
+    Silent where the data is absent, deliberately.  Every model in the corpus
+    predates `generators`, and a rule that fired on all of them would be a
+    false-positive generator on day one.
+    """
+    findings = []
+    dead = withdrawn_edges(graph)
+    for eid in sorted(graph.edges):
+        if eid in dead:
+            continue
+        e = graph.edges[eid]
+        src, dst = graph.models.get(e["src"]), graph.models.get(e["dst"])
+        if not src or not dst:
+            continue
+        if src.get("generators") is None or dst.get("generators") is None:
+            continue
+        verdict = e.get("containment")
+        if verdict == "VERIFIED":
+            continue
+        if verdict == "NOT_BY_IDEAL":
+            findings.append(Finding(
+                R_CONTAINMENT, "%s:%s" % (R_CONTAINMENT, eid),
+                UNSOUND_PREMISE, eid,
+                "edge %s asserts V(%s) subset V(%s) and the SUFFICIENT test for "
+                "it FAILED: %s"
+                % (eid, e["src"], e["dst"],
+                   e.get("containment_why") or "(no reduction recorded)")
+                + "\n  Every cell this edge licenses rests on that "
+                  "containment, and it is now UNESTABLISHED rather than merely "
+                  "unexamined. It is NOT refuted: reduction tests plain ideal "
+                  "membership and the containment can still hold through the "
+                  "radical.",
+                "Three honest moves. Establish it another way and record how -- "
+                "a radical-membership computation is the direct one. Or refute "
+                "it properly, which needs a POINT of the source outside the "
+                "target, a witness rather than a reduction. Or, if the two "
+                "models are related and neither contains the other -- a "
+                "birational correspondence, a flop -- this is not an edge at "
+                "all: draw it as a SPAN through the object they both map to "
+                "and type each leg separately.",
+                semantic_key=eid))
+            continue
+        findings.append(Finding(
+            R_CONTAINMENT, "%s:%s" % (R_CONTAINMENT, eid), DEBT, eid,
+            "edge %s asserts V(%s) subset V(%s) and both models carry ideals, "
+            "so the containment is CHECKABLE and unchecked."
+            % (eid, e["src"], e["dst"])
+            + "\n  This is the assertion every cell on this edge rests on, "
+              "and it is currently the author's word.",
+            "Run `gp verify` to reduce each generator of %s's ideal modulo "
+            "%s's. It is one reduction per generator and it either confirms the "
+            "containment or refutes the edge." % (e["dst"], e["src"]),
+            semantic_key=eid))
+    return findings
+
+
 def run(graph, accepted=None):
     """All rules, in a stable order, most severe first.
 
@@ -1609,6 +1692,7 @@ def run(graph, accepted=None):
                 + check_families(graph)
                 + check_evidence_direction(graph)
                 + check_crosscuts(graph)
+                + check_containment(graph)
                 + check_parallel_edges(graph)
                 + check_vacuous_conclusions(graph)
                 + check_self_built(graph))
