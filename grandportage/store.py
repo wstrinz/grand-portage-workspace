@@ -190,6 +190,12 @@ class Graph(object):
                   "why_field": "identity_why"},
         "edge": {"containment": ("VERIFIED", "NOT_BY_IDEAL", "UNVERIFIED"),
                  "why_field": "containment_why"},
+        "certificate": {"certificate_verdict": ("VERIFIED", "NOT_UNIT",
+                                                "UNVERIFIED"),
+                        "why_field": "certificate_why"},
+        "ring_iso": {"ring_iso_verdict": ("VERIFIED", "NOT_AN_ISOMORPHISM",
+                                          "UNVERIFIED"),
+                     "why_field": "ring_iso_why"},
     }
 
     # HOW A COMPUTATION CAN STAND BEHIND A NON-ALGEBRAIC CLAIM.
@@ -416,7 +422,8 @@ class Graph(object):
                  % (where, ev.get("id"), " or ".join(sorted(self._VERDICTS))))
         spec = self._VERDICTS[subject]
         field = [k for k in spec if k != "why_field"][0]
-        target = self.claims if subject == "claim" else self.edges
+        target = (self.claims if subject in ("claim", "certificate")
+                  else self.edges)
         of = ev.get("of")
         _require(of in target,
                  "%s: verdict %r is about %s %r, which is not in this graph"

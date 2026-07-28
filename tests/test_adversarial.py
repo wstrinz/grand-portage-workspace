@@ -3728,3 +3728,63 @@ def test_a_computed_origin_beats_a_declared_one():
     agree = _graph(evs[:4] + [
         dict(evs[4], verdict="VERIFIED_AMBIENT")] + evs[5:])
     assert not [f for f in C.run(agree) if f.rule == C.R_ORIGIN_CONFLICT]
+
+
+def test_one_bad_object_does_not_cost_the_whole_run(tmp_path):
+    """A LIVE CAMPAIGN LOST A WHOLE VERIFICATION RUN TO THIS.
+
+    One claim named a symbol its ring did not have, `classify_identity`
+    raised, the batch aborted, and `S.append` -- which runs at the END --
+    never fired. FOUR CLAIMS AND TWELVE EDGES that had already verified were
+    discarded. And `gp check` had reported that exact claim politely, as
+    FOREIGN-COEFFICIENT, one command earlier.
+
+    Also asserts the two things the same function was missing: it now reaches
+    `unit_ideal` and `ring_iso` -- which worked, caught a planted false
+    EQUIVALENCE in that campaign, and were reachable only by importing the
+    module from Python, the same defect `gp verify` itself had two days
+    earlier -- and it skips SUPERSEDED records, which `check` has always done
+    and `verify` did not, so a claim corrected by supersession kept being
+    re-verified and kept re-raising the error that motivated the correction.
+    """
+    from grandportage import verify as V
+
+    root = str(tmp_path)
+    S.append([
+        {"ev": "model", "id": "M", "what": "a curve", "ring_vars": ["x", "y"],
+         "generators": ["y^2-x^3"]},
+        {"ev": "claim", "id": "GOOD", "model": "M", "kind": K.IDENTITY,
+         "statement": "ok", "lhs": "y^2", "rhs": "x^3",
+         "ring_vars": ["x", "y"], "identity_origin": K.DERIVED,
+         "established_by": "RAN", "ladder": "exact-checked"},
+        {"ev": "claim", "id": "OLD", "model": "M", "kind": K.IDENTITY,
+         "statement": "superseded", "lhs": "y^2", "rhs": "x^3",
+         "ring_vars": ["x", "y"], "identity_origin": K.DERIVED,
+         "established_by": "RAN", "ladder": "exact-checked"},
+        {"ev": "claim", "id": "NEW", "model": "M", "kind": K.IDENTITY,
+         "statement": "the correction", "lhs": "y^2", "rhs": "x^3",
+         "ring_vars": ["x", "y"], "identity_origin": K.DERIVED,
+         "established_by": "RAN", "ladder": "exact-checked",
+         "supersedes": "OLD", "discharge_kind": K.RESTATE}], root)
+
+    calls = []
+
+    def runner(prog, timeout):
+        calls.append(prog)
+        if len(calls) == 1:                      # the first object explodes
+            raise cas.CASError("the CAS reported an error: `sqrt3` undefined")
+        return _fake_run(stdout="@@GP_D:\ny2-x3\n@@GP_RED:\n0\n")(prog, timeout)
+
+    results = V.verify_all(root=root, _runner=runner, record=True)
+    got = {oid: verdict for _s, oid, verdict, _w in results}
+
+    assert "OLD" not in got, "a superseded claim must not be re-verified"
+    assert got.get("GOOD") is not None and got.get("NEW") is not None, (
+        "one object raising must not cost the others their verdicts")
+    assert V.UNVERIFIED in got.values(), (
+        "and the one that failed is recorded as unverified, not dropped")
+
+    g = S.load(S.graph_path(root))
+    assert g.claims["GOOD"].get("identity_verdict"), (
+        "verdicts must reach the graph -- the old code appended at the very "
+        "end, so an exception meant nothing was written at all")

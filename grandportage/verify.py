@@ -479,32 +479,65 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
     graph = S.load(path)
     results, events = [], []
 
+    def run(subject, oid, fn):
+        """One object, and a failure here must not cost the other twenty.
+
+        A live campaign lost a whole run to this: one claim naming a symbol
+        the ring did not have raised out of `classify_identity`, the batch
+        aborted, `S.append` never ran, and FOUR CLAIMS AND TWELVE EDGES that
+        had already verified were discarded.  `gp check` had reported that
+        exact claim politely one command earlier.
+        """
+        try:
+            out = fn()
+        except cas.CASError as exc:
+            verdict, why = UNVERIFIED, (
+                "the CAS could not answer for this object, and the rest of the "
+                "run continued:\n  %s" % exc)
+        else:
+            verdict, why = out[0], out[1]
+        results.append((subject, oid, verdict, why))
+        events.append(_verdict_event(subject, oid, verdict, why))
+
     for eid in sorted(graph.edges):
         e = graph.edges[eid]
-        if e.get("containment"):
+        # SUPERSEDED RECORDS ARE NOT IN THE GRAPH as far as `check` is
+        # concerned, and `verify` disagreed -- it filtered only on the verdict
+        # field.  So a claim corrected by supersession kept being re-verified,
+        # and kept re-raising the error that had motivated the correction.
+        if e.get("superseded_by"):
             continue
         src, dst = graph.models.get(e["src"]), graph.models.get(e["dst"])
         if not src or not dst:
             continue
-        if src.get("generators") is None or dst.get("generators") is None:
-            continue
-        verdict, why = containment(graph, eid, timeout=timeout,
-                                   _runner=_runner)
-        results.append(("edge", eid, verdict, why))
-        events.append(_verdict_event("edge", eid, verdict, why))
+        if not e.get("containment") and src.get("generators") is not None                 and dst.get("generators") is not None:
+            run("edge", eid, lambda eid=eid: containment(
+                graph, eid, timeout=timeout, _runner=_runner))
+        # RING_ISO HAD NO SURFACE AT ALL.  It worked, it caught a planted
+        # false EQUIVALENCE in a live campaign, and it was reachable only by
+        # importing the module from Python -- the same defect `gp verify`
+        # itself had two days earlier.
+        if (e.get("type") == K.EQUIVALENCE and e.get("ring_iso")
+                and e.get("forward") and not e.get("ring_iso_verdict")):
+            run("ring_iso", eid, lambda eid=eid: ring_iso(
+                graph, eid, timeout=timeout, _runner=_runner))
 
     for cid in sorted(graph.claims):
         c = graph.claims[cid]
-        if c.get("kind") != K.IDENTITY or c.get("identity_verdict"):
+        if c.get("superseded_by"):
             continue
-        # Silent where the rewriting was never recorded.  An unstructured
-        # IDENTITY is not a failed verification, it is an unasked question,
-        # and `check` is where that hole gets reported.
-        if c.get("lhs") is None or c.get("rhs") is None:
-            continue
-        verdict, why = identity(graph, cid, timeout=timeout, _runner=_runner)
-        results.append(("claim", cid, verdict, why))
-        events.append(_verdict_event("claim", cid, verdict, why))
+        if (c.get("kind") == K.IDENTITY and not c.get("identity_verdict")
+                and c.get("lhs") is not None and c.get("rhs") is not None):
+            # Silent where the rewriting was never recorded.  An unstructured
+            # IDENTITY is not a failed verification, it is an unasked
+            # question, and `check` reports that hole.
+            run("claim", cid, lambda cid=cid: identity(
+                graph, cid, timeout=timeout, _runner=_runner))
+        if (c.get("kind") == K.EMPTY and c.get("certificate")
+                and not c.get("certificate_verdict")):
+            run("certificate", cid,
+                lambda cid=cid: unit_ideal(graph, cid, timeout=timeout,
+                                           _runner=_runner)[:2])
 
     if record and events:
         # ROOT, not the graph path.  `append` resolves `.portage/graph.jsonl`
