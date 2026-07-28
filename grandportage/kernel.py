@@ -1116,7 +1116,21 @@ RAN = "RAN"                    # executed here, and it produced this
 READ = "READ"                  # read from source or a file, not executed
 CITED = "CITED"                # taken from a paper or an external authority
 NOT_REACHED = "NOT_REACHED"    # out of reach in this environment
-ESTABLISHED_BY = (RAN, READ, CITED, NOT_REACHED)
+# DERIVED -- proved HERE from premises that were read or cited.
+#
+# THE ONE PLACE A LIVE SESSION HAD SOMETHING TRUE TO SAY AND NO WAY TO SAY IT.
+# It established that a corner's direction is determined by m + n, from Prop
+# 3.5's valuation identity plus two definitions -- new mathematics, none of it
+# in the source, none of it run.  RAN is false (no computation), CITED is false
+# (no authority asserts it), NOT_REACHED is false.  It graded the claim READ
+# and said in the note that this overstates the source's involvement.
+#
+# That is the failure this axis exists to prevent, wearing the opposite sign:
+# not evidence claiming more than it has, but a real derivation forced to
+# borrow somebody else's authority because the vocabulary had no word for
+# "mine".
+DERIVED = "DERIVED"
+ESTABLISHED_BY = (RAN, READ, CITED, DERIVED, NOT_REACHED)
 
 LADDER = ("open", "claimed", "exact-checked", "independently-audited",
           "certified")
@@ -1140,6 +1154,13 @@ IMPOSSIBLE_EVIDENCE = {
     (READ, "exact-checked"):
         "reading source establishes what the code SAYS, not that running it "
         "produced this.  A checker that was not run has checked nothing",
+    (DERIVED, "exact-checked"):
+        "a derivation is an argument, not a checker run.  If a computation "
+        "confirmed it, the grade is RAN and the derivation is what you ran it "
+        "against",
+    (DERIVED, "independently-audited"):
+        "one derivation is not a second implementation agreeing.  Two people "
+        "deriving it separately is a REPLICATION -- record that as evidence",
 }
 
 # ---------------------------------------------------------------------------
@@ -1382,6 +1403,29 @@ INFERENCE_LICENSING_FIELDS = ("premises",)
 NOTE_IDENTIFYING_FIELDS = ("text",)
 NOTE_LICENSING_FIELDS = ()
 
+# EVIDENCE, DOUBT AND CITATION were left out of the supersession machinery when
+# they landed, and a live session walked into the consequence: `check` told it
+# to add `answered` to a doubt and `decides` to an evidence record, refused the
+# redeclaration, named SUPERSESSION as the move -- and then accepted the
+# supersession, printed "declared 1 event(s)", and DID NOTHING.  The original
+# records kept firing.
+#
+# The worst error class there is: told the move, accepted the move, reported
+# success, no-op.  Worse than a refusal, because nothing signals it.
+#
+# What IDENTIFIES each is what it is about; what LICENSES is the field that
+# changes what it does.  `answered` retires a doubt and `decides` changes what
+# an enumeration may be read as supporting, so both are licensing -- adding
+# either is a RELICENSE, which is exactly the second look they deserve.
+EVIDENCE_IDENTIFYING_FIELDS = ("for", "method", "ran")
+EVIDENCE_LICENSING_FIELDS = ("decides", "agrees_with")
+
+DOUBT_IDENTIFYING_FIELDS = ("about", "kind")
+DOUBT_LICENSING_FIELDS = ("severity", "answered", "quote")
+
+CITATION_IDENTIFYING_FIELDS = ("cites", "resolves_to")
+CITATION_LICENSING_FIELDS = ("hazard",)
+
 MODEL_IDENTIFYING_FIELDS = ("what",)
 MODEL_LICENSING_FIELDS = ("ring_vars", "generators")
 
@@ -1409,6 +1453,9 @@ def classify_supersession(old, new, entity="claim"):
                       INFERENCE_LICENSING_FIELDS),
         "model": (MODEL_IDENTIFYING_FIELDS, MODEL_LICENSING_FIELDS),
         "note": (NOTE_IDENTIFYING_FIELDS, NOTE_LICENSING_FIELDS),
+        "evidence": (EVIDENCE_IDENTIFYING_FIELDS, EVIDENCE_LICENSING_FIELDS),
+        "doubt": (DOUBT_IDENTIFYING_FIELDS, DOUBT_LICENSING_FIELDS),
+        "citation": (CITATION_IDENTIFYING_FIELDS, CITATION_LICENSING_FIELDS),
     }.get(entity, (IDENTIFYING_FIELDS, LICENSING_FIELDS))
     moved = [f for f in ident if old.get(f) != new.get(f)]
     if moved:

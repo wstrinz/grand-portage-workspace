@@ -1022,13 +1022,16 @@ class Graph(object):
     # carrying `supersedes` with no existence check, no self-check and no
     # back-pointer at all.
     # -----------------------------------------------------------------------
-    _SUPERSEDABLE = ("claim", "inference", "edge", "model", "note")
+    _SUPERSEDABLE = ("claim", "inference", "edge", "model", "note",
+                     "evidence", "doubt", "citation")
 
     def _resolve_supersessions(self):
         for entity in self._SUPERSEDABLE:
             registry = {"claim": self.claims, "inference": self.inferences,
                         "edge": self.edges, "model": self.models,
-                        "note": self.named_notes}[entity]
+                        "note": self.named_notes,
+                        "evidence": self.evidence, "doubt": self.doubts,
+                        "citation": self.citations}[entity]
             kinds = (D_KINDS if entity == "edge" else K.SUPERSESSION_KINDS)
             for new_id in sorted(registry):
                 new = registry[new_id]

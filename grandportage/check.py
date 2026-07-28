@@ -1699,7 +1699,13 @@ def check_doubts(graph):
     findings = []
     for did in sorted(graph.doubts):
         d = graph.doubts[did]
-        if d.get("answered"):
+        # SUPERSEDED, TOO -- and leaving this out made the supersession fix
+        # half a fix. A doubt is retired by ANSWERING it, and answering an
+        # existing one means sending a new version that carries `answered`,
+        # which supersedes the old. If the old keeps firing, the loop still
+        # does not close and the graph still reports as live debt something
+        # that has been settled.
+        if d.get("answered") or d.get("superseded_by"):
             continue
         findings.append(Finding(
             R_DOUBT, "%s:%s" % (R_DOUBT, did), d["severity"], d["about"],
@@ -1727,6 +1733,8 @@ def check_evidence(graph):
     findings = []
     for vid in sorted(graph.evidence):
         v = graph.evidence[vid]
+        if v.get("superseded_by"):
+            continue
         # AN ENUMERATION THAT DOES NOT SAY WHICH VERDICT IT DECIDES.
         #
         # A live session called this the single most important epistemic fact
@@ -1756,6 +1764,23 @@ def check_evidence(graph):
         c = graph.claims.get(v["for"]) or {}
         by = c.get("established_by")
         if by in (None, "RAN"):
+            continue
+        # ONLY AN ENUMERATION IMPLIES A GRADE, and firing on both methods made
+        # this rule undischargeable.
+        #
+        # A live session attached a REPLICATION to a READ claim -- its code
+        # reproduced a table the source PRINTS -- which is coherent and is what
+        # replication is for. The rule fired anyway, and its advice ("say so in
+        # the evidence's `what`") named a move the rule does not read, so the
+        # only clearing move was regrading to RAN, which would have been false.
+        # A finding whose stated discharge cannot discharge it teaches people
+        # to accept findings rather than answer them.
+        #
+        # The distinction: an ENUMERATION ESTABLISHES the claim, so the grade
+        # must say a run happened. A REPLICATION CORROBORATES a claim
+        # established some other way, and corroborating something you read is
+        # exactly the normal case.
+        if v["method"] != "ENUMERATION":
             continue
         findings.append(Finding(
             R_EVIDENCE, "%s:%s" % (R_EVIDENCE, vid), TRIAGE, v["for"],
@@ -1794,7 +1819,7 @@ def check_citations(graph):
     """
     findings = []
     hazards = [(c["cites"], c) for c in graph.citations.values()
-               if c.get("hazard")]
+               if c.get("hazard") and not c.get("superseded_by")]
     # A HAZARD NOTHING CAN TRIP.
     #
     # This rule substring-matches a citation's `cites` against claim and

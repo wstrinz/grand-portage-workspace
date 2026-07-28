@@ -1795,6 +1795,121 @@ def test_a_doubt_is_a_finding_a_person_writes():
     assert not [f for f in C.run(g2) if f.rule == C.R_DOUBT]
 
 
+def test_answering_a_doubt_actually_retires_it():
+    """THE WORST ERROR CLASS THERE IS: told the move, accepted the move,
+    reported success, no-op.
+
+    `check` told a live session to add `answered` to a doubt and `decides` to
+    an evidence record. Redeclaring is refused, and the refusal names
+    SUPERSESSION as the move -- so the session did exactly that. The tool
+    printed "declared 1 event(s)" and did nothing, because `evidence`, `doubt`
+    and `citation` were absent from `_SUPERSEDABLE`. `supersedes` was accepted
+    with no existence check, no back-pointer and no kind validation, and the
+    original records kept firing forever.
+
+    So the tool asked for a discharge it could not accept, and the session's
+    graph ended up reporting three settled items as live debt -- a graph lying
+    about its own state, which is worse than a missing feature in a tool whose
+    whole value proposition is that its state is trustworthy.
+    """
+    base = [
+        {"ev": "model", "id": "M", "what": "a model"},
+        {"ev": "claim", "id": "C", "model": "M", "kind": K.PREDICATE,
+         "statement": "x", "established_by": "RAN",
+         "ladder": "exact-checked"},
+        {"ev": "doubt", "id": "D", "about": "C", "kind": "MISSING_PREMISE",
+         "why": "a further computation is needed"},
+        {"ev": "evidence", "id": "EV", "for": "C", "method": "ENUMERATION",
+         "ran": "sweep.py", "what": "swept the bounded region"}]
+    assert len([f for f in C.run(_graph(base))
+                if f.rule in (C.R_DOUBT, C.R_EVIDENCE)]) == 2
+
+    g = _graph(base + [
+        {"ev": "doubt", "id": "D2", "about": "C", "kind": "MISSING_PREMISE",
+         "why": "a further computation is needed",
+         "answered": "it was run and the claim holds",
+         "supersedes": "D", "discharge_kind": K.RELICENSE},
+        {"ev": "evidence", "id": "EV2", "for": "C", "method": "ENUMERATION",
+         "ran": "sweep.py", "what": "swept the bounded region",
+         "decides": "EXCLUSIONS",
+         "supersedes": "EV", "discharge_kind": K.RELICENSE}])
+    assert g.doubts["D"].get("superseded_by") == ["D2"]
+    assert not [f for f in C.run(g) if f.rule in (C.R_DOUBT, C.R_EVIDENCE)], (
+        "answering and adding `decides` must clear their findings -- if the "
+        "old records keep firing, the loop the tool advertises does not close")
+
+    # AND THE KIND IS COMPUTED HERE TOO. `answered` retires a doubt, so adding
+    # it is not bookkeeping however it is labelled.
+    with pytest.raises(K.SupersessionError) as exc:
+        _graph(base + [
+            {"ev": "doubt", "id": "D2", "about": "C",
+             "kind": "MISSING_PREMISE",
+             "why": "a further computation is needed",
+             "answered": "settled", "supersedes": "D",
+             "discharge_kind": K.AMEND}])
+    assert "`answered` changed" in str(exc.value)
+
+
+def test_a_replication_may_corroborate_something_read():
+    """A FINDING WHOSE STATED DISCHARGE CANNOT DISCHARGE IT teaches people to
+    accept findings rather than answer them.
+
+    EVIDENCE-GRADE fired on a REPLICATION attached to a READ claim -- a live
+    session's code reproducing a table its source PRINTS, which is coherent and
+    is what replication is for. Its advice was "say so in the evidence's
+    `what`", and the rule reads no such field, so the only clearing move was
+    regrading to RAN, which would have been false.
+
+    An ENUMERATION establishes a claim, so the grade must say a run happened.
+    A REPLICATION corroborates one established some other way.
+    """
+    base = [{"ev": "model", "id": "M", "what": "a model"},
+            {"ev": "claim", "id": "C", "model": "M", "kind": K.PREDICATE,
+             "statement": "the source's table is right",
+             "established_by": "READ", "ladder": "claimed"}]
+    ok = _graph(base + [
+        {"ev": "evidence", "id": "EV", "for": "C", "method": "REPLICATION",
+         "ran": "mine.py", "what": "an independent implementation",
+         "agrees_with": "the table printed in the source"}])
+    assert not [f for f in C.run(ok) if f.rule == C.R_EVIDENCE]
+
+    bad = _graph(base + [
+        {"ev": "evidence", "id": "EV", "for": "C", "method": "ENUMERATION",
+         "ran": "sweep.py", "what": "swept it", "decides": "EXCLUSIONS"}])
+    assert [f for f in C.run(bad) if f.rule == C.R_EVIDENCE], (
+        "an ENUMERATION establishes the claim, so a non-RAN grade is one of "
+        "the two being wrong")
+
+
+def test_derived_is_a_way_a_claim_can_be_established():
+    """The one place a live session had something true to say and no way.
+
+    It proved that a corner's direction is determined by m + n, from a
+    valuation identity plus two definitions -- new mathematics, none of it in
+    the source, none of it run. RAN is false, CITED is false, NOT_REACHED is
+    false. It graded the claim READ and said in the note that this overstates
+    the source's involvement.
+
+    The mirror image of the failure this axis exists to prevent: not evidence
+    claiming more than it has, but a real derivation borrowing somebody else's
+    authority for want of a word for "mine".
+    """
+    g = _graph([
+        {"ev": "model", "id": "M", "what": "a model"},
+        {"ev": "claim", "id": "C", "model": "M", "kind": K.PREDICATE,
+         "statement": "the direction is determined by m + n",
+         "established_by": K.DERIVED, "ladder": "claimed"}])
+    assert g.claims["C"]["established_by"] == K.DERIVED
+
+    # A derivation is an argument, not a checker run.
+    with pytest.raises((S.GraphError, K.KernelRefusal)):
+        _graph([
+            {"ev": "model", "id": "M", "what": "a model"},
+            {"ev": "claim", "id": "C", "model": "M", "kind": K.PREDICATE,
+             "statement": "x", "established_by": K.DERIVED,
+             "ladder": "exact-checked"}])
+
+
 def test_a_note_can_be_corrected():
     """Notes were immutable prose, which is the worse half of being untyped.
 
