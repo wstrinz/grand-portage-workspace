@@ -32,7 +32,7 @@ agent → MCP server (edge REQUIRED, no declaration → no CAS process)
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about seven days. Version 0.4. <!--checks-->606<!--/checks--> checks.** Treat
+**Age: about seven days. Version 0.4.1. <!--checks-->606<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 There is now a **public repo**: `github.com/wstrinz/grandportage`, Apache-2.0,
@@ -83,7 +83,14 @@ dev/
                               that graph is the evidence.
     campaigns/lsem-census/    the sustained run. See below.
     testing/                  T3/T4/T5 conditions + results, T1 runbook
-    campaigns/jc2-chartmap/   a bounded run at the chart-map lead
+    campaigns/jc2-chartmap/   the chart-map lead. NEXT: the GGV1 Prop 8.3
+                              task extends this graph, which already carries
+                              M1_G4, the P_GAMMA partition and INF_G4_HOLE_V2
+    campaigns/borderrank/     S2, finished and green
+    campaigns/toric-phases/   L1, finished. Refuted its own premise, usefully
+    LANES.md                  candidate domains not yet started
+    tools/wire_topcom.sh      TOPCOM is apt-installed as `topcom-*`; Sage wants
+                              the bare names. Run once per fresh environment
     math-stuff/               one shared submodule, pinned e145e8e
   math-stuff/               THE RESEARCH REPO. READ-ONLY, always.
 ```
@@ -103,7 +110,20 @@ do not write it specific and plan to strip it later.
 The public/private split is about DOMAIN, not about candour. Findings against
 the tool itself stay fully specific in public: that is the point of the file.
 
-### The sustained run, in flight
+### THE CENSUS IS SEALED. Do not write to it.
+
+**`campaigns/lsem-census/.portage/` must not be written to before 2026-08-03.**
+It is the subject of L3, the cold-return experiment, and its prose and scripts
+are moved to `.sealed/`. Protocol and fixed grading criteria:
+`portage-depot/testing/L3-PROTOCOL.md`, written before the run.
+
+L3 gates the main JC(2) persistent investigation on three conditions: two
+consecutive live sessions with no blocking tool defect (currently **zero of
+six**), `portage_declare` working end to end in a real campaign (it has failed
+in two consecutive sessions), and the cold return measured. Tool changes during
+the gap are expected and are part of the test.
+
+### The sustained run, now sealed
 
 `campaigns/lsem-census` — generic identifiability of linear structural equation
 models on small mixed graphs, via Macaulay2's `GraphicalModels`. A **census
@@ -137,12 +157,28 @@ exits nonzero. The T5 graph still does not fold for exactly this reason: four
 **Candidate 16th design invariant: every required field ships with a migration
 that fills the ignorance value.**
 
-**The recurring shape, five instances now:** a field that DETERMINES transport
+**The recurring shape, SIX instances now:** a field that DETERMINES transport
 and is taken on the author's word. Certificates (pre-v0.2), `identity_origin`
 (pre-v0.3), `kind` (pre-v0.3.1), `ladder` (pre-v0.3.2, found by T5 when a
 foreign campaign filled it with seven values and no overlap with the five it
-declares), and `established_by` (pre-v0.4). Each was found by someone *using*
-or *exploiting* it, never by review.
+declares), `established_by` (pre-v0.4), and — the deepest — **`V(src) ⊆ V(dst)`
+itself** (pre-v0.4.1). Each was found by someone *using* or *exploiting* it,
+never by review.
+
+**The sixth is the one that matters most.** Every edge asserts that
+containment; the kernel's opening comment says so and all six types are
+relaxations in that sense. Nothing ever checked it. L1 found the cost: a flop
+is an isomorphism in codimension one, so neither variety contains the other,
+and typed `EQUIVALENCE` it *"yields a false conclusion reported clean behind
+one prose-dischargeable DEBT"* with *"nothing in the tool [that] would have
+stopped me"*. `RESTRICTION` matches a flop on every clause except that one.
+
+Being repaired on branch `w5-structured-models`: models now carry their ideals
+(phase 1), and `I(dst) ⊆ I(src)` is checked by reduction (phase 2, verified
+against Singular). **Phase 3 remains** — the exact identity condition
+`LHS − RHS ∈ I(dst)`, which discharges a second registered conservatism, since
+the register already calls `AMBIENT` *sufficient but not necessary*. It is the
+same reduction pointed at a claim instead of an edge.
 
 **THE REPAIR RULE, and it is the best general principle in this corpus:** make
 it derivable, make it checkable, or make it compose with something already
