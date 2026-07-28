@@ -50,6 +50,8 @@ R_IDENTITY = "UNTESTED-IDENTITY"
 R_SIBLING = "SIBLING-EDGE"
 R_STALE_MODEL = "STALE-MODEL"
 R_CITATION = "AMBIGUOUS-CITATION"
+R_DOUBT = "DOUBT"
+R_EVIDENCE = "EVIDENCE-GRADE"
 
 EXISTENCE_OPPOSITE = {K.EMPTY: K.NONEMPTY, K.NONEMPTY: K.EMPTY}
 
@@ -1671,6 +1673,73 @@ def check_containment(graph):
     return findings
 
 
+def check_doubts(graph):
+    """Authored defeaters, rendered as findings.
+
+    Every other finding here is computed. This is the one a person writes, and
+    it exists because a live session read a cited proposition, found it did not
+    supply the premise it was meant to, and had nowhere to put that. It
+    correctly refused to draw an UNTYPED edge -- which would assert a map
+    exists and is merely unclassified, the opposite of what it found -- so the
+    result went into a note, invisible to every rule.
+
+    A doubt enters the SAME lifecycle as a computed finding: `gp accept`
+    carries it with a reason, which is exactly ACCEPTED_RISK, and `answered`
+    retires it.
+    """
+    findings = []
+    for did in sorted(graph.doubts):
+        d = graph.doubts[did]
+        if d.get("answered"):
+            continue
+        findings.append(Finding(
+            R_DOUBT, "%s:%s" % (R_DOUBT, did), d["severity"], d["about"],
+            "%s, raised against %s by hand.\n  %s"
+            % (d["kind"], d["about"], d.get("why")),
+            d.get("discharge_hint")
+            or ("Answer it and record `answered` with what settled it, accept "
+                "it deliberately with `gp accept`, or act on it. A doubt "
+                "nobody has answered is the honest state and stays visible "
+                "until one of those happens."),
+            semantic_key=did))
+    return findings
+
+
+def check_evidence(graph):
+    """A computation recorded for a claim that says it was never run.
+
+    The `evidence` record names WHAT was run, which `established_by: RAN` does
+    not -- it records only that something was. So the two must agree: a claim
+    graded CITED or READ with a computation attached to it is one of the two
+    being wrong, and which one matters. This is the seam where, in the
+    reporting session's own words, "a citation would drift into a
+    verification".
+    """
+    findings = []
+    for vid in sorted(graph.evidence):
+        v = graph.evidence[vid]
+        c = graph.claims.get(v["for"]) or {}
+        by = c.get("established_by")
+        if by in (None, "RAN"):
+            continue
+        findings.append(Finding(
+            R_EVIDENCE, "%s:%s" % (R_EVIDENCE, vid), TRIAGE, v["for"],
+            "evidence %s records a %s computation (%s) for claim %s, but that "
+            "claim is graded `established_by: %s`.\n"
+            "  A computation was run and the claim says it was not. One of "
+            "the two is wrong, and the direction matters: upgrading the grade "
+            "on the strength of an attached script is exactly how a citation "
+            "drifts into a verification."
+            % (vid, v["method"], v["ran"], v["for"], by),
+            "If the computation established the claim, regrade it RAN -- and "
+            "note that changing `established_by` is a RELICENSE, so it will "
+            "be looked at. If the computation only CORROBORATES something "
+            "read or cited, say so in the evidence's `what`, and leave the "
+            "grade where it is.",
+            semantic_key=v["for"]))
+    return findings
+
+
 def check_citations(graph):
     """Something cites an identifier already recorded as denoting elsewhere.
 
@@ -2010,6 +2079,8 @@ def run(graph, accepted=None):
                 + check_sibling_edges(graph)
                 + check_stale_models(graph)
                 + check_citations(graph)
+                + check_doubts(graph)
+                + check_evidence(graph)
                 + check_parallel_edges(graph)
                 + check_vacuous_conclusions(graph)
                 + check_self_built(graph))

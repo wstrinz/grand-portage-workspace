@@ -94,6 +94,36 @@ def _plain():
                       _inf("I", "C", [["E", K.ALONG]])]
 
 
+@construct("computation_and_doubt", ["evidence", "doubt"])
+def _evidence_and_doubt():
+    """A claim established by sweeping a bounded space, and a doubt about it.
+
+    Both drawn from live sessions. The evidence record exists because
+    certificates are algebraic and EMPTY-only, so a PREDICATE established by
+    exhaustive enumeration could record only THAT something was run, never
+    WHAT -- the script name went into a note. The doubt exists because an
+    agent found a cited result did not supply the premise it was meant to and
+    had nowhere to put that.
+    """
+    return [{"ev": "model", "id": "M", "what": "a bounded lattice of corners"},
+            {"ev": "claim", "id": "C", "model": "M", "kind": K.PREDICATE,
+             "statement": "every surviving pair lies in the published list",
+             "established_by": "RAN", "ladder": "exact-checked"},
+            {"ev": "evidence", "id": "EV1", "for": "C",
+             "method": "ENUMERATION", "ran": "r714_enum.py",
+             "what": "swept every (u,v) with u+v <= 50 applying the six "
+                     "necessary conditions the source proves"},
+            {"ev": "evidence", "id": "EV2", "for": "C",
+             "method": "REPLICATION", "ran": "gamma_from_corner.py",
+             "what": "an independent implementation of the same filter",
+             "agrees_with": "EV1, on all 40 survivors"},
+            {"ev": "doubt", "id": "D1", "about": "C",
+             "kind": "SCOPE_MISMATCH", "severity": "TRIAGE",
+             "why": "two of the six conditions are my reconstruction of a "
+                    "proof stated only for a special case, not the source's "
+                    "own general statement"}]
+
+
 @construct("ambiguous_citation", ["citation"])
 def _citation():
     """A citation whose naive resolution succeeds on the WRONG object.

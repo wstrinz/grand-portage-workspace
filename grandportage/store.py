@@ -36,6 +36,8 @@ EV_BUILT_BY = "built_by"
 EV_PARTITION = "partition"
 EV_SAME_AS = "same_as"
 EV_FAMILY = "family"      # a finite INDEX of objects, not a variety
+EV_EVIDENCE = "evidence"  # a COMPUTATION standing behind a claim
+EV_DOUBT = "doubt"        # an AUTHORED defeater; becomes a finding
 EV_CITATION = "citation"  # which external object an identifier denotes
 EV_ERRATUM = "erratum"    # voids a record that does not fold
 EV_VERDICT = "verdict"    # what a VERIFIER found; never declared
@@ -43,7 +45,8 @@ EV_NOTE = "note"          # free-form, carried but never interpreted
 
 EVENT_KINDS = (EV_CERTIFICATE, EV_MODEL, EV_EDGE, EV_CLAIM, EV_INFERENCE,
                EV_BUILT_BY, EV_PARTITION, EV_SAME_AS, EV_FAMILY,
-               EV_CITATION, EV_ERRATUM, EV_VERDICT, EV_NOTE)
+               EV_EVIDENCE, EV_DOUBT, EV_CITATION, EV_ERRATUM,
+               EV_VERDICT, EV_NOTE)
 
 # Severities an inference may override to.  Named here rather than imported so
 # the store stays the bottom layer with no dependency on the checker;
@@ -89,6 +92,8 @@ class Graph(object):
         self.groups = {}           # group id -> {of, settles, exhibited, ...}
         self.aliases = {}          # id -> {models: [...], why}
         self.citations = {}        # id -> which external object a name denotes
+        self.evidence = {}         # id -> a computation standing behind a claim
+        self.doubts = {}           # id -> an authored defeater
         self.notes = []
         self._seen = {}            # (kind, id) -> canonical event
 
@@ -159,6 +164,101 @@ class Graph(object):
         "edge": {"containment": ("VERIFIED", "NOT_BY_IDEAL", "UNVERIFIED"),
                  "why_field": "containment_why"},
     }
+
+    # HOW A COMPUTATION CAN STAND BEHIND A NON-ALGEBRAIC CLAIM.
+    #
+    # Certificates are algebraic and attach only to EMPTY.  So a live session
+    # that established a PREDICATE by sweeping a bounded lattice had
+    # `established_by: RAN, ladder: exact-checked` -- which records THAT
+    # something was run and not WHAT.  The script name went into a note, and
+    # `gp history`'s own closing line had already predicted the consequence: a
+    # load-bearing premise in a note is invisible to every rule in the checker.
+    #
+    # ENUMERATION  an exhaustive sweep of a bounded space.  The claim is true
+    #              because every case was tried, so `ran` names the sweep.
+    # REPLICATION  two independent procedures produced the same answer.
+    #
+    # THE SECOND ONE IS WHY THIS IS EVIDENCE AND NOT A CLAIM KIND.  Three of
+    # four IDENTITY claims in one campaign were really replications -- a
+    # recount, a retrodiction, a replayed verdict vector -- typed IDENTITY
+    # because it was the only kind meaning "these two are equal".  But "two
+    # procedures agreed" is not a proposition about a variety and does not
+    # transport anywhere; it is why you believe the proposition that does.
+    # Making it a claim kind would have owed the ledger twelve transport cells
+    # for something with no transport behaviour at all.
+    EVIDENCE_METHODS = ("ENUMERATION", "REPLICATION")
+
+    def _apply_evidence(self, ev, where):
+        _require(ev.get("for"),
+                 "%s: evidence %r must say what it is `for`"
+                 % (where, ev["id"]))
+        _require(ev.get("method") in self.EVIDENCE_METHODS,
+                 "%s: evidence %r has method %r; the methods are %s"
+                 % (where, ev["id"], ev.get("method"),
+                    ", ".join(self.EVIDENCE_METHODS)))
+        _require(ev.get("ran"),
+                 "%s: evidence %r needs `ran` -- the script, command or "
+                 "artifact that produced it. Naming the computation IS the "
+                 "content of this record; without it this says only that "
+                 "something happened." % (where, ev["id"]))
+        _require(ev.get("what"),
+                 "%s: evidence %r needs `what` -- what the computation "
+                 "actually did, in a sentence." % (where, ev["id"]))
+        if ev["method"] == "REPLICATION":
+            _require(ev.get("agrees_with"),
+                     "%s: evidence %r is a REPLICATION and must say what it "
+                     "`agrees_with`. A replication that does not name the "
+                     "other procedure is a single run with a confident label."
+                     % (where, ev["id"]))
+        self.evidence[ev["id"]] = dict(ev)
+
+    # THE DEFEATER KINDS.  Named rather than free text so the checker can group
+    # them and so a reader meets a vocabulary rather than a paragraph.
+    DOUBT_KINDS = ("COUNTEREXAMPLE", "MISSING_PREMISE", "INAPPLICABLE_RULE",
+                   "UNVERIFIED_EVIDENCE", "SCOPE_MISMATCH",
+                   "NONEXHAUSTIVE_PARTITION", "CONFLICTING_RESULT",
+                   "MODEL_MISMATCH", "DOES_NOT_FIT")
+
+    def _apply_doubt(self, ev, where):
+        """An AUTHORED defeater.  Every other finding in this system is
+        computed; this is the one a person writes.
+
+        WHY IT NEEDS TO EXIST.  A live session read a cited proposition, found
+        it did not supply the premise it was supposed to -- wrong model, wrong
+        claim kind, wrong subject -- and had nowhere to put that.  It refused
+        to draw an UNTYPED edge, correctly, because that would assert a map
+        exists and is merely unclassified, which is the opposite of what it
+        found.  The result went into a note, invisible to every rule.
+
+        NOT A SECOND LIFECYCLE.  A doubt becomes a FINDING, and findings
+        already have one: `gp accept` carries them with a per-finding reason,
+        which is exactly ACCEPTED_RISK.  So answering, accepting and
+        superseding all work unchanged.
+
+        THE SEVERITY IS THE AUTHOR'S, and that is safe in the one direction it
+        needs to be.  Every other honour-system field in this project granted a
+        LICENCE; this one only withholds it.  Over-declaring a doubt costs a
+        second look, under-declaring costs nothing that was not already the
+        case, so the conservative direction is the cheap one.
+        """
+        _require(ev.get("about"),
+                 "%s: doubt %r must name what it is `about`"
+                 % (where, ev["id"]))
+        _require(ev.get("kind") in self.DOUBT_KINDS,
+                 "%s: doubt %r has kind %r; the kinds are %s"
+                 % (where, ev["id"], ev.get("kind"),
+                    ", ".join(self.DOUBT_KINDS)))
+        _require(ev.get("why"),
+                 "%s: doubt %r needs `why`. A doubt without its reason is a "
+                 "mood, and the next reader cannot act on it."
+                 % (where, ev["id"]))
+        sev = ev.get("severity", "TRIAGE")
+        _require(sev in C_SEVERITIES,
+                 "%s: doubt %r has severity %r; the severities are %s"
+                 % (where, ev["id"], sev, ", ".join(C_SEVERITIES)))
+        d = dict(ev)
+        d["severity"] = sev
+        self.doubts[ev["id"]] = d
 
     def _apply_citation(self, ev, where):
         """Which external object an identifier actually denotes.
@@ -1135,6 +1235,19 @@ class Graph(object):
         can walk.
         """
         self._resolve_supersessions()
+        for vid, v in sorted(self.evidence.items()):
+            _require(v["for"] in self.claims,
+                     "evidence %s is for %r, which is not a claim in this "
+                     "graph." % (vid, v["for"]))
+        for did, d in sorted(self.doubts.items()):
+            known = (did in self.claims or d["about"] in self.claims
+                     or d["about"] in self.edges or d["about"] in self.inferences
+                     or d["about"] in self.models)
+            _require(known,
+                     "doubt %s is about %r, which is not a claim, edge, "
+                     "inference or model in this graph. A doubt attaches to "
+                     "something; if the thing it doubts is not recorded, "
+                     "record that first." % (did, d["about"]))
         for cid, c in sorted(self.claims.items()):
             if c.get("family"):
                 _require(c["family"] in self.families,

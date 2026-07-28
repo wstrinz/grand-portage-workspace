@@ -1758,6 +1758,75 @@ def _write(tmp_path, events):
             fh.write(json.dumps(e) + "\n")
 
 
+def test_a_doubt_is_a_finding_a_person_writes():
+    """Every other finding here is computed. This is the one authored.
+
+    A live session read a cited proposition, found it did not supply the
+    premise it was meant to -- wrong model, wrong claim kind, wrong subject --
+    and had nowhere to put that. It correctly refused to draw an UNTYPED edge,
+    because that asserts a map exists and is merely unclassified, which is the
+    opposite of what it found. The result went into a note, which `gp history`
+    itself describes as invisible to every rule in the checker.
+
+    NOT A SECOND LIFECYCLE: it becomes a Finding, and `gp accept` already
+    carries findings with a per-finding reason, which is ACCEPTED_RISK.
+    """
+    g = _graph([
+        {"ev": "model", "id": "M", "what": "the model under study"},
+        {"ev": "claim", "id": "C", "model": "M", "kind": K.PREDICATE,
+         "statement": "the corner is fixed", "established_by": "CITED",
+         "ladder": "claimed"},
+        {"ev": "doubt", "id": "D1", "about": "C", "kind": "DOES_NOT_FIT",
+         "severity": "UNSOUND_PREMISE",
+         "why": "the cited result lives in a disjoint branch of the same "
+                "dichotomy, so it is true, relevant, and not this premise"}])
+    found = [f for f in C.run(g) if f.rule == C.R_DOUBT]
+    assert len(found) == 1 and found[0].severity == "UNSOUND_PREMISE"
+    assert "DOES_NOT_FIT" in found[0].detail
+
+    # ANSWERED retires it, through the same door it came in.
+    g2 = _graph([
+        {"ev": "model", "id": "M", "what": "the model under study"},
+        {"ev": "claim", "id": "C", "model": "M", "kind": K.PREDICATE,
+         "statement": "the corner is fixed", "established_by": "CITED",
+         "ladder": "claimed"},
+        {"ev": "doubt", "id": "D1", "about": "C", "kind": "DOES_NOT_FIT",
+         "why": "as above", "answered": "settled by a second route"}])
+    assert not [f for f in C.run(g2) if f.rule == C.R_DOUBT]
+
+
+def test_a_computation_recorded_for_a_claim_that_was_only_cited():
+    """WHERE A CITATION DRIFTS INTO A VERIFICATION, in the reporting
+    session's own words.
+
+    `established_by: RAN` records THAT something was run; the evidence record
+    names WHAT. So the two must agree -- a computation attached to a claim
+    graded CITED is one of the two being wrong.
+
+    And REPLICATION must name the other procedure, because a replication that
+    does not is a single run wearing a confident label.
+    """
+    g = _graph([
+        {"ev": "model", "id": "M", "what": "a bounded lattice"},
+        {"ev": "claim", "id": "C", "model": "M", "kind": K.PREDICATE,
+         "statement": "all survivors are listed", "established_by": "CITED",
+         "ladder": "claimed"},
+        {"ev": "evidence", "id": "EV1", "for": "C", "method": "ENUMERATION",
+         "ran": "sweep.py", "what": "swept every pair with u+v <= 50"}])
+    assert [f for f in C.run(g) if f.rule == C.R_EVIDENCE]
+
+    with pytest.raises(S.GraphError) as exc:
+        _graph([
+            {"ev": "model", "id": "M", "what": "a bounded lattice"},
+            {"ev": "claim", "id": "C", "model": "M", "kind": K.PREDICATE,
+             "statement": "x", "established_by": "RAN",
+             "ladder": "exact-checked"},
+            {"ev": "evidence", "id": "EV1", "for": "C",
+             "method": "REPLICATION", "ran": "b.py",
+             "what": "a second implementation"}])
+    assert "agrees_with" in str(exc.value)
+
+
 def test_a_model_can_be_superseded_and_it_shows(tmp_path):
     """THE ANCHOR WAS THE ONE OBJECT YOU COULD CHANGE INVISIBLY.
 
