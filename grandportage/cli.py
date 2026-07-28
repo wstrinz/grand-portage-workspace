@@ -58,7 +58,7 @@ def cmd_check(args):
                        "claims": len(g.claims),
                        "inferences": len(g.inference_order)},
         }, indent=2))
-        return C.exit_code(findings, args.floor)
+        return C.exit_code(findings, args.floor, accepted)
 
     if not args.quiet:
         print("graph: %d models, %d edges, %d claims, %d inferences"
@@ -111,7 +111,7 @@ def cmd_check(args):
             print("Nothing live. Every finding at this floor was examined and "
                   "accepted deliberately -- this campaign is carrying debt in "
                   "the open, not failing.")
-    return C.exit_code(findings, args.floor)
+    return C.exit_code(findings, args.floor, accepted)
 
 
 def cmd_migrate(args):
@@ -687,6 +687,18 @@ def cmd_show(args):
             extra.append("cert=%s" % c["certificate"])
         if c.get("identity_origin"):
             extra.append("origin=%s" % c["identity_origin"])
+        # THE REWRITING ITSELF, and whether anybody has checked it.
+        #
+        # `show` printed `ring_vars` for models and `identity_origin` for
+        # claims, and neither side of the actual equation -- so a reader could
+        # not tell a structured IDENTITY from a prose one without opening
+        # graph.jsonl by hand, which is the thing having a `show` is for.
+        # `origin` was visible while the two things it is DERIVED FROM were
+        # not.
+        if c.get("lhs") is not None:
+            extra.append("%s = %s" % (c["lhs"], c["rhs"]))
+        if c.get("identity_verdict"):
+            extra.append("verdict=%s" % c["identity_verdict"])
         if c.get("established_by"):
             extra.append("by=%s" % c["established_by"])
         if c.get("ladder"):

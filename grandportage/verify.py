@@ -165,38 +165,39 @@ def identity(graph, cid, timeout=300, _runner=None):
     if not ring:
         return UNVERIFIED, "claim %s declares no ring variables" % cid
     model = graph.models.get(c.get("model")) or {}
-    if model.get("generators") is None:
-        # `containment` guards this and `identity` did not, which produced a
-        # verdict that named an ideal the model does not have -- sending a
-        # reader to look for equations that were never recorded.
-        #
-        # AND THE VERDICT SPACE COLLAPSES SILENTLY, which is the worse half.
-        # With no ideal there is nothing to reduce modulo, so DERIVED is
-        # unreachable by construction: every rewriting comes back AMBIENT or
-        # REFUTED, and REFUTED then means "not identically zero in the
-        # polynomial ring" rather than "false at this model".  Those are
-        # different statements and the caller cannot tell which one it got.
-        return UNVERIFIED, (
-            "claim %s sits at model %s, which records no generators. An "
-            "IDENTITY asserts lhs - rhs lies in the model's ideal, and there "
-            "is no ideal here to lie in.\n"
-            "  This is not a near miss. Without generators the question "
-            "degenerates to 'is lhs - rhs identically zero in the polynomial "
-            "ring', which is a strictly stronger and different claim -- "
-            "DERIVED becomes unreachable and a negative answer would not mean "
-            "what a refutation means. Record the model's generators, or state "
-            "the rewriting at a model that has them."
-            % (cid, c.get("model")))
-    gens = list(model["generators"])
+    # A MODEL WITH NO EQUATIONS IS NOT A MODEL WITH MISSING DATA, and the
+    # first version of this guard refused it as though it were.
+    #
+    # The complaint it answered was real: the REFUTED message named "%s's
+    # ideal" at a model that has none, sending a reader to look for equations
+    # nobody recorded.  But the fix for a wrong sentence is a right sentence.
+    # Refusing to verify turned a wording bug into a false refusal, and it
+    # landed on the exact case that motivated the feature -- an SOS Gram
+    # identity `mon^T G mon - f = 0` lives in the polynomial ring and needs no
+    # ideal at all.  `cas.classify_identity` already says so: "the model
+    # imposes nothing, so 'modulo I' is the same question as 'in the ambient
+    # ring', and the two agree by construction rather than by accident."
+    #
+    # So verify either way, and let the PROSE carry the distinction.  With no
+    # ideal, DERIVED is unreachable by construction and REFUTED means "not
+    # identically zero in the polynomial ring" rather than "false at this
+    # model" -- both true, both worth saying, neither a reason to decline.
+    gens = list(model.get("generators") or [])
+    bare = not gens
+    modulo = ("in the polynomial ring, which is the whole question here "
+              "because %s imposes no equations" % c.get("model") if bare
+              else "modulo %s's ideal" % c.get("model"))
     origin, evidence = cas.classify_identity(
         ring, lhs=c["lhs"], rhs=c["rhs"], generators=gens,
         timeout=timeout, _runner=_runner)
     if origin == K.AMBIENT:
         return AMBIENT, (
-            "(%s) - (%s) reduces to 0 in the polynomial ring itself, before any of "
-            "%s's equations are imposed. The rewriting is AMBIENT, and that is "
-            "now a computed fact rather than a declared one."
-            % (c["lhs"], c["rhs"], c.get("model")))
+            "(%s) - (%s) reduces to 0 in the polynomial ring itself%s. The "
+            "rewriting is AMBIENT, and that is now a computed fact rather "
+            "than a declared one."
+            % (c["lhs"], c["rhs"],
+               "" if bare else
+               ", before any of %s's equations are imposed" % c.get("model")))
     if origin == K.DERIVED:
         return DERIVED, (
             "(%s) - (%s) is nonzero in the polynomial ring but reduces to 0 modulo "
@@ -204,14 +205,16 @@ def identity(graph, cid, timeout=300, _runner=None):
             "DERIVES from the model's own equations."
             % (c["lhs"], c["rhs"], c.get("model")))
     return REFUTED, (
-        "(%s) - (%s) does not reduce to 0 modulo %s's ideal -- it reduces to %s.\n"
-        "  THIS ONE IS A REFUTATION, unlike a failed containment. The claim is "
-        "that the difference lies in the ideal, and reduction modulo a "
-        "Groebner basis DECIDES ideal membership. So the rewriting is false at "
-        "the model it was claimed at, and every transport that carried it "
-        "carried something untrue."
-        % (c["lhs"], c["rhs"], c.get("model"),
-           (evidence or {}).get("reduced_modulo_ideal", "a nonzero form")))
+        "(%s) - (%s) does not reduce to 0 %s -- it reduces to %s.\n"
+        "  THIS ONE IS A REFUTATION, unlike a failed containment. %s So the "
+        "rewriting is false where it was claimed, and every transport that "
+        "carried it carried something untrue."
+        % (c["lhs"], c["rhs"], modulo,
+           (evidence or {}).get("reduced_modulo_ideal", "a nonzero form"),
+           ("The claim is that the difference is identically zero, and that "
+            "is decided by normalising it." if bare else
+            "The claim is that the difference lies in the ideal, and "
+            "reduction modulo a Groebner basis DECIDES ideal membership.")))
 
 
 def _verdict_event(subject, of, verdict, why):
@@ -280,5 +283,10 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
         events.append(_verdict_event("claim", cid, verdict, why))
 
     if record and events:
-        S.append(events, path)
+        # ROOT, not the graph path.  `append` resolves `.portage/graph.jsonl`
+        # itself, so passing the resolved path built
+        # `.portage/graph.jsonl/.portage` and crashed -- on the ONE line the
+        # suite never reached, because every test called `verify_all` with
+        # `record=False` or a fixture that produced no events.
+        S.append(events, root)
     return results

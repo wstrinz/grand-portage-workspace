@@ -1720,12 +1720,42 @@ def check_identity(graph):
         if c.get("identity_verdict"):
             continue
         if c.get("lhs") is not None:
+            # STRUCTURED AND NEVER REDUCED, which the first version of this
+            # rule fell silent on.  It skipped any claim carrying `lhs`, so
+            # recording the rewriting made the checker QUIETER -- and with no
+            # way to record a verdict either, the phase-3 loop had no terminus:
+            # you could structure a claim, not verify it, and never hear about
+            # it again.  Structuring must not be how a claim goes dark.
+            findings.append(Finding(
+                R_IDENTITY, "%s:untested:%s" % (R_IDENTITY, cid),
+                TRIAGE, cid,
+                "claim %s records its rewriting -- %s = %s -- and nothing has "
+                "reduced it.\n"
+                "  This is the cheap case. The claim asserts that lhs - rhs "
+                "lies in %s's ideal, reduction modulo a Groebner basis DECIDES "
+                "that, and the answer is one solver call away. Until it is "
+                "made, `identity_origin` is still the author's word for the "
+                "one field on this claim that decides where it may travel."
+                % (cid, c.get("lhs"), c.get("rhs"), c.get("model")),
+                "Run `gp verify`. It reduces every structured IDENTITY and "
+                "records the verdict, and a REFUTED answer here would mean the "
+                "rewriting is false at its own model -- which no transport "
+                "typing anywhere downstream would ever have surfaced.",
+                semantic_key=cid))
             continue
+        # PREMISES, NOT `claim`/`path`.  Those two are backfilled from
+        # premises[0] only, so reading them made every IDENTITY in slot 2 or
+        # later invisible to this rule -- and a live campaign put all three of
+        # its structured identities in slots 2 to 4.
+        legs = []
         for iid in sorted(graph.inferences):
             inf = graph.inferences[iid]
-            if inf.get("claim") != cid:
-                continue
-            for step in inf.get("path") or []:
+            for pr in inf.get("premises") or []:
+                if pr.get("claim") == cid:
+                    legs.append(pr.get("path") or [])
+        for path in legs:
+            hit = False
+            for step in path:
                 eid = step[0] if isinstance(step, (list, tuple)) else step
                 direction = (step[1] if isinstance(step, (list, tuple))
                              and len(step) > 1 else None)
@@ -1734,6 +1764,7 @@ def check_identity(graph):
                     continue
                 if e.get("type") != K.RESTRICTION or direction != K.ALONG:
                     continue
+                hit = True
                 findings.append(Finding(
                     R_IDENTITY, "%s:%s:%s" % (R_IDENTITY, cid, eid),
                     TRIAGE, cid,
@@ -1756,7 +1787,8 @@ def check_identity(graph):
                     "at the region as a PREDICATE -- which does not cross.",
                     semantic_key=cid))
                 break
-            break
+            if hit:
+                break
     return findings
 
 
@@ -1872,14 +1904,35 @@ def render(findings, accepted=None, full=False):
     return "\n".join(out)
 
 
-def exit_code(findings, floor=UNSOUND_PREMISE):
-    """1 iff any finding is at or above `floor`.
+def exit_code(findings, floor=UNSOUND_PREMISE, accepted=()):
+    """1 iff any LIVE finding is at or above `floor`.
 
     The floor is DEBT-tolerant by default: a recorded hole is a hole you are
     tracking, and blocking on it would push people to stop recording them.
+
+    ACCEPTANCE HAS TO REACH THE EXIT CODE, and for two releases it did not.
+    This function never saw the baseline, so a campaign whose every finding had
+    been examined and deliberately carried still exited 1 -- while the same
+    command printed, three lines earlier:
+
+        "Nothing live. Every finding at this floor was examined and accepted
+         deliberately -- this campaign is carrying debt in the open, NOT
+         FAILING."
+
+    The prose and the exit code said opposite things, and the exit code is what
+    a hook or a CI step reads.  So `gp accept` bought nothing at the only layer
+    that automates, and a campaign legitimately carrying debt could never go
+    green -- which is precisely the pressure that stops people recording holes,
+    the thing the DEBT-tolerant default exists to avoid.
+
+    A finding that is carried is not absent: it still prints, `gp history`
+    still lists it, and re-accepting is still a deliberate act.  It just does
+    not fail the build, because somebody already looked at it.
     """
     rank = SEVERITY_RANK[floor]
-    return 1 if any(SEVERITY_RANK[f.severity] >= rank for f in findings) else 0
+    accepted = set(accepted or ())
+    return 1 if any(SEVERITY_RANK[f.severity] >= rank
+                    and f.fid not in accepted for f in findings) else 0
 
 
 def collect_hints(graph, **objects):

@@ -1659,6 +1659,82 @@ def test_the_identity_cell_does_not_send_you_after_denominators():
     assert "x^2 + y^2" in msg
 
 
+def test_verify_all_actually_writes_and_the_finding_goes_away(tmp_path):
+    """THE RECORDING PATH HAD NEVER BEEN RUN, and it crashed on first contact.
+
+    `verify_all` passed the RESOLVED graph path to `S.append`, which takes a
+    root and resolves `.portage/graph.jsonl` itself -- so it built
+    `.portage/graph.jsonl/.portage` and raised FileNotFoundError. Every test
+    reached that line with `record=False` or with a fixture producing no
+    events, so 625 checks passed over a function whose stated purpose is to
+    write.
+
+    This asserts the whole loop, which is the only shape that would have
+    caught it: a structured identity is REPORTED by `check`, verifying it
+    RECORDS a verdict, and the finding then goes QUIET.
+    """
+    from grandportage import verify as V
+
+    root = str(tmp_path)
+    S.append([
+        {"ev": "model", "id": "X", "what": "a curve",
+         "ring_vars": ["x", "y"], "generators": ["y^2-x^3"]},
+        {"ev": "claim", "id": "C", "model": "X", "kind": K.IDENTITY,
+         "statement": "y^2 = x^3", "lhs": "y^2", "rhs": "x^3",
+         "ring_vars": ["x", "y"], "identity_origin": K.DERIVED,
+         "established_by": "RAN", "ladder": "exact-checked"}], root)
+
+    before = C.run(S.load(S.graph_path(root)))
+    assert [f for f in before if f.rule == C.R_IDENTITY], (
+        "a structured but unreduced identity must be reported")
+
+    # Nonzero in the polynomial ring, zero modulo the ideal -> DERIVED.
+    runner = _fake_run(stdout="@@GP_D:\ny2-x3\n@@GP_RED:\n0\n")
+    results = V.verify_all(root=root, _runner=runner, record=True)
+    assert results, "the claim is verifiable and must be verified"
+
+    after = C.run(S.load(S.graph_path(root)))
+    assert not [f for f in after if f.rule == C.R_IDENTITY], (
+        "once verified, the finding must go quiet -- otherwise `gp verify` "
+        "has no terminus and the loop never closes")
+
+
+def test_acceptance_reaches_the_exit_code():
+    """THE PROSE AND THE EXIT CODE SAID OPPOSITE THINGS, and the exit code is
+    the one a hook reads.
+
+    `gp check` printed "Nothing live. Every finding at this floor was examined
+    and accepted deliberately -- this campaign is carrying debt in the open,
+    NOT FAILING" and then exited 1, because `exit_code` never saw the baseline.
+
+    So `gp accept` bought nothing at the only layer that automates, and a
+    campaign legitimately carrying debt could never go green -- exactly the
+    pressure that stops people recording holes, which is what the DEBT-tolerant
+    default exists to prevent.
+    """
+    g = _graph(TWO_MODELS + [
+        {"ev": "claim", "id": "C", "model": "TIGHT", "kind": K.EMPTY,
+         "statement": "no points", "certificate": "UNIT_IDEAL_CERT",
+         "established_by": "RAN", "ladder": "exact-checked"},
+        {"ev": "edge", "id": "E", "src": "TIGHT", "dst": "LOOSE",
+         "type": K.NECESSARY_CONDITION, "why": "drops an equation"},
+        {"ev": "inference", "id": "I", "claim": "C", "path": [["E", K.ALONG]],
+         "concludes_kind": K.EMPTY, "asserted": "empty upstairs too"}])
+    findings = C.run(g)
+    assert findings, "fixture must produce a finding to be worth anything"
+
+    assert C.exit_code(findings, C.UNSOUND_PREMISE) == 1, (
+        "unaccepted, it fails")
+    assert C.exit_code(findings, C.UNSOUND_PREMISE,
+                       accepted=[f.fid for f in findings]) == 0, (
+        "accepted, it must not fail -- otherwise acceptance is decorative")
+
+    # AND ACCEPTING ONE OF TWO IS NOT ACCEPTING BOTH.
+    partial = C.exit_code(findings, C.UNSOUND_PREMISE,
+                          accepted=[findings[0].fid])
+    assert partial == (0 if len(findings) == 1 else 1)
+
+
 def test_the_density_condition_was_retracted_and_gates_nothing():
     """THE GATE WAS INSUFFICIENT AND ALSO BESIDE THE POINT, and both halves of
     that matter, so this test replaces the one that asserted the gate.
