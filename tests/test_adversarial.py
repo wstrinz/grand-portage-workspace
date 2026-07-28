@@ -3897,3 +3897,114 @@ def test_a_single_claim_inference_is_not_counted_twice():
     """
     fids = [f.fid for f in C.run(_hyperbola()) if f.rule == C.R_INEXPRESSIBLE]
     assert len(fids) == len(set(fids)) == 1, fids
+
+
+# ===========================================================================
+# THE POINT, SUBSTITUTED.
+#
+# "the graph cannot currently distinguish 'I have the point' from 'I claim to
+# have the point'" -- a live agent, unprompted, naming the largest honour-
+# system hole left.  An EMPTY claim must name a certificate or the graph will
+# not fold; a NONEMPTY claim, where the author is holding the object, carried
+# nothing checkable.
+#
+# `cas.check_witness` had existed and worked the whole time.  Nothing called
+# it: two check rules and one kernel refusal promised it BY NAME and no code
+# path ever reached it.  Fourth instance of a capability with no surface.
+# ===========================================================================
+CIRCLE = [
+    {"ev": "model", "id": "M", "desc": "the circle of radius 5",
+     "ring_vars": ["x", "y"], "generators": ["x^2+y^2-25"]},
+]
+
+
+def _witness_claim(cid, point, **kw):
+    ev = {"ev": "claim", "id": cid, "model": "M", "kind": K.NONEMPTY,
+          "statement": "the circle has a rational point",
+          "witness_kind": K.EXHIBITED, "witness": "a point on the circle",
+          "established_by": "RAN", "ladder": "exact-checked"}
+    if point is not None:
+        ev["witness_point"] = point
+    ev.update(kw)
+    return ev
+
+
+def test_a_fabricated_point_no_longer_types_like_a_real_one():
+    """Two claims identical in every typed field but the coordinates."""
+    from grandportage import verify as V
+
+    def fake(prog, timeout):
+        # (3,4) is on the circle; (3,5) gives 9.
+        val = "0" if "4" in prog.text else "9"
+        return {"aborted": False, "returncode": 0, "stderr": "",
+                "stdout": "@@GP_V0:\nGP_V0=%s\n" % val}
+
+    g = _graph(CIRCLE + [_witness_claim("REAL", {"x": "3", "y": "4"}),
+                         _witness_claim("FAKE", {"x": "3", "y": "5"})])
+    assert V.point_witness(g, "REAL", _runner=fake)[0] == V.WITNESS_VERIFIED
+    verdict, why = V.point_witness(g, "FAKE", _runner=fake)
+    assert verdict == V.WITNESS_REFUTED
+    assert "x^2+y^2-25 evaluates to 9" in why
+
+
+def test_a_refuted_witness_is_unsound_at_its_own_model():
+    """The same shape as a REFUTED identity: no transport typing anywhere
+    downstream would ever have surfaced it."""
+    g = _graph(CIRCLE + [_witness_claim(
+        "FAKE", {"x": "3", "y": "5"},
+        witness_verdict="NOT_A_POINT",
+        witness_why="x^2+y^2-25 evaluates to 9")])
+    found = [f for f in C.run(g) if f.rule == C.R_WITNESS]
+    assert found[0].severity == C.UNSOUND_CONCLUSION
+    assert C.exit_code(C.run(g)) == 1
+
+
+def test_a_structured_witness_nobody_substituted_is_triage():
+    g = _graph(CIRCLE + [_witness_claim("W", {"x": "3", "y": "4"})])
+    found = [f for f in C.run(g) if f.rule == C.R_WITNESS]
+    assert len(found) == 1 and found[0].severity == C.TRIAGE
+    assert "untested" in found[0].fid
+
+
+def test_a_prose_witness_is_not_a_finding():
+    """NO CAMPAIGN TO STRUCTURE THE CORPUS.
+
+    The first version of this rule had a third tier for prose-only witnesses.
+    It fired on five claims in the retrodiction fixtures -- whose gate asserts
+    the clean sets EXACTLY, because "a framework that flags a sound step is a
+    false-positive generator and unusable" -- and would fire on all twenty-five
+    live ones. `check_identity` had already declined the identical campaign for
+    identities and said so in its own docstring.
+    """
+    g = _graph(CIRCLE + [_witness_claim("W", None)])
+    assert not [f for f in C.run(g) if f.rule == C.R_WITNESS]
+
+
+def test_recording_coordinates_is_exhibiting_the_point():
+    """A structured point on an ASSERTED claim is the graph contradicting
+    itself about the one thing this field exists to settle."""
+    with pytest.raises(S.GraphError) as e:
+        _graph(CIRCLE + [_witness_claim("W", {"x": "3", "y": "4"},
+                                        witness_kind=K.ASSERTED)])
+    assert "Recording the coordinates IS exhibiting" in str(e.value)
+
+
+def test_a_coordinate_cannot_be_written_in_the_coordinates():
+    """SEQUENTIAL SUBSTITUTION IS NOT SIMULTANEOUS, and `check_witness` uses
+    nested `subst`.
+
+    That is safe for a point ONLY because coordinates are constants -- after
+    substituting x, no x survives for a later step to disturb. It is a
+    precondition, not a property of the code, and nothing enforced it. The same
+    confusion already produced a silent bug in `verify.ring_iso`, where
+    swapping two variables one at a time sent `x*y - 1` to `x*x - 1`.
+    """
+    with pytest.raises(cas.CASError) as e:
+        cas.check_witness(["x", "y"], ["x^2+y^2-25"], {"x": "3", "y": "x"})
+    assert "constants" in str(e.value) and "order" in str(e.value)
+
+
+def test_a_partial_point_is_not_a_point():
+    with pytest.raises(cas.CASError) as e:
+        cas.check_witness(["x", "y"], ["x^2+y^2-25"], {"x": "3"})
+    assert "missing y" in str(e.value)

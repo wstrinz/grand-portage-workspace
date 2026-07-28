@@ -196,6 +196,9 @@ class Graph(object):
         "ring_iso": {"ring_iso_verdict": ("VERIFIED", "NOT_AN_ISOMORPHISM",
                                           "UNVERIFIED"),
                      "why_field": "ring_iso_why"},
+        "witness": {"witness_verdict": ("VERIFIED", "NOT_A_POINT",
+                                        "UNVERIFIED"),
+                    "why_field": "witness_why"},
     }
 
     # HOW A COMPUTATION CAN STAND BEHIND A NON-ALGEBRAIC CLAIM.
@@ -422,7 +425,8 @@ class Graph(object):
                  % (where, ev.get("id"), " or ".join(sorted(self._VERDICTS))))
         spec = self._VERDICTS[subject]
         field = [k for k in spec if k != "why_field"][0]
-        target = (self.claims if subject in ("claim", "certificate")
+        target = (self.claims
+                  if subject in ("claim", "certificate", "witness")
                   else self.edges)
         of = ev.get("of")
         _require(of in target,
@@ -1049,6 +1053,42 @@ class Graph(object):
                  "  If you hold the point, drop `existential` and lift it. If "
                  "you only proved one exists, drop the witness."
                  % (where, ev["id"]))
+        # THE POINT, STRUCTURED, SO A SOLVER CAN SUBSTITUTE IT.
+        #
+        # ADDITIVE ON PURPOSE.  `witness` stays free text and stays legal:
+        # twenty-five live records across four campaigns are prose -- "(x, y) =
+        # (1, 2)", "t = sqrt(3)", one that cites a handoff document -- and one
+        # of those campaigns is under a write freeze.  Requiring structure would
+        # invalidate all of them to gain nothing they do not already record.
+        #
+        # This is exactly the position IDENTITY was in before `lhs`/`rhs`, and
+        # the route out is the same: prose is a reading question, a map from
+        # ring variable to value is an arithmetic one.  `gp check` asks for it
+        # and `gp verify` answers it.
+        if ev.get("witness_point") is not None:
+            wp = ev["witness_point"]
+            _require(isinstance(wp, dict) and wp,
+                     "%s: claim %r `witness_point` must be a non-empty map "
+                     "from ring variable to value, e.g. {\"x\": \"1\", "
+                     "\"y\": \"-2\"}. Prose belongs in `witness`."
+                     % (where, ev["id"]))
+            bad = sorted(k for k, v in wp.items()
+                         if not isinstance(k, str)
+                         or isinstance(v, bool)
+                         or not isinstance(v, (str, int)))
+            _require(not bad,
+                     "%s: claim %r `witness_point` has non-scalar coordinate(s) "
+                     "for %s. A coordinate is a number or an expression for "
+                     "one." % (where, ev["id"], ", ".join(map(str, bad))))
+            # Holding the point IS what EXHIBITED means.  A structured point on
+            # an ASSERTED claim is the graph contradicting itself about the one
+            # thing this field exists to settle.
+            _require(c["witness_kind"] == K.EXHIBITED,
+                     "%s: claim %r gives a `witness_point` and declares "
+                     "witness_kind %s. Recording the coordinates IS exhibiting "
+                     "the point -- declare EXHIBITED, or drop the point if you "
+                     "do not have it."
+                     % (where, ev["id"], c["witness_kind"]))
         # Evidence grading licenses nothing, so both fields are optional -- an
         # ungraded claim is merely ungraded.  What is refused is a grade that
         # is WRONG, including a pair that contradicts itself.

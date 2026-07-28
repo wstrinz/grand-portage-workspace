@@ -364,6 +364,21 @@ def _declare_epilog():
         "kind above, evidence and doubts and citations included, so `answered`\n"
         "and `decides` are reachable for a record already in the log.\n"
         "\n"
+        "a NONEMPTY claim can HAND OVER ITS POINT instead of describing it:\n"
+        "  witness_kind: EXHIBITED   you hold the point\n"
+        "  witness_point: {..}       a value per ring variable, e.g.\n"
+        "                            {\"x\": \"3\", \"y\": \"4\"}. `gp verify`\n"
+        "                            substitutes it into the model's\n"
+        "                            generators -- the cheapest check here,\n"
+        "                            and the only one with no interpretation\n"
+        "                            to argue about\n"
+        "  witness: '..'             prose. legal, unchecked, often the more\n"
+        "                            readable record. keep both\n"
+        "an EMPTY claim must name a `certificate` or the graph will not fold.\n"
+        "a NONEMPTY claim is where you may LITERALLY HOLD THE OBJECT, and\n"
+        "without `witness_point` a fabricated point types identically to a\n"
+        "real one.\n"
+        "\n"
         "a model's ALGEBRA is optional, and there are THREE states, not two:\n"
         "  generators: [..]      the ideal, known. reduction can proceed\n"
         "  generators: []        the AMBIENT SPACE. imposes no equations, and\n"
@@ -987,6 +1002,15 @@ def cmd_show(args):
             extra.append("%s = %s" % (c["lhs"], c["rhs"]))
         if c.get("identity_verdict"):
             extra.append("verdict=%s" % c["identity_verdict"])
+        # THE POINT, AND WHETHER ANYBODY SUBSTITUTED IT -- for exactly the
+        # reason `lhs = rhs` is printed two lines up. A reader could not tell a
+        # checkable witness from a prose one without opening graph.jsonl.
+        if c.get("witness_point"):
+            wp = c["witness_point"]
+            extra.append("at (%s)" % ", ".join(
+                "%s=%s" % (v, wp[v]) for v in sorted(wp)))
+        if c.get("witness_verdict"):
+            extra.append("witness=%s" % c["witness_verdict"])
         if c.get("established_by"):
             extra.append("by=%s" % c["established_by"])
         if c.get("ladder"):

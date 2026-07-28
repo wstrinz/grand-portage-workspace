@@ -421,6 +421,95 @@ def ring_iso(graph, eid, timeout=300, _runner=None):
         % (e["src"], e["dst"]))
 
 
+WITNESS_VERIFIED = "VERIFIED"
+WITNESS_REFUTED = "NOT_A_POINT"
+
+
+def point_witness(graph, cid, timeout=300, _runner=None):
+    """Substitute a NONEMPTY claim's exhibited point into its model's equations.
+
+    THE CHEAPEST CHECK IN THE SYSTEM, WITH NO SURFACE FOR THREE RELEASES.
+    `cas.check_witness` has existed and worked the whole time; nothing called
+    it.  Two check rules and one kernel refusal all promise it by name -- "put
+    it in `witness` and `cas_check_witness` will substitute it into the
+    generators and tell you" -- and no code path ever did.  That is the fourth
+    instance of a capability with no surface (`gp verify` itself, `ring_iso`,
+    `unit_ideal`, this), and the gates do not catch it: GATE 3 asks whether a
+    message names a command that does not exist, not whether a capability that
+    exists is reachable.
+
+    WHY IT MATTERS MORE THAN ITS COST SUGGESTS.  An EMPTY claim must name a
+    certificate or the graph will not fold.  A NONEMPTY claim -- where the
+    author is LITERALLY HOLDING THE OBJECT, the strongest evidence available
+    anywhere in the system -- carried nothing checkable, so a fabricated point
+    typed identically to a real one.  A live agent found that unprompted and
+    said so plainly: "the graph cannot currently distinguish 'I have the point'
+    from 'I claim to have the point'."
+
+    And a REFUTED witness is a false NONEMPTY at its OWN MODEL, which no
+    transport typing anywhere downstream would ever have surfaced -- the same
+    shape as a REFUTED identity, and the reason both verifiers exist.
+
+        VERIFIED     every generator vanishes at the point.
+        NOT_A_POINT  one does not, and it is named with its value.
+        UNVERIFIED   the question could not be put.
+
+    STRUCTURED WITNESSES ONLY, via `witness_point`.  The prose `witness` field
+    stays legal and stays unchecked -- 25 live records across four campaigns
+    are strings like "(x, y) = (1, 2)" and "t = sqrt(3)" -- which is exactly
+    the position IDENTITY was in before `lhs`/`rhs`.  The route out is the same
+    one: record it structurally and it becomes a question a solver can answer.
+    """
+    c = graph.claims.get(cid)
+    if not c:
+        return UNVERIFIED, "no such claim"
+    if c.get("kind") != K.NONEMPTY:
+        return UNVERIFIED, "claim %s is %s, not a NONEMPTY" % (
+            cid, c.get("kind"))
+    point = c.get("witness_point")
+    if not point:
+        return UNVERIFIED, (
+            "claim %s gives its point only in prose. `witness_point` -- a "
+            "value for each ring variable -- is what makes it an arithmetic "
+            "question rather than a reading question." % cid)
+    model = graph.models.get(c.get("model")) or {}
+    pending = _pending_ideal(c.get("model"), model)
+    if pending:
+        return UNVERIFIED, pending
+    gens = list(model.get("generators") or [])
+    if not gens:
+        return UNVERIFIED, (
+            "%s imposes no equations, so every point of the ambient space lies "
+            "on it and there is nothing to substitute into. The claim may well "
+            "be true; it is not this check that establishes it."
+            % c.get("model"))
+    ring = model.get("ring_vars") or c.get("ring_vars") or []
+    if not ring:
+        return UNVERIFIED, "neither %s nor claim %s declares ring variables" % (
+            c.get("model"), cid)
+    ok, evidence = cas.check_witness(
+        ring, gens, point, characteristic=model.get("characteristic") or 0,
+        timeout=timeout, _runner=_runner)
+    shown = ", ".join("%s = %s" % (v, point[v]) for v in ring if v in point)
+    if ok:
+        return WITNESS_VERIFIED, (
+            "every generator of %s's ideal vanishes at (%s), so the point is "
+            "on the variety and the claim HOLDS AT ITS OWN MODEL. What that "
+            "does not settle is where it may travel."
+            % (c.get("model"), shown))
+    failed = evidence["failed"]
+    values = {g["generator"]: g["value"] for g in evidence["generators"]}
+    return WITNESS_REFUTED, (
+        "the point (%s) does not lie on %s: %s.\n"
+        "  THIS ONE IS A REFUTATION. The claim is that the variety has a "
+        "point and this is the point offered; substituting it is arithmetic "
+        "and it does not vanish. So the NONEMPTY is unsupported at the model "
+        "it was claimed at, and every transport that carried it carried "
+        "something that was never established."
+        % (shown, c.get("model"),
+           "; ".join("%s evaluates to %s" % (g, values[g]) for g in failed)))
+
+
 CERT_VERIFIED = "VERIFIED"
 CERT_NOT_UNIT = "NOT_UNIT"
 
@@ -598,6 +687,15 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
             run("certificate", cid,
                 lambda cid=cid: unit_ideal(graph, cid, timeout=timeout,
                                            _runner=_runner)[:2])
+        # THE OTHER HALF OF THE EXISTENCE STORY, and the last of the four
+        # capabilities that worked and could not be reached.  Silent on a prose
+        # witness for the same reason as an unstructured IDENTITY: that is an
+        # unasked question, not a failed one, and `check` is where the hole
+        # gets reported.
+        if (c.get("kind") == K.NONEMPTY and c.get("witness_point")
+                and not c.get("witness_verdict")):
+            run("witness", cid, lambda cid=cid: point_witness(
+                graph, cid, timeout=timeout, _runner=_runner))
 
     if record and events:
         # ROOT, not the graph path.  `append` resolves `.portage/graph.jsonl`

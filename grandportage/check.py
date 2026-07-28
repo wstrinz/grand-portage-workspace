@@ -1173,14 +1173,93 @@ def check_unexhibited_witness(graph):
             "  %s\n"
             "  Nothing here distinguishes holding the point from claiming to."
             % (cid, c.get("model") or c.get("family"), c["statement"]),
-            "If you have the point, put it in `witness` and declare "
-            "witness_kind EXHIBITED -- `cas_check_witness` will substitute it "
-            "into the model's generators and confirm it is a solution, which "
-            "is arithmetic and the cheapest check this system performs. If "
+            "If you have the point, declare witness_kind EXHIBITED and give "
+            "the coordinates in `witness_point` -- {\"x\": \"3\", \"y\": "
+            "\"4\"}, a value per ring variable. `gp verify` substitutes it "
+            "into the model's generators and confirms it is a solution, which "
+            "is arithmetic and the cheapest check this system performs. "
+            "`witness` takes the prose version and stays free text. If "
             "existence follows from something else already recorded, say "
             "DERIVED and record the inference. If it is genuinely an "
             "assertion -- a published claim you have not verified -- ASSERTED "
             "is the honest answer and this finding is the record of that."))
+    return findings
+
+
+def check_witness_point(graph):
+    """Exhibited points: refuted, untested, or recorded only in prose.
+
+    THE MIRROR OF `check_identity`, and it exists for the same reason.  An
+    EMPTY claim must name a certificate or the graph will not fold; a NONEMPTY
+    claim -- where the author is holding the object, the strongest evidence in
+    the system -- carried nothing a solver could touch.  A live agent put it
+    exactly: "the graph cannot currently distinguish 'I have the point' from
+    'I claim to have the point'."
+
+    THREE TIERS, and only the first is an accusation.
+
+      NOT_A_POINT   substituted and it does not vanish. The NONEMPTY is
+                    unsupported AT ITS OWN MODEL, which no transport typing
+                    downstream would ever have surfaced -- the same shape as a
+                    REFUTED identity.
+      untested      the coordinates are recorded and nothing has substituted
+                    them. One solver call, and it is arithmetic.
+
+    AND NO THIRD TIER FOR A PROSE WITNESS, which the first version had.  It
+    fired on five claims in the retrodiction fixtures and would fire on all
+    twenty-five live ones, and the gate those fixtures enforce is exact: "a
+    framework that flags a sound step is a false-positive generator and
+    unusable".  Recording a point as "(x, y) = (3, 4)" is not a defect.
+
+    `check_identity` had already settled the same question and said so -- its
+    untested tier is "deliberately NARROW ... because it is replacing one
+    specific stop and not inventing a general campaign to structure every
+    identity in the corpus".  A campaign to structure every NONEMPTY is that
+    same campaign.  So the on-ramp lives in the ASSERTED rule's discharge and
+    in `gp declare`'s epilog, where it is available to somebody about to write
+    a claim rather than aimed at everybody who already has.
+
+    Which means this rule only ever speaks about claims that OPTED IN.
+    """
+    findings = []
+    for cid in sorted(graph.claims):
+        c = graph.claims[cid]
+        if c["kind"] != K.NONEMPTY or c.get("superseded_by"):
+            continue
+        if c.get("witness_kind") != K.EXHIBITED:
+            continue
+        verdict = c.get("witness_verdict")
+        if verdict == "NOT_A_POINT":
+            findings.append(Finding(
+                R_WITNESS, "%s:refuted:%s" % (R_WITNESS, cid),
+                UNSOUND_CONCLUSION, cid,
+                "NONEMPTY claim %s exhibits a point that is NOT ON %s: %s"
+                % (cid, c.get("model"), c.get("witness_why") or "(no detail)")
+                + "\n  Substituting a point into the generators is arithmetic, "
+                  "so this is a refutation and not a failed cheap test. The "
+                  "existence claim is unsupported at the model it was made at, "
+                  "and anything transported from it rests on nothing.",
+                "Correct the coordinates or withdraw the claim. If a point "
+                "really does exist but this is not it, the honest record is "
+                "witness_kind ASSERTED or DERIVED -- both are legal, and "
+                "neither pretends to an object you do not have.",
+                semantic_key=cid))
+            continue
+        if verdict:
+            continue
+        if c.get("witness_point"):
+            findings.append(Finding(
+                R_WITNESS, "%s:untested:%s" % (R_WITNESS, cid), TRIAGE, cid,
+                "NONEMPTY claim %s records its point and nothing has "
+                "substituted it.\n"
+                "  The cheapest check in the system: evaluating the "
+                "generators at a point has no interpretation to argue about, "
+                "no ordering assumption and no field subtlety. Either they all "
+                "vanish or one of them does not." % cid,
+                "Run `gp verify`. It substitutes every structured witness and "
+                "records the verdict, and a NOT_A_POINT answer would mean the "
+                "existence claim is unsupported at its own model.",
+                semantic_key=cid))
     return findings
 
 
@@ -2639,6 +2718,7 @@ def run(graph, accepted=None):
                 + check_self_refuting_equivalence(graph)
                 + check_unknown_identity_origin(graph)
                 + check_unexhibited_witness(graph)
+                + check_witness_point(graph)
                 + check_aliases(graph)
                 + check_partitions(graph)
                 + check_supersession(graph, accepted)

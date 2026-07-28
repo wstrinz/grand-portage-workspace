@@ -759,6 +759,32 @@ def check_witness(ring_vars, generators, point, characteristic=0, timeout=300,
         raise CASError(
             "the witness does not give a value for every ring variable; "
             "missing %s.  A partial point is not a point." % ", ".join(missing))
+    # THE NESTED `subst` BELOW IS SEQUENTIAL, AND SEQUENTIAL IS NOT
+    # SIMULTANEOUS.  `substitute_and_reduce`, forty lines down, exists because
+    # getting that wrong is silent: swapping two variables one at a time sends
+    # `x*y - 1` to `x*x - 1`, and it was caught only by testing a case meant to
+    # PASS.
+    #
+    # Here it is safe for one reason and one reason only -- a point's values
+    # are CONSTANTS, so after substituting `x` no `x` remains for a later
+    # substitution to disturb.  That is a precondition, not a property of the
+    # code, and nothing enforced it.  A "point" whose value named a ring
+    # variable would be evaluated in an order-dependent way and reported with
+    # the same confidence as a real one.
+    #
+    # So require it.  A point whose coordinates depend on the coordinates is
+    # not a point.
+    used = set()
+    for w in point:
+        used.update(_SYMBOL.findall(str(point[w])))
+    named = sorted(set(ring_vars) & used)
+    if named:
+        raise CASError(
+            "the witness gives a coordinate in terms of the ring variable(s) "
+            "%s.  A point's coordinates are constants -- one that refers to "
+            "another coordinate is a parametrisation, and substituting it "
+            "would depend on the order the variables happened to be in."
+            % ", ".join(named))
     # Nested `subst`, one variable at a time, so each generator becomes exactly
     # ONE declaration -- which is what the boundary check requires and why this
     # is built as an expression rather than a statement sequence.
