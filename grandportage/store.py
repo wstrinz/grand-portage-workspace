@@ -1101,10 +1101,38 @@ def append(events, root="."):
     d = os.path.dirname(path)
     if d and not os.path.isdir(d):
         os.makedirs(d)
-    g = Graph()
-    batch = []
+    # WAS IT ALREADY BROKEN?  Fold the EXISTING log on its own first.
+    #
+    # Transactionality is right and stays: a log you cannot fold is worse than a
+    # rejected write.  What was wrong is that a graph already refused for
+    # reasons predating this call reported as though the caller had caused it.
+    #
+    # A live lane hit the worst version. Its `.mcp.json` pointed at a root whose
+    # graph had been left unfoldable by an unrelated session, so the author's
+    # FIRST declaration in a campaign created minutes earlier came back citing a
+    # claim id they had never seen. They spent the diagnosis diffing four copies
+    # of a fixture across two repositories, and wrote the log by hand for the
+    # rest of the session.
+    #
+    # Refusing is still correct. Blaming the caller is not.
+    existing = []
     if os.path.exists(path):
-        batch.extend((ev, path, n) for ev, n in load_events(path))
+        existing = [(ev, path, n) for ev, n in load_events(path)]
+        try:
+            Graph().apply_all(list(existing)).validate()
+        except (GraphError, K.KernelRefusal) as exc:
+            raise GraphError(
+                "THE GRAPH WAS ALREADY UNFOLDABLE BEFORE THIS WRITE, and the "
+                "reason below is not about the events you just sent:\n\n  %s\n\n"
+                "  graph: %s\n"
+                "  Nothing was written and nothing you sent is implicated. "
+                "Repair that record -- `gp migrate` handles the mechanical "
+                "cases and refuses the ones needing a decision -- and send this "
+                "batch again. If that path is not the campaign you are working "
+                "in, the root resolved somewhere you did not expect."
+                % (exc, os.path.abspath(path)))
+    g = Graph()
+    batch = list(existing)
     batch.extend((ev, "<new>", k + 1) for k, ev in enumerate(events))
     g.apply_all(batch).validate()
     with open(path, "a", encoding="utf-8") as fh:

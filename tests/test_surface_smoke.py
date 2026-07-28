@@ -326,6 +326,33 @@ def _s_hook(root, g):
     HK.evaluate(root)
 
 
+def _s_mcp_declare(root, g):
+    """THE WRITE PATH, which is the one that has actually failed.
+
+    Both MCP READ paths were in this list from the start and neither write path
+    was -- and `portage_declare` is the primary interface for a campaign, the
+    thing an agent calls to record anything at all. It went down in two
+    consecutive live sessions and the gate built to catch that class did not
+    cover it.
+    """
+    mcp.h_portage_declare(
+        {"events": [{"ev": "note", "text": "a smoke write"}]}, root)
+
+
+def _s_mcp_declare_rejects_cleanly(root, g):
+    """A REJECTED write must be a message, not a traceback, and must leave the
+    log untouched. Transactionality is the property the append-only shape is
+    for; a half-written batch is unrecoverable."""
+    before = io.open(S.graph_path(root), encoding="utf-8").read()
+    out = mcp.h_portage_declare(
+        {"events": [{"ev": "claim", "id": "SMOKE-BAD", "model": "NOPE",
+                     "kind": "PREDICATE", "statement": "cites no model"}]},
+        root)
+    assert out.get("isError"), "a claim at an undeclared model must be refused"
+    after = io.open(S.graph_path(root), encoding="utf-8").read()
+    assert after == before, "a refused write must leave the log byte-identical"
+
+
 def _s_mcp_check(root, g):
     mcp.h_portage_check({"full": True}, root)
 
@@ -355,6 +382,8 @@ SURFACES = {
     "gp accept": _s_cli_accept,
     "gp migrate --dry-run": _s_cli_migrate,
     "hook.evaluate": _s_hook,
+    "mcp portage_declare": _s_mcp_declare,
+    "mcp portage_declare rejects": _s_mcp_declare_rejects_cleanly,
     "mcp portage_check": _s_mcp_check,
     "mcp portage_show": _s_mcp_show,
 }
@@ -411,5 +440,6 @@ def test_the_surface_list_covers_what_a_campaign_actually_calls():
     path and went down with it, which is why the affected campaign could not
     record its own deliberate findings."""
     for required in ("gp check", "gp accept", "hook.evaluate",
-                     "mcp portage_check", "gp show"):
+                     "mcp portage_check", "mcp portage_declare",
+                     "mcp portage_declare rejects", "gp show"):
         assert required in SURFACES

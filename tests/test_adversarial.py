@@ -2406,3 +2406,64 @@ def test_history_is_honest_that_it_records_repairs_and_not_attempts(tmp_path,
     out = capsys.readouterr().out
     assert "No supersessions recorded" in out
     assert "which the log cannot distinguish and should not pretend to" in out
+
+
+def test_a_graph_broken_before_your_write_does_not_blame_your_write(tmp_path):
+    """THE WORST HALF-HOUR A LIVE SESSION HAD, and it was a message problem.
+
+    `append` is transactional -- the new events fold against the existing graph
+    first and nothing is written unless the result is well-formed. That is
+    right and stays. What was wrong is that a graph already unfoldable for
+    reasons predating the call reported exactly as though the caller had caused
+    it.
+
+    A lane's `.mcp.json` pointed at a root whose graph an unrelated session had
+    left refused. So the author's FIRST declaration, in a campaign created
+    minutes earlier, came back citing a claim id they had never seen. They
+    diagnosed it by diffing four copies of a fixture across two repositories
+    and wrote the log by hand for the rest of the session.
+
+    Refusing is still correct. Blaming the caller is not.
+    """
+    root = str(tmp_path)
+    p = S.graph_path(root)
+    os.makedirs(os.path.dirname(p), exist_ok=True)
+    with open(p, "w", encoding="utf-8") as fh:
+        fh.write(json.dumps({"ev": "model", "id": "M", "desc": "m"}) + "\n")
+        # A half-grade: the exact record that broke the live root graph.
+        fh.write(json.dumps({"ev": "claim", "id": "PRE-EXISTING", "model": "M",
+                             "kind": "PREDICATE", "statement": "P",
+                             "ladder": "exact-checked"}) + "\n")
+    before = open(p, encoding="utf-8").read()
+
+    with pytest.raises(S.GraphError) as exc:
+        S.append([{"ev": "model", "id": "INNOCENT", "desc": "nothing wrong"}],
+                 root=root)
+    msg = str(exc.value)
+    assert "ALREADY UNFOLDABLE BEFORE THIS WRITE" in msg
+    assert "not about the events you just sent" in msg
+    assert "PRE-EXISTING" in msg, "it must name the record that is actually bad"
+    assert "gp migrate" in msg, "and say what repairs it"
+    assert os.path.abspath(p) in msg, "and which graph, since the root may be wrong"
+    assert open(p, encoding="utf-8").read() == before, "nothing written"
+
+
+def test_a_write_that_IS_your_fault_still_says_so(tmp_path):
+    """The discrimination, without which the fix is just a blanket excuse.
+
+    A graph that folds fine until your events arrive must report YOUR events.
+    """
+    root = str(tmp_path)
+    p = S.graph_path(root)
+    os.makedirs(os.path.dirname(p), exist_ok=True)
+    with open(p, "w", encoding="utf-8") as fh:
+        fh.write(json.dumps({"ev": "model", "id": "M", "desc": "m"}) + "\n")
+
+    with pytest.raises((S.GraphError, K.KernelRefusal)) as exc:
+        S.append([{"ev": "claim", "id": "MINE", "model": "M",
+                   "kind": "PREDICATE", "statement": "P",
+                   "ladder": "exact-checked"}], root=root)
+    msg = str(exc.value)
+    assert "ALREADY UNFOLDABLE" not in msg, (
+        "this one IS the caller's fault and must not be excused")
+    assert "MINE" in msg

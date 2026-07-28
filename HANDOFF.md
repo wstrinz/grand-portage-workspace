@@ -32,7 +32,7 @@ agent → MCP server (edge REQUIRED, no declaration → no CAS process)
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about seven days. Version 0.4. <!--checks-->576<!--/checks--> checks.** Treat
+**Age: about seven days. Version 0.4. <!--checks-->602<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 There is now a **public repo**: `github.com/wstrinz/grandportage`, Apache-2.0,
@@ -215,7 +215,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->576<!--/checks--> checks, ~10 s) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->602<!--/checks--> checks, ~10 s) |
 
 ---
 
