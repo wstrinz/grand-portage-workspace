@@ -275,6 +275,40 @@ READ_ONLY_TOOLS = frozenset([
 LAST_BLOCK = "last-block"
 
 
+def _find_root(start):
+    """Walk UP for a `.portage/`, the way git walks up for a `.git/`.
+
+    THE HOOK WAS INERT FOR A WHOLE LIVE SESSION AND NOTHING SAID SO.  Root came
+    straight from the payload's `cwd`, so enforcement fired only when the
+    agent's working directory was EXACTLY the campaign root.  A repository with
+    seven campaigns under it gives that maybe one directory in eight, and a
+    session started anywhere else got silence -- not an error, silence.
+
+    W6 ran to completion, produced a defect log, and passed. Its result covers
+    the verifiers and the checker and says NOTHING about the layer `HANDOFF`
+    calls the difference between this tool and telemetry, because that layer
+    never executed. The absence was found afterwards, by looking for a
+    `last-block` marker that was never written.
+
+    Walking up fixes the common case -- an agent working inside a campaign --
+    without guessing. It deliberately does NOT walk down: a parent directory
+    holding seven campaigns has no single graph to check, and picking one would
+    be worse than silence.
+    """
+    try:
+        here = os.path.abspath(start)
+    except (OSError, ValueError):
+        return start
+    seen = here
+    while True:
+        if os.path.isdir(os.path.join(seen, S.GRAPH_DIR)):
+            return seen
+        parent = os.path.dirname(seen)
+        if parent == seen:
+            return start
+        seen = parent
+
+
 def _repeat_state(root, fids):
     """Return (is_repeat, writer).  Suppresses re-printing an identical wall.
 
@@ -318,6 +352,8 @@ def main(argv=None):
         pass
     if "--root" in argv:
         root = argv[argv.index("--root") + 1]
+    else:
+        root = _find_root(root)
 
     if tool in READ_ONLY_TOOLS:
         return 0

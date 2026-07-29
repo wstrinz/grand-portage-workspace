@@ -89,6 +89,24 @@ def cmd_check(args):
                   "be checked there" % blind)
             print("       (`generators: []` says a model imposes no equations; "
                   "omitting it says nobody wrote them down)")
+        # IS ANYTHING ENFORCING THIS?
+        #
+        # A whole live session ran with the hook inert and nothing said so. Its
+        # root came from the session's cwd and only matched when that was
+        # exactly the campaign root, so enforcement silently did not happen --
+        # and the run passed, covering the verifiers and the checker while
+        # saying nothing about the layer HANDOFF calls the difference between
+        # this tool and telemetry.
+        #
+        # A SILENT ENFORCEMENT LAYER IS INDISTINGUISHABLE FROM A SATISFIED ONE.
+        # That is the defect, more than the path resolution: the absence was
+        # discoverable only by hunting for a marker file that was never
+        # written. One line here makes it visible to anyone who runs `check`.
+        if not _hook_is_wired(args.root):
+            print("       NO HOOK CONFIGURED for this root -- these findings "
+                  "are ADVISORY.")
+            print("       Nothing refuses a tool call on them. `gp why hook` "
+                  "explains wiring it.")
         print()
     accepted = H.read_baseline(args.root)["accepted"]
     for f in findings:
@@ -736,6 +754,33 @@ def cmd_why(args):
               "used it.\n")
         print(K.supersession_help())
         return 0
+    # ADDED BECAUSE `gp check` STARTED NAMING IT. A message pointing at a
+    # command that does not exist is the exact defect GATE 3 was built for,
+    # and I wrote one into the very line reporting that enforcement was
+    # missing.
+    if etype and etype.lower() == "hook":
+        print(
+            "THE HOOK -- the layer that makes a finding REFUSE rather than\n"
+            "report. Without it this tool is a linter nobody runs, and a\n"
+            "silent absence is indistinguishable from a satisfied one: a live\n"
+            "session ran to completion with it inert and nothing said so.\n"
+            "\n"
+            "It runs after each tool call, reads the graph, and exits 2 to\n"
+            "block when a finding sits at or above the floor. Wire it in\n"
+            "`.claude/settings.json` beside your campaign:\n"
+            "\n"
+            '  {"hooks": {"PostToolUse": [{"matcher": "*", "hooks": [\n'
+            '    {"type": "command",\n'
+            '     "command": "python -m grandportage.hook"}]}]}}\n'
+            "\n"
+            "It finds the graph by walking UP from the working directory for\n"
+            "a `.portage/`, the way git looks for `.git/`. It does NOT walk\n"
+            "down: a directory holding several campaigns has no single graph\n"
+            "to check, and picking one would be worse than silence.\n"
+            "\n"
+            "`gp check` says NO HOOK CONFIGURED when it cannot find one, so\n"
+            "the absence is visible without hunting for a marker file.")
+        return 0
     if etype not in K.DECLARABLE_TYPES:
         sys.stderr.write(
             "unknown type %r.\n"
@@ -1220,6 +1265,39 @@ def cmd_init(args):
                      "with `gp events`, or one json.loads per line.")}) + "\n")
     print("initialised %s" % path)
     return 0
+
+
+def _hook_is_wired(root):
+    """Is a Grand Portage hook configured anywhere that would cover `root`?
+
+    Deliberately SYNTACTIC and deliberately generous: it looks for the string
+    in the settings files that could apply, and does not try to decide whether
+    the matcher would fire for a given tool. A false "wired" is a quieter
+    failure than a false "not wired" nagging someone who has set it up.
+    """
+    names = ("settings.json", "settings.local.json")
+    here = os.path.abspath(root)
+    seen = set()
+    while here not in seen:
+        seen.add(here)
+        for n in names:
+            p = os.path.join(here, ".claude", n)
+            try:
+                with open(p, encoding="utf-8") as fh:
+                    if "grandportage.hook" in fh.read():
+                        return True
+            except OSError:
+                pass
+        parent = os.path.dirname(here)
+        if parent == here:
+            break
+        here = parent
+    try:
+        p = os.path.join(os.path.expanduser("~"), ".claude", "settings.json")
+        with open(p, encoding="utf-8") as fh:
+            return "grandportage.hook" in fh.read()
+    except OSError:
+        return False
 
 
 def cmd_construct(args):

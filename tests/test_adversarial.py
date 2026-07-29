@@ -2408,6 +2408,44 @@ def test_no_message_points_at_a_command_that_does_not_exist():
         % ("; ".join(bad), ", ".join(sorted(real))))
 
 
+def test_no_message_points_at_a_why_topic_that_does_not_exist():
+    """GATE 3 STOPPED AT THE SUBCOMMAND, and I walked through the gap.
+
+    The rule above scans for `gp <word>` and checks <word> against the real
+    subcommands. `gp why hook` passed it -- `why` exists -- while the TOPIC did
+    not, so the message pointed at nothing. Written, of all places, into the
+    line that reports enforcement is missing.
+
+    `why` is the one subcommand with a closed topic vocabulary, so it is the
+    one where a phantom argument is checkable. Third instance of the same
+    class: `gp verify`, `gp why supersession`, `gp why hook`.
+    """
+    import glob
+    import re
+    from grandportage import cli, kernel as K
+
+    topics = ({"supersession", "supersede", "supersedes", "hook"}
+              | {t.lower() for t in K.DECLARABLE_TYPES}
+              | {t.lower() for t in K.SUPERSESSION_KINDS}
+              | {t.lower() for t in DISCHARGE_KINDS_FOR_TEST})
+    bad = []
+    for path in sorted(glob.glob(os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "grandportage", "*.py"))):
+        with open(path, encoding="utf-8") as fh:
+            for n, line in enumerate(fh, 1):
+                for topic in re.findall(r"`gp why ([a-z][a-z_-]*)", line):
+                    if topic.lower() not in topics:
+                        bad.append("%s:%d says `gp why %s`"
+                                   % (os.path.basename(path), n, topic))
+    assert not bad, (
+        "these name a `gp why` topic that does not exist: %s.\n"
+        "  Real topics: %s" % ("; ".join(bad), ", ".join(sorted(topics))))
+
+
+from grandportage.discharge import DISCHARGE_KINDS as DISCHARGE_KINDS_FOR_TEST
+
+
 def test_verify_all_actually_writes_and_the_finding_goes_away(tmp_path):
     """THE RECORDING PATH HAD NEVER BEEN RUN, and it crashed on first contact.
 
