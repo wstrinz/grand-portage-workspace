@@ -544,3 +544,66 @@ def test_the_surface_list_covers_what_a_campaign_actually_calls():
                      "mcp portage_check", "mcp portage_declare",
                      "mcp portage_declare rejects", "gp show"):
         assert required in SURFACES
+
+
+# ===========================================================================
+# A FILE CALLED .jsonl HAD BETTER BE JSONL.
+#
+# `gp init` wrote `# Grand Portage graph. ...` as line 1. `load_events` skips
+# `#` lines so the tool never noticed, and the trap was DOCUMENTED rather than
+# removed -- `gp declare`'s epilog warned that "a naive json.loads per line
+# will not" work. That warning is in `gp declare --help`; a person opening the
+# graph file is not reading `gp declare --help`.
+#
+# A live session wrote a parser, choked on line 1, and diagnosed it in seconds.
+# That is the GOOD case. The bad one is a parser that skips the line silently
+# and reports a graph one record short.
+# ===========================================================================
+def test_a_new_graph_is_parseable_as_jsonl(tmp_path):
+    """The naive parser, which is the whole point."""
+    import json
+    from grandportage import cli, store as S
+    cli.main(["--root", str(tmp_path), "init"])
+    with open(S.graph_path(str(tmp_path)), encoding="utf-8") as fh:
+        for line in fh:
+            if line.strip():
+                json.loads(line)   # must not raise
+
+
+def test_the_old_comment_header_still_loads(tmp_path):
+    """Backward compatibility is not optional: every existing campaign graph
+    opens with the `#` line, and `load_events` must keep skipping it."""
+    from grandportage import store as S
+    p = tmp_path / ".portage"
+    p.mkdir()
+    f = p / "graph.jsonl"
+    f.write_text('# Grand Portage graph.  Append-only.\n'
+                 '{"ev": "model", "id": "M", "what": "m"}\n',
+                 encoding="utf-8")
+    g = S.load(str(f))
+    assert "M" in g.models
+
+
+def test_gp_events_dumps_the_log_without_hand_parsing(tmp_path, capsys):
+    """THE REASON THE HEADER BUG WAS FOUND AT ALL.
+
+    A session wanted to read a graph, found that `gp check --json` was the only
+    JSON any command emitted -- and it returns findings, not the graph -- so it
+    wrote its own parser. The file was the only interface to its own contents.
+    """
+    import json
+    from grandportage import cli, store as S
+    cli.main(["--root", str(tmp_path), "init"])
+    S.append([{"ev": "model", "id": "M", "what": "a model",
+               "ring_vars": ["x"], "generators": ["x"]}], str(tmp_path))
+    capsys.readouterr()
+
+    cli.main(["--root", str(tmp_path), "events"])
+    raw = json.loads(capsys.readouterr().out)
+    assert [e["ev"] for e in raw] == ["note", "model"]
+
+    cli.main(["--root", str(tmp_path), "events", "--folded"])
+    folded = json.loads(capsys.readouterr().out)
+    assert set(folded) == {"models", "edges", "claims", "inferences",
+                           "partitions"}
+    assert folded["models"]["M"]["generators"] == ["x"]

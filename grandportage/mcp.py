@@ -40,7 +40,7 @@ ROOT = os.environ.get("GP_ROOT", ".")
 # Reported in `serverInfo`, which is where a client looks to know what it is
 # talking to.  It said 0.1.0 for four minor releases -- the same drift the
 # check-count spans exist to prevent, in the one field a machine reads.
-VERSION = "0.4.1"
+VERSION = "0.4.2"
 
 
 # ---------------------------------------------------------------------------

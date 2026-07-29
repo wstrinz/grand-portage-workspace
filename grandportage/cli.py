@@ -423,8 +423,13 @@ def _declare_epilog():
         "    `gport`, which is the same command under a name that shell has\n"
         "    not taken. (`gp.exe` and `python -m grandportage.cli` also work.)\n"
         "    Everywhere else -- cmd, bash, zsh -- plain `gp` is fine.\n"
-        "  * .portage/graph.jsonl opens with a `#` comment line. `load_events`\n"
-        "    skips blank and `#` lines; a naive json.loads per line will not.\n"
+        "  * DO NOT PARSE .portage/graph.jsonl BY HAND -- use `gp events`,\n"
+        "    which dumps the raw log as JSON, or `gp events --folded` for the\n"
+        "    graph as the tool sees it. Graphs created before v0.4.2 open with\n"
+        "    a `#` comment line, which is not JSONL and which a naive\n"
+        "    json.loads per line chokes on; `load_events` skips it and always\n"
+        "    will, so old graphs keep working. New ones start with a `note`\n"
+        "    instead, so the file is what its extension says it is.\n"
         % (", ".join(K.DECLARABLE_TYPES),
            ", ".join(K.CLAIM_KINDS),
            ", ".join(S.Graph.EVIDENCE_METHODS),
@@ -1151,9 +1156,57 @@ def cmd_init(args):
     d = os.path.dirname(path)
     if d and not os.path.isdir(d):
         os.makedirs(d)
+    # A FILE CALLED .jsonl HAD BETTER BE JSONL.
+    #
+    # This wrote `# Grand Portage graph. Append-only; ...` -- a comment, which
+    # JSONL does not have. `load_events` skips `#` lines so the tool never
+    # noticed, and the trap was DOCUMENTED instead of removed: `gp declare`'s
+    # epilog warned that "a naive json.loads per line will not" work.
+    #
+    # That warning is in `gp declare --help`. A person opening the graph file
+    # is not reading `gp declare --help`. A live session wrote a parser,
+    # choked on line 1, and diagnosed it correctly in a few seconds -- which is
+    # the good case; the bad case is the parser that skips the line silently
+    # and reports a graph one record short.
+    #
+    # The same information as a `note` costs one inert record. Notes are
+    # explicitly "untyped prose, invisible to every rule", so nothing downstream
+    # changes, and now the header is READABLE BY THE SAME PARSER as everything
+    # under it.
     with open(path, "w", encoding="utf-8") as fh:
-        fh.write("# Grand Portage graph.  Append-only; merge by concatenation.\n")
+        fh.write(json.dumps({
+            "ev": "note",
+            "text": ("Grand Portage graph. Append-only; merge by "
+                     "concatenation. Every line is one JSON object -- read it "
+                     "with `gp events`, or one json.loads per line.")}) + "\n")
     print("initialised %s" % path)
+    return 0
+
+
+def cmd_events(args):
+    """Dump the log as JSON, so nobody has to parse the file by hand.
+
+    THE REASON THE HEADER BUG WAS FOUND AT ALL.  A live session wanted to read
+    a graph, found no machine-readable way to do it -- `gp check --json` was
+    the only JSON any command emitted, and it returns findings rather than the
+    graph -- and wrote its own parser. Then it hit a `#` on line 1.
+
+    Two defects, and the second is the one that mattered: the file was the only
+    interface to its own contents. `--folded` gives the graph as the tool sees
+    it, which is not the same as the raw log and is usually what a reader
+    actually wants.
+    """
+    events = [ev for ev, _ in S.load_events(
+        S.graph_path(args.root) if not args.graph else args.graph[0])]
+    if not args.folded:
+        print(json.dumps(events, indent=2, sort_keys=True))
+        return 0
+    g = S.load(S.graph_path(args.root)) if not args.graph else _load(args)
+    print(json.dumps({
+        "models": g.models, "edges": g.edges, "claims": g.claims,
+        "inferences": {i: g.inferences[i] for i in g.inference_order},
+        "partitions": g.partitions,
+    }, indent=2, sort_keys=True, default=str))
     return 0
 
 
@@ -1259,6 +1312,12 @@ def build_parser():
 
     i = sub.add_parser("init", help="create an empty graph")
     i.set_defaults(func=cmd_init)
+    ev = sub.add_parser("events",
+                        help="dump the log as JSON (do not parse the file)")
+    ev.add_argument("--folded", action="store_true",
+                    help="the FOLDED graph -- models, edges, claims, "
+                         "inferences, partitions -- rather than the raw log")
+    ev.set_defaults(func=cmd_events)
     return p
 
 
