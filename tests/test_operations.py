@@ -271,3 +271,100 @@ def test_an_operations_program_actually_runs(tmp_path):
     assert out["values"]["GP_OUT"].strip() == "GP_OUT[1]=y", (
         "saturating (xy) at x must give (y); got %r"
         % out["values"]["GP_OUT"])
+
+
+# ===========================================================================
+# DECOMPOSE: a cover that carries its own completeness proof.
+#
+# `facstd` is a KERNEL BUILTIN and reachable; `primdecGTZ`, `minAssGTZ` and
+# `radical` are not -- all three live in primdec.lib, the same wall `sat` hit.
+# That had to be settled by PROBING before any vocabulary was designed around a
+# decomposition, and it is the reason this constructor exists at all.
+#
+# What comes back is a COVER: V(I) = union V(I_j), each I_j containing I. That
+# is exactly a partition, and exactly what verify.partition_exhaustiveness
+# decides -- so the constructor gets its own proof for free.
+# ===========================================================================
+def test_decompose_is_a_partition_whose_branches_were_minted():
+    """No new edge type. Every piece is `parent AND more equations`, which is
+    NECESSARY_CONDITION -- the same relation an author would have typed by hand,
+    derived instead."""
+    op = O.decompose("M", RING, ["x*y*(x-1)"], _runner=_facstd_runner())
+    kinds = [e["ev"] for e in op.events]
+    assert kinds.count("model") == 3
+    assert kinds.count("edge") == 3
+    assert kinds.count("partition") == 1
+    assert all(e["type"] == K.NECESSARY_CONDITION
+               for e in op.events if e["ev"] == "edge")
+
+
+def test_every_minted_component_carries_its_own_ideal():
+    """THE #37 DESIGN, in the one place it can be enforced without a migration:
+    anything a constructor mints carries its algebra by construction, so the
+    checkable fraction of a graph rises over time instead of needing a
+    backfill."""
+    op = O.decompose("M", RING, ["x*y*(x-1)"], _runner=_facstd_runner())
+    for e in op.events:
+        if e["ev"] == "model":
+            assert e["generators"], "%s was minted without an ideal" % e["id"]
+            assert e["component_of"] == "M"
+
+
+def test_the_completeness_premise_is_minted_as_a_decidable_claim():
+    """A partition needs an `exhaustive` claim or the graph will not fold, and
+    until `verify.partition_exhaustiveness` existed that claim was prose. This
+    one is RAN, and a verifier re-decides it from the recorded ideals rather
+    than trusting the tool that produced them."""
+    op = O.decompose("M", RING, ["x*y*(x-1)"], _runner=_facstd_runner())
+    claim = [e for e in op.events if e["ev"] == "claim"][0]
+    part = [e for e in op.events if e["ev"] == "partition"][0]
+    assert part["exhaustive"] == claim["id"]
+    assert claim["established_by"] == "RAN"
+    assert set(part["branches"]) == {
+        e["id"] for e in op.events if e["ev"] == "model"}
+
+
+def test_an_ideal_that_does_not_factor_emits_nothing():
+    """"A split into one piece is just the parent" -- the store's own words,
+    refusing a one-branch partition. So this returns NO EVENTS rather than a
+    degenerate one, and says so.
+
+    It is NOT a proof of irreducibility. `facstd` gives a cover and nothing
+    inside this boundary decides primality.
+    """
+    op = O.decompose("M", RING, ["y^2-x^3-x^2"],
+                     _runner=_facstd_runner(["[1]:", "   _[1]=x3+x2-y2"]))
+    assert op.events == []
+    assert "did not factor" in op.derivation
+    assert "NOT a proof" in op.derivation
+
+
+def _facstd_runner(rows=None):
+    rows = rows or ["[1]:", "   _[1]=y", "[2]:", "   _[1]=x-1",
+                    "[3]:", "   _[1]=x"]
+    def run(prog, timeout):
+        return {"aborted": False, "returncode": 0, "stderr": "",
+                "stdout": "@@GP_L:\n%s\n" % "\n".join(rows)}
+    return run
+
+
+@pytest.mark.live
+def test_a_minted_cover_verifies_exhaustive(tmp_path):
+    """THE CLAIM UNDER TEST is one written into a docstring: that a cover minted
+    by `facstd` verifies exhaustive BY CONSTRUCTION. That is a justification,
+    and this project's recurring defect is justifications that generalize one
+    case too far -- so it gets run rather than asserted.
+
+    Three lines and a circle, so the pieces differ in degree and the answer is
+    not an artifact of a uniform split.
+    """
+    from grandportage import verify as V
+    gens = ["x*y*(x-1)*(x^2+y^2-1)"]
+    op = O.decompose("M", RING, gens, timeout=120)
+    g = _fold([{"ev": "model", "id": "M", "what": "three lines and a circle",
+                "ring_vars": RING, "generators": gens}] + op.events)
+    assert len(g.models) == 5
+    verdict, why = V.partition_exhaustiveness(g, "P-M", timeout=120)
+    assert verdict == V.COVERS, why
+    for eid in g.edges:
+        assert V.containment(g, eid, timeout=120)[0] == V.VERIFIED, eid

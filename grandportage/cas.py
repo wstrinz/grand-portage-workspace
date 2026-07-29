@@ -1157,6 +1157,64 @@ def check_membership_representation(ring_vars, target, generators, cofactors,
     return got == "0", got
 
 
+def factorizing_decomposition(ring_vars, generators, characteristic=0,
+                              timeout=300, _runner=None):
+    """Split an ideal into a COVER of simpler pieces.  Returns a list of them.
+
+    `facstd` IS A KERNEL BUILTIN, and that is the whole reason this exists.
+    `primdecGTZ`, `minAssGTZ` and `radical` all live in `primdec.lib`, which
+    the boundary will not load -- the same wall `sat` hit.  So the question
+    "can a decomposition be computed inside this dialect at all" had to be
+    settled before any vocabulary was designed around one.  It can, by probing
+    rather than by assuming either way.
+
+        facstd((xy))              ->  [(y), (x)]
+        facstd((y^2-x^3-x^2))     ->  [(cubic)]     irreducible over Q
+        facstd((x^2-y^2, xy))     ->  [(x, y)]      the origin
+
+    WHAT COMES BACK IS A COVER, NOT THE PRIMARY DECOMPOSITION, and saying so is
+    not a caveat to bury.  The pieces need not be prime and may overlap.  What
+    IS guaranteed is `V(I) = union V(I_j)` with every `I_j` containing `I` --
+    which is exactly a partition of the model, and exactly what
+    `verify.partition_exhaustiveness` decides.  So a decomposition minted here
+    carries its own exhaustiveness proof.
+
+    It cannot answer "is this component irreducible".  Nothing available inside
+    this boundary can.
+    """
+    prog = CASProgram(
+        SINGULAR, ring="GP_R", ring_vars=ring_vars,
+        decls=[("GP_I", "ideal", ",".join(generators) or "0"),
+               ("GP_L", "list", "facstd(GP_I)")],
+        body=[], outputs=["GP_L"], characteristic=characteristic)
+    res = (_runner or _run_subprocess)(prog, timeout)
+    if (res["aborted"] or res["returncode"] != 0
+            or "? error" in res["stdout"] + res["stderr"]):
+        raise CASError("the CAS did not decompose the ideal:\n%s"
+                       % res["stdout"][-1500:])
+    rows = _parse_outputs(res["stdout"], ["GP_L"])["GP_L"]
+    rows = rows if isinstance(rows, list) else [rows]
+    # `[n]:` opens a piece, `_[m]=expr` is one of its generators.  Parsed
+    # positionally rather than by index arithmetic, because a piece with no
+    # generators would silently shift everything after it.
+    pieces, current = [], None
+    for raw in rows:
+        line = raw.strip()
+        if not line:
+            continue
+        if line.startswith("[") and line.endswith(":"):
+            current = []
+            pieces.append(current)
+        elif "=" in line and current is not None:
+            current.append(line.split("=", 1)[1].strip())
+    if not pieces:
+        raise CASError(
+            "the CAS returned no components for an ideal it accepted. A "
+            "decomposition with no pieces covers nothing, and reporting one "
+            "would assert a partition of the model into nothing.")
+    return pieces
+
+
 def partition_covers(ring_vars, parent_generators, branches,
                      characteristic=0, timeout=300, _runner=None):
     """Do the branches COVER the parent?  Returns (covered, evidence).

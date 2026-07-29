@@ -60,6 +60,10 @@ DERIVES = {
                         "I : f^oo contains I, so the saturated model is cut "
                         "by more equations; returning to the ambient model "
                         "drops them"),
+    "Decompose": (K.NECESSARY_CONDITION,
+                  "a component of a factorizing decomposition carries the "
+                  "parent's equations and more, so returning to the parent "
+                  "drops the equations that single this piece out"),
     "Eliminate": (K.IMAGE_CLOSURE,
                   "elimination returns the ideal of the ZARISKI CLOSURE of "
                   "the projection, which is not the image: a point of the "
@@ -238,6 +242,93 @@ def saturate_closure(src, f, produces, ring_vars, generators,
         "the target's generators come back from the run; once recorded, "
         "`gp verify` can check I(src) inside I(dst) by reduction",
         DERIVES["SaturateClosure"][1])
+
+
+def decompose(src, ring_vars, generators, produces="%s_C%d",
+              characteristic=0, timeout=300, _runner=None):
+    """Split a model into a COVER of simpler pieces, with the cover proved.
+
+    THE ONE CONSTRUCTOR THAT MUST RUN THE CAS TO KNOW WHAT IT EMITS.  The other
+    three know their target before any computation: a localisation keeps the
+    ideal, a saturation and an elimination each produce exactly one model whose
+    generators arrive later.  A decomposition does not even know HOW MANY
+    models it makes until `facstd` answers.
+
+    That does not breach this module's rule.  The rule is that a constructor
+    does not WRITE -- "a tool that both decides a relation and writes it leaves
+    nobody holding the claim" -- and this one still returns plain events for
+    the caller to send through the ordinary path.  `cas.classify_identity` runs
+    a solver and touches no graph for the same reason.
+
+    IT ALSO EMITS ITS OWN COMPLETENESS PREMISE, which no other constructor
+    does, and that is the point of building it now rather than earlier.  A
+    partition needs an `exhaustive` claim or the graph will not fold, and until
+    `verify.partition_exhaustiveness` existed that claim was prose. Here it is
+    a claim a verifier DECIDES -- and for a minted cover it decides VERIFIED by
+    construction, because `facstd` guarantees `V(I) = union V(I_j)`.
+
+    So the events are: one model per piece CARRYING ITS OWN IDEAL, one
+    NECESSARY_CONDITION per piece pointing back at the parent, the
+    completeness claim, and the partition binding them.
+
+    AN IDEAL THAT DOES NOT FACTOR RETURNS NO EVENTS AT ALL.  Check for that --
+    it is a common answer rather than a failure, and the alternative was a
+    one-branch partition the store correctly refuses.  It is also NOT a proof
+    of irreducibility: `facstd` gives a cover, and nothing inside this boundary
+    decides primality.
+    """
+    pieces = cas.factorizing_decomposition(
+        ring_vars, generators, characteristic=characteristic,
+        timeout=timeout, _runner=_runner)
+    prog = cas.CASProgram(
+        cas.SINGULAR, ring="GP_R", ring_vars=list(ring_vars),
+        decls=[("GP_I", "ideal", _ideal(generators)),
+               ("GP_L", "list", "facstd(GP_I)")],
+        body=[], outputs=["GP_L"], characteristic=characteristic)
+    # ONE PIECE IS NOT A DECOMPOSITION, and the store says so better than this
+    # comment could: "a split into one piece is just the parent". Emitting a
+    # component model identical to the parent plus an edge from it to itself
+    # would be noise carrying a partition the graph correctly refuses.
+    #
+    # `events` is EMPTY here, deliberately, and a caller must check for that.
+    # "This ideal does not factor" is a real answer and a common one -- an
+    # irreducible curve gives it every time -- so it is neither an error nor
+    # something to paper over with a one-branch partition.
+    if len(pieces) < 2:
+        return Operation(
+            "Decompose", [], prog,
+            "nothing to verify: no events were emitted",
+            "%s's ideal did not factor, so there is no case analysis to make. "
+            "That is a statement about what `facstd` could split, NOT a proof "
+            "of irreducibility -- a cover is not a primary decomposition, and "
+            "nothing inside this CAS boundary can decide primality." % src)
+    ids = [produces % (src, i) if "%" in produces else "%s%d" % (produces, i)
+           for i in range(len(pieces))]
+    events = []
+    for bid, gens in zip(ids, pieces):
+        events.append(_model(
+            bid, "the component of %s cut out by %s" % (src, ", ".join(gens)),
+            ring_vars, gens, component_of=src))
+        events.append(_edge("E-%s" % bid, bid, src, "Decompose",
+                            "This piece adds %s." % ", ".join(gens)))
+    cover = "CL-%s-COVER" % src
+    events.append({
+        "ev": "claim", "id": cover, "model": src, "kind": K.PREDICATE,
+        "statement": ("every point of %s lies on one of the %d components "
+                      "%s" % (src, len(ids), ", ".join(ids))),
+        # RAN, not READ: `facstd` computed this and `gp verify` re-decides it.
+        "established_by": "RAN", "ladder": "exact-checked"})
+    events.append({
+        "ev": "partition", "id": "P-%s" % src, "parent": src,
+        "branches": list(ids), "exhaustive": cover,
+        "why": "a factorizing decomposition of %s's ideal" % src})
+    return Operation(
+        "Decompose", events, prog,
+        "`gp verify` re-decides the cover from the recorded ideals, by "
+        "intersecting the components and testing radical membership against "
+        "the parent -- so the completeness premise is checked rather than "
+        "taken from the tool that produced it",
+        DERIVES["Decompose"][1])
 
 
 def eliminate(src, variables, produces, ring_vars, generators,
