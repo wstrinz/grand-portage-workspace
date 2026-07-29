@@ -4348,7 +4348,12 @@ def test_a_hole_between_correct_branches_is_found():
     g = _partition_graph([("B_Y", [CUBIC, "y"]), ("B_X", [CUBIC, "x"])])
     verdict, why = V.partition_exhaustiveness(g, "P")
     assert verdict == V.NOT_EXHAUSTIVE, why
-    assert "DO NOT COVER" in why
+    # QUALIFIED, because the criterion is equivalent to the covering only by
+    # the Nullstellensatz and this tool works over Q. A failing test shows a
+    # point over the CLOSURE that no branch reaches; over the base field that
+    # point may not exist. See lean/GrandPortage/Exhaustive.lean.
+    assert "OVER THE ALGEBRAIC CLOSURE" in why
+    assert "NO POINTS OVER THE BASE FIELD" in why
     # The witness is NAMED: something vanishing wherever the branches do and
     # not on the parent cuts out the region no branch reaches.
     assert "y2" in why or "xy" in why
@@ -4501,3 +4506,26 @@ def test_a_refuted_output_is_an_unsound_premise():
     found = [f for f in C.run(g) if f.rule == C.R_REFUTED_EVIDENCE]
     assert found and found[0].severity == C.UNSOUND_PREMISE
     assert C.exit_code(C.run(g)) == 1
+
+
+@pytest.mark.live
+def test_a_parent_with_no_points_is_covered_vacuously():
+    """LEAN FOUND THIS -- lean/GrandPortage/Exhaustive.lean,
+    `empty_parent_covered`, two lines: an empty parent is covered by anything,
+    including nothing.
+
+    The ideal criterion is equivalent to the covering only by the
+    NULLSTELLENSATZ, which needs an algebraically closed field. This tool works
+    over Q. So a FAILING test shows a point over the CLOSURE that no branch
+    reaches, and says nothing about the base field.
+
+    A unit-ideal parent has no points over ANY field, so no branch arithmetic
+    can refute the cover. This case was returning NOT_EXHAUSTIVE at
+    UNSOUND_PREMISE -- calling a sound case analysis broken.
+    """
+    from grandportage import verify as V
+    g = _partition_graph([("B0", ["x*y", "x", "1"]), ("B1", ["x*y", "y", "1"])],
+                         parent_gens=["x*y", "1"])
+    verdict, why = V.partition_exhaustiveness(g, "P", timeout=120)
+    assert verdict == V.COVERS, why
+    assert "UNIT IDEAL" in why and "vacuously" in why

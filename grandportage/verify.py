@@ -715,6 +715,20 @@ def partition_exhaustiveness(graph, pid, timeout=300, _runner=None):
         branch_gens.append(list(b["generators"]))
     if not branch_gens:
         return UNVERIFIED, "partition %s lists no branches" % pid
+    # A PARENT WITH NO POINTS IS COVERED BY ANYTHING, including nothing.
+    #
+    # `empty_parent_covered` in lean/GrandPortage/Exhaustive.lean is two lines
+    # and it is the whole engine of the counterexample below. If the parent's
+    # ideal is the UNIT IDEAL it has no points over ANY field, so the cover is
+    # vacuous and no amount of branch arithmetic can refute it.
+    unit = cas.membership_representation(
+        ring, "1", list(parent["generators"]), characteristic=ch,
+        timeout=timeout, _runner=_runner)
+    if unit["is_member"]:
+        return COVERS, (
+            "%s's ideal is the UNIT IDEAL, so it has no points over any field "
+            "and the branches cover it vacuously. Nothing about the branches "
+            "was needed, or could have refuted this." % p.get("parent"))
     covered, ev = cas.partition_covers(
         ring, list(parent["generators"]), branch_gens,
         characteristic=ch, timeout=timeout, _runner=_runner)
@@ -726,14 +740,38 @@ def partition_exhaustiveness(graph, pid, timeout=300, _runner=None):
             "one."
             % (p.get("parent"), named,
                " -- " + ev["why"] if ev.get("why") else ""))
+    # WHAT A FAILING IDEAL TEST ACTUALLY ESTABLISHES, and it is less than the
+    # first version of this message claimed.
+    #
+    # The criterion is equivalent to the covering by the NULLSTELLENSATZ, which
+    # needs an ALGEBRAICALLY CLOSED FIELD. This tool works over Q. Only one
+    # direction survives that, and it is the one soundness needs: if the test
+    # PASSES the cover really does hold, over any field, because "vanishes
+    # wherever the parent does" is field-independent.
+    #
+    # If it FAILS, what has been shown is a point of V(parent) OVER THE
+    # CLOSURE that no branch reaches. Over the base field that point may not
+    # exist -- `(x^2+1)` over Q has none -- in which case the branches cover
+    # the parent vacuously and this verdict, at UNSOUND_PREMISE, would be
+    # calling a sound case analysis broken.
+    #
+    # SAME SHAPE AS THE IMAGE_CLOSURE DENSITY ARGUMENT: a justification correct
+    # over an algebraically closed field, applied by a tool working over Q.
+    # Twice now, which makes it a class rather than an accident.
     return NOT_EXHAUSTIVE, (
-        "the branches %s DO NOT COVER %s: %s vanishes wherever all of them do "
-        "and does not vanish on the parent.\n"
+        "the branches %s do not cover %s OVER THE ALGEBRAIC CLOSURE: %s "
+        "vanishes wherever all of them do and does not vanish on the parent.\n"
         "  THIS IS A HOLE IN THE CASE ANALYSIS, not an error in any branch. "
         "Each branch may be perfectly correct and every computation on it "
-        "sound; what is false is the premise that they are all the cases, and "
-        "everything concluded from completeness rests on it."
-        % (named, p.get("parent"), ", ".join(ev["uncovered"])))
+        "sound; what is false is the premise that they are all the cases.\n"
+        "  ONE WAY OUT THAT IS NOT A FIX: if %s has NO POINTS OVER THE BASE "
+        "FIELD, the branches cover it vacuously and this verdict is about a "
+        "point that does not exist there. The test cannot decide that -- it is "
+        "the emptiness question, and it wants a certificate. Record the "
+        "emptiness and the case analysis is moot; the graph is the place to "
+        "settle which of the two you have."
+        % (named, p.get("parent"), ", ".join(ev["uncovered"]),
+           p.get("parent")))
 
 
 WITNESS_VERIFIED = "VERIFIED"
