@@ -19,6 +19,11 @@ RING = ["x", "y"]
 HYP = ["x*y-1"]
 
 
+def _completed(program, stdout):
+    separator = "" if stdout.endswith("\n") else "\n"
+    return stdout + separator + program.completion_marker + "\n"
+
+
 def _fold(events):
     g = S.Graph().apply_all([(e, "t", i) for i, e in enumerate(events)])
     g.validate()
@@ -170,7 +175,9 @@ def test_execute_materializes_a_pending_ideal_without_writing():
     def fake(program, timeout):
         assert program.outputs == ["GP_OUT"]
         return {"aborted": False, "returncode": 0, "stderr": "",
-                "stdout": "@@GP_OUT:\nGP_OUT[1]=y\nGP_OUT[2]=x+1\n"}
+                "stdout": _completed(
+                    program, "@@GP_OUT:\nGP_OUT[1]=y\nGP_OUT[2]=x+1\n"
+                )}
 
     done = O.execute(op, timeout=17, _runner=fake)
     assert op.events[0].get("ideal_pending"), (
@@ -179,7 +186,10 @@ def test_execute_materializes_a_pending_ideal_without_writing():
     assert done.events[0]["generators"] == ["y", "x+1"]
     assert "gp verify" in done.verify_hint
     assert len(done.artifacts) == 1
-    assert done.artifacts[0].program_text == op.program.text
+    artifact = done.artifacts[0]
+    assert artifact.program_text == op.program.execution_text(
+        artifact.completion_nonce
+    )
 
     graph = _fold([
         {"ev": "model", "id": "M_A", "what": "source",
@@ -205,7 +215,9 @@ def test_elimination_output_is_round_trippable_through_the_verifier():
     def singular_like(program, timeout):
         rendered = "x^3-x*y" if "short=0;" in program.text else "x3-xy"
         return {"aborted": False, "returncode": 0, "stderr": "",
-                "stdout": "@@GP_OUT:\nGP_OUT[1]=%s\n" % rendered}
+                "stdout": _completed(
+                    program, "@@GP_OUT:\nGP_OUT[1]=%s\n" % rendered
+                )}
 
     done = O.execute(op, _runner=singular_like)
     assert done.events[0]["generators"] == ["x^3-x*y"]
@@ -224,7 +236,7 @@ def test_elimination_output_is_round_trippable_through_the_verifier():
             assert program.outputs == ["GP_M"]
             stdout = "@@GP_M:\nGP_M[1,1]=0\nGP_M[2,1]=-1\n"
         return {"aborted": False, "returncode": 0, "stderr": "",
-                "stdout": stdout}
+                "stdout": _completed(program, stdout)}
 
     verdict, why, certificate = V.operation_output(
         graph, "E-M_E", _runner=membership)
@@ -237,7 +249,7 @@ def test_execute_treats_the_zero_ideal_as_no_generators():
 
     def fake(program, timeout):
         return {"aborted": False, "returncode": 0, "stderr": "",
-                "stdout": "@@GP_OUT:\nGP_OUT[1]=0\n"}
+                "stdout": _completed(program, "@@GP_OUT:\nGP_OUT[1]=0\n")}
 
     assert O.execute(op, _runner=fake).events[0]["generators"] == []
 
@@ -245,9 +257,9 @@ def test_execute_treats_the_zero_ideal_as_no_generators():
 def test_operations_reject_an_artifact_attached_to_a_different_program():
     from grandportage import cas
 
-    def fake(_program, _timeout):
+    def fake(program, _timeout):
         return {"aborted": False, "returncode": 0, "stderr": "",
-                "stdout": "@@GP_OUT:\nGP_OUT[1]=y\n"}
+                "stdout": _completed(program, "@@GP_OUT:\nGP_OUT[1]=y\n")}
 
     backend = cas.SingularBackend(runner=fake, binary_version="test")
     op = O.saturate_closure("M_A", "x", "M_S", RING, ["x*y"])
@@ -442,15 +454,19 @@ def test_decompose_reports_the_exact_program_that_was_run():
 
     def runner(prog, timeout):
         seen.append(prog)
+        stdout = ("@@GP_L:\n[1]:\n   _[1]=y\n"
+                  "[2]:\n   _[1]=x\n")
         return {"aborted": False, "returncode": 0, "stderr": "",
-                "stdout": ("@@GP_L:\n[1]:\n   _[1]=y\n"
-                           "[2]:\n   _[1]=x\n")}
+                "stdout": _completed(prog, stdout)}
 
     op = O.decompose("M", RING, ["x*y"], _runner=runner)
     assert len(seen) == 1
-    assert op.program is seen[0]
+    assert op.program is not seen[0]
     assert len(op.artifacts) == 1
     assert op.artifacts[0].program_text == seen[0].text
+    assert op.artifacts[0].program_text == op.program.execution_text(
+        op.artifacts[0].completion_nonce
+    )
 
 
 def test_every_minted_component_carries_its_own_ideal():
@@ -498,8 +514,9 @@ def _facstd_runner(rows=None):
     rows = rows or ["[1]:", "   _[1]=y", "[2]:", "   _[1]=x-1",
                     "[3]:", "   _[1]=x"]
     def run(prog, timeout):
+        stdout = "@@GP_L:\n%s\n" % "\n".join(rows)
         return {"aborted": False, "returncode": 0, "stderr": "",
-                "stdout": "@@GP_L:\n%s\n" % "\n".join(rows)}
+                "stdout": _completed(prog, stdout)}
     return run
 
 

@@ -377,7 +377,9 @@ def test_the_edge_vocabulary_says_what_it_discharges_and_the_other_does_not():
 def test_a_successful_cas_call_records_the_typed_edge(project, monkeypatch):
     monkeypatch.setattr(cas, "_run_subprocess",
                         lambda prog, timeout: {
-                            "returncode": 0, "stdout": "@@GP_G:\nGP_G[1]=1\n",
+                            "returncode": 0,
+                            "stdout": ("@@GP_G:\nGP_G[1]=1\n"
+                                       + prog.completion_marker + "\n"),
                             "stderr": "", "aborted": False,
                             "abort_reason": None, "argv": ["fake"]})
     r = call("cas_ideal_is_unit", {
@@ -401,7 +403,9 @@ def test_a_unit_ideal_result_is_reported_as_evidence_not_a_kill(project,
     """
     monkeypatch.setattr(cas, "_run_subprocess",
                         lambda prog, timeout: {
-                            "returncode": 0, "stdout": "@@GP_G:\nGP_G[1]=1\n",
+                            "returncode": 0,
+                            "stdout": ("@@GP_G:\nGP_G[1]=1\n"
+                                       + prog.completion_marker + "\n"),
                             "stderr": "", "aborted": False,
                             "abort_reason": None, "argv": ["fake"]})
     body = text(call("cas_ideal_is_unit", {

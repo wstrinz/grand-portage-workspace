@@ -113,9 +113,12 @@ is nine, compact elimination output, geometric holes over a base field, overlapp
 covers, non-prime one-piece decompositions, CAS errors, and partial output. Backend
 disagreement blocks promotion; it is not resolved by silently choosing one answer.
 
-Before adding a second backend, finish the transcript-completeness boundary with a
-nonce-bearing final marker and choose a content-addressed persistence location for
-raw artifacts. New backends are added only after that seam and corpus are stable.
+The transcript-completeness boundary now binds a fresh nonce to every execution
+and accepts mathematical output only when the matching marker is the final
+non-whitespace line. Singular implementation version 2 makes pre-marker verdicts
+readable but stale. Before adding a second backend, choose a content-addressed
+persistence location for raw artifacts. New backends are added only after that
+remaining seam and the golden corpus are stable.
 
 This follows the release order: close known semantic defects, cut epoch 1, finish
 the L3 gate, then use M2 to widen independent computational crosschecks.

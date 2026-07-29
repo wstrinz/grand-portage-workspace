@@ -52,18 +52,20 @@ intended semantics       J = I : f^∞
 
 checked by containment   I ⊆ J
 checked by output cert   every recorded generator of J has a witness in I : f^∞
+formal generated lift    J ⊆ I : f^∞
 
 still open               I : f^∞ ⊆ J
                          (output completeness)
 ```
 
-The checks establish source containment and generator-level soundness. The
-current predicate-only Lean model deliberately does not lift those generator
-certificates to every element of the generated ideal; that bridge needs a real
-ideal-generation model. Even after that bridge, the resulting sound envelope
-would not establish equality with the full saturation. Lean pins this with the
-concrete counterexample `I = (6)`, `f = 2`, `J = (6)`: the checked directions
-hold, but `3 ∈ (6) : 2^∞` and `3 ∉ (6)`.
+The checks establish source containment and generator-level soundness. Lean now
+models ideal generation by its universal property inside the ring's family of
+admissible ideal predicates. When the runtime endpoint is the ideal generated
+by exactly the recorded output generators, their certificates lift to the
+ideal-level sound envelope `J ⊆ I : f^∞`. This still does not establish equality
+with the full saturation. Lean pins the remaining gap with the concrete
+counterexample `I = (6)`, `f = 2`, `J = (6)`: the sound directions hold, but
+`3 ∈ (6) : 2^∞` and `3 ∉ (6)`.
 
 Source containment licenses the current
 `NECESSARY_CONDITION / AGAINST / IDENTITY` move: an identity in the source
@@ -102,12 +104,10 @@ Keeping these separate prevents two invalid promotions:
 1. Keep the two-pole saturation gate: a real Singular result and a
    deliberately incomplete fake result whose local checks pass without gaining
    exactness authority.
-2. Formalize the bridge from generator certificates to an ideal-level
-   "no invented elements" guarantee.
-3. Instantiate elimination. It has the same soundness/completeness split but
+2. Instantiate elimination. It has the same soundness/completeness split but
    changes expression and point sorts, so it is the first real multi-sorted
    stress test.
-4. Only after those two pilots, decide whether contracts belong in the
+3. Only after those two pilots, decide whether contracts belong in the
    persisted IR or remain compiled constructor metadata.
-5. Derive more runtime transport cells from proved claim transformers before
+4. Derive more runtime transport cells from proved claim transformers before
    replacing the current table as the authoritative lookup.

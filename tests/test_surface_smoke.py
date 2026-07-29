@@ -644,7 +644,8 @@ def test_construct_reads_the_algebra_from_the_graph(tmp_path, capsys, monkeypatc
             return {
                 "aborted": False, "returncode": 0, "stderr": "",
                 "stdout": ("@@GP_L:\n[1]:\n_[1]=q\n"
-                           "[2]:\n_[1]=p2-4aq\n")}
+                           "[2]:\n_[1]=p2-4aq\n"
+                           + program.completion_marker + "\n")}
         kwargs["_runner"] = runner
         return real_decompose(src, ring_vars, generators, **kwargs)
 
@@ -684,7 +685,8 @@ def test_construct_run_materializes_before_emitting(tmp_path, capsys,
     def fake_execute(op, timeout=300):
         def runner(program, _timeout):
             return {"aborted": False, "returncode": 0, "stderr": "",
-                    "stdout": "@@GP_OUT:\nGP_OUT[1]=y\n"}
+                    "stdout": ("@@GP_OUT:\nGP_OUT[1]=y\n"
+                               + program.completion_marker + "\n")}
         return real_execute(op, timeout=timeout, _runner=runner)
 
     monkeypatch.setattr(O, "execute", fake_execute)
@@ -765,7 +767,7 @@ def test_ring_iso_runs_on_the_maps_alone(tmp_path):
         stdout = "".join(
             "@@%s:\n%s=%s\n" % (output, output, values[output])
             for output in program.outputs
-        )
+        ) + program.completion_marker + "\n"
         return {
             "aborted": False,
             "returncode": 0,
@@ -818,9 +820,10 @@ def test_mapped_equivalence_is_not_verified_as_literal_containment(tmp_path):
                 values[output] = "0"
         return {
             "aborted": False, "returncode": 0, "stderr": "",
-            "stdout": "".join(
+            "stdout": ("".join(
                 "@@%s:\n%s=%s\n" % (o, o, values[o])
-                for o in program.outputs),
+                for o in program.outputs)
+                + program.completion_marker + "\n"),
         }
 
     results = V.verify_all(root=str(tmp_path), _runner=fake, record=False)

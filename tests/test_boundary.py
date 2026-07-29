@@ -39,7 +39,9 @@ def program(**kw):
 
 def fake_runner(stdout="", stderr="", rc=0):
     def run(prog, timeout):
-        return {"returncode": rc, "stdout": stdout, "stderr": stderr,
+        separator = "" if stdout.endswith("\n") else "\n"
+        completed = stdout + separator + prog.completion_marker + "\n"
+        return {"returncode": rc, "stdout": completed, "stderr": stderr,
                 "aborted": rc in cas.ABORT_CODES,
                 "abort_reason": cas.ABORT_CODES.get(rc), "argv": ["fake"]}
     return run

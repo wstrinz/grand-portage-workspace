@@ -35,7 +35,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about seven days. Version 0.5.0. <!--checks-->916<!--/checks--> checks.** Treat
+**Age: about seven days. Version 0.5.0. <!--checks-->923<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **M2 first slice is implemented.** Production verifiers and structured
@@ -50,8 +50,10 @@ membership representation stays UNVERIFIED. Lean now distinguishes independent
 certificate replay, direct normal-form decisions inside the named backend/verifier
 TCB, and verifier-native structural decisions that spawn no backend artifact. The
 adversarial corpus found and closed truncated empty
-`facstd` components. Before backend number two: add a nonce-bearing terminal
-marker and persist content-addressed raw artifacts outside the semantic graph.
+`facstd` components. The nonce-bearing terminal marker is now enforced per
+execution, with pre-marker verdicts stale under Singular implementation version
+2. Before backend number two: persist content-addressed raw artifacts outside the
+semantic graph.
 
 **The first OperationContract pilot is implemented for saturation.** Lean keeps
 exact semantics (`J = I : f^∞`), generator-level local checks, and licensed
@@ -352,7 +354,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->916<!--/checks--> checks, ~10 s) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->923<!--/checks--> checks, ~10 s) |
 
 ---
 
@@ -459,7 +461,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->916<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->923<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.

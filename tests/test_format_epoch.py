@@ -223,7 +223,8 @@ def test_epoch1_migration_is_beside_original_audited_and_strict(tmp_path):
 def test_constructor_events_fit_epoch1_and_carry_characteristic():
     def facstd(prog, timeout):
         return {"aborted": False, "returncode": 0, "stderr": "",
-                "stdout": "@@GP_L:\n[1]:\n_[1]=x\n[2]:\n_[1]=y\n"}
+                "stdout": ("@@GP_L:\n[1]:\n_[1]=x\n[2]:\n_[1]=y\n"
+                           + prog.completion_marker + "\n")}
 
     operations = [
         O.localize("M", "x", "L", ["x", "y"], ["x*y"],

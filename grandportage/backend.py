@@ -16,7 +16,7 @@ import re
 BACKEND_PROTOCOL_VERSION = 1
 SINGULAR_CONTRACT = "singular"
 SINGULAR_IMPLEMENTATION = "grandportage.cas.SingularBackend"
-SINGULAR_IMPLEMENTATION_VERSION = 1
+SINGULAR_IMPLEMENTATION_VERSION = 2
 
 
 def _canonical(value):
@@ -120,6 +120,7 @@ class ExecutionArtifact:
     semantic_input_fingerprint: str
     program_fingerprint: str
     program_text: str
+    completion_nonce: str
     argv: tuple
     returncode: int
     aborted: bool
@@ -137,6 +138,7 @@ class ExecutionArtifact:
             semantic_input_fingerprint=self.semantic_input_fingerprint,
             program_fingerprint=self.program_fingerprint,
             program_text=self.program_text,
+            completion_nonce=self.completion_nonce,
             argv=self.argv,
             returncode=self.returncode,
             aborted=self.aborted,
@@ -155,17 +157,20 @@ class ExecutionArtifact:
 class BackendExecution(dict):
     """A legacy-compatible result dictionary carrying an immutable artifact."""
 
-    def __init__(self, raw, *, backend, program, semantic_input_fingerprint):
+    def __init__(self, raw, *, backend, program, execution_program,
+                 completion_nonce, semantic_input_fingerprint):
         super().__init__(raw)
-        text = program.text
+        text = execution_program.text
         stdout = str(raw.get("stdout", ""))
         stderr = str(raw.get("stderr", ""))
         self.program = program
+        self.execution_program = execution_program
         self.artifact = ExecutionArtifact(
             backend=backend,
             semantic_input_fingerprint=semantic_input_fingerprint,
             program_fingerprint=text_fingerprint(text),
             program_text=text,
+            completion_nonce=completion_nonce,
             argv=tuple(raw.get("argv") or ()),
             returncode=int(raw.get("returncode", -1)),
             aborted=bool(raw.get("aborted")),
@@ -211,7 +216,12 @@ def validate_execution_artifact(execution, program=None):
         raise TypeError("backend answer did not retain a BackendExecution")
     artifact = execution.artifact
     if program is not None:
-        text = getattr(program, "text", None)
+        execution_text = getattr(program, "execution_text", None)
+        text = (
+            execution_text(artifact.completion_nonce)
+            if callable(execution_text)
+            else getattr(program, "text", None)
+        )
         if not isinstance(text, str):
             raise TypeError("backend answer returned a program without text")
         if artifact.program_text != text:

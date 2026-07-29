@@ -72,7 +72,7 @@ def test_fresh_verdict_carries_detailed_backend_provenance():
     manifest = P.backend_provenance(event["backend"])
     assert manifest["contract"] == "singular"
     assert manifest["implementation"].endswith("SingularBackend")
-    assert manifest["implementation_version"] == 1
+    assert manifest["implementation_version"] == B.SINGULAR_IMPLEMENTATION_VERSION
     assert manifest["binary_version"] == "Singular 4.2.1"
     assert manifest["trace_fingerprint"] == B.semantic_fingerprint(
         "backend_execution_trace", manifest["executions"]
@@ -233,6 +233,26 @@ def test_trace_requirement_distinguishes_backend_and_structural_authority():
     valid_saturation, valid_sat_event = saturation_graph("x")
     assert valid_saturation.verdicts[
         valid_sat_event["id"]]["current"] is True
+
+
+def test_pre_marker_singular_v1_verdict_is_readable_but_stale_under_v2():
+    graph = _identity_graph()
+    old_execution = _execution()
+    old_execution["implementation_version"] = 1
+    event = V._verdict_event(
+        graph, "claim", "C", "VERIFIED_DERIVED",
+        "Singular implementation v1 reduced x to zero",
+        execution=old_execution,
+    )
+    event["id"] = "v.C.singular-implementation-v1"
+
+    graph.apply(event)
+
+    stored = graph.verdicts[event["id"]]
+    assert stored["current"] is False
+    assert "backend execution provenance" in stored["stale_reason"]
+    assert "identity_verdict" not in graph.claims["C"]
+    assert P.backend_provenance(event["backend"]) is None
 
 
 def test_pre_m2_epoch1_verdict_is_readable_but_stale():

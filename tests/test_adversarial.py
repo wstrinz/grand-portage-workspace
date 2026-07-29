@@ -413,10 +413,16 @@ def test_legal_programs_still_pass():
                    body=["I = std(I);"], outputs=["G"])
 
 
+def _completed(program, stdout):
+    separator = "" if stdout.endswith("\n") else "\n"
+    return stdout + separator + program.completion_marker + "\n"
+
+
 def _fake_run(returncode=0, stdout="@@GP_G:\n1\n", stderr="", aborted=False,
               abort_reason=None):
     def runner(program, timeout):
-        return {"returncode": returncode, "stdout": stdout, "stderr": stderr,
+        return {"returncode": returncode,
+                "stdout": _completed(program, stdout), "stderr": stderr,
                 "aborted": aborted, "abort_reason": abort_reason,
                 "argv": ["fake"]}
     return runner
@@ -4223,9 +4229,12 @@ def test_a_fabricated_point_no_longer_types_like_a_real_one():
 
     def fake(prog, timeout):
         # (3,4) is on the circle; (3,5) gives 9.
-        val = "0" if "4" in prog.text else "9"
+        val = "0" if "4" in dict(
+            (name, expr) for name, _kind, expr in prog.decls
+        )["GP_V0"] else "9"
+        stdout = "@@GP_V0:\nGP_V0=%s\n" % val
         return {"aborted": False, "returncode": 0, "stderr": "",
-                "stdout": "@@GP_V0:\nGP_V0=%s\n" % val}
+                "stdout": _completed(prog, stdout)}
 
     g = _graph(CIRCLE + [_witness_claim("REAL", {"x": "3", "y": "4"}),
                          _witness_claim("FAKE", {"x": "3", "y": "5"})])
@@ -4348,7 +4357,8 @@ def _hyperbola_runner(expand="0", lift_row="x"):
             out = "@@GP_RED:\n0\n"
         else:
             out = "@@GP_D:\nx2y-x\n@@GP_RED:\n0\n"
-        return {"aborted": False, "returncode": 0, "stderr": "", "stdout": out}
+        return {"aborted": False, "returncode": 0, "stderr": "",
+                "stdout": _completed(prog, out)}
     return run
 
 
@@ -4584,8 +4594,9 @@ def _identity_at(model, lhs, rhs, origin=K.DERIVED):
 
 def _nonzero_runner(value="xy-1"):
     def run(prog, timeout):
+        stdout = "@@GP_D:\n%s\n@@GP_RED:\n%s\n" % (value, value)
         return {"aborted": False, "returncode": 0, "stderr": "",
-                "stdout": "@@GP_D:\n%s\n@@GP_RED:\n%s\n" % (value, value)}
+                "stdout": _completed(prog, stdout)}
     return run
 
 
@@ -4803,7 +4814,7 @@ def _op_graph(built_gens, op="SaturateClosure"):
 def _nonmember_runner():
     def run(prog, timeout):
         return {"aborted": False, "returncode": 0, "stderr": "",
-                "stdout": "@@GP_RED:\n1\n"}
+                "stdout": _completed(prog, "@@GP_RED:\n1\n")}
     return run
 
 
@@ -4881,8 +4892,9 @@ def test_a_verified_output_does_not_claim_completeness():
     from grandportage import verify as V
 
     def fake(prog, timeout):
+        stdout = "@@GP_RED:\n0\n@@GP_M:\nGP_M[1,1]=1\nGP_M[2,1]=0\n"
         return {"aborted": False, "returncode": 0, "stderr": "",
-                "stdout": "@@GP_RED:\n0\n@@GP_M:\nGP_M[1,1]=1\nGP_M[2,1]=0\n"}
+                "stdout": _completed(prog, stdout)}
     verdict, why, _ = V.operation_output(_op_graph(["y"]), "E", _runner=fake)
     assert verdict == V.OP_SOUND
     assert "DOES NOT SAY" in why and "COMPLETE" in why

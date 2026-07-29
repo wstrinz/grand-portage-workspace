@@ -33,8 +33,10 @@ from first principles:
 3. AN ERRORED CAS IS NOT A CAS THAT ANSWERED.  Singular reports an error, KEEPS
    GOING, prints the output markers with nothing behind them, and exits 0.  So
    exit status is not evidence, and neither is the presence of a marker.  A
-   verdict is read only from a run with no `? error` line and exactly one
-   parseable value per declared output.
+   verdict is read only from a run with no `? error` line, exactly one
+   parseable value per declared output, and a per-execution nonce marker as
+   the final non-whitespace line.  Parseable output from a truncated or replayed
+   transcript is not an answer to this invocation.
 
    Earned by: an `_ASSAY_` identifier prefix that was illegal because Singular
    identifiers must begin with a letter.  Reviewing the emitter would never
@@ -44,6 +46,7 @@ from first principles:
 import json
 import os
 import re
+import secrets
 import subprocess
 
 from . import backend as B
@@ -336,6 +339,10 @@ class CASProgram(object):
 
     @property
     def text(self):
+        return self.execution_text()
+
+    def execution_text(self, completion_nonce=None):
+        """Render this reusable template, optionally bound to one run."""
         if self.dialect != SINGULAR:
             raise NotImplementedError(self.dialect)
         lines = ["ring %s = %d,(%s),dp;"
@@ -360,12 +367,18 @@ class CASProgram(object):
         for out in self.outputs:
             lines.append('"@@%s:";' % out.upper())
             lines.append("%s;" % out)
+        if completion_nonce is not None:
+            if not re.fullmatch(r"[0-9a-f]{32}", completion_nonce):
+                raise ValueError(
+                    "completion nonce must be 32 lowercase hex digits"
+                )
+            lines.append('"@@GP-END:%s";' % completion_nonce)
         lines.append("quit;")
         return "\n".join(lines) + "\n"
 
     @property
     def semantic_fingerprint(self):
-        """Content address the exact validated program sent to the backend."""
+        """Address the validated template independently of its run nonce."""
         return B.semantic_fingerprint(
             "cas_program",
             {
@@ -377,6 +390,25 @@ class CASProgram(object):
                 "outputs": list(self.outputs),
             },
         )
+
+
+class _BoundCASInvocation(object):
+    """One nonce-bound execution of an otherwise reusable CASProgram."""
+
+    def __init__(self, program, completion_nonce):
+        self._program = program
+        self.completion_nonce = completion_nonce
+
+    def __getattr__(self, name):
+        return getattr(self._program, name)
+
+    @property
+    def completion_marker(self):
+        return "@@GP-END:%s" % self.completion_nonce
+
+    @property
+    def text(self):
+        return self._program.execution_text(self.completion_nonce)
 
 
 # ---------------------------------------------------------------------------
@@ -810,8 +842,10 @@ class SingularBackend(B.Backend):
                 "SingularBackend accepts only CASProgram, not %r"
                 % type(program).__name__
             )
+        completion_nonce = secrets.token_hex(16)
+        invocation = _BoundCASInvocation(program, completion_nonce)
         runner = self._runner or _run_subprocess
-        raw = runner(program, timeout)
+        raw = runner(invocation, timeout)
         if isinstance(raw, B.BackendExecution):
             raise TypeError(
                 "a backend runner must return raw process fields, not a "
@@ -825,6 +859,7 @@ class SingularBackend(B.Backend):
         )
         execution = B.BackendExecution(
             raw, backend=self.identity, program=program,
+            execution_program=invocation, completion_nonce=completion_nonce,
             semantic_input_fingerprint=fingerprint,
         )
         self.executions.append(execution)
@@ -995,12 +1030,36 @@ def _execute(program, timeout, runner=None, semantic_input=None):
 
 
 def _parse_result(result, outputs, certificate=None):
-    """Parse atomically from the frozen raw-output snapshot."""
-    stdout = (
-        result.artifact.stdout
-        if isinstance(result, B.BackendExecution)
-        else result["stdout"]
-    )
+    """Parse only a complete transcript from the frozen output snapshot."""
+    if not isinstance(result, B.BackendExecution):
+        raise CASError(
+            "backend output has no retained execution envelope; mathematical "
+            "output cannot be parsed without a nonce-bound terminal marker"
+        )
+    B.validate_execution_artifact(result, result.program)
+    stdout = result.artifact.stdout
+    expected = "@@GP-END:%s" % result.artifact.completion_nonce
+    ends = list(re.finditer(
+        r"^@@GP-END:[^\r\n]*[ \t]*$", stdout, re.MULTILINE
+    ))
+    if len(ends) != 1:
+        raise CASError(
+            "expected exactly one nonce-bound terminal marker, found %d; "
+            "parseable output from an unfinished or concatenated transcript "
+            "is not a CAS answer" % len(ends)
+        )
+    terminal = ends[0]
+    if terminal.group(0).strip() != expected:
+        raise CASError(
+            "the CAS terminal marker belongs to a different invocation; "
+            "stale or replayed stdout is not an answer to this program"
+        )
+    if stdout[terminal.end():].strip():
+        raise CASError(
+            "non-whitespace follows the CAS terminal marker; the transcript "
+            "is concatenated or the marker was not terminal"
+        )
+    stdout = stdout[:terminal.start()]
     values = _parse_outputs(stdout, outputs)
     if isinstance(result, B.BackendExecution):
         result.attach_parsed(values, certificate=certificate)

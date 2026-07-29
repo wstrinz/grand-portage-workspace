@@ -48,10 +48,10 @@ spawn no backend artifact.
 
 `GrandPortage/OperationContract.lean` - the first backend-neutral operation
 contract. Exact saturation semantics, locally checked guarantees, and licensed
-transport consequences are distinct predicates. The current checks establish
-source containment plus certificates for each recorded output generator; they do
-not yet formalize the lift from those generators to every member of the generated
-ideal. A concrete counterexample separately refuses output completeness.
+transport consequences are distinct predicates. Ideal generation is modeled by
+its universal property, so certificates for every recorded output generator now
+lift to an ideal-level sound envelope. A concrete counterexample separately
+refuses the still-open output-completeness direction.
 
 `GrandPortage/Conditions.lean` — **that conjecture is refuted.** The four gated
 conditions turn out to be three different shapes, and one of them is not about
@@ -100,7 +100,9 @@ hasPoint_along, isEmpty_against, everywhere_against   no axioms
 isEmpty_not_along, hasPoint_not_against               no axioms
 cover_empty, eqMod_against, eqMod_both_ways           no axioms
 eqMod_transports                                      no axioms
+generator_mem_generated, generatedIdeal_least,
 saturation_semantics_entails_checked,
+  saturation_checked_no_invented_elements,
   saturation_checked_transports_identity_against       no axioms
 everywhere_not_along                                  propext
 eqMod_not_along, checked_does_not_imply_saturation_semantics,

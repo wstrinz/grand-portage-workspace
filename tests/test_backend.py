@@ -21,6 +21,11 @@ def _raw(stdout, *, returncode=0, aborted=False, stderr=""):
     }
 
 
+def _finished(program, stdout):
+    separator = "" if stdout.endswith("\n") else "\n"
+    return stdout + separator + program.completion_marker + "\n"
+
+
 def _program(characteristic=0, outputs=None):
     outputs = outputs or ["GP_G"]
     return cas.CASProgram(
@@ -37,7 +42,9 @@ def _program(characteristic=0, outputs=None):
 def test_execution_artifact_snapshots_program_backend_raw_and_parsed_output():
     program = _program()
     backend = cas.SingularBackend(
-        runner=lambda _program, _timeout: _raw("@@GP_G:\nGP_G[1]=x\n"),
+        runner=lambda program, _timeout: _raw(_finished(
+            program, "@@GP_G:\nGP_G[1]=x\n"
+        )),
         binary_version="Singular 9.9-test",
     )
 
@@ -51,10 +58,18 @@ def test_execution_artifact_snapshots_program_backend_raw_and_parsed_output():
     assert result["program"] is program
     assert artifact.backend.binary_version == "Singular 9.9-test"
     assert artifact.backend.implementation == "grandportage.cas.SingularBackend"
-    assert artifact.program_text == program.text
-    assert artifact.program_fingerprint == B.text_fingerprint(program.text)
+    assert artifact.program_text == program.execution_text(
+        artifact.completion_nonce
+    )
+    assert artifact.program_text != program.text
+    assert artifact.program_fingerprint == B.text_fingerprint(
+        artifact.program_text
+    )
     assert artifact.semantic_input_fingerprint.startswith("sha256:")
-    assert artifact.stdout == "@@GP_G:\nGP_G[1]=x\n"
+    assert artifact.stdout.startswith("@@GP_G:\nGP_G[1]=x\n")
+    assert artifact.stdout.rstrip().endswith(
+        "@@GP-END:%s" % artifact.completion_nonce
+    )
     assert artifact.stdout_fingerprint == B.text_fingerprint(artifact.stdout)
     assert artifact.stderr_fingerprint == B.text_fingerprint(artifact.stderr)
     assert artifact.parsed_output is not None
@@ -62,14 +77,16 @@ def test_execution_artifact_snapshots_program_backend_raw_and_parsed_output():
 
     result["stdout"] = "mutated legacy dictionary"
     program.body.append("// mutated after execution")
-    assert artifact.stdout == "@@GP_G:\nGP_G[1]=x\n"
+    assert artifact.stdout.startswith("@@GP_G:\nGP_G[1]=x\n")
     assert "// mutated" not in artifact.program_text
 
 
 def test_parse_uses_the_frozen_stdout_not_a_mutated_legacy_field():
     program = _program()
     backend = cas.SingularBackend(
-        runner=lambda _program, _timeout: _raw("@@GP_G:\nGP_G[1]=x\n"),
+        runner=lambda program, _timeout: _raw(_finished(
+            program, "@@GP_G:\nGP_G[1]=x\n"
+        )),
         binary_version="test",
     )
     result = backend.execute(program)
@@ -81,10 +98,73 @@ def test_parse_uses_the_frozen_stdout_not_a_mutated_legacy_field():
     assert "not_the_run" not in result.artifact.parsed_output
 
 
+@pytest.mark.parametrize("transcript", [
+    "missing",
+    "wrong",
+    "duplicate",
+    "trailing-data",
+])
+def test_transcript_envelope_refuses_partial_stale_or_concatenated_output(
+        transcript):
+    program = _program()
+
+    def runner(invocation, _timeout):
+        prefix = "@@GP_G:\nGP_G[1]=x\n"
+        if transcript == "missing":
+            stdout = prefix
+        elif transcript == "wrong":
+            stdout = prefix + "@@GP-END:%s\n" % ("0" * 32)
+        elif transcript == "duplicate":
+            stdout = (_finished(invocation, prefix)
+                      + invocation.completion_marker + "\n")
+        else:
+            stdout = _finished(invocation, prefix) + "a second transcript\n"
+        return _raw(stdout)
+
+    result = cas.SingularBackend(
+        runner=runner, binary_version="test"
+    ).execute(program)
+
+    with pytest.raises(cas.CASError, match="terminal marker|different invocation"):
+        cas._parse_result(result, program.outputs)
+
+    assert result.artifact.parsed_output is None
+
+
+def test_each_execution_gets_a_fresh_nonce_and_stdout_cannot_be_replayed():
+    program = _program()
+    first_stdout = []
+
+    def runner(invocation, _timeout):
+        if not first_stdout:
+            stdout = _finished(invocation, "@@GP_G:\nGP_G[1]=x\n")
+            first_stdout.append(stdout)
+        else:
+            stdout = first_stdout[0]
+        return _raw(stdout)
+
+    backend = cas.SingularBackend(runner=runner, binary_version="test")
+    first = backend.execute(program)
+    assert cas._parse_result(first, program.outputs) == {
+        "GP_G": "GP_G[1]=x"
+    }
+    second = backend.execute(program)
+
+    assert first.artifact.completion_nonce != second.artifact.completion_nonce
+    assert first.artifact.program_fingerprint != second.artifact.program_fingerprint
+    assert first.artifact.semantic_input_fingerprint == (
+        second.artifact.semantic_input_fingerprint
+    )
+    with pytest.raises(cas.CASError, match="different invocation"):
+        cas._parse_result(second, program.outputs)
+
+
 def test_a_runner_cannot_smuggle_in_a_foreign_execution_artifact():
     program = _program()
     first = cas.SingularBackend(
-        runner=lambda _program, _timeout: _raw("@@GP_G:\nGP_G[1]=x\n"),
+        runner=lambda program, _timeout: _raw(_finished(
+            program, "@@GP_G:\nGP_G[1]=x\n"
+        )),
         binary_version="first",
     ).execute(program)
     second = cas.SingularBackend(
@@ -236,9 +316,9 @@ def test_characteristic_is_part_of_the_semantic_program_fingerprint():
 def test_multi_output_parse_is_atomic_on_an_empty_second_marker():
     program = _program(outputs=["GP_G", "GP_M"])
     backend = cas.SingularBackend(
-        runner=lambda _program, _timeout: _raw(
-            "@@GP_G:\nGP_G[1]=1\n@@GP_M:\n"
-        ),
+        runner=lambda program, _timeout: _raw(_finished(
+            program, "@@GP_G:\nGP_G[1]=1\n@@GP_M:\n"
+        )),
         binary_version="test",
     )
     result = backend.execute(program)
@@ -252,9 +332,9 @@ def test_multi_output_parse_is_atomic_on_an_empty_second_marker():
 
 def test_truncated_facstd_component_is_not_an_empty_ideal():
     backend = cas.SingularBackend(
-        runner=lambda _program, _timeout: _raw(
-            "@@GP_L:\n[1]:\n_[1]=x\n[2]:\n"
-        ),
+        runner=lambda program, _timeout: _raw(_finished(
+            program, "@@GP_L:\n[1]:\n_[1]=x\n[2]:\n"
+        )),
         binary_version="test",
     )
 
@@ -267,7 +347,7 @@ def test_named_saturation_and_elimination_keep_the_exact_executed_program():
 
     def runner(program, _timeout):
         seen.append(program)
-        return _raw("@@GP_OUT:\nGP_OUT[1]=y\n")
+        return _raw(_finished(program, "@@GP_OUT:\nGP_OUT[1]=y\n"))
 
     backend = cas.SingularBackend(runner=runner, binary_version="test")
     saturated = backend.saturate(["x", "y"], ["x^9*y"], "x")
@@ -278,10 +358,12 @@ def test_named_saturation_and_elimination_keep_the_exact_executed_program():
     assert saturated["generators"] == ["y"]
     assert eliminated["ring_vars"] == ["x", "y"]
     assert eliminated["generators"] == ["y"]
-    assert saturated["program"] is seen[0]
-    assert eliminated["program"] is seen[1]
-    assert saturated["execution"]["program"] is seen[0]
-    assert eliminated["execution"]["program"] is seen[1]
+    assert saturated["execution"].execution_program is seen[0]
+    assert eliminated["execution"].execution_program is seen[1]
+    assert saturated["execution"]["program"] is saturated["program"]
+    assert eliminated["execution"]["program"] is eliminated["program"]
+    assert saturated["execution"].artifact.program_text == seen[0].text
+    assert eliminated["execution"].artifact.program_text == seen[1].text
 
 
 def _assert_member(backend, ring, target, generators, characteristic=0):
@@ -294,6 +376,21 @@ def _assert_member(backend, ring, target, generators, characteristic=0):
         characteristic=characteristic, timeout=120,
     )
     assert ok, expanded
+
+
+@pytest.mark.live
+def test_real_singular_prints_the_matching_terminal_marker_last():
+    backend = cas.SingularBackend()
+    answer = backend.membership(
+        ["x"], "1", ["x"], characteristic=0, timeout=120
+    )
+
+    assert answer["is_member"] is False
+    artifact = backend.executions[-1].artifact
+    expected = "@@GP-END:%s" % artifact.completion_nonce
+    assert [line for line in artifact.stdout.splitlines() if line.strip()][-1] == expected
+    assert ('"%s";' % expected) in artifact.program_text
+    assert artifact.program_text.rstrip().endswith("quit;")
 
 
 @pytest.mark.live
