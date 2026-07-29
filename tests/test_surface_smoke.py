@@ -607,3 +607,98 @@ def test_gp_events_dumps_the_log_without_hand_parsing(tmp_path, capsys):
     assert set(folded) == {"models", "edges", "claims", "inferences",
                            "partitions"}
     assert folded["models"]["M"]["generators"] == ["x"]
+
+
+# ===========================================================================
+# W6 FINDINGS. A live session, 2026-07-28, on a quartic-discriminant campaign.
+# ===========================================================================
+def test_operations_has_a_user_facing_surface():
+    """D2 — THE SECOND CONFIRMED INSTANCE of a class HANDOFF §4 named as
+    unguarded: "Neither asks whether a capability has a surface at all."
+
+    `operations.py` had four constructors and ZERO production callers -- no
+    subcommand, no MCP tool, no import outside the tests. `verify.py` was
+    instance one and got `gp verify`; this was instance two, found the day
+    after a fourth constructor was added to a module nobody could call.
+    """
+    from grandportage import cli
+    p = cli.build_parser()
+    sub = [a for a in p._actions if hasattr(a, "choices") and a.choices
+           and "construct" in (a.choices or {})]
+    assert sub, "operations.py is still unreachable from the CLI"
+
+
+def test_construct_reads_the_algebra_from_the_graph(tmp_path, capsys):
+    """The argument FOR constructors is that the caller stops writing the same
+    thing twice. If `gp construct` asked for ring_vars and generators again it
+    would buy nothing."""
+    import json
+    from grandportage import cli, store as S
+    cli.main(["--root", str(tmp_path), "init"])
+    S.append([{"ev": "model", "id": "D", "what": "a reducible locus",
+               "ring_vars": ["a", "p", "q"],
+               "generators": ["p^2*q-4*a*q^2"]}], str(tmp_path))
+    capsys.readouterr()
+    cli.main(["--root", str(tmp_path), "construct", "decompose", "--src", "D"])
+    events = json.loads(capsys.readouterr().out)
+    gens = sorted(e["generators"][0] for e in events if e["ev"] == "model")
+    assert gens == ["p2-4aq", "q"], gens
+    assert any(e["ev"] == "partition" for e in events)
+    # NOT written unless asked: a constructor must not be a second, weaker
+    # door into the graph.
+    assert "D_C0" not in S.load(S.graph_path(str(tmp_path))).models
+
+
+def test_a_model_without_algebra_is_refused_with_the_reason(tmp_path, capsys):
+    from grandportage import cli, store as S
+    cli.main(["--root", str(tmp_path), "init"])
+    S.append([{"ev": "model", "id": "M", "what": "no algebra"}], str(tmp_path))
+    capsys.readouterr()
+    rc = cli.main(["--root", str(tmp_path), "construct", "decompose",
+                   "--src", "M"])
+    assert rc == 2
+    assert "records no" in capsys.readouterr().err
+
+
+def test_ring_iso_runs_on_the_maps_alone(tmp_path):
+    """D4 — it required the `ring_iso` FLAG in addition to `forward` and
+    `inverse`, so an author who did the natural thing got SILENCE: no verdict,
+    and nothing saying the maps had been ignored. W6 reached the verifier only
+    by reading the dispatcher.
+
+    A VERIFIED verdict must still not MINT the flag -- an author who never
+    declared it is not granted it by a check they did not ask for.
+    """
+    from grandportage import cli, store as S, verify as V
+    S.append([
+        {"ev": "model", "id": "A", "what": "a curve",
+         "ring_vars": ["x", "y"], "generators": ["y^2-x^4-1"]},
+        {"ev": "model", "id": "B", "what": "the same curve",
+         "ring_vars": ["x", "y"], "generators": ["y^2-x^4-1"]},
+        {"ev": "edge", "id": "E", "src": "A", "dst": "B",
+         "type": "EQUIVALENCE", "map_kind": "POLYNOMIAL",
+         "why": "the involution", "converse_witness": "the same map back",
+         "forward": {"x": "-x", "y": "-y"},
+         "inverse": {"x": "-x", "y": "-y"}},
+    ], str(tmp_path))
+    V.verify_all(root=str(tmp_path))
+    e = S.load(S.graph_path(str(tmp_path))).edges["E"]
+    assert e.get("ring_iso_verdict") == "VERIFIED"
+    assert e.get("ring_iso") is None, "a verdict minted a licence"
+
+
+def test_unjustified_equivalence_names_the_field_it_tests():
+    """D6 — the rule tested `converse_witness` and reported the absence of
+    `witness`. On an EQUIVALENCE those have OPPOSITE POLARITY, so a session
+    wrote the field the message named and got two findings contradicting each
+    other on the same edge in the same run."""
+    from grandportage import check as C, store as S, kernel as K
+    g = S.Graph().apply_all([(e, "t", i) for i, e in enumerate([
+        {"ev": "model", "id": "A", "desc": "a"},
+        {"ev": "model", "id": "B", "desc": "b"},
+        {"ev": "edge", "id": "E", "src": "A", "dst": "B",
+         "type": K.EQUIVALENCE, "why": "w", "map_kind": K.POLYNOMIAL},
+    ])])
+    f = [x for x in C.run(g) if x.rule == "UNJUSTIFIED-EQUIVALENCE"][0]
+    assert "`converse_witness`" in f.detail
+    assert "neither a `witness`" not in f.detail

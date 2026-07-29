@@ -11,6 +11,7 @@ import os
 import re
 import sys
 
+from . import cas
 from . import check as C
 from . import hook as H
 from . import kernel as K
@@ -1183,6 +1184,88 @@ def cmd_init(args):
     return 0
 
 
+def cmd_construct(args):
+    """Run a structured operation and emit its events.  THE MISSING SURFACE.
+
+    `operations.py` has had four constructors and ZERO production callers --
+    no subcommand, no MCP tool, no import outside the tests. A live session
+    found it and correctly called it the SECOND CONFIRMED INSTANCE of the class
+    `HANDOFF.md` §4 already names as unguarded:
+
+        "Neither asks whether a capability has a surface at all, which is how
+         verify.py shipped twice while being unreachable from every
+         user-facing path."
+
+    `verify.py` was the first and got `gp verify`. This is the second, and the
+    session found it the day after I added a fourth constructor to a module
+    nobody could call -- while writing into HANDOFF that "the checkable
+    fraction of a campaign rises as it uses constructors", a claim that was not
+    available to any author through a supported path.
+
+    THE ARGUMENT FOR CONSTRUCTORS IS THAT THE CALLER STOPS WRITING THE SAME
+    THING TWICE, so this reads `ring_vars`, `generators` and `characteristic`
+    off the SOURCE MODEL IN THE GRAPH rather than asking for them again. What
+    the author supplies is what only they know: which model, and which
+    polynomial or variables.
+
+    Prints the events by default. `--declare` sends them through the ordinary
+    write path, where every existing guard still applies -- a constructor must
+    not become a second, weaker door into the graph.
+    """
+    from . import operations as O
+    g = _load(args)
+    src = g.models.get(args.src)
+    if not src:
+        sys.stderr.write("%s is not a model in this graph.\n" % args.src)
+        return 2
+    ring = src.get("ring_vars")
+    if ring is None or src.get("generators") is None:
+        sys.stderr.write(
+            "%s records no %s, and a constructor derives its target from the "
+            "source's algebra.\n"
+            "  That is the point of using one: you supply which polynomial, "
+            "and the ring and the ideal come from the model you already "
+            "declared.\n"
+            % (args.src, "ring variables" if ring is None else "ideal"))
+        return 2
+    gens, ch = list(src["generators"]), src.get("characteristic") or 0
+    try:
+        if args.op == "localize":
+            op = O.localize(args.src, args.at, args.produces, ring, gens,
+                            characteristic=ch)
+        elif args.op == "saturate":
+            op = O.saturate_closure(args.src, args.at, args.produces, ring,
+                                    gens, characteristic=ch)
+        elif args.op == "eliminate":
+            op = O.eliminate(args.src, [v.strip() for v in args.vars.split(",")],
+                             args.produces, ring, gens, characteristic=ch)
+        else:
+            op = O.decompose(args.src, ring, gens, characteristic=ch,
+                             timeout=args.timeout)
+    except (ValueError, cas.CASError) as exc:
+        sys.stderr.write("%s\n" % exc)
+        return 2
+    if not op.events:
+        print("%s produced no events.\n  %s" % (op.kind, op.derivation))
+        return 0
+    if args.declare:
+        try:
+            S.append(op.events, args.root)
+        except (S.GraphError, K.KernelRefusal) as exc:
+            sys.stderr.write("refused, and NOTHING WAS WRITTEN:\n%s\n" % exc)
+            return 2
+        print("declared %d event(s) from %s." % (len(op.events), op.kind))
+        print("  transport: %s" % op.derivation)
+        print("  next: %s" % op.verify_hint)
+        return 0
+    print(json.dumps(op.events, indent=2, sort_keys=True))
+    sys.stderr.write(
+        "%d event(s), NOT written. Re-run with --declare, or pipe to "
+        "`gp declare`.\n  transport: %s\n"
+        % (len(op.events), op.derivation))
+    return 0
+
+
 def cmd_events(args):
     """Dump the log as JSON, so nobody has to parse the file by hand.
 
@@ -1312,6 +1395,21 @@ def build_parser():
 
     i = sub.add_parser("init", help="create an empty graph")
     i.set_defaults(func=cmd_init)
+    con = sub.add_parser(
+        "construct",
+        help="run a structured operation and emit its events")
+    con.add_argument("op", choices=["localize", "saturate", "eliminate",
+                                    "decompose"])
+    con.add_argument("--src", required=True,
+                     help="the source MODEL; its ring and ideal are read from "
+                          "the graph")
+    con.add_argument("--at", help="the polynomial, for localize / saturate")
+    con.add_argument("--vars", help="comma-separated, for eliminate")
+    con.add_argument("--produces", help="id for the model this mints")
+    con.add_argument("--declare", action="store_true",
+                     help="write the events instead of printing them")
+    con.add_argument("--timeout", type=int, default=300)
+    con.set_defaults(func=cmd_construct)
     ev = sub.add_parser("events",
                         help="dump the log as JSON (do not parse the file)")
     ev.add_argument("--folded", action="store_true",

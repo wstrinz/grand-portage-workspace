@@ -1023,8 +1023,21 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
                 and not e.get("output_verdict")):
             run("operation", eid, lambda eid=eid: operation_output(
                 graph, eid, timeout=timeout, _runner=_runner))
-        if (e.get("type") == K.EQUIVALENCE and e.get("ring_iso")
-                and e.get("forward") and not e.get("ring_iso_verdict")):
+        # THE MAPS ARE THE TRIGGER, NOT THE FLAG.
+        #
+        # This required `ring_iso` IN ADDITION to the maps, so an author who
+        # did the natural thing -- supply `forward` and `inverse` -- got
+        # SILENCE: no verdict, and nothing anywhere saying the maps had been
+        # ignored. A live session reached this verifier only by reading the
+        # dispatcher, and rightly called it a verifier that passes its tests
+        # and is never reached in the field.
+        #
+        # `effective_ring_iso` already refuses to MINT the flag from a VERIFIED
+        # verdict -- an author who never declared it is not granted it by a
+        # check they did not ask for -- so running this unconditionally records
+        # an answer without licensing anything.
+        if (e.get("type") == K.EQUIVALENCE and e.get("forward")
+                and e.get("inverse") and not e.get("ring_iso_verdict")):
             run("ring_iso", eid, lambda eid=eid: ring_iso(
                 graph, eid, timeout=timeout, _runner=_runner))
 

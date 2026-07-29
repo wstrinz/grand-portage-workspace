@@ -734,8 +734,20 @@ def check_unjustified_equivalence(graph):
         findings.append(Finding(
             "UNJUSTIFIED-EQUIVALENCE", "UNJUSTIFIED-EQUIVALENCE:%s" % eid,
             DEBT, eid,
-            "edge %s (%s -> %s) is typed EQUIVALENCE with neither a `witness` "
-            "nor a `cite`.\n  EQUIVALENCE is the only type that forbids "
+            # THE FIELD THIS RULE TESTS, not a neighbouring one. It read
+            # `converse_witness` and reported the absence of `witness`, and on
+            # an EQUIVALENCE those two have OPPOSITE POLARITY -- `witness` is
+            # about a point of the model, `converse_witness` about recovering
+            # one across the edge. A live session wrote the field the message
+            # named and got two findings CONTRADICTING EACH OTHER on the same
+            # edge in the same run: one saying it carries a witness, this one
+            # saying it carries none.
+            #
+            # The docstring above describes exactly this field-name collapse as
+            # a bug already fixed. The code was split; the message was not.
+            "edge %s (%s -> %s) is typed EQUIVALENCE with neither a "
+            "`converse_witness` nor a `cite`.\n  EQUIVALENCE is the only type "
+            "that forbids "
             "nothing, so this one row licenses every transport across the "
             "step, in both directions, unconditionally."
             % (eid, e["src"], e["dst"]),
