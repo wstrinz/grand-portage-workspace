@@ -527,7 +527,9 @@ def test_every_event_kind_has_a_fixture():
     its own rules, and crashed on first contact with a real graph because no
     fixture drove it through the CLI.
     """
-    covered = set()
+    # `meta` is synthesized by every epoch-1 writer rather than authored as a
+    # mathematical construct, and the native init/events tests exercise it.
+    covered = {S.EV_META}
     for _events, kinds in FIXTURES.values():
         covered |= kinds
     missing = sorted(set(S.EVENT_KINDS) - covered)
@@ -601,7 +603,7 @@ def test_gp_events_dumps_the_log_without_hand_parsing(tmp_path, capsys):
 
     cli.main(["--root", str(tmp_path), "events"])
     raw = json.loads(capsys.readouterr().out)
-    assert [e["ev"] for e in raw] == ["note", "model"]
+    assert [e["ev"] for e in raw] == ["meta", "note", "model"]
 
     cli.main(["--root", str(tmp_path), "events", "--folded"])
     folded = json.loads(capsys.readouterr().out)
@@ -649,7 +651,7 @@ def test_construct_reads_the_algebra_from_the_graph(tmp_path, capsys, monkeypatc
     monkeypatch.setattr(O, "decompose", fake_decompose)
     cli.main(["--root", str(tmp_path), "init"])
     S.append([{"ev": "model", "id": "D", "what": "a reducible locus",
-               "ring_vars": ["a", "p", "q"],
+               "characteristic": 0, "ring_vars": ["a", "p", "q"],
                "generators": ["p^2*q-4*a*q^2"]}], str(tmp_path))
     capsys.readouterr()
 
@@ -673,7 +675,8 @@ def test_construct_run_materializes_before_emitting(tmp_path, capsys,
 
     cli.main(["--root", str(tmp_path), "init"])
     S.append([{"ev": "model", "id": "D", "what": "a reducible locus",
-               "ring_vars": ["x", "y"], "generators": ["x*y"]}],
+               "characteristic": 0, "ring_vars": ["x", "y"],
+               "generators": ["x*y"]}],
              str(tmp_path))
     capsys.readouterr()
     real_execute = O.execute
@@ -694,6 +697,20 @@ def test_construct_run_materializes_before_emitting(tmp_path, capsys,
     assert model["generators"] == ["y"]
     assert "ideal_pending" not in model
     assert "D-SAT" not in S.load(S.graph_path(str(tmp_path))).models
+
+def test_construct_refuses_to_guess_characteristic_zero(tmp_path, capsys):
+    from grandportage import cli, store as S
+    cli.main(["--root", str(tmp_path), "init"])
+    S.append([{
+        "ev": "model", "id": "M", "what": "unknown coefficient field",
+        "ring_vars": ["x"], "generators": ["x"],
+    }], str(tmp_path))
+    capsys.readouterr()
+    rc = cli.main(["--root", str(tmp_path), "construct", "localize",
+                   "--src", "M", "--at", "x", "--produces", "M-OPEN"])
+    assert rc == 2
+    assert "cannot silently choose characteristic 0" in capsys.readouterr().err
+
 
 def test_a_model_without_algebra_is_refused_with_the_reason(tmp_path, capsys):
     from grandportage import cli, store as S
@@ -718,9 +735,11 @@ def test_ring_iso_runs_on_the_maps_alone(tmp_path):
     from grandportage import cli, store as S, verify as V
     S.append([
         {"ev": "model", "id": "A", "what": "a curve",
-         "ring_vars": ["x", "y"], "generators": ["y^2-x^4-1"]},
+         "characteristic": 0, "ring_vars": ["x", "y"],
+         "generators": ["y^2-x^4-1"]},
         {"ev": "model", "id": "B", "what": "the same curve",
-         "ring_vars": ["x", "y"], "generators": ["y^2-x^4-1"]},
+         "characteristic": 0, "ring_vars": ["x", "y"],
+         "generators": ["y^2-x^4-1"]},
 
         {"ev": "edge", "id": "E", "src": "A", "dst": "B",
          "type": "EQUIVALENCE", "map_kind": "POLYNOMIAL",
@@ -770,9 +789,11 @@ def test_mapped_equivalence_is_not_verified_as_literal_containment(tmp_path):
     from grandportage import check as C, store as S, verify as V
     S.append([
         {"ev": "model", "id": "A", "what": "the point x = 1",
-         "ring_vars": ["x"], "generators": ["x-1"]},
+         "characteristic": 0, "ring_vars": ["x"],
+         "generators": ["x-1"]},
         {"ev": "model", "id": "B", "what": "the point x = -1",
-         "ring_vars": ["x"], "generators": ["x+1"]},
+         "characteristic": 0, "ring_vars": ["x"],
+         "generators": ["x+1"]},
         {"ev": "edge", "id": "E", "src": "A", "dst": "B",
          "type": "EQUIVALENCE", "map_kind": "POLYNOMIAL",
          "why": "the involution x |-> -x",

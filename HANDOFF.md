@@ -35,7 +35,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about seven days. Version 0.4.2. <!--checks-->834<!--/checks--> checks.** Treat
+**Age: about seven days. Version 0.5.0. <!--checks-->885<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 There is now a **public repo**: `github.com/wstrinz/grandportage`, Apache-2.0,
@@ -326,7 +326,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->834<!--/checks--> checks, ~10 s) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->885<!--/checks--> checks, ~10 s) |
 
 ---
 
@@ -433,7 +433,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->834<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->885<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -452,7 +452,7 @@ everywhere it disagrees.
 | `unit_ideal` | an EMPTY's certificate, by expansion | VERIFIED / NOT_UNIT |
 | `ring_iso` | a mapped EQUIVALENCE's two ideal pullbacks and two inverse compositions | VERIFIED / NOT_AN_ISOMORPHISM |
 | `point_witness` | a NONEMPTY's `witness_point`, by substitution | VERIFIED / NOT_A_POINT |
-| `partition_exhaustiveness` | **that the cases are all the cases** | VERIFIED / NOT_EXHAUSTIVE |
+| `partition_exhaustiveness` | **that the cases are all the cases** | VERIFIED / NOT_GEOMETRICALLY_EXHAUSTIVE |
 | `operation_output` | that a constructor produced what it claims | VERIFIED / NOT_THE_STATED_OUTPUT |
 
 Two things a fresh session should know before trusting any of it:
@@ -463,7 +463,9 @@ Two things a fresh session should know before trusting any of it:
   Lean checks a polynomial identity and should never run a Gröbner engine.
 - **`operation_output` checks one direction only**, and says so. "Nothing was
   invented" is cheap and is the direction that makes EMPTY unsound. "Nothing
-  was missed" is as hard as recomputing the answer and is **not** checked.
+  was missed" is as hard as recomputing the answer and is **not** checked. A
+  bounded saturation witness search that finds no exponent now returns
+  `UNVERIFIED`; the search bound is never presented as non-membership.
 
 `operations.py` has a fourth constructor, `decompose`, over `facstd` — the only
 decomposition reachable inside the CAS boundary, since `primdecGTZ`,

@@ -21,6 +21,8 @@ import json
 import os
 
 from . import kernel as K
+from . import format as F
+from . import provenance as P
 from .discharge import DISCHARGE_KINDS as D_KINDS
 from .discharge import WITHDRAW
 
@@ -43,8 +45,9 @@ EV_CITATION = "citation"  # which external object an identifier denotes
 EV_ERRATUM = "erratum"    # voids a record that does not fold
 EV_VERDICT = "verdict"    # what a VERIFIER found; never declared
 EV_NOTE = "note"          # free-form, carried but never interpreted
+EV_META = F.META_EVENT     # mandatory first record of an epoch-1 graph
 
-EVENT_KINDS = (EV_CERTIFICATE, EV_MODEL, EV_EDGE, EV_CLAIM, EV_INFERENCE,
+EVENT_KINDS = (EV_META, EV_CERTIFICATE, EV_MODEL, EV_EDGE, EV_CLAIM, EV_INFERENCE,
                EV_BUILT_BY, EV_PARTITION, EV_SAME_AS, EV_FAMILY,
                EV_EVIDENCE, EV_DOUBT, EV_CITATION, EV_ERRATUM,
                EV_VERDICT, EV_NOTE)
@@ -64,6 +67,22 @@ class GraphError(ValueError):
 def _require(cond, msg):
     if not cond:
         raise GraphError(msg)
+
+
+def valid_characteristic(value):
+    """Whether ``value`` can be the characteristic of a field."""
+    if not isinstance(value, int) or isinstance(value, bool) or value < 0:
+        return False
+    if value == 0:
+        return True
+    if value < 2 or value % 2 == 0:
+        return value == 2
+    divisor = 3
+    while divisor * divisor <= value:
+        if value % divisor == 0:
+            return False
+        divisor += 2
+    return True
 
 
 def successors(record):
@@ -122,7 +141,13 @@ class Graph(object):
         self.doubts = {}           # id -> an authored defeater
         self.notes = []
         self.named_notes = {}      # id -> note, for notes that can be corrected
+        self.verdicts = {}         # id -> verdict event plus freshness status
         self._seen = {}            # (kind, id) -> canonical event
+        self._event_count = 0       # meta must be the first and only header
+        self.graph_format = 0
+        self.kernel_epoch = 0
+        self.created_with = None
+        self.compatibility_mode = True
 
     # -- fold ---------------------------------------------------------------
     def apply(self, ev, source="<log>", lineno=0):
@@ -132,6 +157,20 @@ class Graph(object):
         _require(kind in EVENT_KINDS,
                  "%s: unknown event kind %r (known: %s)"
                  % (where, kind, ", ".join(EVENT_KINDS)))
+        if kind == EV_META:
+            _require(self._event_count == 0 and self.graph_format == 0,
+                     "%s: `meta` is only legal as the first graph event"
+                     % where)
+            F.validate_meta(ev, where, GraphError)
+            self._event_count = 1
+            self.graph_format = ev["graph_format"]
+            self.kernel_epoch = ev["kernel_epoch"]
+            self.created_with = ev["created_with"]
+            self.compatibility_mode = False
+            return
+        if self.graph_format == F.GRAPH_FORMAT:
+            F.validate_native_event(ev, where, GraphError)
+        self._event_count += 1
 
         tombstone = (
             (kind == EV_EDGE and ev.get("discharge_kind") == WITHDRAW)
@@ -259,8 +298,9 @@ class Graph(object):
                                         "UNVERIFIED"),
                       "why_field": "output_why",
                       "writer": "verify.operation_output"},
-        "partition": {"exhaustive_verdict": ("VERIFIED", "NOT_EXHAUSTIVE",
-                                             "UNVERIFIED"),
+        "partition": {"exhaustive_verdict": (
+                          "VERIFIED", "NOT_EXHAUSTIVE",
+                          "NOT_GEOMETRICALLY_EXHAUSTIVE", "UNVERIFIED"),
                       "why_field": "exhaustive_why",
                       "writer": "verify.partition_exhaustiveness"},
     }
@@ -516,6 +556,19 @@ class Graph(object):
         _require(ev.get("why"),
                  "%s: verdict %r needs `why` -- the reduction that produced it"
                  % (where, ev.get("id")))
+
+        # A VERDICT IS EXECUTABLE TRUST, NOT AN IMMORTAL STRING. Epoch-0
+        # records and answers produced by another verifier/kernel/backend (or
+        # against different semantic inputs) remain readable history, but
+        # they never populate the fields the checker treats as evidence.
+        current, stale_reason = P.current_verdict(self, ev)
+        stored = dict(ev)
+        stored["current"] = current
+        stored["stale_reason"] = None if current else stale_reason
+        self.verdicts[ev["id"]] = stored
+        if not current:
+            return
+
         target[of][field] = ev["verdict"]
         target[of][spec["why_field"]] = ev["why"]
         # THE CERTIFICATE, WHEN THE VERIFIER MINTED ONE.
@@ -828,10 +881,9 @@ class Graph(object):
         # in the denominator -- undefined at the very prime the model declares.
         #
         # `gp check` reported zero findings on that graph.
-        if ev.get("characteristic") is not None:
+        if "characteristic" in ev:
             ch = ev["characteristic"]
-            _require(isinstance(ch, int) and not isinstance(ch, bool)
-                     and ch >= 0,
+            _require(valid_characteristic(ch),
                      "%s: model %r has characteristic %r; it must be 0 or a "
                      "prime. Everything the verifier reduces is read in this "
                      "characteristic, so a wrong one produces confident "
@@ -1580,6 +1632,31 @@ class Graph(object):
         premise is that nothing is quietly removed.
         """
         batch = list(batch)
+        metas = [(ev, source, lineno) for ev, source, lineno in batch
+                 if isinstance(ev, dict) and ev.get("ev") == EV_META]
+        if metas:
+            _require(self._event_count == 0 and self.graph_format == 0,
+                     "cannot apply epoch metadata to a graph that already "
+                     "contains events; `meta` is a first-record boundary")
+            canonical = None
+            for ev, source, lineno in metas:
+                where = "%s:%d" % (source, lineno)
+                F.validate_meta(ev, where, GraphError)
+                current = (ev["graph_format"], ev["kernel_epoch"])
+                _require(canonical in (None, current),
+                         "%s: cannot merge graphs from different format "
+                         "or kernel epochs" % where)
+                canonical = current
+            meta = metas[0][0]
+            self.graph_format = meta["graph_format"]
+            self.kernel_epoch = meta["kernel_epoch"]
+            self.created_with = meta["created_with"]
+            self.compatibility_mode = False
+            self._event_count = 1
+            for ev, source, lineno in batch:
+                if isinstance(ev, dict) and ev.get("ev") != EV_META:
+                    F.validate_native_event(
+                        ev, "%s:%d" % (source, lineno), GraphError)
         voided = {}
         for ev, source, lineno in batch:
             if not isinstance(ev, dict) or ev.get("ev") != EV_ERRATUM:
@@ -1598,6 +1675,8 @@ class Graph(object):
             for ev, source, lineno in batch:
                 if isinstance(ev, dict):
                     if ev.get("ev") == EV_ERRATUM:
+                        continue
+                    if ev.get("ev") == EV_META:
                         continue
                     if ev.get("id") in voided:
                         continue
@@ -1818,7 +1897,7 @@ class Graph(object):
         return self
 
 
-def load_events(path):
+def _raw_events(path):
     """Yield (event, lineno) from a .jsonl file.  Blank lines and `#` comment
     lines are skipped so a graph stays human-editable."""
     with open(path, "r", encoding="utf-8") as fh:
@@ -1832,12 +1911,63 @@ def load_events(path):
                 raise GraphError("%s:%d: not valid JSON: %s" % (path, n, exc))
 
 
+def load_native_events(path):
+    """Read an epoch-1 log, requiring its format record to be first."""
+    events = list(_raw_events(path))
+    _require(events, "%s: empty graph has no epoch metadata" % path)
+    first, lineno = events[0]
+    _require(isinstance(first, dict) and first.get("ev") == EV_META,
+             "%s:%d: epoch-1 graph must begin with a `meta` event"
+             % (path, lineno))
+    F.validate_meta(first, "%s:%d" % (path, lineno), GraphError)
+    for ev, n in events:
+        if n != lineno and isinstance(ev, dict) and ev.get("ev") == EV_META:
+            raise GraphError(
+                "%s:%d: `meta` is only legal as the first graph event"
+                % (path, n))
+        yield ev, n
+
+
+def load_compat_events(path):
+    """Read an epoch-0 log through the conservative, read-only importer."""
+    for ev, n in _raw_events(path):
+        if isinstance(ev, dict) and ev.get("ev") == EV_META:
+            raise GraphError(
+                "%s:%d: misplaced `meta` event in an epoch-0 log; refusing "
+                "to change format semantics partway through a file" % (path, n))
+        yield F.import_epoch0_event(ev), n
+
+
+def is_native_graph(path):
+    """Whether ``path`` begins with the epoch-1 metadata record."""
+    for ev, _n in _raw_events(path):
+        return isinstance(ev, dict) and ev.get("ev") == EV_META
+    return False
+
+
+def load_events(path):
+    """Read either format through an explicit native or compatibility path.
+
+    The dispatch is automatic for callers; the two parsers are not.  In
+    particular, unversioned records are always passed through the conservative
+    epoch-0 adapter and are never mistaken for native declarations.
+    """
+    reader = load_native_events if is_native_graph(path) else load_compat_events
+    for item in reader(path):
+        yield item
+
+
 def load(*paths):
     """Fold one or more logs into a single validated Graph.
 
     Passing several paths IS the merge operation.  Order does not matter for
     the result, only for which line number a conflict is reported at.
     """
+    modes = {is_native_graph(p) for p in paths}
+    _require(len(modes) <= 1,
+             "cannot merge epoch-0 and epoch-1 logs directly. Import the "
+             "epoch-0 source into a new epoch-1 artifact first; a mixed fold "
+             "would validate legacy records as native declarations.")
     g = Graph()
     batch = [(ev, p, n) for p in paths for ev, n in load_events(p)]
     return g.apply_all(batch).validate()
@@ -1870,6 +2000,11 @@ def merge_report(paths):
     Returns (graph_or_None, conflicts). `graph` is None when conflicts exist,
     because a partially-folded graph is not a thing anyone should reason from.
     """
+    modes = {is_native_graph(p) for p in paths}
+    _require(len(modes) <= 1,
+             "cannot merge epoch-0 and epoch-1 logs directly. Import the "
+             "epoch-0 source into a new epoch-1 artifact first; a mixed fold "
+             "would validate legacy records as native declarations.")
     seen, conflicts, events = {}, [], []
     for p in paths:
         for ev, n in load_events(p):
@@ -1937,6 +2072,12 @@ def append(events, root="."):
     if the result is not a well-formed graph.  A log you cannot fold is worse
     than a rejected write.
     """
+    events = list(events)
+    _require(
+        not any(isinstance(event, dict) and event.get("ev") == EV_META
+                for event in events),
+        "append owns the epoch metadata header; callers cannot append `meta` "
+        "events because a second header would make the persisted log unreadable")
     path = graph_path(root)
     d = os.path.dirname(path)
     if d and not os.path.isdir(d):
@@ -1957,7 +2098,17 @@ def append(events, root="."):
     # Refusing is still correct. Blaming the caller is not.
     existing = []
     if os.path.exists(path):
+        if os.path.getsize(path) and not is_native_graph(path):
+            raise GraphError(
+                "REFUSING TO APPEND EPOCH-1 EVENTS TO AN UNVERSIONED EPOCH-0 "
+                "LOG.\n  graph: %s\n  The compatibility importer is read-only. "
+                "Create a new epoch-1 graph or run the explicit migration; "
+                "the append-only original remains the source artifact."
+                % os.path.abspath(path))
         existing = [(ev, path, n) for ev, n in load_events(path)]
+    if not existing:
+        existing = [(F.meta_event(), path, 1)]
+    if os.path.exists(path) and os.path.getsize(path):
         try:
             Graph().apply_all(list(existing)).validate()
         except (GraphError, K.KernelRefusal) as exc:
@@ -1976,6 +2127,8 @@ def append(events, root="."):
     batch.extend((ev, "<new>", k + 1) for k, ev in enumerate(events))
     g.apply_all(batch).validate()
     with open(path, "a", encoding="utf-8") as fh:
+        if os.path.getsize(path) == 0:
+            fh.write(json.dumps(F.meta_event(), sort_keys=True) + "\n")
         for ev in events:
             fh.write(json.dumps(ev, sort_keys=True) + "\n")
     return g

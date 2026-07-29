@@ -214,7 +214,8 @@ def localize(src, f, produces, ring_vars, generators, characteristic=0):
         produces,
         "the open locus of %s where %s does not vanish -- the same equations, "
         "restricted to the points where %s is invertible" % (src, f, f),
-        ring_vars, generators, open_conditions=[f])
+        ring_vars, generators, characteristic=characteristic,
+        open_conditions=[f])
     ev_edge = _edge("E-%s" % produces, produces, src, "Localize",
                     "The dropped condition is %s != 0." % f)
     prog = cas.CASProgram(
@@ -251,7 +252,7 @@ def saturate_closure(src, f, produces, ring_vars, generators,
         "the Zariski closure of the part of %s where %s does not vanish"
         % (src, f),
         ring_vars, None,
-        saturated_at=f,
+        characteristic=characteristic, saturated_at=f,
         ideal_pending="the saturation %s : %s^oo, which is what this "
                       "operation's program computes" % (src, f))
     ev_edge = _edge("E-%s" % produces, produces, src, "SaturateClosure",
@@ -321,14 +322,9 @@ def decompose(src, ring_vars, generators, produces="%s_C%d",
     of irreducibility: `facstd` gives a cover, and nothing inside this boundary
     decides primality.
     """
-    pieces = cas.factorizing_decomposition(
+    pieces, prog = cas.factorizing_decomposition(
         ring_vars, generators, characteristic=characteristic,
-        timeout=timeout, _runner=_runner)
-    prog = cas.CASProgram(
-        cas.SINGULAR, ring="GP_R", ring_vars=list(ring_vars),
-        decls=[("GP_I", "ideal", _ideal(generators)),
-               ("GP_L", "list", "facstd(GP_I)")],
-        body=[], outputs=["GP_L"], characteristic=characteristic)
+        timeout=timeout, _runner=_runner, _return_program=True)
     # ONE PIECE IS NOT A DECOMPOSITION, and the store says so better than this
     # comment could: "a split into one piece is just the parent". Emitting a
     # component model identical to the parent plus an edge from it to itself
@@ -352,7 +348,8 @@ def decompose(src, ring_vars, generators, produces="%s_C%d",
     for bid, gens in zip(ids, pieces):
         events.append(_model(
             bid, "the component of %s cut out by %s" % (src, ", ".join(gens)),
-            ring_vars, gens, component_of=src))
+            ring_vars, gens, characteristic=characteristic,
+            component_of=src))
         events.append(_edge("E-%s" % bid, bid, src, "Decompose",
                             "This piece adds %s." % ", ".join(gens)))
     cover = "CL-%s-COVER" % src
@@ -399,7 +396,7 @@ def eliminate(src, variables, produces, ring_vars, generators,
         "the Zariski closure of the image of %s after eliminating %s"
         % (src, ", ".join(variables)),
         remaining, None,
-        eliminated=list(variables),
+        characteristic=characteristic, eliminated=list(variables),
         ideal_pending="the elimination ideal of %s after removing %s, which "
                       "is what this operation's program computes"
                       % (src, ", ".join(variables)))

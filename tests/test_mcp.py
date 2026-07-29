@@ -114,7 +114,8 @@ def test_the_edge_schema_teaches_the_decision_not_just_the_enum():
     for t in K.DECLARABLE_TYPES:
         assert t in desc
     assert "LOSES" in desc
-    assert set(mcp.EDGE_SCHEMA["required"]) == {"src", "type", "why"}
+    assert set(mcp.EDGE_SCHEMA["required"]) == {
+        "src", "type", "why", "map_kind"}
 
 
 def test_a_client_ignoring_its_own_schema_still_cannot_reach_the_solver(project):
@@ -156,7 +157,8 @@ def test_declare_writes_and_immediately_reports_findings(project):
     r = call("portage_declare", {"events": [
         {"ev": "model", "id": "DST", "desc": "the target", "field": "K"},
         {"ev": "edge", "id": "E1", "src": "SRC", "dst": "DST",
-         "type": K.BASE_EXTENSION, "why": "the field grows"},
+         "type": K.BASE_EXTENSION, "map_kind": K.IDENTITY_MAP,
+         "why": "the field grows"},
         {"ev": "claim", "id": "CL", "model": "SRC", "kind": K.EMPTY,
          "statement": "no solution", "scope": "Q",
          "certificate": "NONSQUARE_CLASS"},
@@ -208,7 +210,8 @@ def test_show_renders_the_graph_as_a_handoff(project):
     call("portage_declare", {"events": [
         {"ev": "model", "id": "DST", "desc": "the target"},
         {"ev": "edge", "id": "E1", "src": "SRC", "dst": "DST",
-         "type": K.NECESSARY_CONDITION, "why": "drops equations"},
+         "type": K.NECESSARY_CONDITION, "map_kind": K.IDENTITY_MAP,
+         "why": "drops equations"},
         {"ev": "claim", "id": "CL", "model": "DST", "kind": K.NONEMPTY,
          "statement": "a witness", "witness_kind": K.EXHIBITED},
         {"ev": "inference", "id": "INF", "claim": "CL",
@@ -232,7 +235,8 @@ def test_show_prints_every_premise_of_a_multi_premise_inference(project):
     r = call("portage_declare", {"events": [
         {"ev": "model", "id": "DST", "desc": "the target"},
         {"ev": "edge", "id": "E1", "src": "SRC", "dst": "DST",
-         "type": K.NECESSARY_CONDITION, "why": "drops equations"},
+         "type": K.NECESSARY_CONDITION, "map_kind": K.IDENTITY_MAP,
+         "why": "drops equations"},
         {"ev": "claim", "id": "CL-FAR", "model": "DST", "kind": K.NONEMPTY,
          "statement": "a witness in the relaxation",
          "witness_kind": K.EXHIBITED},

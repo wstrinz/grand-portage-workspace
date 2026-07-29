@@ -168,7 +168,9 @@ def audit_inference(graph, iid):
         covered = all(b in carried for b in p["branches"])
         cites_exhaustive = any(pr.get("claim") == p["exhaustive"]
                                for pr in inf["premises"])
-        r = K.transport_over_partition(kind, covered, cites_exhaustive)
+        cover_verified = p.get("exhaustive_verdict") == "VERIFIED"
+        r = K.transport_over_partition(
+            kind, covered, cites_exhaustive and cover_verified)
         missing = [b for b in p["branches"] if b not in carried]
         detail = r.reason
         if missing:
@@ -182,6 +184,11 @@ def audit_inference(graph, iid):
         if not cites_exhaustive:
             detail += (" (the exhaustiveness claim %s is not among the "
                        "premises)" % p["exhaustive"])
+        if not cover_verified:
+            detail += (
+                " (partition exhaustiveness has no current VERIFIED verdict; "
+                "a declaration alone does not license a case split in "
+                "kernel epoch 1)")
         return r.licensed, [(UNCOVERED_PARTITION, "COVERS", r.licensed, detail)]
     # EVERY premise, not just the first.  An argument is only as licensed as
     # its weakest leg, and before the multi-premise form existed the extra legs
@@ -1318,12 +1325,9 @@ def effective_ring_iso(edge):
     """
     if edge.get("ring_iso") is not True:
         return False
-    verdict = edge.get("ring_iso_verdict")
-    if verdict is not None:
-        return verdict == "VERIFIED"
-    if K.is_mapped_equivalence(edge):
+    if not K.is_mapped_equivalence(edge):
         return False
-    return bool(edge.get("cite"))
+    return edge.get("ring_iso_verdict") == "VERIFIED"
 
 
 def effective_certificate(claim):
@@ -1400,8 +1404,22 @@ def check_refuted_evidence(graph):
             semantic_key=cid))
     for pid in sorted(graph.partitions):
         p = graph.partitions[pid]
-        if (p.get("superseded_by")
-                or p.get("exhaustive_verdict") != "NOT_EXHAUSTIVE"):
+        if p.get("superseded_by"):
+            continue
+        if p.get("exhaustive_verdict") == "NOT_GEOMETRICALLY_EXHAUSTIVE":
+            findings.append(Finding(
+                R_COVERAGE, "%s:geometric:%s" % (R_COVERAGE, pid),
+                DEBT, pid,
+                "partition %s has a computed hole over the algebraic closure, "
+                "but that does not prove a hole over its declared base field: "
+                "%s"
+                % (pid, p.get("exhaustive_why") or "(no detail)"),
+                "Prove the parent empty over the base field, add the missing "
+                "branch, or provide a base-field coverage certificate. Until "
+                "then the partition cannot license a case-split inference.",
+                semantic_key=pid))
+            continue
+        if p.get("exhaustive_verdict") != "NOT_EXHAUSTIVE":
             continue
         findings.append(Finding(
             R_REFUTED_EVIDENCE, "%s:cover:%s" % (R_REFUTED_EVIDENCE, pid),

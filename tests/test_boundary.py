@@ -16,6 +16,7 @@ from grandportage import cas
 from grandportage import check as C
 from grandportage import hook as HK
 from grandportage import kernel as K
+from grandportage import migration as MIG
 from grandportage import store as S
 
 import helpers as H
@@ -50,6 +51,13 @@ def project(tmp_path):
     S.append([{"ev": "model", "id": "SRC", "desc": "the source system",
                "field": "Q"}], root=root)
     return root
+
+
+def _install_epoch1_fixture(domain, root):
+    """Migrate a legacy fixture before extending it with native events."""
+    path = S.graph_path(root)
+    os.unlink(path)
+    MIG.migrate_epoch1([H.graph_file(domain)], output=path)
 
 
 # ===========================================================================
@@ -191,7 +199,8 @@ def test_a_missing_or_doubled_marker_refuses_a_verdict(project):
 @pytest.mark.parametrize("rc", sorted(cas.ABORT_CODES))
 def test_abort_codes_are_never_a_verdict(project, rc):
     r = cas.run_cas(program(), edge=EDGE, produces="M", describes="d",
-                    root=project, _runner=fake_runner("@@GP_I:\n1\n", rc=rc))
+                    root=project, record=False,
+                    _runner=fake_runner("@@GP_I:\n1\n", rc=rc))
     assert r["verdict"] == "ABORTED" and r["values"] is None
 
 
@@ -208,6 +217,16 @@ def test_a_successful_run_records_a_typed_edge(project):
     assert "ELIM" in g.models
     assert g.edges["E-ELIM"]["type"] == K.IMAGE_CLOSURE
     assert g.edges["E-ELIM"]["src"] == "SRC"
+    assert g.models["ELIM"]["characteristic"] == 0
+
+
+def test_a_cas_record_preserves_nonzero_characteristic(project):
+    cas.run_cas(
+        program(characteristic=7), edge=EDGE, produces="ELIM7",
+        describes="the characteristic-seven output", root=project,
+        _runner=fake_runner("@@GP_I:\n1\n"))
+    graph = S.load(S.graph_path(project))
+    assert graph.models["ELIM7"]["characteristic"] == 7
 
 
 def test_recording_a_step_whose_source_does_not_exist_is_refused(project):
@@ -259,7 +278,7 @@ def test_the_full_loop_compute_record_conclude_refuse(project):
         {"ev": "model", "id": "RES_K", "desc": "the same over arbitrary char-0 K",
          "field": "K"},
         {"ev": "edge", "id": "E-EXT", "src": "RES_L", "dst": "RES_K",
-         "type": K.BASE_EXTENSION,
+         "type": K.BASE_EXTENSION, "map_kind": K.IDENTITY_MAP,
          "why": "the coefficient field changes from Q(sqrt 17) to arbitrary K",
          "drops": ["every field-relative arithmetic fact, in particular "
                    "square classes"]},
@@ -289,7 +308,8 @@ def test_the_same_step_is_ALLOWED_with_a_base_changing_certificate(project):
         {"ev": "model", "id": "RES_L", "desc": "over L", "field": "Q"},
         {"ev": "model", "id": "RES_K", "desc": "over K", "field": "K"},
         {"ev": "edge", "id": "E-EXT", "src": "RES_L", "dst": "RES_K",
-         "type": K.BASE_EXTENSION, "why": "the coefficient field changes"},
+         "type": K.BASE_EXTENSION, "map_kind": K.IDENTITY_MAP,
+         "why": "the coefficient field changes"},
         {"ev": "claim", "id": "CL-KILL", "model": "RES_L", "kind": K.EMPTY,
          "statement": "1 lies in the ideal, exhibited over Q",
          "certificate": "UNIT_IDEAL_CERT", "established_by": K.RAN,
@@ -324,7 +344,7 @@ def test_the_baseline_suppresses_known_findings_but_not_new_ones(project):
     hook, so the baseline records what is knowingly carried -- in a file a
     reviewer can read, not in someone's memory of the normal warnings."""
     findings = C.run(H.load("jc2"))
-    shutil.copy(H.graph_file("jc2"), S.graph_path(project))
+    _install_epoch1_fixture("jc2", project)
     block, _ = HK.evaluate(project)
     assert block, "the four historical errors are present"
 
@@ -481,7 +501,7 @@ def test_the_first_run_hint_appears_only_when_no_baseline_exists(project):
 def test_a_baseline_that_exists_suppresses_the_hint(project):
     """Once a baseline exists, a NEW finding must read as a new finding -- not
     as a setup problem the operator already solved."""
-    shutil.copy(H.graph_file("gamma_window"), S.graph_path(project))
+    _install_epoch1_fixture("gamma_window", project)
     HK.save_baseline(project, C.run(S.load(S.graph_path(project))), note="x")
     S.append([{"ev": "inference", "id": "I-FRESH", "claim": "GC-A2-KILL",
                "path": [["GE4", K.ALONG]],
@@ -588,7 +608,9 @@ def test_a_legacy_list_baseline_still_loads(project):
         json.dump({"accepted": ["TRANSPORT:GI-BRIDGE"], "note": "old form"}, fh)
     assert HK.load_baseline(project) == {"TRANSPORT:GI-BRIDGE"}
     block, message = HK.evaluate(project)
-    assert block and "GI-BRIDGE" not in message
+    assert block
+    assert "TRANSPORT:GI-BRIDGE" in message
+    assert "ACCEPTANCE IS STALE" in message
 
 
 def test_accept_rejects_an_unknown_finding_id(project):
@@ -688,7 +710,8 @@ def test_a_unit_ideal_certificate_is_checkable_by_expansion():
 
     g = S.Graph().apply_all([(e, "t", i) for i, e in enumerate([
         {"ev": "model", "id": "M", "what": "an empty model",
-         "ring_vars": ["x", "y"], "generators": ["x", "1-x"]},
+         "characteristic": 0, "ring_vars": ["x", "y"],
+         "generators": ["x", "1-x"]},
         {"ev": "claim", "id": "C", "model": "M", "kind": K.EMPTY,
          "statement": "no points", "certificate": "UNIT_IDEAL_CERT",
          "established_by": "RAN", "ladder": "exact-checked"},
@@ -713,7 +736,8 @@ def test_a_declared_certificate_that_is_false_is_caught():
 
     g = S.Graph().apply_all([(e, "t", i) for i, e in enumerate([
         {"ev": "model", "id": "N", "what": "a model with points",
-         "ring_vars": ["x", "y"], "generators": ["x", "y"]},
+         "characteristic": 0, "ring_vars": ["x", "y"],
+         "generators": ["x", "y"]},
         {"ev": "claim", "id": "D", "model": "N", "kind": K.EMPTY,
          "statement": "no points", "certificate": "UNIT_IDEAL_CERT",
          "established_by": "RAN", "ladder": "exact-checked"},
@@ -764,9 +788,9 @@ def test_ring_iso_is_checkable_and_radicalisation_is_caught():
     def mk(fwd, inv, sg, dg):
         g = S.Graph().apply_all([(e, "t", i) for i, e in enumerate([
             {"ev": "model", "id": "A", "what": "a", "ring_vars": ["x", "y"],
-             "generators": sg},
+             "characteristic": 0, "generators": sg},
             {"ev": "model", "id": "B", "what": "b", "ring_vars": ["x", "y"],
-             "generators": dg},
+             "characteristic": 0, "generators": dg},
             {"ev": "edge", "id": "E", "src": "A", "dst": "B",
              "type": K.EQUIVALENCE, "why": "a change of variables",
              "map_kind": K.POLYNOMIAL, "ring_iso": True,
@@ -794,11 +818,12 @@ def test_ring_iso_checks_both_inverse_compositions(monkeypatch):
 
     graph = S.Graph().apply_all([(event, "t", i) for i, event in enumerate([
         {"ev": "model", "id": "A", "what": "a",
-         "ring_vars": ["x"], "generators": []},
+         "characteristic": 0, "ring_vars": ["x"], "generators": []},
         {"ev": "model", "id": "B", "what": "b",
-         "ring_vars": ["x"], "generators": []},
+         "characteristic": 0, "ring_vars": ["x"], "generators": []},
         {"ev": "edge", "id": "E", "src": "A", "dst": "B",
          "type": K.EQUIVALENCE, "why": "proposed maps",
+         "map_kind": K.POLYNOMIAL,
          "forward": {"x": "f"}, "inverse": {"x": "i"}},
     ])])
 
@@ -827,9 +852,11 @@ def test_w10_involution_is_verified_as_a_mapped_equivalence():
     fp = "a^3-a^2*b-a^2*b^2+a*b^3-a^2+a*b+a*b^2-b^3"
     graph = S.Graph().apply_all([(event, "t", i) for i, event in enumerate([
         {"ev": "model", "id": "Z", "what": "W10 curve",
-         "ring_vars": ["t", "a", "b"], "generators": ["t", f]},
+         "characteristic": 0, "ring_vars": ["t", "a", "b"],
+         "generators": ["t", f]},
         {"ev": "model", "id": "ZP", "what": "its involutive image",
-         "ring_vars": ["t", "a", "b"], "generators": ["t", fp]},
+         "characteristic": 0, "ring_vars": ["t", "a", "b"],
+         "generators": ["t", fp]},
         {"ev": "edge", "id": "E-SIGMA", "src": "Z", "dst": "ZP",
          "type": K.EQUIVALENCE, "why": "b maps to -b",
          "map_kind": K.POLYNOMIAL,
@@ -850,11 +877,14 @@ def test_ring_iso_forward_is_the_point_forward_map_not_its_pullback():
         return S.Graph().apply_all([
             (event, "t", i) for i, event in enumerate([
                 {"ev": "model", "id": "A", "what": "the point zero",
-                 "ring_vars": ["x"], "generators": ["x"]},
+                 "characteristic": 0, "ring_vars": ["x"],
+                 "generators": ["x"]},
                 {"ev": "model", "id": "B", "what": "the point one",
-                 "ring_vars": ["x"], "generators": ["x-1"]},
+                 "characteristic": 0, "ring_vars": ["x"],
+                 "generators": ["x-1"]},
                 {"ev": "edge", "id": "E", "src": "A", "dst": "B",
                  "type": K.EQUIVALENCE, "why": "translation by one",
+                 "map_kind": K.POLYNOMIAL,
                  "forward": {"x": forward}, "inverse": {"x": inverse}},
             ])])
 

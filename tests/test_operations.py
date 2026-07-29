@@ -207,10 +207,11 @@ def test_elimination_output_is_round_trippable_through_the_verifier():
 
     done = O.execute(op, _runner=singular_like)
     assert done.events[0]["generators"] == ["x^3-x*y"]
+    done.events[0]["characteristic"] = 0
 
     graph = _fold([
         {"ev": "model", "id": "M_A", "what": "source",
-         "ring_vars": ["x", "y", "z"],
+         "characteristic": 0, "ring_vars": ["x", "y", "z"],
          "generators": ["z", "x*(y-x^2)"]},
     ] + done.events)
 
@@ -363,7 +364,7 @@ def test_real_singular_elimination_output_round_trips_through_verifier():
     assert done.events[0]["generators"] == ["x^3-x*y"]
     graph = _fold([
         {"ev": "model", "id": "M_A", "what": "source",
-         "ring_vars": ["x", "y", "z"],
+         "characteristic": 0, "ring_vars": ["x", "y", "z"],
          "generators": ["z", "x*(y-x^2)"]},
     ] + done.events)
     verdict, why, certificate = V.operation_output(
@@ -395,6 +396,21 @@ def test_decompose_is_a_partition_whose_branches_were_minted():
     assert kinds.count("partition") == 1
     assert all(e["type"] == K.NECESSARY_CONDITION
                for e in op.events if e["ev"] == "edge")
+
+
+def test_decompose_reports_the_exact_program_that_was_run():
+    """The operation artifact and CAS execution share one provenance object."""
+    seen = []
+
+    def runner(prog, timeout):
+        seen.append(prog)
+        return {"aborted": False, "returncode": 0, "stderr": "",
+                "stdout": ("@@GP_L:\n[1]:\n   _[1]=y\n"
+                           "[2]:\n   _[1]=x\n")}
+
+    op = O.decompose("M", RING, ["x*y"], _runner=runner)
+    assert len(seen) == 1
+    assert op.program is seen[0]
 
 
 def test_every_minted_component_carries_its_own_ideal():
@@ -461,7 +477,8 @@ def test_a_minted_cover_verifies_exhaustive(tmp_path):
     gens = ["x*y*(x-1)*(x^2+y^2-1)"]
     op = O.decompose("M", RING, gens, timeout=120)
     g = _fold([{"ev": "model", "id": "M", "what": "three lines and a circle",
-                "ring_vars": RING, "generators": gens}] + op.events)
+                "characteristic": 0, "ring_vars": RING,
+                "generators": gens}] + op.events)
     assert len(g.models) == 5
     verdict, why = V.partition_exhaustiveness(g, "P-M", timeout=120)
     assert verdict == V.COVERS, why

@@ -303,6 +303,10 @@ class CASProgram(object):
         self.decls = [(str(n), str(t), str(e)) for n, t, e in decls]
         self.body = list(body)
         self.outputs = list(outputs)
+        if not S.valid_characteristic(characteristic):
+            raise ValueError(
+                "characteristic must be 0 or a prime, not %r"
+                % characteristic)
         self.characteristic = characteristic
         # EVERY field that reaches the program text, not a subset of them.
         # v0.2 validated the identifier half of `decls` and the expression half
@@ -494,7 +498,7 @@ class Transport(object):
         return cls(**d)
 
     def events(self, eid, dst, dst_desc, dst_field=None, dst_chart=None,
-               ring_vars=None, generators=None):
+               ring_vars=None, generators=None, characteristic=None):
         """The graph events this computation contributes.
 
         THE MODEL KEEPS THE ALGEBRA IT WAS BUILT FROM.
@@ -530,6 +534,8 @@ class Transport(object):
             model["ring_vars"] = list(ring_vars)
         if generators is not None:
             model["generators"] = list(generators)
+        if characteristic is not None:
+            model["characteristic"] = characteristic
         if dst_field:
             model["field"] = dst_field
         if dst_chart:
@@ -694,7 +700,8 @@ def run_cas(program, *, edge, produces, describes, root=".", timeout=300,
                 eid, produces, describes,
                 dst_field=dst_field, dst_chart=dst_chart,
                 ring_vars=getattr(program, "ring_vars", None),
-                generators=getattr(program, "generators", None))
+                generators=getattr(program, "generators", None),
+                characteristic=getattr(program, "characteristic", None))
             events[0]["cite"] = events[1]["cite"] = cite or transport.cite
             result["events"] = events
         S.append(result["events"], root=root)
@@ -1216,7 +1223,8 @@ def check_membership_representation(ring_vars, target, generators, cofactors,
 
 
 def factorizing_decomposition(ring_vars, generators, characteristic=0,
-                              timeout=300, _runner=None):
+                              timeout=300, _runner=None,
+                              _return_program=False):
     """Split an ideal into a COVER of simpler pieces.  Returns a list of them.
 
     `facstd` IS A KERNEL BUILTIN, and that is the whole reason this exists.
@@ -1270,6 +1278,8 @@ def factorizing_decomposition(ring_vars, generators, characteristic=0,
             "the CAS returned no components for an ideal it accepted. A "
             "decomposition with no pieces covers nothing, and reporting one "
             "would assert a partition of the model into nothing.")
+    if _return_program:
+        return pieces, prog
     return pieces
 
 

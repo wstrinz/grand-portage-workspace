@@ -56,23 +56,45 @@ theorem covers_depends_on_the_parent :
    fun x hx => absurd hx (fun h => h),
    fun h => (h Two.a trivial).elim (fun e => e.elim)⟩
 
+/-- A hole after extending the point carrier does not refute a cover on the
+    base carrier.  This is the exact logical shape of a geometric point that
+    has no base-field realization: the base parent is empty and hence covered,
+    while the extended parent has a point and no branch covers it. -/
+theorem geometric_hole_does_not_refute_base_cover :
+    ∃ (baseParent : Model Empty) (geometricParent : Model Unit)
+      (baseBranch : Empty → Model Empty)
+      (geometricBranch : Empty → Model Unit),
+      Covers baseParent baseBranch ∧ ¬ Covers geometricParent geometricBranch := by
+  let baseParent : Model Empty := fun x => x.elim
+  let geometricParent : Model Unit := fun _ => True
+  let baseBranch : Empty → Model Empty := fun i => i.elim
+  let geometricBranch : Empty → Model Unit := fun i => i.elim
+  refine ⟨baseParent, geometricParent, baseBranch, geometricBranch, ?_, ?_⟩
+  · intro x
+    exact x.elim
+  · intro h
+    obtain ⟨i, _⟩ := h () trivial
+    exact i.elim
+
 /-! ## What this settles
 
 The verifier keeps VERIFIED exactly as it is -- that direction is sound over
 any field, because `⋂ I(B_i) ⊆ radical(I(parent))` says every common generator
 vanishes wherever the parent does, and vanishing is field-independent.
 
-NOT_EXHAUSTIVE must stop being an unqualified refutation.  What the failing
+Epoch 1 therefore records `NOT_GEOMETRICALLY_EXHAUSTIVE`, not an unqualified
+base-field refutation.  What the failing
 ideal test establishes is a statement about the ALGEBRAIC CLOSURE: there is a
 point of `V(parent)` over `k̄` that no branch reaches.  Over the base field
 that point may not exist.
 
-Two honest repairs, and the tool should do both:
+Epoch 1 does both:
 
   * if the parent's ideal is the UNIT IDEAL it has no points over any field,
     so the cover is vacuous and the answer is VERIFIED.  Cheap, and it catches
     the case a reader will hit first.
-  * otherwise NOT_EXHAUSTIVE must SAY that it is a statement over the closure,
+  * otherwise `NOT_GEOMETRICALLY_EXHAUSTIVE` says it is a statement over the
+    closure,
     and that a parent with no points over the base field is covered vacuously.
     The tool cannot decide that in general -- it is exactly the emptiness
     question the certificate machinery exists for -- so it must not pretend to.

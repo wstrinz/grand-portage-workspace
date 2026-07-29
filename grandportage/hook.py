@@ -236,11 +236,9 @@ def evaluate(root=".", floor=C.UNSOUND_PREMISE):
             new.append(f)
             continue
         recorded = entry.get("fingerprint")
-        # A legacy entry predates fingerprinting.  Grandfather it rather than
-        # reopening every carried obligation at once -- a hook that blocks every
-        # tool call is the day-one trap this module already warns about -- and
-        # it acquires a fingerprint at the next `gp accept`.
-        if recorded and recorded != f.fingerprint:
+        # A fingerprintless entry names a finding id, but not WHAT was agreed
+        # to. Keep it readable and make it stale until explicit re-acceptance.
+        if not recorded or recorded != f.fingerprint:
             stale.append((f, entry))
     if not new and not stale:
         return False, ""

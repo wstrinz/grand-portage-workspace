@@ -21,6 +21,7 @@ import pytest
 
 from grandportage import cas
 from grandportage import check as C
+from grandportage import format as F
 from grandportage import hook as H
 from grandportage import kernel as K
 from grandportage import store as S
@@ -31,6 +32,31 @@ def _graph(events):
     for i, ev in enumerate(events):
         g.apply(ev, lineno=i)
     return g.validate()
+
+
+def _native_graph(events):
+    """Fold declarations under the epoch-1 boundary."""
+    records = [F.meta_event()] + list(events)
+    return S.Graph().apply_all([
+        (ev, "<native-test>", i) for i, ev in enumerate(records, 1)
+    ]).validate()
+
+
+def _fresh_verdict_graph(events):
+    """Replace authored verdict stubs with current, fingerprinted events."""
+    from grandportage import verify as V
+
+    declarations = [ev for ev in events if ev.get("ev") != "verdict"]
+    base = _native_graph(declarations)
+    current = []
+    for ev in events:
+        if ev.get("ev") != "verdict":
+            current.append(ev)
+            continue
+        current.append(V._verdict_event(
+            base, ev["subject"], ev["of"], ev["verdict"], ev["why"],
+            ev.get("representation")))
+    return _native_graph(current)
 
 
 TWO_MODELS = [
@@ -1280,10 +1306,13 @@ PARTITION = [
 
 
 def _split(premises, kind="EMPTY"):
-    return _graph(PARTITION + [
+    graph = _graph(PARTITION + [
         {"ev": "inference", "id": "J", "via_partition": "P",
          "premises": [{"claim": c} for c in premises],
          "concludes_kind": kind, "asserted": "so the parent is empty"}])
+    # These kernel tests isolate premise coverage from CAS verification.
+    graph.partitions["P"]["exhaustive_verdict"] = "VERIFIED"
+    return graph
 
 
 def test_a_case_split_is_licensed_by_the_partition_not_by_an_edge():
@@ -2000,6 +2029,7 @@ def test_every_id_bearing_kind_can_be_superseded():
     than superseding.
     """
     exempt = {
+        "meta": "the format header carries no id and occurs exactly once",
         "built_by": "carries no id -- it is a link, not a record",
         "erratum": "voids a record that will not fold; nothing to supersede",
         "verdict": "written by a verifier, not declared; re-run instead",
@@ -2524,7 +2554,7 @@ def test_the_public_readme_links_only_to_files_that_sync():
     """A BROKEN LINK FOR EVERY READER OF THE PUBLIC REPOSITORY.
 
     The sync is a plain copy of an enumerated list -- `grandportage/ tests/
-    fixtures/ docs/ DESIGN.md README.md REVIEW.md` -- and root-level files
+    fixtures/ docs/ COMPATIBILITY.md DESIGN.md README.md REVIEW.md` -- and root-level files
     deliberately do NOT travel, because two of them describe traps in blind
     trials that have not been run.  README.md DOES travel, and it linked three
     files that do not.
@@ -2536,8 +2566,8 @@ def test_the_public_readme_links_only_to_files_that_sync():
     """
     import re
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    syncs = {"DESIGN.md", "README.md", "REVIEW.md", "LICENSE",
-             "QUICKSTART.md"}
+    syncs = {"COMPATIBILITY.md", "DESIGN.md", "README.md", "REVIEW.md",
+             "LICENSE", "QUICKSTART.md"}
     with open(os.path.join(root, "README.md"), encoding="utf-8") as fh:
         readme = fh.read()
     bad = []
@@ -2749,7 +2779,8 @@ def test_the_nodal_cubic_is_refused_by_computation_not_declaration():
 
     g = S.Graph().apply_all([
         ({"ev": "model", "id": "X", "what": "the nodal cubic over R",
-          "ring_vars": ["x", "y"], "generators": ["y^2+x^2-x^3"]}, "t", 1),
+          "ring_vars": ["x", "y"], "generators": ["y^2+x^2-x^3"],
+          "characteristic": 0}, "t", 1),
         ({"ev": "claim", "id": "C", "model": "X", "kind": K.IDENTITY,
           "statement": "x = 0 on the region", "lhs": "x", "rhs": "0",
           # Still DECLARED at fold time even though the claim now carries
@@ -3517,6 +3548,7 @@ def test_a_graph_broken_before_your_write_does_not_blame_your_write(tmp_path):
     p = S.graph_path(root)
     os.makedirs(os.path.dirname(p), exist_ok=True)
     with open(p, "w", encoding="utf-8") as fh:
+        fh.write(json.dumps(F.meta_event()) + "\n")
         fh.write(json.dumps({"ev": "model", "id": "M", "desc": "m"}) + "\n")
         # A half-grade: the exact record that broke the live root graph.
         fh.write(json.dumps({"ev": "claim", "id": "PRE-EXISTING", "model": "M",
@@ -3545,6 +3577,7 @@ def test_a_write_that_IS_your_fault_still_says_so(tmp_path):
     p = S.graph_path(root)
     os.makedirs(os.path.dirname(p), exist_ok=True)
     with open(p, "w", encoding="utf-8") as fh:
+        fh.write(json.dumps(F.meta_event()) + "\n")
         fh.write(json.dumps({"ev": "model", "id": "M", "desc": "m"}) + "\n")
 
     with pytest.raises((S.GraphError, K.KernelRefusal)) as exc:
@@ -3937,7 +3970,7 @@ def test_a_computed_origin_beats_a_declared_one():
         {"ev": "inference", "id": "I", "claim": "C",
          "path": [["E", K.ALONG]], "concludes_kind": K.IDENTITY,
          "asserted": "so x = 0 in the looser model"}]
-    g = _graph(evs)
+    g = _fresh_verdict_graph(evs)
     findings = C.run(g)
 
     assert [f for f in findings if f.rule == C.R_TRANSPORT], (
@@ -3950,7 +3983,7 @@ def test_a_computed_origin_beats_a_declared_one():
 
     # Agreement is silent, and an UNDERSTATED declaration is only TRIAGE --
     # claiming less than was established costs a look, not a licence.
-    agree = _graph(evs[:4] + [
+    agree = _fresh_verdict_graph(evs[:4] + [
         dict(evs[4], verdict="VERIFIED_AMBIENT")] + evs[5:])
     assert not [f for f in C.run(agree) if f.rule == C.R_ORIGIN_CONFLICT]
 
@@ -4139,7 +4172,8 @@ def test_a_single_claim_inference_is_not_counted_twice():
 # ===========================================================================
 CIRCLE = [
     {"ev": "model", "id": "M", "desc": "the circle of radius 5",
-     "ring_vars": ["x", "y"], "generators": ["x^2+y^2-25"]},
+     "ring_vars": ["x", "y"], "generators": ["x^2+y^2-25"],
+     "characteristic": 0},
 ]
 
 
@@ -4179,7 +4213,7 @@ def test_a_refuted_witness_is_unsound_at_its_own_model():
     # now refused -- the field is computed, and asserting the checker's most
     # severe finding with nothing behind it is the honour system this verifier
     # exists to replace.
-    g = _graph(CIRCLE + [
+    g = _fresh_verdict_graph(CIRCLE + [
         _witness_claim("FAKE", {"x": "3", "y": "5"}),
         {"ev": "verdict", "id": "v1", "subject": "witness", "of": "FAKE",
          "verdict": "NOT_A_POINT",
@@ -4252,7 +4286,8 @@ def test_a_partial_point_is_not_a_point():
 # and the cofactors ARE the derivation. Expanding them is arithmetic.
 # ===========================================================================
 HYP_MODEL = {"ev": "model", "id": "H", "desc": "the hyperbola xy = 1",
-             "ring_vars": ["x", "y"], "generators": ["x*y-1"]}
+             "ring_vars": ["x", "y"], "generators": ["x*y-1"],
+             "characteristic": 0}
 HYP_CLAIM = {"ev": "claim", "id": "CL", "model": "H", "kind": K.IDENTITY,
              "statement": "x^2*y = x on the hyperbola",
              "lhs": "x^2*y", "rhs": "x", "ring_vars": ["x", "y"],
@@ -4348,7 +4383,7 @@ def test_a_minted_representation_reaches_the_graph():
     comment explaining why it is gone.
     """
     ev = _verdict_event_for_test()
-    g = _graph([HYP_MODEL, HYP_CLAIM, ev])
+    g = _fresh_verdict_graph([HYP_MODEL, HYP_CLAIM, ev])
     assert g.claims["CL"]["representation"]["cofactors"] == ["x"]
 
 
@@ -4367,7 +4402,7 @@ def test_a_representation_with_no_cofactors_is_refused():
     ev = _verdict_event_for_test()
     ev["representation"] = {"generators": ["x*y-1"]}
     with pytest.raises(S.GraphError) as e:
-        _graph([HYP_MODEL, HYP_CLAIM, ev])
+        _fresh_verdict_graph([HYP_MODEL, HYP_CLAIM, ev])
     assert "cofactors ARE the certificate" in str(e.value)
 
 
@@ -4408,8 +4443,9 @@ def test_a_refuted_isomorphism_stops_licensing_identities():
     assert not C.effective_ring_iso({"ring_iso": True})
     assert not C.effective_ring_iso(
         {"ring_iso": True, "converse_witness": "inverse on points"})
-    # Cited legacy graphs remain readable until they acquire structured maps.
-    assert C.effective_ring_iso({"ring_iso": True, "cite": "a proof"})
+    # Citations remain readable provenance, but prose does not establish a
+    # typed coordinate-ring isomorphism.
+    assert not C.effective_ring_iso({"ring_iso": True, "cite": "a proof"})
     mapped = {
         "type": K.EQUIVALENCE, "ring_iso": True,
         "forward": {"x": "x"}, "inverse": {"x": "x"},
@@ -4424,7 +4460,7 @@ def test_a_refuted_isomorphism_stops_licensing_identities():
 def test_a_refuted_isomorphism_is_reported_not_only_acted_on():
     """A silent correction is its own defect: the author believes something the
     graph no longer acts on."""
-    g = _graph([
+    g = _fresh_verdict_graph([
         {"ev": "model", "id": "A", "desc": "a", "ring_vars": ["x"],
          "generators": []},
         {"ev": "model", "id": "B", "desc": "b", "ring_vars": ["x"],
@@ -4443,13 +4479,14 @@ def test_a_refuted_isomorphism_is_reported_not_only_acted_on():
 
 def test_maps_only_negative_verdict_does_not_refute_undeclared_ring_iso():
     """Point equivalence may survive when coordinate rings differ by nilpotents."""
-    g = _graph([
+    g = _fresh_verdict_graph([
         {"ev": "model", "id": "A", "what": "a", "ring_vars": ["x"],
          "generators": ["x^2"]},
         {"ev": "model", "id": "B", "what": "b", "ring_vars": ["x"],
          "generators": ["x"]},
         {"ev": "edge", "id": "E", "src": "A", "dst": "B",
          "type": K.EQUIVALENCE, "why": "same point set",
+         "map_kind": K.POLYNOMIAL,
          "forward": {"x": "x"}, "inverse": {"x": "x"}},
         {"ev": "verdict", "id": "V", "subject": "ring_iso", "of": "E",
          "verdict": "NOT_AN_ISOMORPHISM",
@@ -4503,9 +4540,10 @@ def test_the_unit_verifier_refuses_a_certificate_it_does_not_decide():
 # when it may hold perfectly well modulo equations nobody wrote down.
 # ===========================================================================
 NO_IDEAL = {"ev": "model", "id": "U", "desc": "ideal never recorded",
-            "ring_vars": ["x", "y"]}
+            "ring_vars": ["x", "y"], "characteristic": 0}
 NO_EQUATIONS = {"ev": "model", "id": "U", "desc": "the ambient plane",
-                "ring_vars": ["x", "y"], "generators": []}
+                "ring_vars": ["x", "y"], "generators": [],
+                "characteristic": 0}
 
 
 def _identity_at(model, lhs, rhs, origin=K.DERIVED):
@@ -4582,10 +4620,12 @@ CUBIC = "y^2-x^3-x^2"
 
 def _partition_graph(branches, parent_gens=(CUBIC,)):
     evs = [{"ev": "model", "id": "C", "desc": "the nodal cubic",
-            "ring_vars": ["x", "y"], "generators": list(parent_gens)}]
+            "ring_vars": ["x", "y"], "generators": list(parent_gens),
+            "characteristic": 0}]
     for name, gens in branches:
         evs.append({"ev": "model", "id": name, "desc": "a branch",
-                    "ring_vars": ["x", "y"], "generators": list(gens)})
+                    "ring_vars": ["x", "y"], "generators": list(gens),
+                    "characteristic": 0})
     evs += [
         {"ev": "claim", "id": "CL", "model": "C", "kind": K.PREDICATE,
          "statement": "the branches cover the parent",
@@ -4597,6 +4637,7 @@ def _partition_graph(branches, parent_gens=(CUBIC,)):
     return _graph(evs)
 
 
+@pytest.mark.live
 def test_a_hole_between_correct_branches_is_found():
     """THE CASE THAT MOTIVATES THE WHOLE CHECK. On the nodal cubic, "y = 0" and
     "x = 0" are both genuine sub-loci -- every computation on either is sound
@@ -4604,7 +4645,7 @@ def test_a_hole_between_correct_branches_is_found():
     from grandportage import verify as V
     g = _partition_graph([("B_Y", [CUBIC, "y"]), ("B_X", [CUBIC, "x"])])
     verdict, why = V.partition_exhaustiveness(g, "P")
-    assert verdict == V.NOT_EXHAUSTIVE, why
+    assert verdict == V.NOT_GEOMETRICALLY_EXHAUSTIVE, why
     # QUALIFIED, because the criterion is equivalent to the covering only by
     # the Nullstellensatz and this tool works over Q. A failing test shows a
     # point over the CLOSURE that no branch reaches; over the base field that
@@ -4618,6 +4659,7 @@ def test_a_hole_between_correct_branches_is_found():
     assert "y^2" in why or "x*y" in why
 
 
+@pytest.mark.live
 def test_a_genuine_split_is_confirmed():
     """The positive control. V(xy) really is V(x) union V(y), and a checker
     that could not say so would be refusing sound case analyses."""
@@ -4638,17 +4680,31 @@ def test_a_refuted_cover_is_an_unsound_premise():
     assert C.exit_code(C.run(g)) == 1
 
 
+def test_a_geometric_hole_is_debt_not_a_base_field_refutation():
+    g = _partition_graph([("B_Y", [CUBIC, "y"]),
+                          ("B_X", [CUBIC, "x"])])
+    g.partitions["P"]["exhaustive_verdict"] = (
+        "NOT_GEOMETRICALLY_EXHAUSTIVE")
+    g.partitions["P"]["exhaustive_why"] = (
+        "a point exists over the algebraic closure")
+    found = [f for f in C.run(g) if f.rule == C.R_COVERAGE]
+    assert found and found[0].severity == C.DEBT
+    assert "does not prove a hole over its declared base field" in found[0].detail
+
+
 def test_a_branch_in_another_ring_is_not_a_branch():
     """A case split does not change coordinates. Comparing ideals across two
     rings would produce a confident answer about neither."""
     from grandportage import verify as V
     g = _graph([
         {"ev": "model", "id": "C", "desc": "parent",
-         "ring_vars": ["x", "y"], "generators": ["x*y"]},
+         "ring_vars": ["x", "y"], "generators": ["x*y"],
+         "characteristic": 0},
         {"ev": "model", "id": "B", "desc": "branch in a smaller ring",
-         "ring_vars": ["x"], "generators": ["x"]},
+         "ring_vars": ["x"], "generators": ["x"], "characteristic": 0},
         {"ev": "model", "id": "B2", "desc": "a second branch",
-         "ring_vars": ["x", "y"], "generators": ["x*y", "y"]},
+         "ring_vars": ["x", "y"], "generators": ["x*y", "y"],
+         "characteristic": 0},
         {"ev": "claim", "id": "CL", "model": "C", "kind": K.PREDICATE,
          "statement": "covered", "established_by": "READ", "ladder": "claimed"},
         {"ev": "partition", "id": "P", "parent": "C",
@@ -4695,9 +4751,10 @@ def _op_graph(built_gens, op="SaturateClosure"):
     if op == "SaturateClosure":
         return _graph([
             {"ev": "model", "id": "SRC", "desc": "source",
-             "ring_vars": ["x", "y"], "generators": ["x^2*y", "x*y^2"]},
+             "ring_vars": ["x", "y"], "generators": ["x^2*y", "x*y^2"],
+             "characteristic": 0},
             {"ev": "model", "id": "SAT", "desc": "the closure of x != 0",
-             "ring_vars": ["x", "y"], "generators": built_gens,
+             "ring_vars": ["x", "y"], "generators": built_gens, "characteristic": 0,
              "saturated_at": "x"},
             {"ev": "edge", "id": "E", "src": "SAT", "dst": "SRC",
              "type": K.NECESSARY_CONDITION, "map_kind": K.POLYNOMIAL,
@@ -4705,21 +4762,65 @@ def _op_graph(built_gens, op="SaturateClosure"):
              "built_by_operation": "SaturateClosure"}])
     return _graph([
         {"ev": "model", "id": "SRC", "desc": "the hyperbola",
-         "ring_vars": ["x", "y"], "generators": ["x*y-1"]},
+         "ring_vars": ["x", "y"], "generators": ["x*y-1"],
+         "characteristic": 0},
         {"ev": "model", "id": "IMG", "desc": "the closure of the image",
-         "ring_vars": ["x"], "generators": built_gens},
+         "ring_vars": ["x"], "generators": built_gens, "characteristic": 0},
         {"ev": "edge", "id": "E", "src": "SRC", "dst": "IMG",
          "type": K.IMAGE_CLOSURE, "map_kind": K.POLYNOMIAL,
          "why": "project away y", "built_by_operation": "Eliminate"}])
 
 
-@pytest.mark.live
-def test_a_transcribed_saturation_is_caught():
-    """The output was recorded by hand after a run. Nothing checked it."""
+def _nonmember_runner():
+    def run(prog, timeout):
+        return {"aborted": False, "returncode": 0, "stderr": "",
+                "stdout": "@@GP_RED:\n1\n"}
+    return run
+
+
+def test_bounded_saturation_search_does_not_refute():
+    """Failure to find a bounded existential witness is not non-membership."""
     from grandportage import verify as V
-    verdict, why, _ = V.operation_output(_op_graph(["x+y"]), "E", timeout=120)
-    assert verdict == V.OP_UNSOUND
-    assert "no power of x" in why
+
+    verdict, why, _ = V.operation_output(
+        _op_graph(["x+y"]), "E", _runner=_nonmember_runner())
+    assert verdict == V.UNVERIFIED
+    assert "bounded witness search" in why
+    assert "not a non-membership proof" in why
+
+
+def test_a_power_nine_saturation_witness_is_not_falsely_refuted(monkeypatch):
+    """Sol's counterexample: I=(x^9*y), f=x has saturation (y).
+    The first witness has exponent 9, beyond the bounded search. The verifier
+    may decline, but must not claim that the correct output is false.
+    """
+    from grandportage import verify as V
+
+    graph = _graph([
+        {"ev": "model", "id": "SRC", "desc": "source",
+         "ring_vars": ["x", "y"], "generators": ["x^9*y"],
+         "characteristic": 0},
+        {"ev": "model", "id": "SAT", "desc": "saturation",
+         "ring_vars": ["x", "y"], "generators": ["y"],
+         "characteristic": 0, "saturated_at": "x"},
+        {"ev": "edge", "id": "E", "src": "SAT", "dst": "SRC",
+         "type": K.NECESSARY_CONDITION, "map_kind": K.POLYNOMIAL,
+         "why": "saturating removes V(x)",
+         "built_by_operation": "SaturateClosure"},
+    ])
+
+    def membership(ring, target, generators, **kwargs):
+        # The mathematically valid witness exists, but only at exponent 9.
+        is_member = target == "(x)^9*(y)"
+        return {"is_member": is_member,
+                "cofactors": ["1"] if is_member else None,
+                "reduced": "0" if is_member else target}
+
+    monkeypatch.setattr(V.cas, "membership_representation", membership)
+    verdict, why, certificate = V.operation_output(graph, "E")
+    assert verdict == V.UNVERIFIED
+    assert certificate is None
+    assert "up to 8" in why and "not a non-membership proof" in why
 
 
 @pytest.mark.live

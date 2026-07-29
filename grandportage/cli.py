@@ -16,6 +16,7 @@ from . import cas
 from . import check as C
 from . import hook as H
 from . import kernel as K
+from . import migration as MIG
 from . import store as S
 from .discharge import (DISCHARGE_KINDS, KNOWN_CONSERVATISM,
                         KNOWN_UNSOUND, discharge_for)
@@ -208,6 +209,18 @@ def cmd_migrate(args):
     exists to avoid, so the migration takes the false negative every time and
     says in the caveat where the strength went.
     """
+    if getattr(args, "to_epoch1", False):
+        reports = MIG.migrate_epoch1(
+            _graphs(args), dry_run=args.dry_run,
+            output=getattr(args, "epoch1_output", None))
+        for report in reports:
+            print("%s -> %s" % (report["source"], report["destination"]))
+            print("  source %s" % report["source_sha256"])
+            print("  audit  %s" % report["audit"])
+            print("  %d event(s), %d changed record(s)%s"
+                  % (report["events"], len(report["changes"]),
+                     " (DRY RUN)" if report["dry_run"] else ""))
+        return 0
     paths = _graphs(args)
     fills = {("claim", "identity_origin"): (K.UNKNOWN,
              lambda e: e.get("kind") == K.IDENTITY),
@@ -496,11 +509,11 @@ def _declare_epilog():
         "    Everywhere else -- cmd, bash, zsh -- plain `gp` is fine.\n"
         "  * DO NOT PARSE .portage/graph.jsonl BY HAND -- use `gp events`,\n"
         "    which dumps the raw log as JSON, or `gp events --folded` for the\n"
-        "    graph as the tool sees it. Graphs created before v0.4.2 open with\n"
-        "    a `#` comment line, which is not JSONL and which a naive\n"
-        "    json.loads per line chokes on; `load_events` skips it and always\n"
-        "    will, so old graphs keep working. New ones start with a `note`\n"
-        "    instead, so the file is what its extension says it is.\n"
+        "    graph as the tool sees it. Some graphs created before v0.4.2\n"
+        "    open with a `#` comment line, which is not JSONL and which a\n"
+        "    naive json.loads per line chokes on; `load_events` skips it and\n"
+        "    always will, so old graphs keep working. Epoch-1 graphs start\n"
+        "    with a machine-readable `meta` event, followed by the note.\n"
         % (", ".join(K.DECLARABLE_TYPES),
            ", ".join(K.CLAIM_KINDS),
            ", ".join(K.MAP_KINDS),
@@ -1296,11 +1309,13 @@ def cmd_init(args):
     # changes, and now the header is READABLE BY THE SAME PARSER as everything
     # under it.
     with open(path, "w", encoding="utf-8") as fh:
+        fh.write(json.dumps(S.F.meta_event(), sort_keys=True) + "\n")
         fh.write(json.dumps({
             "ev": "note",
             "text": ("Grand Portage graph. Append-only; merge by "
                      "concatenation. Every line is one JSON object -- read it "
-                     "with `gp events`, or one json.loads per line.")}) + "\n")
+                     "with `gp events`, or one json.loads per line.")},
+            sort_keys=True) + "\n")
     print("initialised %s" % path)
     return 0
 
@@ -1428,7 +1443,14 @@ def cmd_construct(args):
             "declared.\n"
             % (args.src, "ring variables" if ring is None else "ideal"))
         return 2
-    gens, ch = list(src["generators"]), src.get("characteristic") or 0
+    if "characteristic" not in src:
+        sys.stderr.write(
+            "%s declares no characteristic. A constructor cannot silently "
+            "choose characteristic 0 for a source whose coefficient field is "
+            "unknown; declare 0 or the prime characteristic first.\n"
+            % args.src)
+        return 2
+    gens, ch = list(src["generators"]), src["characteristic"]
     if args.op != "decompose" and not args.produces:
         sys.stderr.write("construct %s requires --produces.\n" % args.op)
         return 2
@@ -1566,6 +1588,12 @@ def build_parser():
                             "value that says nobody vouched")
     g.add_argument("--dry-run", action="store_true",
                    help="report what would change and write nothing")
+    g.add_argument("--to-epoch1", action="store_true",
+                   help="write a strict epoch-1 graph and SHA-256 audit beside "
+                        "the unversioned source; never replaces the source")
+    g.add_argument("--epoch1-output",
+                   help="destination for --to-epoch1 (one source only; default "
+                        "is graph.epoch1.jsonl beside the source)")
     g.set_defaults(func=cmd_migrate)
 
     g = sub.add_parser("docs",

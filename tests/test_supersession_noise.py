@@ -46,9 +46,11 @@ MODELS = [
 ]
 UNTYPED_OLD = {"ev": "edge", "id": "E-IV-PD", "src": "IV", "dst": "PD",
                "type": "UNTYPED", "why": "the step is not yet characterised",
+               "map_kind": K.IDENTITY_MAP,
                "debt_why": "nobody has derived what this inclusion loses"}
 RETYPED = {"ev": "edge", "id": "E-IV-PD-RESTRICT", "src": "IV", "dst": "PD",
            "type": "RESTRICTION", "why": "the cut-out subset, same coordinates",
+           "map_kind": K.IDENTITY_MAP,
            "supersedes": "E-IV-PD", "discharge_kind": "RETYPE"}
 
 # A claim at PD, so a path read AGAINST E-IV-PD starts where the claim is.
@@ -157,8 +159,11 @@ def test_lifecycle_tombstones_are_visible_on_cli_mcp_and_folded_json(
 
     inference = _rider("I", "E-IV-PD")
     retract = {"ev": "inference", "id": "R-I", "supersedes": "I",
-               "discharge_kind": K.RETRACT, "why": "argument abandoned"}
-    withdraw = {"ev": "edge", "id": "W-E", "supersedes": "E-IV-PD",
+               "discharge_kind": K.RETRACT,
+               "asserted": "argument abandoned"}
+    withdraw = {"ev": "edge", "id": "W-E", "src": "IV", "dst": "PD",
+                "type": K.UNTYPED, "map_kind": K.IDENTITY_MAP,
+                "supersedes": "E-IV-PD",
                 "discharge_kind": "WITHDRAW", "why": "not an edge"}
     S.append(MODELS + [UNTYPED_OLD, CLAIM, inference, retract, withdraw],
              str(tmp_path))
@@ -188,18 +193,18 @@ def test_verify_declines_a_live_edge_with_a_superseded_endpoint(tmp_path):
 
     events = [
         {"ev": "model", "id": "SRC", "what": "source",
-         "ring_vars": ["x", "y"], "generators": ["x*y"]},
+         "characteristic": 0, "ring_vars": ["x", "y"],
+         "generators": ["x*y"]},
         {"ev": "model", "id": "OLD", "what": "saturation",
-         "ring_vars": ["x", "y"], "saturated_at": "x",
-         "ideal_pending": "the saturation of SRC at x"},
+         "characteristic": 0, "ring_vars": ["x", "y"],
+         "generators": ["y"]},
         {"ev": "model", "id": "NEW", "what": "saturation",
-         "ring_vars": ["x", "y"], "generators": ["y"],
-         "saturated_at": "x", "supersedes": "OLD",
+         "characteristic": 0, "ring_vars": ["x", "y"],
+         "generators": ["y"], "supersedes": "OLD",
          "discharge_kind": K.RELICENSE},
         {"ev": "edge", "id": "E", "src": "OLD", "dst": "SRC",
          "type": K.NECESSARY_CONDITION, "map_kind": K.POLYNOMIAL,
-         "why": "saturation adds equations",
-         "built_by_operation": "SaturateClosure"},
+         "why": "saturation adds equations"},
     ]
     S.append(events, str(tmp_path))
 

@@ -28,6 +28,7 @@ import traceback
 
 from . import cas
 from . import check as C
+from . import format as F
 from . import hook as HK
 from . import kernel as K
 from . import store as S
@@ -181,12 +182,39 @@ EDGE_SCHEMA = {
     },
     "required": ["src", "type", "why"],
 }
+for _legacy_edge_field in ("witness", "zariski_dense"):
+    EDGE_SCHEMA["properties"].pop(_legacy_edge_field, None)
+EDGE_SCHEMA["required"].append("map_kind")
+EDGE_SCHEMA["additionalProperties"] = False
+
+
+def _event_schema(kind):
+    properties = {field: {} for field in sorted(F.EVENT_FIELDS[kind])}
+    properties["ev"] = {"type": "string", "enum": [kind]}
+    return {
+        "type": "object",
+        "properties": properties,
+        "required": sorted(F.REQUIRED_FIELDS.get(kind, {"ev"})),
+        "additionalProperties": False,
+    }
+
+
+DECLARABLE_EVENT_SCHEMA = {
+    "description": (
+        "An epoch-1 graph event. Event schemas are closed: misspelled or "
+        "unowned fields are rejected rather than retained as inert metadata."),
+    "oneOf": [
+        _event_schema(kind) for kind in sorted(F.EVENT_FIELDS)
+        if kind not in ("meta", "verdict")
+    ],
+}
 
 
 def _tool(name, description, properties, required):
     return {"name": name, "description": description,
             "inputSchema": {"type": "object", "properties": properties,
-                            "required": required}}
+                            "required": required,
+                            "additionalProperties": False}}
 
 
 TOOLS = [
@@ -222,7 +250,7 @@ TOOLS = [
         "gets recorded, and recording it is what submits it to the checker. "
         "The write is transactional against the fold -- if the events do not "
         "produce a well-formed graph, nothing is written.",
-        {"events": {"type": "array", "items": {"type": "object"},
+        {"events": {"type": "array", "items": DECLARABLE_EVENT_SCHEMA,
                     "description": (
                         "graph events. Each needs `ev`: one of certificate, "
                         "model, edge, claim, inference, built_by, note. An "

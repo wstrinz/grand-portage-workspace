@@ -70,11 +70,11 @@ module that answered a question it had not asked would be the honour system
 wearing a computation.
 """
 
-import hashlib
 import os
 
 from . import cas
 from . import kernel as K
+from . import provenance as P
 from . import store as S
 
 VERIFIED = "VERIFIED"
@@ -116,6 +116,17 @@ def _stale_endpoint(graph, eid):
             "repointed, then rerun `gp verify`."
             % (eid, end, mid, S.successors(model), end))
     return None
+
+
+def _declared_characteristic(mid, model):
+    """Return an explicitly declared characteristic, never a guessed zero."""
+    if "characteristic" not in model:
+        return None, (
+            "%s declares no characteristic. The verifier will not assume "
+            "characteristic 0: the same polynomial computation can have a "
+            "different answer after reduction modulo p. Declare 0 or the "
+            "prime characteristic, then rerun `gp verify`." % mid)
+    return model["characteristic"], None
 
 
 
@@ -163,14 +174,19 @@ def containment(graph, eid, timeout=300, _runner=None):
     ring = src.get("ring_vars") or []
     if not ring:
         return UNVERIFIED, "the source model declares no ring variables"
-    ch = src.get("characteristic") or 0
-    if (dst.get("characteristic") or 0) != ch:
+    ch, missing = _declared_characteristic(e["src"], src)
+    if missing:
+        return UNVERIFIED, missing
+    dst_ch, missing = _declared_characteristic(e["dst"], dst)
+    if missing:
+        return UNVERIFIED, missing
+    if dst_ch != ch:
         return UNVERIFIED, (
             "the endpoints declare different characteristics (%s vs %s). A "
             "reduction happens in ONE ring; comparing ideals across a "
             "characteristic change is what SPECIALIZATION is for, and it is "
             "refused above for the same reason."
-            % (ch, dst.get("characteristic") or 0))
+            % (ch, dst_ch))
     if set(dst.get("ring_vars") or []) != set(ring):
         # NOT A FAILURE OF THE MATHEMATICS, a failure of the comparison.  Two
         # ideals in different rings are not comparable by reduction, and
@@ -288,6 +304,9 @@ def identity(graph, cid, timeout=300, _runner=None):
     pending = _pending_ideal(c.get("model"), model)
     if pending:
         return UNVERIFIED, pending
+    ch, missing = _declared_characteristic(c.get("model"), model)
+    if missing:
+        return UNVERIFIED, missing
     # ABSENT IS NOT EMPTY, and reading them the same way is a false refutation.
     #
     # `generators: []` means THE AMBIENT SPACE -- the model imposes no
@@ -318,7 +337,7 @@ def identity(graph, cid, timeout=300, _runner=None):
               else "modulo %s's ideal" % c.get("model"))
     origin, evidence = cas.classify_identity(
         ring, lhs=c["lhs"], rhs=c["rhs"], generators=gens,
-        characteristic=model.get("characteristic") or 0,
+        characteristic=ch,
         timeout=timeout, _runner=_runner)
     if origin == K.AMBIENT:
         return AMBIENT, (
@@ -351,7 +370,7 @@ def identity(graph, cid, timeout=300, _runner=None):
                "ring and DERIVES from the model's own equations."
                % (c["lhs"], c["rhs"], c.get("model")))
         rep = cas.membership_representation(
-            ring, target, gens, characteristic=model.get("characteristic") or 0,
+            ring, target, gens, characteristic=ch,
             timeout=timeout, _runner=_runner)
         if not rep["is_member"] or not rep["cofactors"]:
             # Reduction said 0 and the lift found nothing. Not a refutation of
@@ -363,7 +382,7 @@ def identity(graph, cid, timeout=300, _runner=None):
                 "it.")
         ok, expanded = cas.check_membership_representation(
             ring, target, gens, rep["cofactors"],
-            characteristic=model.get("characteristic") or 0,
+            characteristic=ch,
             timeout=timeout, _runner=_runner)
         if not ok:
             return UNVERIFIED, (
@@ -489,12 +508,17 @@ def ring_iso(graph, eid, timeout=300, _runner=None):
     if src.get("generators") is None or dst.get("generators") is None:
         return UNVERIFIED, "one endpoint carries no ideal"
     ring = src.get("ring_vars") or []
-    ch = src.get("characteristic") or 0
-    if (dst.get("characteristic") or 0) != ch:
+    ch, missing = _declared_characteristic(e["src"], src)
+    if missing:
+        return UNVERIFIED, missing
+    dst_ch, missing = _declared_characteristic(e["dst"], dst)
+    if missing:
+        return UNVERIFIED, missing
+    if dst_ch != ch:
         return UNVERIFIED, (
             "the endpoints declare different characteristics (%s vs %s); a "
             "substitution between them is not a reduction in one ring"
-            % (ch, dst.get("characteristic") or 0))
+            % (ch, dst_ch))
     if not ring or set(dst.get("ring_vars") or []) != set(ring):
         return UNVERIFIED, (
             "the two models are written in different rings; a substitution "
@@ -621,9 +645,19 @@ def operation_output(graph, eid, timeout=300, _runner=None):
     ring = source.get("ring_vars") or []
     if not ring:
         return UNVERIFIED, "%s declares no ring variables" % source_id, None
-    ch = source.get("characteristic") or 0
+    ch, missing = _declared_characteristic(source_id, source)
+    if missing:
+        return UNVERIFIED, missing, None
+    built_ch, missing = _declared_characteristic(built_id, built)
+    if missing:
+        return UNVERIFIED, missing, None
+    if built_ch != ch:
+        return UNVERIFIED, (
+            "%s and %s declare different characteristics (%s vs %s); an "
+            "operation output must be checked in the ring where it was built"
+            % (source_id, built_id, ch, built_ch)), None
     src_gens = list(source["generators"])
-    cofactors, bad = {}, []
+    cofactors, bad, inconclusive = {}, [], []
 
     if kind == "Eliminate":
         # AN ELIMINATION IDEAL IS `I cap k[remaining]`, so each generator owes
@@ -666,12 +700,20 @@ def operation_output(graph, eid, timeout=300, _runner=None):
                     found = (n, rep["cofactors"])
                     break
             if found is None:
-                bad.append(
+                inconclusive.append(
                     "no power of %s up to %d carries %s into %s's ideal"
                     % (f, _MAX_SATURATION_POWER, g, source_id))
             else:
                 cofactors["(%s)^%d*(%s)" % (f, found[0], g)] = found[1]
 
+    if inconclusive:
+        return UNVERIFIED, (
+            "%s's saturation output was not certified: %s. This is a bounded "
+            "witness search, not a non-membership proof; a valid saturation "
+            "witness may require a larger exponent. Recompute the saturation "
+            "or supply an explicit witness rather than treating the search "
+            "bound as a refutation."
+            % (built_id, "; ".join(inconclusive))), None
     if bad:
         return OP_UNSOUND, (
             "%s's ideal is not the %s it is recorded as: %s.\n"
@@ -705,6 +747,7 @@ def operation_output(graph, eid, timeout=300, _runner=None):
 
 COVERS = "VERIFIED"
 NOT_EXHAUSTIVE = "NOT_EXHAUSTIVE"
+NOT_GEOMETRICALLY_EXHAUSTIVE = "NOT_GEOMETRICALLY_EXHAUSTIVE"
 
 
 def partition_exhaustiveness(graph, pid, timeout=300, _runner=None):
@@ -728,10 +771,10 @@ def partition_exhaustiveness(graph, pid, timeout=300, _runner=None):
 
         VERIFIED         every generator common to all branches vanishes on the
                          parent, so the parent is inside their union
-        NOT_EXHAUSTIVE   one does not, and it is NAMED. That generator is the
-                         witness: it vanishes wherever the branches all do, and
-                         not on the parent, so it cuts out a region of the
-                         parent no branch reaches
+        NOT_GEOMETRICALLY_EXHAUSTIVE
+                         one does not, and it is NAMED. This proves a hole over
+                         the algebraic closure, not necessarily over the
+                         declared base field
         UNVERIFIED       an ideal is missing, so the question cannot be put
     """
     p = graph.partitions.get(pid)
@@ -751,7 +794,9 @@ def partition_exhaustiveness(graph, pid, timeout=300, _runner=None):
     ring = parent.get("ring_vars") or []
     if not ring:
         return UNVERIFIED, "parent %s declares no ring variables" % p["parent"]
-    ch = parent.get("characteristic") or 0
+    ch, missing = _declared_characteristic(p.get("parent"), parent)
+    if missing:
+        return UNVERIFIED, missing
     branch_gens = []
     for bid in p.get("branches") or []:
         b = graph.models.get(bid)
@@ -773,10 +818,13 @@ def partition_exhaustiveness(graph, pid, timeout=300, _runner=None):
                 "split does not change coordinates; if this one does, it is a "
                 "map and wants an edge."
                 % (bid, ", ".join(b.get("ring_vars") or []), ", ".join(ring)))
-        if (b.get("characteristic") or 0) != ch:
+        branch_ch, missing = _declared_characteristic(bid, b)
+        if missing:
+            return UNVERIFIED, missing
+        if branch_ch != ch:
             return UNVERIFIED, (
                 "branch %s declares characteristic %s and the parent %s"
-                % (bid, b.get("characteristic") or 0, ch))
+                % (bid, branch_ch, ch))
         branch_gens.append(list(b["generators"]))
     if not branch_gens:
         return UNVERIFIED, "partition %s lists no branches" % pid
@@ -823,7 +871,7 @@ def partition_exhaustiveness(graph, pid, timeout=300, _runner=None):
     # SAME SHAPE AS THE IMAGE_CLOSURE DENSITY ARGUMENT: a justification correct
     # over an algebraically closed field, applied by a tool working over Q.
     # Twice now, which makes it a class rather than an accident.
-    return NOT_EXHAUSTIVE, (
+    return NOT_GEOMETRICALLY_EXHAUSTIVE, (
         "the branches %s do not cover %s OVER THE ALGEBRAIC CLOSURE: %s "
         "vanishes wherever all of them do and does not vanish on the parent.\n"
         "  THIS IS A HOLE IN THE CASE ANALYSIS, not an error in any branch. "
@@ -905,8 +953,11 @@ def point_witness(graph, cid, timeout=300, _runner=None):
     if not ring:
         return UNVERIFIED, "neither %s nor claim %s declares ring variables" % (
             c.get("model"), cid)
+    ch, missing = _declared_characteristic(c.get("model"), model)
+    if missing:
+        return UNVERIFIED, missing
     ok, evidence = cas.check_witness(
-        ring, gens, point, characteristic=model.get("characteristic") or 0,
+        ring, gens, point, characteristic=ch,
         timeout=timeout, _runner=_runner)
     shown = ", ".join("%s = %s" % (v, point[v]) for v in ring if v in point)
     if ok:
@@ -998,7 +1049,9 @@ def unit_ideal(graph, cid, timeout=300, _runner=None):
             "ideal needs the ideal recorded, not only named"
             % c.get("model")), None
 
-    ch = model.get("characteristic") or 0
+    ch, missing = _declared_characteristic(c.get("model"), model)
+    if missing:
+        return UNVERIFIED, missing, None
     rep = cas.unit_ideal_representation(ring, list(gens), characteristic=ch,
                                         timeout=timeout, _runner=_runner)
     if not rep["is_unit"]:
@@ -1031,19 +1084,15 @@ def unit_ideal(graph, cid, timeout=300, _runner=None):
                      "generators": list(gens), "ring_vars": list(ring)}
 
 
-def _verdict_event(subject, of, verdict, why, representation=None):
-    # Content-addressed id, so re-verifying an unchanged thing with an
-    # unchanged answer is an IDEMPOTENT redeclaration and the fold absorbs it.
-    # Re-verifying after something changed produces a different id and both
-    # verdicts stay in the log, which is what makes `gp history` able to show
-    # that the answer moved.
-    digest = hashlib.sha1(
-        ("%s|%s|%s|%s" % (subject, of, verdict, why)).encode("utf-8")
-    ).hexdigest()[:12]
-    ev = {"ev": S.EV_VERDICT, "id": "v.%s.%s" % (of, digest),
-          "subject": subject, "of": of, "verdict": verdict, "why": why}
+def _verdict_event(graph, subject, of, verdict, why, representation=None):
+    # Content-address the answer together with the exact verifier/kernel/backend
+    # identity and semantic input that made it authoritative.
+    ev = {"ev": S.EV_VERDICT, "subject": subject, "of": of,
+          "verdict": verdict, "why": why}
+    ev.update(P.metadata(graph, subject, of))
     if representation:
         ev["representation"] = representation
+    ev["id"] = "v.%s.%s" % (of, P.event_digest(ev))
     return ev
 
 
@@ -1099,7 +1148,8 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
             # without trusting the search was computed and dropped.
             rep = out[2] if len(out) > 2 else None
         results.append((subject, oid, verdict, why))
-        events.append(_verdict_event(subject, oid, verdict, why, rep))
+        events.append(_verdict_event(
+            graph, subject, oid, verdict, why, rep))
 
     for eid in sorted(graph.edges):
         e = graph.edges[eid]

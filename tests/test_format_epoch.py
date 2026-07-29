@@ -1,0 +1,266 @@
+"""The v0.5 compatibility epoch is a trust boundary, not a file header."""
+
+import hashlib
+import json
+import os
+
+import pytest
+
+from grandportage import cli
+from grandportage import format as F
+from grandportage import operations as O
+from grandportage import store as S
+
+
+def _write(path, events):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        "".join(json.dumps(event, sort_keys=True) + "\n" for event in events),
+        encoding="utf-8")
+    return str(path)
+
+
+def test_init_starts_with_epoch_metadata(tmp_path):
+    assert cli.main(["--root", str(tmp_path), "init"]) == 0
+    path = S.graph_path(str(tmp_path))
+    events = list(S.load_events(path))
+    assert events[0][0] == {
+        "created_with": "grandportage/0.5.0",
+        "ev": "meta",
+        "graph_format": 1,
+        "kernel_epoch": 1,
+    }
+    graph = S.load(path)
+    assert graph.graph_format == 1
+    assert graph.kernel_epoch == 1
+    assert graph.compatibility_mode is False
+
+
+@pytest.mark.parametrize("kind,field", [
+    ("claim", "integral"),
+    ("claim", "coefficients_in_base"),
+    ("claim", "zariski_closed"),
+    ("claim", "existential"),
+    ("edge", "refinement"),
+    ("edge", "ring_iso"),
+])
+def test_native_licensing_flags_are_json_booleans(kind, field):
+    event = ({"ev": "edge", "id": "E", "src": "A", "dst": "B",
+              "type": "NECESSARY_CONDITION", "why": "w",
+              "map_kind": "POLYNOMIAL"}
+             if kind == "edge" else
+             {"ev": "claim", "id": "C", "model": "M",
+              "kind": "PREDICATE", "statement": "s"})
+    event[field] = "false"
+    with pytest.raises(S.GraphError, match="must be true or false"):
+        F.validate_native_event(event, "test:1", S.GraphError)
+
+
+def test_native_edges_require_map_kind_and_reject_unknown_or_deprecated_fields():
+    edge = {"ev": "edge", "id": "E", "src": "A", "dst": "B",
+            "type": "NECESSARY_CONDITION", "why": "w"}
+    with pytest.raises(S.GraphError, match="map_kind"):
+        F.validate_native_event(edge, "test:1", S.GraphError)
+    edge["map_kind"] = "POLYNOMIAL"
+    for field in ("typo", "witness", "zariski_dense"):
+        bad = dict(edge, **{field: "legacy"})
+        with pytest.raises(S.GraphError, match="unknown field"):
+            F.validate_native_event(bad, "test:1", S.GraphError)
+
+
+def test_native_verdict_requires_versioned_provenance():
+    verdict = {"ev": "verdict", "id": "V", "subject": "claim", "of": "C",
+               "verdict": "VERIFIED_AMBIENT", "why": "reduced"}
+    with pytest.raises(S.GraphError, match="needs"):
+        F.validate_native_event(verdict, "test:1", S.GraphError)
+
+
+def test_epoch0_import_is_conservative_and_read_only(tmp_path):
+    path = _write(tmp_path / "legacy.jsonl", [
+        {"ev": "model", "id": "A", "desc": "a"},
+        {"ev": "model", "id": "B", "desc": "b"},
+        {"ev": "edge", "id": "E", "src": "A", "dst": "B",
+         "type": "NECESSARY_CONDITION", "why": "drops",
+         "ring_iso": "false", "refinement": "false", "witness": "counterpoint",
+         "zariski_dense": True},
+        {"ev": "claim", "id": "C", "model": "A", "kind": "PREDICATE",
+         "statement": "p", "integral": "false",
+         "coefficients_in_base": "false", "zariski_closed": "false",
+         "existential": "false"},
+    ])
+    graph = S.load(path)
+    assert graph.compatibility_mode is True
+    assert graph.edges["E"]["map_kind"] == "RATIONAL"
+    assert graph.edges["E"]["ring_iso"] is False
+    assert graph.edges["E"]["refinement"] is False
+    assert graph.edges["E"]["strictness_witness"] == "counterpoint"
+    assert "witness" not in graph.edges["E"]
+    assert "zariski_dense" not in graph.edges["E"]
+    for field in ("integral", "coefficients_in_base", "zariski_closed",
+                  "existential"):
+        assert graph.claims["C"][field] is False
+
+    root = tmp_path / "campaign"
+    legacy = root / ".portage" / "graph.jsonl"
+    _write(legacy, [{"ev": "model", "id": "M", "desc": "m"}])
+    before = legacy.read_bytes()
+    with pytest.raises(S.GraphError, match="REFUSING TO APPEND"):
+        S.append([{"ev": "model", "id": "N", "desc": "n"}], str(root))
+    assert legacy.read_bytes() == before
+
+
+def test_direct_fold_cannot_upgrade_legacy_records_with_late_meta():
+    graph = S.Graph()
+    graph.apply({"ev": "model", "id": "M", "desc": "legacy",
+                 "unknown_legacy_field": "would bypass the closed schema"})
+    with pytest.raises(S.GraphError, match="only legal as the first"):
+        graph.apply(F.meta_event())
+
+    native = S.Graph()
+    native.apply(F.meta_event())
+    with pytest.raises(S.GraphError, match="only legal as the first"):
+        native.apply(F.meta_event())
+
+    batched = S.Graph()
+    batched.apply({"ev": "model", "id": "L", "desc": "legacy",
+                   "legacy_truthy": "false"})
+    with pytest.raises(S.GraphError, match="already contains events"):
+        batched.apply_all([(F.meta_event(), "late", 2)])
+
+
+@pytest.mark.parametrize("field,value", [
+    ("graph_format", True), ("graph_format", 1.0),
+    ("graph_format", "1"), ("kernel_epoch", True),
+    ("kernel_epoch", 1.0), ("kernel_epoch", "1"),
+])
+def test_meta_versions_are_strict_integers(field, value):
+    event = F.meta_event()
+    event[field] = value
+    with pytest.raises(S.GraphError, match="must be an integer"):
+        F.validate_meta(event, "test:1", S.GraphError)
+
+
+@pytest.mark.parametrize("value", [None, True, -1, 1, 4, 9, 25])
+def test_field_characteristic_rejects_nonfields(value):
+    graph = S.Graph()
+    graph.apply(F.meta_event())
+    with pytest.raises(S.GraphError, match="0 or a prime"):
+        graph.apply({"ev": "model", "id": "M", "desc": "bad field",
+                     "characteristic": value})
+
+
+@pytest.mark.parametrize("value", [0, 2, 3, 23])
+def test_field_characteristic_accepts_zero_or_prime(value):
+    graph = S.Graph()
+    graph.apply(F.meta_event())
+    graph.apply({"ev": "model", "id": "M", "desc": "a field",
+                 "characteristic": value})
+    assert graph.models["M"]["characteristic"] == value
+
+
+def test_cas_program_rejects_composite_characteristic():
+    from grandportage import cas
+
+    with pytest.raises(ValueError, match="0 or a prime"):
+        cas.CASProgram(
+            cas.SINGULAR, ring="R", ring_vars=["x"],
+            decls=[], body=[], outputs=[], characteristic=4)
+
+
+def test_misplaced_meta_and_mixed_epoch_folds_are_refused(tmp_path):
+    legacy = _write(tmp_path / "legacy.jsonl", [
+        {"ev": "model", "id": "M", "desc": "m"},
+        F.meta_event(),
+    ])
+    with pytest.raises(S.GraphError, match="misplaced `meta`"):
+        S.load(legacy)
+
+    native = _write(tmp_path / "native.jsonl", [
+        F.meta_event(), {"ev": "model", "id": "N", "desc": "n"},
+    ])
+    plain = _write(tmp_path / "plain.jsonl", [
+        {"ev": "model", "id": "P", "desc": "p"},
+    ])
+    with pytest.raises(S.GraphError, match="cannot merge epoch-0 and epoch-1"):
+        S.load(native, plain)
+
+
+def test_epoch1_migration_is_beside_original_audited_and_strict(tmp_path):
+    source_path = tmp_path / "graph.jsonl"
+    source = _write(source_path, [
+        {"ev": "model", "id": "A", "desc": "a", "legacy_note": "drop me"},
+        {"ev": "model", "id": "B", "desc": "b"},
+        {"ev": "edge", "id": "E", "src": "A", "dst": "B",
+         "type": "EQUIVALENCE", "why": "same points",
+         "ring_isomorphism": True, "refinement": "false",
+         "witness": "a target point outside the source",
+         "zariski_dense": True},
+    ])
+    original = source_path.read_bytes()
+    assert cli.main(["--graph", source, "migrate", "--to-epoch1"]) == 0
+
+    destination = tmp_path / "graph.epoch1.jsonl"
+    audit_path = tmp_path / "graph.epoch1.jsonl.audit.json"
+    assert source_path.read_bytes() == original
+    assert destination.exists() and audit_path.exists()
+    graph = S.load(str(destination))
+    assert graph.compatibility_mode is False
+    assert graph.edges["E"]["map_kind"] == "RATIONAL"
+    assert graph.edges["E"]["ring_iso"] is False
+    assert graph.edges["E"]["refinement"] is False
+    assert graph.edges["E"]["strictness_witness"]
+    assert "legacy_note" not in graph.models["A"]
+
+    audit = json.loads(audit_path.read_text(encoding="utf-8"))
+    expected = "sha256:" + hashlib.sha256(original).hexdigest()
+    assert audit["source_sha256"] == expected
+    changed = json.dumps(audit["changes"])
+    for field in ("legacy_note", "ring_isomorphism", "witness",
+                  "zariski_dense", "refinement"):
+        assert field in changed
+
+
+def test_constructor_events_fit_epoch1_and_carry_characteristic():
+    def facstd(prog, timeout):
+        return {"aborted": False, "returncode": 0, "stderr": "",
+                "stdout": "@@GP_L:\n[1]:\n_[1]=x\n[2]:\n_[1]=y\n"}
+
+    operations = [
+        O.localize("M", "x", "L", ["x", "y"], ["x*y"],
+                   characteristic=7),
+        O.saturate_closure("M", "x", "S", ["x", "y"], ["x*y"],
+                           characteristic=7),
+        O.eliminate("M", ["y"], "E", ["x", "y"], ["x*y"],
+                    characteristic=7),
+        O.decompose("M", ["x", "y"], ["x*y"], characteristic=7,
+                    _runner=facstd),
+    ]
+    for operation in operations:
+        minted = [event for event in operation.events
+                  if event["ev"] == "model"]
+        assert minted and all(event["characteristic"] == 7
+                              for event in minted)
+        for index, event in enumerate(operation.events):
+            F.validate_native_event(
+                event, "%s:%d" % (operation.kind, index), S.GraphError)
+
+
+def test_append_refuses_caller_supplied_meta_without_writing(tmp_path):
+    path = S.graph_path(str(tmp_path))
+    with pytest.raises(S.GraphError, match="callers cannot append `meta`"):
+        S.append([F.meta_event()], str(tmp_path))
+    assert not os.path.exists(path)
+
+    S.append([{"ev": "model", "id": "M", "desc": "m"}], str(tmp_path))
+    before = open(path, "rb").read()
+    with pytest.raises(S.GraphError, match="callers cannot append `meta`"):
+        S.append([F.meta_event()], str(tmp_path))
+    assert open(path, "rb").read() == before
+    S.load(path)
+
+
+def test_first_append_creates_a_native_graph(tmp_path):
+    S.append([{"ev": "model", "id": "M", "desc": "m"}], str(tmp_path))
+    path = S.graph_path(str(tmp_path))
+    first = next(iter(S.load_native_events(path)))[0]
+    assert first["ev"] == "meta"
