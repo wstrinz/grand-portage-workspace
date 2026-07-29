@@ -3095,10 +3095,32 @@ def render(findings, accepted=None, full=False):
     live = [f for f in findings if f.fid not in accepted]
     carried = [f for f in findings if f.fid in accepted]
     out = []
+    # A DISCHARGE REPEATED IS NOT A DISCHARGE TWICE.
+    #
+    # Measured on a real campaign: 32 findings, 22,486 bytes, of which DISCHARGE
+    # was 47% -- and 68% of THOSE bytes were duplicates. CONTAINMENT fired 8
+    # times, TRANSPORT 7, DOUBT 5, and DOUBT's five discharges were ONE distinct
+    # string. A rule's discharge is static prose; only the ids vary.
+    #
+    # This matters more than tidiness now that the hook actually fires: the
+    # refusal path pays this cost on EVERY TOOL CALL, and the same wall arriving
+    # repeatedly buries the move it is telling you to make.
+    #
+    # COMPRESS BY NOT REPEATING THE PROSE, NEVER BY SHORTENING IT. The discharge
+    # is where this tool delivers its value -- a campaign once spent its most
+    # expensive hour on a refusal whose correct answer could not be looked up --
+    # so the first occurrence is printed in full and later identical ones point
+    # back to it. Nothing is lost and nothing has to be asked for.
+    seen_discharge = {}
     for f in live:
         out.append("%s  %s" % (f.severity, f.fid))
         out.extend("    " + l for l in f.detail.splitlines())
-        out.append("    -> DISCHARGE: %s" % f.discharge)
+        first = seen_discharge.get((f.rule, f.discharge))
+        if first is None:
+            seen_discharge[(f.rule, f.discharge)] = f.fid
+            out.append("    -> DISCHARGE: %s" % f.discharge)
+        else:
+            out.append("    -> DISCHARGE: as %s above." % first)
         out.append("")
     if carried:
         out.append("CARRIED -- examined and knowingly accepted (%d). These are "

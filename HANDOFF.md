@@ -303,6 +303,29 @@ C:\Users\wstri\dev\
                                             into three reductions a CAS can run
                       integral              PARTIALITY -- is the map defined
 
+                    A SECOND CLASS, ALSO WITH TWO MEMBERS, and this one
+                    predicts where to look next: AN ARGUMENT CORRECT OVER AN
+                    ALGEBRAICALLY CLOSED FIELD, APPLIED BY A TOOL THAT WORKS
+                    OVER Q.
+
+                      IMAGE_CLOSURE  licensed on density, which concludes about
+                                     points while the claim is about an ideal
+                      exhaustiveness `intersect(I(B_i)) subset rad(I(parent))`
+                                     is equivalent to the covering only by the
+                                     NULLSTELLENSATZ. So the test PASSING is
+                                     sound over any field, and the test FAILING
+                                     says nothing over Q -- the parent may have
+                                     no rational points, in which case the
+                                     branches cover it vacuously and
+                                     NOT_EXHAUSTIVE was calling a sound case
+                                     analysis broken at UNSOUND_PREMISE.
+
+                    Both were found by writing the statement down precisely
+                    enough to be WRONG. Neither was found by review and neither
+                    by a live run. When looking for the third, ask of any
+                    verifier: what does its answer mean over a field that is
+                    not algebraically closed, and does the message claim more?
+
                     THE TYPING-ARTIFACT CLASS NOW HAS TWO MEMBERS, which is
                     the first evidence that it is a class and not one oddity.
                     `ImageClosure.lean` found IMAGE_CLOSURE/ALONG/IDENTITY
