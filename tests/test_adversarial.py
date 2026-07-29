@@ -4299,3 +4299,115 @@ def test_an_ambient_identity_survives_an_unrecorded_ideal():
         _identity_at(NO_IDEAL, "(x+y)^2", "x^2+2*x*y+y^2", K.AMBIENT), "CL",
         _runner=_nonzero_runner("0"))[:2]
     assert verdict == V.AMBIENT
+
+
+# ===========================================================================
+# EXHAUSTIVENESS, CHECKED RATHER THAN DECLARED.
+#
+# `store._apply_partition` said this was out of reach: "The checker cannot
+# verify that gamma in {2,3,4} really matches three branches -- that is
+# mathematics." It is mathematics, and it is decidable once the models carry
+# ideals:
+#
+#     V(parent) subset union V(B_i)  <=>  intersect(I(B_i)) subset rad(I(parent))
+#
+# Radical membership without `radical`, by Rabinowitsch -- the same identity
+# `saturate_closure` uses, and for the same reason: both `radical` and `sat`
+# live in libraries the CAS boundary will not load.
+#
+# THIS ONE IS UNLIKE THE OTHER VERIFIERS. Every other verdict is about a single
+# object. A false exhaustiveness is about the SPACE BETWEEN objects: each branch
+# stays individually correct, every computation on it stays sound, and the
+# argument is still broken. That is why nothing else could see it.
+# ===========================================================================
+CUBIC = "y^2-x^3-x^2"
+
+
+def _partition_graph(branches, parent_gens=(CUBIC,)):
+    evs = [{"ev": "model", "id": "C", "desc": "the nodal cubic",
+            "ring_vars": ["x", "y"], "generators": list(parent_gens)}]
+    for name, gens in branches:
+        evs.append({"ev": "model", "id": name, "desc": "a branch",
+                    "ring_vars": ["x", "y"], "generators": list(gens)})
+    evs += [
+        {"ev": "claim", "id": "CL", "model": "C", "kind": K.PREDICATE,
+         "statement": "the branches cover the parent",
+         "established_by": "READ", "ladder": "claimed"},
+        {"ev": "partition", "id": "P", "parent": "C",
+         "branches": [n for n, _ in branches], "exhaustive": "CL",
+         "why": "a case split"},
+    ]
+    return _graph(evs)
+
+
+def test_a_hole_between_correct_branches_is_found():
+    """THE CASE THAT MOTIVATES THE WHOLE CHECK. On the nodal cubic, "y = 0" and
+    "x = 0" are both genuine sub-loci -- every computation on either is sound
+    -- and their union is three points while the curve is a curve."""
+    from grandportage import verify as V
+    g = _partition_graph([("B_Y", [CUBIC, "y"]), ("B_X", [CUBIC, "x"])])
+    verdict, why = V.partition_exhaustiveness(g, "P")
+    assert verdict == V.NOT_EXHAUSTIVE, why
+    assert "DO NOT COVER" in why
+    # The witness is NAMED: something vanishing wherever the branches do and
+    # not on the parent cuts out the region no branch reaches.
+    assert "y2" in why or "xy" in why
+
+
+def test_a_genuine_split_is_confirmed():
+    """The positive control. V(xy) really is V(x) union V(y), and a checker
+    that could not say so would be refusing sound case analyses."""
+    from grandportage import verify as V
+    g = _partition_graph([("B_X", ["x*y", "x"]), ("B_Y", ["x*y", "y"])],
+                         parent_gens=["x*y"])
+    verdict, why = V.partition_exhaustiveness(g, "P")
+    assert verdict == V.COVERS, why
+    assert "COMPLETE" in why
+
+
+def test_a_refuted_cover_is_an_unsound_premise():
+    g = _partition_graph([("B_Y", [CUBIC, "y"]), ("B_X", [CUBIC, "x"])])
+    g.partitions["P"]["exhaustive_verdict"] = "NOT_EXHAUSTIVE"
+    g.partitions["P"]["exhaustive_why"] = "the branches do not cover C"
+    found = [f for f in C.run(g) if f.rule == C.R_REFUTED_EVIDENCE]
+    assert found and found[0].severity == C.UNSOUND_PREMISE
+    assert C.exit_code(C.run(g)) == 1
+
+
+def test_a_branch_in_another_ring_is_not_a_branch():
+    """A case split does not change coordinates. Comparing ideals across two
+    rings would produce a confident answer about neither."""
+    from grandportage import verify as V
+    g = _graph([
+        {"ev": "model", "id": "C", "desc": "parent",
+         "ring_vars": ["x", "y"], "generators": ["x*y"]},
+        {"ev": "model", "id": "B", "desc": "branch in a smaller ring",
+         "ring_vars": ["x"], "generators": ["x"]},
+        {"ev": "model", "id": "B2", "desc": "a second branch",
+         "ring_vars": ["x", "y"], "generators": ["x*y", "y"]},
+        {"ev": "claim", "id": "CL", "model": "C", "kind": K.PREDICATE,
+         "statement": "covered", "established_by": "READ", "ladder": "claimed"},
+        {"ev": "partition", "id": "P", "parent": "C",
+         "branches": ["B", "B2"], "exhaustive": "CL", "why": "a split"},
+    ])
+    verdict, why = V.partition_exhaustiveness(g, "P")
+    assert verdict == V.UNVERIFIED
+    assert "does not change coordinates" in why
+
+
+def test_exhaustiveness_is_unverifiable_without_ideals():
+    """Expected, and reported as such rather than worked around: most live
+    partitions sit on models that record no algebra (#37)."""
+    from grandportage import verify as V
+    g = _graph([
+        {"ev": "model", "id": "C", "desc": "no ideal", "ring_vars": ["x"]},
+        {"ev": "model", "id": "B", "desc": "no ideal", "ring_vars": ["x"]},
+        {"ev": "model", "id": "B2", "desc": "no ideal", "ring_vars": ["x"]},
+        {"ev": "claim", "id": "CL", "model": "C", "kind": K.PREDICATE,
+         "statement": "covered", "established_by": "READ", "ladder": "claimed"},
+        {"ev": "partition", "id": "P", "parent": "C",
+         "branches": ["B", "B2"], "exhaustive": "CL", "why": "a split"},
+    ])
+    verdict, why = V.partition_exhaustiveness(g, "P")
+    assert verdict == V.UNVERIFIED
+    assert "records no ideal" in why

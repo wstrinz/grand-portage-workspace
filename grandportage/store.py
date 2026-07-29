@@ -225,6 +225,10 @@ class Graph(object):
                                         "UNVERIFIED"),
                     "why_field": "witness_why",
                     "writer": "verify.point_witness"},
+        "partition": {"exhaustive_verdict": ("VERIFIED", "NOT_EXHAUSTIVE",
+                                             "UNVERIFIED"),
+                      "why_field": "exhaustive_why",
+                      "writer": "verify.partition_exhaustiveness"},
     }
 
     # Module level, not class level, because a comprehension in a class body
@@ -460,7 +464,8 @@ class Graph(object):
                  % (where, ev.get("id"), " or ".join(sorted(self._VERDICTS))))
         spec = self._VERDICTS[subject]
         field = self._verdict_field(spec)
-        target = (self.claims
+        target = (self.partitions if subject == "partition"
+                  else self.claims
                   if subject in ("claim", "certificate", "witness")
                   else self.edges)
         of = ev.get("of")

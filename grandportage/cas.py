@@ -1157,6 +1157,98 @@ def check_membership_representation(ring_vars, target, generators, cofactors,
     return got == "0", got
 
 
+def partition_covers(ring_vars, parent_generators, branches,
+                     characteristic=0, timeout=300, _runner=None):
+    """Do the branches COVER the parent?  Returns (covered, evidence).
+
+    THE STORE SAID THIS WAS NOT CHECKABLE: "The checker cannot verify that
+    gamma in {2,3,4} really matches three branches -- that is mathematics."
+    It is mathematics, and it is decidable when the models carry their ideals.
+
+        exhaustive  <=>  V(parent) subset union of V(branch_i)
+                    <=>  intersect(I(B_1), .., I(B_k)) subset radical(I(parent))
+
+    Each branch is `parent AND condition`, so every I(B_i) already contains
+    I(parent) and the reverse inclusion is automatic.  All the content is in
+    the direction above.
+
+    WHY IT MATTERS MORE THAN THE OTHER CHECKS.  A false exhaustiveness does not
+    produce a wrong answer at one model.  It produces a COMPLETE-LOOKING CASE
+    ANALYSIS WITH A HOLE, and every conclusion drawn from "these are all the
+    cases" inherits it -- while each branch remains individually correct, which
+    is what makes it invisible by construction.
+
+    RADICAL MEMBERSHIP WITHOUT `radical`, by Rabinowitsch:
+
+        g in radical(I)   <=>   1 in I + (1 - t*g)
+
+    the same identity `saturate_closure` uses, and for the same reason: both
+    `radical` and `sat` live in libraries the CAS boundary will not load.
+    """
+    if not branches:
+        raise CASError("a partition with no branches covers nothing")
+    # ONE CALL FOR THE INTERSECTION.  `intersect` needs at least two arguments.
+    # The store already refuses a one-branch partition ("a split into one piece
+    # is just the parent"), so that case cannot arrive through the graph -- but
+    # this function is callable directly and should not emit `intersect(I)`.
+    decls = [("GP_P", "ideal", ",".join(parent_generators) or "0")]
+    names = []
+    for i, gens in enumerate(branches):
+        names.append("GP_B%d" % i)
+        decls.append((names[-1], "ideal", ",".join(gens) or "0"))
+    decls.append(("GP_J", "ideal",
+                  names[0] if len(names) == 1
+                  else "intersect(%s)" % ",".join(names)))
+    decls.append(("GP_OUT", "ideal", "std(GP_J)"))
+    prog = CASProgram(SINGULAR, ring="GP_R", ring_vars=ring_vars,
+                      decls=decls, body=[], outputs=["GP_OUT"],
+                      characteristic=characteristic)
+    res = (_runner or _run_subprocess)(prog, timeout)
+    if (res["aborted"] or res["returncode"] != 0
+            or "? error" in res["stdout"] + res["stderr"]):
+        raise CASError("the CAS did not intersect the branches:\n%s"
+                       % res["stdout"][-1500:])
+    rows = _parse_outputs(res["stdout"], ["GP_OUT"])["GP_OUT"]
+    rows = rows if isinstance(rows, list) else [rows]
+    common = [r.split("=", 1)[-1].strip() for r in rows]
+    common = [g for g in common if g and g != "0"]
+    if not common:
+        # The branches share only 0, so their union is everything and the
+        # parent is inside it whatever the parent is.
+        return True, {"common": [], "uncovered": [],
+                      "why": "the branch ideals intersect in (0)"}
+
+    # ONE CALL FOR EVERY RADICAL-MEMBERSHIP QUESTION AT ONCE.  The extra
+    # variable goes FIRST so it is the one eliminated by the ordering, matching
+    # what `saturate_closure` does with the same trick.
+    tvar = "GP_T"
+    decls = [("GP_P", "ideal", ",".join(parent_generators) or "0")]
+    outs = []
+    for j, g in enumerate(common):
+        decls.append(("GP_C%d" % j, "ideal",
+                      "GP_P, 1-%s*(%s)" % (tvar, g)))
+        decls.append(("GP_S%d" % j, "ideal", "std(GP_C%d)" % j))
+        outs.append("GP_S%d" % j)
+    prog = CASProgram(SINGULAR, ring="GP_R", ring_vars=[tvar] + list(ring_vars),
+                      decls=decls, body=[], outputs=outs,
+                      characteristic=characteristic)
+    res = (_runner or _run_subprocess)(prog, timeout)
+    if (res["aborted"] or res["returncode"] != 0
+            or "? error" in res["stdout"] + res["stderr"]):
+        raise CASError("the CAS did not decide radical membership:\n%s"
+                       % res["stdout"][-1500:])
+    values = _parse_outputs(res["stdout"], outs)
+    uncovered = []
+    for j, g in enumerate(common):
+        v = values["GP_S%d" % j]
+        v = v if isinstance(v, list) else [v]
+        v = [str(x).split("=", 1)[-1].strip() for x in v]
+        if v != ["1"]:
+            uncovered.append(g)
+    return not uncovered, {"common": common, "uncovered": uncovered,
+                           "why": ""}
+
+
 def ideal_is_unit(ring_vars, generators, characteristic=0, name="GP_I",
                   **kw):
     """Convenience: does the ideal reduce to (1)?

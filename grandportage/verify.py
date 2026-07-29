@@ -506,6 +506,104 @@ def ring_iso(graph, eid, timeout=300, _runner=None):
         % (e["src"], e["dst"]))
 
 
+COVERS = "VERIFIED"
+NOT_EXHAUSTIVE = "NOT_EXHAUSTIVE"
+
+
+def partition_exhaustiveness(graph, pid, timeout=300, _runner=None):
+    """Do the branches actually cover the parent?
+
+    THE STORE SAID THIS WAS OUT OF REACH: "The checker cannot verify that gamma
+    in {2,3,4} really matches three branches -- that is mathematics."  It is
+    mathematics and it is decidable, and the sentence was written before the
+    models carried ideals to decide it with.
+
+    WHY THIS ONE MATTERS MORE THAN THE OTHER VERIFIERS.  Every other verdict is
+    about a single object: a rewriting that does not hold, a point that is not
+    on the variety, a certificate that is not what it says.  A false
+    exhaustiveness is about the SPACE BETWEEN objects.  Each branch stays
+    individually correct, every computation on it stays sound, and the argument
+    is still broken -- because "these are all the cases" was the premise, and
+    it was the one thing nobody could check.
+
+    That is also why it is invisible by construction.  A hole in a case
+    analysis produces no wrong answer anywhere; it produces a missing question.
+
+        VERIFIED         every generator common to all branches vanishes on the
+                         parent, so the parent is inside their union
+        NOT_EXHAUSTIVE   one does not, and it is NAMED. That generator is the
+                         witness: it vanishes wherever the branches all do, and
+                         not on the parent, so it cuts out a region of the
+                         parent no branch reaches
+        UNVERIFIED       an ideal is missing, so the question cannot be put
+    """
+    p = graph.partitions.get(pid)
+    if not p:
+        return UNVERIFIED, "no such partition"
+    parent = graph.models.get(p.get("parent"))
+    if not parent:
+        return UNVERIFIED, "partition %s names no declared parent" % pid
+    pending = _pending_ideal(p.get("parent"), parent)
+    if pending:
+        return UNVERIFIED, pending
+    if parent.get("generators") is None:
+        return UNVERIFIED, (
+            "parent %s records no ideal. Whether the branches cover it is a "
+            "question about its solution set, and this graph does not say what "
+            "that set is." % p.get("parent"))
+    ring = parent.get("ring_vars") or []
+    if not ring:
+        return UNVERIFIED, "parent %s declares no ring variables" % p["parent"]
+    ch = parent.get("characteristic") or 0
+    branch_gens = []
+    for bid in p.get("branches") or []:
+        b = graph.models.get(bid)
+        if not b:
+            return UNVERIFIED, "branch %s is not a declared model" % bid
+        bp = _pending_ideal(bid, b)
+        if bp:
+            return UNVERIFIED, bp
+        if b.get("generators") is None:
+            return UNVERIFIED, (
+                "branch %s records no ideal, so the union the branches form "
+                "is not something this graph can compute" % bid)
+        # A BRANCH IN A DIFFERENT RING IS NOT A BRANCH. The union only makes
+        # sense inside one ambient space, and comparing ideals across two would
+        # produce a confident answer about neither.
+        if (b.get("ring_vars") or []) != ring:
+            return UNVERIFIED, (
+                "branch %s lives in k[%s] and the parent in k[%s]. A case "
+                "split does not change coordinates; if this one does, it is a "
+                "map and wants an edge."
+                % (bid, ", ".join(b.get("ring_vars") or []), ", ".join(ring)))
+        if (b.get("characteristic") or 0) != ch:
+            return UNVERIFIED, (
+                "branch %s declares characteristic %s and the parent %s"
+                % (bid, b.get("characteristic") or 0, ch))
+        branch_gens.append(list(b["generators"]))
+    if not branch_gens:
+        return UNVERIFIED, "partition %s lists no branches" % pid
+    covered, ev = cas.partition_covers(
+        ring, list(parent["generators"]), branch_gens,
+        characteristic=ch, timeout=timeout, _runner=_runner)
+    named = ", ".join(p.get("branches") or [])
+    if covered:
+        return COVERS, (
+            "every point of %s lies on one of %s%s. The case analysis is "
+            "COMPLETE, and that is now a computed fact rather than a declared "
+            "one."
+            % (p.get("parent"), named,
+               " -- " + ev["why"] if ev.get("why") else ""))
+    return NOT_EXHAUSTIVE, (
+        "the branches %s DO NOT COVER %s: %s vanishes wherever all of them do "
+        "and does not vanish on the parent.\n"
+        "  THIS IS A HOLE IN THE CASE ANALYSIS, not an error in any branch. "
+        "Each branch may be perfectly correct and every computation on it "
+        "sound; what is false is the premise that they are all the cases, and "
+        "everything concluded from completeness rests on it."
+        % (named, p.get("parent"), ", ".join(ev["uncovered"])))
+
+
 WITNESS_VERIFIED = "VERIFIED"
 WITNESS_REFUTED = "NOT_A_POINT"
 
@@ -823,6 +921,16 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
                 and not c.get("witness_verdict")):
             run("witness", cid, lambda cid=cid: point_witness(
                 graph, cid, timeout=timeout, _runner=_runner))
+
+    # THE PREMISE NOBODY COULD CHECK. A partition's `exhaustive` claim is what
+    # licenses every conclusion of the form "and those are all the cases", and
+    # until now it was a claim id pointing at prose.
+    for pid in sorted(graph.partitions):
+        p = graph.partitions[pid]
+        if p.get("superseded_by") or p.get("exhaustive_verdict"):
+            continue
+        run("partition", pid, lambda pid=pid: partition_exhaustiveness(
+            graph, pid, timeout=timeout, _runner=_runner))
 
     if record and events:
         # ROOT, not the graph path.  `append` resolves `.portage/graph.jsonl`

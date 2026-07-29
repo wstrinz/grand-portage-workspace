@@ -1389,6 +1389,26 @@ def check_refuted_evidence(graph):
             "argument is field-relative, the kind must be too, and "
             "`derive_scope` will then require you to name the field.",
             semantic_key=cid))
+    for pid in sorted(graph.partitions):
+        p = graph.partitions[pid]
+        if (p.get("superseded_by")
+                or p.get("exhaustive_verdict") != "NOT_EXHAUSTIVE"):
+            continue
+        findings.append(Finding(
+            R_REFUTED_EVIDENCE, "%s:cover:%s" % (R_REFUTED_EVIDENCE, pid),
+            UNSOUND_PREMISE, pid,
+            "partition %s declares its branches exhaustive and the verifier "
+            "REFUTED it: %s"
+            % (pid, p.get("exhaustive_why") or "(no detail)")
+            + "\n  Every conclusion of the form \"and those are all the "
+              "cases\" rests on this, including any EMPTY established branch "
+              "by branch.",
+            "Add the missing branch, or narrow the parent to the region the "
+            "branches do cover and re-anchor the claims there. If the split "
+            "is genuinely complete and the verifier disagrees, the branches "
+            "are not `parent AND condition` -- check that each carries the "
+            "parent's equations as well as its own.",
+            semantic_key=pid))
     for eid in sorted(graph.edges):
         e = graph.edges[eid]
         if (e.get("superseded_by")
