@@ -356,6 +356,42 @@ live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
 
+### The verifier layer, as of 2026-07-28
+
+Three verifiers a week ago, **seven now**, and all four new ones were wired up
+over 27–28 July. `gp verify` runs every one that applies and records a `verdict`
+event; `gp check` reads the verdicts and **the verdict beats the declaration**
+everywhere it disagrees.
+
+| verifier | decides | verdicts |
+|---|---|---|
+| `containment` | `V(src) ⊆ V(dst)`, by reduction | VERIFIED / NOT_BY_IDEAL |
+| `identity` | the rewriting — **and mints cofactors** for a DERIVED one | AMBIENT / DERIVED / REFUTED |
+| `unit_ideal` | an EMPTY's certificate, by expansion | VERIFIED / NOT_UNIT |
+| `ring_iso` | an EQUIVALENCE's maps, by reduction | VERIFIED / NOT_AN_ISOMORPHISM |
+| `point_witness` | a NONEMPTY's `witness_point`, by substitution | VERIFIED / NOT_A_POINT |
+| `partition_exhaustiveness` | **that the cases are all the cases** | VERIFIED / NOT_EXHAUSTIVE |
+| `operation_output` | that a constructor produced what it claims | VERIFIED / NOT_THE_STATED_OUTPUT |
+
+Two things a fresh session should know before trusting any of it:
+
+- **A certificate is now an artifact, not a word.** A verified membership hands
+  back the cofactors, so `g = Σ bᵢfᵢ` can be re-expanded by a checker that
+  shares no code path with the search. That is the bridge to a proof assistant:
+  Lean checks a polynomial identity and should never run a Gröbner engine.
+- **`operation_output` checks one direction only**, and says so. "Nothing was
+  invented" is cheap and is the direction that makes EMPTY unsound. "Nothing
+  was missed" is as hard as recomputing the answer and is **not** checked.
+
+`operations.py` has a fourth constructor, `decompose`, over `facstd` — the only
+decomposition reachable inside the CAS boundary, since `primdecGTZ`,
+`minAssGTZ` and `radical` all live in `primdec.lib`. It emits a partition whose
+branches were *minted* rather than typed, and whose completeness premise a
+verifier re-decides. **Anything a constructor mints carries its own ideal**,
+which is the whole of the answer to "should models be required to carry
+algebra": no requirement, no migration, and the checkable fraction of a
+campaign rises as it uses constructors.
+
 **Tested in anger repeatedly**, and that is where every structural change comes
 from — see the table in §1. `docs/first-run/` is the one to read: a real agent
 doing real open research, which produced genuine mathematics and a very good
