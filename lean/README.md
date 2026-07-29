@@ -27,6 +27,13 @@ The three cells inclusion licenses, proved; the three it refuses, with
 countermodels. Plus `Cover` and the partition recombination law, which is why
 a partition is a distinct inference form rather than another edge type.
 
+`GrandPortage/MappedEquivalence.lean` - an invertible change of coordinates
+transports witnesses but does not imply literal solution-set containment in
+either direction. This keeps mapped `ring_iso` evidence distinct from a
+same-coordinate `containment` claim. A non-involutive integer translation pins
+`forward` as the source-to-target point map, preventing polynomial pullback's
+contravariance from silently reversing the user-facing convention.
+
 `GrandPortage/Identity.lean` — `EqMod I f g := I (f - g)`, the one identity
 cell that derives from ideal containment, and the ℤ counterexample refusing the
 other direction. Then `Carries`, the shape the remaining eight gated cells

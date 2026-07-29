@@ -22,6 +22,7 @@ import os
 
 from . import kernel as K
 from .discharge import DISCHARGE_KINDS as D_KINDS
+from .discharge import WITHDRAW
 
 GRAPH_DIR = ".portage"
 GRAPH_FILE = "graph.jsonl"
@@ -108,6 +109,9 @@ class Graph(object):
         self.claims = {}
         self.inferences = {}       # id -> inference dict
         self.inference_order = []  # declaration order, for stable reporting
+        # Lifecycle events are history, not replacement mathematical objects.
+        # Keyed by (entity kind, id), since ids are unique only within a kind.
+        self.retractions = {}
         self.built_by = {}         # model id -> [inference id, ...]
         self.partitions = {}       # id -> {parent, branches, exhaustive}
         self.families = {}         # id -> {count, enumeration, members?}
@@ -129,7 +133,12 @@ class Graph(object):
                  "%s: unknown event kind %r (known: %s)"
                  % (where, kind, ", ".join(EVENT_KINDS)))
 
-        if kind == EV_NOTE:
+        tombstone = (
+            (kind == EV_EDGE and ev.get("discharge_kind") == WITHDRAW)
+            or (kind in self._SUPERSEDABLE and kind != EV_EDGE
+                and ev.get("discharge_kind") == K.RETRACT))
+
+        if kind == EV_NOTE and not tombstone:
             # A NOTE WITH AN ID CAN BE CORRECTED; one without stays as it was.
             #
             # Notes had no id and admitted no `supersedes`, so a live session
@@ -184,7 +193,27 @@ class Graph(object):
                 % (where, kind, eid, self._seen[key], canon, eid))
         self._seen[key] = canon
 
+        if tombstone:
+            self._apply_tombstone(ev, where)
+            return
+
         getattr(self, "_apply_" + kind)(ev, where)
+
+    def _apply_tombstone(self, ev, where):
+        """Record a lifecycle event without minting a live successor."""
+        target = ev.get("supersedes")
+        _require(target,
+                 "%s: %s tombstone %r needs `supersedes` -- the record being "
+                 "withdrawn" % (where, ev["ev"], ev["id"]))
+        reason = (ev.get("why") or ev.get("asserted")
+                  or ev.get("statement") or ev.get("text"))
+        _require(reason,
+                 "%s: %s tombstone %r needs `why` -- why does nothing replace "
+                 "%r?" % (where, ev["ev"], ev["id"], target))
+        tomb = dict(ev)
+        tomb["why"] = reason
+        self.retractions[(ev["ev"], ev["id"])] = tomb
+
 
     # The verdicts a verifier may record, per subject.  Validated rather than
     # accepted as free text: the checker matches these strings exactly, so an
@@ -737,7 +766,8 @@ class Graph(object):
         """A parent model split into branches, with its exhaustiveness stated.
 
         THE GAP TWO INDEPENDENT AGENTS WALKED INTO.  A model in this kernel IS
-        its solution set, and an edge asserts V(src) subset V(dst).  A CASE
+        its solution set, and an inclusion-style edge asserts V(src) subset
+        V(dst). Mapped equivalence is the explicit coordinate-change case. A CASE
         BRANCH is neither: "the gamma=4 case of this object" is not a
         relaxation of the object, it is a PIECE of it, and the type system had
         no word for that.
@@ -903,6 +933,44 @@ class Graph(object):
         _require(mk in K.MAP_KINDS,
                  "%s: edge %r has map_kind %r; known: %s"
                  % (where, ev["id"], mk, ", ".join(K.MAP_KINDS)))
+        if "ring_iso" in ev:
+            _require(isinstance(ev["ring_iso"], bool),
+                     "%s: edge %r `ring_iso` must be true or false, not %r."
+                     % (where, ev["id"], ev["ring_iso"]))
+        near_misses = {
+            "maps": "forward",
+            "inverse_maps": "inverse",
+        }
+        for bad, wanted in near_misses.items():
+            _require(bad not in ev,
+                     "%s: edge %r carries `%s`, which no rule reads. Use "
+                     "`%s`; mapped equivalences are load-bearing, so a "
+                     "plausible field name may not be silently persisted."
+                     % (where, ev["id"], bad, wanted))
+        fwd_present, inv_present = "forward" in ev, "inverse" in ev
+        _require(fwd_present == inv_present,
+                 "%s: edge %r needs both `forward` and `inverse`; one map "
+                 "does not declare an invertible coordinate change."
+                 % (where, ev["id"]))
+        if fwd_present:
+            fwd, inv = ev["forward"], ev["inverse"]
+            _require(ev["type"] == K.EQUIVALENCE,
+                     "%s: edge %r has `forward`/`inverse` substitutions but "
+                     "is %s. Mapped relations are EQUIVALENCE edges."
+                     % (where, ev["id"], ev["type"]))
+            _require(isinstance(fwd, dict) and fwd
+                     and isinstance(inv, dict) and inv,
+                     "%s: edge %r `forward` and `inverse` must be non-empty objects "
+                     "mapping every ring variable to a polynomial expression."
+                     % (where, ev["id"]))
+            _require(all(isinstance(k, str) and isinstance(v, str)
+                         for maps in (fwd, inv) for k, v in maps.items()),
+                     "%s: edge %r substitution names and expressions must be strings."
+                     % (where, ev["id"]))
+            _require(all(k.strip() and v.strip()
+                         for maps in (fwd, inv) for k, v in maps.items()),
+                     "%s: edge %r substitution names and expressions must be non-blank."
+                     % (where, ev["id"]))
         # A RESTRICTION IS A SUBSET INCLUSION, and its strongest cell depends
         # on that.  IDENTITY travels AGAINST unconditionally -- where a
         # NECESSARY_CONDITION needs a denominator-free map -- for exactly one
@@ -1289,6 +1357,44 @@ class Graph(object):
                     (prior if isinstance(prior, list) else [prior])
                     + [new_id]) if prior else [new_id]
 
+        # RETRACT and WITHDRAW are tombstones, not sparse replacement records.
+        # Resolve them only after ordinary successors so "replaced" and
+        # "nothing replaces it" cannot both be asserted about one target.
+        registries = {"claim": self.claims, "inference": self.inferences,
+                      "edge": self.edges, "model": self.models,
+                      "note": self.named_notes,
+                      "evidence": self.evidence, "doubt": self.doubts,
+                      "citation": self.citations,
+                      "certificate": self.cert_records,
+                      "partition": self.partitions,
+                      "family": self.families,
+                      "same_as": self.aliases}
+        for (entity, tomb_id), tomb in sorted(self.retractions.items()):
+            old_id = tomb["supersedes"]
+            registry = registries[entity]
+            _require(old_id != tomb_id,
+                     "%s tombstone %r retracts itself." % (entity, tomb_id))
+            _require(old_id in registry,
+                     "%s tombstone %r withdraws %r, which is not a %s in "
+                     "this graph. A lifecycle event must name an existing "
+                     "record of the same kind."
+                     % (entity, tomb_id, old_id, entity))
+            old = registry[old_id]
+            prior = old.get("superseded_by")
+            prior = prior if isinstance(prior, list) else ([prior] if prior else [])
+            _require(not prior or prior == [tomb_id],
+                     "%s tombstone %r withdraws %r, but that record already "
+                     "has successor%s %s. Nothing-replaces-it cannot be "
+                     "combined with a live replacement."
+                     % (entity, tomb_id, old_id,
+                        "s" if len(prior) != 1 else "",
+                        ", ".join(prior)))
+            old["superseded_by"] = [tomb_id]
+            if entity == "edge":
+                old["withdrawn_by"] = tomb_id
+            else:
+                old["retracted_by"] = tomb_id
+
     def _apply_inference(self, ev, where):
         """An inference has one or more PREMISES, each with its own path.
 
@@ -1584,6 +1690,29 @@ class Graph(object):
                 _require(e[end] in self.models,
                          "edge %r has undeclared %s model %r"
                          % (eid, end, e[end]))
+            if K.is_mapped_equivalence(e):
+                src_vars = self.models[e["src"]].get("ring_vars") or []
+                dst_vars = self.models[e["dst"]].get("ring_vars") or []
+                _require(src_vars and dst_vars,
+                         "edge %r declares structured maps, but both endpoint "
+                         "models must declare `ring_vars` before those maps "
+                         "can mean a coordinate change." % eid)
+                _require(set(src_vars) == set(dst_vars),
+                         "edge %r uses the current mapped-equivalence verifier, "
+                         "which requires the endpoints to have the same ring "
+                         "variable names; got %s and %s."
+                         % (eid, ", ".join(src_vars), ", ".join(dst_vars)))
+                for field, wanted in (("forward", src_vars),
+                                      ("inverse", dst_vars)):
+                    got = set(e[field])
+                    missing = sorted(set(wanted) - got)
+                    extra = sorted(got - set(wanted))
+                    _require(not missing and not extra,
+                             "edge %r `%s` must give one expression for every "
+                             "ring variable. Missing: %s. Extra: %s."
+                             % (eid, field,
+                                ", ".join(missing) or "(none)",
+                                ", ".join(extra) or "(none)"))
         for aid, a in sorted(self.aliases.items()):
             for m in a["models"]:
                 _require(m in self.models,

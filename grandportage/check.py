@@ -572,8 +572,15 @@ def withdrawn_edges(graph):
         old = graph.edges[eid].get("supersedes")
         if old and old in graph.edges:
             replaced[eid] = old
-    dead, frontier = set(), [eid for eid in sorted(graph.edges)
-                             if eid not in set(replaced.values())]
+    tombstone_targets = {
+        tomb["supersedes"]
+        for (entity, _tid), tomb in graph.retractions.items()
+        if entity == "edge" and tomb.get("discharge_kind") == "WITHDRAW"
+        and tomb.get("supersedes") in graph.edges}
+    dead = set(tombstone_targets)
+    frontier = ([eid for eid in sorted(graph.edges)
+                 if eid not in set(replaced.values())]
+                + sorted(tombstone_targets))
     while frontier:
         old = replaced.get(frontier.pop())
         if old and old not in dead:
@@ -619,9 +626,7 @@ def check_untyped(graph):
         # UNSOUND_PREMISE, which is louder than this line rather than quieter.
         if eid in dead:
             continue
-        downstream = sorted(iid for iid in graph.inference_order
-                            if any(s[0] == eid
-                                   for s in graph.inferences[iid]["path"]))
+        downstream = live_crossings(graph, [eid])
         findings.append(Finding(
             R_UNTYPED, "%s:%s" % (R_UNTYPED, eid), DEBT, eid,
             "edge %s (%s -> %s) has no declared relaxation type.\n  debt: %s\n"
@@ -696,9 +701,8 @@ def check_unjustified_equivalence(graph):
     It is also the easiest type to reach for -- "this step should be
     reversible" is a feeling, not a converse.
 
-    Reported at DEBT, not higher, and only when the edge offers NEITHER a
-    `witness` nor a `cite`.  A well-documented equivalence is not a finding;
-    an undocumented one is a claim resting on the author's confidence.
+    Reported at DEBT, not higher, when the edge offers none of a converse
+    witness, a citation, or a complete structured forward/inverse map pair.
 
     Prompted by the first live run, which observed that `witness` is optional,
     was nearly skipped, and turned out to be where the best content went.  The
@@ -715,11 +719,9 @@ def check_unjustified_equivalence(graph):
     more thoroughly it silenced the warning.  Two fields with opposite polarity
     had been collapsed into one name.
 
-    They are now separate, and only a CONVERSE witness -- the construction that
-    recovers a point of the source from a point of the target -- documents an
-    equivalence.  A strictness witness on an EQUIVALENCE edge is not merely
-    insufficient; it is the edge exhibiting its own refutation, and it gets its
-    own finding below.
+    They are now separate. A CONVERSE witness documents the point-level return
+    construction; a complete mapped pair is the structured version. A strictness
+    witness on an EQUIVALENCE instead exhibits the edge's own refutation.
     """
     findings = []
     dead = withdrawn_edges(graph)
@@ -729,7 +731,7 @@ def check_unjustified_equivalence(graph):
             continue
         if e["type"] != K.EQUIVALENCE:
             continue
-        if e.get("converse_witness") or e.get("cite"):
+        if e.get("converse_witness") or e.get("cite") or K.is_mapped_equivalence(e):
             continue
         findings.append(Finding(
             "UNJUSTIFIED-EQUIVALENCE", "UNJUSTIFIED-EQUIVALENCE:%s" % eid,
@@ -1138,8 +1140,8 @@ def check_aliases(graph):
                 "are not automatically the same object -- that is a claim "
                 "needing a map, not an alias."
                 % (aid, ", ".join(models), ", ".join(sorted(charts))),
-                "Either exhibit the coordinate change as an EQUIVALENCE edge "
-                "with `ring_iso`, or these are two objects and the alias is "
+                "Either exhibit the coordinate change as an EQUIVALENCE with "
+                "`forward`, `inverse`, and `ring_iso`, or the alias is "
                 "wrong."))
         # Contradictory existence claims across an alias are now contradictory
         # AT ONE OBJECT, which is worth saying out loud.
@@ -1306,27 +1308,22 @@ def effective_origin(claim):
 
 
 def effective_ring_iso(edge):
-    """The `ring_iso` transport should use: refuted beats declared.
+    """Use a declared flag only when its available evidence supports it.
 
-    THE SAME DEFECT AS `effective_origin`, IN THE MOST POWERFUL BOOLEAN LEFT.
-    `verify.ring_iso` reduces the declared maps and can return
-    NOT_AN_ISOMORPHISM -- it caught a planted false EQUIVALENCE in a live
-    campaign, and catches a real one in another today. The kernel went on
-    reading `edge["ring_iso"]`, the author's word, so a refuted isomorphism
-    kept licensing an IDENTITY across the EQUIVALENCE in BOTH directions.
-
-    The tool spent CAS time computing the field that decides that transport,
-    wrote the answer into the same graph, and licensed off the declaration
-    contradicting it. That sentence is now true of three fields; this closes
-    the second.
-
-    A verdict of VERIFIED does not MINT the flag, only confirm it: an author
-    who never declared `ring_iso` is not granted it by a check they did not
-    ask for.
+    Structured maps are checkable, so they fail closed until VERIFIED and any
+    non-VERIFIED verdict beats the declaration. VERIFIED never mints a flag.
+    Legacy citation-backed equivalences remain declarable for historical graphs
+    that carry no machine-readable ideals, but an unsupported bare
+    boolean opens nothing.
     """
-    if edge.get("ring_iso_verdict") == "NOT_AN_ISOMORPHISM":
+    if edge.get("ring_iso") is not True:
         return False
-    return edge.get("ring_iso")
+    verdict = edge.get("ring_iso_verdict")
+    if verdict is not None:
+        return verdict == "VERIFIED"
+    if K.is_mapped_equivalence(edge):
+        return False
+    return bool(edge.get("cite"))
 
 
 def effective_certificate(claim):
@@ -1441,6 +1438,7 @@ def check_refuted_evidence(graph):
                 "transcribed.",
                 semantic_key=eid))
         if (e.get("superseded_by")
+                or e.get("ring_iso") is not True
                 or e.get("ring_iso_verdict") != "NOT_AN_ISOMORPHISM"):
             continue
         findings.append(Finding(
@@ -1449,9 +1447,9 @@ def check_refuted_evidence(graph):
             "edge %s declares `ring_iso` and the verifier REFUTED it: %s"
             % (eid, e.get("ring_iso_why") or "(no detail)")
             + "\n  That flag is the whole licence for an IDENTITY to cross an "
-              "EQUIVALENCE, in either direction. The maps were reduced and "
-              "they do not carry the ideal, so whatever the edge does to "
-              "points it is not an isomorphism of coordinate rings.",
+              "EQUIVALENCE, in either direction. The declared maps failed an "
+              "ideal-pullback or inverse-law check, so they do not establish "
+              "an isomorphism of coordinate rings.",
             "Drop `ring_iso` and the EQUIVALENCE still carries every existence "
             "claim -- it is only the IDENTITY cells that need it. If the two "
             "models really are isomorphic as rings, the declared `forward` and "
@@ -1717,20 +1715,30 @@ def check_stale_paths(graph):
             findings.append(Finding(
                 R_STALE_PATH, "%s:%s:%s" % (R_STALE_PATH, iid, eid),
                 DEBT if bookkeeping else UNSOUND_PREMISE, iid,
-                "inference %s is routed over edge %s, which %s replaced."
-                % (iid, eid, new_id or "another edge")
+                "inference %s is routed over edge %s, which %s."
+                % (iid, eid,
+                   ("%s replaced" % new_id) if new_id else
+                   "was withdrawn by %s" % graph.edges[eid].get("withdrawn_by"))
                 + ("\n  It licenses exactly what %s licensed, so the argument "
                    "stands as checked and only the pointer is stale."
                    % eid if bookkeeping else
-                   "\n  %s changed, so this argument was audited against cells "
-                   "the current edge does not open. The conclusion is not "
-                   "withdrawn and is not licensed either -- it is UNEXAMINED."
-                   % (", ".join(moved) or "The relation")),
-                "Redeclare this inference over %s and mark the old one "
-                "`supersedes`. Supersession does not repoint a path on its "
-                "own: an argument credited against an edge it was never "
-                "checked against is the failure this refuses to automate."
-                % (new_id or "the current edge"),
+                   ("\n  The relation was withdrawn with no successor, so this "
+                    "path no longer exists. The conclusion is not withdrawn "
+                    "and is not licensed either -- it is UNEXAMINED."
+                    if not newer else
+                    "\n  %s changed, so this argument was audited against cells "
+                    "the current edge does not open. The conclusion is not "
+                    "withdrawn and is not licensed either -- it is UNEXAMINED."
+                    % (", ".join(moved) or "The relation"))),
+                ("Retract this inference if the conclusion is abandoned, or "
+                 "redeclare it over a real path. A withdrawn edge has no "
+                 "successor to repoint at."
+                 if not new_id else
+                 "Redeclare this inference over %s and mark the old one "
+                 "`supersedes`. Supersession does not repoint a path on its "
+                 "own: an argument credited against an edge it was never "
+                 "checked against is the failure this refuses to automate."
+                 % new_id),
                 semantic_key="%s|%s" % (iid, eid)))
     return findings
 
@@ -2121,21 +2129,56 @@ def check_pending_ideals(graph):
               "return UNVERIFIED for all of them. This is a normal state for "
               "a constructed model, not an error; it is reported so it does "
               "not read as a solver failure later.",
-            "Run the operation's program, then record the generators it "
-            "returns with an AMEND that replaces `ideal_pending`. The two "
+            "Run `gp construct ... --run --declare` to execute the operation "
+            "and record its generators, or supersede this pending model with "
+            "a RELICENSE that replaces `ideal_pending`. The two "
             "cannot be declared together -- an ideal is either known or "
-            "waiting -- so the amend is what moves the model from one state "
+            "waiting -- so the relicensing is what moves the model from one state "
             "to the other.",
             semantic_key=mid))
     return findings
 
 
-def check_containment(graph):
-    """The assertion the ENTIRE ontology rests on, and nothing ever checked it.
+def _effective_containment(graph, eid):
+    """Containment verdict plus provenance when the exact question survives."""
+    edge = graph.edges[eid]
+    if K.is_mapped_equivalence(edge):
+        return None, None, None
+    if edge.get("containment"):
+        return edge["containment"], edge.get("containment_why"), None
+    current, seen = edge, set()
+    while current.get("supersedes"):
+        old_id = current["supersedes"]
+        if old_id in seen:
+            break
+        seen.add(old_id)
+        old = graph.edges.get(old_id)
+        if not old:
+            break
+        if (current.get("type") == K.SPECIALIZATION
+                or K.is_mapped_equivalence(current)
+                or old.get("type") == K.SPECIALIZATION
+                or K.is_mapped_equivalence(old)
+                or old.get("src") != edge.get("src")
+                or old.get("dst") != edge.get("dst")):
+            break
+        if old.get("containment"):
+            return (old["containment"], old.get("containment_why"), old_id)
+        current = old
+    return None, None, None
 
-    Every edge asserts `V(src) subset V(dst)`.  The kernel's opening comment
-    says so and all six types are relaxations in that sense.  It has never been
-    verified, only declared -- which makes it the SIXTH instance of the pattern
+
+def check_containment(graph):
+    """Check literal inclusion edges, without conflating mapped equivalence.
+
+    Inclusion-style edges assert `V(src) subset V(dst)`. A mapped EQUIVALENCE
+    instead asserts that its forward substitution sends source points to target
+    points and its inverse sends them back. Lean/MappedEquivalence proves that
+    neither literal inclusion follows from that relation, so those edges are
+    handled by `verify.ring_iso` and skipped here.
+
+    Literal containment was never verified, only declared -- the SIXTH instance
+    of the pattern
     this project keeps finding, at the deepest level available: a field that
     DETERMINES transport and is taken on the author's word.
 
@@ -2167,8 +2210,18 @@ def check_containment(graph):
         if eid in dead:
             continue
         e = graph.edges[eid]
+        if any((graph.models.get(e.get(end)) or {}).get("superseded_by")
+               for end in ("src", "dst")):
+            continue
         src, dst = graph.models.get(e["src"]), graph.models.get(e["dst"])
         if not src or not dst:
+            continue
+        # A mapped equivalence asserts dst(forward(x)) for src(x), and the
+        # inverse statement in the other direction.  It does NOT assert that
+        # V(src) is a literal subset of V(dst) in the coordinates as written.
+        # `verify.ring_iso` checks the former; asking containment as well is a
+        # different, generally false question (MappedEquivalence.lean).
+        if K.is_mapped_equivalence(e):
             continue
         # A PENDING IDEAL IS NOT AN IDEAL, and the sentence below says "both
         # models carry ideals".  Saying it about a model still waiting on a
@@ -2201,30 +2254,40 @@ def check_containment(graph):
         # session's own edge carried a VERIFIED one.
         if (src.get("ring_vars") or []) != (dst.get("ring_vars") or []):
             continue
-        verdict = e.get("containment")
+        verdict, containment_why, inherited_from = _effective_containment(graph, eid)
         if verdict == "VERIFIED":
             continue
         if verdict == "NOT_BY_IDEAL":
+            ridden = live_crossings(graph, [eid])
+            untyped_unridden = e["type"] == K.UNTYPED and not ridden
             findings.append(Finding(
                 R_CONTAINMENT, "%s:%s" % (R_CONTAINMENT, eid),
-                UNSOUND_PREMISE, eid,
+                DEBT if untyped_unridden else UNSOUND_PREMISE, eid,
                 "edge %s asserts V(%s) subset V(%s) and the SUFFICIENT test for "
                 "it FAILED: %s"
                 % (eid, e["src"], e["dst"],
-                   e.get("containment_why") or "(no reduction recorded)")
-                + "\n  Every cell this edge licenses rests on that "
-                  "containment, and it is now UNESTABLISHED rather than merely "
-                  "unexamined. It is NOT refuted: reduction tests plain ideal "
-                  "membership and the containment can still hold through the "
-                  "radical.",
-                "Three honest moves. Establish it another way and record how -- "
-                "a radical-membership computation is the direct one. Or refute "
-                "it properly, which needs a POINT of the source outside the "
-                "target, a witness rather than a reduction. Or, if the two "
-                "models are related and neither contains the other -- a "
-                "birational correspondence, a flop -- this is not an edge at "
-                "all: draw it as a SPAN through the object they both map to "
-                "and type each leg separately.",
+                   containment_why or "(no reduction recorded)")
+                + (("\n  This verdict was computed for %s and applies here "
+                    "because the source and destination model ids are identical."
+                    % inherited_from) if inherited_from else "")
+                + ("\n  This edge is UNTYPED and carries no live inference, so "
+                   "it licenses no cell: the failed sufficient test is an open "
+                   "modelling debt, not yet an unsound premise. The containment "
+                   "is UNESTABLISHED, not refuted; it can still hold through "
+                   "the radical."
+                   if untyped_unridden else
+                   "\n  Every cell this edge licenses rests on that containment, "
+                   "and it is now UNESTABLISHED rather than merely unexamined. "
+                   "It is NOT refuted: reduction tests plain ideal membership "
+                   "and the containment can still hold through the radical."),
+                "Establish it another way and record how -- a radical-membership "
+                "computation is the direct one. Or refute it properly with a "
+                "POINT of the source outside the target. If the two models are "
+                "related and neither contains the other, draw a SPAN and type "
+                "each leg separately. If this declaration was never an edge, "
+                "withdraw it with an edge tombstone: `supersedes: %s`, "
+                "`discharge_kind: WITHDRAW`, and `why`."
+                % eid,
                 semantic_key=eid))
             continue
         findings.append(Finding(

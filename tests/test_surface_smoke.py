@@ -37,6 +37,7 @@ existence.
 import io
 import json
 import os
+import subprocess
 import sys
 
 import pytest
@@ -605,7 +606,7 @@ def test_gp_events_dumps_the_log_without_hand_parsing(tmp_path, capsys):
     cli.main(["--root", str(tmp_path), "events", "--folded"])
     folded = json.loads(capsys.readouterr().out)
     assert set(folded) == {"models", "edges", "claims", "inferences",
-                           "partitions"}
+                           "partitions", "tombstones"}
     assert folded["models"]["M"]["generators"] == ["x"]
 
 
@@ -628,26 +629,71 @@ def test_operations_has_a_user_facing_surface():
     assert sub, "operations.py is still unreachable from the CLI"
 
 
-def test_construct_reads_the_algebra_from_the_graph(tmp_path, capsys):
+def test_construct_reads_the_algebra_from_the_graph(tmp_path, capsys, monkeypatch):
     """The argument FOR constructors is that the caller stops writing the same
     thing twice. If `gp construct` asked for ring_vars and generators again it
     would buy nothing."""
     import json
-    from grandportage import cli, store as S
+    from grandportage import cli, operations as O, store as S
+    real_decompose = O.decompose
+
+    def fake_decompose(src, ring_vars, generators, **kwargs):
+        def runner(program, timeout):
+            return {
+                "aborted": False, "returncode": 0, "stderr": "",
+                "stdout": ("@@GP_L:\n[1]:\n_[1]=q\n"
+                           "[2]:\n_[1]=p2-4aq\n")}
+        kwargs["_runner"] = runner
+        return real_decompose(src, ring_vars, generators, **kwargs)
+
+    monkeypatch.setattr(O, "decompose", fake_decompose)
     cli.main(["--root", str(tmp_path), "init"])
     S.append([{"ev": "model", "id": "D", "what": "a reducible locus",
                "ring_vars": ["a", "p", "q"],
                "generators": ["p^2*q-4*a*q^2"]}], str(tmp_path))
     capsys.readouterr()
-    cli.main(["--root", str(tmp_path), "construct", "decompose", "--src", "D"])
+
+    cli.main(["--root", str(tmp_path), "construct", "decompose", "--src", "D",
+              "--produces", "CASE-%s-%d"])
     events = json.loads(capsys.readouterr().out)
     gens = sorted(e["generators"][0] for e in events if e["ev"] == "model")
     assert gens == ["p2-4aq", "q"], gens
     assert any(e["ev"] == "partition" for e in events)
+    ids = sorted(e["id"] for e in events if e["ev"] == "model")
+    assert ids == ["CASE-D-0", "CASE-D-1"], ids
+
     # NOT written unless asked: a constructor must not be a second, weaker
     # door into the graph.
     assert "D_C0" not in S.load(S.graph_path(str(tmp_path))).models
 
+def test_construct_run_materializes_before_emitting(tmp_path, capsys,
+                                                     monkeypatch):
+    import json
+    from grandportage import cli, operations as O, store as S
+
+    cli.main(["--root", str(tmp_path), "init"])
+    S.append([{"ev": "model", "id": "D", "what": "a reducible locus",
+               "ring_vars": ["x", "y"], "generators": ["x*y"]}],
+             str(tmp_path))
+    capsys.readouterr()
+    real_execute = O.execute
+
+    def fake_execute(op, timeout=300):
+        def runner(program, _timeout):
+            return {"aborted": False, "returncode": 0, "stderr": "",
+                    "stdout": "@@GP_OUT:\nGP_OUT[1]=y\n"}
+        return real_execute(op, timeout=timeout, _runner=runner)
+
+    monkeypatch.setattr(O, "execute", fake_execute)
+    rc = cli.main(["--root", str(tmp_path), "construct", "saturate",
+                   "--src", "D", "--at", "x", "--produces", "D-SAT",
+                   "--run"])
+    assert rc == 0
+    events = json.loads(capsys.readouterr().out)
+    model = [e for e in events if e["ev"] == "model"][0]
+    assert model["generators"] == ["y"]
+    assert "ideal_pending" not in model
+    assert "D-SAT" not in S.load(S.graph_path(str(tmp_path))).models
 
 def test_a_model_without_algebra_is_refused_with_the_reason(tmp_path, capsys):
     from grandportage import cli, store as S
@@ -675,16 +721,112 @@ def test_ring_iso_runs_on_the_maps_alone(tmp_path):
          "ring_vars": ["x", "y"], "generators": ["y^2-x^4-1"]},
         {"ev": "model", "id": "B", "what": "the same curve",
          "ring_vars": ["x", "y"], "generators": ["y^2-x^4-1"]},
+
         {"ev": "edge", "id": "E", "src": "A", "dst": "B",
          "type": "EQUIVALENCE", "map_kind": "POLYNOMIAL",
          "why": "the involution", "converse_witness": "the same map back",
          "forward": {"x": "-x", "y": "-y"},
          "inverse": {"x": "-x", "y": "-y"}},
     ], str(tmp_path))
-    V.verify_all(root=str(tmp_path))
+    def fake(program, timeout):
+        del timeout
+        decls = {name: expr for name, _kind, expr in program.decls}
+        values = {}
+        for output in program.outputs:
+            if output == "GP_E" and "GP_R2" not in program.outputs:
+                expr = decls["GP_P"].replace(" ", "")
+                values[output] = {
+                    "x": "-x",
+                    "-x": "x",
+                    "y": "-y",
+                    "-y": "y",
+                }[expr]
+            else:
+                values[output] = "0"
+        stdout = "".join(
+            "@@%s:\n%s=%s\n" % (output, output, values[output])
+            for output in program.outputs
+        )
+        return {
+            "aborted": False,
+            "returncode": 0,
+            "stderr": "",
+            "stdout": stdout,
+        }
+
+    V.verify_all(root=str(tmp_path), _runner=fake)
     e = S.load(S.graph_path(str(tmp_path))).edges["E"]
     assert e.get("ring_iso_verdict") == "VERIFIED"
     assert e.get("ring_iso") is None, "a verdict minted a licence"
+
+
+def test_mapped_equivalence_is_not_verified_as_literal_containment(tmp_path):
+    """W10: a coordinate change relates points through its declared maps.
+
+    It does not assert that the two solution sets, in the coordinates as
+    written, literally contain one another.  The involution x |-> -x sends
+    V(x-1) to V(x+1), although neither singleton contains the other.
+    """
+    from grandportage import check as C, store as S, verify as V
+    S.append([
+        {"ev": "model", "id": "A", "what": "the point x = 1",
+         "ring_vars": ["x"], "generators": ["x-1"]},
+        {"ev": "model", "id": "B", "what": "the point x = -1",
+         "ring_vars": ["x"], "generators": ["x+1"]},
+        {"ev": "edge", "id": "E", "src": "A", "dst": "B",
+         "type": "EQUIVALENCE", "map_kind": "POLYNOMIAL",
+         "why": "the involution x |-> -x",
+         "converse_witness": "apply the same involution",
+         "ring_iso": True,
+         "forward": {"x": "-x"}, "inverse": {"x": "-x"}},
+    ], str(tmp_path))
+
+    def fake(program, timeout):
+        del timeout
+        decls = {name: expr for name, _kind, expr in program.decls}
+        values = {}
+        for output in program.outputs:
+            if output == "GP_E" and "GP_R2" not in program.outputs:
+                values[output] = {"x": "-x", "-x": "x"}[
+                    decls["GP_P"].replace(" ", "")]
+            else:
+                values[output] = "0"
+        return {
+            "aborted": False, "returncode": 0, "stderr": "",
+            "stdout": "".join(
+                "@@%s:\n%s=%s\n" % (o, o, values[o])
+                for o in program.outputs),
+        }
+
+    results = V.verify_all(root=str(tmp_path), _runner=fake)
+    assert [(subject, oid) for subject, oid, _verdict, _why in results] == [
+        ("ring_iso", "E")]
+    graph = S.load(S.graph_path(str(tmp_path)))
+    edge = graph.edges["E"]
+    assert edge.get("ring_iso_verdict") == "VERIFIED"
+    assert "containment" not in edge, (
+        "a mapped equivalence was also tested as literal containment")
+    assert not [f for f in C.run(graph) if f.rule == C.R_CONTAINMENT]
+
+
+def test_direct_containment_declines_a_mapped_equivalence_without_a_solver():
+    from grandportage import store as S, verify as V
+    graph = S.Graph().apply_all([(event, "t", i) for i, event in enumerate([
+        {"ev": "model", "id": "A", "what": "a",
+         "ring_vars": ["x"], "generators": ["x-1"]},
+        {"ev": "model", "id": "B", "what": "b",
+         "ring_vars": ["x"], "generators": ["x+1"]},
+        {"ev": "edge", "id": "E", "src": "A", "dst": "B",
+         "type": "EQUIVALENCE", "why": "x |-> -x",
+         "forward": {"x": "-x"}, "inverse": {"x": "-x"}},
+    ])])
+
+    def never(*args, **kwargs):
+        raise AssertionError("literal containment spawned a solver")
+
+    verdict, why = V.containment(graph, "E", _runner=never)
+    assert verdict == V.UNVERIFIED
+    assert "mapped EQUIVALENCE" in why
 
 
 def test_unjustified_equivalence_names_the_field_it_tests():
@@ -702,3 +844,89 @@ def test_unjustified_equivalence_names_the_field_it_tests():
     f = [x for x in C.run(g) if x.rule == "UNJUSTIFIED-EQUIVALENCE"][0]
     assert "`converse_witness`" in f.detail
     assert "neither a `witness`" not in f.detail
+
+
+def _malformed_hook_graph(root):
+    """A fold failure makes protocol tests independent of checker policy."""
+    graph = root / S.GRAPH_DIR / S.GRAPH_FILE
+    graph.parent.mkdir(parents=True)
+    graph.write_text('{"ev":"model"}\n', encoding="utf-8")
+
+
+def test_codex_hook_process_returns_a_structured_post_tool_block(tmp_path):
+    """W8: exit 2 ran the Codex hook but hid its refusal from the author."""
+    _malformed_hook_graph(tmp_path)
+    payload = {"cwd": str(tmp_path), "tool_name": "Bash",
+               "hook_event_name": "PostToolUse", "model": "gpt-5"}
+    result = subprocess.run(
+        [sys.executable, "-m", "grandportage.hook"],
+        input=json.dumps(payload), text=True, capture_output=True,
+        cwd=str(tmp_path))
+
+    assert result.returncode == 0
+    decision = json.loads(result.stdout)
+    assert decision["decision"] == "block"
+    assert "does not fold" in decision["reason"]
+    assert result.stderr == ""
+
+
+def test_claude_hook_process_keeps_exit_two_and_stderr(tmp_path):
+    """The Codex repair must not weaken the existing Claude protocol."""
+    _malformed_hook_graph(tmp_path)
+    payload = {"cwd": str(tmp_path), "tool_name": "Bash",
+               "hook_event_name": "PostToolUse"}
+    result = subprocess.run(
+        [sys.executable, "-m", "grandportage.hook"],
+        input=json.dumps(payload), text=True, capture_output=True,
+        cwd=str(tmp_path))
+
+    assert result.returncode == 2
+    assert result.stdout == ""
+    assert "does not fold" in result.stderr
+
+
+def test_codex_project_hook_definition_is_found(tmp_path):
+    hooks = tmp_path / ".codex" / "hooks.json"
+    hooks.parent.mkdir()
+    hooks.write_text(json.dumps({"hooks": {"PostToolUse": [{
+        "matcher": "*", "hooks": [{"type": "command",
+                                      "command":
+                                      "python -m grandportage.hook"}]}]}}),
+                     encoding="utf-8")
+    assert cli._hook_definition_found(str(tmp_path))
+
+
+def test_wrong_event_and_commented_hook_are_not_definitions(tmp_path):
+    hooks = tmp_path / ".codex" / "hooks.json"
+    hooks.parent.mkdir()
+    hooks.write_text(json.dumps({"hooks": {"Stop": [{
+        "hooks": [{"type": "command",
+                   "command": "python -m grandportage.hook"}]}]}}),
+                     encoding="utf-8")
+    assert not cli._hook_definition_found(str(tmp_path))
+
+    hooks.unlink()
+    config = hooks.with_name("config.toml")
+    config.write_text(
+        "# [[hooks.PostToolUse.hooks]]\n"
+        "# command = 'python -m grandportage.hook'\n",
+        encoding="utf-8")
+    assert not cli._hook_definition_found(str(tmp_path))
+
+
+def test_inline_codex_toml_hook_definition_is_found(tmp_path):
+    config = tmp_path / ".codex" / "config.toml"
+    config.parent.mkdir()
+    config.write_text(
+        "[[hooks.PostToolUse]]\nmatcher = '^Bash$'\n\n"
+        "[[hooks.PostToolUse.hooks]]\n"
+        "type = 'command'\n"
+        "command = 'python -m grandportage.hook'\n",
+        encoding="utf-8")
+    assert cli._hook_definition_found(str(tmp_path))
+
+
+def test_declare_help_names_sparse_tombstones_and_required_why():
+    help_text = cli._declare_epilog()
+    assert "RETRACT or WITHDRAW tombstone also requires `why`" in help_text
+    assert "sparse lifecycle history" in help_text

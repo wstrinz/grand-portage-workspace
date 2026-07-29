@@ -102,11 +102,16 @@ def cmd_check(args):
         # That is the defect, more than the path resolution: the absence was
         # discoverable only by hunting for a marker file that was never
         # written. One line here makes it visible to anyone who runs `check`.
-        if not _hook_is_wired(args.root):
-            print("       NO HOOK CONFIGURED for this root -- these findings "
-                  "are ADVISORY.")
-            print("       Nothing refuses a tool call on them. `gp why hook` "
-                  "explains wiring it.")
+        if not _hook_definition_found(args.root):
+            print("       NO HOOK DEFINITION FOUND for this root -- these "
+                  "findings are ADVISORY.")
+            print("       Nothing visible here refuses a tool call on them. "
+                  "`gp why hook` explains wiring it.")
+        else:
+            print("       HOOK DEFINITION FOUND, but a file cannot prove that "
+                  "it is enabled or trusted.")
+            print("       Codex authors must confirm it is active in `/hooks`; "
+                  "a live gate must provoke a refusal before relying on it.")
         print()
     accepted = H.read_baseline(args.root)["accepted"]
     for f in findings:
@@ -418,6 +423,18 @@ def _declare_epilog():
         "(SaturateClosure or Eliminate) and a saturated model carries\n"
         "`saturated_at`. `gp construct` writes both for you.\n"
         "\n"
+        "a mapped EQUIVALENCE uses the exact fields `forward` and `inverse`:\n"
+        "  \"forward\": {\"x\": \"-x\", \"y\": \"y\"},\n"
+        "  \"inverse\": {\"x\": \"-x\", \"y\": \"y\"}\n"
+        "`forward` is the point map from source to target; polynomial pullback\n"
+        "is contravariant. Both maps are simultaneous substitutions with one\n"
+        "expression per ring variable. The current verifier requires the same\n"
+        "ring-variable names at both endpoints. `gp verify` checks both ideal\n"
+        "pullbacks and both inverse compositions; structured maps license\n"
+        "transport only after `VERIFIED`. This does NOT also assert literal\n"
+        "containment in the written coordinates.\n"
+        "The spellings `maps` and `inverse_maps` are refused as inert aliases.\n"
+        "\n"
         "vocabularies:\n"
         "  edge type        %s\n"
         "  claim kind       %s\n"
@@ -437,6 +454,9 @@ def _declare_epilog():
         "supersession` explains the four kinds. This works for EVERY record\n"
         "kind above, evidence and doubts and citations included, so `answered`\n"
         "and `decides` are reachable for a record already in the log.\n"
+        "A RETRACT or WITHDRAW tombstone also requires `why`: it records why\n"
+        "nothing replaces the old object. It is sparse lifecycle history, not\n"
+        "a new full-shaped claim, inference, or edge.\n"
         "\n"
         "a NONEMPTY claim can HAND OVER ITS POINT instead of describing it:\n"
         "  witness_kind: EXHIBITED   you hold the point\n"
@@ -465,7 +485,7 @@ def _declare_epilog():
         "                        as blocking whatever rests on it.\n"
         "  (omitted entirely)    no algebra recorded. most models\n"
         "declaring `generators` and `ideal_pending` together is refused: an\n"
-        "ideal is either known or waiting. record the generators with an AMEND\n"
+        "ideal is either known or waiting. record the generators with a RELICENSE\n"
         "once the computation has run.\n"
         "\n"
         "two things that have cost people real time:\n"
@@ -769,20 +789,26 @@ def cmd_why(args):
             "silent absence is indistinguishable from a satisfied one: a live\n"
             "session ran to completion with it inert and nothing said so.\n"
             "\n"
-            "It runs after each tool call, reads the graph, and exits 2 to\n"
-            "block when a finding sits at or above the floor. Wire it in\n"
-            "`.claude/settings.json` beside your campaign:\n"
+            "It runs after each tool call, reads the graph, and blocks when a\n"
+            "finding sits at or above the floor. Claude Code receives exit 2\n"
+            "and stderr; Codex receives its structured PostToolUse block. Wire\n"
+            "the same command into `.claude/settings.json` or\n"
+            "`.codex/hooks.json` beside your campaign:\n"
             "\n"
             '  {"hooks": {"PostToolUse": [{"matcher": "*", "hooks": [\n'
             '    {"type": "command",\n'
             '     "command": "python -m grandportage.hook"}]}]}}\n'
+            "\n"
+            "Codex requires project hook trust; inspect it with `/hooks`, or\n"
+            "use `--dangerously-bypass-hook-trust` only after independently\n"
+            "vetting this exact local definition.\n"
             "\n"
             "It finds the graph by walking UP from the working directory for\n"
             "a `.portage/`, the way git looks for `.git/`. It does NOT walk\n"
             "down: a directory holding several campaigns has no single graph\n"
             "to check, and picking one would be worse than silence.\n"
             "\n"
-            "`gp check` says NO HOOK CONFIGURED when it cannot find one, so\n"
+            "`gp check` says NO HOOK DEFINITION FOUND when it cannot find one, so\n"
             "the absence is visible without hunting for a marker file.")
         return 0
     if etype not in K.DECLARABLE_TYPES:
@@ -1037,8 +1063,12 @@ def cmd_show(args):
     print()
     for eid in sorted(g.edges):
         e = g.edges[eid]
-        print("EDGE  %-6s %-14s -> %-14s %s" % (eid, e["src"], e["dst"],
-                                                e["type"]))
+        mark = ("  [WITHDRAWN by %s]" % e["withdrawn_by"]
+                if e.get("withdrawn_by") else
+                ("  [SUPERSEDED by %s]" % S.successors(e)
+                 if e.get("superseded_by") else ""))
+        print("EDGE  %-6s %-14s -> %-14s %s%s"
+              % (eid, e["src"], e["dst"], e["type"], mark))
     print()
     # CERTIFICATE and ORIGIN are printed, and INFERENCES are printed at all.
     #
@@ -1141,8 +1171,10 @@ def cmd_show(args):
         # exists.  Before it, a reminted claim left its predecessor sitting in
         # the graph, printed identically to everything around it, and the only
         # thing distinguishing the two was a prose note somebody had to read.
-        mark = ("  [SUPERSEDED by %s]" % S.successors(c)
-                if c.get("superseded_by") else "")
+        mark = ("  [RETRACTED by %s]" % c["retracted_by"]
+                if c.get("retracted_by") else
+                ("  [SUPERSEDED by %s]" % S.successors(c)
+                 if c.get("superseded_by") else ""))
         # A CLAIM SITS AT A MODEL OR AT A FAMILY.  Printing `c["model"]`
         # unguarded crashed the designated handoff view on the first graph to
         # carry a family -- the same subscript that took down five checker
@@ -1161,8 +1193,10 @@ def cmd_show(args):
         print()
     for iid in g.inference_order:
         i = g.inferences[iid]
-        mark = ("  [SUPERSEDED by %s]" % S.successors(i)
-                if i.get("superseded_by") else "")
+        mark = ("  [RETRACTED by %s]" % i["retracted_by"]
+                if i.get("retracted_by") else
+                ("  [SUPERSEDED by %s]" % S.successors(i)
+                 if i.get("superseded_by") else ""))
         print("INFER %-20s %s via %s -> %s%s"
               % (iid, i["claim"],
                  " ".join("%s/%s" % s for s in i["path"]) or "(no path)",
@@ -1271,37 +1305,83 @@ def cmd_init(args):
     return 0
 
 
-def _hook_is_wired(root):
-    """Is a Grand Portage hook configured anywhere that would cover `root`?
+def _json_has_post_tool_hook(text):
+    try:
+        groups = json.loads(text).get("hooks", {}).get("PostToolUse", [])
+    except (AttributeError, TypeError, ValueError):
+        return False
+    return any(
+        "grandportage.hook" in str(handler.get("command", ""))
+        for group in groups if isinstance(group, dict)
+        for handler in group.get("hooks", []) if isinstance(handler, dict))
 
-    Deliberately SYNTACTIC and deliberately generous: it looks for the string
-    in the settings files that could apply, and does not try to decide whether
-    the matcher would fire for a given tool. A false "wired" is a quieter
-    failure than a false "not wired" nagging someone who has set it up.
+
+def _toml_has_post_tool_hook(text):
+    """Recognise the documented inline TOML shape without adding a parser.
+
+    Python 3.8 is supported and has no tomllib. Full-line comments are ignored,
+    and only command assignments inside ``[[hooks.PostToolUse.hooks]]`` count;
+    a mention in prose, a wrong event, or a commented example does not.
     """
-    names = ("settings.json", "settings.local.json")
+    active = False
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.startswith("["):
+            active = line == "[[hooks.PostToolUse.hooks]]"
+            continue
+        if active and re.match(r"command(?:_windows|Windows)?\s*=", line):
+            if "grandportage.hook" in line:
+                return True
+    return False
+
+
+def _hook_definition_found(root):
+    """Find a syntactically active PostToolUse definition covering ``root``.
+
+    This deliberately does NOT claim runtime enforcement. Codex project trust,
+    `/hooks` disablement, feature flags, and managed policy are runtime state a
+    repository file cannot prove. The caller reports that limitation aloud.
+    """
+    candidates = (
+        (".claude", ("settings.json", "settings.local.json")),
+        (".codex", ("hooks.json", "config.toml")),
+    )
     here = os.path.abspath(root)
     seen = set()
     while here not in seen:
         seen.add(here)
-        for n in names:
-            p = os.path.join(here, ".claude", n)
-            try:
-                with open(p, encoding="utf-8") as fh:
-                    if "grandportage.hook" in fh.read():
-                        return True
-            except OSError:
-                pass
+        for directory, names in candidates:
+            for n in names:
+                p = os.path.join(here, directory, n)
+                try:
+                    with open(p, encoding="utf-8") as fh:
+                        text = fh.read()
+                        found = (_toml_has_post_tool_hook(text) if n.endswith(".toml")
+                                 else _json_has_post_tool_hook(text))
+                        if found:
+                            return True
+                except OSError:
+                    pass
         parent = os.path.dirname(here)
         if parent == here:
             break
         here = parent
-    try:
-        p = os.path.join(os.path.expanduser("~"), ".claude", "settings.json")
-        with open(p, encoding="utf-8") as fh:
-            return "grandportage.hook" in fh.read()
-    except OSError:
-        return False
+    home = os.path.expanduser("~")
+    for directory, names in candidates:
+        for n in names:
+            p = os.path.join(home, directory, n)
+            try:
+                with open(p, encoding="utf-8") as fh:
+                    text = fh.read()
+                    found = (_toml_has_post_tool_hook(text) if n.endswith(".toml")
+                             else _json_has_post_tool_hook(text))
+                    if found:
+                        return True
+            except OSError:
+                pass
+    return False
 
 
 def cmd_construct(args):
@@ -1349,6 +1429,16 @@ def cmd_construct(args):
             % (args.src, "ring variables" if ring is None else "ideal"))
         return 2
     gens, ch = list(src["generators"]), src.get("characteristic") or 0
+    if args.op != "decompose" and not args.produces:
+        sys.stderr.write("construct %s requires --produces.\n" % args.op)
+        return 2
+    if args.op in ("localize", "saturate") and not args.at:
+        sys.stderr.write("construct %s requires --at.\n" % args.op)
+        return 2
+    if args.op == "eliminate" and not args.vars:
+        sys.stderr.write("construct eliminate requires --vars.\n")
+        return 2
+
     try:
         if args.op == "localize":
             op = O.localize(args.src, args.at, args.produces, ring, gens,
@@ -1360,8 +1450,11 @@ def cmd_construct(args):
             op = O.eliminate(args.src, [v.strip() for v in args.vars.split(",")],
                              args.produces, ring, gens, characteristic=ch)
         else:
-            op = O.decompose(args.src, ring, gens, characteristic=ch,
-                             timeout=args.timeout)
+            op = O.decompose(args.src, ring, gens,
+                             produces=args.produces or "%s_C%d",
+                             characteristic=ch, timeout=args.timeout)
+        if args.run:
+            op = O.execute(op, timeout=args.timeout)
     except (ValueError, cas.CASError) as exc:
         sys.stderr.write("%s\n" % exc)
         return 2
@@ -1408,6 +1501,7 @@ def cmd_events(args):
     print(json.dumps({
         "models": g.models, "edges": g.edges, "claims": g.claims,
         "inferences": {i: g.inferences[i] for i in g.inference_order},
+        "tombstones": [g.retractions[k] for k in sorted(g.retractions)],
         "partitions": g.partitions,
     }, indent=2, sort_keys=True, default=str))
     return 0
@@ -1550,6 +1644,9 @@ def build_parser():
     con.add_argument("--at", help="the polynomial, for localize / saturate")
     con.add_argument("--vars", help="comma-separated, for eliminate")
     con.add_argument("--produces", help="id for the model this mints")
+    con.add_argument("--run", action="store_true",
+                     help="execute a pending saturation/elimination program "
+                          "and emit completed generators")
     con.add_argument("--declare", action="store_true",
                      help="write the events instead of printing them")
     con.add_argument("--timeout", type=int, default=300)

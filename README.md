@@ -30,7 +30,7 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->783<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->834<!--/checks--> checks, live against Singular 4.2.1,
 and it has had four live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
@@ -97,14 +97,28 @@ $ python -m grandportage.mcp          # registered in .claude/.mcp.json
           claim at that scope and stop consuming it as geometric emptiness.
 ```
 
-The hook then returns exit 2 on the next tool call, so the refusal blocks
-rather than scrolls past. See [examples/](examples/) for the wiring.
+The hook then blocks the tool result rather than letting the refusal scroll
+past: Codex receives an exit-0 structured `PostToolUse` block, while Claude
+Code receives exit 2 and stderr. Codex project hooks must also be trusted and
+enabled in `/hooks`. See [examples/](examples/) for the wiring.
 
 ## The six relaxation types
 
-Edges point **tighter → looser**: `V(src) ⊆ V(dst)`. `AGAINST` is reasoning
-looser → tighter, which is the direction emptiness travels and the direction
-that closes cases.
+Inclusion-style edges point **tighter → looser**: `V(src) ⊆ V(dst)`.
+`AGAINST` is reasoning looser → tighter, which is the direction emptiness
+travels and the direction that closes cases.
+
+A mapped `EQUIVALENCE` is the deliberate exception. It carries both
+`forward` and `inverse` simultaneous substitutions and identifies the two
+models through those maps; it does **not** also assert literal containment in
+the coordinates as written. `forward` is the point map from source to target,
+so polynomial pullback runs contravariantly. `gp verify` checks both ideal
+pullbacks and both inverse compositions with the `ring_iso` verifier, while the
+literal `containment` verifier skips that edge. Structured maps must cover every
+ring variable and currently require the endpoint models to use the same variable
+names. They fail closed until the verifier records `VERIFIED`. The exact field
+names are `forward` and `inverse`; the plausible aliases `maps` and
+`inverse_maps` are refused.
 
 Printed by the kernel itself with `gp table`, so a document quoting it and the
 code applying it cannot drift apart.
@@ -203,7 +217,7 @@ Pure stdlib. No solver, no network, no model in the loop. Under a second.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->783<!--/checks--> checks
+python -m pytest        # <!--checks-->834<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

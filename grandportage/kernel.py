@@ -17,10 +17,16 @@ of the JC(2) campaign it was written against, plus the SPECIALIZATION type that
 """
 
 # ---------------------------------------------------------------------------
-# Edge types.  Edges point TIGHTER -> LOOSER: `src` is the more informative
-# model, so V(src) subset V(dst) for every lossy type.  AGAINST = reasoning
-# looser -> tighter, which is the direction emptiness travels and the direction
-# that closes cells.
+# Edge types.  Inclusion-style edges point TIGHTER -> LOOSER: `src` is the more
+# informative model, so V(src) subset V(dst) for every lossy type except
+# SPECIALIZATION, whose fibres are not nested.  AGAINST = reasoning looser ->
+# tighter, which is the direction emptiness travels and the direction that
+# closes cells.
+#
+# A mapped EQUIVALENCE is the other non-inclusion presentation: `forward`
+# carries source points to target points and `inverse` carries them back.  It
+# licenses the same logical transports through that identification, without
+# asserting literal containment in the coordinates as written.
 # ---------------------------------------------------------------------------
 EQUIVALENCE = "EQUIVALENCE"
 NECESSARY_CONDITION = "NECESSARY_CONDITION"
@@ -1422,7 +1428,7 @@ def supersession_help(entity="claim"):
         # that reaches you when you have got it wrong and never when you are
         # deciding.
         "AN EDGE USES A DIFFERENT AND DISJOINT VOCABULARY -- DERIVE, RETYPE,\n"
-        "ACCEPT -- because an edge supersession says what happened to the\n"
+        "ACCEPT, WITHDRAW -- because an edge supersession says what happened to the\n"
         "OBLIGATION the old edge carried, while a claim or inference\n"
         "supersession says what CHANGED about the record.\n"
         "\n"
@@ -1431,8 +1437,10 @@ def supersession_help(entity="claim"):
         "  RETYPE     the relation was mis-typed; the new edge states the\n"
         "             one that actually holds\n"
         "  ACCEPT     the obligation is knowingly carried, with a reason\n"
+        "  WITHDRAW   the declaration was not an edge; nothing replaces it,\n"
+        "             and live traffic must be retracted or rerouted\n"
         "\n"
-        "  `gp why supersession --edge` prints only these."
+        "  These four words apply only to edges."
         % (", ".join(lic), "asserts" if entity == "inference" else "states"))
 
 # Fields whose value decides what a claim licenses.  Split in two because the
@@ -1537,7 +1545,24 @@ MODEL_LICENSING_FIELDS = ("ring_vars", "generators")
 # the claim version was written to avoid.  An EQUIVALENCE gaining `ring_iso`,
 # or a RESTRICTION gaining `zariski_dense`, keeps its type and changes which
 # cells it opens; a `map_kind` moving off IDENTITY_MAP closes one.
-EDGE_LICENSING_FIELDS = ("type", "map_kind", "ring_iso", "zariski_dense")
+EDGE_LICENSING_FIELDS = (
+    "type", "map_kind", "ring_iso", "zariski_dense", "forward", "inverse")
+
+
+def is_mapped_equivalence(edge):
+    """Whether an EQUIVALENCE is asserted through a coordinate change.
+
+    Such an edge relates ``x`` to ``forward(x)``.  It is not the separate
+    assertion that the solution sets, in the coordinates as written, are
+    literally contained in one another.
+    """
+    maps = (edge.get("forward"), edge.get("inverse"))
+    return bool(edge.get("type") == EQUIVALENCE and all(
+        isinstance(mapping, dict) and mapping and all(
+            isinstance(k, str) and k.strip()
+            and isinstance(v, str) and v.strip()
+            for k, v in mapping.items())
+        for mapping in maps))
 
 
 class SupersessionError(KernelRefusal):

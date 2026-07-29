@@ -11,30 +11,33 @@ verification into it.  So the division is:
 That split is the same one the project already makes between a finding and its
 discharge, and it keeps the expensive thing opt-in.
 
-WHAT IS VERIFIED, and why it is the deepest thing here.  Every edge asserts
-`V(src) subset V(dst)`.  The kernel's opening comment says so and FIVE of the
-six types are relaxations in that sense -- and it has never been checked, only
+WHAT IS VERIFIED, and why it is the deepest thing here.  An inclusion-style
+edge asserts `V(src) subset V(dst)`, and that premise was never checked, only
 declared.
 
-THE SIXTH IS NOT, AND THIS FILE USED TO SAY IT WAS.  SPECIALIZATION relates the
-GENERIC fibre of a scheme over Spec Z to a SPECIAL fibre.  Those are different
-fibres, not nested sets: neither contains the other, and the kernel's own
-counterexamples prove it -- the Fano plane is empty over Q and nonempty over
-F_2, the non-Fano matroid the reverse.  So there is no containment to check,
-and `containment` refuses the row rather than computing a confident answer
-about a relation that does not exist.
+SPECIALIZATION IS NOT AN INCLUSION. It relates the generic fibre of a scheme
+over Spec Z to a special fibre. Those are different fibres, not nested sets;
+the kernel's own Fano/non-Fano counterexamples go in both directions. There is
+no containment to check, so `containment` refuses the row rather than computing
+a confident answer about a relation that does not exist.
+
+A MAPPED EQUIVALENCE IS THE SECOND NON-INCLUSION PRESENTATION. Its `forward`
+substitution carries source points to target points and `inverse` carries them
+back; `ring_iso` checks both ideal maps and both inverse compositions. Neither
+direction implies literal containment in the written coordinates, exactly as
+`GrandPortage/MappedEquivalence.lean` proves.
 
 Found by asking how much of the transport table follows from inclusion alone.
 Twenty-seven of thirty-six point cells do; three more follow from inclusion in
-BOTH directions, which is what an EQUIVALENCE's converse buys; three need a
-capability inclusion does not supply.  The last three are SPECIALIZATION's, and
-they are weaker than inclusion for the reason above.  A generalisation that
-covers five rows and quietly mis-describes the sixth is the shape this project
+both directions, which is what an EQUIVALENCE's converse buys; three need a
+capability inclusion does not supply. The last three are SPECIALIZATION's, and
+they are weaker than inclusion for the reason above. A generalisation that
+quietly mis-describes an exceptional presentation is the shape this project
 exists to catch.
 
-For the five that ARE relaxations, the containment was the SIXTH instance of
-the pattern this project keeps finding, at the lowest level available: a field
-that DETERMINES transport and is taken on the author's word.
+For edges that do assert literal inclusion, containment was the sixth instance
+of the recurring pattern: a premise that determines transport and is taken on
+the author's word.
 
 The containment follows from an ideal containment the other way round:
 
@@ -98,6 +101,24 @@ def _pending_ideal(mid, model):
             "a check that cannot yet be put." % (mid, model["ideal_pending"]))
 
 
+def _stale_endpoint(graph, eid):
+    """Decline an edge question whose model anchor has been replaced."""
+    e = graph.edges.get(eid) or {}
+    for end in ("src", "dst"):
+        mid = e.get(end)
+        model = graph.models.get(mid) or {}
+        if not model.get("superseded_by"):
+            continue
+        return (
+            "edge %s still names %s model %s, which was superseded by %s. "
+            "The verifier will not silently retarget a computation to a model "
+            "the edge was never checked against. Supersede the edge with %s "
+            "repointed, then rerun `gp verify`."
+            % (eid, end, mid, S.successors(model), end))
+    return None
+
+
+
 def containment(graph, eid, timeout=300, _runner=None):
     """Is `I(dst)` inside `I(src)`?  Returns (verdict, why).
 
@@ -105,6 +126,16 @@ def containment(graph, eid, timeout=300, _runner=None):
     first failure is the whole answer and the rest cost money.
     """
     e = graph.edges[eid]
+    stale = _stale_endpoint(graph, eid)
+    if stale:
+        return UNVERIFIED, stale
+    if K.is_mapped_equivalence(e):
+        return UNVERIFIED, (
+            "edge %s is a mapped EQUIVALENCE: it asserts that `forward` sends "
+            "source points to target points and `inverse` sends them back. It "
+            "does not assert literal V(%s) subset V(%s) in the coordinates as "
+            "written. Run the `ring_iso` verifier for the mapped relation."
+            % (eid, e["src"], e["dst"]))
     if e.get("type") == K.SPECIALIZATION:
         # NOT A RELAXATION, so there is no containment to test -- and the
         # reduction would have run in characteristic 0 against generators
@@ -420,19 +451,27 @@ def ring_iso(graph, eid, timeout=300, _runner=None):
 
         PullsBack psi I J  and  psi . phi = id   ==>   Reflects phi I J
 
-    so a verified isomorphism is three things a solver CAN do:
+    so a verified isomorphism is four conditions a solver CAN check:
 
-        forward   every generator of I, substituted by phi, lies in J
-        backward  every generator of J, substituted by psi, lies in I
-        roundtrip psi(phi(x)) = x for each ring variable
+        forward   every target generator, pulled back by the point-forward
+                  substitution, lies in the source ideal
+        backward  every source generator, pulled back by the point-inverse
+                  substitution, lies in the target ideal
+        left      inverse(forward(x)) = x for every source variable
+        right     forward(inverse(y)) = y for every target variable
 
-    None of them is a search.  All three are reductions or substitutions, and
-    `cas.classify_identity` already answers exactly that question.
+    None is a search. All four are reductions or substitutions.
 
-    The edge must carry `forward` and `inverse` as substitutions for this to be
-    askable; `check` reports when it declares `ring_iso` and does not.
+    `forward` follows the Lean and user-facing convention: it sends SOURCE
+    points to TARGET points. Polynomial substitution is contravariant, hence
+    the target generators are the ones reduced in the source ideal. The
+    current executable surface requires both endpoints to use the same ring
+    variable names; Graph.validate reports that limitation before verification.
     """
     e = graph.edges[eid]
+    stale = _stale_endpoint(graph, eid)
+    if stale:
+        return UNVERIFIED, stale
     if e.get("type") != K.EQUIVALENCE:
         return UNVERIFIED, "edge %s is %s, not an EQUIVALENCE" % (
             eid, e.get("type"))
@@ -461,31 +500,43 @@ def ring_iso(graph, eid, timeout=300, _runner=None):
             "the two models are written in different rings; a substitution "
             "between them needs both variable lists to agree")
 
-    # forward: each generator of I lands in J
-    for g in src["generators"]:
-        _, ok = cas.substitute_and_reduce(
-            ring, g, fwd, list(dst["generators"]), characteristic=ch,
-            timeout=timeout, _runner=_runner)
-        if not ok:
-            return ISO_NOT_ISO, (
-                "generator %r of %s does not land in %s's ideal under the "
-                "forward map. The map does not CARRY the ideal, so it is not "
-                "an isomorphism of coordinate rings whatever it does to points."
-                % (g, e["src"], e["dst"]))
-    # backward: each generator of J pulls back into I
+    # A point-forward map F : src -> dst pulls target functions back to src.
     for g in dst["generators"]:
         _, ok = cas.substitute_and_reduce(
-            ring, g, inv, list(src["generators"]), characteristic=ch,
+            ring, g, fwd, list(src["generators"]), characteristic=ch,
             timeout=timeout, _runner=_runner)
         if not ok:
             return ISO_NOT_ISO, (
-                "generator %r of %s does not pull back into %s's ideal. "
-                "Without that the map does not REFLECT, and an identity may "
-                "cross one way and not the other -- which is the case "
-                "`ring_iso` exists to exclude."
+                "target generator %r of %s does not pull back into %s's ideal "
+                "under the point-forward map. The declared map therefore does "
+                "not establish the required coordinate-ring homomorphism."
                 % (g, e["dst"], e["src"]))
-    # roundtrip: psi(phi(v)) = v for each variable
+    # The point-inverse G : dst -> src pulls source functions back to dst.
+    for g in src["generators"]:
+        _, ok = cas.substitute_and_reduce(
+            ring, g, inv, list(dst["generators"]), characteristic=ch,
+            timeout=timeout, _runner=_runner)
+        if not ok:
+            return ISO_NOT_ISO, (
+                "source generator %r of %s does not pull back into %s's ideal "
+                "under the point-inverse map. Without that, transport in the "
+                "reverse direction is not established."
+                % (g, e["src"], e["dst"]))
+    # both roundtrips: psi(phi(v)) = v and phi(psi(v)) = v
     for v in ring:
+        once, _ = cas.substitute_and_reduce(ring, v, inv, [],
+                                            characteristic=ch,
+                                            timeout=timeout, _runner=_runner)
+        twice, _ = cas.substitute_and_reduce(ring, once, fwd, [],
+                                             characteristic=ch,
+                                             timeout=timeout, _runner=_runner)
+        if twice.replace(" ", "") != v:
+            return ISO_NOT_ISO, (
+                "`inverse(forward(%s))` does not reduce to %s, so `inverse` "
+                "is not a left inverse. Both ideal checks can pass for a map "
+                "that is not invertible, and then only one direction is "
+                "licensed."
+                % (v, v))
         once, _ = cas.substitute_and_reduce(ring, v, fwd, [],
                                             characteristic=ch,
                                             timeout=timeout, _runner=_runner)
@@ -494,13 +545,15 @@ def ring_iso(graph, eid, timeout=300, _runner=None):
                                              timeout=timeout, _runner=_runner)
         if twice.replace(" ", "") != v:
             return ISO_NOT_ISO, (
-                "the maps do not compose to the identity on %r, so `inverse` "
-                "is not an inverse. Both ideal checks can pass for a map that "
-                "is not invertible, and then only one direction is licensed."
-                % v)
+                "`forward(inverse(%s))` does not reduce to %s, so `inverse` "
+                "is not a right inverse. A mapped equivalence requires both "
+                "compositions, exactly as MappedEquivalence.lean does."
+                % (v, v))
     return ISO_VERIFIED, (
-        "the forward map carries %s's ideal into %s's, the inverse pulls it "
-        "back, and the two compose to the identity on every variable. That is "
+        "the point-forward map sends %s to %s, its pullback carries the target "
+        "ideal into the source ideal, the point-inverse establishes the reverse "
+        "direction, and both compositions are the identity on every variable. "
+        "That is "
         "an isomorphism of COORDINATE RINGS, which is what an IDENTITY needs "
         "and what a bijection on points does not give."
         % (e["src"], e["dst"]))
@@ -543,6 +596,9 @@ def operation_output(graph, eid, timeout=300, _runner=None):
     e = graph.edges.get(eid)
     if not e:
         return UNVERIFIED, "no such edge", None
+    stale = _stale_endpoint(graph, eid)
+    if stale:
+        return UNVERIFIED, stale, None
     kind = e.get("built_by_operation")
     if kind not in ("SaturateClosure", "Eliminate"):
         return UNVERIFIED, (
@@ -624,15 +680,24 @@ def operation_output(graph, eid, timeout=300, _runner=None):
             "makes EMPTY claims -- the ones that carry certificates and derive "
             "scope -- unsound."
             % (built_id, kind, "; ".join(bad))), None
-    return OP_SOUND, (
-        "every generator of %s's ideal is accounted for in %s's, so the %s "
-        "invented nothing.\n"
+    if kind == "SaturateClosure":
+        established = (
+            "every generator g of %s's ideal has a certified saturation "
+            "witness: for some n, (%s)^n*g lies in %s's ideal (%s). Thus the "
+            "SaturateClosure invented nothing.\n"
+            % (built_id, built.get("saturated_at"), source_id,
+               ", ".join(sorted(cofactors))))
+    else:
+        established = (
+            "every generator of %s's elimination ideal belongs to %s's ideal "
+            "and uses only the retained variables, so Eliminate invented "
+            "nothing.\n" % (built_id, source_id))
+    return OP_SOUND, (established +
         "  NOTE WHAT THIS DOES NOT SAY: that the output is COMPLETE. Whether "
         "the operation missed something is the other direction, it is as hard "
         "as recomputing the answer, and it is not checked here. A missed "
         "generator yields a LOOSER model -- still sound for EMPTY, unsound "
-        "for NONEMPTY."
-        % (built_id, source_id, kind)), {
+        "for NONEMPTY."), {
             "cofactors": [cofactors[k] for k in sorted(cofactors)],
             "targets": sorted(cofactors), "generators": src_gens,
             "ring_vars": list(ring)}
@@ -1048,6 +1113,7 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
         if not src or not dst:
             continue
         if (not e.get("containment")
+                and not K.is_mapped_equivalence(e)
                 and src.get("generators") is not None
                 and dst.get("generators") is not None):
             run("edge", eid, lambda eid=eid: containment(
@@ -1074,8 +1140,8 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
         # verdict -- an author who never declared it is not granted it by a
         # check they did not ask for -- so running this unconditionally records
         # an answer without licensing anything.
-        if (e.get("type") == K.EQUIVALENCE and e.get("forward")
-                and e.get("inverse") and not e.get("ring_iso_verdict")):
+        if (K.is_mapped_equivalence(e)
+                and not e.get("ring_iso_verdict")):
             run("ring_iso", eid, lambda eid=eid: ring_iso(
                 graph, eid, timeout=timeout, _runner=_runner))
 

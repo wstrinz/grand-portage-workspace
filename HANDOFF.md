@@ -28,11 +28,14 @@ agent → MCP server (edge REQUIRED, no declaration → no CAS process)
       → checker → findings → discharge moves
       → hook (runs after each tool call, exit 2 = refuse)
 ```
+The `exit 2` in that compact diagram is the Claude Code protocol. Codex uses an
+exit-0 structured `PostToolUse` block and requires the project hook to be
+trusted and enabled; W9 proved that path in the actual author loop.
 
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about seven days. Version 0.4.2. <!--checks-->783<!--/checks--> checks.** Treat
+**Age: about seven days. Version 0.4.2. <!--checks-->834<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 There is now a **public repo**: `github.com/wstrinz/grandportage`, Apache-2.0,
@@ -58,6 +61,10 @@ review. Worth knowing because it predicts where the next one comes from.
 | **GPT-2** prior-art review | 2 kernel errors | `SPECIALIZATION` ignored `identity_origin`; the `RESTRICTION` density gate was insufficient *and* mis-typed |
 | **W6** post-verifier-layer | **PASS**, 8 defects | `operations.py` had no surface at all → `gp construct`; `ring_iso` silently skipped without its flag; a discharge its own verifier declines. **The hook was INERT the whole run and the run could not see it** |
 | **W7** enforcement live | **PASS**, 10 defects | **the tool caught a live flop at the moment of action** — the L1 class this file records as having "nothing that would have stopped me". Also: refusals at *verify* time arrive after the graph has folded, and the tool cannot recognise a repair |
+| **W8** repair follow-up | **FAIL**, 1 blocker | Singular printed `x^3-x*y` as compact `x3-xy`; the verifier changed its meaning and returned a mathematically wrong verdict. The Codex hook also ran but hid exit-2 feedback |
+| **W9** Codex enforcement | **PASS**, 0 blockers | structured PostToolUse refusal was model-visible and RETRACT-cleared; real saturation/elimination/decomposition and seven hand-checked verdicts passed with explicit round-trippable CAS output |
+| **W10** Claude Opus enforcement | **PASS**, 0 blockers | Claude received the automatic exit-2/stderr refusal, RETRACT-cleared it, completed the three real constructors, recorded 30 correct verdicts, and finished with no findings. It also exposed mapped `EQUIVALENCE` being conflated with literal containment; the Lean-backed repair now gives coordinate changes the exact `forward`/`inverse` surface W10 needed |
+| **W11** mapped-equivalence repair assay | **PASS**, 0 blockers | malformed aliases and one-sided maps were atomically refused; exact canonical maps folded; real Singular verified both ideal pullbacks and both inverse compositions; no literal-containment verdict was scheduled; final full check was empty and an independent symbolic handcheck agreed |
 
 ### The reviews found the mathematics; the runs found the tool
 
@@ -140,6 +147,8 @@ consecutive live sessions with no blocking tool defect, `portage_declare`
 working end to end in a real campaign, and the cold return measured. Tool
 changes during the gap are expected and are part of the test.
 
+Historical status before W8 (retained to explain why W7 mattered):
+
 **Gate status after W6 and W7: one of the two, not two.** W6 passed its own
 clauses but ran with the **hook inert**, which it could not detect — so it
 tested the checker and the verifiers and left the enforcement layer untouched.
@@ -150,6 +159,24 @@ defects, none blocking, twenty-two verdicts and none incorrect.
 So **one more clean run with enforcement live closes this condition.** Both
 runs declared end to end through `gp declare`, which retires the second
 condition; only the cold return remains after that.
+
+**Current gate status after W10: the consecutive-live-session condition is
+closed.** W8 found a blocking verifier defect after W7, so consecutiveness
+reset. W9 then proved the Codex structured-hook path, cleared one sparse
+RETRACT, completed three real constructors, and hand-checked seven correct
+verdicts. W10 immediately followed on the same build: Claude Opus 5 received
+the automatic exit-2/stderr hook refusal, cleared it with a sparse RETRACT,
+completed saturation, elimination and decomposition, recorded 30 correct
+verdicts, and finished with plain `gp check` at exit 0 and no findings. Frozen
+evidence is in `portage-depot/testing/W9-PASS-CONDITION.md`,
+`portage-depot/campaigns/w9-two-component-curve/`,
+`portage-depot/testing/W10-PASS-CONDITION.md`, and
+`portage-depot/campaigns/w10-three-component-curve/`.
+
+No Grand Portage code changed during either author session. The W10 follow-up
+repair happened only after the frozen pass was complete, so it does not rewrite
+the W9/W10 measurement. End-to-end declaration is already established. **Only
+the sealed cold return remains.**
 
 ### The sustained run, now sealed
 
@@ -185,28 +212,48 @@ exits nonzero. The T5 graph still does not fold for exactly this reason: four
 **Candidate 16th design invariant: every required field ships with a migration
 that fills the ignorance value.**
 
-**The recurring shape, SIX instances now:** a field that DETERMINES transport
+**The recurring shape, SEVEN instances now:** a premise that determines transport
 and is taken on the author's word. Certificates (pre-v0.2), `identity_origin`
 (pre-v0.3), `kind` (pre-v0.3.1), `ladder` (pre-v0.3.2, found by T5 when a
 foreign campaign filled it with seven values and no overlap with the five it
-declares), `established_by` (pre-v0.4), and — the deepest — **`V(src) ⊆ V(dst)`
-itself** (pre-v0.4.1). Each was found by someone *using* or *exploiting* it,
-never by review.
+declares), `established_by` (pre-v0.4), literal **`V(src) ⊆ V(dst)`** itself
+(pre-v0.4.1), and the **mapped-vs-literal presentation of an EQUIVALENCE**
+(pre-v0.4.2). Each was found by someone using the field or exploiting the
+blind spot, never by review.
 
-**The sixth is the one that matters most.** Every edge asserts that
-containment; the kernel's opening comment says so and all six types are
-relaxations in that sense. Nothing ever checked it. L1 found the cost: a flop
-is an isomorphism in codimension one, so neither variety contains the other,
-and typed `EQUIVALENCE` it *"yields a false conclusion reported clean behind
+**The sixth exposed the deepest unchecked premise.** Before verification,
+L1 could type a flop as an `EQUIVALENCE` even though neither variety contains
+the other, and the result *"yields a false conclusion reported clean behind
 one prose-dischargeable DEBT"* with *"nothing in the tool [that] would have
 stopped me"*. `RESTRICTION` matches a flop on every clause except that one.
 
-Being repaired on branch `w5-structured-models`: models now carry their ideals
-(phase 1), and `I(dst) ⊆ I(src)` is checked by reduction (phase 2, verified
-against Singular). **Phase 3 remains** — the exact identity condition
-`LHS − RHS ∈ I(dst)`, which discharges a second registered conservatism, since
-the register already calls `AMBIENT` *sufficient but not necessary*. It is the
-same reduction pointed at a claim instead of an edge.
+That repair is complete: models carry their ideals, literal containment is
+checked by reducing `I(dst)` modulo `I(src)`, and the exact identity condition
+`LHS − RHS ∈ I(dst)` is separately decided by the identity verifier. Computed
+verdicts beat declarations everywhere they disagree.
+
+**The seventh was the ontology overgeneralising its own repair.** W10 supplied
+a mapped involution with a real inverse between two isomorphic varieties that
+neither literally contains the other. The store accepted plausible inert field
+names, and the verifier asked both the right mapped question and the wrong
+literal one. The repair gives mapped EQUIVALENCE edges exact `forward` and
+`inverse` substitution fields, refuses `maps`/`inverse_maps`, verifies both
+ideal pullbacks and both inverse compositions, and skips literal containment.
+The Lean theorem proves that witness transport does not imply either inclusion.
+
+**The first post-W11 audit found that the surface repair was not yet the whole
+repair.** Partial maps could fold and an `UNVERIFIED` result still licensed
+transport; `forward` was implemented as the polynomial pullback despite being
+documented as the source-to-target point map; non-string substitutions could
+abort verification; a string-valued `ring_iso` was truthy; and a maps-only
+negative verdict could condemn an equivalence that never declared a ring
+isomorphism. The hardened path now requires exact variable coverage and
+non-blank string expressions, requires a real boolean flag, pins point-forward
+orientation with a non-involutive translation in both Lean and live Singular,
+and fails closed: structured maps license IDENTITY transport only after
+`VERIFIED`. Cited legacy edges without structured maps remain readable, but a
+bare flag or point-level converse opens nothing. Refusals on mapped edges now
+direct the author to verification, its recorded blocker, or replacement maps.
 
 **THE REPAIR RULE, and it is the best general principle in this corpus:** make
 it derivable, make it checkable, or make it compose with something already
@@ -279,7 +326,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->783<!--/checks--> checks, ~10 s) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->834<!--/checks--> checks, ~10 s) |
 
 ---
 
@@ -312,7 +359,7 @@ C:\Users\wstri\dev\
                                             that absence is what proved it is
                                             an artifact of claims being strings
                       ring_iso              CARRIES and REFLECTS, decomposed
-                                            into three reductions a CAS can run
+                                            into four checks a CAS can run
                       integral              PARTIALITY -- is the map defined
 
                     A SECOND CLASS, ALSO WITH TWO MEMBERS, and this one
@@ -386,12 +433,12 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->783<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->834<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
 
-### The verifier layer, as of 2026-07-28
+### The verifier layer, as of 2026-07-29
 
 Three verifiers a week ago, **seven now**, and all four new ones were wired up
 over 27–28 July. `gp verify` runs every one that applies and records a `verdict`
@@ -400,10 +447,10 @@ everywhere it disagrees.
 
 | verifier | decides | verdicts |
 |---|---|---|
-| `containment` | `V(src) ⊆ V(dst)`, by reduction | VERIFIED / NOT_BY_IDEAL |
+| `containment` | literal inclusion-style `V(src) ⊆ V(dst)`, by reduction; mapped equivalences are skipped | VERIFIED / NOT_BY_IDEAL |
 | `identity` | the rewriting — **and mints cofactors** for a DERIVED one | AMBIENT / DERIVED / REFUTED |
 | `unit_ideal` | an EMPTY's certificate, by expansion | VERIFIED / NOT_UNIT |
-| `ring_iso` | an EQUIVALENCE's maps, by reduction | VERIFIED / NOT_AN_ISOMORPHISM |
+| `ring_iso` | a mapped EQUIVALENCE's two ideal pullbacks and two inverse compositions | VERIFIED / NOT_AN_ISOMORPHISM |
 | `point_witness` | a NONEMPTY's `witness_point`, by substitution | VERIFIED / NOT_A_POINT |
 | `partition_exhaustiveness` | **that the cases are all the cases** | VERIFIED / NOT_EXHAUSTIVE |
 | `operation_output` | that a constructor produced what it claims | VERIFIED / NOT_THE_STATED_OUTPUT |

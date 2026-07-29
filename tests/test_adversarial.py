@@ -148,10 +148,195 @@ def test_ring_iso_is_declarable_through_the_supported_path():
     assert edge["ring_iso"] is True
 
 
+def test_mapped_equivalence_fields_are_on_the_supported_path():
+    import grandportage.mcp as M
+    for field in ("forward", "inverse"):
+        assert field in M.EDGE_SCHEMA["properties"]
+    t = cas.Transport.from_dict({
+        "src": "A", "type": K.EQUIVALENCE,
+        "why": "an invertible coordinate change",
+        "map_kind": K.POLYNOMIAL, "ring_iso": True,
+        "forward": {"x": "-x"}, "inverse": {"x": "-x"},
+    })
+    _model, edge = t.events("E", "B", "desc")
+    assert edge["forward"] == {"x": "-x"}
+    assert edge["inverse"] == {"x": "-x"}
+
+
+@pytest.mark.parametrize("missing", ["forward", "inverse"])
+def test_supported_transport_requires_both_mapped_equivalence_fields(missing):
+    fields = {
+        "src": "A", "type": K.EQUIVALENCE,
+        "why": "an invertible coordinate change",
+        "forward": {"x": "-x"}, "inverse": {"x": "-x"},
+    }
+    fields.pop(missing)
+    with pytest.raises(cas.TransportNotDeclared) as exc:
+        cas.Transport.from_dict(fields)
+    assert "both `forward` and `inverse`" in str(exc.value)
+
+
+@pytest.mark.parametrize("bad,wanted", [
+    ("maps", "forward"),
+    ("inverse_maps", "inverse"),
+])
+def test_load_bearing_map_field_near_misses_are_refused(bad, wanted):
+    events = [
+        {"ev": "model", "id": "A", "what": "a"},
+        {"ev": "model", "id": "B", "what": "b"},
+        {"ev": "edge", "id": "E", "src": "A", "dst": "B",
+         "type": K.EQUIVALENCE, "why": "a coordinate change",
+         bad: {"x": "-x"}},
+    ]
+    with pytest.raises(S.GraphError) as exc:
+        _graph(events)
+    assert wanted in str(exc.value)
+
+
+def test_unrelated_domain_metadata_remains_extensible():
+    graph = _graph([
+        {"ev": "model", "id": "A", "what": "a"},
+        {"ev": "model", "id": "B", "what": "b"},
+        {"ev": "edge", "id": "E", "src": "A", "dst": "B",
+         "type": K.EQUIVALENCE, "why": "same object",
+         "converse_witness": "identity", "domain_note": "project metadata"},
+    ])
+    assert graph.edges["E"]["domain_note"] == "project metadata"
+
+
+@pytest.mark.parametrize("missing", ["forward", "inverse"])
+def test_mapped_equivalence_requires_both_maps(missing):
+    maps = {"forward": {"x": "-x"}, "inverse": {"x": "-x"}}
+    maps.pop(missing)
+    event = {"ev": "edge", "id": "E", "src": "A", "dst": "B",
+             "type": K.EQUIVALENCE, "why": "coordinate change"}
+    event.update(maps)
+    with pytest.raises(S.GraphError) as exc:
+        _graph([
+            {"ev": "model", "id": "A", "what": "a"},
+            {"ev": "model", "id": "B", "what": "b"}, event])
+    assert "both `forward` and `inverse`" in str(exc.value)
+
+
+def test_mapped_equivalence_maps_justify_the_equivalence_shape():
+    graph = _graph([
+        {"ev": "model", "id": "A", "what": "a", "ring_vars": ["x"],
+         "generators": []},
+        {"ev": "model", "id": "B", "what": "b", "ring_vars": ["x"],
+         "generators": []},
+        {"ev": "edge", "id": "E", "src": "A", "dst": "B",
+         "type": K.EQUIVALENCE, "why": "coordinate change",
+         "forward": {"x": "-x"}, "inverse": {"x": "-x"}},
+    ])
+    assert not [f for f in C.run(graph)
+                if f.rule == "UNJUSTIFIED-EQUIVALENCE"]
+
+@pytest.mark.parametrize("maps,wanted", [
+    ({"forward": {"x": "x"}, "inverse": {"x": "x"}}, "Missing: y"),
+    ({"forward": {"x": "x", "y": 1},
+      "inverse": {"x": "x", "y": "y"}}, "must be strings"),
+    ({"forward": None, "inverse": None}, "non-empty objects"),
+])
+def test_mapped_equivalence_rejects_malformed_substitution_objects(maps, wanted):
+    edge = {"ev": "edge", "id": "E", "src": "A", "dst": "B",
+            "type": K.EQUIVALENCE, "why": "coordinate change"}
+    edge.update(maps)
+    with pytest.raises(S.GraphError) as exc:
+        _graph([
+            {"ev": "model", "id": "A", "what": "a",
+             "ring_vars": ["x", "y"], "generators": []},
+            {"ev": "model", "id": "B", "what": "b",
+             "ring_vars": ["x", "y"], "generators": []},
+            edge,
+        ])
+    assert wanted in str(exc.value)
+
+
+def test_structured_maps_require_declared_compatible_endpoint_rings():
+    with pytest.raises(S.GraphError) as exc:
+        _graph([
+            {"ev": "model", "id": "A", "what": "a"},
+            {"ev": "model", "id": "B", "what": "b"},
+            {"ev": "edge", "id": "E", "src": "A", "dst": "B",
+             "type": K.EQUIVALENCE, "why": "coordinate change",
+             "forward": {"x": "x"}, "inverse": {"x": "x"}},
+        ])
+    assert "both endpoint models must declare `ring_vars`" in str(exc.value)
+
+
+@pytest.mark.parametrize("bad", ["false", 1, None])
+def test_ring_iso_is_a_real_boolean_on_raw_and_supported_surfaces(bad):
+    events = [
+        {"ev": "model", "id": "A", "what": "a"},
+        {"ev": "model", "id": "B", "what": "b"},
+        {"ev": "edge", "id": "E", "src": "A", "dst": "B",
+         "type": K.EQUIVALENCE, "why": "same object", "ring_iso": bad},
+    ]
+    with pytest.raises(S.GraphError):
+        _graph(events)
+    with pytest.raises(cas.TransportNotDeclared):
+        cas.Transport.from_dict({
+            "src": "A", "type": K.EQUIVALENCE, "why": "same object",
+            "ring_iso": bad,
+        })
+
+
+def test_supported_transport_rejects_non_string_map_expressions():
+    with pytest.raises(cas.TransportNotDeclared) as exc:
+        cas.Transport.from_dict({
+            "src": "A", "type": K.EQUIVALENCE, "why": "coordinate change",
+            "forward": {"x": 1}, "inverse": {"x": "x"},
+        })
+    assert "must be strings" in str(exc.value)
+
+@pytest.mark.parametrize("blank", ["", "   "])
+def test_mapped_equivalence_rejects_blank_map_expressions(blank):
+    fields = {
+        "src": "A", "type": K.EQUIVALENCE, "why": "coordinate change",
+        "forward": {"x": blank}, "inverse": {"x": "x"},
+    }
+    with pytest.raises(cas.TransportNotDeclared) as exc:
+        cas.Transport.from_dict(fields)
+    assert "non-blank" in str(exc.value)
+    assert not K.is_mapped_equivalence(fields)
+
+    edge = {"ev": "edge", "id": "E", "dst": "B"}
+    edge.update(fields)
+    with pytest.raises(S.GraphError) as exc:
+        _graph([
+            {"ev": "model", "id": "A", "what": "a", "ring_vars": ["x"]},
+            {"ev": "model", "id": "B", "what": "b", "ring_vars": ["x"]},
+            edge,
+        ])
+    assert "non-blank" in str(exc.value)
+
+
+
+
+
 def test_ring_iso_is_meaningless_on_a_lossy_edge():
     with pytest.raises(cas.TransportNotDeclared):
         cas.Transport(src="A", type=K.NECESSARY_CONDITION, why="drops eqs",
                       ring_iso=True)
+
+
+@pytest.mark.parametrize("verdict,wanted", [
+    (None, "Run `gp verify`"),
+    ("UNVERIFIED", "missing ideal"),
+    ("NOT_AN_ISOMORPHISM", "refuted as a ring isomorphism"),
+])
+def test_mapped_ring_iso_discharge_names_the_next_open_move(verdict, wanted):
+    from grandportage.discharge import discharge_for
+    edge = {
+        "src": "S", "dst": "D", "type": K.EQUIVALENCE,
+        "ring_iso": True, "forward": {"x": "x"}, "inverse": {"x": "x"},
+    }
+    if verdict is not None:
+        edge["ring_iso_verdict"] = verdict
+        edge["ring_iso_why"] = "missing ideal"
+    move = discharge_for(K.EQUIVALENCE, K.ALONG, K.IDENTITY, edge=edge)
+    assert wanted in move
+    assert "declare `ring_iso: true`" not in move
 
 
 @pytest.mark.parametrize("cell,wanted", [
@@ -3539,6 +3724,8 @@ def test_the_witness_discharge_names_the_right_model_at_each_end():
     assert "Lift it to TIGHT" in msg, (
         "the witness is at the relaxation; lifting means getting it into the "
         "SOURCE, which is what the dropped conditions cost")
+    assert "DROPS (none declared)" in msg and "((none declared))" not in msg
+
     assert "emptiness spend for LOOSE" in msg, (
         "and what it soundly buys is at the relaxation, not the source")
 
@@ -4218,15 +4405,30 @@ def test_a_refuted_isomorphism_stops_licensing_identities():
     # VERIFIED confirms, it does not MINT: an author who never declared the
     # flag is not granted it by a check they did not ask for.
     assert not C.effective_ring_iso({"ring_iso_verdict": "VERIFIED"})
-    assert C.effective_ring_iso({"ring_iso": True}) is True
+    assert not C.effective_ring_iso({"ring_iso": True})
+    assert not C.effective_ring_iso(
+        {"ring_iso": True, "converse_witness": "inverse on points"})
+    # Cited legacy graphs remain readable until they acquire structured maps.
+    assert C.effective_ring_iso({"ring_iso": True, "cite": "a proof"})
+    mapped = {
+        "type": K.EQUIVALENCE, "ring_iso": True,
+        "forward": {"x": "x"}, "inverse": {"x": "x"},
+    }
+    assert not C.effective_ring_iso(mapped), "structured maps await verification"
+    assert not C.effective_ring_iso(dict(
+        mapped, ring_iso_verdict="UNVERIFIED"))
+    assert C.effective_ring_iso(dict(
+        mapped, ring_iso_verdict="VERIFIED"))
 
 
 def test_a_refuted_isomorphism_is_reported_not_only_acted_on():
     """A silent correction is its own defect: the author believes something the
     graph no longer acts on."""
     g = _graph([
-        {"ev": "model", "id": "A", "desc": "a"},
-        {"ev": "model", "id": "B", "desc": "b"},
+        {"ev": "model", "id": "A", "desc": "a", "ring_vars": ["x"],
+         "generators": []},
+        {"ev": "model", "id": "B", "desc": "b", "ring_vars": ["x"],
+         "generators": []},
         {"ev": "edge", "id": "E", "src": "A", "dst": "B",
          "type": K.EQUIVALENCE, "why": "w", "map_kind": K.POLYNOMIAL,
          "ring_iso": True, "forward": {"x": "x"}, "inverse": {"x": "x"}},
@@ -4237,6 +4439,23 @@ def test_a_refuted_isomorphism_is_reported_not_only_acted_on():
     found = [f for f in C.run(g) if f.rule == C.R_REFUTED_EVIDENCE]
     assert found and found[0].severity == C.UNSOUND_PREMISE
     assert C.exit_code(C.run(g)) == 1
+
+
+def test_maps_only_negative_verdict_does_not_refute_undeclared_ring_iso():
+    """Point equivalence may survive when coordinate rings differ by nilpotents."""
+    g = _graph([
+        {"ev": "model", "id": "A", "what": "a", "ring_vars": ["x"],
+         "generators": ["x^2"]},
+        {"ev": "model", "id": "B", "what": "b", "ring_vars": ["x"],
+         "generators": ["x"]},
+        {"ev": "edge", "id": "E", "src": "A", "dst": "B",
+         "type": K.EQUIVALENCE, "why": "same point set",
+         "forward": {"x": "x"}, "inverse": {"x": "x"}},
+        {"ev": "verdict", "id": "V", "subject": "ring_iso", "of": "E",
+         "verdict": "NOT_AN_ISOMORPHISM",
+         "why": "identity maps do not identify the nonreduced coordinate rings"},
+    ])
+    assert not [f for f in C.run(g) if f.rule == C.R_REFUTED_EVIDENCE]
 
 
 def test_the_unit_verifier_refuses_a_certificate_it_does_not_decide():
@@ -4394,7 +4613,9 @@ def test_a_hole_between_correct_branches_is_found():
     assert "NO POINTS OVER THE BASE FIELD" in why
     # The witness is NAMED: something vanishing wherever the branches do and
     # not on the parent cuts out the region no branch reaches.
-    assert "y2" in why or "xy" in why
+    # CASProgram pins ``short=0`` so solver output remains round-trippable.
+    # Compact y2/xy is ambiguous in rings whose variables may contain digits.
+    assert "y^2" in why or "x*y" in why
 
 
 def test_a_genuine_split_is_confirmed():
@@ -4535,6 +4756,9 @@ def test_a_verified_output_does_not_claim_completeness():
     verdict, why, _ = V.operation_output(_op_graph(["y"]), "E", _runner=fake)
     assert verdict == V.OP_SOUND
     assert "DOES NOT SAY" in why and "COMPLETE" in why
+
+    assert "certified saturation witness" in why and "some n" in why
+    assert "accounted for in" not in why
 
 
 def test_a_refuted_output_is_an_unsound_premise():

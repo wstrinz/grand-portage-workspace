@@ -3,13 +3,24 @@
 Everything else informs.  The MCP layer records, the checker decides, the
 discharge table advises -- and an agent can ignore all three by not looking.
 This runs after each tool call whether anyone wants it to or not, and returns a
-blocking exit status when the graph licenses a conclusion it should not.
+runtime-specific blocking response when the graph licenses a conclusion it
+should not.
 
-Wire it into `.claude/settings.json`:
+Wire the same command into `.claude/settings.json` or `.codex/hooks.json`:
 
     {"hooks": {"PostToolUse": [{"matcher": "*", "hooks": [
         {"type": "command",
          "command": "python -m grandportage.hook"}]}]}}
+
+Claude Code treats exit 2 and stderr as a block. Codex expects an exit-0 JSON
+decision on stdout::
+
+    {"decision": "block", "reason": "..."}
+
+The input payload distinguishes them: Codex's common hook input includes
+``hook_event_name`` and ``model``. Keeping both protocols here matters because
+an exit-2 Codex hook can execute and leave the marker proving it fired while
+hiding its refusal from the author -- exactly what W8 observed.
 
 Design notes that are not obvious and cost something to get wrong:
 
@@ -323,12 +334,16 @@ def _repeat_state(root, fids):
 def main(argv=None):
     argv = sys.argv[1:] if argv is None else argv
     root, tool = ".", ""
+    codex_post_tool = False
     try:
         raw = sys.stdin.read()
         if raw.strip():
             payload = json.loads(raw)
             root = payload.get("cwd") or "."
             tool = payload.get("tool_name") or ""
+            codex_post_tool = (
+                payload.get("hook_event_name") == "PostToolUse"
+                and "model" in payload)
     except (ValueError, OSError):
         pass
     if "--root" in argv:
@@ -355,12 +370,23 @@ def main(argv=None):
     repeat, remember = _repeat_state(root, fids)
     remember()
     if repeat:
-        sys.stderr.write(
+        rendered = (
             "GRAND PORTAGE: still refused, unchanged -- %s.\n"
             "Full detail and the discharge move were printed above, or run "
             "`gp check`.\n" % (", ".join(fids) or "see gp check"))
-        return 2
-    sys.stderr.write(message)
+    else:
+        rendered = message
+
+    if codex_post_tool:
+        # Codex command hooks use a structured PostToolUse decision. An exit-2
+        # stderr block remains the Claude Code protocol, but Codex 0.144 ran
+        # that command and hid the feedback from its author even though the
+        # marker proved the hook fired. Returning the documented JSON decision
+        # makes the refusal replace the tool result in the agentic loop.
+        sys.stdout.write(json.dumps({"decision": "block",
+                                     "reason": rendered}) + "\n")
+        return 0
+    sys.stderr.write(rendered)
     return 2        # Claude Code feeds stderr back to the model as blocking
 
 

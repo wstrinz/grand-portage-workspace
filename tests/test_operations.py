@@ -164,6 +164,81 @@ def test_constructors_emit_no_generator_that_is_not_a_polynomial():
             "%s drops the ideal without saying what will fill it" % op.kind)
 
 
+def test_execute_materializes_a_pending_ideal_without_writing():
+    op = O.saturate_closure("M_A", "x", "M_S", RING, ["x*y"])
+
+    def fake(program, timeout):
+        assert program.outputs == ["GP_OUT"]
+        return {"aborted": False, "returncode": 0, "stderr": "",
+                "stdout": "@@GP_OUT:\nGP_OUT[1]=y\nGP_OUT[2]=x+1\n"}
+
+    done = O.execute(op, timeout=17, _runner=fake)
+    assert op.events[0].get("ideal_pending"), (
+        "execution mutated the plain constructor value in place")
+    assert "ideal_pending" not in done.events[0]
+    assert done.events[0]["generators"] == ["y", "x+1"]
+    assert "gp verify" in done.verify_hint
+
+    graph = _fold([
+        {"ev": "model", "id": "M_A", "what": "source",
+         "ring_vars": RING, "generators": ["x*y"]},
+    ] + done.events)
+    assert graph.models["M_S"]["generators"] == ["y", "x+1"]
+
+
+def test_elimination_output_is_round_trippable_through_the_verifier():
+    """W8: Singular compact printing changed mathematics at the boundary.
+
+    Default ``short=1`` printed x^3-x*y as ``x3-xy``. The constructor stored
+    that string, then the verifier correctly parsed x3 and xy as identifiers
+    and incorrectly declared a sound elimination unsound. This fake runner
+    behaves like Singular on both sides of the setting, so removing short=0
+    recreates the live failure instead of merely asserting on program text.
+    """
+    from grandportage import verify as V
+
+    op = O.eliminate("M_A", ["z"], "M_E", ["x", "y", "z"],
+                     ["z", "x*(y-x^2)"])
+
+    def singular_like(program, timeout):
+        rendered = "x^3-x*y" if "short=0;" in program.text else "x3-xy"
+        return {"aborted": False, "returncode": 0, "stderr": "",
+                "stdout": "@@GP_OUT:\nGP_OUT[1]=%s\n" % rendered}
+
+    done = O.execute(op, _runner=singular_like)
+    assert done.events[0]["generators"] == ["x^3-x*y"]
+
+    graph = _fold([
+        {"ev": "model", "id": "M_A", "what": "source",
+         "ring_vars": ["x", "y", "z"],
+         "generators": ["z", "x*(y-x^2)"]},
+    ] + done.events)
+
+    def membership(program, timeout):
+        if program.outputs == ["GP_RED"]:
+            stdout = "@@GP_RED:\n0\n"
+        else:
+            assert program.outputs == ["GP_M"]
+            stdout = "@@GP_M:\nGP_M[1,1]=0\nGP_M[2,1]=-1\n"
+        return {"aborted": False, "returncode": 0, "stderr": "",
+                "stdout": stdout}
+
+    verdict, why, certificate = V.operation_output(
+        graph, "E-M_E", _runner=membership)
+    assert verdict == V.OP_SOUND, why
+    assert certificate["targets"] == ["x^3-x*y"]
+
+
+def test_execute_treats_the_zero_ideal_as_no_generators():
+    op = O.eliminate("M_A", ["y"], "M_E", RING, ["x*y"])
+
+    def fake(program, timeout):
+        return {"aborted": False, "returncode": 0, "stderr": "",
+                "stdout": "@@GP_OUT:\nGP_OUT[1]=0\n"}
+
+    assert O.execute(op, _runner=fake).events[0]["generators"] == []
+
+
 def test_pending_ideal_is_not_the_ambient_space():
     """THE FIX THAT WOULD HAVE BEEN WORSE THAN THE BUG.
 
@@ -205,6 +280,10 @@ def test_check_does_not_say_a_pending_model_carries_an_ideal():
     assert "M_S" in pending.detail and "saturation" in pending.detail
     # The blocked objects are named, so the reader knows what is waiting.
     assert "CL" in pending.detail and "E-M_S" in pending.detail
+    assert "RELICENSE" in pending.discharge
+    assert "AMEND" not in pending.discharge
+    assert "--run --declare" in pending.discharge
+
 
 
 def test_untested_identity_stops_promising_one_solver_call():
@@ -271,6 +350,26 @@ def test_an_operations_program_actually_runs(tmp_path):
     assert out["values"]["GP_OUT"].strip() == "GP_OUT[1]=y", (
         "saturating (xy) at x must give (y); got %r"
         % out["values"]["GP_OUT"])
+
+
+@pytest.mark.live
+def test_real_singular_elimination_output_round_trips_through_verifier():
+    """The exact W8 compact-polynomial failure, against the real CAS."""
+    from grandportage import verify as V
+
+    op = O.eliminate("M_A", ["z"], "M_E", ["x", "y", "z"],
+                     ["z", "x*(y-x^2)"])
+    done = O.execute(op, timeout=120)
+    assert done.events[0]["generators"] == ["x^3-x*y"]
+    graph = _fold([
+        {"ev": "model", "id": "M_A", "what": "source",
+         "ring_vars": ["x", "y", "z"],
+         "generators": ["z", "x*(y-x^2)"]},
+    ] + done.events)
+    verdict, why, certificate = V.operation_output(
+        graph, "E-M_E", timeout=120)
+    assert verdict == V.OP_SOUND, why
+    assert certificate["targets"] == ["x^3-x*y"]
 
 
 # ===========================================================================

@@ -788,6 +788,86 @@ def test_ring_iso_is_checkable_and_radicalisation_is_caught():
         "is the half that fails, and the message must say which")
 
 
+def test_ring_iso_checks_both_inverse_compositions(monkeypatch):
+    """The executable contract matches both inverse laws in Lean."""
+    from grandportage import verify as V
+
+    graph = S.Graph().apply_all([(event, "t", i) for i, event in enumerate([
+        {"ev": "model", "id": "A", "what": "a",
+         "ring_vars": ["x"], "generators": []},
+        {"ev": "model", "id": "B", "what": "b",
+         "ring_vars": ["x"], "generators": []},
+        {"ev": "edge", "id": "E", "src": "A", "dst": "B",
+         "type": K.EQUIVALENCE, "why": "proposed maps",
+         "forward": {"x": "f"}, "inverse": {"x": "i"}},
+    ])])
+
+    def fake(_ring, polynomial, substitution, _generators, **_kwargs):
+        table = {
+            ("x", "f"): "u",
+            ("u", "i"): "not_x",
+            ("x", "i"): "v",
+            ("v", "f"): "x",
+        }
+        marker = substitution["x"]
+        return table[(polynomial, marker)], True
+
+    monkeypatch.setattr(V.cas, "substitute_and_reduce", fake)
+    verdict, why = V.ring_iso(graph, "E")
+    assert verdict == V.ISO_NOT_ISO
+    assert "right inverse" in why
+
+
+@live
+def test_w10_involution_is_verified_as_a_mapped_equivalence():
+    """Lock the exact live shape that exposed mapped/literal conflation."""
+    from grandportage import verify as V
+
+    f = "a^3+a^2*b-a^2*b^2-a*b^3-a^2-a*b+a*b^2+b^3"
+    fp = "a^3-a^2*b-a^2*b^2+a*b^3-a^2+a*b+a*b^2-b^3"
+    graph = S.Graph().apply_all([(event, "t", i) for i, event in enumerate([
+        {"ev": "model", "id": "Z", "what": "W10 curve",
+         "ring_vars": ["t", "a", "b"], "generators": ["t", f]},
+        {"ev": "model", "id": "ZP", "what": "its involutive image",
+         "ring_vars": ["t", "a", "b"], "generators": ["t", fp]},
+        {"ev": "edge", "id": "E-SIGMA", "src": "Z", "dst": "ZP",
+         "type": K.EQUIVALENCE, "why": "b maps to -b",
+         "map_kind": K.POLYNOMIAL,
+         "forward": {"t": "t", "a": "a", "b": "-b"},
+         "inverse": {"t": "t", "a": "a", "b": "-b"}},
+    ])])
+
+    verdict, why = V.ring_iso(graph, "E-SIGMA")
+    assert verdict == V.ISO_VERIFIED, why
+    assert "both compositions" in why
+
+@live
+def test_ring_iso_forward_is_the_point_forward_map_not_its_pullback():
+    """A non-involution fixes the orientation hidden by every swap test."""
+    from grandportage import verify as V
+
+    def graph(forward, inverse):
+        return S.Graph().apply_all([
+            (event, "t", i) for i, event in enumerate([
+                {"ev": "model", "id": "A", "what": "the point zero",
+                 "ring_vars": ["x"], "generators": ["x"]},
+                {"ev": "model", "id": "B", "what": "the point one",
+                 "ring_vars": ["x"], "generators": ["x-1"]},
+                {"ev": "edge", "id": "E", "src": "A", "dst": "B",
+                 "type": K.EQUIVALENCE, "why": "translation by one",
+                 "forward": {"x": forward}, "inverse": {"x": inverse}},
+            ])])
+
+    verdict, why = V.ring_iso(graph("x+1", "x-1"), "E")
+    assert verdict == V.ISO_VERIFIED, why
+
+    verdict, why = V.ring_iso(graph("x-1", "x+1"), "E")
+    assert verdict == V.ISO_NOT_ISO
+    assert "point-forward" in why
+
+
+
+
 @live
 def test_a_substitution_is_simultaneous():
     """NESTED `subst` IS NOT SIMULTANEOUS, and getting it wrong is silent.
@@ -804,7 +884,7 @@ def test_a_substitution_is_simultaneous():
 
     got, _ = C2.substitute_and_reduce(["x", "y"], "x^2+y",
                                       {"x": "y", "y": "x"}, [])
-    assert got.replace(" ", "") == "y2+x", (
+    assert got.replace(" ", "") == "y^2+x", (
         "a genuinely asymmetric case, so the test is not passing by symmetry")
 
     with pytest.raises(C2.CASError) as exc:

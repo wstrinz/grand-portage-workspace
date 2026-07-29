@@ -335,6 +335,20 @@ class CASProgram(object):
             raise NotImplementedError(self.dialect)
         lines = ["ring %s = %d,(%s),dp;"
                  % (self.ring, self.characteristic, ",".join(self.ring_vars))]
+        # SINGULAR'S DEFAULT PRINTER IS NOT ROUND-TRIPPABLE. With `short=1`
+        # it prints x^3-x*y as `x3-xy`; a consumer that accepts identifiers
+        # containing digits must then read x3 and xy as new variables. W8 hit
+        # exactly that boundary: Eliminate computed the right polynomial, the
+        # constructor stored its compact printout, and operation_output issued
+        # a mathematically wrong NOT_THE_STATED_OUTPUT verdict. `short=0`
+        # makes Singular print explicit powers and products (`x^3-x*y`). The
+        # model and every later verifier now consume a representation that can
+        # be sent back to the same CAS without guessing its grammar.
+        #
+        # This belongs at the emitter, not in a heuristic output parser: ring
+        # variables may themselves contain digits, so compact notation is
+        # genuinely ambiguous after the ring declaration has been discarded.
+        lines.append("short=0;")
         for name, typ, expr in self.decls:
             lines.append("%s %s = %s;" % (typ, name, expr))
         lines.extend(self.body)
@@ -358,7 +372,8 @@ class Transport(object):
 
     def __init__(self, src, type, why, map_kind=K.IDENTITY_MAP, drops=(),
                  witness="", debt_why="", cite="",
-                 strictness_witness="", converse_witness="", ring_iso=None):
+                 strictness_witness="", converse_witness="", ring_iso=None,
+                 forward=None, inverse=None):
         if type not in K.DECLARABLE_TYPES:
             raise TransportNotDeclared(
                 "transport type %r is not declarable.  Name what this step "
@@ -410,6 +425,9 @@ class Transport(object):
         # supported path at all, while a raw `portage_declare` could assert it
         # unaudited.  A gate that is unreachable from the front door and wide
         # open at the back is not a gate.
+        if ring_iso is not None and not isinstance(ring_iso, bool):
+            raise TransportNotDeclared(
+                "`ring_iso` must be true or false, not %r" % ring_iso)
         if ring_iso is not None and type != K.EQUIVALENCE:
             raise TransportNotDeclared(
                 "`ring_iso` says an EQUIVALENCE is an isomorphism of coordinate "
@@ -417,6 +435,33 @@ class Transport(object):
                 "meaningless on a %s edge, which is lossy by construction."
                 % type)
         self.ring_iso = ring_iso
+        if (forward is None) != (inverse is None):
+            raise TransportNotDeclared(
+                "a mapped EQUIVALENCE needs both `forward` and `inverse`; one "
+                "map cannot establish an invertible coordinate change")
+        if forward is not None:
+            if type != K.EQUIVALENCE:
+                raise TransportNotDeclared(
+                    "`forward`/`inverse` substitutions describe a mapped "
+                    "EQUIVALENCE, not a lossy %s edge" % type)
+            if (not isinstance(forward, dict) or not forward
+                    or not isinstance(inverse, dict) or not inverse):
+                raise TransportNotDeclared(
+                    "`forward` and `inverse` must be non-empty substitution "
+                    "objects: "
+                    "one polynomial expression per ring variable")
+            if not all(isinstance(k, str) and isinstance(v, str)
+                       for maps in (forward, inverse)
+                       for k, v in maps.items()):
+                raise TransportNotDeclared(
+                    "substitution names and polynomial expressions must be strings")
+            if not all(k.strip() and v.strip()
+                       for maps in (forward, inverse)
+                       for k, v in maps.items()):
+                raise TransportNotDeclared(
+                    "substitution names and expressions must be non-blank")
+        self.forward = forward
+        self.inverse = inverse
 
     @classmethod
     def from_dict(cls, d):
@@ -432,10 +477,20 @@ class Transport(object):
         unknown = set(d) - {"src", "type", "why", "map_kind", "drops",
                             "witness", "debt_why", "cite",
                             "strictness_witness", "converse_witness",
-                            "ring_iso"}
+                            "ring_iso", "forward", "inverse"}
         if unknown:
             raise TransportNotDeclared("unknown edge fields: %s"
                                        % ", ".join(sorted(unknown)))
+        if "ring_iso" in d and not isinstance(d["ring_iso"], bool):
+            raise TransportNotDeclared("`ring_iso` must be true or false")
+        fwd_present, inv_present = "forward" in d, "inverse" in d
+        if fwd_present != inv_present:
+            raise TransportNotDeclared(
+                "a mapped EQUIVALENCE needs both `forward` and `inverse`; one "
+                "map cannot establish an invertible coordinate change")
+        if fwd_present and (d["forward"] is None or d["inverse"] is None):
+            raise TransportNotDeclared(
+                "`forward` and `inverse` must be non-empty substitution objects")
         return cls(**d)
 
     def events(self, eid, dst, dst_desc, dst_field=None, dst_chart=None,
@@ -490,6 +545,9 @@ class Transport(object):
             edge["converse_witness"] = self.converse_witness
         if self.ring_iso is not None:
             edge["ring_iso"] = self.ring_iso
+        if self.forward is not None:
+            edge["forward"] = dict(self.forward)
+            edge["inverse"] = dict(self.inverse)
         if self.debt_why:
             edge["debt_why"] = self.debt_why
         return [model, edge]

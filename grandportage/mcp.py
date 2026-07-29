@@ -123,6 +123,26 @@ EDGE_SCHEMA = {
                         "fields above -- they have opposite polarity and one "
                         "name for both meant evidence against an equivalence "
                         "could document one.")},
+        "forward": {
+            "type": "object",
+            "additionalProperties": {"type": "string"},
+            "description": (
+                "EQUIVALENCE only. The point-forward map from source to target, "
+                "written as a simultaneous polynomial substitution with one "
+                "expression for every ring variable. Polynomial pullback runs "
+                "contravariantly. The current verifier requires both endpoints "
+                "to use the same ring-variable names. Supplying forward and "
+                "inverse declares a MAPPED equivalence, not literal containment "
+                "of the two solution sets as written. Structured maps license "
+                "IDENTITY transport only after `VERIFIED`.")},
+        "inverse": {
+            "type": "object",
+            "additionalProperties": {"type": "string"},
+            "description": (
+                "EQUIVALENCE only. The point-inverse map from target to source, "
+                "paired with forward. `gp verify` checks both ideal pullbacks "
+                "and both inverse compositions. The field names are exactly "
+                "`forward` and `inverse`, not `maps` or `inverse_maps`.")},
         "ring_iso": {
             "type": "boolean",
             "description": (
@@ -274,14 +294,15 @@ TOOLS = [
                         "before you think about the change at all, by WHAT "
                         "you are replacing: an EDGE takes one list, a CLAIM "
                         "or an INFERENCE takes the other. There is no "
-                        "combined list of seven, because the two lists answer "
+                        "combined list, because the two lists answer "
                         "different questions -- and borrowing across them "
                         "fails in two different ways, neither of which helps: "
                         "a supersession kind from the edge list is REFUSED on "
                         "a claim, and one from the claim list is a word no "
                         "obligation has ever admitted, so on an edge it "
                         "discharges nothing.\n"
-                        "REPLACING AN EDGE -- DERIVE, RETYPE, ACCEPT. An edge "
+                        "REPLACING AN EDGE -- DERIVE, RETYPE, ACCEPT, WITHDRAW. "
+                        "An edge "
                         "is what a transport refusal is recorded AGAINST, so "
                         "replacing one asks: WHAT HAPPENED TO THE OBLIGATION "
                         "the old edge was carrying? Supersession INHERITS "
@@ -298,6 +319,9 @@ TOOLS = [
                         "refuses it.\n"
                         "  ACCEPT - carry it deliberately, in the open, with "
                         "a reason.\n"
+                        "  WITHDRAW - this was not an edge at all. Nothing "
+                        "replaces it, and any live inference crossing it must "
+                        "be retracted or rerouted over a real path.\n"
                         "  DERIVE is a discharge kind and is NOT the "
                         "identity_origin value DERIVED described above. One "
                         "is a move that closes an obligation; the other says "
@@ -642,12 +666,18 @@ def h_portage_show(args, root):
         out.append("MODEL %-16s %-14s %s" % (mid, tag, m.get("desc", "")[:70]))
     for eid in sorted(g.edges):
         e = g.edges[eid]
-        out.append("EDGE  %-16s %s -> %s  %s"
-                   % (eid, e["src"], e["dst"], e["type"]))
+        mark = ("  [WITHDRAWN by %s]" % e["withdrawn_by"]
+                if e.get("withdrawn_by") else
+                ("  [SUPERSEDED by %s]" % S.successors(e)
+                 if e.get("superseded_by") else ""))
+        out.append("EDGE  %-16s %s -> %s  %s%s"
+                   % (eid, e["src"], e["dst"], e["type"], mark))
     for cid in sorted(g.claims):
         c = g.claims[cid]
-        mark = ("  [SUPERSEDED by %s]" % S.successors(c)
-                if c.get("superseded_by") else "")
+        mark = ("  [RETRACTED by %s]" % c["retracted_by"]
+                if c.get("retracted_by") else
+                ("  [SUPERSEDED by %s]" % S.successors(c)
+                 if c.get("superseded_by") else ""))
         out.append("CLAIM %-16s %-9s @%-14s scope=%s cert=%s%s"
                    % (cid, c["kind"],
                       c.get("model") or ("family:%s" % c.get("family")),
@@ -675,8 +705,10 @@ def h_portage_show(args, root):
         premises = i["premises"]
         # A record that is dead and prints like a live one is the whole reason
         # supersession exists; it has to be visible in the handoff view too.
-        mark = ("  [SUPERSEDED by %s]" % S.successors(i)
-                if i.get("superseded_by") else "")
+        mark = ("  [RETRACTED by %s]" % i["retracted_by"]
+                if i.get("retracted_by") else
+                ("  [SUPERSEDED by %s]" % S.successors(i)
+                 if i.get("superseded_by") else ""))
         out.append("INFER %-16s %d premise%s -> %s%s"
                    % (iid, len(premises), "" if len(premises) == 1 else "s",
                       i["concludes_at"], mark))

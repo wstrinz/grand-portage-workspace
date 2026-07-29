@@ -91,6 +91,50 @@ class Operation(object):
         self.derivation = derivation
 
 
+def execute(op, timeout=300, _runner=None):
+    """Run a pending constructor program and return completed events.
+
+    Saturation and elimination cannot know their target ideal before the CAS
+    answers. Their constructors therefore emit `ideal_pending`; this function
+    turns that pending value into generators before anything is written. It
+    returns another plain Operation, preserving the rule that construction and
+    graph mutation are separate decisions.
+    """
+    if op.kind not in ("SaturateClosure", "Eliminate"):
+        return op
+    result = (_runner or cas._run_subprocess)(op.program, timeout)
+    if result["aborted"]:
+        raise cas.CASError("the %s operation aborted: %s"
+                           % (op.kind, result.get("abort_reason") or "unknown"))
+    if result["returncode"] != 0:
+        raise cas.CASError("the %s operation exited %s:\n%s"
+                           % (op.kind, result["returncode"],
+                              result["stderr"][-1500:]))
+    if "? error" in result["stdout"] + result["stderr"]:
+        raise cas.CASError("the %s operation reported a CAS error:\n%s"
+                           % (op.kind, result["stdout"][-1500:]))
+    values = cas._parse_outputs(result["stdout"], op.program.outputs)
+    raw = values[op.program.outputs[0]]
+    rows = raw if isinstance(raw, list) else [raw]
+    generators = [row.split("=", 1)[-1].strip() for row in rows]
+    generators = [g for g in generators if g and g != "0"]
+
+    events = [dict(ev) for ev in op.events]
+    pending = [ev for ev in events
+               if ev.get("ev") == "model" and ev.get("ideal_pending")]
+    if len(pending) != 1:
+        raise cas.CASError(
+            "%s expected exactly one pending model, found %d"
+            % (op.kind, len(pending)))
+    pending[0].pop("ideal_pending")
+    pending[0]["generators"] = generators
+    return Operation(
+        op.kind, events, op.program,
+        "the computed ideal is recorded; run `gp verify` to check the edge's "
+        "containment and operation output independently",
+        op.derivation)
+
+
 def _ideal(generators):
     """An ideal declaration that survives having no generators.
 
