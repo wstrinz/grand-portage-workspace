@@ -46,6 +46,13 @@ certificates are independently checked; direct normal-form decisions remain in
 the named backend/verifier TCB; verifier-native structural decisions explicitly
 spawn no backend artifact.
 
+`GrandPortage/OperationContract.lean` - the first backend-neutral operation
+contract. Exact saturation semantics, locally checked guarantees, and licensed
+transport consequences are distinct predicates. The current checks establish
+source containment plus certificates for each recorded output generator; they do
+not yet formalize the lift from those generators to every member of the generated
+ideal. A concrete counterexample separately refuses output completeness.
+
 `GrandPortage/Conditions.lean` — **that conjecture is refuted.** The four gated
 conditions turn out to be three different shapes, and one of them is not about
 the map at all. Details below.
@@ -93,11 +100,14 @@ hasPoint_along, isEmpty_against, everywhere_against   no axioms
 isEmpty_not_along, hasPoint_not_against               no axioms
 cover_empty, eqMod_against, eqMod_both_ways           no axioms
 eqMod_transports                                      no axioms
+saturation_semantics_entails_checked,
+  saturation_checked_transports_identity_against       no axioms
 everywhere_not_along                                  propext
-eqMod_not_along                                       propext, Quot.sound
+eqMod_not_along, checked_does_not_imply_saturation_semantics,
+  exact_saturation_does_not_transport_identity_along   propext, Quot.sound
 ```
 
-Both non-empty entries come from `simp`/`omega` on concrete decidable goals,
+The non-empty entries come from `simp`/`omega` on concrete decidable goals,
 not from anything load-bearing.
 
 ## Build

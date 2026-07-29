@@ -1,0 +1,113 @@
+"""Runtime shadows of formally specified operation contracts.
+
+The Lean files own the mathematical distinction between exact operation
+semantics and the weaker relation established by local validation.  These
+immutable values make that same distinction inspectable at the Python
+boundary.  They are plans and audit data, not proof objects.
+
+Only saturation is instantiated here.  Copying every current constructor into
+a speculative framework would turn enum prose into a second ontology before
+the first contract has been exercised.
+"""
+
+from dataclasses import dataclass
+from types import MappingProxyType
+
+from . import kernel as K
+
+
+@dataclass(frozen=True)
+class ValidationObligation:
+    """One independently checkable part of an operation's local guarantee."""
+
+    name: str
+    verifier_subject: str
+    verifier_function: str
+    establishes: str
+
+
+@dataclass(frozen=True)
+class OperationContract:
+    """Backend-neutral semantic and validation boundary for an operation."""
+
+    kind: str
+    source_sort: str
+    target_sort: str
+    parameters: tuple
+    preconditions: tuple
+    semantic_relation: str
+    edge_type: str
+    built_endpoint: str
+    source_endpoint: str
+    transport_reason: str
+    checked_obligations: tuple
+    open_obligations: tuple
+    licensed_consequences: tuple
+
+    def __post_init__(self):
+        if self.edge_type not in K.ALL_TYPES:
+            raise ValueError("%s names unknown edge type %s"
+                             % (self.kind, self.edge_type))
+        if {self.built_endpoint, self.source_endpoint} != {"src", "dst"}:
+            raise ValueError("%s must orient built and source endpoints"
+                             % self.kind)
+        names = [obligation.name for obligation in self.checked_obligations]
+        if len(names) != len(set(names)):
+            raise ValueError("%s repeats a checked obligation" % self.kind)
+        if not self.semantic_relation or not self.checked_obligations:
+            raise ValueError("%s is missing semantics or validation" % self.kind)
+
+    @property
+    def derivation(self):
+        return self.edge_type, self.transport_reason
+
+
+SATURATION = OperationContract(
+    kind="SaturateClosure",
+    source_sort="ideal in an exact polynomial ring",
+    target_sort="ideal in the same exact polynomial ring",
+    parameters=("polynomial f",),
+    preconditions=(
+        "source and built ideals are interpreted in the same ring",
+        "f is an expression in that ring",
+    ),
+    semantic_relation="I(built) = I(source) : f^oo",
+    edge_type=K.NECESSARY_CONDITION,
+    built_endpoint="src",
+    source_endpoint="dst",
+    transport_reason=(
+        "I : f^oo contains I, so the saturated model is cut by more "
+        "equations; returning to the ambient model drops them"
+    ),
+    checked_obligations=(
+        ValidationObligation(
+            "source_containment",
+            "edge",
+            "containment",
+            "I(source) is contained in I(built)",
+        ),
+        ValidationObligation(
+            "no_invented_generators",
+            "operation",
+            "operation_output",
+            "every recorded generator of I(built) has a certified witness "
+            "in I(source) : f^oo",
+        ),
+    ),
+    open_obligations=(
+        "I(source) : f^oo is contained in I(built) (output completeness)",
+    ),
+    licensed_consequences=(
+        "source ideal identities hold on the built model "
+        "(NECESSARY_CONDITION/AGAINST)",
+    ),
+)
+
+
+CONTRACTS = MappingProxyType({SATURATION.kind: SATURATION})
+
+
+def for_operation(kind):
+    """Return the formalization-backed runtime contract, if one exists."""
+
+    return CONTRACTS.get(kind)

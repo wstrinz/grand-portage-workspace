@@ -46,6 +46,7 @@ NECESSARY_CONDITION; one of those was right by accident.
 
 from . import backend as B
 from . import cas
+from . import contracts as OC
 from . import kernel as K
 
 # What each constructor emits as its transport relation.  Written as a table so
@@ -57,10 +58,7 @@ DERIVES = {
                  "the open locus D(f) is cut out by the same ideal together "
                  "with a condition on points, so returning to the ambient "
                  "model drops the inequality f != 0 and no equation"),
-    "SaturateClosure": (K.NECESSARY_CONDITION,
-                        "I : f^oo contains I, so the saturated model is cut "
-                        "by more equations; returning to the ambient model "
-                        "drops them"),
+    "SaturateClosure": OC.SATURATION.derivation,
     "Decompose": (K.NECESSARY_CONDITION,
                   "a component of a factorizing decomposition carries the "
                   "parent's equations and more, so returning to the parent "
@@ -83,10 +81,10 @@ class Operation(object):
     """
 
     __slots__ = ("kind", "events", "program", "verify_hint", "derivation",
-                 "artifacts", "request")
+                 "artifacts", "request", "contract")
 
     def __init__(self, kind, events, program, verify_hint, derivation,
-                 artifacts=None, request=None):
+                 artifacts=None, request=None, contract=None):
         self.kind = kind
         self.events = events
         self.program = program
@@ -94,6 +92,7 @@ class Operation(object):
         self.derivation = derivation
         self.artifacts = list(artifacts or [])
         self.request = dict(request) if request is not None else None
+        self.contract = contract
 
 
 def execute(op, timeout=300, _runner=None, backend=None):
@@ -136,7 +135,8 @@ def execute(op, timeout=300, _runner=None, backend=None):
         "the computed ideal is recorded; run `gp verify` to check the edge's "
         "containment and operation output independently",
         op.derivation,
-        artifacts=op.artifacts + [result.artifact], request=op.request)
+        artifacts=op.artifacts + [result.artifact], request=op.request,
+        contract=op.contract)
 
 
 def _ideal(generators):
@@ -286,7 +286,8 @@ def saturate_closure(src, f, produces, ring_vars, generators,
         "`gp verify` can check I(src) inside I(dst) by reduction",
         DERIVES["SaturateClosure"][1],
         request={"ring_vars": list(ring_vars), "generators": list(generators),
-                 "at": f, "characteristic": characteristic})
+                 "at": f, "characteristic": characteristic},
+        contract=OC.SATURATION)
 
 
 def decompose(src, ring_vars, generators, produces="%s_C%d",

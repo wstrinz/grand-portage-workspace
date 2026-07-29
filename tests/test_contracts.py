@@ -1,0 +1,134 @@
+"""Executable correspondence tests for operation-contract runtime shadows."""
+
+from dataclasses import FrozenInstanceError
+
+import pytest
+
+from grandportage import contracts as OC
+from grandportage import kernel as K
+from grandportage import operations as O
+from grandportage import store as S
+from grandportage import verify as V
+
+
+def test_saturation_contract_separates_semantics_from_checked_guarantees():
+    contract = OC.SATURATION
+
+    assert contract.semantic_relation == "I(built) = I(source) : f^oo"
+    assert contract.edge_type == K.NECESSARY_CONDITION
+    assert contract.built_endpoint == "src"
+    assert contract.source_endpoint == "dst"
+
+    checked = {obligation.name: obligation
+               for obligation in contract.checked_obligations}
+    assert set(checked) == {
+        "source_containment",
+        "no_invented_generators",
+    }
+    assert checked["source_containment"].verifier_subject == "edge"
+    assert checked["source_containment"].verifier_function == "containment"
+    assert checked["no_invented_generators"].verifier_subject == "operation"
+    assert (checked["no_invented_generators"].verifier_function
+            == "operation_output")
+    for obligation in checked.values():
+        assert obligation.verifier_subject in S.Graph._VERDICTS
+        assert (S.Graph._VERDICTS[obligation.verifier_subject]["writer"]
+                == "verify.%s" % obligation.verifier_function)
+        assert callable(getattr(V, obligation.verifier_function))
+
+    assert len(contract.open_obligations) == 1
+    assert "completeness" in contract.open_obligations[0]
+    assert all("complete" not in obligation.establishes.lower()
+               for obligation in contract.checked_obligations)
+
+
+def test_saturation_contract_is_the_constructor_derivation_source():
+    assert O.DERIVES["SaturateClosure"] == OC.SATURATION.derivation
+
+    op = O.saturate_closure(
+        "SOURCE", "x", "BUILT", ["x", "y"], ["x*y"],
+    )
+    assert op.contract is OC.SATURATION
+    edge = op.events[1]
+    assert edge["src"] == "BUILT"
+    assert edge["dst"] == "SOURCE"
+    assert edge["type"] == op.contract.edge_type
+    assert edge["why"].startswith(op.contract.transport_reason)
+
+
+def test_execution_preserves_the_semantic_contract():
+    op = O.saturate_closure(
+        "SOURCE", "x", "BUILT", ["x", "y"], ["x*y"],
+    )
+
+    def fake(_program, _timeout):
+        return {
+            "aborted": False,
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "@@GP_OUT:\nGP_OUT[1]=y\n",
+        }
+
+    done = O.execute(op, _runner=fake)
+    assert done.contract is OC.SATURATION
+    assert done.events[0]["generators"] == ["y"]
+
+
+def test_contract_values_are_immutable_audit_data():
+    with pytest.raises(FrozenInstanceError):
+        OC.SATURATION.semantic_relation = "whatever the backend returned"
+
+
+def test_incomplete_saturation_passes_local_checks_without_becoming_exact():
+    """The runtime image of Lean's `(6) : 2^oo` counterexample.
+
+    Saturating (x*y) at x is (y).  Recording the unchanged ideal (x*y) is
+    therefore incomplete, but it satisfies both one-sided local checks: the
+    source is contained in itself and its sole generator has an exponent-zero
+    saturation witness.  No exactness authority may appear.
+    """
+    op = O.saturate_closure(
+        "SOURCE", "x", "INCOMPLETE", ["x", "y"], ["x*y"],
+    )
+
+    def fake_execution(_program, _timeout):
+        return {
+            "aborted": False,
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "@@GP_OUT:\nGP_OUT[1]=x*y\n",
+        }
+
+    done = O.execute(op, _runner=fake_execution)
+    graph = S.Graph().apply_all([
+        ({"ev": "model", "id": "SOURCE", "what": "source",
+          "characteristic": 0, "ring_vars": ["x", "y"],
+          "generators": ["x*y"]}, "test", 0),
+    ] + [(event, "test", i + 1) for i, event in enumerate(done.events)])
+    graph.validate()
+
+    class LocallySoundIncompleteBackend:
+        def classify_identity(self, *_args, **_kwargs):
+            return K.DERIVED, {"reduced_modulo_ideal": "0"}
+
+        def membership(self, _ring, polynomial, _generators, **_kwargs):
+            assert polynomial == "x*y"
+            return {"is_member": True, "reduced": "0", "cofactors": ["1"]}
+
+    backend = LocallySoundIncompleteBackend()
+    obligations = {item.name: item for item in done.contract.checked_obligations}
+    containment_check = getattr(
+        V, obligations["source_containment"].verifier_function)
+    output_check = getattr(
+        V, obligations["no_invented_generators"].verifier_function)
+    containment, containment_why = containment_check(
+        graph, "E-INCOMPLETE", _backend=backend)
+    output, output_why, _certificate = output_check(
+        graph, "E-INCOMPLETE", _backend=backend)
+
+    assert containment == V.VERIFIED, containment_why
+    assert output == V.OP_SOUND, output_why
+    assert "DOES NOT SAY: that the output is COMPLETE" in output_why
+    assert "completeness" in done.contract.open_obligations[0]
+    assert all("semantic_relation" not in event and "exact" not in event
+               for event in done.events)

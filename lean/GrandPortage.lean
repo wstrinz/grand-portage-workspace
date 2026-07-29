@@ -3,6 +3,7 @@ import GrandPortage.MappedEquivalence
 import GrandPortage.Identity
 import GrandPortage.Conditions
 import GrandPortage.Localization
+import GrandPortage.OperationContract
 import GrandPortage.ImageClosure
 import GrandPortage.Exhaustive
 import GrandPortage.BackendTrust
