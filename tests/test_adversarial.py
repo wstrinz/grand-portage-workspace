@@ -19,6 +19,7 @@ import sys
 
 import pytest
 
+from grandportage import backend as B
 from grandportage import cas
 from grandportage import check as C
 from grandportage import format as F
@@ -48,6 +49,25 @@ def _fresh_verdict_graph(events):
 
     declarations = [ev for ev in events if ev.get("ev") != "verdict"]
     base = _native_graph(declarations)
+    trace = [{
+        "semantic_input_fingerprint": B.semantic_fingerprint(
+            "test_semantic_input", []),
+        "program_fingerprint": B.text_fingerprint("test program"),
+        "stdout_fingerprint": B.text_fingerprint("test stdout"),
+        "stderr_fingerprint": B.text_fingerprint(""),
+        "returncode": 0,
+        "aborted": False,
+    }]
+    execution = {
+        "schema": 1,
+        "contract": B.SINGULAR_CONTRACT,
+        "implementation": B.SINGULAR_IMPLEMENTATION,
+        "implementation_version": B.SINGULAR_IMPLEMENTATION_VERSION,
+        "binary_version": "Singular 4.2.1",
+        "executions": trace,
+        "trace_fingerprint": B.semantic_fingerprint(
+            "backend_execution_trace", trace),
+    }
     current = []
     for ev in events:
         if ev.get("ev") != "verdict":
@@ -55,7 +75,7 @@ def _fresh_verdict_graph(events):
             continue
         current.append(V._verdict_event(
             base, ev["subject"], ev["of"], ev["verdict"], ev["why"],
-            ev.get("representation")))
+            ev.get("representation"), execution=execution))
     return _native_graph(current)
 
 
@@ -2661,7 +2681,8 @@ def test_no_message_points_at_a_why_topic_that_does_not_exist():
 from grandportage.discharge import DISCHARGE_KINDS as DISCHARGE_KINDS_FOR_TEST
 
 
-def test_verify_all_actually_writes_and_the_finding_goes_away(tmp_path):
+def test_verify_all_actually_writes_and_the_finding_goes_away(
+        tmp_path, monkeypatch):
     """THE RECORDING PATH HAD NEVER BEEN RUN, and it crashed on first contact.
 
     `verify_all` passed the RESOLVED graph path to `S.append`, which takes a
@@ -2692,7 +2713,11 @@ def test_verify_all_actually_writes_and_the_finding_goes_away(tmp_path):
 
     # Nonzero in the polynomial ring, zero modulo the ideal -> DERIVED.
     runner = _fake_run(stdout="@@GP_D:\ny2-x3\n@@GP_RED:\n0\n")
-    results = V.verify_all(root=root, _runner=runner, record=True)
+    backend = cas.SingularBackend(
+        runner=runner, binary_version="Singular 4.2.1 test fixture")
+    monkeypatch.setattr(
+        cas.SingularBackend, "can_record_verdicts", property(lambda _self: True))
+    results = V.verify_all(root=root, backend=backend, record=True)
     assert results, "the claim is verifiable and must be verified"
 
     after = C.run(S.load(S.graph_path(root)))
@@ -3988,7 +4013,7 @@ def test_a_computed_origin_beats_a_declared_one():
     assert not [f for f in C.run(agree) if f.rule == C.R_ORIGIN_CONFLICT]
 
 
-def test_one_bad_object_does_not_cost_the_whole_run(tmp_path):
+def test_one_bad_object_does_not_cost_the_whole_run(tmp_path, monkeypatch):
     """A LIVE CAMPAIGN LOST A WHOLE VERIFICATION RUN TO THIS.
 
     One claim named a symbol its ring did not have, `classify_identity`
@@ -4033,7 +4058,11 @@ def test_one_bad_object_does_not_cost_the_whole_run(tmp_path):
             raise cas.CASError("the CAS reported an error: `sqrt3` undefined")
         return _fake_run(stdout="@@GP_D:\ny2-x3\n@@GP_RED:\n0\n")(prog, timeout)
 
-    results = V.verify_all(root=root, _runner=runner, record=True)
+    backend = cas.SingularBackend(
+        runner=runner, binary_version="Singular 4.2.1 test fixture")
+    monkeypatch.setattr(
+        cas.SingularBackend, "can_record_verdicts", property(lambda _self: True))
+    results = V.verify_all(root=root, backend=backend, record=True)
     got = {oid: verdict for _s, oid, verdict, _w in results}
 
     assert "OLD" not in got, "a superseded claim must not be re-verified"

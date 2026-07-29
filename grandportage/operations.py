@@ -44,6 +44,7 @@ models and two different edge types.  A live campaign typed both as
 NECESSARY_CONDITION; one of those was right by accident.
 """
 
+from . import backend as B
 from . import cas
 from . import kernel as K
 
@@ -81,17 +82,21 @@ class Operation(object):
     every existing guard still applies.
     """
 
-    __slots__ = ("kind", "events", "program", "verify_hint", "derivation")
+    __slots__ = ("kind", "events", "program", "verify_hint", "derivation",
+                 "artifacts", "request")
 
-    def __init__(self, kind, events, program, verify_hint, derivation):
+    def __init__(self, kind, events, program, verify_hint, derivation,
+                 artifacts=None, request=None):
         self.kind = kind
         self.events = events
         self.program = program
         self.verify_hint = verify_hint
         self.derivation = derivation
+        self.artifacts = list(artifacts or [])
+        self.request = dict(request) if request is not None else None
 
 
-def execute(op, timeout=300, _runner=None):
+def execute(op, timeout=300, _runner=None, backend=None):
     """Run a pending constructor program and return completed events.
 
     Saturation and elimination cannot know their target ideal before the CAS
@@ -102,22 +107,20 @@ def execute(op, timeout=300, _runner=None):
     """
     if op.kind not in ("SaturateClosure", "Eliminate"):
         return op
-    result = (_runner or cas._run_subprocess)(op.program, timeout)
-    if result["aborted"]:
-        raise cas.CASError("the %s operation aborted: %s"
-                           % (op.kind, result.get("abort_reason") or "unknown"))
-    if result["returncode"] != 0:
-        raise cas.CASError("the %s operation exited %s:\n%s"
-                           % (op.kind, result["returncode"],
-                              result["stderr"][-1500:]))
-    if "? error" in result["stdout"] + result["stderr"]:
-        raise cas.CASError("the %s operation reported a CAS error:\n%s"
-                           % (op.kind, result["stdout"][-1500:]))
-    values = cas._parse_outputs(result["stdout"], op.program.outputs)
-    raw = values[op.program.outputs[0]]
-    rows = raw if isinstance(raw, list) else [raw]
-    generators = [row.split("=", 1)[-1].strip() for row in rows]
-    generators = [g for g in generators if g and g != "0"]
+    if backend is not None and _runner is not None:
+        raise ValueError("pass backend or legacy _runner, not both")
+    backend = backend or cas.SingularBackend(runner=_runner)
+    if op.request is None:
+        raise cas.CASError("%s carries no semantic backend request" % op.kind)
+    request = dict(op.request)
+    if op.kind == "SaturateClosure":
+        answer = backend.saturate(timeout=timeout, **request)
+    else:
+        answer = backend.eliminate(timeout=timeout, **request)
+    result = answer["execution"]
+    program = answer["program"]
+    B.validate_execution_artifact(result, program)
+    generators = list(answer["generators"])
 
     events = [dict(ev) for ev in op.events]
     pending = [ev for ev in events
@@ -129,10 +132,11 @@ def execute(op, timeout=300, _runner=None):
     pending[0].pop("ideal_pending")
     pending[0]["generators"] = generators
     return Operation(
-        op.kind, events, op.program,
+        op.kind, events, program,
         "the computed ideal is recorded; run `gp verify` to check the edge's "
         "containment and operation output independently",
-        op.derivation)
+        op.derivation,
+        artifacts=op.artifacts + [result.artifact], request=op.request)
 
 
 def _ideal(generators):
@@ -274,23 +278,19 @@ def saturate_closure(src, f, produces, ring_vars, generators,
     #
     # Verified against Singular on cases with known answers -- sat((xy), x) = (y)
     # and sat((x^2y, xy^2), x) = (y) -- before being trusted here.
-    tvar = "GP_T"
-    prog = cas.CASProgram(
-        cas.SINGULAR, ring="GP_R", ring_vars=[tvar] + list(ring_vars),
-        decls=[("GP_I", "ideal",
-                _ideal(list(generators) + ["1-%s*(%s)" % (tvar, f)])),
-               ("GP_E", "ideal", "eliminate(GP_I,%s)" % tvar),
-               ("GP_OUT", "ideal", "std(GP_E)")],
-        body=[], outputs=["GP_OUT"], characteristic=characteristic)
+    prog = cas.SingularBackend().compile_saturation(
+        ring_vars, generators, f, characteristic=characteristic)
     return Operation(
         "SaturateClosure", [ev_model, ev_edge], prog,
         "the target's generators come back from the run; once recorded, "
         "`gp verify` can check I(src) inside I(dst) by reduction",
-        DERIVES["SaturateClosure"][1])
+        DERIVES["SaturateClosure"][1],
+        request={"ring_vars": list(ring_vars), "generators": list(generators),
+                 "at": f, "characteristic": characteristic})
 
 
 def decompose(src, ring_vars, generators, produces="%s_C%d",
-              characteristic=0, timeout=300, _runner=None):
+              characteristic=0, timeout=300, _runner=None, backend=None):
     """Split a model into a COVER of simpler pieces, with the cover proved.
 
     THE ONE CONSTRUCTOR THAT MUST RUN THE CAS TO KNOW WHAT IT EMITS.  The other
@@ -322,9 +322,16 @@ def decompose(src, ring_vars, generators, produces="%s_C%d",
     of irreducibility: `facstd` gives a cover, and nothing inside this boundary
     decides primality.
     """
-    pieces, prog = cas.factorizing_decomposition(
+    if backend is not None and _runner is not None:
+        raise ValueError("pass backend or legacy _runner, not both")
+    backend = backend or cas.SingularBackend(runner=_runner)
+    answer = backend.factorizing_decomposition(
         ring_vars, generators, characteristic=characteristic,
-        timeout=timeout, _runner=_runner, _return_program=True)
+        timeout=timeout, return_program=True)
+    pieces = list(answer["pieces"])
+    prog = answer["program"]
+    execution = answer["execution"]
+    B.validate_execution_artifact(execution, prog)
     # ONE PIECE IS NOT A DECOMPOSITION, and the store says so better than this
     # comment could: "a split into one piece is just the parent". Emitting a
     # component model identical to the parent plus an edge from it to itself
@@ -341,7 +348,8 @@ def decompose(src, ring_vars, generators, produces="%s_C%d",
             "%s's ideal did not factor, so there is no case analysis to make. "
             "That is a statement about what `facstd` could split, NOT a proof "
             "of irreducibility -- a cover is not a primary decomposition, and "
-            "nothing inside this CAS boundary can decide primality." % src)
+            "nothing inside this CAS boundary can decide primality." % src,
+            artifacts=[execution.artifact])
     ids = [produces % (src, i) if "%" in produces else "%s%d" % (produces, i)
            for i in range(len(pieces))]
     events = []
@@ -369,7 +377,8 @@ def decompose(src, ring_vars, generators, produces="%s_C%d",
         "intersecting the components and testing radical membership against "
         "the parent -- so the completeness premise is checked rather than "
         "taken from the tool that produced it",
-        DERIVES["Decompose"][1])
+        DERIVES["Decompose"][1],
+        artifacts=[execution.artifact])
 
 
 def eliminate(src, variables, produces, ring_vars, generators,
@@ -402,15 +411,13 @@ def eliminate(src, variables, produces, ring_vars, generators,
                       % (src, ", ".join(variables)))
     ev_edge = _edge("E-%s" % produces, src, produces, "Eliminate",
                     "Eliminated: %s." % ", ".join(variables))
-    prog = cas.CASProgram(
-        cas.SINGULAR, ring="GP_R", ring_vars=list(ring_vars),
-        decls=[("GP_I", "ideal", _ideal(generators)),
-               ("GP_E", "ideal",
-                "eliminate(GP_I,%s)" % "*".join(variables)),
-               ("GP_OUT", "ideal", "std(GP_E)")],
-        body=[], outputs=["GP_OUT"], characteristic=characteristic)
+    _remaining, prog = cas.SingularBackend().compile_elimination(
+        ring_vars, generators, variables, characteristic=characteristic)
     return Operation(
         "Eliminate", [ev_model, ev_edge], prog,
         "a NONEMPTY at the target does NOT give a witness at the source; if "
         "you need one, exhibit a lift explicitly",
-        DERIVES["Eliminate"][1])
+        DERIVES["Eliminate"][1],
+        request={"ring_vars": list(ring_vars), "generators": list(generators),
+                 "variables": list(variables),
+                 "characteristic": characteristic})

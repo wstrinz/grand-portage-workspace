@@ -40,6 +40,12 @@ other direction. Then `Carries`, the shape the remaining eight gated cells
 appear to share: an identity crosses when the induced map sends the source
 ideal into the target ideal.
 
+`GrandPortage/BackendTrust.lean` - the M2 authority boundary. Backend success,
+parsing, validation, and provenance freshness are separate facts. Replayable
+certificates are independently checked; direct normal-form decisions remain in
+the named backend/verifier TCB; verifier-native structural decisions explicitly
+spawn no backend artifact.
+
 `GrandPortage/Conditions.lean` — **that conjecture is refuted.** The four gated
 conditions turn out to be three different shapes, and one of them is not about
 the map at all. Details below.

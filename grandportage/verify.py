@@ -130,7 +130,7 @@ def _declared_characteristic(mid, model):
 
 
 
-def containment(graph, eid, timeout=300, _runner=None):
+def containment(graph, eid, timeout=300, _runner=None, _backend=None):
     """Is `I(dst)` inside `I(src)`?  Returns (verdict, why).
 
     One reduction per generator, stopping at the first that fails, because the
@@ -198,9 +198,9 @@ def containment(graph, eid, timeout=300, _runner=None):
 
     src_gens = list(src["generators"])
     for g in dst["generators"]:
-        origin, evidence = cas.classify_identity(
+        origin, evidence = (_backend or cas.SingularBackend(runner=_runner)).classify_identity(
             ring, lhs=g, rhs="0", generators=src_gens,
-            characteristic=ch, timeout=timeout, _runner=_runner)
+            characteristic=ch, timeout=timeout)
         if origin in (K.AMBIENT, K.DERIVED):
             continue
         return NOT_BY_IDEAL, (
@@ -227,7 +227,7 @@ DERIVED = "VERIFIED_DERIVED"
 REFUTED = "REFUTED"
 
 
-def identity(graph, cid, timeout=300, _runner=None):
+def identity(graph, cid, timeout=300, _runner=None, _backend=None):
     """Does this IDENTITY claim hold at its own model?  Returns (verdict, why).
 
     AND HERE, UNLIKE `containment`, REFUTATION IS AVAILABLE.  That asymmetry is
@@ -335,10 +335,10 @@ def identity(graph, cid, timeout=300, _runner=None):
     modulo = ("in the polynomial ring, which is the whole question here "
               "because %s imposes no equations" % c.get("model") if bare
               else "modulo %s's ideal" % c.get("model"))
-    origin, evidence = cas.classify_identity(
+    origin, evidence = (_backend or cas.SingularBackend(runner=_runner)).classify_identity(
         ring, lhs=c["lhs"], rhs=c["rhs"], generators=gens,
         characteristic=ch,
-        timeout=timeout, _runner=_runner)
+        timeout=timeout)
     if origin == K.AMBIENT:
         return AMBIENT, (
             "(%s) - (%s) reduces to 0 in the polynomial ring itself%s. The "
@@ -369,21 +369,22 @@ def identity(graph, cid, timeout=300, _runner=None):
                "modulo %s's ideal, so the rewriting holds in that coordinate "
                "ring and DERIVES from the model's own equations."
                % (c["lhs"], c["rhs"], c.get("model")))
-        rep = cas.membership_representation(
+        rep = (_backend or cas.SingularBackend(runner=_runner)).membership(
             ring, target, gens, characteristic=ch,
-            timeout=timeout, _runner=_runner)
+            timeout=timeout)
         if not rep["is_member"] or not rep["cofactors"]:
-            # Reduction said 0 and the lift found nothing. Not a refutation of
-            # the rewriting -- reduction DECIDES membership and it said yes --
-            # so the verdict stands and the certificate does not.
-            return DERIVED, why + (
-                "\n  NO REPRESENTATION WAS RECOVERED, so this verdict rests on "
-                "the reduction alone and cannot be rechecked without repeating "
-                "it.")
-        ok, expanded = cas.check_membership_representation(
+            # Reduction said 0 and the lift found nothing. That is not a
+            # refutation, but a DERIVED verdict licenses transport and must
+            # retain arithmetic a second checker can replay. Refuse authority
+            # rather than persisting an unrecheckable backend assertion.
+            return UNVERIFIED, why + (
+                "\n  NO REPRESENTATION WAS RECOVERED. The reduction supports "
+                "the identity but cannot license a persisted DERIVED verdict "
+                "until its ideal-membership certificate is retained.")
+        ok, expanded = (_backend or cas.SingularBackend(runner=_runner)).check_membership(
             ring, target, gens, rep["cofactors"],
             characteristic=ch,
-            timeout=timeout, _runner=_runner)
+            timeout=timeout)
         if not ok:
             return UNVERIFIED, (
                 "the reduction said (%s) - (%s) lies in %s's ideal, and "
@@ -454,7 +455,7 @@ ISO_VERIFIED = "VERIFIED"
 ISO_NOT_ISO = "NOT_AN_ISOMORPHISM"
 
 
-def ring_iso(graph, eid, timeout=300, _runner=None):
+def ring_iso(graph, eid, timeout=300, _runner=None, _backend=None):
     """Check an EQUIVALENCE's `ring_iso` against the maps, by reduction.
 
     THE MOST POWERFUL UNAUDITED BOOLEAN LEFT.  `ring_iso` is what licenses an
@@ -526,9 +527,9 @@ def ring_iso(graph, eid, timeout=300, _runner=None):
 
     # A point-forward map F : src -> dst pulls target functions back to src.
     for g in dst["generators"]:
-        _, ok = cas.substitute_and_reduce(
+        _, ok = (_backend or cas.SingularBackend(runner=_runner)).pullback_reduce(
             ring, g, fwd, list(src["generators"]), characteristic=ch,
-            timeout=timeout, _runner=_runner)
+            timeout=timeout)
         if not ok:
             return ISO_NOT_ISO, (
                 "target generator %r of %s does not pull back into %s's ideal "
@@ -537,9 +538,9 @@ def ring_iso(graph, eid, timeout=300, _runner=None):
                 % (g, e["dst"], e["src"]))
     # The point-inverse G : dst -> src pulls source functions back to dst.
     for g in src["generators"]:
-        _, ok = cas.substitute_and_reduce(
+        _, ok = (_backend or cas.SingularBackend(runner=_runner)).pullback_reduce(
             ring, g, inv, list(dst["generators"]), characteristic=ch,
-            timeout=timeout, _runner=_runner)
+            timeout=timeout)
         if not ok:
             return ISO_NOT_ISO, (
                 "source generator %r of %s does not pull back into %s's ideal "
@@ -548,12 +549,12 @@ def ring_iso(graph, eid, timeout=300, _runner=None):
                 % (g, e["src"], e["dst"]))
     # both roundtrips: psi(phi(v)) = v and phi(psi(v)) = v
     for v in ring:
-        once, _ = cas.substitute_and_reduce(ring, v, inv, [],
+        once, _ = (_backend or cas.SingularBackend(runner=_runner)).pullback_reduce(ring, v, inv, [],
                                             characteristic=ch,
-                                            timeout=timeout, _runner=_runner)
-        twice, _ = cas.substitute_and_reduce(ring, once, fwd, [],
+                                            timeout=timeout)
+        twice, _ = (_backend or cas.SingularBackend(runner=_runner)).pullback_reduce(ring, once, fwd, [],
                                              characteristic=ch,
-                                             timeout=timeout, _runner=_runner)
+                                             timeout=timeout)
         if twice.replace(" ", "") != v:
             return ISO_NOT_ISO, (
                 "`inverse(forward(%s))` does not reduce to %s, so `inverse` "
@@ -561,12 +562,12 @@ def ring_iso(graph, eid, timeout=300, _runner=None):
                 "that is not invertible, and then only one direction is "
                 "licensed."
                 % (v, v))
-        once, _ = cas.substitute_and_reduce(ring, v, fwd, [],
+        once, _ = (_backend or cas.SingularBackend(runner=_runner)).pullback_reduce(ring, v, fwd, [],
                                             characteristic=ch,
-                                            timeout=timeout, _runner=_runner)
-        twice, _ = cas.substitute_and_reduce(ring, once, inv, [],
+                                            timeout=timeout)
+        twice, _ = (_backend or cas.SingularBackend(runner=_runner)).pullback_reduce(ring, once, inv, [],
                                              characteristic=ch,
-                                             timeout=timeout, _runner=_runner)
+                                             timeout=timeout)
         if twice.replace(" ", "") != v:
             return ISO_NOT_ISO, (
                 "`forward(inverse(%s))` does not reduce to %s, so `inverse` "
@@ -588,7 +589,7 @@ OP_UNSOUND = "NOT_THE_STATED_OUTPUT"
 _MAX_SATURATION_POWER = 8
 
 
-def operation_output(graph, eid, timeout=300, _runner=None):
+def operation_output(graph, eid, timeout=300, _runner=None, _backend=None):
     """Is a constructed model's ideal actually what the operation claims?
 
     THE LAST OUTPUT NOBODY CHECKED.  `decompose` proves its cover, membership
@@ -671,9 +672,8 @@ def operation_output(graph, eid, timeout=300, _runner=None):
                 bad.append("%s names %s, which the projection removed"
                            % (g, ", ".join(foreign)))
                 continue
-            rep = cas.membership_representation(
-                ring, g, src_gens, characteristic=ch, timeout=timeout,
-                _runner=_runner)
+            rep = (_backend or cas.SingularBackend(runner=_runner)).membership(
+                ring, g, src_gens, characteristic=ch, timeout=timeout)
             if not rep["is_member"]:
                 bad.append("%s is not in %s's ideal (it reduces to %s)"
                            % (g, source_id, rep["reduced"]))
@@ -693,9 +693,8 @@ def operation_output(graph, eid, timeout=300, _runner=None):
             found = None
             for n in range(_MAX_SATURATION_POWER + 1):
                 target = g if n == 0 else "(%s)^%d*(%s)" % (f, n, g)
-                rep = cas.membership_representation(
-                    ring, target, src_gens, characteristic=ch, timeout=timeout,
-                    _runner=_runner)
+                rep = (_backend or cas.SingularBackend(runner=_runner)).membership(
+                    ring, target, src_gens, characteristic=ch, timeout=timeout)
                 if rep["is_member"]:
                     found = (n, rep["cofactors"])
                     break
@@ -750,7 +749,7 @@ NOT_EXHAUSTIVE = "NOT_EXHAUSTIVE"
 NOT_GEOMETRICALLY_EXHAUSTIVE = "NOT_GEOMETRICALLY_EXHAUSTIVE"
 
 
-def partition_exhaustiveness(graph, pid, timeout=300, _runner=None):
+def partition_exhaustiveness(graph, pid, timeout=300, _runner=None, _backend=None):
     """Do the branches actually cover the parent?
 
     THE STORE SAID THIS WAS OUT OF REACH: "The checker cannot verify that gamma
@@ -834,17 +833,17 @@ def partition_exhaustiveness(graph, pid, timeout=300, _runner=None):
     # and it is the whole engine of the counterexample below. If the parent's
     # ideal is the UNIT IDEAL it has no points over ANY field, so the cover is
     # vacuous and no amount of branch arithmetic can refute it.
-    unit = cas.membership_representation(
+    unit = (_backend or cas.SingularBackend(runner=_runner)).membership(
         ring, "1", list(parent["generators"]), characteristic=ch,
-        timeout=timeout, _runner=_runner)
+        timeout=timeout)
     if unit["is_member"]:
         return COVERS, (
             "%s's ideal is the UNIT IDEAL, so it has no points over any field "
             "and the branches cover it vacuously. Nothing about the branches "
             "was needed, or could have refuted this." % p.get("parent"))
-    covered, ev = cas.partition_covers(
+    covered, ev = (_backend or cas.SingularBackend(runner=_runner)).partition_cover(
         ring, list(parent["generators"]), branch_gens,
-        characteristic=ch, timeout=timeout, _runner=_runner)
+        characteristic=ch, timeout=timeout)
     named = ", ".join(p.get("branches") or [])
     if covered:
         return COVERS, (
@@ -891,7 +890,7 @@ WITNESS_VERIFIED = "VERIFIED"
 WITNESS_REFUTED = "NOT_A_POINT"
 
 
-def point_witness(graph, cid, timeout=300, _runner=None):
+def point_witness(graph, cid, timeout=300, _runner=None, _backend=None):
     """Substitute a NONEMPTY claim's exhibited point into its model's equations.
 
     THE CHEAPEST CHECK IN THE SYSTEM, WITH NO SURFACE FOR THREE RELEASES.
@@ -956,9 +955,9 @@ def point_witness(graph, cid, timeout=300, _runner=None):
     ch, missing = _declared_characteristic(c.get("model"), model)
     if missing:
         return UNVERIFIED, missing
-    ok, evidence = cas.check_witness(
+    ok, evidence = (_backend or cas.SingularBackend(runner=_runner)).evaluate_point(
         ring, gens, point, characteristic=ch,
-        timeout=timeout, _runner=_runner)
+        timeout=timeout)
     shown = ", ".join("%s = %s" % (v, point[v]) for v in ring if v in point)
     if ok:
         return WITNESS_VERIFIED, (
@@ -983,7 +982,7 @@ CERT_VERIFIED = "VERIFIED"
 CERT_NOT_UNIT = "NOT_UNIT"
 
 
-def unit_ideal(graph, cid, timeout=300, _runner=None):
+def unit_ideal(graph, cid, timeout=300, _runner=None, _backend=None):
     """Check an EMPTY claim's certificate against the computation, by expansion.
 
     THE LAST HONOUR-SYSTEM FIELD THAT CARRIES SCOPE, and the one that produced
@@ -1052,8 +1051,8 @@ def unit_ideal(graph, cid, timeout=300, _runner=None):
     ch, missing = _declared_characteristic(c.get("model"), model)
     if missing:
         return UNVERIFIED, missing, None
-    rep = cas.unit_ideal_representation(ring, list(gens), characteristic=ch,
-                                        timeout=timeout, _runner=_runner)
+    rep = (_backend or cas.SingularBackend(runner=_runner)).unit_ideal(ring, list(gens), characteristic=ch,
+                                        timeout=timeout)
     if not rep["is_unit"]:
         return CERT_NOT_UNIT, (
             "%s's ideal reduces to %s, not 1, so it is not the unit ideal and "
@@ -1063,9 +1062,9 @@ def unit_ideal(graph, cid, timeout=300, _runner=None):
             "other means."
             % (c.get("model"), ", ".join(rep["basis"]))), None
 
-    ok, expanded = cas.check_unit_ideal_representation(
+    ok, expanded = (_backend or cas.SingularBackend(runner=_runner)).check_unit_ideal(
         ring, list(gens), rep["cofactors"], characteristic=ch,
-        timeout=timeout, _runner=_runner)
+        timeout=timeout)
     witness = " + ".join("(%s)*(%s)" % (a, f)
                          for a, f in zip(rep["cofactors"], gens))
     if not ok:
@@ -1084,19 +1083,20 @@ def unit_ideal(graph, cid, timeout=300, _runner=None):
                      "generators": list(gens), "ring_vars": list(ring)}
 
 
-def _verdict_event(graph, subject, of, verdict, why, representation=None):
+def _verdict_event(graph, subject, of, verdict, why, representation=None,
+                   execution=None):
     # Content-address the answer together with the exact verifier/kernel/backend
     # identity and semantic input that made it authoritative.
     ev = {"ev": S.EV_VERDICT, "subject": subject, "of": of,
           "verdict": verdict, "why": why}
-    ev.update(P.metadata(graph, subject, of))
+    ev.update(P.metadata(graph, subject, of, execution=execution))
     if representation:
         ev["representation"] = representation
     ev["id"] = "v.%s.%s" % (of, P.event_digest(ev))
     return ev
 
 
-def verify_all(root=".", timeout=300, _runner=None, record=True):
+def verify_all(root=".", timeout=300, _runner=None, record=True, backend=None):
     """Verify every checkable edge AND claim, and RECORD the answers.
 
     RECORDING WAS THE STATED POINT AND DID NOT HAPPEN.  This function's own
@@ -1120,6 +1120,14 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
     path = S.graph_path(root)
     graph = S.load(path)
     results, events = [], []
+    if backend is not None and _runner is not None:
+        raise ValueError("pass backend or legacy _runner, not both")
+    backend = backend or cas.SingularBackend(runner=_runner)
+    if record and not backend.can_record_verdicts:
+        raise ValueError(
+            "record=True requires the exact production backend and binary; "
+            "subclasses, injected runners, and version overrides may be used "
+            "only with record=False")
 
     def run(subject, oid, fn):
         """One object, and a failure here must not cost the other twenty.
@@ -1131,6 +1139,7 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
         exact claim politely one command earlier.
         """
         rep = None
+        execution_start = backend.execution_count
         try:
             out = fn()
         except cas.CASError as exc:
@@ -1149,7 +1158,8 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
             rep = out[2] if len(out) > 2 else None
         results.append((subject, oid, verdict, why))
         events.append(_verdict_event(
-            graph, subject, oid, verdict, why, rep))
+            graph, subject, oid, verdict, why, rep,
+            execution=backend.provenance(execution_start)))
 
     for eid in sorted(graph.edges):
         e = graph.edges[eid]
@@ -1167,7 +1177,7 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
                 and src.get("generators") is not None
                 and dst.get("generators") is not None):
             run("edge", eid, lambda eid=eid: containment(
-                graph, eid, timeout=timeout, _runner=_runner))
+                graph, eid, timeout=timeout, _backend=backend))
         # RING_ISO HAD NO SURFACE AT ALL.  It worked, it caught a planted
         # false EQUIVALENCE in a live campaign, and it was reachable only by
         # importing the module from Python -- the same defect `gp verify`
@@ -1176,7 +1186,7 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
         if (e.get("built_by_operation") in ("SaturateClosure", "Eliminate")
                 and not e.get("output_verdict")):
             run("operation", eid, lambda eid=eid: operation_output(
-                graph, eid, timeout=timeout, _runner=_runner))
+                graph, eid, timeout=timeout, _backend=backend))
         # THE MAPS ARE THE TRIGGER, NOT THE FLAG.
         #
         # This required `ring_iso` IN ADDITION to the maps, so an author who
@@ -1193,7 +1203,7 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
         if (K.is_mapped_equivalence(e)
                 and not e.get("ring_iso_verdict")):
             run("ring_iso", eid, lambda eid=eid: ring_iso(
-                graph, eid, timeout=timeout, _runner=_runner))
+                graph, eid, timeout=timeout, _backend=backend))
 
     for cid in sorted(graph.claims):
         c = graph.claims[cid]
@@ -1205,7 +1215,7 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
             # IDENTITY is not a failed verification, it is an unasked
             # question, and `check` reports that hole.
             run("claim", cid, lambda cid=cid: identity(
-                graph, cid, timeout=timeout, _runner=_runner))
+                graph, cid, timeout=timeout, _backend=backend))
         # ONLY the kind this verifier decides. Running it on every certificate
         # spent a solver call to produce a refutation of something nobody
         # claimed.
@@ -1215,7 +1225,7 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
             # NO `[:2]` -- that slice is what threw the cofactors away.
             run("certificate", cid,
                 lambda cid=cid: unit_ideal(graph, cid, timeout=timeout,
-                                           _runner=_runner))
+                                           _backend=backend))
         # THE OTHER HALF OF THE EXISTENCE STORY, and the last of the four
         # capabilities that worked and could not be reached.  Silent on a prose
         # witness for the same reason as an unstructured IDENTITY: that is an
@@ -1224,7 +1234,7 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
         if (c.get("kind") == K.NONEMPTY and c.get("witness_point")
                 and not c.get("witness_verdict")):
             run("witness", cid, lambda cid=cid: point_witness(
-                graph, cid, timeout=timeout, _runner=_runner))
+                graph, cid, timeout=timeout, _backend=backend))
 
     # THE PREMISE NOBODY COULD CHECK. A partition's `exhaustive` claim is what
     # licenses every conclusion of the form "and those are all the cases", and
@@ -1234,7 +1244,7 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
         if p.get("superseded_by") or p.get("exhaustive_verdict"):
             continue
         run("partition", pid, lambda pid=pid: partition_exhaustiveness(
-            graph, pid, timeout=timeout, _runner=_runner))
+            graph, pid, timeout=timeout, _backend=backend))
 
     if record and events:
         # ROOT, not the graph path.  `append` resolves `.portage/graph.jsonl`

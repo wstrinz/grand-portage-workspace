@@ -178,6 +178,8 @@ def test_execute_materializes_a_pending_ideal_without_writing():
     assert "ideal_pending" not in done.events[0]
     assert done.events[0]["generators"] == ["y", "x+1"]
     assert "gp verify" in done.verify_hint
+    assert len(done.artifacts) == 1
+    assert done.artifacts[0].program_text == op.program.text
 
     graph = _fold([
         {"ev": "model", "id": "M_A", "what": "source",
@@ -238,6 +240,42 @@ def test_execute_treats_the_zero_ideal_as_no_generators():
                 "stdout": "@@GP_OUT:\nGP_OUT[1]=0\n"}
 
     assert O.execute(op, _runner=fake).events[0]["generators"] == []
+
+
+def test_operations_reject_an_artifact_attached_to_a_different_program():
+    from grandportage import cas
+
+    def fake(_program, _timeout):
+        return {"aborted": False, "returncode": 0, "stderr": "",
+                "stdout": "@@GP_OUT:\nGP_OUT[1]=y\n"}
+
+    backend = cas.SingularBackend(runner=fake, binary_version="test")
+    op = O.saturate_closure("M_A", "x", "M_S", RING, ["x*y"])
+    honest_saturate = backend.saturate
+
+    def mismatched_saturate(*args, **kwargs):
+        answer = honest_saturate(*args, **kwargs)
+        answer["program"] = O.localize(
+            "M_A", "x", "M_OPEN", RING, ["x*y"]).program
+        return answer
+
+    backend.saturate = mismatched_saturate
+    with pytest.raises(ValueError, match="different program"):
+        O.execute(op, backend=backend)
+
+    backend = cas.SingularBackend(runner=fake, binary_version="test")
+    executed_program = op.program
+    reported_program = O.localize(
+        "M_A", "x", "M_OPEN", RING, ["x*y"]).program
+
+    def mismatched_decomposition(*_args, **_kwargs):
+        execution = backend.execute(executed_program)
+        return {"pieces": [["x"], ["y"]], "program": reported_program,
+                "execution": execution}
+
+    backend.factorizing_decomposition = mismatched_decomposition
+    with pytest.raises(ValueError, match="different program"):
+        O.decompose("M_A", RING, ["x*y"], backend=backend)
 
 
 def test_pending_ideal_is_not_the_ambient_space():
@@ -411,6 +449,8 @@ def test_decompose_reports_the_exact_program_that_was_run():
     op = O.decompose("M", RING, ["x*y"], _runner=runner)
     assert len(seen) == 1
     assert op.program is seen[0]
+    assert len(op.artifacts) == 1
+    assert op.artifacts[0].program_text == seen[0].text
 
 
 def test_every_minted_component_carries_its_own_ideal():

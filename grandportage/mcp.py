@@ -556,7 +556,7 @@ def h_cas_health(args, root):
                ("GPH_G", "ideal", "std(GPH_I)")],
         body=[], outputs=["GPH_G"])
     try:
-        result = cas._run_subprocess(prog, 60)
+        result = cas._execute(prog, 60)
     except cas.CASError as exc:
         return _err("CAS UNREACHABLE via %s\n%s" % (cas._argv(), exc))
     if result["aborted"]:
@@ -565,7 +565,7 @@ def h_cas_health(args, root):
     if "? error" in result["stdout"] + result["stderr"]:
         return _err("CAS reported an error:\n%s" % result["stdout"][-800:])
     try:
-        values = cas._parse_outputs(result["stdout"], prog.outputs)
+        values = cas._parse_result(result, prog.outputs)
     except cas.CASError as exc:
         return _err("CAS output unparseable: %s" % exc)
     gb = values["GPH_G"]

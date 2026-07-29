@@ -15,7 +15,9 @@ import hashlib
 import json
 import re
 
+from . import backend as B
 from . import format as F
+from . import kernel as K
 
 
 BACKEND = "singular"
@@ -24,13 +26,13 @@ BACKEND = "singular"
 # changes in a way that requires stored answers to be recomputed.  Keeping
 # these independent avoids invalidating every verdict when one checker changes.
 VERIFIERS = {
-    "claim": ("verify.identity", 1),
-    "edge": ("verify.containment", 1),
-    "certificate": ("verify.unit_ideal", 1),
-    "ring_iso": ("verify.ring_iso", 1),
-    "witness": ("verify.point_witness", 1),
-    "operation": ("verify.operation_output", 1),
-    "partition": ("verify.partition_exhaustiveness", 1),
+    "claim": ("verify.identity", 2),
+    "edge": ("verify.containment", 2),
+    "certificate": ("verify.unit_ideal", 2),
+    "ring_iso": ("verify.ring_iso", 2),
+    "witness": ("verify.point_witness", 2),
+    "operation": ("verify.operation_output", 2),
+    "partition": ("verify.partition_exhaustiveness", 2),
 }
 
 _FINGERPRINT_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
@@ -126,6 +128,14 @@ def input_fingerprint(graph, subject, of):
     return "sha256:" + hashlib.sha256(encoded).hexdigest()
 
 
+def event_fingerprint(value):
+    """Stable SHA-256 for an execution trace or other provenance payload."""
+    encoded = json.dumps(
+        value, sort_keys=True, separators=(",", ":"), ensure_ascii=True
+    ).encode("utf-8")
+    return "sha256:" + hashlib.sha256(encoded).hexdigest()
+
+
 def event_digest(event):
     """Content address one complete verdict event, excluding only its id."""
     payload = {key: value for key, value in event.items() if key != "id"}
@@ -135,17 +145,149 @@ def event_digest(event):
     return hashlib.sha256(encoded).hexdigest()[:16]
 
 
-def metadata(graph, subject, of):
+_BACKEND_PREFIX = "gp-backend-v1:"
+_SYMBOL = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
+
+
+def _active_model(graph, mid):
+    model = graph.models.get(mid)
+    return model if model and not model.get("superseded_by") else None
+
+
+def _eligible_structural_containment(graph, eid):
+    edge = graph.edges.get(eid)
+    if (not edge or edge.get("superseded_by")
+            or K.is_mapped_equivalence(edge)
+            or edge.get("type") == K.SPECIALIZATION):
+        return False
+    source = _active_model(graph, edge.get("src"))
+    target = _active_model(graph, edge.get("dst"))
+    if not source or not target:
+        return False
+    if (source.get("ideal_pending") or target.get("ideal_pending")
+            or source.get("generators") is None
+            or target.get("generators") is None):
+        return False
+    ring = source.get("ring_vars") or []
+    if (not ring or "characteristic" not in source
+            or "characteristic" not in target
+            or source["characteristic"] != target["characteristic"]
+            or set(target.get("ring_vars") or []) != set(ring)):
+        return False
+    return target["generators"] == []
+
+
+def _eligible_structural_operation(graph, event):
+    edge = graph.edges.get(event.get("of"))
+    if not edge or edge.get("superseded_by"):
+        return False
+    kind = edge.get("built_by_operation")
+    if kind not in ("SaturateClosure", "Eliminate"):
+        return False
+    built_id = edge.get("src") if kind == "SaturateClosure" else edge.get("dst")
+    source_id = edge.get("dst") if kind == "SaturateClosure" else edge.get("src")
+    built = _active_model(graph, built_id)
+    source = _active_model(graph, source_id)
+    if not built or not source:
+        return False
+    if (built.get("ideal_pending") or source.get("ideal_pending")
+            or built.get("generators") is None
+            or source.get("generators") is None):
+        return False
+    if (not (source.get("ring_vars") or [])
+            or "characteristic" not in source
+            or "characteristic" not in built
+            or source["characteristic"] != built["characteristic"]):
+        return False
+    generators = built["generators"]
+    if kind == "SaturateClosure" and not built.get("saturated_at"):
+        return False
+    if event.get("verdict") == "VERIFIED":
+        return generators == []
+    if (event.get("verdict") != "NOT_THE_STATED_OUTPUT"
+            or kind != "Eliminate"):
+        return False
+    kept = set(built.get("ring_vars") or [])
+    return bool(generators) and all(
+        any(symbol not in kept for symbol in _SYMBOL.findall(str(generator)))
+        for generator in generators
+    )
+
+
+def _allows_empty_structural_trace(graph, event):
+    """Recognize eligible verifier-native decisions with no backend run."""
+    if event.get("verdict") == "UNVERIFIED":
+        return True
+    if event.get("subject") == "edge" and event.get("verdict") == "VERIFIED":
+        return _eligible_structural_containment(graph, event.get("of"))
+    if event.get("subject") == "operation":
+        return _eligible_structural_operation(graph, event)
+    return False
+
+def encode_backend_provenance(execution):
+    """Encode a versioned manifest inside the format-1 `backend` string."""
+    if not isinstance(execution, dict):
+        raise ValueError("execution provenance must be an explicit manifest")
+    return _BACKEND_PREFIX + json.dumps(
+        execution, sort_keys=True, separators=(",", ":"), ensure_ascii=True
+    )
+
+
+def backend_provenance(value):
+    """Decode and validate the M2 backend descriptor, or return ``None``."""
+    if not isinstance(value, str) or not value.startswith(_BACKEND_PREFIX):
+        return None
+    try:
+        manifest = json.loads(value[len(_BACKEND_PREFIX):])
+    except (TypeError, ValueError):
+        return None
+    if not isinstance(manifest, dict):
+        return None
+    required = {
+        "schema", "contract", "implementation", "implementation_version",
+        "binary_version", "executions", "trace_fingerprint",
+    }
+    if set(manifest) != required:
+        return None
+    if manifest["schema"] != 1:
+        return None
+    if manifest["contract"] != B.SINGULAR_CONTRACT:
+        return None
+    if manifest["implementation"] != B.SINGULAR_IMPLEMENTATION:
+        return None
+    if manifest["implementation_version"] != B.SINGULAR_IMPLEMENTATION_VERSION:
+        return None
+    version = manifest["binary_version"]
+    if (not isinstance(version, str) or not version.strip()
+            or version.startswith("unavailable:")
+            or version in ("unreported", "test-double")):
+        return None
+    trace = manifest["executions"]
+    if (not isinstance(trace, list)
+            or not all(B.valid_execution_trace_entry(entry)
+                       for entry in trace)):
+        return None
+    expected = B.semantic_fingerprint("backend_execution_trace", trace)
+    if manifest["trace_fingerprint"] != expected:
+        return None
+    return manifest
+
+
+def metadata(graph, subject, of, execution=None):
     """Provenance fields attached to a newly computed verdict event."""
+    if execution is None:
+        raise ValueError(
+            "verdict v2 needs explicit execution provenance; an absent run "
+            "cannot be replaced by a fabricated empty trace"
+        )
     verifier, verifier_version = VERIFIERS[subject]
     return {
         "verifier": verifier,
         "verifier_version": verifier_version,
         "kernel_epoch": F.KERNEL_EPOCH,
-        "backend": BACKEND,
+        "backend": encode_backend_provenance(execution),
         "input_fingerprint": input_fingerprint(graph, subject, of),
     }
-
 
 def current_verdict(graph, event):
     """Return ``(is_current, reason)`` for a stored verdict event.
@@ -173,8 +315,14 @@ def current_verdict(graph, event):
         return False, "verifier version does not match"
     if event.get("kernel_epoch") != F.KERNEL_EPOCH:
         return False, "kernel epoch does not match"
-    if event.get("backend") != BACKEND:
-        return False, "backend does not match"
+    manifest = backend_provenance(event.get("backend"))
+    if manifest is None:
+        return False, "backend execution provenance is absent or invalid"
+    if (not manifest["executions"]
+            and not _allows_empty_structural_trace(graph, event)):
+        return False, (
+            "authoritative %s verdict lacks a backend execution trace and "
+            "is not a verifier-native structural decision" % subject)
     fingerprint = event.get("input_fingerprint")
     if not isinstance(fingerprint, str) or not _FINGERPRINT_RE.match(fingerprint):
         return False, "input fingerprint is malformed"

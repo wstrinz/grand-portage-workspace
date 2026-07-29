@@ -773,9 +773,13 @@ def test_ring_iso_runs_on_the_maps_alone(tmp_path):
             "stdout": stdout,
         }
 
-    V.verify_all(root=str(tmp_path), _runner=fake)
+    results = V.verify_all(root=str(tmp_path), _runner=fake, record=False)
+    assert [(subject, oid, verdict)
+            for subject, oid, verdict, _ in results] == [
+        ("ring_iso", "E", "VERIFIED")
+    ]
     e = S.load(S.graph_path(str(tmp_path))).edges["E"]
-    assert e.get("ring_iso_verdict") == "VERIFIED"
+    assert e.get("ring_iso_verdict") is None
     assert e.get("ring_iso") is None, "a verdict minted a licence"
 
 
@@ -819,12 +823,12 @@ def test_mapped_equivalence_is_not_verified_as_literal_containment(tmp_path):
                 for o in program.outputs),
         }
 
-    results = V.verify_all(root=str(tmp_path), _runner=fake)
+    results = V.verify_all(root=str(tmp_path), _runner=fake, record=False)
     assert [(subject, oid) for subject, oid, _verdict, _why in results] == [
         ("ring_iso", "E")]
     graph = S.load(S.graph_path(str(tmp_path)))
     edge = graph.edges["E"]
-    assert edge.get("ring_iso_verdict") == "VERIFIED"
+    assert edge.get("ring_iso_verdict") is None
     assert "containment" not in edge, (
         "a mapped equivalence was also tested as literal containment")
     assert not [f for f in C.run(graph) if f.rule == C.R_CONTAINMENT]

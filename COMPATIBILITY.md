@@ -70,7 +70,8 @@ A computed verdict is executable trust. Epoch 1 records:
 
 - verifier identity and verifier-specific version;
 - kernel epoch;
-- backend;
+- backend contract, implementation, and exact binary version;
+- a SHA-256 fingerprint of the execution trace (programs and raw outputs);
 - a SHA-256 fingerprint of the complete semantic input.
 
 A legacy verdict, a verdict from another implementation epoch, or a verdict
@@ -81,19 +82,40 @@ answer.
 Algebraic verifiers also require an explicit model characteristic. Omission is
 unknown, not characteristic zero.
 
-## Next milestone: narrow backend seam and M2
+## Current milestone: narrow backend seam and M2
 
 The next architectural step after the epoch-1/L3 hardening cut is a narrow CAS
 backend seam, not a promise of broad multi-CAS support. `SingularBackend` remains
 the reference implementation and must preserve the exact program, backend
 identity, input fingerprint, and verdict provenance that were actually run.
 
-M2 then differential-tests only the load-bearing primitives already used by the
-kernel: ideal membership and certificates, saturation, elimination, mapped ideal
-pullback, partition coverage, and factorizing decomposition. Backend disagreement
-is recorded as an artifact and blocks promotion; it is not resolved by silently
-choosing one answer. New backends are added only after this seam and differential
-corpus are stable.
+The first M2 slice now provides backend-neutral ring specifications, immutable
+execution artifacts, and a semantic `SingularBackend` for identity classification,
+ideal and unit-ideal membership certificates, independent certificate checking,
+point evaluation, saturation, elimination, mapped pullback, partition coverage,
+and factorizing decomposition. Structured operations reject an artifact attached
+to a different program, and verifier events fingerprint a typed execution trace.
+Only the exact production adapter and probed binary may persist authority;
+subclasses, injected runners, and version overrides are test-only and can run only
+with `record=False`. Pre-M2 verdicts remain readable but stale under verifier
+provenance version 2.
+
+The trust model has three explicit lanes. Certificate-bearing answers are checked
+by replayable arithmetic independent of the search. Direct normal-form reductions
+remain inside the named, versioned Singular/verifier trusted computing base.
+Verifier-native structural decisions, such as a vacuous containment, explicitly
+spawn no backend artifact. Each is recorded as the evidence mode it actually uses.
+
+The golden corpus compares mathematical ideals by mutual certified membership,
+not by generator spelling or Groebner presentation. It includes characteristic-
+dependent membership, non-involutive maps, saturation whose first witness exponent
+is nine, compact elimination output, geometric holes over a base field, overlapping
+covers, non-prime one-piece decompositions, CAS errors, and partial output. Backend
+disagreement blocks promotion; it is not resolved by silently choosing one answer.
+
+Before adding a second backend, finish the transcript-completeness boundary with a
+nonce-bearing final marker and choose a content-addressed persistence location for
+raw artifacts. New backends are added only after that seam and corpus are stable.
 
 This follows the release order: close known semantic defects, cut epoch 1, finish
 the L3 gate, then use M2 to widen independent computational crosschecks.
