@@ -4230,3 +4230,72 @@ def test_the_unit_verifier_refuses_a_certificate_it_does_not_decide():
     verdict, why = V.unit_ideal(g, "CL", _runner=never)[:2]
     assert verdict == V.UNVERIFIED
     assert "only decides UNIT_IDEAL_CERT" in why
+
+
+# ===========================================================================
+# ABSENT IS NOT EMPTY.
+#
+# Measured across the live campaigns: SEVENTY-FIVE models have no `generators`
+# key and ZERO declare `[]`. So "the model imposes no equations" was being read
+# off the common case, which actually means "nobody recorded the ideal".
+#
+# Safe in one direction and not the other. A difference that is zero in the
+# polynomial ring is AMBIENT whatever the unrecorded equations are, so the SOS
+# Gram case is untouched. A difference that is NONZERO was being called REFUTED
+# -- at UNSOUND_CONCLUSION, saying the rewriting is false at its own model --
+# when it may hold perfectly well modulo equations nobody wrote down.
+# ===========================================================================
+NO_IDEAL = {"ev": "model", "id": "U", "desc": "ideal never recorded",
+            "ring_vars": ["x", "y"]}
+NO_EQUATIONS = {"ev": "model", "id": "U", "desc": "the ambient plane",
+                "ring_vars": ["x", "y"], "generators": []}
+
+
+def _identity_at(model, lhs, rhs, origin=K.DERIVED):
+    return _graph([model, {
+        "ev": "claim", "id": "CL", "model": "U", "kind": K.IDENTITY,
+        "statement": "a rewriting", "lhs": lhs, "rhs": rhs,
+        "ring_vars": ["x", "y"], "identity_origin": origin}])
+
+
+def _nonzero_runner(value="xy-1"):
+    def run(prog, timeout):
+        return {"aborted": False, "returncode": 0, "stderr": "",
+                "stdout": "@@GP_D:\n%s\n@@GP_RED:\n%s\n" % (value, value)}
+    return run
+
+
+def test_an_unrecorded_ideal_does_not_refute():
+    """THE FALSE REFUTATION. UNSOUND_CONCLUSION against a rewriting that may be
+    perfectly true, on the strength of equations nobody wrote down."""
+    from grandportage import verify as V
+    verdict, why = V.identity(_identity_at(NO_IDEAL, "x*y", "1"), "CL",
+                              _runner=_nonzero_runner())[:2]
+    assert verdict == V.UNVERIFIED, verdict
+    assert "CANNOT BE DECIDED" in why and "not a refutation" in why
+
+
+def test_a_model_that_says_it_has_no_equations_still_refutes():
+    """`generators: []` is a STATEMENT, and it makes the question answerable.
+    Reading absent and empty the same way is what had to stop; refusing both
+    would have been the opposite overreach."""
+    from grandportage import verify as V
+    verdict, why = V.identity(_identity_at(NO_EQUATIONS, "x*y", "1"), "CL",
+                              _runner=_nonzero_runner())[:2]
+    assert verdict == V.REFUTED
+    assert "imposes no equations" in why
+
+
+def test_an_ambient_identity_survives_an_unrecorded_ideal():
+    """THE SOS GRAM CASE, and the reason this fix is narrow.
+
+    `mon^T G mon - f = 0` lives in the polynomial ring and needs no ideal. That
+    conclusion is about the AMBIENT ring, so unrecorded equations cannot make
+    it false -- and refusing it would be a false refusal on exactly the case
+    that motivated letting bare models verify at all.
+    """
+    from grandportage import verify as V
+    verdict, why = V.identity(
+        _identity_at(NO_IDEAL, "(x+y)^2", "x^2+2*x*y+y^2", K.AMBIENT), "CL",
+        _runner=_nonzero_runner("0"))[:2]
+    assert verdict == V.AMBIENT

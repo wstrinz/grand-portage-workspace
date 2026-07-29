@@ -257,6 +257,29 @@ def identity(graph, cid, timeout=300, _runner=None):
     pending = _pending_ideal(c.get("model"), model)
     if pending:
         return UNVERIFIED, pending
+    # ABSENT IS NOT EMPTY, and reading them the same way is a false refutation.
+    #
+    # `generators: []` means THE AMBIENT SPACE -- the model imposes no
+    # equations, so "modulo I" and "in the polynomial ring" are the same
+    # question and agree by construction. That reading is right, and the SOS
+    # Gram case depends on it.
+    #
+    # No `generators` key at all means NOBODY RECORDED THE IDEAL, which is a
+    # different fact about the graph and not a fact about the model. Seventy-
+    # five live models across five campaigns are in that state and NONE
+    # declares `[]`, so this is the common case rather than the exotic one.
+    #
+    # Conflating them is safe in one direction and not the other:
+    #
+    #   difference is 0 in the polynomial ring  -> AMBIENT, and still SOUND.
+    #     That is a statement about the ambient ring; unrecorded equations
+    #     cannot make it false. So the SOS case keeps working untouched.
+    #   difference is nonzero                   -> REFUTED, and FALSE.
+    #     It says the rewriting does not hold at its own model, at
+    #     UNSOUND_CONCLUSION, when the rewriting may hold perfectly well
+    #     modulo equations the graph never recorded. "Not identically zero in
+    #     the polynomial ring" is simply not the question that was asked.
+    unrecorded = model.get("generators") is None
     gens = list(model.get("generators") or [])
     bare = not gens
     modulo = ("in the polynomial ring, which is the whole question here "
@@ -329,6 +352,19 @@ def identity(graph, cid, timeout=300, _runner=None):
                 "cofactors": list(rep["cofactors"]),
                 "generators": list(gens), "ring_vars": list(ring),
                 "target": target}
+    # THE REFUTATION IS THE ONE ANSWER AN UNRECORDED IDEAL CANNOT SUPPORT.
+    if unrecorded:
+        return UNVERIFIED, (
+            "(%s) - (%s) is not identically zero in the polynomial ring, and "
+            "%s records no ideal -- so whether the rewriting holds modulo this "
+            "model's equations CANNOT BE DECIDED HERE.\n"
+            "  This is not a refutation and must not be reported as one. The "
+            "model may well impose equations that make it true; nobody wrote "
+            "them down. If the model genuinely imposes none -- an identity in "
+            "the polynomial ring, an SOS Gram relation -- declare "
+            "`generators: []` and the same question becomes answerable, and "
+            "the answer will be AMBIENT."
+            % (c["lhs"], c["rhs"], c.get("model")))
     # A REFUTATION AT AN OPEN MODEL IS THE ONE A READER WILL ARGUE WITH, so
     # answer the argument here instead of leaving them to make it.
     #
