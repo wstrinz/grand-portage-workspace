@@ -64,6 +64,29 @@ def cmd_check(args):
         print("graph: %d models, %d edges, %d claims, %d inferences"
               % (len(g.models), len(g.edges), len(g.claims),
                  len(g.inference_order)))
+        # HOW MUCH OF THIS GRAPH IS CHECKABLE AT ALL -- a HEADER LINE and
+        # deliberately not a finding.
+        #
+        # Measured before choosing: reporting one finding per model with an
+        # algebraic obligation and no algebra produces 103 findings across the
+        # live campaigns and the two retrodiction fixtures, roughly doubling
+        # every campaign's count. The fixtures' gate asserts its clean sets
+        # EXACTLY, on the grounds that "a framework that flags a sound step is
+        # a false-positive generator and unusable", and recording a model
+        # without equations is not a defect -- most models legitimately have
+        # none.
+        #
+        # But the fact is real and it is the one that explains why eleven of
+        # fifteen live certificates come back UNVERIFIED. A reader planning a
+        # campaign needs it ONCE, not per object. So it goes where the count
+        # of models already goes.
+        blind = sum(1 for m in g.models.values()
+                    if m.get("generators") is None and not m.get("ideal_pending"))
+        if blind:
+            print("       %d of them record no ideal, so nothing algebraic can "
+                  "be checked there" % blind)
+            print("       (`generators: []` says a model imposes no equations; "
+                  "omitting it says nobody wrote them down)")
         print()
     accepted = H.read_baseline(args.root)["accepted"]
     for f in findings:
