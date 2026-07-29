@@ -51,6 +51,7 @@ R_CROSSCUT = "CROSS-CUT"
 R_CONTAINMENT = "CONTAINMENT"
 R_PENDING_IDEAL = "PENDING-IDEAL"
 R_INEXPRESSIBLE = "INEXPRESSIBLE-CONCLUSION"
+R_REFUTED_EVIDENCE = "REFUTED-EVIDENCE"
 R_IDENTITY = "UNTESTED-IDENTITY"
 R_SIBLING = "SIBLING-EDGE"
 R_STALE_MODEL = "STALE-MODEL"
@@ -202,12 +203,12 @@ def audit_inference(graph, iid):
             r = K.transport(
                 e["type"], direction, claim["kind"],
                 scope=claim.get("scope"),
-                certificate=claim.get("certificate"),
+                certificate=effective_certificate(claim),
                 map_kind=e["map_kind"],
                 zariski_closed=claim.get("zariski_closed"),
                 identity_origin=effective_origin(claim),
                 integral=claim.get("integral"),
-                ring_iso=e.get("ring_iso"),
+                ring_iso=effective_ring_iso(e),
                 coefficients_in_base=claim.get("coefficients_in_base"),
                 zariski_dense=e.get("zariski_dense"),
                 existential=claim.get("existential"))
@@ -245,12 +246,13 @@ def probe(graph, claim_id, edge_id, direction, etype=None, map_kind=None,
     edge = graph.edges[edge_id]
     return K.transport(
         etype or edge["type"], direction, claim["kind"],
-        scope=claim.get("scope"), certificate=claim.get("certificate"),
+        scope=claim.get("scope"),
+        certificate=effective_certificate(claim),
         map_kind=map_kind or edge["map_kind"],
         zariski_closed=(claim.get("zariski_closed")
                         if zariski_closed is None else zariski_closed),
         identity_origin=effective_origin(claim),
-        integral=claim.get("integral"), ring_iso=edge.get("ring_iso"),
+        integral=claim.get("integral"), ring_iso=effective_ring_iso(edge),
         coefficients_in_base=claim.get("coefficients_in_base"),
         zariski_dense=edge.get("zariski_dense"),
         existential=claim.get("existential"))
@@ -1289,6 +1291,124 @@ def effective_origin(claim):
     """
     return (_VERDICT_ORIGIN.get(claim.get("identity_verdict"))
             or claim.get("identity_origin"))
+
+
+def effective_ring_iso(edge):
+    """The `ring_iso` transport should use: refuted beats declared.
+
+    THE SAME DEFECT AS `effective_origin`, IN THE MOST POWERFUL BOOLEAN LEFT.
+    `verify.ring_iso` reduces the declared maps and can return
+    NOT_AN_ISOMORPHISM -- it caught a planted false EQUIVALENCE in a live
+    campaign, and catches a real one in another today. The kernel went on
+    reading `edge["ring_iso"]`, the author's word, so a refuted isomorphism
+    kept licensing an IDENTITY across the EQUIVALENCE in BOTH directions.
+
+    The tool spent CAS time computing the field that decides that transport,
+    wrote the answer into the same graph, and licensed off the declaration
+    contradicting it. That sentence is now true of three fields; this closes
+    the second.
+
+    A verdict of VERIFIED does not MINT the flag, only confirm it: an author
+    who never declared `ring_iso` is not granted it by a check they did not
+    ask for.
+    """
+    if edge.get("ring_iso_verdict") == "NOT_AN_ISOMORPHISM":
+        return False
+    return edge.get("ring_iso")
+
+
+def effective_certificate(claim):
+    """The certificate kind transport should use: refuted beats declared.
+
+    `derive_scope` reads the certificate KIND to decide whether an emptiness is
+    field-independent, and the kernel calls that the most load-bearing line in
+    the system. `verify.unit_ideal` can report NOT_UNIT -- the ideal does not
+    reduce to 1, so UNIT_IDEAL_CERT is not the certificate this claim has --
+    and nothing read it.
+
+    THAT IS THE ERRATUM'S OWN SHAPE. UNIT_IDEAL_CERT base-changes; a
+    field-relative emptiness wearing it derives SCHEME scope it never earned.
+    A live campaign has one right now: an ideal that reduces to `t^2-3`, which
+    is empty over Q and not over Q(sqrt 3).
+
+    Returning None rather than a corrected kind is deliberate. The verifier
+    knows the declared kind is WRONG; it does not know which kind is right,
+    and guessing would replace a false licence with a different one. `None`
+    makes `derive_scope` refuse, which is the honest answer.
+    """
+    if claim.get("certificate_verdict") == "NOT_UNIT":
+        return None
+    return claim.get("certificate")
+
+
+def check_refuted_evidence(graph):
+    """A certificate or an isomorphism the verifier REFUTED, said out loud.
+
+    `effective_certificate` and `effective_ring_iso` make the computed answer
+    win, which is right. But a silent correction is its own defect -- the
+    author believes something the graph no longer acts on -- so it is reported,
+    for the same reason `check_origin_contradiction` reports the third case.
+
+    BOTH OF THESE ARE MORE DANGEROUS THAN THEY LOOK.
+
+      NOT_UNIT             `derive_scope` reads the certificate KIND to decide
+                           whether an emptiness is FIELD-INDEPENDENT, which the
+                           kernel calls the most load-bearing line in the
+                           system. UNIT_IDEAL_CERT base-changes; an emptiness
+                           that is really field-relative wearing it derives
+                           SCHEME scope it never earned. That is the shape of
+                           the erratum this project started from.
+      NOT_AN_ISOMORPHISM   `ring_iso` licenses an IDENTITY to cross an
+                           EQUIVALENCE in BOTH directions, on the strength of a
+                           boolean. A bijection on solutions is not an
+                           isomorphism of coordinate rings, and the verifier
+                           reduces the maps to tell the difference.
+
+    Both were being written into the graph and read by nothing.
+    """
+    findings = []
+    for cid in sorted(graph.claims):
+        c = graph.claims[cid]
+        if c.get("superseded_by") or c.get("certificate_verdict") != "NOT_UNIT":
+            continue
+        findings.append(Finding(
+            R_REFUTED_EVIDENCE, "%s:cert:%s" % (R_REFUTED_EVIDENCE, cid),
+            UNSOUND_PREMISE, cid,
+            "claim %s declares certificate %s and the verifier REFUTED it: %s"
+            % (cid, c.get("certificate"),
+               c.get("certificate_why") or "(no detail)")
+            + "\n  The certificate kind is what `derive_scope` reads to decide "
+              "whether this emptiness is field-independent, so a wrong kind is "
+              "not a labelling error -- it is a claim to a scope the "
+              "mathematics does not give. Transport now treats this claim as "
+              "having NO certificate, which is why nothing it premises is "
+              "licensed.",
+            "This is a statement about the CERTIFICATE and not about the "
+            "emptiness -- the model may well be empty, established by other "
+            "means. Name the certificate kind that actually closes it. If the "
+            "argument is field-relative, the kind must be too, and "
+            "`derive_scope` will then require you to name the field.",
+            semantic_key=cid))
+    for eid in sorted(graph.edges):
+        e = graph.edges[eid]
+        if (e.get("superseded_by")
+                or e.get("ring_iso_verdict") != "NOT_AN_ISOMORPHISM"):
+            continue
+        findings.append(Finding(
+            R_REFUTED_EVIDENCE, "%s:iso:%s" % (R_REFUTED_EVIDENCE, eid),
+            UNSOUND_PREMISE, eid,
+            "edge %s declares `ring_iso` and the verifier REFUTED it: %s"
+            % (eid, e.get("ring_iso_why") or "(no detail)")
+            + "\n  That flag is the whole licence for an IDENTITY to cross an "
+              "EQUIVALENCE, in either direction. The maps were reduced and "
+              "they do not carry the ideal, so whatever the edge does to "
+              "points it is not an isomorphism of coordinate rings.",
+            "Drop `ring_iso` and the EQUIVALENCE still carries every existence "
+            "claim -- it is only the IDENTITY cells that need it. If the two "
+            "models really are isomorphic as rings, the declared `forward` and "
+            "`inverse` are not the maps that show it.",
+            semantic_key=eid))
+    return findings
 
 
 def check_origin_contradiction(graph):
@@ -2739,6 +2859,7 @@ def run(graph, accepted=None):
                 + check_coefficients_in_base(graph)
                 + check_integral(graph)
                 + check_origin_contradiction(graph)
+                + check_refuted_evidence(graph)
                 + check_evidence(graph)
                 + check_parallel_edges(graph)
                 + check_vacuous_conclusions(graph)

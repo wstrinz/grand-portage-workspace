@@ -4144,3 +4144,89 @@ def test_a_representation_with_no_cofactors_is_refused():
     with pytest.raises(S.GraphError) as e:
         _graph([HYP_MODEL, HYP_CLAIM, ev])
     assert "cofactors ARE the certificate" in str(e.value)
+
+
+# ===========================================================================
+# THE VERDICT BEATS THE DECLARATION -- for the two fields where it did not.
+#
+# `effective_origin` fixed this for `identity_origin` and the sentence it was
+# written under is now true of two more: the tool spent CAS time computing the
+# field that decides a transport, wrote the answer into the same graph, and
+# licensed off the declaration contradicting it.
+#
+# `check` read NEITHER `certificate_verdict` NOR `ring_iso_verdict`. Both were
+# being written and consumed by nothing.
+# ===========================================================================
+def test_a_refuted_certificate_stops_deriving_scope():
+    """`derive_scope` reads the certificate KIND to decide FIELD-INDEPENDENCE,
+    which the kernel calls its most load-bearing line. UNIT_IDEAL_CERT
+    base-changes, so a field-relative emptiness wearing it derives SCHEME scope
+    it never earned -- the shape of the erratum this project started from."""
+    claim = {"certificate": "UNIT_IDEAL_CERT",
+             "certificate_verdict": "NOT_UNIT"}
+    assert C.effective_certificate(claim) is None, (
+        "a refuted certificate still derives a scope")
+    # None rather than a guessed replacement: the verifier knows the declared
+    # kind is wrong and does NOT know which one is right.
+    assert C.effective_certificate({"certificate": "UNIT_IDEAL_CERT"}) == \
+        "UNIT_IDEAL_CERT"
+
+
+def test_a_refuted_isomorphism_stops_licensing_identities():
+    """`ring_iso` licenses an IDENTITY across an EQUIVALENCE in BOTH
+    directions, on the strength of one boolean."""
+    assert C.effective_ring_iso(
+        {"ring_iso": True, "ring_iso_verdict": "NOT_AN_ISOMORPHISM"}) is False
+    # VERIFIED confirms, it does not MINT: an author who never declared the
+    # flag is not granted it by a check they did not ask for.
+    assert not C.effective_ring_iso({"ring_iso_verdict": "VERIFIED"})
+    assert C.effective_ring_iso({"ring_iso": True}) is True
+
+
+def test_a_refuted_isomorphism_is_reported_not_only_acted_on():
+    """A silent correction is its own defect: the author believes something the
+    graph no longer acts on."""
+    g = _graph([
+        {"ev": "model", "id": "A", "desc": "a"},
+        {"ev": "model", "id": "B", "desc": "b"},
+        {"ev": "edge", "id": "E", "src": "A", "dst": "B",
+         "type": K.EQUIVALENCE, "why": "w", "map_kind": K.POLYNOMIAL,
+         "ring_iso": True, "forward": {"x": "x"}, "inverse": {"x": "x"}},
+        {"ev": "verdict", "id": "v", "subject": "ring_iso", "of": "E",
+         "verdict": "NOT_AN_ISOMORPHISM",
+         "why": "generator 'b' does not land in the ideal"},
+    ])
+    found = [f for f in C.run(g) if f.rule == C.R_REFUTED_EVIDENCE]
+    assert found and found[0].severity == C.UNSOUND_PREMISE
+    assert C.exit_code(C.run(g)) == 1
+
+
+def test_the_unit_verifier_refuses_a_certificate_it_does_not_decide():
+    """THE FALSE REFUTATION, found one command after `check` began acting on
+    these verdicts.
+
+    `unit_ideal` ran on ANY EMPTY claim carrying ANY certificate and reported
+    "UNIT_IDEAL_CERT is not the certificate this claim has" about a live claim
+    that had never said it was. That claim cites NONSQUARE_CLASS and is
+    CORRECT: its ideal reduces to `t^2-3`, which is what a nonsquare-class
+    argument looks like -- empty over Q, not over Q(sqrt 3).
+
+    Harmless while nothing read the verdict; a false UNSOUND_PREMISE against a
+    sound claim the moment something did.
+    """
+    from grandportage import verify as V
+
+    def never(prog, timeout):
+        raise AssertionError("the CAS was called for a certificate kind this "
+                             "verifier does not decide")
+
+    g = _graph([
+        {"ev": "model", "id": "M", "desc": "m",
+         "ring_vars": ["t"], "generators": ["t^2-3"]},
+        {"ev": "claim", "id": "CL", "model": "M", "kind": K.EMPTY,
+         "statement": "no rational point", "certificate": "NONSQUARE_CLASS",
+         "scope": "over Q"},
+    ])
+    verdict, why = V.unit_ideal(g, "CL", _runner=never)[:2]
+    assert verdict == V.UNVERIFIED
+    assert "only decides UNIT_IDEAL_CERT" in why

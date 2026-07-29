@@ -596,6 +596,31 @@ def unit_ideal(graph, cid, timeout=300, _runner=None):
         return UNVERIFIED, "no such claim", None
     if c.get("kind") != K.EMPTY:
         return UNVERIFIED, "claim %s is %s, not EMPTY" % (cid, c.get("kind")), None
+    # THIS VERIFIER ANSWERS ONE QUESTION AND IT IS NOT EVERY CLAIM'S QUESTION.
+    #
+    # It ran on ANY EMPTY claim carrying ANY certificate, and reported NOT_UNIT
+    # -- "UNIT_IDEAL_CERT is not the certificate this claim has" -- about a
+    # live claim that had never said it was. That claim declares
+    # NONSQUARE_CLASS, and it is CORRECT: its ideal reduces to `t^2-3`, which
+    # is exactly what a nonsquare-class argument looks like, empty over Q and
+    # not over Q(sqrt 3).
+    #
+    # So the verifier refuted a certificate the author never claimed, and the
+    # sentence it used to do it was already in the docstring above: NOT_UNIT
+    # means "the claim's certificate is simply not this one", which only parses
+    # if the claim said it was.
+    #
+    # Harmless while nothing read the verdict. The moment `check` began acting
+    # on it, it became a false UNSOUND_PREMISE against a sound claim -- which
+    # is how this was found, one command after wiring the two together.
+    if c.get("certificate") != "UNIT_IDEAL_CERT":
+        return UNVERIFIED, (
+            "claim %s cites %s, and this verifier only decides "
+            "UNIT_IDEAL_CERT. Expanding cofactors for `1` says nothing about "
+            "whether a nonsquare class, a degree count or a cited theorem "
+            "closes an emptiness; those are different arguments and want "
+            "different checkers."
+            % (cid, c.get("certificate") or "no certificate")), None
     model = graph.models.get(c.get("model")) or {}
     gens, ring = model.get("generators"), model.get("ring_vars")
     if not gens or not ring:
@@ -743,7 +768,11 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
             # question, and `check` reports that hole.
             run("claim", cid, lambda cid=cid: identity(
                 graph, cid, timeout=timeout, _runner=_runner))
-        if (c.get("kind") == K.EMPTY and c.get("certificate")
+        # ONLY the kind this verifier decides. Running it on every certificate
+        # spent a solver call to produce a refutation of something nobody
+        # claimed.
+        if (c.get("kind") == K.EMPTY
+                and c.get("certificate") == "UNIT_IDEAL_CERT"
                 and not c.get("certificate_verdict")):
             # NO `[:2]` -- that slice is what threw the cofactors away.
             run("certificate", cid,
