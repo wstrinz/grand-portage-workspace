@@ -2179,6 +2179,28 @@ def check_containment(graph):
             continue
         if src.get("generators") is None or dst.get("generators") is None:
             continue
+        # THIS RULE MUST KEY ON WHAT ITS OWN VERIFIER KEYS ON.
+        #
+        # It tested "do both models carry ideals?" and promised `gp verify`
+        # would reduce one modulo the other. `verify.containment` also requires
+        # THE SAME RING, and declines when the rings differ -- correctly: an
+        # ideal containment between two different polynomial rings is not a
+        # reduction question.
+        #
+        # So on every IMAGE_CLOSURE edge, where the rings differ BY
+        # CONSTRUCTION because the edge is a projection, the checker raised a
+        # DEBT that was UNDISCHARGEABLE BY ITS OWN STATED REMEDY: run the named
+        # command, nothing clears, re-run `gp check`, see it again verbatim.
+        # A live session hit this and had no route but `gp accept`.
+        #
+        # Not a soundness problem -- declining is the safe direction -- but a
+        # finding whose discharge cannot be delivered is worse than no finding,
+        # because it spends the author's trust in every other discharge.
+        #
+        # What IS checkable across a projection is `operation_output`, and the
+        # session's own edge carried a VERIFIED one.
+        if (src.get("ring_vars") or []) != (dst.get("ring_vars") or []):
+            continue
         verdict = e.get("containment")
         if verdict == "VERIFIED":
             continue

@@ -1407,6 +1407,32 @@ def supersession_help(entity="claim"):
         "changed. That guard exists because \"I only added an attribute\" is "
         "the sentence through which a transport-determining field arrives "
         "unexamined."
+        "\n\n"
+        # THE OTHER HALF OF THE VOCABULARY, which this omitted entirely.
+        #
+        # The four kinds above are for CLAIMS and INFERENCES. Edges use a
+        # DISJOINT set, and `gp why supersession` -- the canonical explainer --
+        # never mentioned it. A live session read the documented list, wrote
+        # RETRACT on an edge, and was refused by a message that named the valid
+        # values and the reason the vocabularies differ.
+        #
+        # The refusal was excellent. That is the problem: the author had to FAIL
+        # ONCE to learn something this function exists to tell them, which is
+        # the same shape as the defect this docstring already describes -- text
+        # that reaches you when you have got it wrong and never when you are
+        # deciding.
+        "AN EDGE USES A DIFFERENT AND DISJOINT VOCABULARY -- DERIVE, RETYPE,\n"
+        "ACCEPT -- because an edge supersession says what happened to the\n"
+        "OBLIGATION the old edge carried, while a claim or inference\n"
+        "supersession says what CHANGED about the record.\n"
+        "\n"
+        "  DERIVE     the missing mathematics now exists and the edge is\n"
+        "             replaced by one that carries it\n"
+        "  RETYPE     the relation was mis-typed; the new edge states the\n"
+        "             one that actually holds\n"
+        "  ACCEPT     the obligation is knowingly carried, with a reason\n"
+        "\n"
+        "  `gp why supersession --edge` prints only these."
         % (", ".join(lic), "asserts" if entity == "inference" else "states"))
 
 # Fields whose value decides what a claim licenses.  Split in two because the

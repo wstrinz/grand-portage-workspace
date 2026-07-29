@@ -11,6 +11,7 @@ import os
 import re
 import sys
 
+from . import __version__
 from . import cas
 from . import check as C
 from . import hook as H
@@ -371,12 +372,43 @@ def _declare_epilog():
         "  erratum     voids, why               (only for a record that will\n"
         "                                        not fold; supersede one that\n"
         "                                        does)\n"
-        "  verdict     WRITTEN BY `gp verify`, never declared\n"
+        "  verdict     WRITTEN BY `gp verify`, never declared. Reading one in\n"
+        "              the raw log: `subject` is the VERIFIER (ring_iso,\n"
+        "              witness, partition...) and `of` is the OBJECT it ran on\n"
+        "              (E-INV2, CL-PT...). Those read backwards and are kept\n"
+        "              because renaming them would break every graph that has\n"
+        "              one. `gp events --folded` shows the verdicts already\n"
+        "              attached to their objects, which is the easier view.\n"
         "  note        text -- untyped prose, invisible to every rule\n"
+        "\n"
+        # `premises` SHAPE, because the refusal was one field-name short of
+        # being self-service. "premise 0 must be an object" is correct and says
+        # nothing about what the object needs; the shape lived in a docstring
+        # at store.py.
+        "an inference takes ONE claim or a LIST OF PREMISES:\n"
+        "  \"claim\": \"C1\", \"path\": [[\"E1\", \"AGAINST\"]]\n"
+        "  \"premises\": [{\"claim\": \"C1\", \"path\": [[\"E1\",\"AGAINST\"]]},\n"
+        "                {\"claim\": \"C2\", \"path\": []}]\n"
+        "a path is a list of [edge_id, ALONG|AGAINST] steps, and [] means the\n"
+        "premise is used where it already sits.\n"
+        "\n"
+        # THE FIELDS THAT REACH `operation_output`, which appeared in NO
+        # markdown file in the repo and in no help text. A live session found
+        # them by reading verify.py and operations.py.
+        "to have a CONSTRUCTED model's ideal checked against the operation\n"
+        "that produced it, the edge carries `built_by_operation`\n"
+        "(SaturateClosure or Eliminate) and a saturated model carries\n"
+        "`saturated_at`. `gp construct` writes both for you.\n"
         "\n"
         "vocabularies:\n"
         "  edge type        %s\n"
         "  claim kind       %s\n"
+        "  map_kind         %s\n"
+        "  identity_origin  %s\n"
+        "  witness_kind     %s\n"
+        "  ladder           %s\n"
+        "  discharge_kind   %s   (claims, inferences)\n"
+        "                   %s   (edges -- a DISJOINT set)\n"
         "  evidence method  %s\n"
         "  doubt kind       %s\n"
         "  doubt severity   %s\n"
@@ -433,6 +465,12 @@ def _declare_epilog():
         "    instead, so the file is what its extension says it is.\n"
         % (", ".join(K.DECLARABLE_TYPES),
            ", ".join(K.CLAIM_KINDS),
+           ", ".join(K.MAP_KINDS),
+           ", ".join(K.IDENTITY_ORIGINS),
+           ", ".join(K.WITNESS_KINDS),
+           ", ".join(K.LADDER),
+           ", ".join(K.SUPERSESSION_KINDS),
+           ", ".join(DISCHARGE_KINDS),
            ", ".join(S.Graph.EVIDENCE_METHODS),
            ", ".join(S.Graph.DOUBT_KINDS),
            ", ".join(S.C_SEVERITIES),
@@ -1295,6 +1333,11 @@ def cmd_events(args):
 
 def build_parser():
     p = argparse.ArgumentParser(prog="gp", description=__doc__)
+    # `--version` printed the top-level usage and exited 2 without saying no
+    # such flag existed -- argparse's default for an unknown option, which
+    # reads as "you typed something wrong" rather than "that is not supported".
+    p.add_argument("--version", action="version",
+                   version="grand-portage %s" % __version__)
     p.add_argument("--root", default=".", help="project root (default: .)")
     p.add_argument("--graph", action="append",
                    help="graph log to read; repeat to MERGE several")
@@ -1371,9 +1414,28 @@ def build_parser():
                             "chains, and the obligations still carried")
     g.set_defaults(func=cmd_history)
 
-    v = sub.add_parser("verify",
-                       help="spend CAS time to settle what the graph takes "
-                            "on the author's word, and record the answers")
+    v = sub.add_parser(
+        "verify",
+        help="spend CAS time to settle what the graph takes on the author's "
+             "word, and record the answers",
+        description=(
+            "Runs every verifier that applies and records each answer as a "
+            "`verdict` event. `gp check` then reads those, and the VERDICT "
+            "BEATS THE DECLARATION wherever they disagree.\n\n"
+            "  containment               V(src) subset V(dst), by reduction\n"
+            "  identity                  the rewriting -- and mints the "
+            "cofactors for a DERIVED one\n"
+            "  unit_ideal                an EMPTY's certificate, by expansion\n"
+            "  ring_iso                  an EQUIVALENCE's maps, by reduction\n"
+            "  point_witness             a NONEMPTY's `witness_point`, by "
+            "substitution\n"
+            "  partition_exhaustiveness  that the cases are all the cases\n"
+            "  operation_output          that a constructor produced what it "
+            "claims\n\n"
+            "Silent where the data for a question is absent -- that is an "
+            "UNASKED question, not a failed one, and `gp check` reports the "
+            "hole."),
+        formatter_class=argparse.RawDescriptionHelpFormatter)
     v.add_argument("--timeout", type=int, default=300)
     v.add_argument("--dry-run", action="store_true",
                    help="report the verdicts without recording them")
