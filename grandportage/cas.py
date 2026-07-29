@@ -1054,6 +1054,109 @@ def check_unit_ideal_representation(ring_vars, generators, cofactors,
     return got == "1", got
 
 
+def membership_representation(ring_vars, target, generators, characteristic=0,
+                              timeout=300, _runner=None):
+    """The COFACTORS witnessing `g = sum b_i f_i`, generalising the unit case.
+
+    `unit_ideal_representation` is this with `g = 1`, and it exists because a
+    Groebner basis reducing to 1 is EVIDENCE while a representation is a
+    CERTIFICATE: given the cofactors, confirming the identity is one expansion
+    -- no Buchberger, no monomial order, no trust in the search that found
+    them.
+
+    THE REASON TO GENERALISE IT IS THAT MEMBERSHIP IS WHERE MOST OF THIS
+    SYSTEM'S WEIGHT SITS.  Emptiness is the dramatic case and the rare one.
+    Every IDENTITY is `lhs - rhs in I`; every containment is one membership per
+    generator.  Those were decided by REDUCTION, which is a decision procedure
+    and leaves nothing behind: "it reduced to 0" is a claim about a run that
+    nobody can recheck without doing the run again.
+
+    Returns {"is_member", "cofactors", "reduced"}.  `reduced` is the normal
+    form, which is the useful thing to print when the answer is no.
+    """
+    # TWO CALLS, for the reason the unit version documents: `lift` errors when
+    # there is nothing to lift, so asking for membership and a representation
+    # in one program turns "not a member" -- a fine and common answer -- into a
+    # CAS error.
+    probe = CASProgram(
+        SINGULAR, ring="GP_R", ring_vars=ring_vars, generators=generators,
+        decls=[("GP_I", "ideal", ",".join(generators)),
+               ("GP_S", "ideal", "std(GP_I)"),
+               ("GP_T", "poly", target),
+               ("GP_RED", "poly", "reduce(GP_T,GP_S)")],
+        body=[], outputs=["GP_RED"], characteristic=characteristic)
+    res = (_runner or _run_subprocess)(probe, timeout)
+    if (res["aborted"] or res["returncode"] != 0
+            or "? error" in res["stdout"] + res["stderr"]):
+        raise CASError("the CAS did not reduce the target:\n%s"
+                       % res["stdout"][-1500:])
+    reduced = _parse_outputs(res["stdout"], ["GP_RED"])["GP_RED"]
+    reduced = " ".join(reduced) if isinstance(reduced, list) else str(reduced)
+    reduced = reduced.split("=", 1)[-1].strip()
+    if reduced != "0":
+        return {"is_member": False, "cofactors": None, "reduced": reduced}
+
+    prog = CASProgram(
+        SINGULAR, ring="GP_R", ring_vars=ring_vars, generators=generators,
+        decls=[("GP_I", "ideal", ",".join(generators)),
+               ("GP_T", "poly", target),
+               ("GP_M", "matrix", "lift(GP_I,ideal(GP_T))")],
+        body=[], outputs=["GP_M"], characteristic=characteristic)
+    result = (_runner or _run_subprocess)(prog, timeout)
+    if (result["aborted"] or result["returncode"] != 0
+            or "? error" in result["stdout"] + result["stderr"]):
+        raise CASError("the CAS did not produce a representation:\n%s"
+                       % result["stdout"][-1500:])
+    rows = _parse_outputs(result["stdout"], ["GP_M"])["GP_M"]
+    rows = rows if isinstance(rows, list) else [rows]
+    # `GP_M[i,1]=...`, one row per generator IN GENERATOR ORDER, which is the
+    # only thing that makes the checker meaningful: a permuted list verifies a
+    # different identity and reports it as this one.
+    cofactors = []
+    for i in range(len(generators)):
+        want = "GP_M[%d,1]=" % (i + 1)
+        hit = [r for r in rows if r.replace(" ", "").startswith(want)]
+        cofactors.append(hit[0].split("=", 1)[-1].strip() if hit else "0")
+    return {"is_member": True, "cofactors": cofactors, "reduced": "0"}
+
+
+def check_membership_representation(ring_vars, target, generators, cofactors,
+                                    characteristic=0, timeout=300,
+                                    _runner=None):
+    """Expand `sum b_i f_i - g` and see whether it is 0.  NO GROEBNER BASIS.
+
+    The whole point, and the same argument `check_unit_ideal_representation`
+    makes: the expensive subtle computation found the cofactors, this one
+    multiplies and adds.  A checker sharing no code path with the search is
+    worth more than a second run of the search, and it is the only part of the
+    chain a reader has to trust.
+
+    It is also the bridge to a proof assistant.  Lean can check a polynomial
+    identity; it should never have to run a Groebner engine.
+    """
+    if len(cofactors) != len(generators):
+        raise CASError(
+            "%d cofactors for %d generators. A representation must give one "
+            "coefficient per generator, in the same order; a shorter list "
+            "would verify an identity about a different ideal and report it "
+            "as this one." % (len(cofactors), len(generators)))
+    terms = " + ".join("(%s)*(%s)" % (b, f)
+                       for b, f in zip(cofactors, generators))
+    prog = CASProgram(
+        SINGULAR, ring="GP_R", ring_vars=ring_vars, generators=generators,
+        decls=[("GP_DIFF", "poly", "(%s) - (%s)" % (terms, target))],
+        body=[], outputs=["GP_DIFF"], characteristic=characteristic)
+    result = (_runner or _run_subprocess)(prog, timeout)
+    if (result["aborted"] or result["returncode"] != 0
+            or "? error" in result["stdout"] + result["stderr"]):
+        raise CASError("the CAS did not expand the representation:\n%s"
+                       % result["stdout"][-1500:])
+    got = _parse_outputs(result["stdout"], ["GP_DIFF"])["GP_DIFF"]
+    got = " ".join(got) if isinstance(got, list) else str(got)
+    got = got.split("=", 1)[-1].strip()
+    return got == "0", got
+
+
 def ideal_is_unit(ring_vars, generators, characteristic=0, name="GP_I",
                   **kw):
     """Convenience: does the ideal reduce to (1)?

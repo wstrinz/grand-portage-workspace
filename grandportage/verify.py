@@ -275,11 +275,60 @@ def identity(graph, cid, timeout=300, _runner=None):
                "" if bare else
                ", before any of %s's equations are imposed" % c.get("model")))
     if origin == K.DERIVED:
-        return DERIVED, (
-            "(%s) - (%s) is nonzero in the polynomial ring but reduces to 0 modulo "
-            "%s's ideal, so the rewriting holds in that coordinate ring and "
-            "DERIVES from the model's own equations."
-            % (c["lhs"], c["rhs"], c.get("model")))
+        # AND HERE THE VERDICT EARNS A CERTIFICATE.
+        #
+        # "It reduced to 0" is a claim about a run.  Nobody can recheck it
+        # without doing the run again, which means the only real check is
+        # trusting the search -- the exact position `UNIT_IDEAL_CERT` was in
+        # before its cofactors were captured, and that one produced an erratum.
+        #
+        # A DERIVED rewriting rests on the model's equations, so `lhs - rhs =
+        # sum b_i f_i` and the cofactors ARE the derivation.  Expanding them is
+        # arithmetic: no Buchberger, no monomial order, no trust in the search.
+        # It is also the bridge to a proof assistant, which can check a
+        # polynomial identity and should never run a Groebner engine.
+        #
+        # THE VERIFIER DOES NOT TRUST ITS OWN LIFT.  It expands what it got
+        # back before recording anything, and a mismatch is reported rather
+        # than smoothed over -- that is the case the expansion exists to catch.
+        target = "(%s) - (%s)" % (c["lhs"], c["rhs"])
+        why = ("(%s) - (%s) is nonzero in the polynomial ring but reduces to 0 "
+               "modulo %s's ideal, so the rewriting holds in that coordinate "
+               "ring and DERIVES from the model's own equations."
+               % (c["lhs"], c["rhs"], c.get("model")))
+        rep = cas.membership_representation(
+            ring, target, gens, characteristic=model.get("characteristic") or 0,
+            timeout=timeout, _runner=_runner)
+        if not rep["is_member"] or not rep["cofactors"]:
+            # Reduction said 0 and the lift found nothing. Not a refutation of
+            # the rewriting -- reduction DECIDES membership and it said yes --
+            # so the verdict stands and the certificate does not.
+            return DERIVED, why + (
+                "\n  NO REPRESENTATION WAS RECOVERED, so this verdict rests on "
+                "the reduction alone and cannot be rechecked without repeating "
+                "it.")
+        ok, expanded = cas.check_membership_representation(
+            ring, target, gens, rep["cofactors"],
+            characteristic=model.get("characteristic") or 0,
+            timeout=timeout, _runner=_runner)
+        if not ok:
+            return UNVERIFIED, (
+                "the reduction said (%s) - (%s) lies in %s's ideal, and "
+                "expanding the cofactors the CAS returned for it gives a "
+                "difference of %s rather than 0.\n"
+                "  The search and the arithmetic disagree, and the arithmetic "
+                "is the half a reader can check. Nothing is recorded until "
+                "they agree."
+                % (c["lhs"], c["rhs"], c.get("model"), expanded))
+        witness = " + ".join("(%s)*(%s)" % (b, f)
+                             for b, f in zip(rep["cofactors"], gens))
+        return DERIVED, why + (
+            "\n  (%s) - (%s) = %s, expanded and confirmed WITHOUT recomputing "
+            "a basis. The derivation is now an artifact rather than a report "
+            "of one." % (c["lhs"], c["rhs"], witness)), {
+                "cofactors": list(rep["cofactors"]),
+                "generators": list(gens), "ring_vars": list(ring),
+                "target": target}
     # A REFUTATION AT AN OPEN MODEL IS THE ONE A READER WILL ARGUE WITH, so
     # answer the argument here instead of leaving them to make it.
     #
@@ -588,7 +637,7 @@ def unit_ideal(graph, cid, timeout=300, _runner=None):
                      "generators": list(gens), "ring_vars": list(ring)}
 
 
-def _verdict_event(subject, of, verdict, why):
+def _verdict_event(subject, of, verdict, why, representation=None):
     # Content-addressed id, so re-verifying an unchanged thing with an
     # unchanged answer is an IDEMPOTENT redeclaration and the fold absorbs it.
     # Re-verifying after something changed produces a different id and both
@@ -597,8 +646,11 @@ def _verdict_event(subject, of, verdict, why):
     digest = hashlib.sha1(
         ("%s|%s|%s|%s" % (subject, of, verdict, why)).encode("utf-8")
     ).hexdigest()[:12]
-    return {"ev": S.EV_VERDICT, "id": "v.%s.%s" % (of, digest),
-            "subject": subject, "of": of, "verdict": verdict, "why": why}
+    ev = {"ev": S.EV_VERDICT, "id": "v.%s.%s" % (of, digest),
+          "subject": subject, "of": of, "verdict": verdict, "why": why}
+    if representation:
+        ev["representation"] = representation
+    return ev
 
 
 def verify_all(root=".", timeout=300, _runner=None, record=True):
@@ -635,6 +687,7 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
         had already verified were discarded.  `gp check` had reported that
         exact claim politely one command earlier.
         """
+        rep = None
         try:
             out = fn()
         except cas.CASError as exc:
@@ -643,8 +696,16 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
                 "run continued:\n  %s" % exc)
         else:
             verdict, why = out[0], out[1]
+            # THE CERTIFICATE, IF THE VERIFIER MINTED ONE -- and this line is
+            # why it now survives.  `unit_ideal` has returned cofactors as a
+            # third element since it was written, and the call site sliced them
+            # off with `[:2]`. So the expensive part ran, the representation
+            # was built, the expansion confirmed it, and the graph kept only
+            # the word VERIFIED. The one artifact a reader could have rechecked
+            # without trusting the search was computed and dropped.
+            rep = out[2] if len(out) > 2 else None
         results.append((subject, oid, verdict, why))
-        events.append(_verdict_event(subject, oid, verdict, why))
+        events.append(_verdict_event(subject, oid, verdict, why, rep))
 
     for eid in sorted(graph.edges):
         e = graph.edges[eid]
@@ -684,9 +745,10 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
                 graph, cid, timeout=timeout, _runner=_runner))
         if (c.get("kind") == K.EMPTY and c.get("certificate")
                 and not c.get("certificate_verdict")):
+            # NO `[:2]` -- that slice is what threw the cofactors away.
             run("certificate", cid,
                 lambda cid=cid: unit_ideal(graph, cid, timeout=timeout,
-                                           _runner=_runner)[:2])
+                                           _runner=_runner))
         # THE OTHER HALF OF THE EXISTENCE STORY, and the last of the four
         # capabilities that worked and could not be reached.  Silent on a prose
         # witness for the same reason as an unstructured IDENTITY: that is an

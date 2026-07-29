@@ -1002,6 +1002,12 @@ def cmd_show(args):
             extra.append("%s = %s" % (c["lhs"], c["rhs"]))
         if c.get("identity_verdict"):
             extra.append("verdict=%s" % c["identity_verdict"])
+        # A VERDICT WITH A REPRESENTATION IS A DIFFERENT KIND OF OBJECT from a
+        # verdict without one, and the listing showed them identically. One can
+        # be rechecked by expansion; the other is a report of a run.
+        if c.get("representation"):
+            extra.append("rep=%d cofactor(s)"
+                         % len(c["representation"]["cofactors"]))
         # THE POINT, AND WHETHER ANYBODY SUBSTITUTED IT -- for exactly the
         # reason `lhs = rhs` is printed two lines up. A reader could not tell a
         # checkable witness from a prose one without opening graph.jsonl.

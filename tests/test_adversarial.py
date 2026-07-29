@@ -3950,10 +3950,15 @@ def test_a_fabricated_point_no_longer_types_like_a_real_one():
 def test_a_refuted_witness_is_unsound_at_its_own_model():
     """The same shape as a REFUTED identity: no transport typing anywhere
     downstream would ever have surfaced it."""
-    g = _graph(CIRCLE + [_witness_claim(
-        "FAKE", {"x": "3", "y": "5"},
-        witness_verdict="NOT_A_POINT",
-        witness_why="x^2+y^2-25 evaluates to 9")])
+    # Through the VERDICT EVENT, because declaring `witness_verdict` by hand is
+    # now refused -- the field is computed, and asserting the checker's most
+    # severe finding with nothing behind it is the honour system this verifier
+    # exists to replace.
+    g = _graph(CIRCLE + [
+        _witness_claim("FAKE", {"x": "3", "y": "5"}),
+        {"ev": "verdict", "id": "v1", "subject": "witness", "of": "FAKE",
+         "verdict": "NOT_A_POINT",
+         "why": "x^2+y^2-25 evaluates to 9"}])
     found = [f for f in C.run(g) if f.rule == C.R_WITNESS]
     assert found[0].severity == C.UNSOUND_CONCLUSION
     assert C.exit_code(C.run(g)) == 1
@@ -4008,3 +4013,134 @@ def test_a_partial_point_is_not_a_point():
     with pytest.raises(cas.CASError) as e:
         cas.check_witness(["x", "y"], ["x^2+y^2-25"], {"x": "3"})
     assert "missing y" in str(e.value)
+
+
+# ===========================================================================
+# THE DERIVATION AS AN ARTIFACT, not a report of one.
+#
+# "it reduced to 0" is a claim about a run. Nobody can recheck it without doing
+# the run again, so the only real check is trusting the search -- exactly where
+# UNIT_IDEAL_CERT stood before its cofactors were captured, and that one
+# produced an erratum.
+#
+# A DERIVED rewriting rests on the model's equations, so lhs - rhs = sum b_i f_i
+# and the cofactors ARE the derivation. Expanding them is arithmetic.
+# ===========================================================================
+HYP_MODEL = {"ev": "model", "id": "H", "desc": "the hyperbola xy = 1",
+             "ring_vars": ["x", "y"], "generators": ["x*y-1"]}
+HYP_CLAIM = {"ev": "claim", "id": "CL", "model": "H", "kind": K.IDENTITY,
+             "statement": "x^2*y = x on the hyperbola",
+             "lhs": "x^2*y", "rhs": "x", "ring_vars": ["x", "y"],
+             "identity_origin": K.DERIVED}
+
+
+def _hyperbola_runner(expand="0", lift_row="x"):
+    """Enough of Singular to drive `identity` down the DERIVED branch.
+
+    Keyed on the DECLARATIONS each program makes, because three different
+    programs run here and two of them both output GP_RED:
+
+        classify_identity        GP_D  (the difference) and GP_RED
+        membership_representation probe   GP_T and GP_RED
+        ... then the lift        GP_M
+        check_membership_repr.   GP_DIFF
+    """
+    # A POLY PRINTS BARE; only matrices and ideals carry a `NAME[i,j]=` prefix.
+    # The first version of this helper prefixed everything, so `GP_RED` came
+    # back as the string "GP_RED=0", compared unequal to "0", and the fixture
+    # reported REFUTED for an identity that holds.
+    def run(prog, timeout):
+        t = prog.text
+        if "GP_DIFF" in t:
+            out = "@@GP_DIFF:\n%s\n" % expand
+        elif "GP_M" in t:
+            out = "@@GP_M:\nGP_M[1,1]=%s\n" % lift_row
+        elif "GP_T" in t:
+            out = "@@GP_RED:\n0\n"
+        else:
+            out = "@@GP_D:\nx2y-x\n@@GP_RED:\n0\n"
+        return {"aborted": False, "returncode": 0, "stderr": "", "stdout": out}
+    return run
+
+
+def test_a_derived_identity_leaves_a_certificate():
+    """The cofactors go into the graph, so the derivation can be rechecked by
+    expansion instead of by repeating the search."""
+    from grandportage import verify as V
+    g = _graph([HYP_MODEL, HYP_CLAIM])
+    out = V.identity(g, "CL", _runner=_hyperbola_runner())
+    assert out[0] == V.DERIVED
+    assert len(out) == 3 and out[2]["cofactors"] == ["x"]
+    assert out[2]["generators"] == ["x*y-1"]
+    assert "WITHOUT recomputing a basis" in out[1]
+
+
+def test_the_verifier_does_not_trust_its_own_lift():
+    """THE CASE THE EXPANSION EXISTS TO CATCH. Reduction says the difference is
+    in the ideal; expanding the cofactors returned for it says otherwise. The
+    arithmetic is the half a reader can check, so nothing is recorded."""
+    from grandportage import verify as V
+    g = _graph([HYP_MODEL, HYP_CLAIM])
+    verdict, why = V.identity(
+        g, "CL", _runner=_hyperbola_runner(expand="7"))[:2]
+    assert verdict == V.UNVERIFIED
+    assert "disagree" in why and "7" in why
+
+
+def test_a_representation_cannot_be_declared():
+    """A certificate nobody computed is the honour system this replaces."""
+    with pytest.raises(S.GraphError) as e:
+        _graph([HYP_MODEL, dict(HYP_CLAIM, representation={
+            "cofactors": ["x"], "generators": ["x*y-1"]})])
+    assert "VERDICT and not a declaration" in str(e.value)
+
+
+def test_every_verdict_field_is_guarded():
+    """THE HAND-KEPT LIST HAD DRIFTED.
+
+    `_COMPUTED_FIELDS` named the two verdicts that existed when it was written.
+    Three more were added over the following days and none reached it, so
+    `certificate_verdict`, `ring_iso_verdict` and `witness_verdict` were all
+    DECLARABLE -- typing one made the checker treat a computation that never
+    ran as having run. It is derived from `_VERDICTS` now, and this asserts the
+    derivation rather than a second copy of the list.
+    """
+    for subject, spec in S.Graph._VERDICTS.items():
+        field = S.Graph._verdict_field(spec)
+        for f in (field, spec["why_field"]):
+            assert f in S.Graph._COMPUTED_FIELDS, (
+                "%s's %r is writable by an author" % (subject, f))
+        assert S.Graph._COMPUTED_FIELDS[field] == spec["writer"]
+
+
+def test_a_minted_representation_reaches_the_graph():
+    """`unit_ideal` returned a representation as a third element from the day
+    it was written, and `verify_all` sliced it off with `[:2]`. The expensive
+    part ran, the expansion confirmed it, and the graph kept only the word.
+
+    Asserted through the FOLD rather than by grepping the source: the first
+    version of this test looked for `[:2]` in `verify_all` and matched the
+    comment explaining why it is gone.
+    """
+    ev = _verdict_event_for_test()
+    g = _graph([HYP_MODEL, HYP_CLAIM, ev])
+    assert g.claims["CL"]["representation"]["cofactors"] == ["x"]
+
+
+def _verdict_event_for_test():
+    return {"ev": "verdict", "id": "v1", "subject": "claim", "of": "CL",
+            "verdict": "VERIFIED_DERIVED", "why": "reduces to 0",
+            "representation": {"cofactors": ["x"],
+                               "generators": ["x*y-1"],
+                               "ring_vars": ["x", "y"],
+                               "target": "(x^2*y) - (x)"}}
+
+
+def test_a_representation_with_no_cofactors_is_refused():
+    """The cofactors ARE the certificate; a representation without them
+    records that one exists without recording what it is."""
+    ev = _verdict_event_for_test()
+    ev["representation"] = {"generators": ["x*y-1"]}
+    with pytest.raises(S.GraphError) as e:
+        _graph([HYP_MODEL, HYP_CLAIM, ev])
+    assert "cofactors ARE the certificate" in str(e.value)

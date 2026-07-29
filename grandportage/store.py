@@ -88,6 +88,13 @@ def _canon(ev):
     return json.dumps(ev, sort_keys=True, separators=(",", ":"))
 
 
+# Which keys in a `_VERDICTS` entry are METADATA rather than the verdict field
+# itself.  Module level so the class body's own comprehension can see it: a
+# comprehension inside a `class` cannot read that class's names, and the point
+# of this constant is that exactly one place decides.
+_VERDICT_SPEC_KEYS = ("why_field", "writer")
+
+
 class Graph(object):
     """The folded state.  Plain dicts throughout -- the checker walks this, the
     CLI prints it, and neither needs a class hierarchy to do so."""
@@ -184,22 +191,50 @@ class Graph(object):
     # unrecognised one would land in the graph and quietly mean nothing.  A
     # live session wrote `"refuted"` in lowercase and it suppressed the rule it
     # was trying to trip.
+    # `writer` IS HERE SO `_COMPUTED_FIELDS` CAN BE DERIVED FROM THIS TABLE
+    # RATHER THAN RETYPED BESIDE IT.
+    #
+    # It was retyped, and it drifted.  `_COMPUTED_FIELDS` listed the two
+    # verdicts that existed when it was written; three more were added over the
+    # following days and none reached it, so `certificate_verdict`,
+    # `ring_iso_verdict` and `witness_verdict` were all DECLARABLE BY AN
+    # AUTHOR.  Typing `certificate_verdict: VERIFIED` on a claim made the
+    # checker treat a certificate as verified by a computation that never ran.
+    #
+    # That is the honour system surviving inside the machinery built to replace
+    # it -- the same sentence this file already uses about `effective_origin`,
+    # and the second time the same shape has appeared.  A hand-kept list beside
+    # a table is a list that will disagree with the table.
     _VERDICTS = {
         "claim": {"identity_verdict": ("VERIFIED_AMBIENT", "VERIFIED_DERIVED",
                                        "REFUTED", "UNVERIFIED"),
-                  "why_field": "identity_why"},
+                  "why_field": "identity_why",
+                  "writer": "verify.identity"},
         "edge": {"containment": ("VERIFIED", "NOT_BY_IDEAL", "UNVERIFIED"),
-                 "why_field": "containment_why"},
+                 "why_field": "containment_why",
+                 "writer": "verify.containment"},
         "certificate": {"certificate_verdict": ("VERIFIED", "NOT_UNIT",
                                                 "UNVERIFIED"),
-                        "why_field": "certificate_why"},
+                        "why_field": "certificate_why",
+                        "writer": "verify.unit_ideal"},
         "ring_iso": {"ring_iso_verdict": ("VERIFIED", "NOT_AN_ISOMORPHISM",
                                           "UNVERIFIED"),
-                     "why_field": "ring_iso_why"},
+                     "why_field": "ring_iso_why",
+                     "writer": "verify.ring_iso"},
         "witness": {"witness_verdict": ("VERIFIED", "NOT_A_POINT",
                                         "UNVERIFIED"),
-                    "why_field": "witness_why"},
+                    "why_field": "witness_why",
+                    "writer": "verify.point_witness"},
     }
+
+    # Module level, not class level, because a comprehension in a class body
+    # cannot see the class's own names -- and the whole point of this constant
+    # is that ONE place decides which keys are metadata.
+    _SPEC_KEYS = _VERDICT_SPEC_KEYS
+
+    @classmethod
+    def _verdict_field(cls, spec):
+        return [k for k in spec if k not in cls._SPEC_KEYS][0]
 
     # HOW A COMPUTATION CAN STAND BEHIND A NON-ALGEBRAIC CLAIM.
     #
@@ -424,7 +459,7 @@ class Graph(object):
                  "%s: verdict %r must name a `subject` of %s"
                  % (where, ev.get("id"), " or ".join(sorted(self._VERDICTS))))
         spec = self._VERDICTS[subject]
-        field = [k for k in spec if k != "why_field"][0]
+        field = self._verdict_field(spec)
         target = (self.claims
                   if subject in ("claim", "certificate", "witness")
                   else self.edges)
@@ -443,6 +478,27 @@ class Graph(object):
                  % (where, ev.get("id")))
         target[of][field] = ev["verdict"]
         target[of][spec["why_field"]] = ev["why"]
+        # THE CERTIFICATE, WHEN THE VERIFIER MINTED ONE.
+        #
+        # A verdict says WHAT a run concluded; a representation says why, in a
+        # form somebody else can check without repeating the run.  `g = sum
+        # b_i f_i` is confirmed by one expansion -- no Buchberger, no monomial
+        # order, no trust in the search -- which is the difference between
+        # evidence and a certificate, and the bridge to a proof assistant that
+        # can check a polynomial identity and should never run a Groebner
+        # engine.
+        #
+        # Carried on the verdict rather than declarable on the claim, for the
+        # same reason every other verdict field is: `_reject_computed_fields`
+        # refuses an author who types it. A representation nobody computed is
+        # exactly the honour system this machinery exists to replace.
+        if ev.get("representation") is not None:
+            rep = ev["representation"]
+            _require(isinstance(rep, dict) and rep.get("cofactors"),
+                     "%s: verdict %r carries a `representation` with no "
+                     "cofactors. The cofactors ARE the certificate."
+                     % (where, ev.get("id")))
+            target[of]["representation"] = rep
 
     def _apply_certificate(self, ev, where):
         # A BUILT-IN CANNOT BE REDEFINED FROM A GRAPH.
@@ -916,12 +972,21 @@ class Graph(object):
     # text, so `"refuted"` in lowercase silently SUPPRESSED the untested tier
     # (the checker tests truthiness before matching) while never tripping the
     # refuted tier.  A typo turned the rule off.
-    _COMPUTED_FIELDS = {
-        "identity_verdict": "verify.identity",
-        "identity_why": "verify.identity",
-        "containment": "verify.containment",
-        "containment_why": "verify.containment",
-    }
+    # DERIVED FROM `_VERDICTS`, never retyped.  The hand-kept version listed
+    # the two verdicts that existed when it was written and missed the three
+    # added afterwards, so those were declarable by an author -- a false
+    # licence inside the machinery built to prevent false licences.  Deriving
+    # it means a new verdict subject cannot be added without its fields being
+    # guarded, because there is only one place to add it.
+    _COMPUTED_FIELDS = dict(
+        (f, spec["writer"])
+        for spec in _VERDICTS.values()
+        for f in ([k for k in spec if k not in _VERDICT_SPEC_KEYS][0],
+                  spec["why_field"])
+    )
+    # `representation` is a verdict payload for the same reason: the cofactors
+    # are a CERTIFICATE, and one nobody computed is the honour system again.
+    _COMPUTED_FIELDS["representation"] = "verify.identity"
 
     def _reject_computed_fields(self, ev, where):
         for bad, writer in sorted(self._COMPUTED_FIELDS.items()):
