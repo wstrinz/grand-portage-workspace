@@ -4411,3 +4411,93 @@ def test_exhaustiveness_is_unverifiable_without_ideals():
     verdict, why = V.partition_exhaustiveness(g, "P")
     assert verdict == V.UNVERIFIED
     assert "records no ideal" in why
+
+
+# ===========================================================================
+# WHAT A CONSTRUCTOR ACTUALLY PRODUCED, against what it says it did.
+#
+# `decompose` proves its cover, membership carries cofactors, a witness gets
+# substituted -- but `saturate_closure` and `eliminate` emitted a program and
+# whatever came back was recorded as the target's ideal on the strength of
+# having asked the right question. The transcription step was unchecked.
+#
+# ONE DIRECTION IS CHEAP AND IT IS THE DANGEROUS ONE. "Nothing was invented"
+# catches an ideal carrying something extra, which cuts out a SMALLER variety
+# and makes EMPTY claims -- the ones that carry certificates and derive scope
+# -- unsound. "Nothing was missed" is as hard as recomputing the answer and is
+# not checked; a missed generator gives a LOOSER model, sound for EMPTY.
+# ===========================================================================
+def _op_graph(built_gens, op="SaturateClosure"):
+    if op == "SaturateClosure":
+        return _graph([
+            {"ev": "model", "id": "SRC", "desc": "source",
+             "ring_vars": ["x", "y"], "generators": ["x^2*y", "x*y^2"]},
+            {"ev": "model", "id": "SAT", "desc": "the closure of x != 0",
+             "ring_vars": ["x", "y"], "generators": built_gens,
+             "saturated_at": "x"},
+            {"ev": "edge", "id": "E", "src": "SAT", "dst": "SRC",
+             "type": K.NECESSARY_CONDITION, "map_kind": K.POLYNOMIAL,
+             "why": "saturating removes components inside V(x)",
+             "built_by_operation": "SaturateClosure"}])
+    return _graph([
+        {"ev": "model", "id": "SRC", "desc": "the hyperbola",
+         "ring_vars": ["x", "y"], "generators": ["x*y-1"]},
+        {"ev": "model", "id": "IMG", "desc": "the closure of the image",
+         "ring_vars": ["x"], "generators": built_gens},
+        {"ev": "edge", "id": "E", "src": "SRC", "dst": "IMG",
+         "type": K.IMAGE_CLOSURE, "map_kind": K.POLYNOMIAL,
+         "why": "project away y", "built_by_operation": "Eliminate"}])
+
+
+@pytest.mark.live
+def test_a_transcribed_saturation_is_caught():
+    """The output was recorded by hand after a run. Nothing checked it."""
+    from grandportage import verify as V
+    verdict, why, _ = V.operation_output(_op_graph(["x+y"]), "E", timeout=120)
+    assert verdict == V.OP_UNSOUND
+    assert "no power of x" in why
+
+
+@pytest.mark.live
+def test_a_correct_saturation_certifies_its_own_output():
+    """Certifying, not just deciding: the power AND the cofactors come back, so
+    a second checker expands one identity instead of redoing a saturation."""
+    from grandportage import verify as V
+    verdict, _, rep = V.operation_output(_op_graph(["y"]), "E", timeout=120)
+    assert verdict == V.OP_SOUND
+    assert rep["targets"] == ["(x)^2*(y)"]
+    assert rep["cofactors"] == [["1", "0"]]
+
+
+@pytest.mark.live
+def test_an_elimination_naming_an_eliminated_variable_is_caught():
+    """An elimination ideal is `I cap k[remaining]`, so each generator owes
+    membership AND expressibility. This is the second condition, asked of an
+    ideal rather than of a claim."""
+    from grandportage import verify as V
+    verdict, why, _ = V.operation_output(_op_graph(["y"], "Eliminate"),
+                                         "E", timeout=120)
+    assert verdict == V.OP_UNSOUND
+    assert "which the projection removed" in why
+
+
+def test_a_verified_output_does_not_claim_completeness():
+    """The message must not let a reader take the stronger reading. Whether the
+    operation MISSED something is the other direction and is not checked."""
+    from grandportage import verify as V
+
+    def fake(prog, timeout):
+        return {"aborted": False, "returncode": 0, "stderr": "",
+                "stdout": "@@GP_RED:\n0\n@@GP_M:\nGP_M[1,1]=1\nGP_M[2,1]=0\n"}
+    verdict, why, _ = V.operation_output(_op_graph(["y"]), "E", _runner=fake)
+    assert verdict == V.OP_SOUND
+    assert "DOES NOT SAY" in why and "COMPLETE" in why
+
+
+def test_a_refuted_output_is_an_unsound_premise():
+    g = _op_graph(["x+y"])
+    g.edges["E"]["output_verdict"] = "NOT_THE_STATED_OUTPUT"
+    g.edges["E"]["output_why"] = "no power of x carries x+y into SRC's ideal"
+    found = [f for f in C.run(g) if f.rule == C.R_REFUTED_EVIDENCE]
+    assert found and found[0].severity == C.UNSOUND_PREMISE
+    assert C.exit_code(C.run(g)) == 1

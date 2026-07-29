@@ -225,6 +225,11 @@ class Graph(object):
                                         "UNVERIFIED"),
                     "why_field": "witness_why",
                     "writer": "verify.point_witness"},
+        "operation": {"output_verdict": ("VERIFIED",
+                                        "NOT_THE_STATED_OUTPUT",
+                                        "UNVERIFIED"),
+                      "why_field": "output_why",
+                      "writer": "verify.operation_output"},
         "partition": {"exhaustive_verdict": ("VERIFIED", "NOT_EXHAUSTIVE",
                                              "UNVERIFIED"),
                       "why_field": "exhaustive_why",
@@ -465,6 +470,7 @@ class Graph(object):
         spec = self._VERDICTS[subject]
         field = self._verdict_field(spec)
         target = (self.partitions if subject == "partition"
+                  else self.edges if subject == "operation"
                   else self.claims
                   if subject in ("claim", "certificate", "witness")
                   else self.edges)

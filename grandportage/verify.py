@@ -506,6 +506,138 @@ def ring_iso(graph, eid, timeout=300, _runner=None):
         % (e["src"], e["dst"]))
 
 
+OP_SOUND = "VERIFIED"
+OP_UNSOUND = "NOT_THE_STATED_OUTPUT"
+_MAX_SATURATION_POWER = 8
+
+
+def operation_output(graph, eid, timeout=300, _runner=None):
+    """Is a constructed model's ideal actually what the operation claims?
+
+    THE LAST OUTPUT NOBODY CHECKED.  `decompose` proves its cover, membership
+    carries cofactors, a witness gets substituted -- but `saturate_closure` and
+    `eliminate` emitted a program, and whatever came back was recorded as the
+    target's ideal on the strength of having asked the right question.
+
+    WHAT IS CHECKABLE AND WHAT IS NOT, stated plainly because the difference
+    decides what this verdict is worth.
+
+      TOO BIG    every generator the output claims is genuinely there. CHEAP,
+                 and it is the dangerous direction: an ideal with something
+                 extra cuts out a SMALLER variety, and a smaller variety makes
+                 EMPTY claims -- the ones that carry certificates and scope --
+                 unsound.
+      TOO SMALL  the output is ALL of what it should be. Not checked. This is
+                 the completeness direction, it is as hard as recomputing the
+                 answer, and getting it wrong yields a LOOSER model: sound for
+                 EMPTY, unsound for NONEMPTY.
+
+    So a VERIFIED here means "nothing was invented", not "nothing was missed",
+    and the message says so rather than letting a reader assume the stronger
+    reading.
+
+    Both checks are certifying: they return the cofactors, so a second checker
+    can expand `g = sum b_i f_i` without recomputing an elimination or a
+    saturation.
+    """
+    e = graph.edges.get(eid)
+    if not e:
+        return UNVERIFIED, "no such edge", None
+    kind = e.get("built_by_operation")
+    if kind not in ("SaturateClosure", "Eliminate"):
+        return UNVERIFIED, (
+            "edge %s was not built by an operation whose output this can "
+            "check" % eid), None
+    # The constructed model is the edge's SRC for a saturation (it is tighter)
+    # and its DST for an elimination (the projection is looser).
+    built_id = e["src"] if kind == "SaturateClosure" else e["dst"]
+    source_id = e["dst"] if kind == "SaturateClosure" else e["src"]
+    built = graph.models.get(built_id) or {}
+    source = graph.models.get(source_id) or {}
+    for mid, m in ((built_id, built), (source_id, source)):
+        p = _pending_ideal(mid, m)
+        if p:
+            return UNVERIFIED, p, None
+        if m.get("generators") is None:
+            return UNVERIFIED, (
+                "%s records no ideal, so there is nothing to check the "
+                "operation's output against" % mid), None
+    ring = source.get("ring_vars") or []
+    if not ring:
+        return UNVERIFIED, "%s declares no ring variables" % source_id, None
+    ch = source.get("characteristic") or 0
+    src_gens = list(source["generators"])
+    cofactors, bad = {}, []
+
+    if kind == "Eliminate":
+        # AN ELIMINATION IDEAL IS `I cap k[remaining]`, so each generator owes
+        # two things: membership in I, and expressibility after the
+        # projection. The second is the same condition
+        # INEXPRESSIBLE-CONCLUSION checks on claims, asked here of an ideal.
+        kept = built.get("ring_vars") or []
+        for g in built["generators"]:
+            foreign = cas.foreign_symbols(kept, g)
+            if foreign:
+                bad.append("%s names %s, which the projection removed"
+                           % (g, ", ".join(foreign)))
+                continue
+            rep = cas.membership_representation(
+                ring, g, src_gens, characteristic=ch, timeout=timeout,
+                _runner=_runner)
+            if not rep["is_member"]:
+                bad.append("%s is not in %s's ideal (it reduces to %s)"
+                           % (g, source_id, rep["reduced"]))
+            else:
+                cofactors[g] = rep["cofactors"]
+    else:
+        f = built.get("saturated_at")
+        if not f:
+            return UNVERIFIED, (
+                "%s does not record what it was saturated at, so `I : f^oo` "
+                "names no f" % built_id), None
+        for g in built["generators"]:
+            # SEARCH FOR THE POWER, then CERTIFY it. `g in I : f^oo` means some
+            # power of f carries g into I; the certificate is that n together
+            # with the cofactors, and a checker then expands one identity
+            # instead of redoing a saturation.
+            found = None
+            for n in range(_MAX_SATURATION_POWER + 1):
+                target = g if n == 0 else "(%s)^%d*(%s)" % (f, n, g)
+                rep = cas.membership_representation(
+                    ring, target, src_gens, characteristic=ch, timeout=timeout,
+                    _runner=_runner)
+                if rep["is_member"]:
+                    found = (n, rep["cofactors"])
+                    break
+            if found is None:
+                bad.append(
+                    "no power of %s up to %d carries %s into %s's ideal"
+                    % (f, _MAX_SATURATION_POWER, g, source_id))
+            else:
+                cofactors["(%s)^%d*(%s)" % (f, found[0], g)] = found[1]
+
+    if bad:
+        return OP_UNSOUND, (
+            "%s's ideal is not the %s it is recorded as: %s.\n"
+            "  This is the dangerous direction. An ideal carrying something "
+            "it should not cuts out a SMALLER variety, and a smaller variety "
+            "makes EMPTY claims -- the ones that carry certificates and derive "
+            "scope -- unsound."
+            % (built_id, kind, "; ".join(bad))), None
+    return OP_SOUND, (
+        "every generator of %s's ideal is accounted for in %s's, so the %s "
+        "invented nothing.\n"
+        "  NOTE WHAT THIS DOES NOT SAY: that the output is COMPLETE. Whether "
+        "the operation missed something is the other direction, it is as hard "
+        "as recomputing the answer, and it is not checked here. A missed "
+        "generator yields a LOOSER model -- still sound for EMPTY, unsound "
+        "for NONEMPTY."
+        % (built_id, source_id, kind)), {
+            "cofactors": [cofactors[k] for k in sorted(cofactors)],
+            "targets": sorted(cofactors), "generators": src_gens,
+            "ring_vars": list(ring)}
+
+
 COVERS = "VERIFIED"
 NOT_EXHAUSTIVE = "NOT_EXHAUSTIVE"
 
@@ -886,6 +1018,11 @@ def verify_all(root=".", timeout=300, _runner=None, record=True):
         # false EQUIVALENCE in a live campaign, and it was reachable only by
         # importing the module from Python -- the same defect `gp verify`
         # itself had two days earlier.
+        # WHAT A CONSTRUCTOR ACTUALLY PRODUCED, against what it says it did.
+        if (e.get("built_by_operation") in ("SaturateClosure", "Eliminate")
+                and not e.get("output_verdict")):
+            run("operation", eid, lambda eid=eid: operation_output(
+                graph, eid, timeout=timeout, _runner=_runner))
         if (e.get("type") == K.EQUIVALENCE and e.get("ring_iso")
                 and e.get("forward") and not e.get("ring_iso_verdict")):
             run("ring_iso", eid, lambda eid=eid: ring_iso(

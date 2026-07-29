@@ -1411,6 +1411,23 @@ def check_refuted_evidence(graph):
             semantic_key=pid))
     for eid in sorted(graph.edges):
         e = graph.edges[eid]
+        if (not e.get("superseded_by")
+                and e.get("output_verdict") == "NOT_THE_STATED_OUTPUT"):
+            findings.append(Finding(
+                R_REFUTED_EVIDENCE, "%s:output:%s" % (R_REFUTED_EVIDENCE, eid),
+                UNSOUND_PREMISE, eid,
+                "the model built by %s across %s does not have the ideal that "
+                "operation produces: %s"
+                % (e.get("built_by_operation"), eid,
+                   e.get("output_why") or "(no detail)")
+                + "\n  Every claim at that model is about a different variety "
+                  "from the one its construction names.",
+                "Re-run the operation and record what it returns, or correct "
+                "the generators by hand and say which. If the ideal was typed "
+                "rather than computed, that is the defect -- the constructor "
+                "emits a program precisely so the answer does not have to be "
+                "transcribed.",
+                semantic_key=eid))
         if (e.get("superseded_by")
                 or e.get("ring_iso_verdict") != "NOT_AN_ISOMORPHISM"):
             continue
