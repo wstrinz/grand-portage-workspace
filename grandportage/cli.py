@@ -518,7 +518,11 @@ def cmd_declare(args):
     Reads JSON from a file or stdin, accepting either one event object or a
     list of them.
     """
-    if args.file:
+    # `--file -` MEANS STDIN, because it means that everywhere else. Without
+    # it this raised a bare FileNotFoundError naming a file called "-", which
+    # tells a reader the path is wrong rather than that the idiom is
+    # unsupported.
+    if args.file and args.file != "-":
         with open(args.file, encoding="utf-8") as fh:
             raw = fh.read()
     else:
