@@ -2,6 +2,7 @@
 
 import pytest
 
+from grandportage import artifacts as A
 from grandportage import backend as B
 from grandportage import cas
 from grandportage import kernel as K
@@ -226,6 +227,7 @@ def test_verify_all_uses_semantic_backend_methods_not_cas_programs(tmp_path):
     assert [(subject, oid, verdict) for subject, oid, verdict, _ in results] == [
         ("claim", "C", V.DERIVED)
     ]
+    assert not (tmp_path / ".portage" / "artifacts").exists()
 
 
 def test_derived_identity_without_a_replayable_representation_is_unverified():
@@ -303,6 +305,9 @@ def test_verify_all_records_the_real_backend_trace_that_answered(tmp_path):
     assert manifest["implementation"] == B.SINGULAR_IMPLEMENTATION
     assert manifest["executions"]
     assert all(B.valid_execution_trace_entry(entry)
+               for entry in manifest["executions"])
+    assert A.audit_manifest(str(tmp_path), manifest) == []
+    assert all(A.load(str(tmp_path), entry["artifact_fingerprint"])
                for entry in manifest["executions"])
 
 

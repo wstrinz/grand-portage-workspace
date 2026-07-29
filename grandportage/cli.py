@@ -12,11 +12,13 @@ import re
 import sys
 
 from . import __version__
+from . import artifacts as A
 from . import cas
 from . import check as C
 from . import hook as H
 from . import kernel as K
 from . import migration as MIG
+from . import provenance as P
 from . import store as S
 from .discharge import (DISCHARGE_KINDS, KNOWN_CONSERVATISM,
                         KNOWN_UNSOUND, discharge_for)
@@ -209,6 +211,18 @@ def cmd_migrate(args):
     exists to avoid, so the migration takes the false negative every time and
     says in the caveat where the strength went.
     """
+    if getattr(args, "to_kernel2", False):
+        reports = MIG.migrate_kernel_epoch(
+            _graphs(args), dry_run=args.dry_run,
+            output=getattr(args, "kernel_output", None))
+        for report in reports:
+            print("%s -> %s" % (report["source"], report["destination"]))
+            print("  source %s" % report["source_sha256"])
+            print("  audit  %s" % report["audit"])
+            print("  kernel %d -> %d%s"
+                  % (report["from_kernel_epoch"], report["kernel_epoch"],
+                     " (DRY RUN)" if report["dry_run"] else ""))
+        return 0
     if getattr(args, "to_epoch1", False):
         reports = MIG.migrate_epoch1(
             _graphs(args), dry_run=args.dry_run,
@@ -615,8 +629,14 @@ def cmd_verify(args):
     that was wrong here.
     """
     from . import verify as V
-    results = V.verify_all(root=args.root, timeout=args.timeout,
-                           record=not args.dry_run)
+    try:
+        results = V.verify_all(root=args.root, timeout=args.timeout,
+                               record=not args.dry_run)
+    except (A.ArtifactError, OSError) as exc:
+        sys.stderr.write(
+            "ARTIFACT PERSISTENCE FAILED\n  %s\n\n"
+            "  No verdict was appended. The graph is unchanged.\n" % exc)
+        return 2
     if not results:
         print("nothing to verify: no edge or claim carries the data a "
               "reduction needs.\n"
@@ -642,6 +662,49 @@ def cmd_verify(args):
     # A refutation is a finding, not a crash: exit non-zero so a hook or a CI
     # step can act on it, but say so plainly rather than raising.
     return 1 if bad else 0
+
+
+def cmd_artifacts_check(args):
+    """Audit raw execution objects without making graph folding ambient."""
+    if args.graph:
+        audits = []
+        for path in args.graph:
+            absolute = os.path.abspath(path)
+            parent = os.path.dirname(absolute)
+            artifact_root = (
+                os.path.dirname(parent)
+                if os.path.basename(parent) == ".portage" else parent)
+            audits.append((path, artifact_root, S.load(path)))
+    else:
+        audits = [(S.graph_path(args.root), args.root, _load(args))]
+    problems = []
+    for path, artifact_root, graph in audits:
+        for problem in A.audit_graph(artifact_root, graph):
+            problems.append(
+                "%s: %s" % (path, problem) if len(audits) > 1 else problem)
+    if problems:
+        sys.stderr.write(
+            "ARTIFACT AUDIT FAILED (%d problem%s)\n"
+            % (len(problems), "" if len(problems) == 1 else "s"))
+        for problem in problems:
+            sys.stderr.write("  %s\n" % problem)
+        return 1
+    references = 0
+    for _path, _artifact_root, graph in audits:
+        for event in graph.verdicts.values():
+            manifest = P.backend_provenance(
+                event.get("backend"), current_only=False)
+            if manifest is not None and manifest.get("schema") == 2:
+                references += len(manifest["executions"])
+        for note in graph.notes:
+            try:
+                if A.note_reference(note.get("source")) is not None:
+                    references += 1
+            except A.ArtifactError:
+                pass
+    print("artifact audit clean: %d execution reference%s checked."
+          % (references, "" if references == 1 else "s"))
+    return 0
 
 
 def cmd_history(args):
@@ -999,6 +1062,8 @@ def cmd_table(args):
     print("  scheme_scope        EMPTY base-changes only if its certificate does")
     print("  map_polynomial      IDENTITY rewriting needs a denominator-free map")
     print("  closed_condition    only Zariski-closed predicates reach a closure")
+    print("  exact_image_identity forward identity needs exact output authority")
+    print("  closed_exact_image  forward closed predicate also needs exact output")
     print("  ambient_identity    a rewriting DERIVED from the source's own")
     print("                      equations does not survive dropping them")
     print("  ring_isomorphism    an EQUIVALENCE carries a rewriting only if it")
@@ -1485,9 +1550,29 @@ def cmd_construct(args):
         return 0
     if args.declare:
         try:
+            references = A.persist_all(args.root, op.artifacts)
+            for index, (artifact, reference) in enumerate(
+                    zip(op.artifacts, references)):
+                suffix = (
+                    " step %d" % (index + 1)
+                    if len(references) > 1 else "")
+                op.events.append(dict({
+                    "ev": S.EV_NOTE,
+                    "kind": "cas-execution",
+                    "source": (
+                        "E-%s" % args.produces
+                        if args.produces else args.src),
+                    "text": (
+                        "the exact backend execution for %s%s; this note "
+                        "records provenance and licenses no conclusion"
+                        % (op.kind, suffix)),
+                }, **A.reference_fields(artifact, reference)))
             S.append(op.events, args.root)
-        except (S.GraphError, K.KernelRefusal) as exc:
-            sys.stderr.write("refused, and NOTHING WAS WRITTEN:\n%s\n" % exc)
+        except (A.ArtifactError, OSError, S.GraphError,
+                K.KernelRefusal) as exc:
+            sys.stderr.write(
+                "refused; the graph is unchanged:\n%s\n"
+                "  A deduplicated unreferenced artifact may remain.\n" % exc)
             return 2
         print("declared %d event(s) from %s." % (len(op.events), op.kind))
         print("  transport: %s" % op.derivation)
@@ -1594,6 +1679,12 @@ def build_parser():
     g.add_argument("--epoch1-output",
                    help="destination for --to-epoch1 (one source only; default "
                         "is graph.epoch1.jsonl beside the source)")
+    g.add_argument("--to-kernel2", action="store_true",
+                   help="copy a format-1 kernel-epoch-1 graph into the current "
+                        "stricter kernel epoch; prior verdicts remain stale")
+    g.add_argument("--kernel-output",
+                   help="destination for --to-kernel2 (one source only; "
+                        "default is graph.kernel2.jsonl beside the source)")
     g.set_defaults(func=cmd_migrate)
 
     g = sub.add_parser("docs",
@@ -1644,6 +1735,14 @@ def build_parser():
     v.add_argument("--dry-run", action="store_true",
                    help="report the verdicts without recording them")
     v.set_defaults(func=cmd_verify)
+
+    artifacts = sub.add_parser(
+        "artifacts",
+        help="audit durable raw CAS programs, transcripts, and certificates")
+    artifact_sub = artifacts.add_subparsers(dest="artifact_cmd")
+    artifact_check = artifact_sub.add_parser(
+        "check", help="verify every content-addressed execution reference")
+    artifact_check.set_defaults(func=cmd_artifacts_check)
 
     # THE HELP NAMED NOT ONE EVENT KIND AND NOT ONE FIELD.  A live session
     # reported reading `store.py`'s `_apply_*` methods to find out what an

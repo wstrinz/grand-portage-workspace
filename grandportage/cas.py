@@ -49,6 +49,7 @@ import re
 import secrets
 import subprocess
 
+from . import artifacts as A
 from . import backend as B
 from . import kernel as K
 from . import store as S
@@ -725,6 +726,11 @@ def run_cas(program, *, edge, produces, describes, root=".", timeout=300,
                            "dst": produces}
     if record:
         eid = edge_id or ("E-%s" % produces)
+        artifact = B.validate_execution_artifact(result, program)
+        artifact_fingerprint = A.persist(root, artifact)
+        result["artifact_fingerprint"] = artifact_fingerprint
+        artifact_fields = A.reference_fields(
+            artifact, artifact_fingerprint)
         if result["verdict"] != "OK":
             # AN UNFINISHED RUN MINTS NO MODEL.  Appending the model and the
             # semantic edge regardless of verdict put a node in the graph
@@ -742,6 +748,7 @@ def run_cas(program, *, edge, produces, describes, root=".", timeout=300,
                          "model and NO edge were recorded.  An unfinished run "
                          "is not evidence of anything."
                          % (produces, transport.src, result["verdict"]))}]
+            result["events"][0].update(artifact_fields)
         else:
             events = transport.events(
                 eid, produces, describes,
@@ -750,6 +757,15 @@ def run_cas(program, *, edge, produces, describes, root=".", timeout=300,
                 generators=getattr(program, "generators", None),
                 characteristic=getattr(program, "characteristic", None))
             events[0]["cite"] = events[1]["cite"] = cite or transport.cite
+            events.append(dict({
+                "ev": S.EV_NOTE,
+                "kind": "cas-execution",
+                "source": eid,
+                "text": (
+                    "the exact backend execution that produced model %s; "
+                    "this note records provenance and licenses no conclusion"
+                    % produces),
+            }, **artifact_fields))
             result["events"] = events
         S.append(result["events"], root=root)
     return result
@@ -876,16 +892,26 @@ class SingularBackend(B.Backend):
         ]
         trace = [B.execution_trace_entry(artifact) for artifact in artifacts]
         return {
-            "schema": 1,
+            "schema": 2,
             "contract": identity.contract,
             "implementation": identity.implementation,
             "implementation_version": identity.implementation_version,
+            "protocol_version": B.BACKEND_PROTOCOL_VERSION,
             "binary_version": identity.binary_version,
             "executions": trace,
             "trace_fingerprint": B.semantic_fingerprint(
                 "backend_execution_trace", trace
             ),
         }
+
+    def execution_artifacts(self, start=0):
+        """Return validated frozen executions since an opaque cursor."""
+        if type(start) is not int or start < 0 or start > self.execution_count:
+            raise ValueError("backend provenance cursor is out of range")
+        return tuple(
+            B.validate_execution_artifact(run)
+            for run in self.executions[start:]
+        )
 
     def classify_identity(self, ring_vars, lhs, rhs, generators=(),
                           characteristic=0, timeout=300):
@@ -943,6 +969,8 @@ class SingularBackend(B.Backend):
         variables = list(variables)
         if not variables:
             raise ValueError("elimination needs at least one variable")
+        if len(variables) != len(set(variables)):
+            raise ValueError("elimination variables must be unique")
         if not set(variables).issubset(set(ring_vars)):
             raise ValueError("cannot eliminate variables outside the ring")
         remaining = [v for v in ring_vars if v not in set(variables)]

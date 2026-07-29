@@ -34,14 +34,17 @@ def _execution(with_trace=True):
         "program_fingerprint": B.text_fingerprint("test program"),
         "stdout_fingerprint": B.text_fingerprint("test stdout"),
         "stderr_fingerprint": B.text_fingerprint(""),
+        "artifact_fingerprint": B.semantic_fingerprint(
+            "test_execution_artifact", []),
         "returncode": 0,
         "aborted": False,
     }] if with_trace else [])
     return {
-        "schema": 1,
+        "schema": 2,
         "contract": B.SINGULAR_CONTRACT,
         "implementation": B.SINGULAR_IMPLEMENTATION,
         "implementation_version": B.SINGULAR_IMPLEMENTATION_VERSION,
+        "protocol_version": B.BACKEND_PROTOCOL_VERSION,
         "binary_version": "Singular 4.2.1",
         "executions": trace,
         "trace_fingerprint": B.semantic_fingerprint(
@@ -73,6 +76,7 @@ def test_fresh_verdict_carries_detailed_backend_provenance():
     assert manifest["contract"] == "singular"
     assert manifest["implementation"].endswith("SingularBackend")
     assert manifest["implementation_version"] == B.SINGULAR_IMPLEMENTATION_VERSION
+    assert manifest["protocol_version"] == B.BACKEND_PROTOCOL_VERSION
     assert manifest["binary_version"] == "Singular 4.2.1"
     assert manifest["trace_fingerprint"] == B.semantic_fingerprint(
         "backend_execution_trace", manifest["executions"]
@@ -183,7 +187,7 @@ def test_trace_requirement_distinguishes_backend_and_structural_authority():
         graph.apply({
             "ev": "model", "id": "B", "what": "empty output",
             "characteristic": built_characteristic, "ring_vars": ["x"],
-            "generators": [],
+            "generators": [], "eliminated": ["y"],
         })
         graph.apply({
             "ev": "edge", "id": "E", "src": "A", "dst": "B",
@@ -253,6 +257,26 @@ def test_pre_marker_singular_v1_verdict_is_readable_but_stale_under_v2():
     assert "backend execution provenance" in stored["stale_reason"]
     assert "identity_verdict" not in graph.claims["C"]
     assert P.backend_provenance(event["backend"]) is None
+
+
+def test_pre_artifact_singular_v2_verdict_is_readable_but_stale():
+    graph = _identity_graph()
+    old_execution = _execution()
+    old_execution["implementation_version"] = 2
+    event = V._verdict_event(
+        graph, "claim", "C", "VERIFIED_DERIVED",
+        "Singular v2 retained hashes but no durable raw object",
+        execution=old_execution,
+    )
+    event["id"] = "v.C.singular-implementation-v2"
+
+    graph.apply(event)
+
+    stored = graph.verdicts[event["id"]]
+    assert stored["current"] is False
+    assert "backend execution provenance" in stored["stale_reason"]
+    assert "identity_verdict" not in graph.claims["C"]
+
 
 
 def test_pre_m2_epoch1_verdict_is_readable_but_stale():
@@ -330,13 +354,15 @@ def test_mismatched_verifier_kernel_or_backend_is_stale(field, value):
     assert graph.verdicts[event["id"]]["current"] is False
 
 
-@pytest.mark.parametrize("mutation", ["implementation", "trace", "version", "entry", "test-double"])
+@pytest.mark.parametrize("mutation", ["implementation", "protocol", "trace", "version", "entry", "test-double"])
 def test_tampered_backend_descriptor_is_stale(mutation):
     graph = _identity_graph()
     event = _verdict(graph)
     manifest = P.backend_provenance(event["backend"])
     if mutation == "implementation":
         manifest["implementation"] = "evil.Backend"
+    elif mutation == "protocol":
+        manifest["protocol_version"] -= 1
     elif mutation == "trace":
         manifest["trace_fingerprint"] = "sha256:" + "0" * 64
     elif mutation == "version":

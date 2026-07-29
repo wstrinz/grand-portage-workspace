@@ -72,6 +72,7 @@ wearing a computation.
 
 import os
 
+from . import artifacts as A
 from . import cas
 from . import kernel as K
 from . import provenance as P
@@ -661,6 +662,24 @@ def operation_output(graph, eid, timeout=300, _runner=None, _backend=None):
     cofactors, bad, inconclusive = {}, [], []
 
     if kind == "Eliminate":
+        # THE TWO SORTS MUST REALLY BE THE DECLARED COORDINATE PARTITION.
+        # An empty generator list otherwise passes every local membership and
+        # expressibility check vacuously without establishing that the target
+        # is even the retained-coordinate ring of the source.
+        kept = built.get("ring_vars") or []
+        eliminated = built.get("eliminated")
+        if (not isinstance(eliminated, list) or not eliminated
+                or len(eliminated) != len(set(eliminated))
+                or any(v not in ring for v in eliminated)):
+            return UNVERIFIED, (
+                "%s does not record a valid nonempty eliminated-variable "
+                "subset of %s's ring" % (built_id, source_id)), None
+        expected_kept = [v for v in ring if v not in set(eliminated)]
+        if kept != expected_kept:
+            return UNVERIFIED, (
+                "%s declares retained variables %s, but removing %s from "
+                "%s's ordered ring leaves %s"
+                % (built_id, kept, eliminated, source_id, expected_kept)), None
         # AN ELIMINATION IDEAL IS `I cap k[remaining]`, so each generator owes
         # two things: membership in I, and expressibility after the
         # projection. The second is the same condition
@@ -741,7 +760,9 @@ def operation_output(graph, eid, timeout=300, _runner=None, _backend=None):
         "for NONEMPTY."), {
             "cofactors": [cofactors[k] for k in sorted(cofactors)],
             "targets": sorted(cofactors), "generators": src_gens,
-            "ring_vars": list(ring)}
+            "ring_vars": list(ring),
+            "target_ring_vars": list(built.get("ring_vars") or []),
+            "eliminated": list(built.get("eliminated") or [])}
 
 
 COVERS = "VERIFIED"
@@ -1156,6 +1177,11 @@ def verify_all(root=".", timeout=300, _runner=None, record=True, backend=None):
             # the word VERIFIED. The one artifact a reader could have rechecked
             # without trusting the search was computed and dropped.
             rep = out[2] if len(out) > 2 else None
+        if record:
+            # OBJECT BEFORE LOG. A persistence failure leaves the append-only
+            # graph byte-identical; a later append failure can leave only a
+            # harmless, deduplicated orphan.
+            A.persist_all(root, backend.execution_artifacts(execution_start))
         results.append((subject, oid, verdict, why))
         events.append(_verdict_event(
             graph, subject, oid, verdict, why, rep,

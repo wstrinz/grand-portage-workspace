@@ -145,7 +145,8 @@ def event_digest(event):
     return hashlib.sha256(encoded).hexdigest()[:16]
 
 
-_BACKEND_PREFIX = "gp-backend-v1:"
+_BACKEND_PREFIX = "gp-backend-v2:"
+BACKEND_PROVENANCE_PREFIX = _BACKEND_PREFIX
 _SYMBOL = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
 
 
@@ -202,6 +203,17 @@ def _eligible_structural_operation(graph, event):
     generators = built["generators"]
     if kind == "SaturateClosure" and not built.get("saturated_at"):
         return False
+    if kind == "Eliminate":
+        ring = source.get("ring_vars") or []
+        eliminated = built.get("eliminated")
+        if (not isinstance(eliminated, list) or not eliminated
+                or len(eliminated) != len(set(eliminated))
+                or any(variable not in ring for variable in eliminated)):
+            return False
+        if (built.get("ring_vars") or []) != [
+                variable for variable in ring
+                if variable not in set(eliminated)]:
+            return False
     if event.get("verdict") == "VERIFIED":
         return generators == []
     if (event.get("verdict") != "NOT_THE_STATED_OUTPUT"
@@ -233,8 +245,8 @@ def encode_backend_provenance(execution):
     )
 
 
-def backend_provenance(value):
-    """Decode and validate the M2 backend descriptor, or return ``None``."""
+def backend_provenance(value, current_only=True):
+    """Decode and validate a v2 backend descriptor, or return ``None``."""
     if not isinstance(value, str) or not value.startswith(_BACKEND_PREFIX):
         return None
     try:
@@ -245,17 +257,28 @@ def backend_provenance(value):
         return None
     required = {
         "schema", "contract", "implementation", "implementation_version",
-        "binary_version", "executions", "trace_fingerprint",
+        "protocol_version", "binary_version", "executions",
+        "trace_fingerprint",
     }
     if set(manifest) != required:
         return None
-    if manifest["schema"] != 1:
+    if manifest["schema"] != 2:
         return None
-    if manifest["contract"] != B.SINGULAR_CONTRACT:
+    if (not isinstance(manifest["contract"], str)
+            or not manifest["contract"]
+            or not isinstance(manifest["implementation"], str)
+            or not manifest["implementation"]
+            or type(manifest["implementation_version"]) is not int
+            or manifest["implementation_version"] < 1
+            or type(manifest["protocol_version"]) is not int
+            or manifest["protocol_version"] < 1):
         return None
-    if manifest["implementation"] != B.SINGULAR_IMPLEMENTATION:
-        return None
-    if manifest["implementation_version"] != B.SINGULAR_IMPLEMENTATION_VERSION:
+    if current_only and (
+            manifest["contract"] != B.SINGULAR_CONTRACT
+            or manifest["implementation"] != B.SINGULAR_IMPLEMENTATION
+            or manifest["implementation_version"]
+            != B.SINGULAR_IMPLEMENTATION_VERSION
+            or manifest["protocol_version"] != B.BACKEND_PROTOCOL_VERSION):
         return None
     version = manifest["binary_version"]
     if (not isinstance(version, str) or not version.strip()

@@ -12,6 +12,7 @@ import subprocess
 
 import pytest
 
+from grandportage import artifacts as A
 from grandportage import cas
 from grandportage import check as C
 from grandportage import hook as HK
@@ -220,6 +221,10 @@ def test_a_successful_run_records_a_typed_edge(project):
     assert g.edges["E-ELIM"]["type"] == K.IMAGE_CLOSURE
     assert g.edges["E-ELIM"]["src"] == "SRC"
     assert g.models["ELIM"]["characteristic"] == 0
+    reference = A.note_reference(g.notes[-1]["source"])
+    assert reference["artifact_fingerprint"] == r["artifact_fingerprint"]
+    assert A.load(project, reference["artifact_fingerprint"])["stdout"]
+    assert A.audit_graph(project, g) == []
 
 
 def test_a_cas_record_preserves_nonzero_characteristic(project):

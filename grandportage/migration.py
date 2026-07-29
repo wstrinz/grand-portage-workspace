@@ -84,6 +84,89 @@ def _native_record(raw, source_fingerprint):
     return out, actions
 
 
+def _kernel_destination(source):
+    stem, ext = os.path.splitext(source)
+    return "%s.kernel%d%s" % (stem, F.KERNEL_EPOCH, ext or ".jsonl")
+
+
+def migrate_kernel_epoch(paths, dry_run=False, output=None):
+    """Copy format-1 graphs into the current, conservatively stricter kernel.
+
+    Only the metadata event changes. Persisted verdict events retain the epoch
+    that produced them and therefore become stale on the new fold. The source
+    append-only log is never replaced.
+    """
+    if output and len(paths) != 1:
+        raise S.GraphError("--kernel-output requires exactly one source graph")
+    reports = []
+    for source in paths:
+        raw = list(S._raw_events(source))
+        if not raw or not isinstance(raw[0][0], dict):
+            raise S.GraphError("%s has no native metadata event" % source)
+        meta = raw[0][0]
+        if meta.get("ev") != F.META_EVENT:
+            raise S.GraphError("%s is epoch 0; migrate --to-epoch1 first" % source)
+        if meta.get("graph_format") != F.GRAPH_FORMAT:
+            raise S.GraphError(
+                "%s uses graph format %r, not supported format %d"
+                % (source, meta.get("graph_format"), F.GRAPH_FORMAT))
+        old_epoch = meta.get("kernel_epoch")
+        if (type(old_epoch) is not int or old_epoch < 1
+                or old_epoch >= F.KERNEL_EPOCH):
+            raise S.GraphError(
+                "%s kernel epoch %r cannot migrate forward to %d"
+                % (source, old_epoch, F.KERNEL_EPOCH))
+        with open(source, "rb") as fh:
+            fingerprint = "sha256:" + hashlib.sha256(fh.read()).hexdigest()
+        destination = output or _kernel_destination(source)
+        audit_path = destination + ".audit.json"
+        if os.path.exists(destination) or os.path.exists(audit_path):
+            raise S.GraphError(
+                "migration output already exists; refusing to overwrite:\n  %s"
+                % (destination if os.path.exists(destination) else audit_path))
+
+        converted = [F.meta_event()] + [event for event, _line in raw[1:]]
+        S.Graph().apply_all([
+            (event, destination, n)
+            for n, event in enumerate(converted, 1)
+        ]).validate()
+        report = {
+            "source": os.path.abspath(source),
+            "source_sha256": fingerprint,
+            "destination": os.path.abspath(destination),
+            "audit": os.path.abspath(audit_path),
+            "created_with": F.created_with(),
+            "graph_format": F.GRAPH_FORMAT,
+            "from_kernel_epoch": old_epoch,
+            "kernel_epoch": F.KERNEL_EPOCH,
+            "events": len(converted) - 1,
+            "changes": [{
+                "line": raw[0][1],
+                "event": "meta",
+                "kind": "meta",
+                "actions": [{
+                    "field": "kernel_epoch",
+                    "action": "advanced from %d to %d; prior verdicts stay stale"
+                              % (old_epoch, F.KERNEL_EPOCH),
+                }],
+            }],
+            "dry_run": bool(dry_run),
+        }
+        if not dry_run:
+            parent = os.path.dirname(destination)
+            if parent and not os.path.isdir(parent):
+                os.makedirs(parent)
+            with open(destination, "x", encoding="utf-8") as fh:
+                for event in converted:
+                    fh.write(json.dumps(event, sort_keys=True) + "\n")
+            with open(audit_path, "x", encoding="utf-8") as fh:
+                json.dump(report, fh, indent=2, sort_keys=True)
+                fh.write("\n")
+        reports.append(report)
+    return reports
+
+
+
 def migrate_epoch1(paths, dry_run=False, output=None):
     """Write epoch-1 graphs and audit reports beside epoch-0 originals.
 

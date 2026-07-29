@@ -13,10 +13,10 @@ import json
 import re
 
 
-BACKEND_PROTOCOL_VERSION = 1
+BACKEND_PROTOCOL_VERSION = 2
 SINGULAR_CONTRACT = "singular"
 SINGULAR_IMPLEMENTATION = "grandportage.cas.SingularBackend"
-SINGULAR_IMPLEMENTATION_VERSION = 2
+SINGULAR_IMPLEMENTATION_VERSION = 3
 
 
 def _canonical(value):
@@ -39,6 +39,7 @@ _FINGERPRINT_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
 EXECUTION_TRACE_FIELDS = {
     "semantic_input_fingerprint", "program_fingerprint",
     "stdout_fingerprint", "stderr_fingerprint", "returncode", "aborted",
+    "artifact_fingerprint",
 }
 
 
@@ -55,6 +56,7 @@ def execution_trace_entry(artifact):
         "stderr_fingerprint": artifact.stderr_fingerprint,
         "returncode": artifact.returncode,
         "aborted": artifact.aborted,
+        "artifact_fingerprint": execution_artifact_fingerprint(artifact),
     }
 
 
@@ -64,7 +66,8 @@ def valid_execution_trace_entry(entry):
         return False
     if not all(valid_fingerprint(entry[field]) for field in (
             "semantic_input_fingerprint", "program_fingerprint",
-            "stdout_fingerprint", "stderr_fingerprint")):
+            "stdout_fingerprint", "stderr_fingerprint",
+            "artifact_fingerprint")):
         return False
     return (type(entry["returncode"]) is int
             and type(entry["aborted"]) is bool)
@@ -132,6 +135,27 @@ class ExecutionArtifact:
     parsed_output: object = None
     certificate: object = None
 
+    def payload(self):
+        """Closed JSON value persisted by the content-addressed store."""
+        return {
+            "schema": 1,
+            "backend": self.backend.payload(),
+            "semantic_input_fingerprint": self.semantic_input_fingerprint,
+            "program_fingerprint": self.program_fingerprint,
+            "program_text": self.program_text,
+            "completion_nonce": self.completion_nonce,
+            "argv": list(self.argv),
+            "returncode": self.returncode,
+            "aborted": self.aborted,
+            "abort_reason": self.abort_reason,
+            "stdout": self.stdout,
+            "stderr": self.stderr,
+            "stdout_fingerprint": self.stdout_fingerprint,
+            "stderr_fingerprint": self.stderr_fingerprint,
+            "parsed_output": self.parsed_output,
+            "certificate": self.certificate,
+        }
+
     def with_parsed(self, values, certificate=None):
         return ExecutionArtifact(
             backend=self.backend,
@@ -152,6 +176,14 @@ class ExecutionArtifact:
                 _canonical(certificate) if certificate is not None else None
             ),
         )
+
+
+def execution_artifact_fingerprint(artifact):
+    """Address the complete immutable artifact, not merely its transcript."""
+    if not isinstance(artifact, ExecutionArtifact):
+        raise TypeError("expected an ExecutionArtifact")
+    encoded = _canonical(artifact.payload()).encode("utf-8")
+    return "sha256:" + hashlib.sha256(encoded).hexdigest()
 
 
 class BackendExecution(dict):

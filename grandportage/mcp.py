@@ -26,6 +26,7 @@ import os
 import sys
 import traceback
 
+from . import artifacts as A
 from . import cas
 from . import check as C
 from . import format as F
@@ -878,8 +879,9 @@ def dispatch(request, root=ROOT):
         call_root = args.get("root") or root
         try:
             return _ok(rid, handler(args, call_root))
-        except (cas.TransportNotDeclared, cas.IdentifierCollision,
-                cas.CASError, S.GraphError, K.KernelRefusal) as exc:
+        except (A.ArtifactError, cas.TransportNotDeclared,
+                cas.IdentifierCollision, cas.CASError, S.GraphError,
+                K.KernelRefusal) as exc:
             # Expected refusals.  These are the product, not a crash: the
             # message tells the caller what to do differently.
             return _ok(rid, _err("%s: %s" % (type(exc).__name__, exc)))

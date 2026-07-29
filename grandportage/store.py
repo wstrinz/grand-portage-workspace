@@ -587,10 +587,25 @@ class Graph(object):
         # exactly the honour system this machinery exists to replace.
         if ev.get("representation") is not None:
             rep = ev["representation"]
-            _require(isinstance(rep, dict) and rep.get("cofactors"),
-                     "%s: verdict %r carries a `representation` with no "
-                     "cofactors. The cofactors ARE the certificate."
-                     % (where, ev.get("id")))
+            if subject == "operation":
+                required = {
+                    "cofactors", "targets", "generators", "ring_vars",
+                    "target_ring_vars", "eliminated",
+                }
+                _require(
+                    isinstance(rep, dict)
+                    and set(rep) == required
+                    and all(isinstance(rep[field], list)
+                            for field in required),
+                    "%s: operation verdict %r carries a malformed checked "
+                    "scope. Empty cofactors are legal when the computed ideal "
+                    "has no recorded generators."
+                    % (where, ev.get("id")))
+            else:
+                _require(isinstance(rep, dict) and rep.get("cofactors"),
+                         "%s: verdict %r carries a `representation` with no "
+                         "cofactors. The cofactors ARE the certificate."
+                         % (where, ev.get("id")))
             target[of]["representation"] = rep
 
     def _apply_certificate(self, ev, where):

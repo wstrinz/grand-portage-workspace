@@ -30,11 +30,11 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->923<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->945<!--/checks--> checks, live against Singular 4.2.1,
 and it has had four live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
-* **[COMPATIBILITY.md](COMPATIBILITY.md) — graph format 1, kernel epoch 1, and conservative epoch-0 migration**
+* **[COMPATIBILITY.md](COMPATIBILITY.md) — graph format 1, kernel epoch 2, durable artifacts, and conservative migration**
 * **[QUICKSTART.md](QUICKSTART.md) — install, a campaign in ten minutes, and the three things worth knowing on day one**
 * [DESIGN.md](DESIGN.md) — architecture and the decisions behind it
 * [REVIEW.md](REVIEW.md) — **where I am least confident**, for a reviewer
@@ -65,6 +65,7 @@ What they contain, since the summaries name no domain:
 |---|---|---|
 | kernel | `grandportage/kernel.py` | the transport table — the only code with mathematical judgement in it |
 | store | `grandportage/store.py` | append-only graph log; merge is concatenation |
+| artifacts | `grandportage/artifacts.py` | immutable raw programs/transcripts addressed outside the semantic graph |
 | checker | `grandportage/check.py` | findings, derived severities, exit code |
 | discharge | `grandportage/discharge.py` | refusal → canonical next move |
 | CAS + MCP | `grandportage/cas.py`, `mcp.py` | **declare the transport or no process spawns** |
@@ -132,7 +133,7 @@ code applying it cannot drift apart.
 | `NECESSARY_CONDITION` | AGAINST | yes | NO | yes | if denominator-free |
 | `BASE_EXTENSION` | **ALONG** | **only with a certificate** | **yes** | NO | yes |
 | `BASE_EXTENSION` | AGAINST | yes | NO | yes | if defined over base |
-| `IMAGE_CLOSURE` | ALONG | NO | yes | if Zariski-closed | if denominator-free |
+| `IMAGE_CLOSURE` | ALONG | NO | yes | if closed + exact image | if exact image |
 | `IMAGE_CLOSURE` | **AGAINST** | yes | **if existential** | yes | if denominator-free |
 | `SPECIALIZATION` | ALONG | **NO** | **NO** | NO | if p-integral |
 | `SPECIALIZATION` | AGAINST | **NO** | **NO** | NO | NO |
@@ -152,6 +153,12 @@ Three rows carry most of the value:
   `NONEMPTY` travels along the arrow and `EMPTY` needs a certificate. Anyone
   who internalised "emptiness always transports" is primed to get this exactly
   backwards, which is how the erratum above happened.
+* **Constructed elimination has one-sided authority until completeness is
+  certified.** The local verifier proves every recorded target generator lies
+  in the source contraction, `J ⊆ ι⁻¹(I)`. It does not prove the reverse
+  inclusion. Kernel epoch 2 therefore requires exact-image authority before a
+  source-derived identity or closed predicate travels `ALONG`; the checked
+  pullback and point-map directions remain licensed.
 * **`IMAGE_CLOSURE` AGAINST / `NONEMPTY` is Chevalley.** A point of the Zariski
   closure need not lift. This is why elimination is a sound way to *derive*
   equations and an unsound source of *witnesses* — and why a cell that survives
@@ -208,6 +215,7 @@ gp check                         # type-check; exit 1 if anything is unsound
 gp check --json                  # machine-readable findings
 gp table                         # print the transport table and certificates
 gp show                          # print the graph
+gp artifacts check               # audit exact raw CAS executions
 
 gp --graph fixtures/jc2/graph.jsonl check      # the JC(2) retrodiction
 gp --graph fixtures/matroid/graph.jsonl check  # the matroid retrodiction
@@ -218,7 +226,7 @@ Pure stdlib. No solver, no network, no model in the loop. Under a second.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->923<!--/checks--> checks
+python -m pytest        # <!--checks-->945<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

@@ -55,14 +55,17 @@ def _fresh_verdict_graph(events):
         "program_fingerprint": B.text_fingerprint("test program"),
         "stdout_fingerprint": B.text_fingerprint("test stdout"),
         "stderr_fingerprint": B.text_fingerprint(""),
+        "artifact_fingerprint": B.semantic_fingerprint(
+            "test_execution_artifact", []),
         "returncode": 0,
         "aborted": False,
     }]
     execution = {
-        "schema": 1,
+        "schema": 2,
         "contract": B.SINGULAR_CONTRACT,
         "implementation": B.SINGULAR_IMPLEMENTATION,
         "implementation_version": B.SINGULAR_IMPLEMENTATION_VERSION,
+        "protocol_version": B.BACKEND_PROTOCOL_VERSION,
         "binary_version": "Singular 4.2.1",
         "executions": trace,
         "trace_fingerprint": B.semantic_fingerprint(
@@ -2861,7 +2864,9 @@ def test_the_readme_transport_table_matches_the_kernel():
              "integral_identity": "if p-integral",
              "map_polynomial": "if denominator-free",
              "scheme_scope": "only with a certificate",
-             "closed_condition": "if Zariski-closed"}
+             "closed_condition": "if Zariski-closed",
+             "exact_image_identity": "if exact image",
+             "closed_exact_image": "if closed + exact image"}
 
     documented = {}
     for line in text.splitlines():
@@ -4805,7 +4810,8 @@ def _op_graph(built_gens, op="SaturateClosure"):
          "ring_vars": ["x", "y"], "generators": ["x*y-1"],
          "characteristic": 0},
         {"ev": "model", "id": "IMG", "desc": "the closure of the image",
-         "ring_vars": ["x"], "generators": built_gens, "characteristic": 0},
+         "ring_vars": ["x"], "generators": built_gens, "characteristic": 0,
+         "eliminated": ["y"]},
         {"ev": "edge", "id": "E", "src": "SRC", "dst": "IMG",
          "type": K.IMAGE_CLOSURE, "map_kind": K.POLYNOMIAL,
          "why": "project away y", "built_by_operation": "Eliminate"}])

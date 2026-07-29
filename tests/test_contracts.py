@@ -4,6 +4,8 @@ from dataclasses import FrozenInstanceError
 
 import pytest
 
+from grandportage import cas
+from grandportage import check as C
 from grandportage import contracts as OC
 from grandportage import kernel as K
 from grandportage import operations as O
@@ -138,3 +140,163 @@ def test_incomplete_saturation_passes_local_checks_without_becoming_exact():
     assert "completeness" in done.contract.open_obligations[0]
     assert all("semantic_relation" not in event and "exact" not in event
                for event in done.events)
+
+
+def test_elimination_contract_is_multi_sorted_and_one_sided():
+    contract = OC.ELIMINATION
+
+    assert contract.edge_type == K.IMAGE_CLOSURE
+    assert contract.built_endpoint == "dst"
+    assert contract.source_endpoint == "src"
+    assert contract.source_sort != contract.target_sort
+    assert "inclusion^-1" in contract.semantic_relation
+    assert {item.name for item in contract.checked_obligations} == {
+        "generator_expressibility",
+        "generator_source_membership",
+    }
+    assert all(item.verifier_subject == "operation"
+               and item.verifier_function == "operation_output"
+               for item in contract.checked_obligations)
+    assert any("completeness" in item for item in contract.open_obligations)
+    assert not any("along" in item.lower() and "identit" in item.lower()
+                   for item in contract.licensed_consequences)
+
+
+def test_elimination_constructor_and_execution_preserve_the_contract():
+    op = O.eliminate(
+        "SOURCE", ["y"], "BUILT", ["x", "y"], ["x*y"])
+
+    assert O.DERIVES["Eliminate"] == OC.ELIMINATION.derivation
+    assert op.contract is OC.ELIMINATION
+    assert op.events[1]["src"] == "SOURCE"
+    assert op.events[1]["dst"] == "BUILT"
+
+    def fake(program, _timeout):
+        return {
+            "aborted": False,
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "@@GP_OUT:\nGP_OUT[1]=0\n"
+                      + program.completion_marker + "\n",
+        }
+
+    done = O.execute(op, _runner=fake)
+    assert done.contract is OC.ELIMINATION
+    assert done.events[0]["generators"] == []
+
+
+def test_incomplete_elimination_passes_local_check_but_not_exact_contract():
+    """Runtime pole matching Lean's `(2) -> (0)` counterexample.
+
+    Eliminating y from (x) should return (x). The deliberately empty output
+    has no invented generator, so the cheap checker passes vacuously; the
+    contract must retain completeness as an open obligation.
+    """
+    op = O.eliminate(
+        "SOURCE", ["y"], "INCOMPLETE", ["x", "y"], ["x"])
+
+    def fake(program, _timeout):
+        return {
+            "aborted": False,
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "@@GP_OUT:\nGP_OUT[1]=0\n"
+                      + program.completion_marker + "\n",
+        }
+
+    done = O.execute(op, _runner=fake)
+    graph = S.Graph().apply_all([
+        ({"ev": "model", "id": "SOURCE", "what": "source",
+          "characteristic": 0, "ring_vars": ["x", "y"],
+          "generators": ["x"]}, "test", 0),
+    ] + [(event, "test", i + 1) for i, event in enumerate(done.events)])
+    graph.validate()
+
+    verdict, why, certificate = V.operation_output(graph, "E-INCOMPLETE")
+    assert verdict == V.OP_SOUND, why
+    assert certificate["targets"] == []
+    assert certificate["target_ring_vars"] == ["x"]
+    assert certificate["eliminated"] == ["y"]
+    assert "DOES NOT SAY: that the output is COMPLETE" in why
+    assert any("completeness" in item
+               for item in done.contract.open_obligations)
+
+
+def test_elimination_local_check_requires_an_exact_ring_partition():
+    graph = S.Graph().apply_all([
+        ({"ev": "model", "id": "SOURCE", "what": "source",
+          "characteristic": 0, "ring_vars": ["x", "y"],
+          "generators": ["x"]}, "test", 0),
+        ({"ev": "model", "id": "BUILT", "what": "bad target",
+          "characteristic": 0, "ring_vars": ["x", "z"],
+          "generators": [], "eliminated": ["y"]}, "test", 1),
+        ({"ev": "edge", "id": "E", "src": "SOURCE", "dst": "BUILT",
+          "type": K.IMAGE_CLOSURE, "map_kind": K.POLYNOMIAL,
+          "why": "claims to eliminate y", "built_by_operation": "Eliminate"},
+         "test", 2),
+    ]).validate()
+
+    verdict, why, certificate = V.operation_output(graph, "E")
+    assert verdict == V.UNVERIFIED
+    assert "retained variables" in why
+    assert certificate is None
+
+def test_empty_elimination_output_records_its_checked_scope(
+        tmp_path, monkeypatch):
+    root = str(tmp_path)
+    S.append([
+        {"ev": "model", "id": "SOURCE", "what": "source",
+         "characteristic": 0, "ring_vars": ["x", "y"],
+         "generators": ["x"]},
+        {"ev": "model", "id": "BUILT", "what": "empty output",
+         "characteristic": 0, "ring_vars": ["x"],
+         "generators": [], "eliminated": ["y"]},
+        {"ev": "edge", "id": "E", "src": "SOURCE", "dst": "BUILT",
+         "type": K.IMAGE_CLOSURE, "map_kind": K.POLYNOMIAL,
+         "why": "eliminate y", "built_by_operation": "Eliminate"},
+    ], root)
+    backend = cas.SingularBackend(
+        runner=lambda *_args: pytest.fail("empty output needs no CAS run"),
+        binary_version="Singular 4.4.1")
+    monkeypatch.setattr(
+        cas.SingularBackend, "can_record_verdicts",
+        property(lambda _self: True))
+
+    V.verify_all(root=root, backend=backend, record=True)
+
+    graph = S.load(S.graph_path(root))
+    assert graph.edges["E"]["output_verdict"] == V.OP_SOUND
+    assert graph.edges["E"]["representation"]["cofactors"] == []
+    assert graph.edges["E"]["representation"]["eliminated"] == ["y"]
+
+def test_local_elimination_verdict_does_not_mint_exact_forward_authority():
+    graph = S.Graph().apply_all([
+        ({"ev": "model", "id": "SOURCE", "what": "source",
+          "characteristic": 0, "ring_vars": ["x", "y"],
+          "generators": ["x"]}, "test", 0),
+        ({"ev": "model", "id": "BUILT", "what": "incomplete target",
+          "characteristic": 0, "ring_vars": ["x"],
+          "generators": [], "eliminated": ["y"]}, "test", 1),
+        ({"ev": "edge", "id": "E", "src": "SOURCE", "dst": "BUILT",
+          "type": K.IMAGE_CLOSURE, "map_kind": K.POLYNOMIAL,
+          "why": "eliminate y", "built_by_operation": "Eliminate"},
+         "test", 2),
+        ({"ev": "claim", "id": "C", "model": "SOURCE",
+          "kind": K.IDENTITY, "statement": "x vanishes", "lhs": "x",
+          "rhs": "0", "ring_vars": ["x"],
+          "identity_origin": K.DERIVED}, "test", 3),
+        ({"ev": "inference", "id": "I", "claim": "C",
+          "path": [["E", K.ALONG]], "concludes_kind": K.IDENTITY,
+          "asserted": "x vanishes on the recorded target"}, "test", 4),
+    ]).validate()
+    # This is exactly the verdict operation_output currently produces: local
+    # no-invention, not contraction completeness.
+    graph.edges["E"]["output_verdict"] = V.OP_SOUND
+
+    licensed, trace = C.audit_inference(graph, "I")
+    assert not licensed
+    assert "completeness" in trace[0][3]
+
+    graph.edges["E"].pop("built_by_operation")
+    licensed, _trace = C.audit_inference(graph, "I")
+    assert licensed, "an authored exact IMAGE_CLOSURE still states exactness"

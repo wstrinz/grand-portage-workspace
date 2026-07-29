@@ -188,7 +188,7 @@ def audit_inference(graph, iid):
             detail += (
                 " (partition exhaustiveness has no current VERIFIED verdict; "
                 "a declaration alone does not license a case split in "
-                "kernel epoch 1)")
+                "kernel epoch 2)")
         return r.licensed, [(UNCOVERED_PARTITION, "COVERS", r.licensed, detail)]
     # EVERY premise, not just the first.  An argument is only as licensed as
     # its weakest leg, and before the multi-premise form existed the extra legs
@@ -218,7 +218,8 @@ def audit_inference(graph, iid):
                 ring_iso=effective_ring_iso(e),
                 coefficients_in_base=claim.get("coefficients_in_base"),
                 zariski_dense=e.get("zariski_dense"),
-                existential=claim.get("existential"))
+                existential=claim.get("existential"),
+                image_complete=effective_image_complete(e))
             trace.append((eid, direction, r.licensed, r.reason))
             if not r.licensed:
                 ok = False
@@ -262,7 +263,8 @@ def probe(graph, claim_id, edge_id, direction, etype=None, map_kind=None,
         integral=claim.get("integral"), ring_iso=effective_ring_iso(edge),
         coefficients_in_base=claim.get("coefficients_in_base"),
         zariski_dense=edge.get("zariski_dense"),
-        existential=claim.get("existential"))
+        existential=claim.get("existential"),
+        image_complete=effective_image_complete(edge))
 
 
 def contradicting_claims(graph, model_id, kind, exclude=()):
@@ -1328,6 +1330,20 @@ def effective_ring_iso(edge):
     if not K.is_mapped_equivalence(edge):
         return False
     return edge.get("ring_iso_verdict") == "VERIFIED"
+
+
+def effective_image_complete(edge):
+    """Whether an IMAGE_CLOSURE target has exact-output authority.
+
+    A hand-declared image closure states the exact mathematical relation. A
+    constructor-built elimination is different: its current translation
+    validator proves only that recorded generators belong to the contraction.
+    Until a completeness certificate exists, exact-dependent forward moves
+    fail closed.
+    """
+    if edge.get("built_by_operation") != "Eliminate":
+        return True
+    return edge.get("output_verdict") == "VERIFIED_EXACT"
 
 
 def effective_certificate(claim):

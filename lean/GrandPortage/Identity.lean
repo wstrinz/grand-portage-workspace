@@ -16,7 +16,7 @@ predicate, and the counterexamples live in `Int`, which is in core.
 
 namespace GrandPortage
 
-universe u
+universe u v
 
 /-- An ideal, as much of one as the variance question needs: a predicate on
     ring elements. -/
@@ -116,10 +116,10 @@ theorem eqMod_both_ways {R : Type u} [Sub R] {I J : Ideal R}
     look like instances of this one condition, checked differently because the
     maps differ.  Whether they really are one condition is the question this
     layer exists to settle, and it is not settled here. -/
-def Carries {R S : Type u} (φ : R → S) (I : Ideal R) (J : Ideal S) : Prop :=
+def Carries {R : Type u} {S : Type v} (φ : R → S) (I : Ideal R) (J : Ideal S) : Prop :=
   ∀ f, I f → J (φ f)
 
-theorem eqMod_transports {R S : Type u} [Sub R] [Sub S]
+theorem eqMod_transports {R : Type u} {S : Type v} [Sub R] [Sub S]
     (φ : R → S) (hφ : ∀ a b : R, φ (a - b) = φ a - φ b)
     {I : Ideal R} {J : Ideal S} (h : Carries φ I J) {f g : R} :
     EqMod I f g → EqMod J (φ f) (φ g) := by

@@ -1,22 +1,19 @@
 # Operation contracts
 
-**Status:** first executable pilot
-**Authoritative runtime semantics:** kernel epoch 1 remains unchanged
+**Status:** two executable pilots
+**Authoritative runtime semantics:** kernel epoch 2
 **Formal shadow:** `lean/GrandPortage/OperationContract.lean`
 
-Grand Portage now has a small operation-contract foundation. It is deliberately
-not a new graph schema or a Python framework for every constructor. The first
-job is to keep three statements from collapsing into one:
+Grand Portage now has a small operation-contract foundation. Its first job is
+to keep three statements from collapsing into one:
 
-1. **Intended semantics** — what an exact mathematical implementation of the
-   operation would produce.
-2. **Checked guarantee** — what the current local validators establish about
+1. **Intended semantics** — what an exact mathematical implementation produces.
+2. **Checked guarantee** — what local translation validation establishes about
    this particular output.
 3. **Licensed consequences** — what follows from that checked guarantee.
 
-A backend success, a parsed result, and a locally verified output are not by
-themselves a proof that the backend returned the complete mathematical object.
-That is the motivating invariant of this layer.
+A backend success, a parsed result, and a locally verified output do not by
+themselves prove that the backend returned the complete mathematical object.
 
 ## Contract shape
 
@@ -30,84 +27,97 @@ OperationContract Params Source Target
     semantics_entails_checked
 ```
 
-The source and target types are the operation's model sorts. The required
-theorem points from exact semantics to the checked guarantee. It does not point
-backwards.
-
-Claim transformers are theorems derived from a contract's semantic relation or
-checked guarantee. They are not string fields inside the contract. Backend
-program compilation, certificate formats, verifier authority, and provenance
-belong to the separate lowering and evidence layers.
-
-The Python value in `grandportage/contracts.py` is an immutable runtime shadow.
-It makes the same boundary inspectable by constructors and tests; it is not a
-proof object and does not override the kernel.
+The theorem points from exact semantics to the checked guarantee, never in the
+tempting reverse direction. Claim transformers are theorems derived from these
+relations, not strings stored inside the contract. The immutable values in
+`grandportage/contracts.py` are runtime shadows for constructors, verifiers,
+and audits; they are not proof objects.
 
 ## Saturation pilot
 
 For source ideal `I`, polynomial `f`, and recorded output ideal `J`:
 
 ```text
-intended semantics       J = I : f^∞
-
-checked by containment   I ⊆ J
-checked by output cert   every recorded generator of J has a witness in I : f^∞
+exact semantics          J = I : f^∞
+checked containment      I ⊆ J
+checked generators       each recorded generator of J lies in I : f^∞
 formal generated lift    J ⊆ I : f^∞
-
-still open               I : f^∞ ⊆ J
-                         (output completeness)
+open                     I : f^∞ ⊆ J
 ```
 
-The checks establish source containment and generator-level soundness. Lean now
-models ideal generation by its universal property inside the ring's family of
-admissible ideal predicates. When the runtime endpoint is the ideal generated
-by exactly the recorded output generators, their certificates lift to the
-ideal-level sound envelope `J ⊆ I : f^∞`. This still does not establish equality
-with the full saturation. Lean pins the remaining gap with the concrete
-counterexample `I = (6)`, `f = 2`, `J = (6)`: the sound directions hold, but
-`3 ∈ (6) : 2^∞` and `3 ∉ (6)`.
+Lean proves the one-sided lift and pins the completeness gap with `I = (6)`,
+`f = 2`, `J = (6)`: all local checks pass, while `3 ∈ (6) : 2^∞` and
+`3 ∉ (6)`. Source containment still licenses the existing
+`NECESSARY_CONDITION / AGAINST / IDENTITY` move.
 
-Source containment licenses the current
-`NECESSARY_CONDITION / AGAINST / IDENTITY` move: an identity in the source
-ideal also holds in the built ideal. Even exact saturation does not license a
-derived identity in the saturated ideal to travel back to the source.
+## Elimination pilot
+
+Elimination is genuinely multi-sorted. Let `R` be the source ring, `S` the
+retained-coordinate ring, `ι : S → R` the coordinate inclusion, `I` the source
+ideal, and `J` the recorded output ideal:
+
+```text
+exact semantics          J = ι⁻¹(I)
+runtime typing check     each recorded generator elaborates in S
+runtime certificate      each recorded g satisfies ι(g) ∈ I
+formal generated lift    J ⊆ ι⁻¹(I)
+open                     ι⁻¹(I) ⊆ J
+```
+
+Typing the generator as an element of `S` absorbs expressibility into the Lean
+type. At the string boundary, `verify.operation_output` separately checks the
+eliminated/retained variable partition, expression typing, and source
+membership. The verifier representation records both ring sorts and the
+partition.
+
+The checked envelope licenses target identities pulling back to the source,
+source points mapping to the target, and target emptiness implying source
+emptiness. It does **not** license a source-derived identity moving along to the
+recorded target. That direction needs completeness.
+
+Lean pins this with the small counterexample `I = (2)`, `J = (0)`, identity
+inclusion, and no recorded generators. Every local generator check passes
+vacuously, but `2 = 0` holds modulo `I` and fails modulo `J`. The polynomial
+version is eliminating `y` from `(x) ⊂ k[x,y]` while incorrectly recording the
+zero ideal in `k[x]`.
+
+## Authority and kernel epoch 2
+
+This counterexample found a real authority gap. Kernel epoch 1 licensed
+`IMAGE_CLOSURE / ALONG / IDENTITY` from the map kind alone, even on a
+constructor-built elimination whose current verdict explicitly means only
+“nothing invented.” Kernel epoch 2 keeps the abstract exact-image rule but
+requires exact-output authority for the two forward consequences that depend on
+completeness:
+
+- `IMAGE_CLOSURE / ALONG / IDENTITY`;
+- `IMAGE_CLOSURE / ALONG / PREDICATE` for a closed predicate.
+
+Manual `IMAGE_CLOSURE` declarations still state the exact mathematical
+relation. A constructor-built `Eliminate` fails closed on those two moves until
+a future `VERIFIED_EXACT`-class certificate exists. Its checked pullback and
+point-map directions remain available.
+
+Format-1/kernel-epoch-1 graphs migrate non-destructively with:
+
+```console
+gp --graph old/.portage/graph.jsonl migrate --to-kernel2
+```
+
+The source is untouched, prior verdicts remain present but stale, and the new
+fold re-audits transport under epoch 2.
 
 ## Trust boundary
-
-The layers are:
 
 ```text
 operation contract       mathematical intent and transport theorems
 backend lowering         concrete Singular/M2 program and decoder
-translation validation  per-run containment and output certificates
+translation validation  per-run typing, membership, and certificates
 authority/provenance     who checked what, under which epoch and inputs
+artifact store           exact immutable programs and raw transcripts
 ```
 
-Keeping these separate prevents two invalid promotions:
-
-- “the certificate checks” → “the declared operation was computed completely”;
-- “the operation is mathematically sound” → “this backend run implemented it
-  correctly.”
-
-## What this pilot does not do
-
-- It does not change any kernel-epoch-1 transport cell.
-- It does not add contract records to the persisted event format.
-- It does not claim completeness for saturation output.
-- It does not formalize the raw generator/cofactor certificate format in Lean.
-- It does not duplicate the store, CLI, backend orchestration, or provenance
-  system in Lean.
-- It does not instantiate speculative contracts for every existing operation.
-
-## Next earned steps
-
-1. Keep the two-pole saturation gate: a real Singular result and a
-   deliberately incomplete fake result whose local checks pass without gaining
-   exactness authority.
-2. Instantiate elimination. It has the same soundness/completeness split but
-   changes expression and point sorts, so it is the first real multi-sorted
-   stress test.
-3. Only after those two pilots, decide whether contracts belong in the
-   persisted IR or remain compiled constructor metadata.
-4. Derive more runtime transport cells from proved claim transformers before
-   replacing the current table as the authoritative lookup.
+The next earned step is a completeness certificate design for elimination—not
+a Boolean assertion—and then a third contract chosen from live campaign demand.
+Contracts remain compiled constructor metadata until the two pilots show that
+persisting them in the IR buys more than it costs.

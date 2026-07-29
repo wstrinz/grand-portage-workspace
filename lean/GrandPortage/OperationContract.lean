@@ -73,7 +73,7 @@ theorem generatedIdeal_least {R : Type u} {isIdeal : Ideal R → Prop}
   intro g generated
   exact generated J hJ contains
 
-/-- The semantic parameters of a saturation run include the polynomial
+/-- The semantic parameters of a saturation run embedding the polynomial
     inverted, the generators recorded at the runtime boundary, and the family
     of predicates that count as ideals in the source ring. -/
 structure SaturationParams (R : Type u) where
@@ -160,6 +160,112 @@ def saturationContract {R : Type u} [Mul R] [OfNat R 1] :
   checkedGuarantee := SaturationChecked
   semantics_entails_checked := saturation_semantics_entails_checked
 
+/-! ## Elimination: the first genuinely multi-sorted contract
+
+The source ideal lives in `R`; the recorded elimination ideal lives in the
+retained-coordinate ring `S`. `embedding : S → R` is the coordinate inclusion.
+Typing a generator as an element of `S` makes runtime expressibility a type
+boundary rather than another Boolean hypothesis. -/
+
+/-- Contraction of a source ideal along the retained-coordinate inclusion. -/
+def ContractIdeal {R : Type u} {S : Type v}
+    (embedding : S → R) (I : Ideal R) : Ideal S :=
+  fun g => I (embedding g)
+
+/-- Parameters retained at the elimination boundary. -/
+structure EliminationParams (R : Type u) (S : Type v) where
+  embedding : S → R
+  recordedGenerator : S → Prop
+  sourceIdeal : Ideal R → Prop
+  targetIdeal : Ideal S → Prop
+
+/-- Exact elimination means equality with the contraction `ι⁻¹(I)`. -/
+def EliminationSemantics {R : Type u} {S : Type v}
+    (p : EliminationParams R S) (I : Ideal R) (J : Ideal S) : Prop :=
+  ∀ g, J g ↔ I (p.embedding g)
+
+/-- Endpoint facts needed to lift generator certificates to an ideal theorem. -/
+structure EliminationPrecondition {R : Type u} {S : Type v}
+    (p : EliminationParams R S) (I : Ideal R) (J : Ideal S) : Prop where
+  source_is_ideal : p.sourceIdeal I
+  output_is_ideal : p.targetIdeal J
+  contraction_is_ideal : p.targetIdeal (ContractIdeal p.embedding I)
+  output_generated :
+    ∀ g, J g ↔ GeneratedIdeal p.targetIdeal p.recordedGenerator g
+
+/-- What the cheap translation validator establishes: no recorded equation was
+    invented. Runtime expressibility is represented here by the generator
+    already having type `S`. -/
+structure EliminationChecked {R : Type u} {S : Type v}
+    (p : EliminationParams R S) (I : Ideal R) (_J : Ideal S) : Prop where
+  noInventedGenerator :
+    ∀ g, p.recordedGenerator g → I (p.embedding g)
+
+/-- Exact contraction entails the local generator certificates. -/
+theorem elimination_semantics_entails_checked
+    {R : Type u} {S : Type v}
+    (p : EliminationParams R S) (I : Ideal R) (J : Ideal S)
+    (pre : EliminationPrecondition p I J)
+    (exact : EliminationSemantics p I J) :
+    EliminationChecked p I J := by
+  constructor
+  intro g recorded
+  apply (exact g).1
+  apply (pre.output_generated g).2
+  exact generator_mem_generated recorded
+
+/-- Generator certificates lift to the sound envelope
+    `J ⊆ embedding⁻¹(I)`. The reverse inclusion is still open. -/
+theorem elimination_checked_no_invented_elements
+    {R : Type u} {S : Type v}
+    {p : EliminationParams R S} {I : Ideal R} {J : Ideal S}
+    (pre : EliminationPrecondition p I J)
+    (checked : EliminationChecked p I J) :
+    IdealGrows J (ContractIdeal p.embedding I) := by
+  intro g hg
+  have generated := (pre.output_generated g).1 hg
+  exact generated
+    (ContractIdeal p.embedding I)
+    pre.contraction_is_ideal
+    checked.noInventedGenerator
+
+/-- Elimination as a multi-sorted operation-contract instance. -/
+def eliminationContract {R : Type u} {S : Type v} :
+    OperationContract (EliminationParams R S) (Ideal R) (Ideal S) where
+  precondition := EliminationPrecondition
+  semanticRelation := EliminationSemantics
+  checkedGuarantee := EliminationChecked
+  semantics_entails_checked := elimination_semantics_entails_checked
+
+/-- The checked one-sided envelope licenses pulling a target identity back to
+    the source coordinate ring. -/
+theorem elimination_checked_transports_identity_against
+    {R : Type u} {S : Type v} [Sub R] [Sub S]
+    {p : EliminationParams R S} {I : Ideal R} {J : Ideal S}
+    (include_sub : ∀ a b : S,
+      p.embedding (a - b) = p.embedding a - p.embedding b)
+    (pre : EliminationPrecondition p I J)
+    (checked : EliminationChecked p I J)
+    {lhs rhs : S} :
+    EqMod J lhs rhs → EqMod I (p.embedding lhs) (p.embedding rhs) := by
+  have carries : Carries p.embedding J I := by
+    intro g hg
+    exact elimination_checked_no_invented_elements pre checked g hg
+  exact eqMod_transports p.embedding include_sub carries
+
+/-- The opposite identity direction uses the missing completeness half of exact
+    semantics; it is intentionally not derivable from `EliminationChecked`. -/
+theorem elimination_semantics_transports_identity_along
+    {R : Type u} {S : Type v} [Sub R] [Sub S]
+    {p : EliminationParams R S} {I : Ideal R} {J : Ideal S}
+    (include_sub : ∀ a b : S,
+      p.embedding (a - b) = p.embedding a - p.embedding b)
+    (exact : EliminationSemantics p I J)
+    {lhs rhs : S} :
+    EqMod I (p.embedding lhs) (p.embedding rhs) → EqMod J lhs rhs := by
+  intro h
+  apply (exact (lhs - rhs)).2
+  rwa [include_sub]
 /-! ## What the checked guarantee licenses -/
 
 /-- Source identities remain valid on the checked saturation result.  This is
@@ -261,5 +367,79 @@ theorem exact_saturation_does_not_transport_identity_along :
   constructor
   · simpa [EqMod] using three_satMem_sixes
   · simpa [EqMod] using three_not_mem_sixes
+/-! ## Elimination completeness is genuinely additional authority -/
+
+/-- An empty recorded generator set, representing the zero ideal output. -/
+def noEliminationGenerators : Int → Prop := fun _ => False
+
+/-- A tiny target-ideal theory containing the zero ideal and `(2)`. -/
+def eliminationIdealTheory : Ideal Int → Prop :=
+  fun J => J = zeroI ∨ J = evens
+
+/-- In that theory, the empty set generates exactly the zero ideal. -/
+theorem zeroI_is_generated_by_none :
+    ∀ g, zeroI g ↔
+      GeneratedIdeal eliminationIdealTheory noEliminationGenerators g := by
+  intro g
+  constructor
+  · intro hg J hJ _
+    rcases hJ with hJ | hJ
+    · rw [hJ]
+      exact hg
+    · rw [hJ]
+      simp only [zeroI] at hg
+      subst g
+      exact ⟨0, by omega⟩
+  · intro generated
+    apply generated zeroI (Or.inl rfl)
+    intro x impossible
+    exact False.elim impossible
+
+/-- The deliberately incomplete output: source `(2)`, recorded target `(0)`. -/
+def incompleteEliminationParams : EliminationParams Int Int where
+  embedding := id
+  recordedGenerator := noEliminationGenerators
+  sourceIdeal := eliminationIdealTheory
+  targetIdeal := eliminationIdealTheory
+
+/-- The endpoint is well formed and generated by exactly the empty output. -/
+theorem incomplete_elimination_precondition :
+    EliminationPrecondition incompleteEliminationParams evens zeroI := by
+  refine {
+    source_is_ideal := Or.inr rfl
+    output_is_ideal := Or.inl rfl
+    contraction_is_ideal := Or.inr ?_
+    output_generated := zeroI_is_generated_by_none
+  }
+  rfl
+
+/-- The cheap generator check passes vacuously. -/
+theorem incomplete_elimination_checked :
+    EliminationChecked incompleteEliminationParams evens zeroI := by
+  constructor
+  intro g impossible
+  exact False.elim impossible
+
+/-- But the output is not the contraction: `2` was missed. -/
+theorem checked_does_not_imply_elimination_semantics :
+    ¬ EliminationSemantics incompleteEliminationParams evens zeroI := by
+  intro exact
+  have evenTwo : evens 2 := ⟨1, by omega⟩
+  have zeroTwo : zeroI 2 := (exact 2).2 evenTwo
+  simp only [zeroI] at zeroTwo
+  omega
+
+/-- Consequently the locally checked output cannot carry the source identity
+    `2 = 0` along to the incomplete target. -/
+theorem checked_elimination_does_not_transport_identity_along :
+    EliminationChecked incompleteEliminationParams evens zeroI ∧
+      EqMod evens 2 0 ∧ ¬ EqMod zeroI 2 0 := by
+  constructor
+  · exact incomplete_elimination_checked
+  constructor
+  · simp only [EqMod, evens]
+    exact ⟨1, by omega⟩
+  · simp only [EqMod, zeroI]
+    omega
 
 end GrandPortage

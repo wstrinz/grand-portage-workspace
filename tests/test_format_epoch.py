@@ -6,8 +6,10 @@ import os
 
 import pytest
 
+from grandportage import check as C
 from grandportage import cli
 from grandportage import format as F
+from grandportage import kernel as K
 from grandportage import operations as O
 from grandportage import store as S
 
@@ -25,14 +27,14 @@ def test_init_starts_with_epoch_metadata(tmp_path):
     path = S.graph_path(str(tmp_path))
     events = list(S.load_events(path))
     assert events[0][0] == {
-        "created_with": "grandportage/0.5.0",
+        "created_with": "grandportage/0.6.0",
         "ev": "meta",
         "graph_format": 1,
-        "kernel_epoch": 1,
+        "kernel_epoch": F.KERNEL_EPOCH,
     }
     graph = S.load(path)
     assert graph.graph_format == 1
-    assert graph.kernel_epoch == 1
+    assert graph.kernel_epoch == F.KERNEL_EPOCH
     assert graph.compatibility_mode is False
 
 
@@ -265,3 +267,46 @@ def test_first_append_creates_a_native_graph(tmp_path):
     path = S.graph_path(str(tmp_path))
     first = next(iter(S.load_native_events(path)))[0]
     assert first["ev"] == "meta"
+
+
+def test_kernel_epoch1_migration_is_non_destructive_and_reaudits_transport(
+        tmp_path):
+    source = tmp_path / "epoch1.jsonl"
+    destination = tmp_path / "epoch2.jsonl"
+    events = [
+        {"ev": "meta", "graph_format": 1, "kernel_epoch": 1,
+         "created_with": "grandportage/0.5.0"},
+        {"ev": "model", "id": "SOURCE", "what": "source",
+         "characteristic": 0, "ring_vars": ["x", "y"],
+         "generators": ["x"]},
+        {"ev": "model", "id": "BUILT", "what": "elimination target",
+         "characteristic": 0, "ring_vars": ["x"], "generators": [],
+         "eliminated": ["y"]},
+        {"ev": "edge", "id": "E", "src": "SOURCE", "dst": "BUILT",
+         "type": K.IMAGE_CLOSURE, "map_kind": K.POLYNOMIAL,
+         "why": "eliminate y", "built_by_operation": "Eliminate"},
+        {"ev": "claim", "id": "C", "model": "SOURCE",
+         "kind": K.IDENTITY, "statement": "x vanishes", "lhs": "x",
+         "rhs": "0", "ring_vars": ["x"],
+         "identity_origin": K.DERIVED},
+        {"ev": "inference", "id": "I", "claim": "C",
+         "path": [["E", K.ALONG]], "concludes_kind": K.IDENTITY,
+         "asserted": "x vanishes on the target"},
+    ]
+    _write(source, events)
+    before = source.read_bytes()
+
+    assert cli.main([
+        "--graph", str(source), "migrate", "--to-kernel2",
+        "--kernel-output", str(destination),
+    ]) == 0
+
+    assert source.read_bytes() == before
+    graph = S.load(str(destination))
+    assert graph.kernel_epoch == F.KERNEL_EPOCH == 2
+    finding = [item for item in C.run(graph) if item.rule == C.R_TRANSPORT]
+    assert len(finding) == 1
+    assert "completeness" in finding[0].detail
+    audit = json.loads((tmp_path / "epoch2.jsonl.audit.json").read_text())
+    assert audit["from_kernel_epoch"] == 1
+    assert audit["kernel_epoch"] == 2

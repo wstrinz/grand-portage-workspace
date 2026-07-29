@@ -63,10 +63,7 @@ DERIVES = {
                   "a component of a factorizing decomposition carries the "
                   "parent's equations and more, so returning to the parent "
                   "drops the equations that single this piece out"),
-    "Eliminate": (K.IMAGE_CLOSURE,
-                  "elimination returns the ideal of the ZARISKI CLOSURE of "
-                  "the projection, which is not the image: a point of the "
-                  "closure need not lift"),
+    "Eliminate": OC.ELIMINATION.derivation,
 }
 
 
@@ -421,4 +418,5 @@ def eliminate(src, variables, produces, ring_vars, generators,
         DERIVES["Eliminate"][1],
         request={"ring_vars": list(ring_vars), "generators": list(generators),
                  "variables": list(variables),
-                 "characteristic": characteristic})
+                 "characteristic": characteristic},
+        contract=OC.ELIMINATION)

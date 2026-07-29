@@ -35,37 +35,36 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about seven days. Version 0.5.0. <!--checks-->923<!--/checks--> checks.** Treat
+**Age: about seven days. Version 0.6.0. <!--checks-->945<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
-**M2 first slice is implemented.** Production verifiers and structured
-saturation/elimination/decomposition now dispatch through semantic backend
-methods. `SingularBackend` retains immutable execution artifacts; v2 verdicts
-store a versioned, typed, recomputable execution manifest inside the existing
-format-1 `backend` string, so v0.5.0 readers mark them stale rather than reject
-the log. Only the exact production adapter with its probed binary may record;
-test runners and subclasses are non-authoritative. Structured operations bind
-an artifact to its exact program, and a DERIVED identity without a replayable
-membership representation stays UNVERIFIED. Lean now distinguishes independent
-certificate replay, direct normal-form decisions inside the named backend/verifier
-TCB, and verifier-native structural decisions that spawn no backend artifact. The
-adversarial corpus found and closed truncated empty
-`facstd` components. The nonce-bearing terminal marker is now enforced per
-execution, with pre-marker verdicts stale under Singular implementation version
-2. Before backend number two: persist content-addressed raw artifacts outside the
-semantic graph.
+**The backend evidence seam is now durable.** Production verifiers and
+structured operations dispatch through semantic `SingularBackend` methods and
+retain immutable execution artifacts. Backend protocol 2 / Singular
+implementation 3 gives every trace entry a content address for a complete
+canonical envelope: exact nonce-bearing program, argv, process status, stdout,
+stderr, parsed output, and certificate. Objects are published under
+`.portage/artifacts/sha256/` before a graph-affecting operation reference or
+verdict is appended; read-only health and classification probes remain ephemeral. `gp artifacts check`
+revalidates every object and trace projection. Missing objects are an explicit
+audit failure, not ambient input to deterministic graph folding. Pre-artifact
+verdicts remain readable but stale. Only the exact production adapter with its
+probed binary may record authority; injected runners and subclasses remain
+non-authoritative.
 
-**The first OperationContract pilot is implemented for saturation.** Lean keeps
-exact semantics (`J = I : f^∞`), generator-level local checks, and licensed
-transport consequences separate. It proves exact semantics entails the checks,
-proves the checks do not imply completeness, and derives the existing identity
-move from source containment. Python carries an immutable runtime shadow from
-construction through execution; its verifier subjects/functions are checked
-against the persisted verdict registry. A deliberately incomplete `(xy)` fake
-output passes both one-sided checks without gaining exactness, while the real
-Singular saturation gate passes. No graph schema or kernel-epoch semantics
-changed. See `OPERATION-CONTRACTS.md`.
-
+**OperationContract now has two Lean-backed pilots.** Saturation separates
+`J = I : f^∞` from the checked one-sided envelope. Elimination is the first
+multi-sorted contract: for `ι : S → R`, exact semantics is `J = ι⁻¹(I)`, while
+runtime typing and membership certificates establish only `J ⊆ ι⁻¹(I)`. Lean
+proves both generated-ideal lifts and pins incompleteness with explicit small
+counterexamples. The elimination pilot exposed a live authority defect:
+kernel epoch 1 let a source-derived identity travel forward on the strength of
+a local verdict that explicitly meant only “nothing invented.” Version 0.6.0
+therefore advances to kernel epoch 2. Constructed eliminations fail closed on
+the two exact-dependent forward cells until completeness evidence exists;
+checked pullback and point-map directions remain available. Format-1/epoch-1
+graphs migrate non-destructively with `gp migrate --to-kernel2`. See
+`OPERATION-CONTRACTS.md` and `COMPATIBILITY.md`.
 There is now a **public repo**: `github.com/wstrinz/grandportage`, Apache-2.0,
 the tool plus all three fixtures plus `DESIGN.md` / `REVIEW.md` /
 `docs/first-run/`. This repo is `grand-portage-workspace` (private) and holds
@@ -354,7 +353,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->923<!--/checks--> checks, ~10 s) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->945<!--/checks--> checks, ~10 s) |
 
 ---
 
@@ -461,7 +460,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->923<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->945<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.

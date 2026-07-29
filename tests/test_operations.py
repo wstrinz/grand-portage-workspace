@@ -10,7 +10,9 @@ NECESSARY_CONDITION, getting one right by accident.
 
 import pytest
 
+from grandportage import artifacts as A
 from grandportage import check as C
+from grandportage import cli
 from grandportage import kernel as K
 from grandportage import operations as O
 from grandportage import store as S
@@ -541,3 +543,49 @@ def test_a_minted_cover_verifies_exhaustive(tmp_path):
     assert verdict == V.COVERS, why
     for eid in g.edges:
         assert V.containment(g, eid, timeout=120)[0] == V.VERIFIED, eid
+
+
+def test_elimination_rejects_duplicate_variables_before_execution():
+    with pytest.raises(ValueError, match="must be unique"):
+        O.eliminate("M0", ["y", "y"], "M1", ["x", "y"], ["x+y"])
+
+def test_declared_computed_operation_publishes_auditable_raw_artifact(
+        tmp_path, monkeypatch, capsys):
+    root = str(tmp_path)
+    S.append([{
+        "ev": "model", "id": "M", "what": "source",
+        "characteristic": 0, "ring_vars": ["x", "y"],
+        "generators": ["x*y"],
+    }], root)
+    real_execute = O.execute
+
+    def fake_runner(program, _timeout):
+        return {
+            "aborted": False, "returncode": 0, "stderr": "",
+            "stdout": _completed(program, "@@GP_OUT:\nGP_OUT[1]=x\n"),
+        }
+
+    def execute_with_fake(op, timeout=300):
+        return real_execute(op, timeout=timeout, _runner=fake_runner)
+
+    monkeypatch.setattr(O, "execute", execute_with_fake)
+    assert cli.main([
+        "--root", root, "construct", "eliminate", "--src", "M",
+        "--vars", "y", "--produces", "IMG", "--run", "--declare",
+    ]) == 0
+
+    graph = S.load(S.graph_path(root))
+    references = [
+        A.note_reference(note.get("source")) for note in graph.notes
+        if A.note_reference(note.get("source")) is not None
+    ]
+    assert len(references) == 1
+    stored = A.load(root, references[0]["artifact_fingerprint"])
+    assert stored["program_fingerprint"] == references[0]["program_fingerprint"]
+    assert A.audit_graph(root, graph) == []
+
+    capsys.readouterr()
+    assert cli.main([
+        "--graph", S.graph_path(root), "artifacts", "check",
+    ]) == 0
+    assert "1 execution reference checked" in capsys.readouterr().out

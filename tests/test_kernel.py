@@ -232,6 +232,25 @@ def test_closure_predicate_transport_turns_on_zariski_closed():
     assert closed.licensed and not open_.licensed
 
 
+def test_image_forward_transport_needs_exact_output_authority():
+    identity = K.transport(
+        K.IMAGE_CLOSURE, K.ALONG, K.IDENTITY,
+        map_kind=K.POLYNOMIAL, image_complete=False)
+    predicate = K.transport(
+        K.IMAGE_CLOSURE, K.ALONG, K.PREDICATE,
+        zariski_closed=True, image_complete=False)
+    pullback = K.transport(
+        K.IMAGE_CLOSURE, K.AGAINST, K.IDENTITY,
+        map_kind=K.POLYNOMIAL, image_complete=False)
+
+    assert not identity.licensed
+    assert "completeness" in identity.reason
+    assert not predicate.licensed
+    assert "looser target" in predicate.reason
+    assert pullback.licensed, "the checked J subset contraction direction suffices"
+
+
+
 def test_known_conservatism_is_recorded_not_hidden():
     """Cells refused more strictly than the mathematics requires are DATA.
 

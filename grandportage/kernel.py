@@ -304,6 +304,10 @@ DENOMINATOR_FREE = (POLYNOMIAL, IDENTITY_MAP)
 _SCHEME_SCOPE = "scheme_scope"
 _MAP_POLYNOMIAL = "map_polynomial"
 _CLOSED_CONDITION = "closed_condition"
+# A locally validated elimination may still omit equations. Exact-image
+# forward transport needs the missing contraction-completeness direction.
+_EXACT_IMAGE_IDENTITY = "exact_image_identity"
+_CLOSED_EXACT_IMAGE = "closed_exact_image"
 # An identity pushed FORWARD along a non-injective pullback: licensed only when
 # the rewriting never depended on the source model's equations.
 _AMBIENT_IDENTITY = "ambient_identity"
@@ -577,8 +581,9 @@ TRANSPORT = {
         # hand-declared IMAGE_CLOSURE along a RATIONAL map can introduce
         # denominators in the pullback and this refuses it.  Two real
         # conditions; only one of them used to be checked.
-        ALONG:   {EMPTY: False, NONEMPTY: True, PREDICATE: _CLOSED_CONDITION,
-                  IDENTITY: _MAP_POLYNOMIAL},
+        ALONG:   {EMPTY: False, NONEMPTY: True,
+                  PREDICATE: _CLOSED_EXACT_IMAGE,
+                  IDENTITY: _EXACT_IMAGE_IDENTITY},
         # A point of the closure need NOT lift: NONEMPTY does not travel here.
         # That single cell is Chevalley.
         AGAINST: {EMPTY: True, NONEMPTY: _EXISTENTIAL, PREDICATE: True,
@@ -774,7 +779,7 @@ def transport(etype, direction, kind, scope=None, certificate=None,
               map_kind=IDENTITY_MAP, zariski_closed=None,
               identity_origin=None, integral=None, ring_iso=None,
               coefficients_in_base=None, zariski_dense=None,
-              existential=None):
+              existential=None, image_complete=True):
     """Return a Ruling for moving a claim of `kind` across an edge of `etype`.
 
     Deliberately takes plain values rather than objects: the kernel must be
@@ -936,6 +941,39 @@ def transport(etype, direction, kind, scope=None, certificate=None,
                       "p-torsion.  This kernel cannot see the certificate, so "
                       "it refuses"
                       % (identity_origin or UNKNOWN), _INTEGRAL_IDENTITY)
+    if rule == _EXACT_IMAGE_IDENTITY:
+        if map_kind not in DENOMINATOR_FREE:
+            return ruling(False,
+                          "IDENTITY rewriting needs a denominator-free map; "
+                          "this edge's map is %s" % map_kind,
+                          _MAP_POLYNOMIAL)
+        if image_complete:
+            return ruling(True,
+                          "licensed: the map is denominator-free and the "
+                          "target has exact image/contraction authority",
+                          _EXACT_IMAGE_IDENTITY)
+        return ruling(False,
+                      "the elimination output is certified only in the "
+                      "no-invention direction J subset inclusion^-1(I). "
+                      "Moving a source-derived identity ALONG needs the open "
+                      "completeness direction inclusion^-1(I) subset J",
+                      _EXACT_IMAGE_IDENTITY)
+    if rule == _CLOSED_EXACT_IMAGE:
+        if not zariski_closed:
+            return ruling(False,
+                          "only Zariski-closed conditions extend from an "
+                          "image to its closure; this predicate is not "
+                          "declared closed", _CLOSED_CONDITION)
+        if image_complete:
+            return ruling(True,
+                          "licensed: the condition is Zariski-closed and the "
+                          "target has exact image authority",
+                          _CLOSED_EXACT_IMAGE)
+        return ruling(False,
+                      "a closed condition extends to the actual closure, but "
+                      "this locally checked elimination may be a strictly "
+                      "looser target because output completeness is open",
+                      _CLOSED_EXACT_IMAGE)
     if rule == _CLOSED_CONDITION:
         if zariski_closed:
             return ruling(True,
