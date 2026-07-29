@@ -1767,6 +1767,35 @@ def merge_report(paths):
     return Graph().apply_all(events).validate(), []
 
 
+def find_root(start="."):
+    """Walk UP for a `.portage/`, the way git walks up for a `.git/`.
+
+    ONE COPY, BECAUSE TWO COPIES DISAGREED.  This logic was added to the hook
+    and not to the CLI, so from a subdirectory of a campaign the hook resolved
+    the root correctly, refused the step, and printed its standard advice --
+    "run `gp check`" -- which then reported no graph at all.
+
+    A live session found it on the first use of the walk-up: two components
+    disagreeing about where the campaign is, surfacing as REMEDIATION THAT
+    FAILS EXACTLY WHERE THE REFUSAL FIRES. The hook was right and the advice
+    was unusable from the same directory.
+
+    Deliberately does NOT walk down: a directory holding several campaigns has
+    no single graph to check, and picking one would be worse than silence.
+    """
+    try:
+        here = os.path.abspath(start)
+    except (OSError, ValueError):
+        return start
+    while True:
+        if os.path.isdir(os.path.join(here, GRAPH_DIR)):
+            return here
+        parent = os.path.dirname(here)
+        if parent == here:
+            return start
+        here = parent
+
+
 def graph_path(root="."):
     return os.path.join(root, GRAPH_DIR, GRAPH_FILE)
 

@@ -1568,6 +1568,21 @@ def main(argv=None):
     if not getattr(args, "func", None):
         build_parser().print_help()
         return 2
+    # RESOLVE THE ROOT THE WAY THE HOOK DOES, because they disagreed and the
+    # disagreement surfaced as advice that fails.
+    #
+    # The walk-up was added to the hook and not here. So from a subdirectory of
+    # a campaign the hook found the root, refused the step, and printed its
+    # standard line -- "run `gp check`" -- and `gp check` from that same
+    # directory reported there was no graph at all. A live session hit it on
+    # the first use of the feature.
+    #
+    # `gp init` is exempt: it CREATES a graph, and walking up would make it
+    # silently initialise a parent campaign instead of here, which is the one
+    # outcome worse than not finding one.
+    if (getattr(args, "root", None) == "." and not getattr(args, "graph", None)
+            and args.func is not cmd_init):
+        args.root = S.find_root(".")
     return args.func(args)
 
 

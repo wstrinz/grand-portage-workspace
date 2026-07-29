@@ -899,3 +899,49 @@ def test_the_saturation_constructor_can_actually_run():
         res = C2._run_subprocess(op.program, 120)
         assert "? error" not in res["stdout"] + res["stderr"], (
             "%s on a zero ideal: %s" % (op.kind, res["stdout"][-200:]))
+
+
+def test_the_cli_and_the_hook_agree_where_the_campaign_is(tmp_path, capsys):
+    """W7 D10 -- THE WALK-UP WAS ADDED TO ONE OF THEM.
+
+    From a subdirectory of a campaign the hook resolved the root correctly,
+    refused the step, and printed its standard line: "run `gp check`". And
+    `gp check` from that same directory reported there was no graph at all.
+
+    Two components disagreeing about where the campaign is, surfacing as
+    REMEDIATION THAT FAILS EXACTLY WHERE THE REFUSAL FIRES -- found on the
+    first live use of the feature, one day after it was added.
+    """
+    import os
+    from grandportage import cli, store as S, hook as HK
+    cli.main(["--root", str(tmp_path), "init"])
+    S.append([{"ev": "model", "id": "M", "what": "a model"}], str(tmp_path))
+    deep = tmp_path / "a" / "b" / "c"
+    deep.mkdir(parents=True)
+    here = os.getcwd()
+    try:
+        os.chdir(str(deep))
+        assert S.find_root(".") == os.path.abspath(str(tmp_path))
+        assert cli.main(["check"]) == 0
+        assert "1 models" in capsys.readouterr().out
+    finally:
+        os.chdir(here)
+
+
+def test_init_does_not_walk_up(tmp_path):
+    """`gp init` CREATES a graph, so walking up would silently initialise a
+    parent campaign instead of here -- the one outcome worse than not finding
+    one."""
+    import os
+    from grandportage import cli, store as S
+    cli.main(["--root", str(tmp_path), "init"])
+    child = tmp_path / "sub"
+    child.mkdir()
+    here = os.getcwd()
+    try:
+        os.chdir(str(child))
+        cli.main(["init"])
+        assert os.path.isdir(str(child / ".portage")), (
+            "init walked up and wrote to the parent campaign")
+    finally:
+        os.chdir(here)

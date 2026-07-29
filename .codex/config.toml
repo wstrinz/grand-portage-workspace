@@ -1,0 +1,6 @@
+[mcp_servers.grand-portage]
+command = "python"
+args = [
+    "-m",
+    "grandportage.mcp",
+]

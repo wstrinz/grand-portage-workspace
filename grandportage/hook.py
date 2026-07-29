@@ -276,37 +276,11 @@ LAST_BLOCK = "last-block"
 
 
 def _find_root(start):
-    """Walk UP for a `.portage/`, the way git walks up for a `.git/`.
-
-    THE HOOK WAS INERT FOR A WHOLE LIVE SESSION AND NOTHING SAID SO.  Root came
-    straight from the payload's `cwd`, so enforcement fired only when the
-    agent's working directory was EXACTLY the campaign root.  A repository with
-    seven campaigns under it gives that maybe one directory in eight, and a
-    session started anywhere else got silence -- not an error, silence.
-
-    W6 ran to completion, produced a defect log, and passed. Its result covers
-    the verifiers and the checker and says NOTHING about the layer `HANDOFF`
-    calls the difference between this tool and telemetry, because that layer
-    never executed. The absence was found afterwards, by looking for a
-    `last-block` marker that was never written.
-
-    Walking up fixes the common case -- an agent working inside a campaign --
-    without guessing. It deliberately does NOT walk down: a parent directory
-    holding seven campaigns has no single graph to check, and picking one would
-    be worse than silence.
-    """
-    try:
-        here = os.path.abspath(start)
-    except (OSError, ValueError):
-        return start
-    seen = here
-    while True:
-        if os.path.isdir(os.path.join(seen, S.GRAPH_DIR)):
-            return seen
-        parent = os.path.dirname(seen)
-        if parent == seen:
-            return start
-        seen = parent
+    """Delegates to `store.find_root`. Kept as a name because the hook's own
+    docstrings refer to it, and moved because the CLI needed the same answer --
+    two copies of this walk disagreed and the disagreement surfaced as advice
+    that failed. See `store.find_root`."""
+    return S.find_root(start)
 
 
 def _repeat_state(root, fids):
@@ -315,6 +289,13 @@ def _repeat_state(root, fids):
     The same 40-line block arriving five times in a row is not five pieces of
     information; it is one, and the repetition buries the discharge move under
     its own restatement.
+
+    MEASURED IN A LIVE RUN: 16 blocks on 6 distinct findings. The full form
+    costs 330-520 tokens and the short form 34, so suppression took the run's
+    hook bill from roughly 6,600 tokens to 3,000 -- across about forty tool
+    calls, which the author reported as "not a meaningful tax". Without it the
+    author reported they would have been tempted to disable the hook, and a
+    hook that is turned off enforces nothing.
     """
     p = os.path.join(root, S.GRAPH_DIR, LAST_BLOCK)
     key = "\n".join(sorted(fids))
