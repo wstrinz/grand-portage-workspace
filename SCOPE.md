@@ -200,3 +200,86 @@ For any proposed feature:
 
 If 1–3 fail, it is another kernel. If only 5 fails, the representation is not
 ready. If only 6 fails, defer it.
+
+---
+
+## 7. Three concepts the external landscape asked for, run through §6
+
+Prompted by a review proposing campaign targets whose proofs are long chains of
+exact computations joined by dangerous changes of presentation. Three concepts
+looked like missing edge types. **Two are not, and the third is — but is not
+being built yet.**
+
+### Symmetry quotient — NOT ONE THING, and the useful half already works
+
+The proposal conflates two different moves.
+
+**Restricting to a fixed locus** `X^G` — the Borel-fixed candidate analysis in
+the border-rank argument — is adding the equations `g·x = x`. That is a
+`NECESSARY_CONDITION` and needs nothing new. §6 questions 1–3 all pass because
+it is not a new kind of thing at all.
+
+**Quotienting** `X → X/G` lands in the invariant ring, a different algebra. It
+is tempting to call it an `EQUIVALENCE` with a non-trivial `ring_iso`, and that
+is **wrong**: the invariant ring is not isomorphic to the original, which is
+the whole point of taking it. Recorded here as a refuted reading rather than
+left as an untried idea.
+
+No campaign has yet needed the second, so §6.6 defers it.
+
+### Irreducible components — a MODEL CONSTRUCTOR, not an edge type
+
+`facstd` is a **kernel builtin** and reachable inside the dialect. This was not
+obvious: `primdecGTZ`, `minAssGTZ` and `radical` all live in `primdec.lib` and
+hit the same wall as `sat`, so the question "can a decomposition be computed
+here at all" had to be settled before any vocabulary was designed around it.
+It can.
+
+```
+facstd((xy))                 ->  [(y), (x)]
+facstd((y^2 - x^3 - x^2))    ->  [(cubic)]      irreducible over Q
+facstd((x^2-y^2, xy))        ->  [(x, y)]       the origin
+```
+
+What comes back is a **cover**: `V(I) = union V(I_j)` with each `I_j` containing
+`I`. That is precisely a `partition`, and `verify.partition_exhaustiveness`
+already decides exhaustiveness — which for a minted cover will verify by
+construction, so the constructor gets its own proof for free.
+
+So a decomposition is **a partition whose branches were minted rather than
+typed**, plus the provenance to say which. Third consecutive time the answer to
+"do we need a new edge type" has been no.
+
+**The honest limit, stated because it will matter:** `facstd` gives a cover,
+not the primary decomposition. Pieces need not be prime and may overlap, so
+this cannot answer *"is this component irreducible"*. Whether a cover suffices
+for "how the locus meets distinct components" depends on the actual question
+and should be found out on a live campaign rather than guessed at here.
+
+### DEGENERATION — IDENTIFIED, NOT BUILT
+
+The first thing met that the ontology genuinely **cannot express**, as opposed
+to expresses awkwardly.
+
+The Borel-fixed argument does not stop at restricting to `X^G`. The edge
+correctly gives `V(X^G) ⊆ V(X)`, so `EMPTY(X^G)` does **not** transport to `X`
+— and the candidate analysis needs exactly that step. What bridges it is a
+degeneration theorem: every ideal degenerates to a Borel-fixed one, hence
+
+```
+NONEMPTY(X)  =>  NONEMPTY(X^G)
+```
+
+and `X^G` is the **smaller** set. All six existing types are grounded in
+`V(src) ⊆ V(dst)`; this relation is not, in either direction. Gröbner
+degeneration to an initial ideal has the same shape, so it is not exotic.
+
+**Deferred under §6.6.** Every structural change since v0.2 was forced by a live
+run failing rather than by design, and the two times that discipline was
+relaxed produced a gate that checked nothing (`zariski_dense`) and an argument
+that did not reach its conclusion (`IMAGE_CLOSURE` on density). Eight cells
+earned against a reconstructed argument would be the same mistake a third time.
+
+The calibration campaign is what should demand it. When it does, the row gets
+designed the way every other one was: **Lean first**, with the counterexample
+above as the thing the formalisation has to reproduce.
