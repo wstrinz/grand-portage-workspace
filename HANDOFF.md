@@ -56,6 +56,8 @@ review. Worth knowing because it predicts where the next one comes from.
 | **L1** toric containment | **premise refuted** | the containment model held but had never been under load → `verify.containment` |
 | **W5/L4** identity live-test | 13 defects | **the verifier had no surface at all** → `gp verify`, `portage_verify`, the `verdict` event kind, GATE 3 |
 | **GPT-2** prior-art review | 2 kernel errors | `SPECIALIZATION` ignored `identity_origin`; the `RESTRICTION` density gate was insufficient *and* mis-typed |
+| **W6** post-verifier-layer | **PASS**, 8 defects | `operations.py` had no surface at all → `gp construct`; `ring_iso` silently skipped without its flag; a discharge its own verifier declines. **The hook was INERT the whole run and the run could not see it** |
+| **W7** enforcement live | **PASS**, 10 defects | **the tool caught a live flop at the moment of action** — the L1 class this file records as having "nothing that would have stopped me". Also: refusals at *verify* time arrive after the graph has folded, and the tool cannot recognise a repair |
 
 ### The reviews found the mathematics; the runs found the tool
 
@@ -134,10 +136,20 @@ are moved to `.sealed/`. Protocol and fixed grading criteria:
 `portage-depot/testing/L3-PROTOCOL.md`, written before the run.
 
 L3 gates the main JC(2) persistent investigation on three conditions: two
-consecutive live sessions with no blocking tool defect (currently **zero of
-six**), `portage_declare` working end to end in a real campaign (it has failed
-in two consecutive sessions), and the cold return measured. Tool changes during
-the gap are expected and are part of the test.
+consecutive live sessions with no blocking tool defect, `portage_declare`
+working end to end in a real campaign, and the cold return measured. Tool
+changes during the gap are expected and are part of the test.
+
+**Gate status after W6 and W7: one of the two, not two.** W6 passed its own
+clauses but ran with the **hook inert**, which it could not detect — so it
+tested the checker and the verifiers and left the enforcement layer untouched.
+It is recorded as *half*, and deliberately not counted. **W7 is the first
+genuinely clean session**: enforcement confirmed live before any work, ten
+defects, none blocking, twenty-two verdicts and none incorrect.
+
+So **one more clean run with enforcement live closes this condition.** Both
+runs declared end to end through `gp declare`, which retires the second
+condition; only the cold return remains after that.
 
 ### The sustained run, now sealed
 
