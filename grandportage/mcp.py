@@ -189,8 +189,39 @@ EDGE_SCHEMA["required"].append("map_kind")
 EDGE_SCHEMA["additionalProperties"] = False
 
 
+CONDITION_SCHEMA = {
+    "type": "object",
+    "description": (
+        "A conjunction of exact-affine point conditions. ZERO means the "
+        "polynomial vanishes; NONZERO means it does not. Every expression is "
+        "parsed against the claim model's exact polynomial ring. A direct, "
+        "constructor-built polynomial-section elimination may transport a "
+        "target-expressible condition even when it is not Zariski-closed."),
+    "properties": {
+        "all": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "properties": {
+                    "relation": {"type": "string",
+                                 "enum": list(K.CONDITION_RELATIONS)},
+                    "expression": {"type": "string", "minLength": 1},
+                },
+                "required": ["relation", "expression"],
+                "additionalProperties": False,
+            },
+        },
+    },
+    "required": ["all"],
+    "additionalProperties": False,
+}
+
+
 def _event_schema(kind):
     properties = {field: {} for field in sorted(F.EVENT_FIELDS[kind])}
+    if kind == "claim":
+        properties["condition"] = CONDITION_SCHEMA
     properties["ev"] = {"type": "string", "enum": [kind]}
     return {
         "type": "object",
@@ -202,7 +233,7 @@ def _event_schema(kind):
 
 DECLARABLE_EVENT_SCHEMA = {
     "description": (
-        "An epoch-1 graph event. Event schemas are closed: misspelled or "
+        "A native graph event. Event schemas are closed: misspelled or "
         "unowned fields are rejected rather than retained as inert metadata."),
     "oneOf": [
         _event_schema(kind) for kind in sorted(F.EVENT_FIELDS)
@@ -257,7 +288,12 @@ TOOLS = [
                         "model, edge, claim, inference, built_by, note. An "
                         "EMPTY claim must carry a `certificate` kind, and its "
                         "scope is DERIVED from that certificate rather than "
-                        "from what you declare. "
+                        "from what you declare. A PREDICATE may carry a closed-schema "
+                        "structured `condition`: {all: [{relation: ZERO or "
+                        "NONZERO, expression: polynomial}, ...]}. Expressions "
+                        "must parse in the claim model; direct transport through "
+                        "a section-certified elimination additionally requires "
+                        "them to parse in its retained-coordinate target. "
                         "An inference may rest on SEVERAL premises: use "
                         "`premises: [{claim, path}, ...]` instead of "
                         "`claim`+`path` when the argument combines facts. "

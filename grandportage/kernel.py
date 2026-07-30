@@ -139,6 +139,11 @@ PREDICATE = "PREDICATE"  # a condition satisfied by every point of this model
 IDENTITY = "IDENTITY"    # a rewriting valid in this model's coordinate ring
 CLAIM_KINDS = (EMPTY, NONEMPTY, PREDICATE, IDENTITY)
 
+# Structured exact-affine PREDICATE atoms. A conjunction of ZERO and NONZERO
+# polynomial conditions is enough to type equations and algebraic open conditions
+# without pretending to be a general logic.
+CONDITION_RELATIONS = ("ZERO", "NONZERO")
+
 # ---------------------------------------------------------------------------
 # COUNT -- the fifth kind, and it exists only AT A FAMILY.
 #
@@ -780,7 +785,8 @@ def transport(etype, direction, kind, scope=None, certificate=None,
               identity_origin=None, integral=None, ring_iso=None,
               coefficients_in_base=None, zariski_dense=None,
               existential=None, image_complete=True, exact_contraction=None,
-              geometric_closure=None):
+              geometric_closure=None, point_surjective=False,
+              target_expressible=False):
     """Return a Ruling for moving a claim of `kind` across an edge of `etype`.
 
     Deliberately takes plain values rather than objects: the kernel must be
@@ -967,11 +973,21 @@ def transport(etype, direction, kind, scope=None, certificate=None,
                       "completeness direction inclusion^-1(I) subset J",
                       _EXACT_IMAGE_IDENTITY)
     if rule == _CLOSED_EXACT_IMAGE:
+        if point_surjective and target_expressible:
+            return ruling(True,
+                          "licensed: every target point has a checked lift and "
+                          "the structured predicate is expressible entirely in "
+                          "the target coordinates; closedness is not required",
+                          _CLOSED_EXACT_IMAGE)
         if not zariski_closed:
-            return ruling(False,
-                          "only Zariski-closed conditions extend from an "
-                          "image to its closure; this predicate is not "
-                          "declared closed", _CLOSED_CONDITION)
+            detail = (
+                "the map has point-lifting authority, but this predicate has "
+                "no structured target-expressibility proof"
+                if point_surjective else
+                "only Zariski-closed conditions extend from an image to its "
+                "closure; this predicate is not declared or structurally "
+                "established closed")
+            return ruling(False, detail, _CLOSED_CONDITION)
         if geometric_closure:
             return ruling(True,
                           "licensed: the condition is Zariski-closed and the "
@@ -1506,7 +1522,7 @@ IDENTIFYING_FIELDS = ("kind", "model", "statement")
 # by the field the same release added.
 LICENSING_FIELDS = ("certificate", "scope", "identity_origin",
                     "lhs", "rhs", "ring_vars",
-                    "coefficients_in_base", "witness_kind")
+                    "coefficients_in_base", "witness_kind", "condition")
 
 # The same split for an inference.  What it ASSERTS identifies it; what it
 # RESTS ON licenses it.  Swapping a premise or re-routing a path leaves the
@@ -1695,8 +1711,10 @@ def check_supersession_kind(old, new, declared, claim_id="<claim>",
                 "A licensing attribute is not bookkeeping: `certificate` "
                 "decides whether emptiness survives a base change, "
                 "`identity_origin` and `coefficients_in_base` decide whether a "
-                "rewriting crosses one at all, and `witness_kind` decides "
-                "whether a point is a point or an assertion.")
+                "rewriting crosses one at all, `condition` decides whether a "
+                "predicate factors through retained coordinates, and "
+                "`witness_kind` decides whether a point is a point or an "
+                "assertion.")
                if actual == RELICENSE else
                "Something that says a different thing is a different %s, and "
                "everything that used the old one has to be looked at again."

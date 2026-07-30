@@ -1108,9 +1108,10 @@ def cmd_table(args):
     print("Conditional cells resolve against edge/claim attributes:")
     print("  scheme_scope        EMPTY base-changes only if its certificate does")
     print("  map_polynomial      IDENTITY rewriting needs a denominator-free map")
-    print("  closed_condition    only Zariski-closed predicates reach a closure")
+    print("  closed_condition    Zariski-closed predicates reach a checked closure")
     print("  exact_image_identity forward identity needs exact contraction")
-    print("  closed_exact_image  forward closed predicate needs geometric closure")
+    print("  closed_exact_image  forward predicate needs either closed+closure or")
+    print("                      point lift+structured target expressibility")
     print("  ambient_identity    a rewriting DERIVED from the source's own")
     print("                      equations does not survive dropping them")
     print("  ring_isomorphism    an EQUIVALENCE carries a rewriting only if it")
@@ -1727,8 +1728,9 @@ def build_parser():
                    help="destination for --to-epoch1 (one source only; default "
                         "is graph.epoch1.jsonl beside the source)")
     g.add_argument("--to-current-kernel", action="store_true",
-                   help="copy an older format-1 graph into the current "
-                        "stricter kernel epoch; prior verdicts remain stale")
+                   help="copy an older native graph into the current graph "
+                        "format and stricter kernel epoch; prior verdicts "
+                        "remain stale")
     g.add_argument("--to-kernel2", action="store_true",
                    help=argparse.SUPPRESS)
     g.add_argument("--kernel-output",

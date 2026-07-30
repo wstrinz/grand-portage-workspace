@@ -379,6 +379,42 @@ theorem elimination_section_entails_point_surjectivity
   intro g
   change q.eval (certificate.retract (p.embedding g)) = q.eval g
   rw [certificate.retract_embedding]
+
+/-- A source predicate is expressible in the retained coordinates when it is
+    the pullback of a target predicate: evaluations agreeing on every embedded
+    retained coordinate give the same proposition. This is the semantic object
+    that the runtime's structured exact-affine condition syntax approximates. -/
+def RetainedCoordinateExpressible {R : Type u} {S : Type v} {A : Type w}
+    (p : EliminationParams R S)
+    (sourcePredicate : (R -> A) -> Prop)
+    (targetPredicate : (S -> A) -> Prop) : Prop :=
+  forall (sourceEval : R -> A) (targetEval : S -> A),
+    (forall g : S, sourceEval (p.embedding g) = targetEval g) ->
+      (sourcePredicate sourceEval ↔ targetPredicate targetEval)
+
+/-- Point-surjectivity transports every predicate that factors through the
+    retained coordinates. Closedness is irrelevant here: equations and
+    nonvanishing conditions use the same point-lifting argument. -/
+theorem point_surjectivity_transports_retained_predicate
+    {R : Type u} {S : Type v} {A : Type w}
+    {p : EliminationParams R S} {I : Ideal R} {J : Ideal S}
+    {sourceEvaluation : (R -> A) -> Prop}
+    {targetEvaluation : (S -> A) -> Prop} {zero : A}
+    {sourcePredicate : (R -> A) -> Prop}
+    {targetPredicate : (S -> A) -> Prop}
+    (surjective : EliminationPointSurjective p I J
+      sourceEvaluation targetEvaluation zero)
+    (expressible : RetainedCoordinateExpressible
+      p sourcePredicate targetPredicate)
+    (holdsOnSource :
+      forall sourcePoint : AffinePoint sourceEvaluation zero I,
+        sourcePredicate sourcePoint.eval) :
+    forall targetPoint : AffinePoint targetEvaluation zero J,
+      targetPredicate targetPoint.eval := by
+  intro targetPoint
+  obtain ⟨sourcePoint, projectsTo⟩ := surjective targetPoint
+  exact (expressible sourcePoint.eval targetPoint.eval projectsTo).mp
+    (holdsOnSource sourcePoint)
 /-! ## General Gröbner completeness boundary
 
 The polynomial-section certificate above is powerful but special: many exact
@@ -710,4 +746,37 @@ theorem exact_contraction_does_not_imply_point_surjectivity :
     }
     obtain ⟨sourcePoint, _⟩ := surjective target
     exact sourcePoint.valid
+
+/-- Even a point-surjective map does not transport an unrelated target
+    predicate. The factorization through retained coordinates is load-bearing. -/
+theorem point_surjectivity_needs_retained_expressibility :
+    EliminationPointSurjective
+        incompleteEliminationParams zeroI zeroI
+        anyValidEvaluation anyValidEvaluation () ∧
+      (forall _sourcePoint : AffinePoint anyValidEvaluation () zeroI,
+        True) ∧
+      Not (RetainedCoordinateExpressible
+        incompleteEliminationParams
+        (fun _ : Int -> Unit => True) (fun _ : Int -> Unit => False)) ∧
+      Not (forall _targetPoint : AffinePoint anyValidEvaluation () zeroI,
+        False) := by
+  constructor
+  · intro targetPoint
+    exact ⟨targetPoint, fun _ => rfl⟩
+  constructor
+  · intro _
+    trivial
+  constructor
+  · intro expressible
+    exact (expressible (fun _ => ()) (fun _ => ()) (fun _ => rfl)).mp
+      True.intro
+  · intro impossible
+    let target : AffinePoint anyValidEvaluation () zeroI := {
+      eval := fun _ => ()
+      valid := True.intro
+      vanishes := by
+        intro _ _
+        rfl
+    }
+    exact impossible target
 end GrandPortage

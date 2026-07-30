@@ -1364,6 +1364,40 @@ class Graph(object):
                     else "at a model the kinds are", ", ".join(kinds)))
         _require(ev.get("statement"),
                  "%s: claim %r needs `statement`" % (where, ev["id"]))
+        # A STRUCTURED EXACT-AFFINE CONDITION. This is deliberately a small
+        # conjunction language, not a general formula parser: equations and
+        # algebraic nonvanishing are the two point predicates this kernel can
+        # type exactly. Free-text PREDICATE claims remain legal and conservative.
+        condition = ev.get("condition")
+        if condition is not None:
+            _require(ev.get("kind") == K.PREDICATE and not at_family,
+                     "%s: claim %r carries `condition`, which belongs only to "
+                     "a PREDICATE at a model. Families have no coordinate ring, "
+                     "and other claim kinds already have their own structure."
+                     % (where, ev["id"]))
+            _require(isinstance(condition, dict)
+                     and set(condition) == {"all"}
+                     and isinstance(condition["all"], list)
+                     and condition["all"],
+                     "%s: claim %r `condition` must be "
+                     "{\"all\": [{\"relation\": \"ZERO|NONZERO\", "
+                     "\"expression\": \"polynomial\"}, ...]}. The list must "
+                     "be non-empty; an unstructured predicate stays in `statement`."
+                     % (where, ev["id"]))
+            for n, atom in enumerate(condition["all"], 1):
+                _require(isinstance(atom, dict)
+                         and set(atom) == {"relation", "expression"},
+                         "%s: claim %r condition atom %d must have exactly "
+                         "`relation` and `expression`" % (where, ev["id"], n))
+                _require(atom.get("relation") in K.CONDITION_RELATIONS,
+                         "%s: claim %r condition atom %d has relation %r; "
+                         "known relations are %s"
+                         % (where, ev["id"], n, atom.get("relation"),
+                            ", ".join(K.CONDITION_RELATIONS)))
+                _require(isinstance(atom.get("expression"), str)
+                         and atom["expression"].strip(),
+                         "%s: claim %r condition atom %d needs a non-blank "
+                         "polynomial `expression`" % (where, ev["id"], n))
         # AN IDENTITY MAY CARRY THE REWRITING ITSELF, and when it does the
         # claim stops being free text and becomes checkable.
         #
@@ -1930,6 +1964,24 @@ class Graph(object):
                 continue
             _require(c["model"] in self.models,
                      "claim %r lives in undeclared model %r" % (cid, c["model"]))
+            if c.get("condition") is not None:
+                model = self.models[c["model"]]
+                ring_vars = model.get("ring_vars") or []
+                characteristic = model.get("characteristic")
+                _require(ring_vars and type(characteristic) is int,
+                         "claim %r has a structured `condition`, so model %r "
+                         "must declare `ring_vars` and integer `characteristic`. "
+                         "Without an exact coefficient domain its polynomial "
+                         "expressions cannot be typed." % (cid, c["model"]))
+                for n, atom in enumerate(c["condition"]["all"], 1):
+                    try:
+                        G.parse_polynomial(atom["expression"], ring_vars,
+                                           characteristic)
+                    except (G.CertificateError, TypeError, ValueError) as exc:
+                        raise GraphError(
+                            "claim %r condition atom %d is not a polynomial in "
+                            "model %r's ring k[%s]: %s"
+                            % (cid, n, c["model"], ", ".join(ring_vars), exc))
         for fid, f in sorted(self.families.items()):
             for m in f["members"]:
                 # Members are NAMES, and need not be declared models.  At 1567

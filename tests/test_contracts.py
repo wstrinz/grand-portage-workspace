@@ -39,6 +39,7 @@ def test_saturation_contract_separates_semantics_from_checked_guarantees():
                 == "verify.%s" % obligation.verifier_function)
         assert callable(getattr(V, obligation.verifier_function))
 
+    assert contract.transport_obligations == ()
     assert len(contract.open_obligations) == 1
     assert "completeness" in contract.open_obligations[0]
     assert all("complete" not in obligation.establishes.lower()
@@ -166,6 +167,11 @@ def test_elimination_contract_is_multi_sorted_and_one_sided():
     assert {item.verifier_function for item in exact} == {
         "elimination_section", "elimination_groebner",
     }
+    assert {item.name for item in contract.transport_obligations} == {
+        "retained_coordinate_expressibility",
+    }
+    assert contract.transport_obligations[0].verifier_subject == "claim"
+    assert "ZERO/NONZERO" in contract.transport_obligations[0].establishes
     assert any("completeness" in item for item in contract.open_obligations)
     assert any("verified section" in item.lower()
                and "identit" in item.lower()
@@ -398,6 +404,130 @@ def test_section_and_no_invention_unlock_identity_and_point_surjectivity():
     assert predicate.licensed
     assert "geometric image-closure authority" in predicate.reason
 
+
+def _condition_graph(expression=None, relation="NONZERO"):
+    graph = _section_graph()
+    claim = {"ev": "claim", "id": "P", "model": "SOURCE",
+             "kind": K.PREDICATE, "statement": "the condition holds"}
+    if expression is not None:
+        claim["condition"] = {"all": [
+            {"relation": relation, "expression": expression},
+        ]}
+    graph.apply(claim, source="test", lineno=3)
+    graph.apply({"ev": "inference", "id": "I", "claim": "P",
+                 "path": [["E", K.ALONG]],
+                 "concludes_kind": K.PREDICATE,
+                 "asserted": "the condition holds on the target"},
+                source="test", lineno=4)
+    graph.validate()
+    graph.edges["E"]["output_verdict"] = V.OP_SOUND
+    graph.edges["E"]["contraction_verdict"] = V.SECTION_VERIFIED
+    return graph
+
+
+def test_section_transports_target_expressible_nonvanishing_condition():
+    graph = _condition_graph("x", relation="NONZERO")
+
+    assert C.condition_expressible_at(graph, graph.claims["P"], "TARGET")
+    assert not C.structured_condition_closed(graph.claims["P"])
+    assert C.effective_point_surjective(graph.edges["E"])
+    licensed, trace = C.audit_inference(graph, "I")
+    assert licensed
+    assert "closedness is not required" in trace[0][3]
+
+    # Composition is deliberately not invented. A prior semantic coordinate
+    # change would require rewriting the structured condition, which the first
+    # pilot does not yet do.
+    graph.apply({"ev": "model", "id": "PRE", "what": "prior presentation",
+                 "characteristic": 0, "ring_vars": ["y", "x"],
+                 "generators": ["y*x-1", "y^2-x"]},
+                source="test", lineno=5)
+    graph.apply({"ev": "edge", "id": "EQ", "src": "PRE", "dst": "SOURCE",
+                 "type": K.EQUIVALENCE, "map_kind": K.IDENTITY_MAP,
+                 "why": "same literal presentation"},
+                source="test", lineno=6)
+    graph.apply({"ev": "claim", "id": "P2", "model": "PRE",
+                 "kind": K.PREDICATE, "statement": "x is nonzero",
+                 "condition": {"all": [
+                     {"relation": "NONZERO", "expression": "x"},
+                 ]}}, source="test", lineno=7)
+    graph.apply({"ev": "inference", "id": "I2", "claim": "P2",
+                 "path": [["EQ", K.ALONG], ["E", K.ALONG]],
+                 "concludes_kind": K.PREDICATE,
+                 "asserted": "x is nonzero after two passes"},
+                source="test", lineno=8)
+    graph.validate()
+    chained, chained_trace = C.audit_inference(graph, "I2")
+    assert not chained
+    assert chained_trace[0][2]
+    assert "no structured target-expressibility proof" in chained_trace[1][3]
+
+
+def test_section_refuses_condition_naming_an_eliminated_coordinate():
+    for relation in ("NONZERO", "ZERO"):
+        graph = _condition_graph("y", relation=relation)
+
+        assert not C.condition_expressible_at(
+            graph, graph.claims["P"], "TARGET")
+        licensed, trace = C.audit_inference(graph, "I")
+        assert not licensed
+        assert "no structured target-expressibility proof" in trace[0][3]
+
+
+def test_section_refuses_unstructured_nonclosed_predicate():
+    graph = _condition_graph()
+
+    licensed, trace = C.audit_inference(graph, "I")
+    assert not licensed
+    assert "no structured target-expressibility proof" in trace[0][3]
+
+
+def test_groebner_exactness_does_not_mint_point_surjectivity():
+    graph = _condition_graph("x", relation="NONZERO")
+    graph.edges["E"]["contraction_verdict"] = V.GROEBNER_VERIFIED
+
+    assert C.effective_exact_contraction(graph.edges["E"])
+    assert not C.effective_point_surjective(graph.edges["E"])
+    licensed, trace = C.audit_inference(graph, "I")
+    assert not licensed
+    assert "only Zariski-closed conditions" in trace[0][3]
+
+
+def test_structured_zero_condition_derives_closedness():
+    graph = _condition_graph("x^2-1", relation="ZERO")
+
+    assert C.structured_condition_closed(graph.claims["P"])
+    licensed, _trace = C.audit_inference(graph, "I")
+    assert licensed
+
+    # Matching variable names on a manually asserted image map are not a
+    # factorization proof. Only the constructor-built retained inclusion earns
+    # automatic condition typing; legacy manual edges need their authored route.
+    graph.edges["E"].pop("built_by_operation")
+    manually_licensed, _manual_trace = C.audit_inference(graph, "I")
+    assert not manually_licensed
+
+
+def test_structured_condition_is_typed_in_its_source_ring():
+    graph = _section_graph()
+    graph.apply({"ev": "claim", "id": "P", "model": "SOURCE",
+                 "kind": K.PREDICATE, "statement": "bad condition",
+                 "condition": {"all": [
+                     {"relation": "NONZERO", "expression": "z"},
+                 ]}}, source="test", lineno=3)
+    with pytest.raises(S.GraphError, match="not a polynomial"):
+        graph.validate()
+
+
+def test_structured_condition_rejects_an_open_ended_atom_schema():
+    graph = _section_graph()
+    with pytest.raises(S.GraphError, match="exactly `relation` and `expression`"):
+        graph.apply({"ev": "claim", "id": "P", "model": "SOURCE",
+                     "kind": K.PREDICATE, "statement": "bad condition",
+                     "condition": {"all": [
+                         {"relation": "NONZERO", "expression": "x",
+                          "trusted": True},
+                     ]}}, source="test", lineno=3)
 
 def test_false_section_is_rejected_without_refuting_exactness():
     graph = S.Graph().apply_all([

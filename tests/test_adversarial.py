@@ -1717,6 +1717,16 @@ def test_amend_is_computed_not_declared():
     msg = str(exc.value)
     assert "`coefficients_in_base` changed" in msg and "RELICENSE" in msg
 
+    with pytest.raises(K.SupersessionError) as condition_exc:
+        K.check_supersession_kind(
+            _C1,
+            dict(_C1, condition={"all": [
+                {"relation": "NONZERO", "expression": "x"},
+            ]}),
+            K.AMEND, claim_id="C1R")
+    assert "`condition` changed" in str(condition_exc.value)
+    assert "RELICENSE" in str(condition_exc.value)
+
 
 def test_over_declaring_a_supersession_is_allowed():
     """One direction only.  Calling a citation fix a RESTATE costs a second
@@ -2866,7 +2876,7 @@ def test_the_readme_transport_table_matches_the_kernel():
              "scheme_scope": "only with a certificate",
              "closed_condition": "if Zariski-closed",
              "exact_image_identity": "if exact contraction",
-             "closed_exact_image": "if closed + geometric closure"}
+             "closed_exact_image": "if closed + closure, or retained condition + point lift"}
 
     documented = {}
     for line in text.splitlines():

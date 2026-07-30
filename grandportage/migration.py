@@ -90,11 +90,13 @@ def _kernel_destination(source):
 
 
 def migrate_kernel_epoch(paths, dry_run=False, output=None):
-    """Copy format-1 graphs into the current, conservatively stricter kernel.
+    """Copy an older native graph into the current format and kernel.
 
-    Only the metadata event changes. Persisted verdict events retain the epoch
-    that produced them and therefore become stale on the new fold. The source
-    append-only log is never replaced.
+    Native format additions are migrated conservatively: old records are copied
+    unchanged, the new optional vocabulary starts absent, and only metadata is
+    advanced. Persisted verdicts keep the epoch that produced them; they become
+    stale exactly when the kernel epoch advances. The source append-only log is
+    never replaced.
     """
     if output and len(paths) != 1:
         raise S.GraphError("--kernel-output requires exactly one source graph")
@@ -106,16 +108,22 @@ def migrate_kernel_epoch(paths, dry_run=False, output=None):
         meta = raw[0][0]
         if meta.get("ev") != F.META_EVENT:
             raise S.GraphError("%s is epoch 0; migrate --to-epoch1 first" % source)
-        if meta.get("graph_format") != F.GRAPH_FORMAT:
+        old_format = meta.get("graph_format")
+        if (type(old_format) is not int or old_format < 1
+                or old_format > F.GRAPH_FORMAT):
             raise S.GraphError(
-                "%s uses graph format %r, not supported format %d"
-                % (source, meta.get("graph_format"), F.GRAPH_FORMAT))
+                "%s graph format %r cannot migrate forward to format %d"
+                % (source, old_format, F.GRAPH_FORMAT))
         old_epoch = meta.get("kernel_epoch")
         if (type(old_epoch) is not int or old_epoch < 1
-                or old_epoch >= F.KERNEL_EPOCH):
+                or old_epoch > F.KERNEL_EPOCH
+                or (old_format == F.GRAPH_FORMAT
+                    and old_epoch == F.KERNEL_EPOCH)):
             raise S.GraphError(
-                "%s kernel epoch %r cannot migrate forward to %d"
-                % (source, old_epoch, F.KERNEL_EPOCH))
+                "%s format %r / kernel epoch %r cannot migrate forward to "
+                "format %d / epoch %d"
+                % (source, old_format, old_epoch,
+                   F.GRAPH_FORMAT, F.KERNEL_EPOCH))
         with open(source, "rb") as fh:
             fingerprint = "sha256:" + hashlib.sha256(fh.read()).hexdigest()
         destination = output or _kernel_destination(source)
@@ -137,6 +145,7 @@ def migrate_kernel_epoch(paths, dry_run=False, output=None):
             "audit": os.path.abspath(audit_path),
             "created_with": F.created_with(),
             "graph_format": F.GRAPH_FORMAT,
+            "from_graph_format": old_format,
             "from_kernel_epoch": old_epoch,
             "kernel_epoch": F.KERNEL_EPOCH,
             "events": len(converted) - 1,
@@ -144,11 +153,15 @@ def migrate_kernel_epoch(paths, dry_run=False, output=None):
                 "line": raw[0][1],
                 "event": "meta",
                 "kind": "meta",
-                "actions": [{
+                "actions": ([{
+                    "field": "graph_format",
+                    "action": "advanced from %d to %d; new optional fields start absent"
+                              % (old_format, F.GRAPH_FORMAT),
+                }] if old_format != F.GRAPH_FORMAT else []) + ([{
                     "field": "kernel_epoch",
                     "action": "advanced from %d to %d; prior verdicts stay stale"
                               % (old_epoch, F.KERNEL_EPOCH),
-                }],
+                }] if old_epoch != F.KERNEL_EPOCH else []),
             }],
             "dry_run": bool(dry_run),
         }

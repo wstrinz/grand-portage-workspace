@@ -11,8 +11,8 @@ JSON booleans rather than merely truthy values.
 
 import re
 
-GRAPH_FORMAT = 1
-KERNEL_EPOCH = 4
+GRAPH_FORMAT = 2
+KERNEL_EPOCH = 5
 META_EVENT = "meta"
 
 
@@ -58,7 +58,7 @@ EVENT_FIELDS = {
         "scope", "identity_origin", "witness_kind", "witness",
         "witness_point", "lhs", "rhs", "ring_vars", "integral",
         "coefficients_in_base", "zariski_closed", "existential",
-        "established_by", "ladder", "cite", "citation", "caveat",
+        "condition", "established_by", "ladder", "cite", "citation", "caveat",
         "groups", "splits", "method", "proves", "rests_on",
         "counts_against", "asserts_count",
     } | _LIFECYCLE,

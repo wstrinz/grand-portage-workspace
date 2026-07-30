@@ -1,7 +1,7 @@
 # Operation contracts
 
 **Status:** two executable pilots
-**Authoritative runtime semantics:** kernel epoch 4
+**Authoritative runtime semantics:** graph format 2, kernel epoch 5
 **Formal shadow:** `lean/GrandPortage/OperationContract.lean`
 
 Grand Portage now has a small operation-contract foundation. Its first job is
@@ -24,7 +24,9 @@ OperationContract Params Source Target
     precondition
     semanticRelation
     checkedGuarantee
+    transportObligations
     semantics_entails_checked
+    claimTransformerTheorems
 ```
 
 The theorem points from exact semantics to the checked guarantee, never in the
@@ -98,35 +100,60 @@ Lean defines `EliminationCompleteness`, the section and basis boundaries, and a
 coefficient-algebra-relative `EliminationPointSurjective` proposition. It proves
 that the section lifts every valid target evaluation, and separately provides a
 countermodel showing exact contraction alone has no point-lifting consequence.
+It now also defines `RetainedCoordinateExpressible`: a source predicate factors
+through the target evaluation on retained coordinates. Lean proves that
+point-surjectivity transports every such predicate, and gives a countermodel
+showing that point-surjectivity alone cannot transport an unrelated predicate.
 
-## Authority and kernel epoch 4
+## Authority and kernel epoch 5
 
-Kernel epoch 4 derives two different authorities from the evidence method:
+Kernel epoch 5 keeps four facts separate:
 
 - **exact contraction** requires current no-invention plus either a checked
   polynomial section or a checked pure-lex certificate;
+- **geometric closure authority** is enough for a closed predicate but not an
+  arbitrary point predicate;
 - **point-surjective image authority** requires current no-invention plus a
-  checked polynomial section. A pure Groebner certificate never opens it.
+  checked polynomial section. A pure Groebner certificate never opens it;
+- **retained-coordinate expressibility** belongs to the claim, not the map.
 
-Point-surjectivity is actually strong enough for any target-expressible
-predicate. The current claim IR does not yet type retained-coordinate
-expressibility, so the runtime conservatively uses it only to reopen the
-existing Zariski-closed `PREDICATE / ALONG` cell. This is an explicit false
-refusal boundary, not evidence that closedness is mathematically necessary once
-a section exists.
+The runtime projection of the last item is intentionally small:
 
-Manual `IMAGE_CLOSURE` declarations continue to state their semantic relation.
-Constructed eliminations earn only what their current evidence proves. Because
-this changes transport meaning for existing section verdicts, format 1 advances
-from kernel epoch 3 to 4 and section-verifier version 2. Migration remains
-non-destructive:
+```json
+{"condition":{"all":[
+  {"relation":"ZERO","expression":"x^2-1"},
+  {"relation":"NONZERO","expression":"x"}
+]}}
+```
+
+Every atom is parsed in the source model's exact polynomial ring. On the direct
+first `IMAGE_CLOSURE / ALONG` step of a section-certified constructed
+elimination, every expression must also parse in the retained-coordinate target
+ring. An all-`ZERO` conjunction thereby establishes closedness; a conjunction
+containing `NONZERO` can travel by the stronger point-lifting theorem. A
+structured condition naming an eliminated coordinate is refused even if it is
+closed, and a manually asserted `zariski_closed` flag cannot override that type
+failure. Free-text predicates remain legal and conservative.
+
+The direct-first-step restriction is a deliberate typed ignorance boundary.
+After a prior coordinate change the syntax must be rewritten before target
+expressibility can be checked; epoch 5 does not invent that rewrite, even for a
+literal identity-looking pass. Composition and rewriting are the next theorem
+and runtime obligation.
+
+Manual `IMAGE_CLOSURE` declarations continue to state their closure relation but
+do not mint point-surjectivity. Constructed eliminations earn only what their
+current evidence proves. The persisted condition syntax advances graph format 1
+to 2, and the newly licensed nonclosed predicate transport advances kernel epoch
+4 to 5. Migration remains non-destructive:
 
 ```console
 gp --graph old/.portage/graph.jsonl migrate --to-current-kernel
 ```
 
-The source is untouched, prior verdicts remain history but stale, and the new
-fold re-audits transport under epoch 4.
+The source is untouched, prior verdicts remain history but stale, absent
+`condition` fields stay absent, and the new fold re-audits transport under epoch
+5.
 
 ## Trust boundary
 
@@ -138,7 +165,8 @@ authority/provenance     who checked what, under which epoch and inputs
 artifact store           exact immutable programs and raw transcripts
 ```
 
-The next earned step is a separately typed point-lifting certificate beyond
-global polynomial sections, exercised against harder live eliminations. Contracts
-remain compiled constructor metadata until the pilots show that persisting them
-in the IR buys more than it costs.
+The next earned steps are condition rewriting/composition across mapped passes
+and a separately typed point-lifting certificate beyond global polynomial
+sections, both exercised against harder live eliminations. Contracts remain
+compiled constructor metadata until the pilots show that persisting them in the
+IR buys more than it costs.

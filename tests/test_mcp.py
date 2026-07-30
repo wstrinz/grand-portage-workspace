@@ -84,6 +84,17 @@ def test_tools_list_is_well_formed():
             assert req in schema["properties"], (t["name"], req)
 
 
+def test_claim_condition_schema_is_closed_and_teaches_exact_affine_atoms():
+    claims = [schema for schema in mcp.DECLARABLE_EVENT_SCHEMA["oneOf"]
+              if schema["properties"]["ev"].get("enum") == ["claim"]]
+    assert len(claims) == 1
+    condition = claims[0]["properties"]["condition"]
+    assert condition["additionalProperties"] is False
+    atom = condition["properties"]["all"]["items"]
+    assert atom["additionalProperties"] is False
+    assert atom["properties"]["relation"]["enum"] == ["ZERO", "NONZERO"]
+    assert "polynomial-section" in condition["description"]
+
 def test_serve_round_trips_over_a_stream(project):
     out = io.StringIO()
     mcp.serve(stdin=io.StringIO(json.dumps(rpc("tools/list")) + "\n"),

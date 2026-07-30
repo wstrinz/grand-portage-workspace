@@ -5,9 +5,9 @@ semantics and the weaker relation established by local validation.  These
 immutable values make that same distinction inspectable at the Python
 boundary.  They are plans and audit data, not proof objects.
 
-Only saturation is instantiated here.  Copying every current constructor into
-a speculative framework would turn enum prose into a second ontology before
-the first contract has been exercised.
+Saturation and elimination are the two exercised pilots. Their operation-local
+checks stay separate from claim-side transport obligations: a correct output is
+not by itself a proof that an arbitrary proposition can be stated at the target.
 """
 
 from dataclasses import dataclass
@@ -41,6 +41,7 @@ class OperationContract:
     source_endpoint: str
     transport_reason: str
     checked_obligations: tuple
+    transport_obligations: tuple
     open_obligations: tuple
     licensed_consequences: tuple
 
@@ -95,6 +96,7 @@ SATURATION = OperationContract(
             "in I(source) : f^oo",
         ),
     ),
+    transport_obligations=(),
     open_obligations=(
         "I(source) : f^oo is contained in I(built) (output completeness)",
     ),
@@ -158,9 +160,19 @@ ELIMINATION = OperationContract(
             "bounded S-pair representation, and retained-basis membership",
         ),
     ),
+    transport_obligations=(
+        ValidationObligation(
+            "retained_coordinate_expressibility",
+            "claim",
+            "structured_condition",
+            "the source predicate is an exact ZERO/NONZERO conjunction whose "
+            "expressions also parse in the retained-coordinate target ring",
+        ),
+    ),
     open_obligations=(
         "contraction completeness beyond Q/prime fields, bounded pure lex, and polynomial sections",
         "point-surjectivity beyond global polynomial sections needs a separately typed certificate",
+        "structured condition rewriting and expressibility across composed coordinate changes",
     ),
     licensed_consequences=(
         "the entire built ideal is contained in the contraction of the source ideal",
@@ -168,6 +180,7 @@ ELIMINATION = OperationContract(
         "source points map to target points, so target emptiness implies source emptiness",
         "a verified section or Groebner certificate plus no-invention licenses source-derived retained-ring identities along",
         "a verified section plus no-invention supplies point-surjective image authority over the declared coefficient algebra",
+        "point-surjectivity transports direct, structured retained-coordinate predicates, including NONZERO atoms",
     ),
 )
 

@@ -82,6 +82,24 @@ and requires a new kernel epoch. Section verifier version 2 and epoch 4 make all
 older section verdicts readable but stale. Migration writes `graph.kernel4.jsonl`
 and never replaces its source.
 
+Version 0.10.0 advances to **graph format 2 and kernel epoch 5**. Format 2 adds an
+optional structured `condition` to model-level `PREDICATE` claims: a non-empty
+conjunction of exact polynomial `ZERO` and `NONZERO` atoms. Every expression is
+parsed in the source model ring. On a direct section-certified elimination the
+same expressions must parse in the retained-coordinate target ring.
+
+That syntax projects Lean's `RetainedCoordinateExpressible` obligation into the
+runtime. Section point-surjectivity may now carry target-expressible predicates
+without a closedness hypothesis; all-`ZERO` conditions also derive the existing
+closed route. Groebner completeness, manual closure declarations, free-text
+predicates, conditions naming eliminated coordinates, and conditions arriving
+after an earlier path step do not acquire this authority. This is both a file
+syntax and transport-meaning change, hence both counters advance.
+
+`gp migrate --to-current-kernel` copies older native graphs into format 2 / epoch
+5 without rewriting their events: the optional condition starts absent, old
+verdicts remain readable but stale, and the append-only source remains untouched.
+
 Within one kernel epoch, no field may silently acquire a more permissive
 interpretation. A syntax-only extension can bump `graph_format`; transport
 meaning or verifier trust bumps `kernel_epoch` or the narrower verifier/backend
@@ -89,7 +107,7 @@ implementation version as appropriate.
 
 ## Epoch-0 graphs
 
-Unversioned graphs are epoch 0. Version 0.9 continues to read them through a conservative,
+Unversioned graphs are epoch 0. Version 0.10 continues to read them through a conservative,
 read-only importer. It will not append new events to them and will not blend
 them with epoch-1 graphs.
 
@@ -208,17 +226,20 @@ backend-neutral exact checker independently verifies source span, every critical
 pair, the elimination order, and retained-basis membership in the target ideal.
 The producer remains untrusted search; only the checked certificate carries
 authority. Epoch 4 recognizes that the section additionally supplies explicit
-point lifts. The remaining semantic work is typed point-lifting evidence beyond
-global polynomial sections and retained-coordinate expressibility in the claim
-IR. Backend cross-checking can strengthen confidence in certificate production,
-but it is not part of the trusted argument.
+point lifts. Epoch 5 adds the claim-side retained-coordinate expressibility
+obligation and licenses direct structured nonvanishing predicates only when both
+facts hold. The remaining semantic work is typed point-lifting evidence beyond
+global polynomial sections and condition rewriting/composition across mapped
+passes. Backend cross-checking can strengthen confidence in certificate
+production, but it is not part of the trusted argument.
 
 The release order is now visible in the epochs: close known semantic defects,
 cut format 1 / kernel epoch 1, finish the backend evidence seam, then advance to
 kernel epoch 2 when the elimination contract exposed a narrower real licence,
 then kernel epoch 3 when a certificate earned back only the coordinate-ring
-half, and kernel epoch 4 when polynomial sections were correctly recognized as
-point-lifting evidence.
+half, kernel epoch 4 when polynomial sections were correctly recognized as
+point-lifting evidence, and graph format 2 / kernel epoch 5 when retained
+predicate syntax made that authority safely usable beyond closed conditions.
 
 ## Sealed campaigns
 

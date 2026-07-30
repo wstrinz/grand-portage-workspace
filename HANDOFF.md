@@ -35,7 +35,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about eight days. Version 0.9.0. <!--checks-->1024<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.10.0. <!--checks-->1032<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -63,19 +63,32 @@ Singular producer discovers a bounded pure-lex basis and span witnesses, then
 GP's small exact-polynomial checker independently replays the source identities,
 all critical pairs, the elimination order, and retained-basis memberships.
 Lean proves that independent no-invention plus either completeness route yields
-exact contraction. It now also proves the stronger fact carried by the section:
+exact contraction. It also proves the stronger fact carried by the section:
 precomposing a target evaluation with the polynomial retraction lifts every
-target-valued point. The pure Groebner route grants no such point authority.
+target-valued point. `RetainedCoordinateExpressible` now states the separate
+claim-side obligation that a predicate factors through those retained
+coordinates, and Lean proves point-surjectivity transports every such predicate.
+The pure Groebner route grants no point authority; a countermodel proves the
+expressibility premise cannot be dropped.
+
+Version 0.10.0 projects that theorem into a deliberately small exact-affine claim
+syntax: `condition.all` is a conjunction of polynomial `ZERO`/`NONZERO` atoms.
+Atoms are parsed in the source ring and, on the direct elimination step, in the
+target retained ring. This carries section-certified nonvanishing conditions,
+while refusing free text, eliminated-coordinate conditions, pure Groebner
+certificates, and composition through an earlier unre-written map.
 
 Version 0.7.0 advanced format 1 to kernel epoch 3 when this distinction first
 changed transport meaning: exact coordinate-ring contraction licenses a
 retained-ring identity moving forward, but does not prove base-relative
 geometric image closure. Version 0.8.0 stayed in epoch 3 because it added a new
-certificate/verifier for the already-formalized contract. Version 0.9.0 advances
-to kernel epoch 4: section plus no-invention now earns point-surjective image
-authority, while Groebner plus no-invention remains ideal authority only.
-Older format-1 graphs migrate non-destructively with
-`gp migrate --to-current-kernel`; earlier verdicts remain history but stale.
+certificate/verifier for the already-formalized contract. Version 0.9.0 advanced
+to kernel epoch 4 when section plus no-invention earned point-surjective image
+authority. Version 0.10.0 advances to graph format 2 / kernel epoch 5 for the
+persisted condition syntax and newly licensed target-expressible nonclosed
+predicate transport. Older native graphs migrate non-destructively with
+`gp migrate --to-current-kernel`; absent condition fields remain absent and
+earlier verdicts remain history but stale.
 
 Live validation now includes the polynomial-section control and bounded
 Groebner replays of the real W7-W10 eliminations: W7 required six critical-pair
@@ -85,10 +98,12 @@ prose says Q but their old model records omit machine-readable characteristic,
 so the replays used disposable copies with explicit `characteristic: 0` and
 `coefficient_domain: Q`. W10 additionally needed the exact `maps`/`inverse_maps`
 to `forward`/`inverse` repair established by W11 before the current kernel would
-fold the whole graph. The section theorem now closes the narrow polynomial-lift
-case. The next semantic obligations are typed retained-coordinate expressibility
-and point-lifting evidence beyond global polynomial sections. See
-`OPERATION-CONTRACTS.md` and `COMPATIBILITY.md`.
+fold the whole graph. The section theorem plus the structured-condition pilot
+now closes direct
+retained-coordinate predicate transport. The next semantic obligations are
+condition rewriting/composition through mapped passes and point-lifting evidence
+beyond global polynomial sections. See `OPERATION-CONTRACTS.md` and
+`COMPATIBILITY.md`.
 There is now a **public repo**: `github.com/wstrinz/grandportage`, Apache-2.0,
 the tool plus all three fixtures plus `DESIGN.md` / `REVIEW.md` /
 `docs/first-run/`. This repo is `grand-portage-workspace` (private) and holds
@@ -118,6 +133,7 @@ review. Worth knowing because it predicts where the next one comes from.
 | **W11** mapped-equivalence repair assay | **PASS**, 0 blockers | malformed aliases and one-sided maps were atomically refused; exact canonical maps folded; real Singular verified both ideal pullbacks and both inverse compositions; no literal-containment verdict was scheduled; final full check was empty and an independent symbolic handcheck agreed |
 | **v0.8 elimination replay** | **PASS**, 0 semantic failures | W7-W10 exact contractions verified through bounded pure-lex certificates; the run exposed and fixed a Windows console-encoding crash after successful verification. Legacy field metadata and the W11 map repair were supplied only in disposable copies |
 | **v0.9 JC elimination pressure** | **PASS by refusal** | A proposed 3-generator exact image target was only a necessary system: the source pure-lex basis had 21 elements, 17 retained, and the target omitted `d2*dm1^3 + 3*dm1^2*dm3 + 3*dm1*dm2^2 - 2*Phi`. GP refused exact promotion; the persisted campaign retypes the edge as `NECESSARY_CONDITION` |
+| **v0.10 retained-predicate pressure** | **PASS, positive plus refusal controls** | Real Singular checked the section `y -> x^2` for `(yx-1, y^2-x) -> (x^3-1)`. The resulting point-lift authority carried structured `x != 0`; both open and closed predicates naming eliminated `y` were refused as inexpressible at the target |
 
 ### The reviews found the mathematics; the runs found the tool
 
@@ -379,7 +395,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1024<!--/checks--> checks, ~10 s) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1032<!--/checks--> checks, ~40 s) |
 
 ---
 
@@ -486,7 +502,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1024<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1032<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.

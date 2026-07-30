@@ -12,6 +12,7 @@ Those are orthogonal axes and conflating them is how a project ends up with an
 import hashlib
 
 from . import format as F
+from . import groebner as G
 from . import kernel as K
 from . import store as S
 from .cas import foreign_symbols as cas_foreign_symbols
@@ -206,14 +207,25 @@ def audit_inference(graph, iid):
                 "%s" % (pr["required_kind"], pr["at"], pr["missing_why"])))
             continue
         claim = graph.claims[pr["claim"]]
-        for eid, direction in pr["path"]:
+        for step_index, (eid, direction) in enumerate(pr["path"]):
             e = graph.edges[eid]
+            target_expressible = (
+                step_index == 0 and direction == K.ALONG
+                and e["type"] == K.IMAGE_CLOSURE
+                and e.get("built_by_operation") == "Eliminate"
+                and claim.get("model") == e["src"]
+                and condition_expressible_at(graph, claim, e["dst"]))
+            if claim.get("condition") is not None:
+                zariski_closed = (
+                    target_expressible and structured_condition_closed(claim))
+            else:
+                zariski_closed = claim.get("zariski_closed")
             r = K.transport(
                 e["type"], direction, claim["kind"],
                 scope=claim.get("scope"),
                 certificate=effective_certificate(claim),
                 map_kind=e["map_kind"],
-                zariski_closed=claim.get("zariski_closed"),
+                zariski_closed=zariski_closed,
                 identity_origin=effective_origin(claim),
                 integral=claim.get("integral"),
                 ring_iso=effective_ring_iso(e),
@@ -221,7 +233,9 @@ def audit_inference(graph, iid):
                 zariski_dense=e.get("zariski_dense"),
                 existential=claim.get("existential"),
                 exact_contraction=effective_exact_contraction(e),
-                geometric_closure=effective_geometric_closure(e))
+                geometric_closure=effective_geometric_closure(e),
+                point_surjective=effective_point_surjective(e),
+                target_expressible=target_expressible)
             trace.append((eid, direction, r.licensed, r.reason))
             if not r.licensed:
                 ok = False
@@ -254,20 +268,35 @@ def probe(graph, claim_id, edge_id, direction, etype=None, map_kind=None,
     """
     claim = graph.claims[claim_id]
     edge = graph.edges[edge_id]
+    target_expressible = (
+        direction == K.ALONG
+        and edge["type"] == K.IMAGE_CLOSURE
+        and edge.get("built_by_operation") == "Eliminate"
+        and claim.get("model") == edge["src"]
+        and condition_expressible_at(graph, claim, edge["dst"]))
+    if zariski_closed is None:
+        if claim.get("condition") is not None:
+            effective_closed = (
+                target_expressible and structured_condition_closed(claim))
+        else:
+            effective_closed = claim.get("zariski_closed")
+    else:
+        effective_closed = zariski_closed
     return K.transport(
         etype or edge["type"], direction, claim["kind"],
         scope=claim.get("scope"),
         certificate=effective_certificate(claim),
         map_kind=map_kind or edge["map_kind"],
-        zariski_closed=(claim.get("zariski_closed")
-                        if zariski_closed is None else zariski_closed),
+        zariski_closed=effective_closed,
         identity_origin=effective_origin(claim),
         integral=claim.get("integral"), ring_iso=effective_ring_iso(edge),
         coefficients_in_base=claim.get("coefficients_in_base"),
         zariski_dense=edge.get("zariski_dense"),
         existential=claim.get("existential"),
         exact_contraction=effective_exact_contraction(edge),
-        geometric_closure=effective_geometric_closure(edge))
+        geometric_closure=effective_geometric_closure(edge),
+        point_surjective=effective_point_surjective(edge),
+        target_expressible=target_expressible)
 
 
 def contradicting_claims(graph, model_id, kind, exclude=()):
@@ -1350,14 +1379,52 @@ def effective_exact_contraction(edge):
                 "VERIFIED_SECTION", "VERIFIED_GROEBNER"))
 
 
+def structured_condition_closed(claim):
+    """Whether a checked exact-affine condition defines a closed subset."""
+    condition = claim.get("condition") or {}
+    atoms = condition.get("all") if isinstance(condition, dict) else None
+    return bool(atoms) and all(
+        isinstance(atom, dict) and atom.get("relation") == "ZERO"
+        for atom in atoms)
+
+
+def condition_expressible_at(graph, claim, model_id):
+    """Whether every structured condition atom parses in one model's ring."""
+    condition = claim.get("condition") or {}
+    atoms = condition.get("all") if isinstance(condition, dict) else None
+    model = graph.models.get(model_id) or {}
+    ring_vars = model.get("ring_vars") or []
+    characteristic = model.get("characteristic")
+    if not atoms or not ring_vars or type(characteristic) is not int:
+        return False
+    try:
+        for atom in atoms:
+            G.parse_polynomial(atom["expression"], ring_vars, characteristic)
+    except (G.CertificateError, KeyError, TypeError, ValueError):
+        return False
+    return True
+
+
+def effective_point_surjective(edge):
+    """Whether every recorded target point has a checked source-point lift.
+
+    This is strictly stronger than presenting the closure of an image. The
+    first runtime producer is a checked polynomial section paired with the
+    independent no-invention verdict. Manual IMAGE_CLOSURE declarations and
+    pure Groebner certificates do not acquire this authority.
+    """
+    return (edge.get("built_by_operation") == "Eliminate"
+            and edge.get("output_verdict") == "VERIFIED"
+            and edge.get("contraction_verdict") == "VERIFIED_SECTION")
+
+
 def effective_geometric_closure(edge):
-    """Whether point-level geometric image transport is established.
+    """Whether closure-level geometric image transport is established.
 
     Manual IMAGE_CLOSURE edges assert that semantic relation. For a constructed
-    elimination, a checked polynomial section supplies a lift of every target
-    point, while the independent output verdict proves that source points map
-    into the target. A pure Groebner certificate proves ideal equality but
-    supplies no point lift.
+    elimination, a checked polynomial section establishes this relation as a
+    consequence of the stronger point-surjectivity fact. A pure Groebner
+    certificate proves ideal equality but supplies no point lift.
     """
     if edge.get("built_by_operation") != "Eliminate":
         return True

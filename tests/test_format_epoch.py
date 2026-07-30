@@ -28,13 +28,13 @@ def test_init_starts_with_epoch_metadata(tmp_path):
     path = S.graph_path(str(tmp_path))
     events = list(S.load_events(path))
     assert events[0][0] == {
-        "created_with": "grandportage/0.9.0",
+        "created_with": "grandportage/0.10.0",
         "ev": "meta",
-        "graph_format": 1,
+        "graph_format": 2,
         "kernel_epoch": F.KERNEL_EPOCH,
     }
     graph = S.load(path)
-    assert graph.graph_format == 1
+    assert graph.graph_format == 2
     assert graph.kernel_epoch == F.KERNEL_EPOCH
     assert graph.compatibility_mode is False
 
@@ -304,20 +304,20 @@ def test_kernel_epoch1_migration_is_non_destructive_and_reaudits_transport(
 
     assert source.read_bytes() == before
     graph = S.load(str(destination))
-    assert graph.kernel_epoch == F.KERNEL_EPOCH == 4
+    assert graph.kernel_epoch == F.KERNEL_EPOCH == 5
     finding = [item for item in C.run(graph) if item.rule == C.R_TRANSPORT]
     assert len(finding) == 1
     assert "completeness" in finding[0].detail
     audit = json.loads((tmp_path / "current-kernel.jsonl.audit.json").read_text())
     assert audit["from_kernel_epoch"] == 1
-    assert audit["kernel_epoch"] == 4
+    assert audit["kernel_epoch"] == 5
 
 
-def test_kernel_epoch3_migrates_non_destructively_to_epoch4(tmp_path):
-    source = tmp_path / "epoch3.jsonl"
-    destination = tmp_path / "epoch4.jsonl"
+def test_format1_epoch4_migrates_non_destructively_to_format2_epoch5(tmp_path):
+    source = tmp_path / "format1-epoch4.jsonl"
+    destination = tmp_path / "format2-epoch5.jsonl"
     _write(source, [{
-        "ev": "meta", "graph_format": 1, "kernel_epoch": 3,
+        "ev": "meta", "graph_format": 1, "kernel_epoch": 4,
         "created_with": "grandportage/0.8.0",
     }])
     before = source.read_bytes()
@@ -326,6 +326,17 @@ def test_kernel_epoch3_migrates_non_destructively_to_epoch4(tmp_path):
         [str(source)], output=str(destination))
 
     assert source.read_bytes() == before
-    assert reports[0]["from_kernel_epoch"] == 3
-    assert reports[0]["kernel_epoch"] == F.KERNEL_EPOCH == 4
-    assert S.load(str(destination)).kernel_epoch == 4
+    assert reports[0]["from_graph_format"] == 1
+    assert reports[0]["from_kernel_epoch"] == 4
+    assert reports[0]["graph_format"] == F.GRAPH_FORMAT == 2
+    assert reports[0]["kernel_epoch"] == F.KERNEL_EPOCH == 5
+    assert S.load(str(destination)).graph_format == 2
+    assert S.load(str(destination)).kernel_epoch == 5
+
+    future = tmp_path / "format1-future-epoch.jsonl"
+    _write(future, [{
+        "ev": "meta", "graph_format": 1, "kernel_epoch": 6,
+        "created_with": "grandportage/future",
+    }])
+    with pytest.raises(S.GraphError, match="cannot migrate forward"):
+        MIG.migrate_kernel_epoch([str(future)])

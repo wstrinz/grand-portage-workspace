@@ -560,12 +560,40 @@ def test_real_singular_polynomial_section_persists_exact_contraction(tmp_path):
 
     assert verdict == V.SECTION_VERIFIED, why
     assert certificate["rows"][1]["cofactors"] == ["x"]
+
+    # Consume the live certificate through the epoch-5 claim transformer. The
+    # retained predicate crosses; closedness cannot rescue a condition whose
+    # expression still names the eliminated coordinate.
+    S.append([
+        {"ev": "claim", "id": "P-X", "model": "SOURCE",
+         "kind": K.PREDICATE, "statement": "x is nonzero",
+         "condition": {"all": [
+             {"relation": "NONZERO", "expression": "x"},
+         ]}},
+        {"ev": "inference", "id": "I-X", "claim": "P-X",
+         "path": [["E", K.ALONG]], "concludes_kind": K.PREDICATE,
+         "asserted": "x is nonzero on the target"},
+        {"ev": "claim", "id": "P-Y", "model": "SOURCE",
+         "kind": K.PREDICATE, "statement": "y vanishes",
+         "condition": {"all": [
+             {"relation": "ZERO", "expression": "y"},
+         ]}},
+        {"ev": "inference", "id": "I-Y", "claim": "P-Y",
+         "path": [["E", K.ALONG]], "concludes_kind": K.PREDICATE,
+         "asserted": "y vanishes on the target"},
+    ], root)
+
     graph = S.load(S.graph_path(root))
     edge = graph.edges["E"]
     assert edge["output_verdict"] == V.OP_SOUND
     assert edge["contraction_verdict"] == V.SECTION_VERIFIED
     assert C.effective_exact_contraction(edge)
     assert C.effective_geometric_closure(edge)
+    assert C.effective_point_surjective(edge)
+    assert C.audit_inference(graph, "I-X")[0]
+    refused, trace = C.audit_inference(graph, "I-Y")
+    assert not refused
+    assert "no structured target-expressibility proof" in trace[0][3]
     assert A.audit_graph(root, graph) == []
 
 
