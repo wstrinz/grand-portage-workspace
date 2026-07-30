@@ -1,4 +1,6 @@
 import GrandPortage.Points
+import GrandPortage.RelationalTransport
+import GrandPortage.JCDm4Valuation
 import GrandPortage.MappedEquivalence
 import GrandPortage.Identity
 import GrandPortage.Conditions

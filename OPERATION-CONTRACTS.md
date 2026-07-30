@@ -35,6 +35,22 @@ relations, not strings stored inside the contract. The immutable values in
 `grandportage/contracts.py` are runtime shadows for constructors, verifiers,
 and audits; they are not proof objects.
 
+## Relational point semantics
+
+The point layer now has a backend-neutral binary relation between differently
+typed point spaces. Existential direct image and universal precondition form an
+adjunction, with identity and composition laws proved in Lean. Two independent
+properties compile to the familiar point cells:
+
+```text
+total on source       NONEMPTY along; EMPTY against
+surjective on target  NONEMPTY against; EMPTY along
+```
+
+Both properties compose. Same-coordinate refinement is totality of the equality
+relation, while finite chart lifting supplies surjectivity. This does not absorb
+coordinate-ring identities or evidence freshness: those remain separate sorts.
+
 ## Saturation pilot
 
 For source ideal `I`, polynomial `f`, and recorded output ideal `J`:

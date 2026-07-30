@@ -38,6 +38,8 @@ for the first, written up in full.
 * **[QUICKSTART.md](QUICKSTART.md) — install, a campaign in ten minutes, and the three things worth knowing on day one**
 * [DESIGN.md](DESIGN.md) — architecture and the decisions behind it
 * [REVIEW.md](REVIEW.md) — **where I am least confident**, for a reviewer
+* [Foundations and prior art](docs/FOUNDATIONS-PRIOR-ART.md) - bounded research questions and deliberate deferrals
+* [JC `dm4` polynomial-lift audit](docs/JC-DM4-POLYNOMIAL-LIFT.md) - corrected valuation proof spine and remaining obligations
 
 Five further documents live in the private workspace only — `HANDOFF.md` and
 `TESTPLAN.md` because they describe traps in blind trials not yet run, and

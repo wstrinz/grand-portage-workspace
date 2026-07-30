@@ -29,6 +29,22 @@ identity, and composition laws here. Plus `Cover` and the partition recombinatio
 law, which is why
 a partition is a distinct inference form rather than another edge type.
 
+`GrandPortage/RelationalTransport.lean` - the common point semantics for
+operations that are neither inclusions nor total functions. Existential image
+and universal precondition form an adjunction; identity and composition laws
+are proved. Totality and point-surjectivity derive the four sound
+`EMPTY`/`NONEMPTY` directions and compose independently. Same-coordinate
+refinement is recovered as totality of the equality relation. Ideal identities
+and evidence authority deliberately remain outside this point sort.
+
+`GrandPortage/JCDm4Valuation.lean` - the integer-arithmetic spine of the JC
+polynomial-lift conjecture. If a rational `dm4` had a pole, the cancellation
+balances forced by `G1` and `G2` make `c*dm4` strictly lower in valuation than
+every other `G3` term, so `G3` cannot vanish. This corrects the final inequality
+in the initial informal sketch. It deliberately stops short of claiming the
+full polynomial theorem: deriving the balance equations from an actual
+polynomial valuation and handling zero charts remain explicit obligations.
+
 `GrandPortage/MappedEquivalence.lean` - an invertible change of coordinates
 transports witnesses but does not imply literal solution-set containment in
 either direction. This keeps mapped `ring_iso` evidence distinct from a
