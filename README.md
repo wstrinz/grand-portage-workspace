@@ -30,7 +30,7 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1045<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1053<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
@@ -242,7 +242,7 @@ Pure stdlib. No solver, no network, no model in the loop. Under a second.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1045<!--/checks--> checks
+python -m pytest        # <!--checks-->1053<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

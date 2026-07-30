@@ -84,6 +84,19 @@ witnesses; GP's backend-neutral exact checker replays source span, every
 critical pair, the elimination order, and retained-basis membership. This earns
 ideal completeness only. Search is untrusted and point lifting is not inferred.
 
+`gp materialize-elimination-groebner --src SOURCE --vars u,v --produces TARGET`
+is the producer-side form of the same contract. The caller supplies no target
+ideal: the retained pure-lex basis becomes `TARGET`. Before anything is
+recorded, GP requires two independent current verdicts on the in-memory model
+and constructor edge: `verify.operation_output` proves no-invention, and
+`verify.elimination_groebner` proves completeness. Only if both pass are the
+model, edge, both verdicts, and producer provenance submitted to `S.append` as
+one prevalidated batch. Artifact publication precedes that append, so an append
+failure may leave content-addressed orphans; this is not claimed to be a
+crash-atomic filesystem transaction. The command grants exact contraction, not
+point-surjectivity or geometric image authority. Use `--dry-run` to exercise the
+same checks without recording artifacts or graph events.
+
 `gp verify-elimination-point-lift EDGE --certificate ...` supplies the missing
 point authority independently. A finite certificate gives principal-open
 charts: on guard `g != 0`, each eliminated coordinate is a polynomial numerator

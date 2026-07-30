@@ -59,6 +59,31 @@ def test_native_licensing_flags_are_json_booleans(kind, field):
         F.validate_native_event(event, "test:1", S.GraphError)
 
 
+def test_native_format2_inference_retract_accepts_required_why():
+    events = [
+        F.meta_event(),
+        {"ev": "model", "id": "M", "what": "one model"},
+        {"ev": "claim", "id": "C", "model": "M",
+         "kind": K.PREDICATE, "statement": "P holds"},
+        {"ev": "inference", "id": "I", "claim": "C", "path": [],
+         "concludes_kind": K.PREDICATE, "asserted": "therefore P"},
+        {"ev": "inference", "id": "R-I", "supersedes": "I",
+         "discharge_kind": K.RETRACT,
+         "why": "the probe argument should license no conclusion"},
+    ]
+
+    graph = S.Graph().apply_all([
+        (event, "native-format2", index + 1)
+        for index, event in enumerate(events)
+    ]).validate()
+
+    assert graph.inferences["I"]["retracted_by"] == "R-I"
+    assert "R-I" not in graph.inferences
+    assert graph.retractions[("inference", "R-I")]["why"] == (
+        "the probe argument should license no conclusion"
+    )
+
+
 def test_native_edges_require_map_kind_and_reject_unknown_or_deprecated_fields():
     edge = {"ev": "edge", "id": "E", "src": "A", "dst": "B",
             "type": "NECESSARY_CONDITION", "why": "w"}

@@ -742,6 +742,37 @@ def cmd_verify_elimination_groebner(args):
         print("\nrecorded checked proof and producer provenance; "
               "`gp history` shows the verdict.")
     return 0 if verdict == V.GROEBNER_VERIFIED else 1
+
+
+def cmd_materialize_elimination_groebner(args):
+    """Discover, certify, and declare one elimination target as one batch."""
+    from . import verify as V
+    eliminated = [value.strip() for value in args.vars.split(",")]
+    if not all(eliminated):
+        sys.stderr.write("--vars must be a nonempty comma-separated list\n")
+        return 2
+    try:
+        result = V.materialize_elimination_groebner(
+            args.root, args.src, eliminated, args.produces,
+            timeout=args.timeout, record=not args.dry_run,
+        )
+    except (A.ArtifactError, cas.CASError, K.KernelRefusal, OSError,
+            S.GraphError, ValueError) as exc:
+        sys.stderr.write("GROEBNER MATERIALIZATION FAILED\n  %s\n" % exc)
+        return 2
+    print("%-20s elimination %s" % (
+        result["contraction_verdict"], result["edge"]
+    ))
+    print("    target %s: %d retained pure-lex generator(s)" % (
+        result["model"], len(result["generators"])
+    ))
+    print("    operation output: %s" % result["operation_verdict"])
+    if args.dry_run:
+        print("\n--dry-run: model, edge, verdicts, and artifacts were not recorded.")
+    else:
+        print("\nrecorded model, constructor edge, both checked verdicts, and "
+              "producer artifacts in one prevalidated graph batch.")
+    return 0
 def cmd_artifacts_check(args):
     """Audit raw execution objects without making graph folding ambient."""
     if args.graph:
@@ -1853,6 +1884,21 @@ def build_parser():
         "--dry-run", action="store_true",
         help="run and display without recording artifacts or authority")
     groebner.set_defaults(func=cmd_verify_elimination_groebner)
+    materialize = sub.add_parser(
+        "materialize-elimination-groebner",
+        help="discover, certify, and declare a pure-lex elimination target")
+    materialize.add_argument(
+        "--src", required=True, help="existing source model id")
+    materialize.add_argument(
+        "--vars", required=True,
+        help="nonempty comma-separated variables to eliminate")
+    materialize.add_argument(
+        "--produces", required=True, help="new target model id")
+    materialize.add_argument("--timeout", type=int, default=300)
+    materialize.add_argument(
+        "--dry-run", action="store_true",
+        help="run both checks without recording artifacts or graph events")
+    materialize.set_defaults(func=cmd_materialize_elimination_groebner)
     artifacts = sub.add_parser(
         "artifacts",
         help="audit durable raw CAS programs, transcripts, and certificates")

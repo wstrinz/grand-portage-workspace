@@ -35,7 +35,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.13.0. <!--checks-->1045<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.13.0. <!--checks-->1053<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -70,6 +70,17 @@ claim-side obligation that a predicate factors through those retained
 coordinates, and Lean proves point-surjectivity transports every such predicate.
 The pure Groebner route grants no point authority; a countermodel proves the
 expressibility premise cannot be dropped.
+
+**Current elimination-materializer status.**
+`gp materialize-elimination-groebner --src SOURCE --vars dm4 --produces TARGET`
+now closes the producer/graph seam: it discovers the retained pure-lex target,
+requires independent current no-invention and Groebner-completeness verdicts,
+and submits the target model, constructor edge, both verdicts, and provenance as
+one prevalidated graph batch. The real eight-variable JC dm4 fixture completed
+with a 21-element basis, 17 retained generators, and 210 checked critical pairs;
+the independent source-membership pass accepted all 17. This earns exact
+contraction only. A section or checked finite point-lift cover remains necessary
+for point-surjective predicate transport.
 
 Version 0.10.0 projects that theorem into a deliberately small exact-affine claim
 syntax: `condition.all` is a conjunction of polynomial `ZERO`/`NONZERO` atoms.
@@ -428,7 +439,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1045<!--/checks--> checks, ~40 s) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1053<!--/checks--> checks, ~40 s) |
 
 ---
 
@@ -535,7 +546,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1045<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1053<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.

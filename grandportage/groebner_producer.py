@@ -115,7 +115,12 @@ def _remaining(deadline):
 def produce_elimination_groebner(backend, ring_vars, source_generators,
                                  eliminated, target_generators,
                                  characteristic=0, timeout=300):
-    """Produce and independently check ``groebner_elimination_v1`` evidence."""
+    """Produce and independently check ``groebner_elimination_v1`` evidence.
+
+    ``target_generators=None`` is the certifying-materializer mode: the
+    retained part of the discovered pure-lex basis becomes the target ideal.
+    Supplying a target remains the older verification mode and is unchanged.
+    """
     if not isinstance(backend, cas.SingularBackend):
         raise TypeError("the v1 producer requires a SingularBackend")
     if (isinstance(timeout, bool)
@@ -126,7 +131,10 @@ def produce_elimination_groebner(backend, ring_vars, source_generators,
     ring_vars = list(ring_vars)
     source_generators = list(source_generators)
     eliminated = list(eliminated)
-    target_generators = list(target_generators)
+    discover_target = target_generators is None
+    target_generators = (
+        [] if discover_target else list(target_generators)
+    )
     if len(ring_vars) > G._MAX_VARIABLES:
         raise cas.CASError(
             "producer input exceeds the %d-variable limit" % G._MAX_VARIABLES
@@ -186,6 +194,9 @@ def produce_elimination_groebner(backend, ring_vars, source_generators,
     )
     phase1_input = {
         "operation": "produce_groebner_elimination_v1",
+        "target_selection": (
+            "retained_pure_lex_basis" if discover_target else "declared_ideal"
+        ),
         "phase": "basis_and_source_span",
         "characteristic": characteristic,
         "ring_vars": variables,
@@ -243,6 +254,8 @@ def produce_elimination_groebner(backend, ring_vars, source_generators,
     retained_basis = G.retained_basis(
         basis, variables, ordered_eliminated, characteristic, budget
     )
+    if discover_target:
+        target_generators = list(retained_basis)
     retained_in_target = []
     last = first
     last_values = first_values
@@ -335,3 +348,19 @@ def produce_elimination_groebner(backend, ring_vars, source_generators,
         "basis_program": phase1,
         "last_execution": last,
     }
+
+
+def produce_retained_elimination_groebner(
+        backend, ring_vars, source_generators, eliminated,
+        characteristic=0, timeout=300):
+    """Discover and certify the pure-lex retained elimination basis.
+
+    This is deliberately narrower than a general elimination constructor.
+    The target generators are not accepted from a caller or from an earlier
+    unverified CAS run: they are exactly the retained basis certified by the
+    returned proof.
+    """
+    return produce_elimination_groebner(
+        backend, ring_vars, source_generators, eliminated, None,
+        characteristic=characteristic, timeout=timeout,
+    )

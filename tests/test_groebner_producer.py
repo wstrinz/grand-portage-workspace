@@ -57,6 +57,23 @@ def _backend(runner=_producer_runner):
     )
 
 
+def _materializer_runner(program, timeout):
+    if program.outputs == ["GP_G", "GP_B"]:
+        return _producer_runner(program, timeout)
+    declarations = dict(
+        (name, value) for name, _kind, value in program.decls
+    )
+    if program.outputs == ["GP_RED"]:
+        return _raw(program, "@@GP_RED:\n0\n")
+    assert program.outputs == ["GP_M"]
+    if "GP_J" in declarations:
+        return _raw(program, "@@GP_M:\nGP_M[1,1]=1\n")
+    return _raw(program, """@@GP_M:
+GP_M[1,1]=u^4+u^2*x+x^2
+GP_M[2,1]=-y-u^3
+""")
+
+
 def _native_cusp_graph():
     graph = S.Graph()
     graph.apply(F.meta_event())
@@ -459,3 +476,188 @@ def test_fold_rejects_groebner_proof_in_an_unsupported_declared_field():
 
     with pytest.raises(S.GraphError, match="scoped to Q"):
         graph.apply(event)
+
+def _write_materializer_source(root, field="Q"):
+    S.append([{
+        "ev": "model", "id": "SOURCE", "what": "normalization",
+        "field": field, "characteristic": 0,
+        "ring_vars": ["u", "y", "x"],
+        "generators": ["u^2-x", "u^3-y"],
+    }], root)
+
+
+def test_materializer_builds_both_checked_directions_without_writing(tmp_path):
+    root = str(tmp_path)
+    _write_materializer_source(root)
+    backend = _backend(_materializer_runner)
+
+    result = V.materialize_elimination_groebner(
+        root, "SOURCE", ["u"], "CUSP", backend=backend, record=False
+    )
+
+    assert result["generators"] == ["y^2-x^3"]
+    assert result["operation_verdict"] == V.OP_SOUND
+    assert result["contraction_verdict"] == V.GROEBNER_VERIFIED
+    assert result["checked"]["critical_pair_count"] == 6
+    assert len(backend.executions) == 4
+    unchanged = S.load(S.graph_path(root))
+    assert "CUSP" not in unchanged.models
+
+    candidate = copy.deepcopy(unchanged)
+    for event in result["events"]:
+        candidate.apply(event)
+    candidate.validate()
+    assert candidate.models["CUSP"]["field"] == "Q"
+    assert candidate.edges["E-CUSP"]["output_verdict"] == V.OP_SOUND
+    assert candidate.edges["E-CUSP"]["contraction_verdict"] == (
+        V.GROEBNER_VERIFIED
+    )
+    assert C.effective_exact_contraction(candidate.edges["E-CUSP"])
+    assert not C.effective_point_surjective(candidate.edges["E-CUSP"])
+    assert not C.effective_image_complete(candidate.edges["E-CUSP"])
+    assert not C.effective_geometric_closure(candidate.edges["E-CUSP"])
+
+
+def test_materializer_refuses_an_invented_retained_generator_without_append(
+        tmp_path, monkeypatch):
+    root = str(tmp_path)
+    _write_materializer_source(root)
+    before = open(S.graph_path(root), "rb").read()
+
+    def nonmember(program, timeout):
+        if program.outputs == ["GP_RED"]:
+            return _raw(program, "@@GP_RED:\n1\n")
+        return _materializer_runner(program, timeout)
+
+    backend = _backend(nonmember)
+    monkeypatch.setattr(
+        cas.SingularBackend, "can_record_verdicts",
+        property(lambda _self: True),
+    )
+    with pytest.raises(cas.CASError, match="no-invention"):
+        V.materialize_elimination_groebner(
+            root, "SOURCE", ["u"], "CUSP", backend=backend, record=True
+        )
+
+    assert open(S.graph_path(root), "rb").read() == before
+    graph = S.load(S.graph_path(root))
+    assert "CUSP" not in graph.models
+    assert "E-CUSP" not in graph.edges
+
+
+def test_materializer_preflight_requires_exact_field_before_spawning(tmp_path):
+    root = str(tmp_path)
+    _write_materializer_source(root, field="R")
+    backend = _backend(lambda _program, _timeout: pytest.fail(
+        "invalid field must be refused before spawning Singular"
+    ))
+
+    with pytest.raises(ValueError, match="exact coefficient field Q"):
+        V.materialize_elimination_groebner(
+            root, "SOURCE", ["u"], "CUSP", backend=backend, record=False
+        )
+    assert backend.execution_count == 0
+
+
+def test_materializer_records_model_edge_both_verdicts_and_artifacts(
+        tmp_path, monkeypatch):
+    root = str(tmp_path)
+    _write_materializer_source(root)
+    backend = _backend(_materializer_runner)
+    monkeypatch.setattr(
+        cas.SingularBackend, "can_record_verdicts",
+        property(lambda _self: True),
+    )
+
+    result = V.materialize_elimination_groebner(
+        root, "SOURCE", ["u"], "CUSP", backend=backend, record=True
+    )
+    graph = S.load(S.graph_path(root))
+
+    assert result["contraction_verdict"] == V.GROEBNER_VERIFIED
+    assert graph.models["CUSP"]["generators"] == ["y^2-x^3"]
+    assert graph.edges["E-CUSP"]["output_verdict"] == V.OP_SOUND
+    assert graph.edges["E-CUSP"]["contraction_verdict"] == (
+        V.GROEBNER_VERIFIED
+    )
+    assert len(graph.verdicts) == 2
+    assert A.audit_graph(root, graph) == []
+
+
+@pytest.mark.live
+def test_real_jc_dm4_materializer_discovers_17_retained_relations(tmp_path):
+    root = str(tmp_path)
+    ring = ["d0", "d1", "d2", "dm1", "dm2", "dm3", "dm4", "Phi"]
+    generators = [
+        "3/2*d1*dm1^2+3*d2*dm1*dm2+3*dm1*dm4+3*dm2*dm3",
+        "-3/2*d0*dm1^2+3/2*d2*dm2^2+3*dm2*dm4+3/2*dm3^2",
+        "-3*d0*dm1*dm2-3/2*d1*dm2^2-1/2*dm1^3+3*dm3*dm4",
+        "Phi-3*d0*dm1*dm4-3*d0*dm2*dm3-3*d1*dm2*dm4"
+        "-3/2*d1*dm3^2-3*d2*dm3*dm4-3/2*dm1^2*dm3"
+        "-3/2*dm1*dm2^2",
+    ]
+    S.append([{
+        "ev": "model", "id": "JC-G-SOURCE", "what": "JC live fixture",
+        "field": "Q", "characteristic": 0,
+        "ring_vars": ring, "generators": generators,
+    }], root)
+
+    result = V.materialize_elimination_groebner(
+        root, "JC-G-SOURCE", ["dm4"], "JC-DM4-LEX",
+        timeout=300, record=False,
+    )
+
+    assert len(result["generators"]) == 17
+    assert result["checked"]["basis_count"] == 21
+    assert result["checked"]["critical_pair_count"] == 210
+    assert result["operation_verdict"] == V.OP_SOUND
+    assert result["contraction_verdict"] == V.GROEBNER_VERIFIED
+
+
+def test_materializer_occupied_target_id_is_refused_before_spawn(tmp_path):
+    root = str(tmp_path)
+    _write_materializer_source(root)
+    S.append([{
+        "ev": "model", "id": "CUSP", "what": "already occupied",
+        "field": "Q", "characteristic": 0,
+        "ring_vars": ["y", "x"], "generators": [],
+    }], root)
+    backend = _backend(lambda _program, _timeout: pytest.fail(
+        "an occupied id must be refused before spawning Singular"
+    ))
+
+    with pytest.raises(S.GraphError, match="conflicting redeclaration"):
+        V.materialize_elimination_groebner(
+            root, "SOURCE", ["u"], "CUSP", backend=backend, record=False
+        )
+    assert backend.execution_count == 0
+
+
+def test_materializer_cli_dispatches_dry_run(monkeypatch, capsys):
+    from grandportage import cli as CLI
+    seen = {}
+
+    def fake(root, src, eliminated, produces, timeout, record):
+        seen.update({
+            "root": root, "src": src, "eliminated": eliminated,
+            "produces": produces, "timeout": timeout, "record": record,
+        })
+        return {
+            "model": produces, "edge": "E-" + produces,
+            "generators": ["x"], "operation_verdict": V.OP_SOUND,
+            "contraction_verdict": V.GROEBNER_VERIFIED,
+        }
+
+    monkeypatch.setattr(V, "materialize_elimination_groebner", fake)
+    rc = CLI.main([
+        "--root", "campaign", "materialize-elimination-groebner",
+        "--src", "SOURCE", "--vars", "u,v", "--produces", "TARGET",
+        "--timeout", "17", "--dry-run",
+    ])
+
+    assert rc == 0
+    assert seen == {
+        "root": "campaign", "src": "SOURCE", "eliminated": ["u", "v"],
+        "produces": "TARGET", "timeout": 17, "record": False,
+    }
+    assert "--dry-run" in capsys.readouterr().out

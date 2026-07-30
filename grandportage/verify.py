@@ -70,6 +70,7 @@ module that answered a question it had not asked would be the honour system
 wearing a computation.
 """
 
+import copy
 import json
 import os
 
@@ -78,6 +79,7 @@ from . import cas
 from . import groebner as G
 from . import groebner_producer as GP
 from . import kernel as K
+from . import operations as O
 from . import provenance as P
 from . import store as S
 
@@ -1773,6 +1775,168 @@ def verify_elimination_groebner(root, eid, timeout=300, record=True,
         )
         S.append([event], root)
     return verdict, why, representation
+
+
+def materialize_elimination_groebner(
+        root, src, eliminated, produces, timeout=300, record=True,
+        backend=None, _runner=None):
+    """Materialize a certified target in one prevalidated graph batch.
+
+    The retained lex basis is discovered rather than supplied. Before any
+    declaration is appended, the operation-output verifier proves that every
+    retained generator belongs to the source ideal, while the backend-neutral
+    Groebner checker proves contraction completeness. These are independent
+    directions; neither is allowed to stand in for the other.
+    """
+    if backend is not None and _runner is not None:
+        raise ValueError("pass backend or legacy _runner, not both")
+    backend = backend or cas.SingularBackend(runner=_runner)
+    if record and not backend.can_record_verdicts:
+        raise ValueError(
+            "record=True requires the exact production backend and binary; "
+            "test doubles may be used only with record=False"
+        )
+    if not isinstance(produces, str) or not produces.strip():
+        raise ValueError("produces must be a nonempty model id")
+
+    graph = S.load(S.graph_path(root))
+    source = graph.models.get(src)
+    if source is None:
+        raise ValueError("%s is not a model in this graph" % src)
+    if (source.get("superseded_by") or source.get("retracted_by")
+            or source.get("withdrawn_by")):
+        raise ValueError("%s is not an active model" % src)
+    if source.get("ideal_pending"):
+        raise ValueError("%s still has a pending ideal" % src)
+    if source.get("ring_vars") is None or source.get("generators") is None:
+        raise ValueError("%s must record ring variables and an ideal" % src)
+    if "characteristic" not in source:
+        raise ValueError("%s must declare a characteristic" % src)
+
+    if isinstance(eliminated, (str, bytes)):
+        raise ValueError("eliminated must be a sequence of variable names")
+    eliminated = list(eliminated)
+    ring = list(source["ring_vars"])
+    if (not eliminated or len(eliminated) != len(set(eliminated))
+            or any(variable not in ring for variable in eliminated)):
+        raise ValueError("eliminated must be a nonempty unique ring subset")
+    if set(eliminated) == set(ring):
+        raise ValueError("elimination cannot remove every ring variable")
+    characteristic = source["characteristic"]
+    exact_domain = "Q" if characteristic == 0 else "F_%d" % characteristic
+    if source.get("field") != exact_domain:
+        raise ValueError(
+            "%s must declare the exact coefficient field %s"
+            % (src, exact_domain)
+        )
+
+    operation = O.eliminate(
+        src, eliminated, produces, ring, source["generators"],
+        characteristic=characteristic,
+    )
+    events = [dict(event) for event in operation.events]
+    target_event = next(
+        event for event in events if event.get("ev") == S.EV_MODEL
+    )
+    target_event["field"] = exact_domain
+    edge_event = next(
+        event for event in events if event.get("ev") == S.EV_EDGE
+    )
+    eid = edge_event["id"]
+
+    # Reject conflicting ids and malformed constructor output before spawning
+    # an expensive process. This preview is discarded and grants no authority.
+    preview_events = copy.deepcopy(events)
+    preview_target = next(
+        event for event in preview_events if event.get("ev") == S.EV_MODEL
+    )
+    preview_target.pop("ideal_pending", None)
+    preview_target["generators"] = []
+    preview = copy.deepcopy(graph)
+    for event in preview_events:
+        preview.apply(event, source="<materialize-preview>")
+    preview.validate()
+
+    execution_start = backend.execution_count
+    produced = GP.produce_retained_elimination_groebner(
+        backend, source["ring_vars"], source["generators"], eliminated,
+        characteristic=source["characteristic"], timeout=timeout,
+    )
+    target_event.pop("ideal_pending", None)
+    target_event["generators"] = list(
+        produced["proof"]["target_generators"]
+    )
+
+    candidate = copy.deepcopy(graph)
+    for event in events:
+        candidate.apply(event, source="<materialize-candidate>")
+    candidate.validate()
+
+    contraction, contraction_why, contraction_rep = elimination_groebner(
+        candidate, eid, produced["proof"]
+    )
+    if contraction != GROEBNER_VERIFIED:
+        raise cas.CASError(
+            "the graph-bound Groebner proof was not accepted: %s"
+            % contraction_why
+        )
+    if contraction_rep["checked"] != produced["checked"]:
+        raise cas.CASError(
+            "producer and graph-bound checker summaries disagree"
+        )
+    # Capture producer-only provenance before operation_output spawns its own
+    # independent ideal-membership checks.
+    contraction_event = _verdict_event(
+        candidate, "elimination", eid, contraction, contraction_why,
+        contraction_rep, execution=backend.provenance(execution_start),
+        verifier="verify.elimination_groebner",
+    )
+
+    operation_start = backend.execution_count
+    output, output_why, output_rep = operation_output(
+        candidate, eid, timeout=timeout, _backend=backend
+    )
+    if output != OP_SOUND:
+        raise cas.CASError(
+            "the retained basis failed the no-invention check: %s"
+            % output_why
+        )
+    output_event = _verdict_event(
+        candidate, "operation", eid, output, output_why, output_rep,
+        execution=backend.provenance(operation_start),
+        verifier="verify.operation_output",
+    )
+
+    append_events = events + [output_event, contraction_event]
+    if record:
+        # Objects before log: an append failure may leave only harmless,
+        # content-addressed orphans, never a partial mathematical declaration.
+        A.persist_all(root, backend.execution_artifacts(execution_start))
+        latest = S.load(S.graph_path(root))
+        if latest.models.get(src) != source:
+            raise S.GraphError(
+                "%s changed while the certificate was being produced; "
+                "nothing was appended" % src
+            )
+        if produces in latest.models or eid in latest.edges:
+            raise S.GraphError(
+                "target id %s or edge id %s appeared while the certificate "
+                "was being produced; nothing was appended" % (produces, eid)
+            )
+        # S.append folds the complete batch before writing it. It is
+        # prevalidated rather than a crash-atomic filesystem transaction, so
+        # the reload above is the narrow race check around the long CAS run.
+        S.append(append_events, root)
+    return {
+        "model": produces,
+        "edge": eid,
+        "generators": list(target_event["generators"]),
+        "operation_verdict": output,
+        "contraction_verdict": contraction,
+        "why": contraction_why,
+        "checked": produced["checked"],
+        "events": append_events,
+    }
 def verify_all(root=".", timeout=300, _runner=None, record=True, backend=None):
     """Verify every checkable edge AND claim, and RECORD the answers.
 

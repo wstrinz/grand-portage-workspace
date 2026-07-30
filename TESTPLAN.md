@@ -62,11 +62,47 @@ minting a model, built-in certificate overwrite, strictness-witness-as-
 equivalence-documentation, taint stopping at the first generation, baseline
 acceptance surviving a change of meaning, and identity origin.
 
-**Suite: <!--checks-->1045<!--/checks--> checks, ~40 s.** Was 171 before the v0.2 pass.
+**Suite: <!--checks-->1053<!--/checks--> checks, ~40 s.** Was 171 before the v0.2 pass.
 
 ---
 
-## T1 — THE BLIND RUN. Run this one first.
+## CURRENT PRESSURE TEST — JC dm4 exact target plus independent point lift
+
+The gamma=4 blind run below is complete. The active pressure test is now the
+real eight-variable JC source projected away from `dm4`, because it makes the
+two ideal directions and the separate point question load-bearing in one
+research-shaped assay.
+
+1. Run `gp materialize-elimination-groebner --src JC-G-SOURCE --vars dm4
+   --produces JC-DM4-LEX`. The discovered target must have the 17 retained
+   generators from the 21-element pure-lex basis; all 210 critical pairs must
+   replay; both `output_verdict: VERIFIED` and
+   `contraction_verdict: VERIFIED_GROEBNER` must be current.
+2. Reload the durable graph and run `gp artifacts check`. Exact contraction
+   must be effective, while point-surjectivity and image completeness remain
+   false. The earlier three-generator H target remains the refusal control: it
+   is a sound `NECESSARY_CONDITION`, not this exact target.
+3. Treat lifting as a new obligation, not a corollary. Supply a polynomial
+   section or a finite principal-open/fallback certificate through
+   `gp verify-elimination-point-lift`. Only that independent checked evidence
+   may open point-surjective retained-predicate transport. A failed or missing
+   cover must leave the exact target useful but point authority closed.
+
+**Pass condition:** the exact leg is one prevalidated model/edge/two-verdict
+batch with a clean artifact audit; the point-lift leg changes only point
+authority and cannot repair or substitute for either ideal verdict. Invalid
+retained generators, incomplete bases, false charts, and unsupported lifts are
+refused without a partially materialized target.
+
+---
+
+## T1 — THE BLIND RUN (HISTORICAL; COMPLETED)
+
+**Status:** completed and retained below as the preregistered protocol, not as
+the next action. It failed usefully: the blind agent superseded a refusal
+instead of satisfying it, which forced the parallel-edge, vacuity,
+self-built-claim, partition, premise, and typed-discharge repairs summarized in
+`HANDOFF.md`. The current pressure test is the JC dm4 assay above.
 
 **The claim at risk:** the tool does not induce plausible mislabelling.
 
@@ -85,7 +121,7 @@ worthless as evidence.** An agent told what the trap is will avoid the trap.
 
 Just the tools and the work. The only instruction should be the task.
 
-**STAGED AND READY:** `dev/gamma-delta4/`. Clean directory, its own pinned
+**Historical staging record (the run has completed):** `dev/gamma-delta4/`. Clean directory, its own pinned
 `math-stuff` submodule, campaign graph and baseline carried forward, MCP + hook
 wired, `TASK.md` and nothing else. No `BRIEF.md`, no `FINDINGS.md`, no
 `TESTPLAN.md`, and not adjacent to any directory containing them.
@@ -238,7 +274,7 @@ transfers; this would show the *practice* does.
 
 ## T6 — `portage_suggest_edge`, A/B
 
-**Only after T1.** The design is now specified by evidence: not "guess the type
+**Historical dependency satisfied: T1 completed.** The design is now specified by evidence: not "guess the type
 from the computation" but **"offer the sibling edge's declaration as a diff and
 make me change the field that differs."**
 

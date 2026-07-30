@@ -31,7 +31,7 @@ def meta_event():
     }
 
 
-_LIFECYCLE = {"supersedes", "discharge_kind"}
+_LIFECYCLE = {"supersedes", "discharge_kind", "why"}
 
 # Closed schemas are intentionally data, not a forest of ad-hoc ``if key``
 # checks.  Adding an authored field now requires placing it in the vocabulary
