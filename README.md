@@ -30,7 +30,7 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->996<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1024<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
@@ -155,13 +155,15 @@ Three rows carry most of the value:
   backwards, which is how the erratum above happened.
 * **Constructed elimination is one-sided by default and earns exactness by
   certificate.** The local verifier proves every recorded target generator lies
-  in the source contraction, `J ⊆ ι⁻¹(I)`. `gp verify-elimination` can now check
-  an explicit polynomial section fixing the retained coordinates and carrying
-  every source generator into `J`; that proves the reverse inclusion. Kernel
-  epoch 3 requires both independent verdicts before a source-derived identity
-  travels `ALONG`. This is exact coordinate-ring contraction authority, not a
-  point theorem: closed predicates remain refused until geometric image-closure
-  authority is independently established.* **`IMAGE_CLOSURE` AGAINST / `NONEMPTY` is Chevalley.** A point of the Zariski
+  in the source contraction, `J ⊆ ι⁻¹(I)`. `gp verify-elimination` checks an
+  explicit polynomial section; `gp verify-elimination-groebner` instead asks
+  Singular for a bounded pure-lex certificate and rechecks it with GP's small
+  exact-polynomial checker. Either proves the reverse inclusion. Kernel epoch
+  3 requires no-invention plus one current completeness verdict before a
+  source-derived identity travels `ALONG`. This is exact coordinate-ring
+  contraction authority, not a point theorem: closed predicates remain refused
+  until geometric image-closure authority is independently established.
+* **`IMAGE_CLOSURE` AGAINST / `NONEMPTY` is Chevalley.** A point of the Zariski
   closure need not lift. This is why elimination is a sound way to *derive*
   equations and an unsound source of *witnesses* — and why a cell that survives
   everything is an artifact candidate rather than a reason to buy solver time.
@@ -228,7 +230,7 @@ Pure stdlib. No solver, no network, no model in the loop. Under a second.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->996<!--/checks--> checks
+python -m pytest        # <!--checks-->1024<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

@@ -76,6 +76,7 @@ import os
 from . import artifacts as A
 from . import cas
 from . import groebner as G
+from . import groebner_producer as GP
 from . import kernel as K
 from . import provenance as P
 from . import store as S
@@ -1033,9 +1034,10 @@ def elimination_groebner(graph, eid, certificate):
         "generator's basis-span identity, "
         "all %d bounded critical-pair representations, the pure-lex "
         "elimination order, and every retained-basis membership in the "
-        "recorded target ideal. This proves contraction completeness "
-        "I(source) ∩ %s ⊆ I(target). Exact contraction still requires the "
-        "independent current no-invention verdict; this does not establish "
+        "recorded target ideal. This proves contraction completeness: the "
+        "intersection of I(source) with %s is contained in I(target). "
+        "Exact contraction still requires the independent current "
+        "no-invention verdict; this does not establish "
         "geometric point-image closure."
         % (checked["critical_pair_count"], target_ring)
     ), representation
@@ -1380,14 +1382,14 @@ def unit_ideal(graph, cid, timeout=300, _runner=None, _backend=None):
 
 
 def _verdict_event(graph, subject, of, verdict, why, representation=None,
-                   execution=None):
+                   execution=None, verifier=None):
     # Content-address the answer together with the exact verifier/kernel/backend
     # identity and semantic input that made it authoritative.
     ev = {"ev": S.EV_VERDICT, "subject": subject, "of": of,
           "verdict": verdict, "why": why}
     ev.update(P.metadata(
         graph, subject, of, execution=execution,
-        representation=representation))
+        representation=representation, verifier=verifier, verdict=verdict))
     if representation:
         ev["representation"] = representation
     ev["id"] = "v.%s.%s" % (of, P.event_digest(ev))
@@ -1421,6 +1423,61 @@ def verify_elimination_section(root, eid, section, timeout=300, record=True,
         S.append([event], root)
     return verdict, why, representation
 
+def verify_elimination_groebner(root, eid, timeout=300, record=True,
+                                 backend=None, _runner=None):
+    """Produce, independently check, and optionally persist completeness."""
+    graph = S.load(S.graph_path(root))
+    if backend is not None and _runner is not None:
+        raise ValueError("pass backend or legacy _runner, not both")
+    backend = backend or cas.SingularBackend(runner=_runner)
+    if record and not backend.can_record_verdicts:
+        raise ValueError(
+            "record=True requires the exact production backend and binary; "
+            "test doubles may be used only with record=False"
+        )
+    execution_start = backend.execution_count
+    # Settle structural eligibility before spawning a process. An empty proof
+    # reaches CERTIFICATE_REJECTED only after the edge, endpoints, field, and
+    # variable partition are well-typed.
+    eligibility, eligibility_why, _ = elimination_groebner(graph, eid, {})
+    if eligibility == UNVERIFIED:
+        verdict, why, representation = eligibility, eligibility_why, None
+    else:
+        edge = graph.edges[eid]
+        source = graph.models[edge["src"]]
+        target = graph.models[edge["dst"]]
+        try:
+            produced = GP.produce_elimination_groebner(
+                backend,
+                source["ring_vars"],
+                source["generators"],
+                target["eliminated"],
+                target["generators"],
+                characteristic=source["characteristic"],
+                timeout=timeout,
+            )
+            verdict, why, representation = elimination_groebner(
+                graph, eid, produced["proof"]
+            )
+            if (verdict == GROEBNER_VERIFIED
+                    and representation["checked"] != produced["checked"]):
+                raise cas.CASError(
+                    "producer and graph-bound checker summaries disagree"
+                )
+        except (cas.CASError, G.CertificateError) as exc:
+            verdict, why, representation = UNVERIFIED, (
+                "the certificate producer could not complete a checked proof:\n"
+                "  %s" % exc
+            ), None
+    if record:
+        A.persist_all(root, backend.execution_artifacts(execution_start))
+        event = _verdict_event(
+            graph, "elimination", eid, verdict, why, representation,
+            execution=backend.provenance(execution_start),
+            verifier="verify.elimination_groebner",
+        )
+        S.append([event], root)
+    return verdict, why, representation
 def verify_all(root=".", timeout=300, _runner=None, record=True, backend=None):
     """Verify every checkable edge AND claim, and RECORD the answers.
 

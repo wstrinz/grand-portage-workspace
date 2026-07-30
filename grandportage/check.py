@@ -1339,13 +1339,15 @@ def effective_exact_contraction(edge):
     """Whether a constructed elimination has exact contraction authority.
 
     Two independent proofs are required: the existing operation validator
-    establishes that the target invented no equations, and a section
-    certificate establishes that it omitted no retained source equations.
+    establishes that the target invented no equations, and either a polynomial
+    section or a checked pure-lex certificate establishes that it omitted no
+    retained source equations.
     """
     if edge.get("built_by_operation") != "Eliminate":
         return True
     return (edge.get("output_verdict") == "VERIFIED"
-            and edge.get("contraction_verdict") == "VERIFIED_SECTION")
+            and edge.get("contraction_verdict") in (
+                "VERIFIED_SECTION", "VERIFIED_GROEBNER"))
 
 
 def effective_geometric_closure(edge):

@@ -47,7 +47,9 @@ import json
 import os
 import re
 import secrets
+import signal
 import subprocess
+import threading
 
 from . import artifacts as A
 from . import backend as B
@@ -293,7 +295,7 @@ class CASProgram(object):
     """
 
     def __init__(self, dialect, ring, ring_vars, decls, body, outputs,
-                 characteristic=0, generators=None):
+                 characteristic=0, generators=None, ordering="dp"):
         if dialect not in DIALECTS:
             raise ValueError("unknown CAS dialect %r" % (dialect,))
         self.dialect = dialect
@@ -313,6 +315,12 @@ class CASProgram(object):
                 "characteristic must be 0 or a prime, not %r"
                 % characteristic)
         self.characteristic = characteristic
+        if ordering not in ("dp", "lp"):
+            raise ValueError(
+                "ordering must be the closed Singular order `dp` or `lp`, "
+                "not %r" % ordering
+            )
+        self.ordering = ordering
         # EVERY field that reaches the program text, not a subset of them.
         # v0.2 validated the identifier half of `decls` and the expression half
         # and `body`, and left `ring`, `ring_vars` and the TYPE half of each
@@ -331,7 +339,9 @@ class CASProgram(object):
                     "carry a whole extra declaration."
                     % (name, typ, dialect,
                        ", ".join(sorted(DECL_TYPES[dialect]))))
-        assert_no_identifier_collision(dialect, self.ring_vars, self.decls)
+        assert_no_identifier_collision(
+            dialect, [self.ring] + self.ring_vars, self.decls
+        )
         assert_no_identifier_collision(dialect, self.ring_vars,
                                        [(o, "", "") for o in self.outputs])
         assert_declares_nothing(dialect, [e for _n, _t, e in self.decls],
@@ -346,8 +356,9 @@ class CASProgram(object):
         """Render this reusable template, optionally bound to one run."""
         if self.dialect != SINGULAR:
             raise NotImplementedError(self.dialect)
-        lines = ["ring %s = %d,(%s),dp;"
-                 % (self.ring, self.characteristic, ",".join(self.ring_vars))]
+        lines = ["ring %s = %d,(%s),%s;"
+                 % (self.ring, self.characteristic,
+                    ",".join(self.ring_vars), self.ordering)]
         # SINGULAR'S DEFAULT PRINTER IS NOT ROUND-TRIPPABLE. With `short=1`
         # it prints x^3-x*y as `x3-xy`; a consumer that accepts identifiers
         # containing digits must then read x3 and xy as new variables. W8 hit
@@ -385,7 +396,7 @@ class CASProgram(object):
             {
                 "dialect": self.dialect,
                 "ring": B.RingSpec(
-                    tuple(self.ring_vars), self.characteristic, "dp"
+                    tuple(self.ring_vars), self.characteristic, self.ordering
                 ).payload(),
                 "program_text": self.text,
                 "outputs": list(self.outputs),
@@ -611,7 +622,11 @@ class Transport(object):
 # ---------------------------------------------------------------------------
 # Running
 # ---------------------------------------------------------------------------
-ABORT_CODES = {124: "timeout", 137: "SIGKILL", 139: "SIGSEGV"}
+ABORT_CODES = {
+    124: "timeout", 125: "output limit", 137: "SIGKILL", 139: "SIGSEGV"
+}
+_MAX_STDOUT_BYTES = 16 * 1024 * 1024
+_MAX_STDERR_BYTES = 4 * 1024 * 1024
 
 # Windows dev boxes reach Singular through WSL; ASSAY.md recorded the same
 # arrangement.  Overridable so a Linux/Mac checkout needs no edit.
@@ -771,19 +786,145 @@ def run_cas(program, *, edge, produces, describes, root=".", timeout=300,
     return result
 
 
-def _run_subprocess(program, timeout):
-    argv = _argv()
+def _limited_argv(argv, timeout):
+    """Put the actual WSL child, not only its launcher, under a deadline."""
+    if (os.name == "nt" and len(argv) >= 3
+            and os.path.basename(argv[0]).lower() == "wsl.exe"
+            and argv[1] == "--"):
+        return [
+            argv[0], "--", "timeout", "--signal=KILL", "--kill-after=2s",
+            "%ss" % max(1, int(timeout)),
+        ] + list(argv[2:])
+    return list(argv)
+
+
+def _kill_process_tree(proc):
+    """Terminate exactly the spawned process group/tree, best effort."""
+    if proc.poll() is not None:
+        return
+    if os.name == "nt":
+        try:
+            killed = subprocess.run(
+                ["taskkill", "/PID", str(proc.pid), "/T", "/F"],
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                timeout=2,
+            )
+            if killed.returncode == 0:
+                return
+        except (OSError, subprocess.SubprocessError):
+            pass
     try:
-        proc = subprocess.run(argv, input=program.text, capture_output=True,
-                              text=True, timeout=timeout)
-        rc, stdout, stderr = proc.returncode, proc.stdout, proc.stderr
-    except subprocess.TimeoutExpired:
-        rc, stdout, stderr = 124, "", "timeout after %ss" % timeout
+        if os.name == "nt":
+            proc.kill()
+        else:
+            os.killpg(proc.pid, signal.SIGKILL)
+    except OSError:
+        pass
+
+
+def _run_subprocess(program, timeout):
+    """Run one CAS with bounded output and whole-tree timeout containment."""
+    base_argv = _argv()
+    argv = _limited_argv(base_argv, timeout)
+    outer_timeout = timeout + 5 if argv != list(base_argv) else timeout
+    limits = {
+        "stdout": _MAX_STDOUT_BYTES, "stderr": _MAX_STDERR_BYTES,
+    }
+    buffers = {"stdout": bytearray(), "stderr": bytearray()}
+    overflow = threading.Event()
+    overflow_stream = []
+    popen_kwargs = {}
+    if os.name == "nt":
+        popen_kwargs["creationflags"] = getattr(
+            subprocess, "CREATE_NEW_PROCESS_GROUP", 0
+        )
+    else:
+        popen_kwargs["start_new_session"] = True
+    try:
+        proc = subprocess.Popen(
+            argv, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE, **popen_kwargs
+        )
     except FileNotFoundError as exc:
         raise CASError("cannot reach the CAS via %s: %s" % (argv, exc))
-    return {"returncode": rc, "stdout": stdout, "stderr": stderr,
-            "aborted": rc in ABORT_CODES,
-            "abort_reason": ABORT_CODES.get(rc), "argv": argv}
+
+    def drain(stream_name, pipe):
+        while True:
+            chunk = pipe.read(65536)
+            if not chunk:
+                return
+            remaining = limits[stream_name] - len(buffers[stream_name])
+            if remaining > 0:
+                buffers[stream_name].extend(chunk[:remaining])
+            if len(chunk) > remaining:
+                if not overflow.is_set():
+                    overflow_stream.append(stream_name)
+                    overflow.set()
+                    _kill_process_tree(proc)
+                return
+
+    readers = [
+        threading.Thread(
+            target=drain, args=(name, pipe), daemon=True,
+            name="gp-cas-%s" % name,
+        )
+        for name, pipe in (("stdout", proc.stdout), ("stderr", proc.stderr))
+    ]
+
+    def feed_input():
+        try:
+            proc.stdin.write(program.text.encode("utf-8"))
+            proc.stdin.close()
+        except (BrokenPipeError, OSError):
+            pass
+
+    writer = threading.Thread(
+        target=feed_input, daemon=True, name="gp-cas-stdin"
+    )
+    for reader in readers:
+        reader.start()
+    writer.start()
+    try:
+        try:
+            rc = proc.wait(timeout=max(0.001, outer_timeout))
+        except subprocess.TimeoutExpired:
+            _kill_process_tree(proc)
+            try:
+                proc.wait(timeout=10)
+            except subprocess.TimeoutExpired:
+                proc.kill()
+                proc.wait()
+            rc = 124
+    finally:
+        writer.join(timeout=10)
+        for reader in readers:
+            reader.join(timeout=10)
+        for pipe in (proc.stdin, proc.stdout, proc.stderr):
+            try:
+                pipe.close()
+            except OSError:
+                pass
+    if overflow.is_set():
+        rc = 125
+        reason = "%s exceeded its byte limit" % (
+            overflow_stream[0] if overflow_stream else "CAS output"
+        )
+        diagnostic = ("\n" + reason).encode("utf-8")
+        remaining = _MAX_STDERR_BYTES - len(buffers["stderr"])
+        if remaining > 0:
+            buffers["stderr"].extend(diagnostic[:remaining])
+    stdout = bytes(buffers["stdout"]).decode("utf-8", errors="ignore")
+    stderr = bytes(buffers["stderr"]).decode("utf-8", errors="ignore")
+    if rc == 124 and not stderr:
+        stderr = "timeout after %ss" % timeout
+    return {
+        "returncode": rc,
+        "stdout": stdout,
+        "stderr": stderr,
+        "aborted": rc in ABORT_CODES,
+        "abort_reason": ABORT_CODES.get(rc),
+        "argv": argv,
+    }
 
 
 _BINARY_VERSION_CACHE = {}

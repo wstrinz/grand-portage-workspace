@@ -264,6 +264,27 @@ def audit_graph(root, graph):
             continue
         for problem in audit_manifest(root, manifest):
             problems.append("%s: %s" % (verdict_id, problem))
+        if (event.get("verifier") == "verify.elimination_groebner"
+                and event.get("verdict") == "VERIFIED_GROEBNER"):
+            trace = manifest.get("executions") or []
+            if not trace:
+                problems.append(
+                    "%s: Groebner authority has no producer execution"
+                    % verdict_id)
+                continue
+            try:
+                final = load(root, trace[-1]["artifact_fingerprint"])
+                certificate = json.loads(final["certificate"])
+            except (ArtifactError, TypeError, ValueError, KeyError) as exc:
+                problems.append(
+                    "%s: final producer artifact has no readable checked "
+                    "certificate (%s)" % (verdict_id, exc))
+                continue
+            proof = (event.get("representation") or {}).get("proof")
+            if certificate != proof:
+                problems.append(
+                    "%s: final producer artifact certificate does not match "
+                    "the verdict proof" % verdict_id)
     for index, note in enumerate(graph.notes):
         try:
             fields = note_reference(note.get("source"))

@@ -447,3 +447,19 @@ def test_verify_elimination_cli_passes_explicit_section(
         "root": str(tmp_path), "edge": "E", "section": {"y": "x^2"},
         "timeout": 19, "record": False,
     }
+def test_verify_elimination_groebner_cli_runs_the_producer(monkeypatch, capsys):
+    called = {}
+
+    def fake(root, edge, timeout=300, record=True):
+        called.update(root=root, edge=edge, timeout=timeout, record=record)
+        return V.GROEBNER_VERIFIED, "checked pure-lex proof", {"checked": {}}
+
+    monkeypatch.setattr(V, "verify_elimination_groebner", fake)
+    assert cli.main([
+        "--root", "campaign", "verify-elimination-groebner", "E",
+        "--timeout", "17", "--dry-run",
+    ]) == 0
+    assert called == {
+        "root": "campaign", "edge": "E", "timeout": 17, "record": False,
+    }
+    assert "VERIFIED_GROEBNER" in capsys.readouterr().out

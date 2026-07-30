@@ -35,7 +35,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about seven days. Version 0.7.0. <!--checks-->996<!--/checks--> checks.** Treat
+**Age: about seven days. Version 0.8.0. <!--checks-->1024<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -52,25 +52,37 @@ verdicts remain readable but stale. Only the exact production adapter with its
 probed binary may record authority; injected runners and subclasses remain
 non-authoritative.
 
-**OperationContract now has two Lean-backed pilots and one exactness certificate.**
-Saturation separates `J = I : f^∞` from its checked one-sided envelope.
-Elimination is multi-sorted: for `ι : S → R`, exact semantics is
-`J = ι⁻¹(I)`, while `verify.operation_output` establishes only
-`J ⊆ ι⁻¹(I)`. `verify.elimination_section` now checks a simultaneous polynomial
-retraction fixing `S` and carrying every source generator into `J`; Lean proves
-that such a section gives the missing inclusion. Both current verdicts are
-required before a constructed elimination gets exact contraction authority.
+**OperationContract now has two Lean-backed pilots and two exactness routes.**
+Saturation separates `J = I : f^infinity` from its checked one-sided envelope.
+Elimination is multi-sorted: for an inclusion `i : S -> R`, exact semantics is
+`J = inverse_image(i, I)`, while `verify.operation_output` establishes only
+that the recorded target ideal invents no equation. `verify.elimination_section`
+checks a simultaneous polynomial retraction fixing `S` and carrying every source
+generator into `J`. Version 0.8.0 adds `verify.elimination_groebner`: an untrusted
+Singular producer discovers a bounded pure-lex basis and span witnesses, then
+GP's small exact-polynomial checker independently replays the source identities,
+all critical pairs, the elimination order, and retained-basis memberships.
+Lean proves that independent no-invention plus either completeness route yields
+exact contraction. Neither route grants geometric point-image closure.
 
-Version 0.7.0 advances format 1 to kernel epoch 3 because it also corrects an
-important conflation: exact coordinate-ring contraction licenses a retained-ring
-identity moving forward, but does not by itself prove base-relative geometric
-image closure. Closed predicates therefore remain refused on constructed
-eliminations. Epoch-2 graphs migrate non-destructively with
+Version 0.7.0 advanced format 1 to kernel epoch 3 when this distinction first
+changed transport meaning: exact coordinate-ring contraction licenses a
+retained-ring identity moving forward, but does not prove base-relative
+geometric image closure. Version 0.8.0 stays in epoch 3 because it adds a new
+certificate/verifier for the already-formalized contract rather than changing
+that meaning. Epoch-2 graphs migrate non-destructively with
 `gp migrate --to-current-kernel`; earlier verdicts remain history but stale.
-The positive live control is `(yx-1,y²-x) → (x³-1)` with section `y ↦ x²`;
-the hyperbola control remains exact but intentionally uncertifiable by this
-narrow section class. General Gröbner completeness evidence and the separate
-geometric theorem are the next formal/backend obligations. See
+
+Live validation now includes the polynomial-section control and bounded
+Groebner replays of the real W7-W10 eliminations: W7 required six critical-pair
+checks; W8-W10 required one each; all verified against Singular 4.2.1 and the
+independent checker. The historical campaign graphs were not mutated. Their
+prose says Q but their old model records omit machine-readable characteristic,
+so the replays used disposable copies with explicit `characteristic: 0` and
+`coefficient_domain: Q`. W10 additionally needed the exact `maps`/`inverse_maps`
+to `forward`/`inverse` repair established by W11 before the current kernel would
+fold the whole graph. The next semantic obligation is the separate geometric
+image-closure theorem, not more coordinate-ring exactness. See
 `OPERATION-CONTRACTS.md` and `COMPATIBILITY.md`.
 There is now a **public repo**: `github.com/wstrinz/grandportage`, Apache-2.0,
 the tool plus all three fixtures plus `DESIGN.md` / `REVIEW.md` /
@@ -99,6 +111,7 @@ review. Worth knowing because it predicts where the next one comes from.
 | **W9** Codex enforcement | **PASS**, 0 blockers | structured PostToolUse refusal was model-visible and RETRACT-cleared; real saturation/elimination/decomposition and seven hand-checked verdicts passed with explicit round-trippable CAS output |
 | **W10** Claude Opus enforcement | **PASS**, 0 blockers | Claude received the automatic exit-2/stderr refusal, RETRACT-cleared it, completed the three real constructors, recorded 30 correct verdicts, and finished with no findings. It also exposed mapped `EQUIVALENCE` being conflated with literal containment; the Lean-backed repair now gives coordinate changes the exact `forward`/`inverse` surface W10 needed |
 | **W11** mapped-equivalence repair assay | **PASS**, 0 blockers | malformed aliases and one-sided maps were atomically refused; exact canonical maps folded; real Singular verified both ideal pullbacks and both inverse compositions; no literal-containment verdict was scheduled; final full check was empty and an independent symbolic handcheck agreed |
+| **v0.8 elimination replay** | **PASS**, 0 semantic failures | W7-W10 exact contractions verified through bounded pure-lex certificates; the run exposed and fixed a Windows console-encoding crash after successful verification. Legacy field metadata and the W11 map repair were supplied only in disposable copies |
 
 ### The reviews found the mathematics; the runs found the tool
 
@@ -360,7 +373,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->996<!--/checks--> checks, ~10 s) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1024<!--/checks--> checks, ~10 s) |
 
 ---
 
@@ -467,7 +480,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->996<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1024<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.

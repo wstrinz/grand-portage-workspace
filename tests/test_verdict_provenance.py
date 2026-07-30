@@ -582,3 +582,22 @@ def test_mutating_stored_section_certificate_makes_verdict_stale():
     assert "fingerprint does not match" in (
         replay.verdicts[event["id"]]["stale_reason"])
     assert "contraction_verdict" not in replay.edges["E"]
+def test_section_verdict_stamped_as_groebner_is_stale():
+    graph = _elimination_graph()
+    event = V._verdict_event(
+        graph, "elimination", "E", V.SECTION_VERIFIED,
+        "section checked", _section_representation(), execution=_execution())
+    event["verifier"] = "verify.elimination_groebner"
+    graph.apply(event)
+
+    assert graph.verdicts[event["id"]]["current"] is False
+    assert "contraction_verdict" not in graph.edges["E"]
+
+
+def test_metadata_refuses_crossed_section_verifier_identity():
+    graph = _elimination_graph()
+    with pytest.raises(ValueError, match="must be produced"):
+        V._verdict_event(
+            graph, "elimination", "E", V.SECTION_VERIFIED,
+            "section checked", _section_representation(),
+            execution=_execution(), verifier="verify.elimination_groebner")

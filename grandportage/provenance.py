@@ -36,6 +36,23 @@ VERIFIERS = {
     "partition": ("verify.partition_exhaustiveness", 2),
 }
 
+# A subject names one mathematical obligation; verifier identities name
+# independent algorithms that can discharge it.  Polynomial sections and
+# pure-lex certificates both prove elimination completeness without becoming
+# the same checker.
+VERIFIER_ALTERNATIVES = {
+    "elimination": {
+        "verify.elimination_section": 1,
+        "verify.elimination_groebner": 1,
+    },
+}
+ELIMINATION_VERDICT_VERIFIER = {
+    "VERIFIED_SECTION": "verify.elimination_section",
+    "CERTIFICATE_REJECTED": "verify.elimination_section",
+    "VERIFIED_GROEBNER": "verify.elimination_groebner",
+    "GROEBNER_CERTIFICATE_REJECTED": "verify.elimination_groebner",
+}
+
 _FINGERPRINT_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
 
 # Verdict projection mutates the folded target.  None of those computed fields
@@ -331,14 +348,33 @@ def backend_provenance(value, current_only=True):
     return manifest
 
 
-def metadata(graph, subject, of, execution=None, representation=None):
+def metadata(graph, subject, of, execution=None, representation=None,
+             verifier=None, verdict=None):
     """Provenance fields attached to a newly computed verdict event."""
     if execution is None:
         raise ValueError(
             "verdict v2 needs explicit execution provenance; an absent run "
             "cannot be replaced by a fabricated empty trace"
         )
-    verifier, verifier_version = VERIFIERS[subject]
+    default_verifier, default_version = VERIFIERS[subject]
+    verifier = verifier or default_verifier
+    alternatives = VERIFIER_ALTERNATIVES.get(subject, {
+        default_verifier: default_version,
+    })
+    if verifier not in alternatives:
+        raise ValueError(
+            "verifier %r cannot discharge subject %r" % (verifier, subject)
+        )
+    verifier_version = alternatives[verifier]
+    required_verifier = (
+        ELIMINATION_VERDICT_VERIFIER.get(verdict)
+        if subject == "elimination" else None
+    )
+    if required_verifier is not None and verifier != required_verifier:
+        raise ValueError(
+            "%s verdict must be produced by %s, not %s"
+            % (verdict, required_verifier, verifier)
+        )
     return {
         "verifier": verifier,
         "verifier_version": verifier_version,
@@ -360,7 +396,10 @@ def current_verdict(graph, event):
     subject = event.get("subject")
     if subject not in VERIFIERS:
         return False, "unknown verifier subject"
-    expected_verifier, expected_version = VERIFIERS[subject]
+    default_verifier, default_version = VERIFIERS[subject]
+    alternatives = VERIFIER_ALTERNATIVES.get(subject, {
+        default_verifier: default_version,
+    })
     required = (
         "verifier", "verifier_version", "kernel_epoch",
         "backend", "input_fingerprint",
@@ -368,8 +407,16 @@ def current_verdict(graph, event):
     missing = [field for field in required if event.get(field) is None]
     if missing:
         return False, "legacy verdict lacks %s" % ", ".join(missing)
-    if event.get("verifier") != expected_verifier:
+    expected_version = alternatives.get(event.get("verifier"))
+    if expected_version is None:
         return False, "verifier identity does not match"
+    required_verifier = (
+        ELIMINATION_VERDICT_VERIFIER.get(event.get("verdict"))
+        if subject == "elimination" else None
+    )
+    if (required_verifier is not None
+            and event.get("verifier") != required_verifier):
+        return False, "verifier identity does not match verdict method"
     if event.get("verifier_version") != expected_version:
         return False, "verifier version does not match"
     if event.get("kernel_epoch") != F.KERNEL_EPOCH:

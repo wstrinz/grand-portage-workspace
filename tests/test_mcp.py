@@ -543,3 +543,23 @@ def test_elimination_verifier_tool_schema_requires_edge_and_section():
     assert schema["properties"]["section"]["type"] == "object"
     assert schema["properties"]["section"]["additionalProperties"] == {
         "type": "string"}
+def test_groebner_elimination_tool_exposes_and_runs_the_producer(
+        project, monkeypatch):
+    called = {}
+
+    def fake(root, edge, timeout=300, record=True):
+        called.update(root=root, edge=edge, timeout=timeout, record=record)
+        return V.GROEBNER_VERIFIED, "checked pure-lex proof", {"checked": {}}
+
+    monkeypatch.setattr(V, "verify_elimination_groebner", fake)
+    result = call("portage_verify_elimination_groebner", {
+        "edge": "E", "timeout": 19, "dry_run": True,
+    }, project)
+
+    assert called == {
+        "root": project, "edge": "E", "timeout": 19, "record": False,
+    }
+    assert "VERIFIED_GROEBNER" in text(result)
+    tools = {item["name"]: item for item in mcp.TOOLS}
+    schema = tools["portage_verify_elimination_groebner"]["inputSchema"]
+    assert schema["required"] == ["edge"]

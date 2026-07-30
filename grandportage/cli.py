@@ -692,6 +692,25 @@ def cmd_verify_elimination(args):
         print("\nrecorded verifier verdict; `gp history` shows the diagnostic.")
     return 0 if verdict == V.SECTION_VERIFIED else 1
 
+def cmd_verify_elimination_groebner(args):
+    """Produce and certify exact contraction through a pure-lex proof."""
+    from . import verify as V
+    try:
+        verdict, why, _representation = V.verify_elimination_groebner(
+            args.root, args.edge, timeout=args.timeout,
+            record=not args.dry_run)
+    except (A.ArtifactError, OSError, S.GraphError, ValueError) as exc:
+        sys.stderr.write("GROEBNER VERIFICATION FAILED\n  %s\n" % exc)
+        return 2
+    print("%-20s elimination %s" % (verdict, args.edge))
+    for line in why.splitlines():
+        print("    " + line)
+    if args.dry_run:
+        print("\n--dry-run: nothing was recorded.")
+    else:
+        print("\nrecorded checked proof and producer provenance; "
+              "`gp history` shows the verdict.")
+    return 0 if verdict == V.GROEBNER_VERIFIED else 1
 def cmd_artifacts_check(args):
     """Audit raw execution objects without making graph folding ambient."""
     if args.graph:
@@ -1778,6 +1797,15 @@ def build_parser():
     exact.add_argument("--dry-run", action="store_true",
                        help="check and display without recording authority")
     exact.set_defaults(func=cmd_verify_elimination)
+    groebner = sub.add_parser(
+        "verify-elimination-groebner",
+        help="produce and check a pure-lex exact-contraction certificate")
+    groebner.add_argument("edge", help="constructor-built Eliminate edge id")
+    groebner.add_argument("--timeout", type=int, default=300)
+    groebner.add_argument(
+        "--dry-run", action="store_true",
+        help="run and display without recording artifacts or authority")
+    groebner.set_defaults(func=cmd_verify_elimination_groebner)
     artifacts = sub.add_parser(
         "artifacts",
         help="audit durable raw CAS programs, transcripts, and certificates")

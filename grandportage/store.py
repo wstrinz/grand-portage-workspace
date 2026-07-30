@@ -22,6 +22,7 @@ import os
 
 from . import kernel as K
 from . import format as F
+from . import groebner as G
 from . import provenance as P
 from .discharge import DISCHARGE_KINDS as D_KINDS
 from .discharge import WITHDRAW
@@ -299,8 +300,9 @@ class Graph(object):
                       "why_field": "output_why",
                       "writer": "verify.operation_output"},
         "elimination": {"contraction_verdict": (
-                            "VERIFIED_SECTION", "CERTIFICATE_REJECTED",
-                            "UNVERIFIED"),
+                            "VERIFIED_SECTION", "VERIFIED_GROEBNER",
+                            "CERTIFICATE_REJECTED",
+                            "GROEBNER_CERTIFICATE_REJECTED", "UNVERIFIED"),
                         "why_field": "contraction_why",
                         "writer": "verify.elimination_section"},
         "partition": {"exhaustive_verdict": (
@@ -569,6 +571,13 @@ class Graph(object):
             "%s: VERIFIED_SECTION verdict %r needs its polynomial-section "
             "representation; the proof object is the authority"
             % (where, ev.get("id")))
+        _require(
+            subject != "elimination"
+            or ev.get("verdict") != "VERIFIED_GROEBNER"
+            or ev.get("representation") is not None,
+            "%s: VERIFIED_GROEBNER verdict %r needs its exact checked "
+            "representation; the proof object is the authority"
+            % (where, ev.get("id")))
         # A VERDICT IS EXECUTABLE TRUST, NOT AN IMMORTAL STRING. Epoch-0
         # records and answers produced by another verifier/kernel/backend (or
         # against different semantic inputs) remain readable history, but
@@ -585,7 +594,8 @@ class Graph(object):
         # contraction. Keep it as history without erasing an earlier valid
         # certificate projected onto the edge.
         if (subject == "elimination"
-                and ev["verdict"] != "VERIFIED_SECTION"):
+                and ev["verdict"] not in (
+                    "VERIFIED_SECTION", "VERIFIED_GROEBNER")):
             return
         target[of][field] = ev["verdict"]
         target[of][spec["why_field"]] = ev["why"]
@@ -605,7 +615,87 @@ class Graph(object):
         # exactly the honour system this machinery exists to replace.
         if ev.get("representation") is not None:
             rep = ev["representation"]
-            if subject == "elimination":
+            if (subject == "elimination"
+                    and ev["verdict"] == "VERIFIED_GROEBNER"):
+                required = {
+                    "method", "edge", "source_model", "target_model",
+                    "proof", "checked",
+                }
+                _require(
+                    isinstance(rep, dict)
+                    and set(rep) == required
+                    and rep.get("method") == "groebner_elimination_v1"
+                    and isinstance(rep.get("proof"), dict)
+                    and isinstance(rep.get("checked"), dict),
+                    "%s: elimination verdict %r carries a malformed "
+                    "Groebner certificate envelope."
+                    % (where, ev.get("id")))
+                edge = target[of]
+                source = self.models.get(edge.get("src")) or {}
+                built = self.models.get(edge.get("dst")) or {}
+                source_ring = source.get("ring_vars") or []
+                eliminated_set = set(built.get("eliminated") or [])
+                ordered_eliminated = [
+                    value for value in source_ring
+                    if value in eliminated_set
+                ]
+                ordered_retained = [
+                    value for value in source_ring
+                    if value not in eliminated_set
+                ]
+                exact_domain = (
+                    "Q" if source.get("characteristic") == 0
+                    else "F_%s" % source.get("characteristic")
+                )
+                declared_domains = [
+                    model.get("coefficient_domain", model.get("field"))
+                    for model in (source, built)
+                ]
+                _require(
+                    all(value is None or value == exact_domain
+                        for value in declared_domains),
+                    "%s: elimination verdict %r's Groebner proof is scoped "
+                    "to %s but an endpoint declares %r."
+                    % (where, ev.get("id"), exact_domain,
+                       declared_domains),
+                )
+                proof = rep["proof"]
+                _require(
+                    rep["edge"] == of
+                    and rep["source_model"] == edge.get("src")
+                    and rep["target_model"] == edge.get("dst")
+                    and edge.get("built_by_operation") == "Eliminate"
+                    and proof.get("method") == "groebner_elimination_v1"
+                    and proof.get("characteristic")
+                        == source.get("characteristic")
+                        == built.get("characteristic")
+                    and proof.get("ring_vars")
+                        == ordered_eliminated + ordered_retained
+                    and proof.get("eliminated") == ordered_eliminated
+                    and built.get("ring_vars") == ordered_retained
+                    and proof.get("source_generators")
+                        == source.get("generators")
+                    and proof.get("target_generators")
+                        == built.get("generators"),
+                    "%s: elimination verdict %r's Groebner proof does not "
+                    "match the exact edge, endpoints, field, variable "
+                    "partition, or ordered generators it claims to certify."
+                    % (where, ev.get("id")))
+                try:
+                    checked = G.check_elimination_certificate(proof)
+                except G.CertificateError as exc:
+                    raise GraphError(
+                        "%s: elimination verdict %r's Groebner proof fails "
+                        "the exact checker: %s"
+                        % (where, ev.get("id"), exc)
+                    )
+                _require(
+                    checked == rep["checked"],
+                    "%s: elimination verdict %r's checked summary does not "
+                    "match a fresh exact-checker result."
+                    % (where, ev.get("id")))
+                target[of]["contraction_representation"] = rep
+            elif subject == "elimination":
                 required = {
                     "method", "section", "source_ring_vars",
                     "target_ring_vars", "eliminated", "source_generators",

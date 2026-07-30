@@ -477,6 +477,19 @@ TOOLS = [
                   "description": "campaign directory holding .portage/"}},
         ["edge", "section"]),
     _tool(
+        "portage_verify_elimination_groebner",
+        "Produce a bounded pure-lex Groebner certificate for one constructor-"
+        "built Eliminate edge, check it without trusting Singular, persist "
+        "the proof and producer artifacts, and license exact contraction only "
+        "when the separate no-invention verdict is also current. This grants "
+        "no geometric point-image authority.",
+        {"edge": {"type": "string"},
+         "timeout": {"type": "integer", "default": 300},
+         "dry_run": {"type": "boolean", "default": False},
+         "root": {"type": "string",
+                  "description": "campaign directory holding .portage/"}},
+        ["edge"]),
+    _tool(
         "cas_health",
         "Check that the CAS is reachable and answers correctly, WITHOUT "
         "touching the graph. Runs a trivial ideal with a known answer. Use "
@@ -708,6 +721,23 @@ def h_portage_verify_elimination(args, root):
     return _text("%s  elimination %s\n    %s\n\n%s"
                  % (verdict, args.get("edge"), why, suffix))
 
+def h_portage_verify_elimination_groebner(args, root):
+    from . import verify as V
+    path = S.graph_path(root)
+    if not os.path.exists(path):
+        return _text("no graph yet at %s" % path)
+    try:
+        verdict, why, _representation = V.verify_elimination_groebner(
+            root, args.get("edge"),
+            timeout=int(args.get("timeout") or 300),
+            record=not args.get("dry_run"))
+    except (A.ArtifactError, OSError, S.GraphError, ValueError) as exc:
+        return _err("Groebner elimination verification failed: %s" % exc)
+    suffix = ("--dry-run: nothing was recorded."
+              if args.get("dry_run") else
+              "checked proof and producer provenance recorded.")
+    return _text("%s  elimination %s\n    %s\n\n%s"
+                 % (verdict, args.get("edge"), why, suffix))
 def _render(findings):
     if not findings:
         return "no findings: every recorded conclusion is licensed by the "\
@@ -858,6 +888,8 @@ HANDLERS = {
     "portage_check": h_portage_check,
     "portage_verify": h_portage_verify,
     "portage_verify_elimination": h_portage_verify_elimination,
+    "portage_verify_elimination_groebner": (
+        h_portage_verify_elimination_groebner),
     "cas_health": h_cas_health,
     "portage_show": h_portage_show,
     "portage_transport_table": h_portage_transport_table,

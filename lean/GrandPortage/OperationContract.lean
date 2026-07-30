@@ -409,6 +409,32 @@ theorem elimination_basis_entails_completeness
   have inRetained := elimination g inBasis
   exact inRetained J pre.output_is_ideal facts.retained_generator_in_output
 
+/-- The runtime's polynomial-section route: local no-invention plus the checked
+    section recovers exact contraction semantics. -/
+theorem elimination_checked_and_section_semantics
+    {R : Type u} {S : Type v}
+    {p : EliminationParams R S} {I : Ideal R} {J : Ideal S}
+    (pre : EliminationPrecondition p I J)
+    (checked : EliminationChecked p I J)
+    (certificate : EliminationSectionCertificate p I J) :
+    EliminationSemantics p I J :=
+  elimination_checked_and_complete_semantics
+    pre checked (elimination_section_entails_completeness certificate)
+
+/-- The runtime's pure-lex certificate route: the same local no-invention
+    guarantee composes with independently checked basis completeness. The
+    algorithm producing the basis is irrelevant once these premises hold. -/
+theorem elimination_checked_and_basis_semantics
+    {R : Type u} {S : Type v}
+    {p : EliminationParams R S} {I : Ideal R} {J : Ideal S}
+    (pre : EliminationPrecondition p I J)
+    (checked : EliminationChecked p I J)
+    (facts : EliminationBasisBoundary p I J)
+    (elimination :
+      EliminationBasisProperty p facts.basis facts.retainedBasis) :
+    EliminationSemantics p I J :=
+  elimination_checked_and_complete_semantics pre checked
+    (elimination_basis_entails_completeness pre facts elimination)
 /-! ## What the checked guarantee licenses -/
 
 /-- Source identities remain valid on the checked saturation result.  This is

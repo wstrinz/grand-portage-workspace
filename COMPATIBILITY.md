@@ -53,13 +53,26 @@ It writes `graph.kernel3.jsonl` by default. The old `--to-kernel2` spelling is
 accepted only as a hidden compatibility alias; new automation should use the
 current-kernel spelling. The source remains untouched and all earlier verdicts
 remain readable but stale.
+Version 0.8.0 keeps graph format 1 and **kernel epoch 3**. It adds a second,
+separately pinned verifier algorithm for the existing elimination-completeness
+obligation: `VERIFIED_GROEBNER`. Singular may produce a pure-lex basis and
+finite witnesses, but authority is projected only after GP's backend-free exact
+checker replays the full proof against the ordered graph inputs. The existing
+`VERIFIED_SECTION` meaning is unchanged; either current completeness proof
+combines with the same independent `VERIFIED` operation-output verdict.
+Constructed eliminations still receive no geometric point-image authority.
+
+This is an evidence and verifier extension inside the OperationContract already
+formalized in epoch 3, not a change to transport meaning. Existing section
+verdicts therefore remain current; the new verifier identity is independently
+versioned and its producer artifacts are content-addressed.
 Within one kernel epoch, no field may silently acquire a more permissive
 interpretation. A syntax-only extension can bump `graph_format`; transport
 meaning or verifier trust bumps `kernel_epoch` or the narrower verifier/backend
 implementation version as appropriate.
 ## Epoch-0 graphs
 
-Unversioned graphs are epoch 0. Version 0.7 continues to read them through a conservative,
+Unversioned graphs are epoch 0. Version 0.8 continues to read them through a conservative,
 read-only importer. It will not append new events to them and will not blend
 them with epoch-1 graphs.
 
@@ -169,10 +182,16 @@ The transcript-completeness boundary binds a fresh nonce to every execution and
 accepts mathematical output only when the matching marker is the final
 non-whitespace line. Singular implementation version 2 made pre-marker verdicts
 stale; implementation version 3 adds the durable content-addressed envelope.
-The first narrow elimination-completeness certificate is now implemented:
-a checked polynomial section earns exact contraction without trusting a second
-backend. The remaining trust work is a general Gröbner certificate for cases
-without such a section and a separate geometric image-closure proof.
+The first narrow elimination-completeness certificate was a checked polynomial
+section, which earns exact contraction without trusting a second backend.
+Version 0.8 adds a second route for cases with no polynomial section: Singular
+produces a bounded pure-lex basis and representation witnesses, while the small
+backend-neutral exact checker independently verifies source span, every critical
+pair, the elimination order, and retained-basis membership in the target ideal.
+The producer remains untrusted search; only the checked certificate carries
+authority. The remaining semantic work is a separate geometric image-closure
+proof. Backend cross-checking can strengthen confidence in certificate
+production, but it is not part of the trusted argument.
 
 The release order is now visible in the epochs: close known semantic defects,
 cut format 1 / kernel epoch 1, finish the backend evidence seam, then advance to

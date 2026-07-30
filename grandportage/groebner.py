@@ -373,6 +373,150 @@ def parse_polynomial(expression, variables, characteristic=0, _budget=None):
         )
 
 
+def _coefficient_text(value):
+    if isinstance(value, Fraction):
+        if value.denominator == 1:
+            return str(value.numerator)
+        return "%s/%s" % (value.numerator, value.denominator)
+    return str(int(value))
+
+
+def render_polynomial(polynomial):
+    """Emit one parsed polynomial in an unambiguous certificate/CAS form.
+
+    This renderer belongs to the untrusted producer boundary: it makes hostile
+    CAS output inert before that output can become source text for a later
+    phase.  The checker still reparses and recomputes every identity.
+    """
+    if not isinstance(polynomial, Polynomial):
+        raise TypeError("render_polynomial expects a parsed Polynomial")
+    if polynomial.is_zero:
+        return "0"
+    pieces = []
+    for monomial in sorted(polynomial.terms, reverse=True):
+        coefficient = polynomial.terms[monomial]
+        factors = []
+        for variable, exponent in zip(polynomial.variables, monomial):
+            if exponent == 1:
+                factors.append(variable)
+            elif exponent:
+                factors.append("%s^%d" % (variable, exponent))
+        monomial_text = "*".join(factors)
+        coefficient_text = _coefficient_text(coefficient)
+        if monomial_text:
+            term = monomial_text if coefficient_text == "1" else (
+                "-%s" % monomial_text if coefficient_text == "-1" else
+                "(%s)*%s" % (coefficient_text, monomial_text)
+            )
+        else:
+            term = coefficient_text
+        if pieces and not term.startswith("-"):
+            pieces.append("+" + term)
+        else:
+            pieces.append(term)
+    return "".join(pieces)
+
+
+def canonical_polynomial(expression, variables, characteristic=0,
+                         _budget=None):
+    """Parse then re-emit one exact polynomial; commands cannot survive."""
+    return render_polynomial(parse_polynomial(
+        expression, variables, characteristic, _budget
+    ))
+
+
+def s_polynomial(expression_left, expression_right, variables,
+                 characteristic=0, _budget=None):
+    """Return the canonical pure-lex S-polynomial for producer phase two."""
+    budget = _budget or _ArithmeticBudget()
+    left = parse_polynomial(
+        expression_left, variables, characteristic, budget
+    )
+    right = parse_polynomial(
+        expression_right, variables, characteristic, budget
+    )
+    if left.is_zero or right.is_zero:
+        raise CertificateError("basis polynomials must be nonzero")
+    left_coefficient, left_monomial = left.leading_term()
+    right_coefficient, right_monomial = right.leading_term()
+    lcm = _monomial_lcm(left_monomial, right_monomial)
+    left_multiplier = _term(
+        variables, characteristic, _inverse(left_coefficient, characteristic),
+        _monomial_quotient(lcm, left_monomial), budget
+    )
+    right_multiplier = _term(
+        variables, characteristic,
+        _inverse(right_coefficient, characteristic),
+        _monomial_quotient(lcm, right_monomial), budget
+    )
+    return render_polynomial(left_multiplier * left - right_multiplier * right)
+
+
+def standard_representation(target, basis, variables, characteristic=0,
+                            _budget=None):
+    """Deterministically reduce ``target`` by an ordered basis.
+
+    The returned coefficients form a standard representation: every selected
+    reducer product has leading monomial at most the current dividend's, hence
+    strictly below the original S-pair lcm after leading-term cancellation.
+    Generic CAS ``lift`` does not promise this stronger property.
+    """
+    budget = _budget or _ArithmeticBudget()
+    dividend = parse_polynomial(target, variables, characteristic, budget)
+    parsed_basis = [
+        parse_polynomial(value, variables, characteristic, budget)
+        for value in basis
+    ]
+    if any(value.is_zero for value in parsed_basis):
+        raise CertificateError("basis polynomials must be nonzero")
+    quotients = [
+        Polynomial.scalar(variables, characteristic, 0, budget)
+        for _value in parsed_basis
+    ]
+    while not dividend.is_zero:
+        dividend_coefficient, dividend_monomial = dividend.leading_term()
+        reduced = False
+        for index, generator in enumerate(parsed_basis):
+            generator_coefficient, generator_monomial = generator.leading_term()
+            if any(a < b for a, b in zip(
+                    dividend_monomial, generator_monomial)):
+                continue
+            multiplier = _term(
+                variables,
+                characteristic,
+                _mul(
+                    dividend_coefficient,
+                    _inverse(generator_coefficient, characteristic),
+                    characteristic,
+                ),
+                _monomial_quotient(dividend_monomial, generator_monomial),
+                budget,
+            )
+            quotients[index] = quotients[index] + multiplier
+            dividend = dividend - multiplier * generator
+            reduced = True
+            break
+        if not reduced:
+            raise CertificateError(
+                "polynomial does not reduce to zero by the proposed basis"
+            )
+    return [render_polynomial(value) for value in quotients]
+
+
+def retained_basis(basis, variables, eliminated, characteristic=0,
+                   _budget=None):
+    """Select and canonicalize the pure-lex basis elements in the subring."""
+    eliminated_indices = [variables.index(value) for value in eliminated]
+    answer = []
+    for expression in basis:
+        parsed = parse_polynomial(
+            expression, variables, characteristic, _budget
+        )
+        if not parsed.uses_any(eliminated_indices):
+            answer.append(render_polynomial(parsed))
+    return answer
+
+
 def _parse_vector(values, variables, characteristic, expected, field, budget):
     if not isinstance(values, list) or len(values) != expected:
         raise CertificateError(
