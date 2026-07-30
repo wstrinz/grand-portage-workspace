@@ -35,7 +35,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.13.0. <!--checks-->1072<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.14.0. <!--checks-->1098<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -137,6 +137,15 @@ also exposed and now fixes a smaller boundary bug: exact syntax accepted as
 `**` is canonicalized to Singular's `^` before execution.
 
 
+**Current localization status.** `gp verify-localization-membership --spec
+SPEC.json` checks a closed principal-open certificate with explicit guards,
+denominator powers, a guard-monomial multiplier, and exact ideal-membership
+cofactors. Its only licence is an identity in the declared localized coordinate
+algebra. It does not alter RESTRICTION semantics, mint an ambient identity, or
+grant point transport. Lean proves the certificate shape entails multi-guard
+localized membership. The surface is intentionally standalone until H3 live
+use identifies the right graph-bound obligation and provenance owner.
+
 Version 0.7.0 advanced format 1 to kernel epoch 3 when this distinction first
 changed transport meaning: exact coordinate-ring contraction licenses a
 retained-ring identity moving forward, but does not prove base-relative
@@ -150,8 +159,9 @@ predicate transport. Version 0.11.0 keeps format 2 and advances to kernel epoch
 0.12.0 keeps format 2 and advances to kernel epoch 7 when generic concrete
 point-map pullback licenses restriction and projection compositions. Version
 0.13.0 keeps format 2 and advances to kernel epoch 8 when checked finite lift
-covers license new point-surjective predicate transports. Older
-native graphs migrate non-destructively with
+covers license new point-surjective predicate transports. Version 0.14.0 uses
+format 3 / kernel epoch 9 to separate coefficient domains from point universes
+for scoped geometric authority. Older native graphs migrate non-destructively with
 `gp migrate --to-current-kernel`; absent condition fields remain absent and
 earlier verdicts remain history but stale.
 
@@ -465,7 +475,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1072<!--/checks--> checks, ~40 s) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1098<!--/checks--> checks, ~40 s) |
 
 ---
 
@@ -572,7 +582,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1072<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1098<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.

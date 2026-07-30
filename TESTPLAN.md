@@ -62,7 +62,7 @@ minting a model, built-in certificate overwrite, strictness-witness-as-
 equivalence-documentation, taint stopping at the first generation, baseline
 acceptance surviving a change of meaning, and identity origin.
 
-**Suite: <!--checks-->1072<!--/checks--> checks, ~40 s.** Was 171 before the v0.2 pass.
+**Suite: <!--checks-->1098<!--/checks--> checks, ~40 s.** Was 171 before the v0.2 pass.
 
 ---
 
@@ -122,6 +122,12 @@ research-shaped assay.
    `gp verify-elimination-point-lift`. Only that independent checked evidence
    may open point-surjective retained-predicate transport. A failed or missing
    cover must leave the exact target useful but point authority closed.
+4. For unit-sensitive window elimination, check each load-bearing rational
+   identity with `gp verify-localization-membership`. Mutating a guard,
+   denominator power, localization multiplier, membership target, or cofactor
+   must change the fingerprint or refuse the certificate. Passing certifies
+   only the localized coordinate identity; an ambient identity and source
+   transport remain separate obligations.
 
 **Pass condition:** the exact leg is one prevalidated model/edge/two-verdict
 batch with a clean artifact audit; the point-lift leg changes only point

@@ -1,10 +1,11 @@
 /-
 # The point layer
 
-Twenty-seven of the thirty-six point cells in Grand Portage's transport table
-agree with what plain subset inclusion predicts.  That was *measured* against
-the Python kernel, which shows the cells are CONSISTENT with derivation from
-inclusion.  This file asks the stronger question: are they actually derivable?
+The first transport-table measurement found that twenty-seven of thirty-six
+typed point cells agreed with plain subset inclusion. That observation led to
+the relational compiler now used by the Python kernel. This file proves the
+same-coordinate inclusion fragment and supplies countermodels for the three
+directions it refuses; `RelationalTransport.lean` generalizes the result.
 
 Deliberately Mathlib-free.  A model is a predicate, an inclusion is an
 implication, and every theorem below is a few lines.  If the point layer needed

@@ -3719,13 +3719,17 @@ def test_gp_show_prints_what_a_model_is(tmp_path, capsys):
     from grandportage import cli
     _accept_fixture(tmp_path, [
         {"ev": "model", "id": "M", "desc": "the quotient",
-         "ring_vars": ["x", "y"], "generators": ["x^2 - y", "y^3"]},
+         "ring_vars": ["x", "y"], "generators": ["x^2 - y", "y^3"],
+         "characteristic": 0, "coefficient_domain": "Q",
+         "point_universe": S.ALGEBRAIC_CLOSURE_POINT_UNIVERSE},
         {"ev": "model", "id": "N", "desc": "asserted into existence"}])
     cli.main(["--root", str(tmp_path), "show"])
     out = capsys.readouterr().out
     assert "ring   k[x, y]" in out
     assert "ideal  (x^2 - y, y^3)" in out
     # And a model with no algebra prints none, rather than an empty ring.
+    assert "coeff=Q" in out
+    assert "points=ALGEBRAIC_CLOSURE" in out
     assert out.count("ring   k[") == 1
 
 
@@ -4681,14 +4685,20 @@ def test_an_ambient_identity_survives_an_unrecorded_ideal():
 CUBIC = "y^2-x^3-x^2"
 
 
-def _partition_graph(branches, parent_gens=(CUBIC,)):
+def _partition_graph(branches, parent_gens=(CUBIC,), point_universe=None):
+    scope = ({
+        "coefficient_domain": "Q",
+        "point_universe": point_universe,
+    } if point_universe else {})
     evs = [{"ev": "model", "id": "C", "desc": "the nodal cubic",
             "ring_vars": ["x", "y"], "generators": list(parent_gens),
-            "characteristic": 0}]
+            "characteristic": 0,
+            **scope}]
     for name, gens in branches:
         evs.append({"ev": "model", "id": name, "desc": "a branch",
                     "ring_vars": ["x", "y"], "generators": list(gens),
-                    "characteristic": 0})
+                    "characteristic": 0,
+                    **scope})
     evs += [
         {"ev": "claim", "id": "CL", "model": "C", "kind": K.PREDICATE,
          "statement": "the branches cover the parent",
@@ -4720,6 +4730,74 @@ def test_a_hole_between_correct_branches_is_found():
     # CASProgram pins ``short=0`` so solver output remains round-trippable.
     # Compact y2/xy is ambiguous in rings whose variables may contain digits.
     assert "y^2" in why or "x*y" in why
+
+
+class _GeometricHoleBackend:
+    def membership(self, *_args, **_kwargs):
+        return {"is_member": False, "reduced": "1"}
+
+    def partition_cover(self, *_args, **_kwargs):
+        return False, {"why": "a geometric point is missed",
+                       "uncovered": ["x"]}
+
+
+def test_geometric_hole_refutes_an_algebraically_closed_partition():
+    """The same CAS result changes force when the point universe is typed."""
+    from grandportage import verify as V
+    graph = _partition_graph(
+        [("B_Y", [CUBIC, "y"]), ("B_X", [CUBIC, "x"])],
+        point_universe=S.ALGEBRAIC_CLOSURE_POINT_UNIVERSE,
+    )
+    verdict, why = V.partition_exhaustiveness(
+        graph, "P", _backend=_GeometricHoleBackend())
+    assert verdict == V.NOT_EXHAUSTIVE
+    assert "DECLARED point universe" in why
+    assert "not merely a possible geometric hole" in why
+
+
+def test_geometric_hole_remains_debt_over_the_base_point_universe():
+    from grandportage import verify as V
+    graph = _partition_graph(
+        [("B_Y", [CUBIC, "y"]), ("B_X", [CUBIC, "x"])],
+        point_universe=S.BASE_POINT_UNIVERSE,
+    )
+    verdict, why = V.partition_exhaustiveness(
+        graph, "P", _backend=_GeometricHoleBackend())
+    assert verdict == V.NOT_GEOMETRICALLY_EXHAUSTIVE
+    assert "OVER THE ALGEBRAIC CLOSURE" in why
+    assert "NO POINTS OVER THE BASE FIELD" in why
+
+
+def test_partition_refuses_a_branch_in_another_point_universe():
+    from grandportage import verify as V
+    graph = _partition_graph(
+        [("B_Y", [CUBIC, "y"]), ("B_X", [CUBIC, "x"])],
+        point_universe=S.ALGEBRAIC_CLOSURE_POINT_UNIVERSE,
+    )
+    graph.models["B_X"]["point_universe"] = S.BASE_POINT_UNIVERSE
+
+    class MustNotRun:
+        def membership(self, *_args, **_kwargs):
+            raise AssertionError("scope mismatch must stop before CAS")
+
+    verdict, why = V.partition_exhaustiveness(
+        graph, "P", _backend=MustNotRun())
+    assert verdict == V.UNVERIFIED
+    assert "point scope" in why and "changing either" in why
+
+
+def test_partition_fingerprint_binds_the_declared_point_universe():
+    from grandportage import provenance as P
+    graph = _partition_graph(
+        [("B_Y", [CUBIC, "y"]), ("B_X", [CUBIC, "x"])],
+        point_universe=S.ALGEBRAIC_CLOSURE_POINT_UNIVERSE,
+    )
+    before = P.input_fingerprint(graph, "partition", "P")
+    graph.models["C"]["point_universe"] = S.BASE_POINT_UNIVERSE
+    after = P.input_fingerprint(graph, "partition", "P")
+    assert after != before
+    assert P.VERIFIERS["partition"] == (
+        "verify.partition_exhaustiveness", 3)
 
 
 @pytest.mark.live

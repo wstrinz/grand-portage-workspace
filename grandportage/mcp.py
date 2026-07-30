@@ -224,6 +224,18 @@ def _event_schema(kind):
     if kind == "claim":
         properties["condition"] = CONDITION_SCHEMA
     properties["ev"] = {"type": "string", "enum": [kind]}
+    if kind == "model":
+        properties["coefficient_domain"] = {
+            "type": "string",
+            "pattern": "^(Q|F_[0-9]+)$",
+            "description": (
+                "exact certificate domain; must match characteristic"),
+        }
+        properties["point_universe"] = {
+            "type": "string",
+            "enum": list(S.POINT_UNIVERSES),
+            "description": "BASE or algebraic closure of coefficient_domain",
+        }
     return {
         "type": "object",
         "properties": properties,

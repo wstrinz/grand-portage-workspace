@@ -1,8 +1,16 @@
 # Operation contracts
 
 **Status:** two executable pilots
-**Authoritative runtime semantics:** graph format 2, kernel epoch 8
+**Authoritative runtime semantics:** graph format 3, kernel epoch 9
 **Formal shadow:** `lean/GrandPortage/OperationContract.lean`
+
+
+Kernel epoch 9 makes point scope explicit on models: exact certificate
+arithmetic belongs to `coefficient_domain`, while existence and geometric
+coverage belong to `point_universe`. The first consumer is partition
+verification, where a geometric hole is a refutation only for a model declared
+over `ALGEBRAIC_CLOSURE`; over `BASE` it remains geometric debt. These fields
+are deliberately narrower than a general coefficient-algebra ontology.
 
 Grand Portage now has a small operation-contract foundation. Its first job is
 to keep three statements from collapsing into one:
@@ -51,6 +59,9 @@ Both properties compose. Same-coordinate refinement is totality of the equality
 relation, while finite chart lifting supplies surjectivity. This does not absorb
 coordinate-ring identities or evidence freshness: those remain separate sorts.
 
+For `PREDICATE`, the same variance also requires the source and target
+predicates to correspond along the relation; totality alone cannot type a claim.
+
 The runtime table now compiles every point cell from those two capabilities.
 Only three evidence-sensitive refinements are named as overrides: scheme-scoped
 emptiness under base extension, closed predicates on an exact image, and an
@@ -59,6 +70,14 @@ fragment because its rules concern coordinate rings, expression typing, and
 certificate scope rather than relations between points.
 
 ## Saturation pilot
+
+
+The saturation and elimination runtime `OperationContract` values now expose
+their point relation, baseline totality/surjectivity, predicate transformer,
+and conditional capabilities. Construction refuses a contract whose baseline
+capabilities disagree with its edge type; stronger facts such as elimination
+point-surjectivity must remain named, verifier-earned conditional authority.
+This is the first direct runtime projection of the richer contract shape.
 
 For source ideal `I`, polynomial `f`, and recorded output ideal `J`:
 
@@ -184,6 +203,34 @@ distinction, polynomial reconstruction, and the precise payoff: coefficient-
 level point-surjectivity supplies an existential bounded `dm4` vector, never a
 uniqueness theorem.
 
+## Principal-open localization certificate pilot
+
+`gp verify-localization-membership --spec localization.json` checks one
+backend-neutral `localization_membership_v1` proof. The specification records
+the exact coefficient characteristic and polynomial ring, the ambient ideal,
+a finite nonempty list of principal-open guards, and a rational expression as
+one polynomial numerator plus one denominator power for every guard.
+
+The certificate separately records a guard-monomial multiplier and cofactors:
+
+```text
+(product guard_i^localization_power_i) * numerator
+    = sum cofactor_j * ideal_generator_j
+```
+
+GP normalizes every polynomial, bounds guards and powers, requires the recorded
+membership target to be exactly the left side, and expands the cofactor identity
+with the small exact-polynomial checker. The sole licence is
+`identity_in_declared_localization_only`. It does not mint an ambient identity,
+an edge transport, or a point-lifting fact. This is deliberate: the existing
+`RESTRICTION` operation remains the point locus with the same ideal, while this
+certificate expresses what becomes zero in the localized coordinate algebra.
+
+Lean's `MultiSatMem`, `GuardMonomial`, and `localization_certificate_sound`
+state the same contract. This first surface is standalone translation evidence.
+Binding it to a campaign model, elimination pivot, or persisted verdict should
+be earned by live H3 use rather than added speculatively.
+
 The positive section control eliminates `y` from `(yx-1, y^2-x)` and uses
 `y -> x^2`. The hyperbola `(xy-1) -> (0)` is the decisive separation: its
 elimination ideal is exact and the Groebner route can certify it, but the target
@@ -272,8 +319,13 @@ to 2, and the newly licensed nonclosed predicate transport advances kernel epoch
 4 to 5; verified coordinate-map composition then advances the runtime to epoch
 6, and generic concrete point-map pullback advances it to epoch 7. Finite
 piecewise point-lift covers then advance it to epoch 8 because they license
-new nonclosed predicate transports, without changing graph syntax. Migration
-remains non-destructive:
+new nonclosed predicate transports, without changing graph syntax.
+Kernel epoch 9 additionally separates exact coefficient domains from the point
+universes in which geometric claims are interpreted. The standalone
+localization checker adds no graph transport authority and therefore does not
+advance the epoch.
+
+Migration remains non-destructive:
 
 ```console
 gp --graph old/.portage/graph.jsonl migrate --to-current-kernel
@@ -281,7 +333,7 @@ gp --graph old/.portage/graph.jsonl migrate --to-current-kernel
 
 The source is untouched, prior verdicts remain history but stale, absent
 `condition` fields stay absent, and the new fold re-audits transport under epoch
-7.
+9.
 
 ## Trust boundary
 

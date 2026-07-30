@@ -95,6 +95,19 @@ def test_claim_condition_schema_is_closed_and_teaches_exact_affine_atoms():
     assert atom["properties"]["relation"]["enum"] == ["ZERO", "NONZERO"]
     assert "polynomial-section" in condition["description"]
 
+
+def test_model_schema_teaches_the_two_point_scope_axes():
+    models = [schema for schema in mcp.DECLARABLE_EVENT_SCHEMA["oneOf"]
+              if schema["properties"]["ev"].get("enum") == ["model"]]
+    assert len(models) == 1
+    properties = models[0]["properties"]
+    assert properties["coefficient_domain"]["pattern"] == "^(Q|F_[0-9]+)$"
+    assert properties["point_universe"]["enum"] == [
+        S.BASE_POINT_UNIVERSE,
+        S.ALGEBRAIC_CLOSURE_POINT_UNIVERSE,
+    ]
+
+
 def test_serve_round_trips_over_a_stream(project):
     out = io.StringIO()
     mcp.serve(stdin=io.StringIO(json.dumps(rpc("tools/list")) + "\n"),

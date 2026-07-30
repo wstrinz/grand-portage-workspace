@@ -38,6 +38,37 @@ inductive PowerOf {R : Type u} [Mul R] [OfNat R 1] (f : R) : R → Prop
 def SatMem {R : Type u} [Mul R] [OfNat R 1] (I : Ideal R) (f g : R) : Prop :=
   ∃ m, PowerOf f m ∧ I (m * g)
 
+/-- A finite product of members of `guards`, with repetition allowed.
+
+    Runtime `localization_powers` are a bounded concrete encoding of this
+    semantic object.  Denominator powers describe the rational expression;
+    localization powers provide the possibly different multiplier that kills
+    its numerator into the ideal. -/
+inductive GuardMonomial {R : Type u} [Mul R] [OfNat R 1]
+    (guards : List R) : R → Prop
+  | one : GuardMonomial guards 1
+  | step {f m : R} : f ∈ guards → GuardMonomial guards m →
+      GuardMonomial guards (f * m)
+
+/-- Zero in the algebra obtained by inverting every declared guard. -/
+def MultiSatMem {R : Type u} [Mul R] [OfNat R 1]
+    (I : Ideal R) (guards : List R) (g : R) : Prop :=
+  ∃ m, GuardMonomial guards m ∧ I (m * g)
+
+/-- The small certificate checked by `localization_membership_v1`:
+    an explicit allowed guard monomial and an exact ideal-membership witness. -/
+structure MultiSatMemCertificate {R : Type u} [Mul R] [OfNat R 1]
+    (I : Ideal R) (guards : List R) (g : R) where
+  multiplier : R
+  allowed : GuardMonomial guards multiplier
+  membership : I (multiplier * g)
+
+theorem localization_certificate_sound
+    {R : Type u} [Mul R] [OfNat R 1] {I : Ideal R} {guards : List R} {g : R}
+    (certificate : MultiSatMemCertificate I guards g) :
+    MultiSatMem I guards g :=
+  ⟨certificate.multiplier, certificate.allowed, certificate.membership⟩
+
 /-- READING (a) IMPLIES READING (b): anything already in the ideal is zero in
     the localization too, witnessed by the power `f^0 = 1`. -/
 theorem mem_satMem {I : Ideal Int} {f g : Int} (h : I g) : SatMem I f g :=

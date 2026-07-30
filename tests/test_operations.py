@@ -553,6 +553,8 @@ def test_declared_computed_operation_publishes_auditable_raw_artifact(
         tmp_path, monkeypatch, capsys):
     root = str(tmp_path)
     S.append([{
+        "coefficient_domain": "Q",
+        "point_universe": S.ALGEBRAIC_CLOSURE_POINT_UNIVERSE,
         "ev": "model", "id": "M", "what": "source",
         "characteristic": 0, "ring_vars": ["x", "y"],
         "generators": ["x*y"],
@@ -575,6 +577,9 @@ def test_declared_computed_operation_publishes_auditable_raw_artifact(
     ]) == 0
 
     graph = S.load(S.graph_path(root))
+    assert graph.models["IMG"]["coefficient_domain"] == "Q"
+    assert graph.models["IMG"]["point_universe"] == "ALGEBRAIC_CLOSURE"
+
     references = [
         A.note_reference(note.get("source")) for note in graph.notes
         if A.note_reference(note.get("source")) is not None

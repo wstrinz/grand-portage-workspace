@@ -17,6 +17,7 @@ from . import cas
 from . import check as C
 from . import coefficient_expansion as CE
 from . import hook as H
+from . import localization as L
 from . import kernel as K
 from . import migration as MIG
 from . import provenance as P
@@ -773,6 +774,30 @@ def cmd_verify_coefficient_expansion(args):
     return 0
 
 
+def cmd_verify_localization_membership(args):
+    """Check one exact identity in a declared principal-open localization."""
+    try:
+        with open(args.spec, "r", encoding="utf-8") as handle:
+            spec = json.load(handle)
+        report = L.verify(spec)
+    except (OSError, ValueError, json.JSONDecodeError,
+            L.LocalizationError) as exc:
+        sys.stderr.write("LOCALIZATION MEMBERSHIP FAILED\n  %s\n" % exc)
+        return 2
+    if args.json:
+        print(json.dumps(report, indent=2, sort_keys=True))
+    else:
+        print(report["verdict"])
+        normalized = report["normalized"]
+        print("    guards: %s" % ", ".join(normalized["guards"]))
+        print("    expression numerator: %s" %
+              normalized["expression"]["numerator"])
+        print("    authority: identity in the declared localization only; "
+              "no ambient identity or point transport")
+        print("    spec sha256: %s" % report["spec_fingerprint"])
+    return 0
+
+
 def cmd_materialize_elimination_groebner(args):
     """Discover, certify, and declare one elimination target as one batch."""
     from . import verify as V
@@ -1251,7 +1276,15 @@ def cmd_show(args):
     g = _load(args)
     for mid in sorted(g.models):
         m = g.models[mid]
-        bits = [b for b in (m.get("chart"), m.get("field")) if b]
+        bits = [b for b in (m.get("chart"),) if b]
+        if m.get("coefficient_domain"):
+            bits.append("coeff=%s" % m["coefficient_domain"])
+        elif m.get("field"):
+            bits.append(m["field"])
+        if m.get("point_universe"):
+            bits.append("points=%s" % m["point_universe"])
+        elif m.get("universe"):
+            bits.append("universe=%s" % m["universe"])
         # A SUPERSEDED MODEL PRINTED LIKE A LIVE ONE, and the model is the
         # anchor: every claim sits at one and every edge runs between two.
         # `show` marked superseded claims and inferences and left models
@@ -1656,6 +1689,10 @@ def cmd_construct(args):
             % args.src)
         return 2
     gens, ch = list(src["generators"]), src["characteristic"]
+    point_scope = {
+        field: src[field] for field in ("coefficient_domain", "point_universe")
+        if field in src
+    }
     if args.op != "decompose" and not args.produces:
         sys.stderr.write("construct %s requires --produces.\n" % args.op)
         return 2
@@ -1669,17 +1706,19 @@ def cmd_construct(args):
     try:
         if args.op == "localize":
             op = O.localize(args.src, args.at, args.produces, ring, gens,
-                            characteristic=ch)
+                            characteristic=ch, **point_scope)
         elif args.op == "saturate":
             op = O.saturate_closure(args.src, args.at, args.produces, ring,
-                                    gens, characteristic=ch)
+                                    gens, characteristic=ch, **point_scope)
         elif args.op == "eliminate":
-            op = O.eliminate(args.src, [v.strip() for v in args.vars.split(",")],
-                             args.produces, ring, gens, characteristic=ch)
+            variables = [v.strip() for v in args.vars.split(",")]
+            op = O.eliminate(args.src, variables, args.produces, ring, gens,
+                             characteristic=ch, **point_scope)
         else:
             op = O.decompose(args.src, ring, gens,
                              produces=args.produces or "%s_C%d",
-                             characteristic=ch, timeout=args.timeout)
+                             characteristic=ch, timeout=args.timeout,
+                             **point_scope)
         if args.run:
             op = O.execute(op, timeout=args.timeout)
     except (ValueError, cas.CASError) as exc:
@@ -1921,6 +1960,14 @@ def build_parser():
         help="closed coefficient_expansion_v1 JSON specification")
     coefficient_expansion.add_argument("--json", action="store_true")
     coefficient_expansion.set_defaults(func=cmd_verify_coefficient_expansion)
+    localization = sub.add_parser(
+        "verify-localization-membership",
+        help="check a rational identity after declared guards are inverted")
+    localization.add_argument(
+        "--spec", required=True,
+        help="closed localization_membership_v1 JSON specification")
+    localization.add_argument("--json", action="store_true")
+    localization.set_defaults(func=cmd_verify_localization_membership)
     materialize = sub.add_parser(
         "materialize-elimination-groebner",
         help="discover, certify, and declare a pure-lex elimination target")

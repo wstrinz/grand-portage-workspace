@@ -24,8 +24,9 @@ def test_point_cells_are_compiled_from_relational_capabilities():
 
     For the relation from source points to target points, ``total`` licenses
     forward witnesses and backward universal claims; ``surjective`` licenses
-    the dual directions.  Three named cells refine that generic point
-    semantics with operation-specific evidence.
+    the dual directions. Predicates additionally require a corresponding
+    claim transformer, which is a separate typing obligation. Three named
+    cells refine this generic point semantics with operation-specific evidence.
     """
     capabilities = {
         K.EQUIVALENCE: (True, True),
@@ -58,13 +59,18 @@ def test_point_cells_are_compiled_from_relational_capabilities():
         expected = overrides.get(
             key, relational_rule(etype, direction, kind))
         assert K.TRANSPORT[etype][direction][kind] == expected, key
-        assert K._derived_point_rule(etype, direction, kind) == expected, key
+        assert K.compile_point_rule(etype, direction, kind) == expected, key
 
 
 def test_point_compiler_refuses_coordinate_ring_claims():
     """IDENTITY has a different semantic sort and stays hand-specified."""
     with pytest.raises(KeyError, match="point-rule derivation"):
-        K._derived_point_rule(K.EQUIVALENCE, K.ALONG, K.IDENTITY)
+        K.compile_point_rule(K.EQUIVALENCE, K.ALONG, K.IDENTITY)
+
+    with pytest.raises(KeyError, match="unknown edge type"):
+        K.point_relation_capabilities("NOT_AN_EDGE")
+    with pytest.raises(KeyError, match="unknown direction"):
+        K.compile_point_rule(K.EQUIVALENCE, "SIDEWAYS", K.EMPTY)
 
 
 def test_equivalence_forbids_nothing_about_points():

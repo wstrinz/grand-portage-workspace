@@ -28,13 +28,13 @@ def test_init_starts_with_epoch_metadata(tmp_path):
     path = S.graph_path(str(tmp_path))
     events = list(S.load_events(path))
     assert events[0][0] == {
-        "created_with": "grandportage/0.13.0",
+        "created_with": "grandportage/0.14.0",
         "ev": "meta",
-        "graph_format": 2,
+        "graph_format": 3,
         "kernel_epoch": F.KERNEL_EPOCH,
     }
     graph = S.load(path)
-    assert graph.graph_format == 2
+    assert graph.graph_format == 3
     assert graph.kernel_epoch == F.KERNEL_EPOCH
     assert graph.compatibility_mode is False
 
@@ -186,6 +186,56 @@ def test_field_characteristic_accepts_zero_or_prime(value):
     assert graph.models["M"]["characteristic"] == value
 
 
+def test_model_separates_coefficient_domain_from_point_universe():
+    graph = S.Graph()
+    graph.apply(F.meta_event())
+    graph.apply({
+        "ev": "model", "id": "M", "desc": "geometric Q-model",
+        "characteristic": 0,
+        "coefficient_domain": "Q",
+        "point_universe": S.ALGEBRAIC_CLOSURE_POINT_UNIVERSE,
+    })
+    model = graph.models["M"]
+    assert S.declared_coefficient_domain(model) == "Q"
+    assert S.declared_point_universe(model) == "ALGEBRAIC_CLOSURE"
+    assert S.point_scope(model) == ("Q", "ALGEBRAIC_CLOSURE")
+
+
+@pytest.mark.parametrize("fields, message", [
+    ({"characteristic": 0, "coefficient_domain": "F_2"},
+     "supported exact domain is Q"),
+    ({"characteristic": 0, "coefficient_domain": "Q",
+      "point_universe": "COMPLEX_NUMBERS"},
+     "supported values"),
+    ({"characteristic": 0, "point_universe": "BASE"},
+     "without the structured `coefficient_domain`"),
+    ({"characteristic": 0, "coefficient_domain": "Q", "field": "Q"},
+     "competing sources of truth"),
+    ({"characteristic": 0, "coefficient_domain": "Q",
+      "point_universe": "BASE", "universe": "Q-points"},
+     "Keep only `point_universe`"),
+])
+def test_structured_point_scope_rejects_ambiguous_or_unsupported_models(
+        fields, message):
+    graph = S.Graph()
+    graph.apply(F.meta_event())
+    event = {"ev": "model", "id": "M", "desc": "bad scope"}
+    event.update(fields)
+    with pytest.raises(S.GraphError, match=message):
+        graph.apply(event)
+
+
+def test_prime_field_scope_is_canonical():
+    graph = S.Graph()
+    graph.apply(F.meta_event())
+    graph.apply({
+        "ev": "model", "id": "M", "desc": "geometric F_5-model",
+        "characteristic": 5, "coefficient_domain": "F_5",
+        "point_universe": "BASE",
+    })
+    assert S.point_scope(graph.models["M"]) == ("F_5", "BASE")
+
+
 def test_cas_program_rejects_composite_characteristic():
     from grandportage import cas
 
@@ -329,18 +379,18 @@ def test_kernel_epoch1_migration_is_non_destructive_and_reaudits_transport(
 
     assert source.read_bytes() == before
     graph = S.load(str(destination))
-    assert graph.kernel_epoch == F.KERNEL_EPOCH == 8
+    assert graph.kernel_epoch == F.KERNEL_EPOCH == 9
     finding = [item for item in C.run(graph) if item.rule == C.R_TRANSPORT]
     assert len(finding) == 1
     assert "completeness" in finding[0].detail
     audit = json.loads((tmp_path / "current-kernel.jsonl.audit.json").read_text())
     assert audit["from_kernel_epoch"] == 1
-    assert audit["kernel_epoch"] == 8
+    assert audit["kernel_epoch"] == 9
 
 
-def test_older_epochs_migrate_non_destructively_to_format2_epoch8(tmp_path):
+def test_older_epochs_migrate_non_destructively_to_format3_epoch9(tmp_path):
     source = tmp_path / "format1-epoch4.jsonl"
-    destination = tmp_path / "format2-epoch8.jsonl"
+    destination = tmp_path / "format3-epoch9.jsonl"
     _write(source, [{
         "ev": "meta", "graph_format": 1, "kernel_epoch": 4,
         "created_with": "grandportage/0.8.0",
@@ -353,10 +403,10 @@ def test_older_epochs_migrate_non_destructively_to_format2_epoch8(tmp_path):
     assert source.read_bytes() == before
     assert reports[0]["from_graph_format"] == 1
     assert reports[0]["from_kernel_epoch"] == 4
-    assert reports[0]["graph_format"] == F.GRAPH_FORMAT == 2
-    assert reports[0]["kernel_epoch"] == F.KERNEL_EPOCH == 8
-    assert S.load(str(destination)).graph_format == 2
-    assert S.load(str(destination)).kernel_epoch == 8
+    assert reports[0]["graph_format"] == F.GRAPH_FORMAT == 3
+    assert reports[0]["kernel_epoch"] == F.KERNEL_EPOCH == 9
+    assert S.load(str(destination)).graph_format == 3
+    assert S.load(str(destination)).kernel_epoch == 9
 
     epoch5 = tmp_path / "format2-epoch5.jsonl"
     epoch8_from_epoch5 = tmp_path / "format2-epoch8-from-epoch5.jsonl"
@@ -370,9 +420,9 @@ def test_older_epochs_migrate_non_destructively_to_format2_epoch8(tmp_path):
     assert epoch5.read_bytes() == epoch5_before
     assert epoch5_reports[0]["from_graph_format"] == 2
     assert epoch5_reports[0]["from_kernel_epoch"] == 5
-    assert epoch5_reports[0]["graph_format"] == 2
-    assert epoch5_reports[0]["kernel_epoch"] == 8
-    assert S.load(str(epoch8_from_epoch5)).kernel_epoch == 8
+    assert epoch5_reports[0]["graph_format"] == 3
+    assert epoch5_reports[0]["kernel_epoch"] == 9
+    assert S.load(str(epoch8_from_epoch5)).kernel_epoch == 9
 
     epoch6 = tmp_path / "format2-epoch6.jsonl"
     epoch8 = tmp_path / "format2-epoch8-from-epoch6.jsonl"
@@ -386,9 +436,9 @@ def test_older_epochs_migrate_non_destructively_to_format2_epoch8(tmp_path):
     assert epoch6.read_bytes() == epoch6_before
     assert epoch6_reports[0]["from_graph_format"] == 2
     assert epoch6_reports[0]["from_kernel_epoch"] == 6
-    assert epoch6_reports[0]["graph_format"] == 2
-    assert epoch6_reports[0]["kernel_epoch"] == 8
-    assert S.load(str(epoch8)).kernel_epoch == 8
+    assert epoch6_reports[0]["graph_format"] == 3
+    assert epoch6_reports[0]["kernel_epoch"] == 9
+    assert S.load(str(epoch8)).kernel_epoch == 9
 
     epoch7 = tmp_path / "format2-epoch7.jsonl"
     epoch8_from_epoch7 = tmp_path / "format2-epoch8-from-epoch7.jsonl"
@@ -402,12 +452,12 @@ def test_older_epochs_migrate_non_destructively_to_format2_epoch8(tmp_path):
     assert epoch7.read_bytes() == epoch7_before
     assert epoch7_reports[0]["from_graph_format"] == 2
     assert epoch7_reports[0]["from_kernel_epoch"] == 7
-    assert epoch7_reports[0]["graph_format"] == 2
-    assert epoch7_reports[0]["kernel_epoch"] == 8
-    assert S.load(str(epoch8_from_epoch7)).kernel_epoch == 8
+    assert epoch7_reports[0]["graph_format"] == 3
+    assert epoch7_reports[0]["kernel_epoch"] == 9
+    assert S.load(str(epoch8_from_epoch7)).kernel_epoch == 9
     future = tmp_path / "format1-future-epoch.jsonl"
     _write(future, [{
-        "ev": "meta", "graph_format": 1, "kernel_epoch": 9,
+        "ev": "meta", "graph_format": 1, "kernel_epoch": 10,
         "created_with": "grandportage/future",
     }])
     with pytest.raises(S.GraphError, match="cannot migrate forward"):

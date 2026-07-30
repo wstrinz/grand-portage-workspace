@@ -146,13 +146,37 @@ fingerprint-bound, and independently stale. Epoch-7 graphs migrate
 non-destructively; their old verdicts remain readable history.
 
 Within one kernel epoch, no field may silently acquire a more permissive
+Version 0.14.0 advances to **graph format 3** and **kernel epoch 9**.
+Models may now declare two independent, bounded semantic attributes:
+
+```json
+{"coefficient_domain":"Q","point_universe":"ALGEBRAIC_CLOSURE"}
+```
+
+`coefficient_domain` is currently exactly `Q` or the prime field `F_p`
+determined by `characteristic`. `point_universe` is `BASE` or
+`ALGEBRAIC_CLOSURE`, relative to that coefficient domain. The legacy `field`
+and `universe` prose remain readable but cannot coexist with their structured
+replacements and do not silently acquire their authority.
+
+Partition verification now requires every branch to share both attributes with
+the parent. A failed radical-cover test is `NOT_EXHAUSTIVE` when the declared
+point universe is algebraically closed; over `BASE` it remains the weaker
+`NOT_GEOMETRICALLY_EXHAUSTIVE` debt. Partition verifier version 3 fingerprints
+the new scope, so previous verdicts become stale rather than changing meaning.
+Version 0.14 also adds the standalone `localization_membership_v1` translation
+checker. It grants no persisted graph or transport authority, so it is an
+evidence-language extension within epoch 9 rather than another semantic epoch
+change.
+
+
 interpretation. A syntax-only extension can bump `graph_format`; transport
 meaning or verifier trust bumps `kernel_epoch` or the narrower verifier/backend
 implementation version as appropriate.
 
 ## Epoch-0 graphs
 
-Unversioned graphs are epoch 0. Version 0.13 continues to read them through a conservative,
+Unversioned graphs are epoch 0. Version 0.14 continues to read them through a conservative,
 read-only importer. It will not append new events to them and will not blend
 them with epoch-1 graphs.
 

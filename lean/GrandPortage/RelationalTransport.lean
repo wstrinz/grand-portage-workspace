@@ -171,4 +171,136 @@ theorem refines_iff_identityRelation_total
     cases hxy
     exact hy
 
+/-! ## A compiled point-contract fragment
+
+The runtime table should not store each point cell as an independent fact.
+The relation is the operation-level semantic object; totality and point
+surjectivity are separately earned capabilities. -/
+
+structure PointOperation {α : Type u} {β : Type v}
+    (src : Model α) (dst : Model β) where
+  relation : PointRelation α β
+
+structure TotalCapability {α : Type u} {β : Type v}
+    {src : Model α} {dst : Model β}
+    (op : PointOperation src dst) : Prop where
+  sound : RelationTotalOn op.relation src dst
+
+structure SurjectiveCapability {α : Type u} {β : Type v}
+    {src : Model α} {dst : Model β}
+    (op : PointOperation src dst) : Prop where
+  sound : RelationSurjectiveOn op.relation src dst
+
+/-- Predicates at different endpoints denote the same condition along every
+    related pair of points. This premise is automatic for literal
+    same-coordinate inclusion, but not for an arbitrary change of type or
+    coordinates. -/
+def PredicateCorresponds {α : Type u} {β : Type v}
+    (R : PointRelation α β) (P : α -> Prop) (Q : β -> Prop) : Prop :=
+  forall x y, R x y -> Iff (P x) (Q y)
+
+theorem totalCapability_hasPoint_along
+    {α : Type u} {β : Type v} {src : Model α} {dst : Model β}
+    {op : PointOperation src dst}
+    (cap : TotalCapability op) : HasPoint src -> HasPoint dst :=
+  relationTotal_hasPoint_along cap.sound
+
+theorem totalCapability_isEmpty_against
+    {α : Type u} {β : Type v} {src : Model α} {dst : Model β}
+    {op : PointOperation src dst}
+    (cap : TotalCapability op) : IsEmpty dst -> IsEmpty src :=
+  relationTotal_isEmpty_against cap.sound
+
+theorem surjectiveCapability_hasPoint_against
+    {α : Type u} {β : Type v} {src : Model α} {dst : Model β}
+    {op : PointOperation src dst}
+    (cap : SurjectiveCapability op) : HasPoint dst -> HasPoint src :=
+  relationSurjective_hasPoint_against cap.sound
+
+theorem surjectiveCapability_isEmpty_along
+    {α : Type u} {β : Type v} {src : Model α} {dst : Model β}
+    {op : PointOperation src dst}
+    (cap : SurjectiveCapability op) : IsEmpty src -> IsEmpty dst :=
+  relationSurjective_isEmpty_along cap.sound
+
+theorem totalCapability_everywhere_against
+    {α : Type u} {β : Type v} {src : Model α} {dst : Model β}
+    {op : PointOperation src dst} {P : α -> Prop} {Q : β -> Prop}
+    (cap : TotalCapability op)
+    (corresponds : PredicateCorresponds op.relation P Q)
+    (targetHolds : Everywhere dst Q) : Everywhere src P := by
+  intro x hx
+  obtain ⟨y, hy, hxy⟩ := cap.sound x hx
+  exact (corresponds x y hxy).mpr (targetHolds y hy)
+
+theorem surjectiveCapability_everywhere_along
+    {α : Type u} {β : Type v} {src : Model α} {dst : Model β}
+    {op : PointOperation src dst} {P : α -> Prop} {Q : β -> Prop}
+    (cap : SurjectiveCapability op)
+    (corresponds : PredicateCorresponds op.relation P Q)
+    (sourceHolds : Everywhere src P) : Everywhere dst Q := by
+  intro y hy
+  obtain ⟨x, hx, hxy⟩ := cap.sound y hy
+  exact (corresponds x y hxy).mp (sourceHolds x hx)
+
+/-- Even a relation that is both total and point-surjective cannot transport
+    two unrelated predicates. Capabilities decide variance; a claim
+    transformer still has to say what proposition exists at the other end. -/
+theorem bijectiveRelation_does_not_type_predicates :
+    exists (R : PointRelation Two Two) (P Q : Two -> Prop),
+      RelationTotalOn R both both ∧
+      RelationSurjectiveOn R both both ∧
+      Everywhere both P ∧
+      ¬ Everywhere both Q := by
+  refine ⟨IdentityRelation Two, (fun _ => True),
+    (fun x => x = Two.a), ?_, ?_, ?_, ?_⟩
+  · intro x _
+    exact ⟨x, trivial, rfl⟩
+  · intro y _
+    exact ⟨y, trivial, rfl⟩
+  · intro _ _
+    exact trivial
+  · intro allQ
+    exact absurd (allQ Two.b trivial) (by simp)
+
+inductive PointDirection where
+  | along
+  | against
+  deriving DecidableEq
+
+inductive PointClaimKind where
+  | empty
+  | nonempty
+  | predicate
+  deriving DecidableEq
+
+/-- The executable shadow used by the Python kernel. These are declarations
+    that evidence for the corresponding semantic capabilities is available;
+    the booleans are not themselves evidence. -/
+structure PointCapabilityBits where
+  total : Bool
+  pointSurjective : Bool
+  deriving DecidableEq
+
+def compilePointRule (cap : PointCapabilityBits) :
+    PointDirection -> PointClaimKind -> Bool
+  | .along, .nonempty => cap.total
+  | .against, .nonempty => cap.pointSurjective
+  | .along, .empty => cap.pointSurjective
+  | .against, .empty => cap.total
+  | .along, .predicate => cap.pointSurjective
+  | .against, .predicate => cap.total
+
+theorem compiled_existential_variance (cap : PointCapabilityBits) :
+    compilePointRule cap .along .nonempty = cap.total ∧
+    compilePointRule cap .against .nonempty = cap.pointSurjective := by
+  exact ⟨rfl, rfl⟩
+
+theorem compiled_universal_variance (cap : PointCapabilityBits) :
+    compilePointRule cap .along .empty = cap.pointSurjective ∧
+    compilePointRule cap .against .empty = cap.total ∧
+    compilePointRule cap .along .predicate = cap.pointSurjective ∧
+    compilePointRule cap .against .predicate = cap.total := by
+  exact ⟨rfl, rfl, rfl, rfl⟩
+
 end GrandPortage

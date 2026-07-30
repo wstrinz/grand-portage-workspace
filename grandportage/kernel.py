@@ -454,9 +454,11 @@ _EXISTENTIAL = "existential"
 #   total on src       every src point relates to a dst point
 #   surjective on dst  every dst point relates to a src point
 #
-# Existential claims follow the relation; universal claims (EMPTY and
-# PREDICATE) run contravariantly. Three cells carry operation-specific
-# authority beyond this relational core and are explicit overrides.
+# Existential claims follow the relation and EMPTY runs contravariantly.
+# PREDICATE has the same variance only after the endpoint predicates are
+# reindexed or shown to correspond along the relation; that claim-typing
+# obligation is separate. Three cells carry operation-specific authority
+# beyond this relational core and are explicit overrides.
 # IDENTITY is deliberately absent: it is a coordinate-ring claim.
 # ---------------------------------------------------------------------------
 _POINT_RELATION_CAPABILITIES = {
@@ -476,12 +478,22 @@ _POINT_RULE_OVERRIDES = {
 }
 
 
-def _derived_point_rule(etype, direction, kind):
-    """Compile one EMPTY/NONEMPTY/PREDICATE cell from relation capabilities."""
+def point_relation_capabilities(etype):
+    """Return the baseline ``(total, point_surjective)`` pair for an edge."""
+    try:
+        return _POINT_RELATION_CAPABILITIES[etype]
+    except KeyError:
+        raise KeyError("unknown edge type %r" % (etype,))
+
+
+def compile_point_rule(etype, direction, kind):
+    """Compile one EMPTY/NONEMPTY/PREDICATE rule from point capabilities."""
+    if direction not in DIRECTIONS:
+        raise KeyError("unknown direction %r" % (direction,))
     override = _POINT_RULE_OVERRIDES.get((etype, direction, kind))
     if override is not None:
         return override
-    total, surjective = _POINT_RELATION_CAPABILITIES[etype]
+    total, surjective = point_relation_capabilities(etype)
     if kind == NONEMPTY:
         return total if direction == ALONG else surjective
     if kind in (EMPTY, PREDICATE):
@@ -490,7 +502,7 @@ def _derived_point_rule(etype, direction, kind):
 
 
 def _transport_row(etype, direction, identity_rule):
-    row = {kind: _derived_point_rule(etype, direction, kind)
+    row = {kind: compile_point_rule(etype, direction, kind)
            for kind in (EMPTY, NONEMPTY, PREDICATE)}
     row[IDENTITY] = identity_rule
     return row

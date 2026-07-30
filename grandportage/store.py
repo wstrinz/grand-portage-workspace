@@ -86,6 +86,44 @@ def valid_characteristic(value):
     return True
 
 
+BASE_POINT_UNIVERSE = "BASE"
+ALGEBRAIC_CLOSURE_POINT_UNIVERSE = "ALGEBRAIC_CLOSURE"
+POINT_UNIVERSES = (
+    BASE_POINT_UNIVERSE,
+    ALGEBRAIC_CLOSURE_POINT_UNIVERSE,
+)
+
+
+def exact_coefficient_domain(characteristic):
+    """Canonical exact coefficient field supported by current checkers."""
+    if not valid_characteristic(characteristic):
+        raise ValueError("invalid characteristic %r" % (characteristic,))
+    return "Q" if characteristic == 0 else "F_%d" % characteristic
+
+
+def declared_coefficient_domain(model):
+    """Structured domain, or the legacy declaration a verifier must inspect."""
+    explicit = model.get("coefficient_domain")
+    if explicit is not None:
+        return explicit
+    # Do not normalize an unsupported legacy declaration into ignorance.  A
+    # checker scoped to Q must still see and reject legacy `field = R`.
+    return model.get("field")
+
+
+def declared_point_universe(model):
+    """Return the structured universe; legacy prose is intentionally untyped."""
+    return model.get("point_universe")
+
+
+def point_scope(model):
+    """The two independent model attributes governing point claims."""
+    return (
+        declared_coefficient_domain(model),
+        declared_point_universe(model),
+    )
+
+
 def successors(record):
     """The ids that superseded `record`, as a readable string.
 
@@ -663,7 +701,7 @@ class Graph(object):
                     else "F_%s" % source.get("characteristic")
                 )
                 declared_domains = [
-                    model.get("coefficient_domain", model.get("field"))
+                    declared_coefficient_domain(model)
                     for model in (source, built)
                 ]
                 _require(
@@ -792,7 +830,7 @@ class Graph(object):
                     else "F_%s" % source.get("characteristic")
                 )
                 declared_domains = [
-                    model.get("coefficient_domain", model.get("field"))
+                    declared_coefficient_domain(model)
                     for model in (source, built)
                 ]
                 _require(
@@ -1296,6 +1334,37 @@ class Graph(object):
                      "characteristic, so a wrong one produces confident "
                      "answers about a different ring."
                      % (where, ev["id"], ch))
+        coefficient_domain = ev.get("coefficient_domain")
+        point_universe = ev.get("point_universe")
+        _require(not (coefficient_domain is not None and ev.get("field") is not None),
+                 "%s: model %r declares both structured `coefficient_domain` "
+                 "and legacy `field`. They are competing sources of truth; "
+                 "keep only the structured field."
+                 % (where, ev["id"]))
+        _require(not (point_universe is not None and ev.get("universe") is not None),
+                 "%s: model %r declares both structured `point_universe` and "
+                 "legacy `universe`. Keep only `point_universe`."
+                 % (where, ev["id"]))
+        if coefficient_domain is not None:
+            _require("characteristic" in ev,
+                     "%s: model %r declares `coefficient_domain` without an "
+                     "integer `characteristic`" % (where, ev["id"]))
+            expected_domain = exact_coefficient_domain(ev["characteristic"])
+            _require(coefficient_domain == expected_domain,
+                     "%s: model %r declares coefficient domain %r in "
+                     "characteristic %s; the supported exact domain is %s"
+                     % (where, ev["id"], coefficient_domain,
+                        ev["characteristic"], expected_domain))
+        if point_universe is not None:
+            _require(point_universe in POINT_UNIVERSES,
+                     "%s: model %r has point universe %r; supported values "
+                     "are %s" % (where, ev["id"], point_universe,
+                                  ", ".join(POINT_UNIVERSES)))
+            _require(coefficient_domain is not None,
+                     "%s: model %r declares `point_universe` without the "
+                     "structured `coefficient_domain` it is relative to"
+                     % (where, ev["id"]))
+
         # "I DO NOT KNOW THIS IDEAL YET" IS A STATE, AND IT WAS NOT SAYABLE.
         #
         # `saturate_closure` and `eliminate` produce a model whose ideal only

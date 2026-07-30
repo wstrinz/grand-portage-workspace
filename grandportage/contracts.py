@@ -27,6 +27,23 @@ class ValidationObligation:
 
 
 @dataclass(frozen=True)
+class PointTransportContract:
+    """Point-relation projection of an operation's semantic contract.
+
+    Baseline capabilities feed the derived transport compiler. Conditional
+    capabilities name authority that a separate verifier may earn. Predicate
+    transport additionally names its claim transformer; capability booleans
+    alone cannot relate predicates in different point spaces.
+    """
+
+    relation: str
+    total: bool
+    point_surjective: bool
+    predicate_transformer: str
+    conditional_capabilities: tuple
+
+
+@dataclass(frozen=True)
 class OperationContract:
     """Backend-neutral semantic and validation boundary for an operation."""
 
@@ -38,6 +55,7 @@ class OperationContract:
     semantic_relation: str
     edge_type: str
     built_endpoint: str
+    point_transport: PointTransportContract
     source_endpoint: str
     transport_reason: str
     checked_obligations: tuple
@@ -58,6 +76,18 @@ class OperationContract:
         if not self.semantic_relation or not self.checked_obligations:
             raise ValueError("%s is missing semantics or validation" % self.kind)
 
+        point = self.point_transport
+        if not point.relation or not point.predicate_transformer:
+            raise ValueError("%s is missing point semantics" % self.kind)
+        declared = (point.total, point.point_surjective)
+        baseline = K.point_relation_capabilities(self.edge_type)
+        if declared != baseline:
+            raise ValueError(
+                "%s point capabilities %r disagree with %s baseline %r; "
+                "stronger evidence belongs in conditional_capabilities"
+                % (self.kind, declared, self.edge_type, baseline)
+            )
+
     @property
     def derivation(self):
         return self.edge_type, self.transport_reason
@@ -75,6 +105,13 @@ SATURATION = OperationContract(
     ),
     semantic_relation="I(built) = I(source) : f^oo",
     edge_type=K.NECESSARY_CONDITION,
+    point_transport=PointTransportContract(
+        relation="literal same-coordinate inclusion of solution points",
+        total=True,
+        point_surjective=False,
+        predicate_transformer="the same predicate in the shared coordinates",
+        conditional_capabilities=(),
+    ),
     built_endpoint="src",
     source_endpoint="dst",
     transport_reason=(
@@ -125,6 +162,18 @@ ELIMINATION = OperationContract(
     semantic_relation="I(built) = inclusion^-1(I(source))",
     edge_type=K.IMAGE_CLOSURE,
     built_endpoint="dst",
+    point_transport=PointTransportContract(
+        relation="retained-coordinate projection from source to target points",
+        total=True,
+        point_surjective=False,
+        predicate_transformer=(
+            "exact pullback along projection; along transport requires a "
+            "target-expressible predicate and geometric or lifting authority"
+        ),
+        conditional_capabilities=(
+            "point_surjective after a verified section or finite lift cover",
+        ),
+    ),
     source_endpoint="src",
     transport_reason=(
         "exact elimination contracts the source ideal to the retained-coordinate "

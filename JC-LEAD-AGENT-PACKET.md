@@ -24,7 +24,7 @@ Current reviewed milestone:
 
 ```text
 85c39e3  Validate bounded polynomial coefficient lowering
-version 0.13.0; graph format 2; kernel epoch 8
+version 0.14.0; graph format 3; kernel epoch 9
 ```
 
 Read, in order:

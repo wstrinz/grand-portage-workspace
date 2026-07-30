@@ -148,6 +148,16 @@ def _ideal(generators):
     return ",".join(generators) if generators else "0"
 
 
+def _point_scope_fields(coefficient_domain=None, point_universe=None):
+    """Propagate typed model scope without inventing it for legacy callers."""
+    fields = {}
+    if coefficient_domain is not None:
+        fields["coefficient_domain"] = coefficient_domain
+    if point_universe is not None:
+        fields["point_universe"] = point_universe
+    return fields
+
+
 def _model(mid, what, ring_vars, generators, **extra):
     """`generators=None` means the ideal is COMPUTED, not that there is none.
 
@@ -176,7 +186,8 @@ def _edge(eid, src, dst, kind, why_extra=""):
             "built_by_operation": kind}
 
 
-def localize(src, f, produces, ring_vars, generators, characteristic=0):
+def localize(src, f, produces, ring_vars, generators, characteristic=0,
+             coefficient_domain=None, point_universe=None):
     """The open locus where `f` does not vanish -- SAME IDEAL, fewer points.
 
     Emits a RESTRICTION, because the ideal does not change: only the
@@ -216,7 +227,8 @@ def localize(src, f, produces, ring_vars, generators, characteristic=0):
         "the open locus of %s where %s does not vanish -- the same equations, "
         "restricted to the points where %s is invertible" % (src, f, f),
         ring_vars, generators, characteristic=characteristic,
-        open_conditions=[f])
+        open_conditions=[f], **_point_scope_fields(
+            coefficient_domain, point_universe))
     ev_edge = _edge("E-%s" % produces, produces, src, "Localize",
                     "The dropped condition is %s != 0." % f)
     prog = cas.CASProgram(
@@ -232,7 +244,8 @@ def localize(src, f, produces, ring_vars, generators, characteristic=0):
 
 
 def saturate_closure(src, f, produces, ring_vars, generators,
-                     characteristic=0):
+                     characteristic=0, coefficient_domain=None,
+                     point_universe=None):
     """The CLOSURE of the open locus, back in the ambient space.
 
     Emits a NECESSARY_CONDITION, because `I : f^oo` contains `I` -- the
@@ -255,7 +268,8 @@ def saturate_closure(src, f, produces, ring_vars, generators,
         ring_vars, None,
         characteristic=characteristic, saturated_at=f,
         ideal_pending="the saturation %s : %s^oo, which is what this "
-                      "operation's program computes" % (src, f))
+                      "operation's program computes" % (src, f),
+        **_point_scope_fields(coefficient_domain, point_universe))
     ev_edge = _edge("E-%s" % produces, produces, src, "SaturateClosure",
                     "Saturating at %s removes the components lying inside "
                     "V(%s)." % (f, f))
@@ -288,7 +302,8 @@ def saturate_closure(src, f, produces, ring_vars, generators,
 
 
 def decompose(src, ring_vars, generators, produces="%s_C%d",
-              characteristic=0, timeout=300, _runner=None, backend=None):
+              characteristic=0, timeout=300, _runner=None, backend=None,
+              coefficient_domain=None, point_universe=None):
     """Split a model into a COVER of simpler pieces, with the cover proved.
 
     THE ONE CONSTRUCTOR THAT MUST RUN THE CAS TO KNOW WHAT IT EMITS.  The other
@@ -355,7 +370,8 @@ def decompose(src, ring_vars, generators, produces="%s_C%d",
         events.append(_model(
             bid, "the component of %s cut out by %s" % (src, ", ".join(gens)),
             ring_vars, gens, characteristic=characteristic,
-            component_of=src))
+                            component_of=src, **_point_scope_fields(
+                                coefficient_domain, point_universe)))
         events.append(_edge("E-%s" % bid, bid, src, "Decompose",
                             "This piece adds %s." % ", ".join(gens)))
     cover = "CL-%s-COVER" % src
@@ -380,7 +396,8 @@ def decompose(src, ring_vars, generators, produces="%s_C%d",
 
 
 def eliminate(src, variables, produces, ring_vars, generators,
-              characteristic=0):
+              characteristic=0, coefficient_domain=None,
+              point_universe=None):
     """Project away `variables`; what comes back is the CLOSURE of the image.
 
     THE CELL WHERE BEING WRONG COSTS MOST, which is why it is here despite
@@ -406,7 +423,8 @@ def eliminate(src, variables, produces, ring_vars, generators,
         characteristic=characteristic, eliminated=list(variables),
         ideal_pending="the elimination ideal of %s after removing %s, which "
                       "is what this operation's program computes"
-                      % (src, ", ".join(variables)))
+                      % (src, ", ".join(variables)),
+        **_point_scope_fields(coefficient_domain, point_universe))
     ev_edge = _edge("E-%s" % produces, src, produces, "Eliminate",
                     "Eliminated: %s." % ", ".join(variables))
     _remaining, prog = cas.SingularBackend().compile_elimination(

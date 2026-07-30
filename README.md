@@ -30,11 +30,11 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1072<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1098<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
-* **[COMPATIBILITY.md](COMPATIBILITY.md) — graph format 2, kernel epoch 8, durable artifacts, and conservative migration**
+* **[COMPATIBILITY.md](COMPATIBILITY.md) — graph format 3, kernel epoch 9, typed point scope, durable artifacts, and conservative migration**
 * **[QUICKSTART.md](QUICKSTART.md) — install, a campaign in ten minutes, and the three things worth knowing on day one**
 * [DESIGN.md](DESIGN.md) — architecture and the decisions behind it
 * [REVIEW.md](REVIEW.md) — **where I am least confident**, for a reviewer
@@ -173,7 +173,7 @@ Three rows carry most of the value:
   checks finitely many principal-open rational lift charts plus an
   all-guards-zero fallback. Its localization/radical membership cofactors are
   exactly replayed and earn point-surjectivity without pretending to prove
-  contraction exactness. Under kernel epoch 8, a structured retained-coordinate
+  contraction exactness. Beginning in kernel epoch 8, a structured retained-coordinate
   `ZERO`/`NONZERO` condition can use that authority through verified coordinate
   rewrites, identity refinements, and elimination projections. The pure
   Groebner route remains coordinate-ring authority only.
@@ -185,6 +185,14 @@ Three rows carry most of the value:
   omitted overflow rows. The first JC cap assay proves why this is separate
   from scalar elimination: `dm2=1,d2=y` satisfies the scalar exact target but
   needs `dm4=-y/2`, so it cannot lift when `dm4` has cap zero.
+* **Localized coordinate identities now have a deliberately narrow checker.**
+  `gp verify-localization-membership --spec localization.json` records
+  principal-open guards, explicit denominator powers, and an exact guard-
+  monomial/cofactor identity. It licenses only equality in that declared
+  localization. It does not turn the open-locus `RESTRICTION` into a different
+  coordinate ring, promote the equality to the ambient ideal, or grant point
+  transport. This is the first bounded surface for unit-sensitive JC
+  elimination pivots; graph-bound authority waits for live use.
 * **`IMAGE_CLOSURE` AGAINST / `NONEMPTY` is Chevalley.** A point of the Zariski
   closure need not lift. This is why elimination is a sound way to *derive*
   equations and an unsound source of *witnesses* — and why a cell that survives
@@ -252,7 +260,7 @@ Pure stdlib. No solver, no network, no model in the loop. Under a second.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1072<!--/checks--> checks
+python -m pytest        # <!--checks-->1098<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

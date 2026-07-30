@@ -978,7 +978,7 @@ def elimination_piecewise_lift(graph, eid, certificate, timeout=300,
             "the elimination endpoints have different characteristics"), None
     exact_domain = "Q" if source_ch == 0 else "F_%s" % source_ch
     declared_domains = [
-        model.get("coefficient_domain", model.get("field"))
+        S.declared_coefficient_domain(model)
         for model in (source, target)
     ]
     if any(value is not None and value != exact_domain
@@ -1246,7 +1246,7 @@ def elimination_groebner(graph, eid, certificate):
         ), None
     exact_domain = "Q" if source_ch == 0 else "F_%d" % source_ch
     for mid, model in ((source_id, source), (target_id, target)):
-        declared = model.get("coefficient_domain", model.get("field"))
+        declared = S.declared_coefficient_domain(model)
         if declared is not None and declared != exact_domain:
             return UNVERIFIED, (
                 "%s declares coefficient field %r, but this certificate "
@@ -1360,6 +1360,7 @@ def partition_exhaustiveness(graph, pid, timeout=300, _runner=None, _backend=Non
     if missing:
         return UNVERIFIED, missing
     branch_gens = []
+    parent_scope = S.point_scope(parent)
     for bid in p.get("branches") or []:
         b = graph.models.get(bid)
         if not b:
@@ -1388,6 +1389,13 @@ def partition_exhaustiveness(graph, pid, timeout=300, _runner=None, _backend=Non
                 "branch %s declares characteristic %s and the parent %s"
                 % (bid, branch_ch, ch))
         branch_gens.append(list(b["generators"]))
+        branch_scope = S.point_scope(b)
+        if branch_scope != parent_scope:
+            return UNVERIFIED, (
+                "branch %s has point scope %r and the parent %r. A partition "
+                "is a cover inside one coefficient domain and point universe; "
+                "changing either requires a separately typed map."
+                % (bid, branch_scope, parent_scope))
     if not branch_gens:
         return UNVERIFIED, "partition %s lists no branches" % pid
     # A PARENT WITH NO POINTS IS COVERED BY ANYTHING, including nothing.
@@ -1433,6 +1441,18 @@ def partition_exhaustiveness(graph, pid, timeout=300, _runner=None, _backend=Non
     # SAME SHAPE AS THE IMAGE_CLOSURE DENSITY ARGUMENT: a justification correct
     # over an algebraically closed field, applied by a tool working over Q.
     # Twice now, which makes it a class rather than an accident.
+    if (S.declared_point_universe(parent)
+            == S.ALGEBRAIC_CLOSURE_POINT_UNIVERSE):
+        return NOT_EXHAUSTIVE, (
+            "the branches %s do not cover %s in its DECLARED point universe "
+            "%s: %s vanishes wherever all branches do and not on the parent. "
+            "Because the model explicitly interprets points over the "
+            "algebraic closure, this is a refuted exhaustiveness premise, not "
+            "merely a possible geometric hole."
+            % (named, p.get("parent"),
+               S.ALGEBRAIC_CLOSURE_POINT_UNIVERSE,
+               ", ".join(ev["uncovered"])))
+
     return NOT_GEOMETRICALLY_EXHAUSTIVE, (
         "the branches %s do not cover %s OVER THE ALGEBRAIC CLOSURE: %s "
         "vanishes wherever all of them do and does not vanish on the parent.\n"

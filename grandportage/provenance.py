@@ -34,7 +34,7 @@ VERIFIERS = {
     "operation": ("verify.operation_output", 2),
     "elimination": ("verify.elimination_section", 2),
     "point_lift": ("verify.elimination_point_lift", 1),
-    "partition": ("verify.partition_exhaustiveness", 2),
+    "partition": ("verify.partition_exhaustiveness", 3),
 }
 
 # A subject names one mathematical obligation; verifier identities name

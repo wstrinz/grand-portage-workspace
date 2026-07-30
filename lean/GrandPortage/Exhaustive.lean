@@ -76,28 +76,57 @@ theorem geometric_hole_does_not_refute_base_cover :
     obtain ⟨i, _⟩ := h () trivial
     exact i.elim
 
-/-! ## What this settles
+/-! ## The runtime scope distinction -/
 
+inductive PointUniverse where
+  | base
+  | algebraicClosure
+  deriving DecidableEq
+
+inductive FailedCoverAuthority where
+  | geometricDebt
+  | refutedExhaustiveness
+  deriving DecidableEq
+
+/-- A failed Nullstellensatz cover test is interpreted in the point universe
+    where its geometric witness lives. The coefficient domain is a separate
+    attribute: it types certificate arithmetic, not point existence. -/
+def classifyFailedGeometricCover :
+    PointUniverse -> FailedCoverAuthority
+  | .base => .geometricDebt
+  | .algebraicClosure => .refutedExhaustiveness
+
+theorem base_cover_failure_remains_debt :
+    classifyFailedGeometricCover .base = .geometricDebt := rfl
+
+theorem algebraic_cover_failure_is_refutation :
+    classifyFailedGeometricCover .algebraicClosure =
+      .refutedExhaustiveness := rfl
+
+
+/-! ## What this settles
 The verifier keeps VERIFIED exactly as it is -- that direction is sound over
 any field, because `⋂ I(B_i) ⊆ radical(I(parent))` says every common generator
 vanishes wherever the parent does, and vanishing is field-independent.
 
-Epoch 1 therefore records `NOT_GEOMETRICALLY_EXHAUSTIVE`, not an unqualified
-base-field refutation.  What the failing
-ideal test establishes is a statement about the ALGEBRAIC CLOSURE: there is a
-point of `V(parent)` over `k̄` that no branch reaches.  Over the base field
-that point may not exist.
+Before epoch 9, failure therefore recorded
+`NOT_GEOMETRICALLY_EXHAUSTIVE`, not an unqualified base-field refutation.
+What the failing ideal test establishes is a statement about the ALGEBRAIC
+CLOSURE: there is a point of `V(parent)` over `k̄` that no branch reaches.
+Over the base field that point may not exist.
 
-Epoch 1 does both:
+Epoch 9 makes the point universe explicit and does three things:
 
   * if the parent's ideal is the UNIT IDEAL it has no points over any field,
     so the cover is vacuous and the answer is VERIFIED.  Cheap, and it catches
     the case a reader will hit first.
-  * otherwise `NOT_GEOMETRICALLY_EXHAUSTIVE` says it is a statement over the
-    closure,
-    and that a parent with no points over the base field is covered vacuously.
-    The tool cannot decide that in general -- it is exactly the emptiness
-    question the certificate machinery exists for -- so it must not pretend to.
+  * for an ALGEBRAIC_CLOSURE point universe, failed radical coverage is an
+    actual `NOT_EXHAUSTIVE` refutation in the declared scope.
+  * for a BASE or legacy-untyped point universe,
+    `NOT_GEOMETRICALLY_EXHAUSTIVE` retains the narrower geometric debt.  A
+    parent with no points over the base field is covered vacuously, and the
+    tool cannot decide that in general -- it is exactly the emptiness question
+    the certificate machinery exists for -- so it must not pretend to.
 
 SAME SHAPE AS THE `IMAGE_CLOSURE` DENSITY ARGUMENT (`ImageClosure.lean`): a
 justification that is correct over an algebraically closed field, applied by a

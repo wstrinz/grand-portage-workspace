@@ -42,6 +42,11 @@ are proved. Totality and point-surjectivity derive the four sound
 refinement is recovered as totality of the equality relation. Ideal identities
 and evidence authority deliberately remain outside this point sort.
 
+The compiled point-contract fragment now mirrors the runtime Boolean compiler.
+Its predicate theorems expose an additional premise hidden by the table shape:
+endpoint predicates must correspond along the relation. Totality or
+surjectivity alone transports existence/emptiness, but cannot type a predicate.
+
 `GrandPortage/JCDm4Valuation.lean` - the integer-arithmetic spine of the JC
 polynomial-lift conjecture. If a rational `dm4` had a pole, the cancellation
 balances forced by `G1` and `G2` make `c*dm4` strictly lower in valuation than

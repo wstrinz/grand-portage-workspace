@@ -1,6 +1,6 @@
 """Executable correspondence tests for operation-contract runtime shadows."""
 
-from dataclasses import FrozenInstanceError
+from dataclasses import FrozenInstanceError, replace
 
 import pytest
 
@@ -87,6 +87,39 @@ def test_contract_values_are_immutable_audit_data():
     with pytest.raises(FrozenInstanceError):
         OC.SATURATION.semantic_relation = "whatever the backend returned"
 
+
+
+@pytest.mark.parametrize("contract", [OC.SATURATION, OC.ELIMINATION])
+def test_operation_contracts_project_to_the_point_rule_compiler(contract):
+    """Operation semantics, edge baselines, and claim typing stay distinct."""
+    point = contract.point_transport
+    assert (point.total, point.point_surjective) == (
+        K.point_relation_capabilities(contract.edge_type))
+    assert point.relation
+    assert point.predicate_transformer
+
+    for direction, kind in (
+            (K.ALONG, K.NONEMPTY),
+            (K.AGAINST, K.EMPTY),
+            (K.AGAINST, K.PREDICATE)):
+        assert K.compile_point_rule(
+            contract.edge_type, direction, kind) is True
+
+    if contract is OC.ELIMINATION:
+        assert not point.point_surjective
+        assert any("point_surjective" in item
+                   for item in point.conditional_capabilities)
+    else:
+        assert point.conditional_capabilities == ()
+
+def test_operation_contract_rejects_capability_inflation():
+    inflated = replace(
+        OC.SATURATION.point_transport,
+        point_surjective=True,
+        conditional_capabilities=(),
+    )
+    with pytest.raises(ValueError, match="stronger evidence belongs"):
+        replace(OC.SATURATION, point_transport=inflated)
 
 def test_incomplete_saturation_passes_local_checks_without_becoming_exact():
     """The runtime image of Lean's `(6) : 2^oo` counterexample.
