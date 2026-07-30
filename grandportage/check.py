@@ -207,17 +207,19 @@ def audit_inference(graph, iid):
                 "%s" % (pr["required_kind"], pr["at"], pr["missing_why"])))
             continue
         claim = graph.claims[pr["claim"]]
+        current_condition = claim.get("condition")
         for step_index, (eid, direction) in enumerate(pr["path"]):
             e = graph.edges[eid]
             target_expressible = (
-                step_index == 0 and direction == K.ALONG
+                current_condition is not None and direction == K.ALONG
                 and e["type"] == K.IMAGE_CLOSURE
                 and e.get("built_by_operation") == "Eliminate"
-                and claim.get("model") == e["src"]
-                and condition_expressible_at(graph, claim, e["dst"]))
+                and condition_expressible_at(
+                    graph, current_condition, e["dst"]))
             if claim.get("condition") is not None:
                 zariski_closed = (
-                    target_expressible and structured_condition_closed(claim))
+                    target_expressible
+                    and structured_condition_closed(current_condition))
             else:
                 zariski_closed = claim.get("zariski_closed")
             r = K.transport(
@@ -236,7 +238,27 @@ def audit_inference(graph, iid):
                 geometric_closure=effective_geometric_closure(e),
                 point_surjective=effective_point_surjective(e),
                 target_expressible=target_expressible)
-            trace.append((eid, direction, r.licensed, r.reason))
+            trace_reason = r.reason
+            next_condition = None
+            rewrite_why = None
+            if current_condition is not None and r.licensed:
+                if e["type"] == K.EQUIVALENCE:
+                    next_condition, rewrite_why = (
+                        rewrite_condition_across_equivalence(
+                            graph, current_condition, e, direction))
+                elif target_expressible:
+                    next_condition = current_condition
+                    rewrite_why = (
+                        "structured condition is expressed in the retained "
+                        "elimination target")
+                elif step_index + 1 < len(pr["path"]):
+                    rewrite_why = (
+                        "structured condition typing stops here: this pilot "
+                        "has no rewrite contract for %s" % e["type"])
+            if rewrite_why:
+                trace_reason += "; " + rewrite_why
+            current_condition = next_condition
+            trace.append((eid, direction, r.licensed, trace_reason))
             if not r.licensed:
                 ok = False
     return ok, trace
@@ -1379,18 +1401,29 @@ def effective_exact_contraction(edge):
                 "VERIFIED_SECTION", "VERIFIED_GROEBNER"))
 
 
-def structured_condition_closed(claim):
+def _condition_payload(claim_or_condition):
+    """Return a structured condition from either its claim or direct shape."""
+    if not isinstance(claim_or_condition, dict):
+        return None
+    if "condition" in claim_or_condition:
+        return claim_or_condition.get("condition")
+    if "all" in claim_or_condition:
+        return claim_or_condition
+    return None
+
+
+def structured_condition_closed(claim_or_condition):
     """Whether a checked exact-affine condition defines a closed subset."""
-    condition = claim.get("condition") or {}
+    condition = _condition_payload(claim_or_condition) or {}
     atoms = condition.get("all") if isinstance(condition, dict) else None
     return bool(atoms) and all(
         isinstance(atom, dict) and atom.get("relation") == "ZERO"
         for atom in atoms)
 
 
-def condition_expressible_at(graph, claim, model_id):
+def condition_expressible_at(graph, claim_or_condition, model_id):
     """Whether every structured condition atom parses in one model's ring."""
-    condition = claim.get("condition") or {}
+    condition = _condition_payload(claim_or_condition) or {}
     atoms = condition.get("all") if isinstance(condition, dict) else None
     model = graph.models.get(model_id) or {}
     ring_vars = model.get("ring_vars") or []
@@ -1403,6 +1436,66 @@ def condition_expressible_at(graph, claim, model_id):
     except (G.CertificateError, KeyError, TypeError, ValueError):
         return False
     return True
+
+
+def rewrite_condition_across_equivalence(graph, condition, edge, direction):
+    """Reindex one structured condition through a known coordinate change.
+
+    `forward` is the point map, so ALONG uses the polynomial `inverse` and
+    AGAINST uses `forward`. Only a current verified mapped ring isomorphism or
+    a literal identity-coordinate equivalence preserves machine-readable
+    expressibility. The predicate transport itself remains the kernel's job.
+    """
+    if edge.get("type") != K.EQUIVALENCE:
+        return None, "condition rewrite requires an EQUIVALENCE"
+    source_id, target_id = (
+        (edge["src"], edge["dst"])
+        if direction == K.ALONG else (edge["dst"], edge["src"]))
+    source = graph.models.get(source_id) or {}
+    target = graph.models.get(target_id) or {}
+    source_vars = source.get("ring_vars") or []
+    target_vars = target.get("ring_vars") or []
+    characteristic = target.get("characteristic")
+    if (not source_vars or set(source_vars) != set(target_vars)
+            or type(characteristic) is not int
+            or source.get("characteristic") != characteristic):
+        return None, (
+            "structured condition could not be rewritten: endpoint exact "
+            "polynomial rings do not agree")
+
+    mapped = K.is_mapped_equivalence(edge)
+    if mapped:
+        if not effective_ring_iso(edge):
+            return None, (
+                "structured condition could not be rewritten: the mapped "
+                "equivalence lacks current VERIFIED ring-isomorphism authority")
+        images = edge["inverse" if direction == K.ALONG else "forward"]
+        orientation = "inverse" if direction == K.ALONG else "forward"
+    elif edge.get("map_kind") == K.IDENTITY_MAP:
+        images = dict((name, name) for name in target_vars)
+        orientation = "identity"
+    else:
+        return None, (
+            "structured condition could not be rewritten: this equivalence "
+            "has no checked polynomial coordinate substitution")
+
+    payload = _condition_payload(condition) or {}
+    try:
+        rewritten = {"all": [
+            {
+                "relation": atom["relation"],
+                "expression": G.substitute_polynomial(
+                    atom["expression"], target_vars, images, characteristic),
+            }
+            for atom in payload.get("all") or []
+        ]}
+    except (G.CertificateError, KeyError, TypeError, ValueError) as exc:
+        return None, "structured condition rewrite failed exact checking: %s" % exc
+    if not rewritten["all"]:
+        return None, "structured condition rewrite produced no atoms"
+    return rewritten, (
+        "rewrote %d structured condition atom(s) with the %s point-map "
+        "substitution" % (len(rewritten["all"]), orientation))
 
 
 def effective_point_surjective(edge):

@@ -543,12 +543,20 @@ def test_real_singular_polynomial_section_persists_exact_contraction(tmp_path):
 
     root = str(tmp_path)
     S.append([
+        {"ev": "model", "id": "PRE", "what": "translated source",
+         "characteristic": 0, "ring_vars": ["y", "x"],
+         "generators": ["y*(x+1)-1", "y^2-(x+1)"]},
         {"ev": "model", "id": "SOURCE", "what": "source",
          "characteristic": 0, "ring_vars": ["y", "x"],
          "generators": ["y*x-1", "y^2-x"]},
         {"ev": "model", "id": "TARGET", "what": "target",
          "characteristic": 0, "ring_vars": ["x"],
          "generators": ["x^3-1"], "eliminated": ["y"]},
+        {"ev": "edge", "id": "EQ", "src": "PRE", "dst": "SOURCE",
+         "type": K.EQUIVALENCE, "map_kind": K.POLYNOMIAL,
+         "why": "translate x by one", "ring_iso": True,
+         "forward": {"y": "y", "x": "x+1"},
+         "inverse": {"y": "y", "x": "x-1"}},
         {"ev": "edge", "id": "E", "src": "SOURCE", "dst": "TARGET",
          "type": K.IMAGE_CLOSURE, "map_kind": K.POLYNOMIAL,
          "why": "eliminate y", "built_by_operation": "Eliminate"},
@@ -561,10 +569,19 @@ def test_real_singular_polynomial_section_persists_exact_contraction(tmp_path):
     assert verdict == V.SECTION_VERIFIED, why
     assert certificate["rows"][1]["cofactors"] == ["x"]
 
-    # Consume the live certificate through the epoch-5 claim transformer. The
+    # Consume the live certificates through the mapped claim transformer. The
     # retained predicate crosses; closedness cannot rescue a condition whose
     # expression still names the eliminated coordinate.
     S.append([
+        {"ev": "claim", "id": "P-PRE", "model": "PRE",
+         "kind": K.PREDICATE, "statement": "x+1 is nonzero",
+         "condition": {"all": [
+             {"relation": "NONZERO", "expression": "x+1"},
+         ]}},
+        {"ev": "inference", "id": "I-PRE", "claim": "P-PRE",
+         "path": [["EQ", K.ALONG], ["E", K.ALONG]],
+         "concludes_kind": K.PREDICATE,
+         "asserted": "the rewritten x coordinate is nonzero on the target"},
         {"ev": "claim", "id": "P-X", "model": "SOURCE",
          "kind": K.PREDICATE, "statement": "x is nonzero",
          "condition": {"all": [
@@ -584,12 +601,18 @@ def test_real_singular_polynomial_section_persists_exact_contraction(tmp_path):
     ], root)
 
     graph = S.load(S.graph_path(root))
+    mapped = graph.edges["EQ"]
     edge = graph.edges["E"]
+    assert mapped["ring_iso_verdict"] == V.ISO_VERIFIED
     assert edge["output_verdict"] == V.OP_SOUND
     assert edge["contraction_verdict"] == V.SECTION_VERIFIED
     assert C.effective_exact_contraction(edge)
     assert C.effective_geometric_closure(edge)
     assert C.effective_point_surjective(edge)
+    mapped_ok, mapped_trace = C.audit_inference(graph, "I-PRE")
+    assert mapped_ok
+    assert "inverse point-map substitution" in mapped_trace[0][3]
+    assert "closedness is not required" in mapped_trace[1][3]
     assert C.audit_inference(graph, "I-X")[0]
     refused, trace = C.audit_inference(graph, "I-Y")
     assert not refused

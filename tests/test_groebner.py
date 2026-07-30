@@ -146,6 +146,15 @@ def test_unhashable_characteristic_is_a_conservative_rejection(characteristic):
         G.parse_polynomial("x", ["x"], characteristic)
 
 
+def test_exact_polynomial_substitution_is_simultaneous_and_oriented():
+    assert G.substitute_polynomial(
+        "x-y", ["x", "y"], {"x": "y", "y": "x"}) == "-x+y"
+    assert G.substitute_polynomial(
+        "x+3", ["x"], {"x": "x-2"}) == "x+1"
+    assert G.substitute_polynomial(
+        "x+3", ["x"], {"x": "x-1"}) == "x+2"
+
+
 def test_polynomial_operations_share_one_global_work_budget():
     budget = G._ArithmeticBudget(10)
 

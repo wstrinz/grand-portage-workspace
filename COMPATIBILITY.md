@@ -100,6 +100,19 @@ syntax and transport-meaning change, hence both counters advance.
 5 without rewriting their events: the optional condition starts absent, old
 verdicts remain readable but stale, and the append-only source remains untouched.
 
+Version 0.11.0 keeps **graph format 2** and advances to **kernel epoch 6**.
+Structured conditions can now be reindexed through chains of verified mapped
+`EQUIVALENCE` edges before a section-certified elimination. Because `forward`
+is the point map, `ALONG` uses the checked `inverse` substitution and `AGAINST`
+uses `forward`; literal identity maps preserve syntax. The substitution is
+simultaneous, exact, and ephemeral. Any unverified, refuted, or unsupported pass
+loses structured expression typing and cannot unlock the downstream transport.
+
+This changes which composed inferences are licensed without adding persisted
+syntax, so only the kernel counter advances. Epoch-5 graphs migrate
+non-destructively to epoch 6; their old verifier verdicts remain readable but
+stale and must be re-established under the new authority boundary.
+
 Within one kernel epoch, no field may silently acquire a more permissive
 interpretation. A syntax-only extension can bump `graph_format`; transport
 meaning or verifier trust bumps `kernel_epoch` or the narrower verifier/backend
@@ -107,7 +120,7 @@ implementation version as appropriate.
 
 ## Epoch-0 graphs
 
-Unversioned graphs are epoch 0. Version 0.10 continues to read them through a conservative,
+Unversioned graphs are epoch 0. Version 0.11 continues to read them through a conservative,
 read-only importer. It will not append new events to them and will not blend
 them with epoch-1 graphs.
 
@@ -227,10 +240,10 @@ pair, the elimination order, and retained-basis membership in the target ideal.
 The producer remains untrusted search; only the checked certificate carries
 authority. Epoch 4 recognizes that the section additionally supplies explicit
 point lifts. Epoch 5 adds the claim-side retained-coordinate expressibility
-obligation and licenses direct structured nonvanishing predicates only when both
-facts hold. The remaining semantic work is typed point-lifting evidence beyond
-global polynomial sections and condition rewriting/composition across mapped
-passes. Backend cross-checking can strengthen confidence in certificate
+obligation. Epoch 6 composes that obligation through verified mapped coordinate
+changes using exact contravariant substitution. The remaining semantic work is
+typed point-lifting evidence beyond global polynomial sections and rewrite
+contracts for other operation kinds. Backend cross-checking can strengthen confidence in certificate
 production, but it is not part of the trusted argument.
 
 The release order is now visible in the epochs: close known semantic defects,
@@ -238,8 +251,9 @@ cut format 1 / kernel epoch 1, finish the backend evidence seam, then advance to
 kernel epoch 2 when the elimination contract exposed a narrower real licence,
 then kernel epoch 3 when a certificate earned back only the coordinate-ring
 half, kernel epoch 4 when polynomial sections were correctly recognized as
-point-lifting evidence, and graph format 2 / kernel epoch 5 when retained
-predicate syntax made that authority safely usable beyond closed conditions.
+point-lifting evidence, graph format 2 / kernel epoch 5 when retained predicate syntax made that
+authority safely usable beyond closed conditions, then kernel epoch 6 when
+verified coordinate changes made that typing compositional.
 
 ## Sealed campaigns
 

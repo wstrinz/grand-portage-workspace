@@ -425,6 +425,42 @@ def canonical_polynomial(expression, variables, characteristic=0,
     ))
 
 
+def substitute_polynomial(expression, variables, images, characteristic=0,
+                          _budget=None):
+    """Apply one bounded, simultaneous exact-polynomial substitution.
+
+    `images` gives the point-map image of every variable in the shared ring.
+    Evaluating the parsed sparse polynomial makes simultaneity structural: a
+    swapped variable is never revisited as it would be by sequential text
+    replacement. The result is canonical exact-polynomial syntax.
+    """
+    variables = tuple(variables)
+    if (not isinstance(images, dict)
+            or set(images) != set(variables)):
+        raise CertificateError(
+            "a polynomial substitution must give exactly one image for every "
+            "ring variable; got %s for %s"
+            % (", ".join(sorted(images)) if isinstance(images, dict) else
+               type(images).__name__, ", ".join(variables))
+        )
+    budget = _budget or _ArithmeticBudget()
+    source = parse_polynomial(expression, variables, characteristic, budget)
+    parsed_images = dict(
+        (name, parse_polynomial(images[name], variables,
+                                characteristic, budget))
+        for name in variables
+    )
+    answer = Polynomial.scalar(variables, characteristic, 0, budget)
+    for monomial, coefficient in source.terms.items():
+        term = Polynomial.scalar(
+            variables, characteristic, coefficient, budget)
+        for name, exponent in zip(variables, monomial):
+            if exponent:
+                term = term * (parsed_images[name] ** exponent)
+        answer = answer + term
+    return render_polynomial(answer)
+
+
 def s_polynomial(expression_left, expression_right, variables,
                  characteristic=0, _budget=None):
     """Return the canonical pure-lex S-polynomial for producer phase two."""

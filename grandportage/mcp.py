@@ -194,9 +194,10 @@ CONDITION_SCHEMA = {
     "description": (
         "A conjunction of exact-affine point conditions. ZERO means the "
         "polynomial vanishes; NONZERO means it does not. Every expression is "
-        "parsed against the claim model's exact polynomial ring. A direct, "
-        "constructor-built polynomial-section elimination may transport a "
-        "target-expressible condition even when it is not Zariski-closed."),
+        "parsed against the claim model's exact polynomial ring. Verified mapped "
+        "equivalences rewrite it contravariantly before a constructor-built "
+        "polynomial-section elimination checks target expressibility, even "
+        "when the condition is not Zariski-closed."),
     "properties": {
         "all": {
             "type": "array",
@@ -291,9 +292,10 @@ TOOLS = [
                         "from what you declare. A PREDICATE may carry a closed-schema "
                         "structured `condition`: {all: [{relation: ZERO or "
                         "NONZERO, expression: polynomial}, ...]}. Expressions "
-                        "must parse in the claim model; direct transport through "
-                        "a section-certified elimination additionally requires "
-                        "them to parse in its retained-coordinate target. "
+                        "must parse in the claim model. Chains of verified mapped "
+                        "equivalences rewrite them contravariantly; a later "
+                        "section-certified elimination requires the rewritten "
+                        "expressions to parse in its retained-coordinate target. "
                         "An inference may rest on SEVERAL premises: use "
                         "`premises: [{claim, path}, ...]` instead of "
                         "`claim`+`path` when the argument combines facts. "

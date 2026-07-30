@@ -460,7 +460,9 @@ def _declare_epilog():
         "ring-variable names at both endpoints. `gp verify` checks both ideal\n"
         "pullbacks and both inverse compositions; structured maps license\n"
         "transport only after `VERIFIED`. This does NOT also assert literal\n"
-        "containment in the written coordinates.\n"
+        "containment in the written coordinates. Structured conditions also\n"
+        "rewrite through VERIFIED mapped equivalences: ALONG uses inverse and\n"
+        "AGAINST uses forward before later operation contracts inspect them.\n"
         "The spellings `maps` and `inverse_maps` are refused as inert aliases.\n"
         "\n"
         "vocabularies:\n"
@@ -1112,6 +1114,7 @@ def cmd_table(args):
     print("  exact_image_identity forward identity needs exact contraction")
     print("  closed_exact_image  forward predicate needs either closed+closure or")
     print("                      point lift+structured target expressibility")
+    print("                      (after exact VERIFIED equivalence rewrites)")
     print("  ambient_identity    a rewriting DERIVED from the source's own")
     print("                      equations does not survive dropping them")
     print("  ring_isomorphism    an EQUIVALENCE carries a rewriting only if it")

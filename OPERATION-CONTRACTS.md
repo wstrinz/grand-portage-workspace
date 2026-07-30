@@ -1,7 +1,7 @@
 # Operation contracts
 
 **Status:** two executable pilots
-**Authoritative runtime semantics:** graph format 2, kernel epoch 5
+**Authoritative runtime semantics:** graph format 2, kernel epoch 6
 **Formal shadow:** `lean/GrandPortage/OperationContract.lean`
 
 Grand Portage now has a small operation-contract foundation. Its first job is
@@ -105,9 +105,9 @@ through the target evaluation on retained coordinates. Lean proves that
 point-surjectivity transports every such predicate, and gives a countermodel
 showing that point-surjectivity alone cannot transport an unrelated predicate.
 
-## Authority and kernel epoch 5
+## Authority and kernel epoch 6
 
-Kernel epoch 5 keeps four facts separate:
+Kernel epoch 6 keeps five facts separate:
 
 - **exact contraction** requires current no-invention plus either a checked
   polynomial section or a checked pure-lex certificate;
@@ -115,7 +115,9 @@ Kernel epoch 5 keeps four facts separate:
   arbitrary point predicate;
 - **point-surjective image authority** requires current no-invention plus a
   checked polynomial section. A pure Groebner certificate never opens it;
-- **retained-coordinate expressibility** belongs to the claim, not the map.
+- **retained-coordinate expressibility** belongs to the claim, not the map;
+- **coordinate-rewrite authority** requires a literal identity map or a current
+  verified ring isomorphism, with predicate syntax moving contravariantly.
 
 The runtime projection of the last item is intentionally small:
 
@@ -126,26 +128,35 @@ The runtime projection of the last item is intentionally small:
 ]}}
 ```
 
-Every atom is parsed in the source model's exact polynomial ring. On the direct
-first `IMAGE_CLOSURE / ALONG` step of a section-certified constructed
-elimination, every expression must also parse in the retained-coordinate target
-ring. An all-`ZERO` conjunction thereby establishes closedness; a conjunction
+Every atom is parsed in the source model's exact polynomial ring. Before a
+section-certified constructed elimination, the runtime may reindex that syntax
+through any chain of checked coordinate changes. `forward` is the source-to-
+target point map, so `ALONG` expression rewriting uses `inverse`, while
+`AGAINST` uses `forward`. Substitution is simultaneous and exact. A literal
+`IDENTITY_MAP` preserves syntax; a nonidentity mapped equivalence requires both
+an authored `ring_iso: true` contract and a current `VERIFIED` verdict.
+
+The rewritten expressions must parse in the retained-coordinate target ring.
+An all-`ZERO` conjunction thereby establishes closedness; a conjunction
 containing `NONZERO` can travel by the stronger point-lifting theorem. A
 structured condition naming an eliminated coordinate is refused even if it is
 closed, and a manually asserted `zariski_closed` flag cannot override that type
-failure. Free-text predicates remain legal and conservative.
+failure. Free-text predicates remain legal and conservative. Unsupported or
+unverified passes may still transport the proposition abstractly, but they lose
+machine-readable expression typing and cannot unlock a later elimination.
 
-The direct-first-step restriction is a deliberate typed ignorance boundary.
-After a prior coordinate change the syntax must be rewritten before target
-expressibility can be checked; epoch 5 does not invent that rewrite, even for a
-literal identity-looking pass. Composition and rewriting are the next theorem
-and runtime obligation.
+Lean defines predicate reindexing on `MappedEquivalence`, proves the
+contravariant orientation, composes verified coordinate changes, and proves
+that rewriting through the composite equals rewriting step by step. The Python
+projection evaluates the corresponding exact polynomial substitutions; it does
+not persist a synthesized claim or mutate the campaign graph.
 
 Manual `IMAGE_CLOSURE` declarations continue to state their closure relation but
 do not mint point-surjectivity. Constructed eliminations earn only what their
 current evidence proves. The persisted condition syntax advances graph format 1
 to 2, and the newly licensed nonclosed predicate transport advances kernel epoch
-4 to 5. Migration remains non-destructive:
+4 to 5; verified coordinate-map composition then advances the runtime to epoch
+6 without changing graph syntax. Migration remains non-destructive:
 
 ```console
 gp --graph old/.portage/graph.jsonl migrate --to-current-kernel
@@ -153,7 +164,7 @@ gp --graph old/.portage/graph.jsonl migrate --to-current-kernel
 
 The source is untouched, prior verdicts remain history but stale, absent
 `condition` fields stay absent, and the new fold re-audits transport under epoch
-5.
+6.
 
 ## Trust boundary
 
@@ -165,8 +176,8 @@ authority/provenance     who checked what, under which epoch and inputs
 artifact store           exact immutable programs and raw transcripts
 ```
 
-The next earned steps are condition rewriting/composition across mapped passes
-and a separately typed point-lifting certificate beyond global polynomial
-sections, both exercised against harder live eliminations. Contracts remain
+The next earned steps are rewrite contracts for operations other than verified
+coordinate equivalence and a separately typed point-lifting certificate beyond
+global polynomial sections, both exercised against harder live eliminations. Contracts remain
 compiled constructor metadata until the pilots show that persisting them in the
 IR buys more than it costs.

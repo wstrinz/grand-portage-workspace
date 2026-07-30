@@ -32,7 +32,10 @@ transports witnesses but does not imply literal solution-set containment in
 either direction. This keeps mapped `ring_iso` evidence distinct from a
 same-coordinate `containment` claim. A non-involutive integer translation pins
 `forward` as the source-to-target point map, preventing polynomial pullback's
-contravariance from silently reversing the user-facing convention.
+contravariance from silently reversing the user-facing convention. It now also
+defines predicate reindexing in both directions, composes verified coordinate
+changes, and proves that rewriting through a composite is definitionally the
+same as rewriting step by step.
 
 `GrandPortage/Identity.lean` — `EqMod I f g := I (f - g)`, the one identity
 cell that derives from ideal containment, and the ℤ counterexample refusing the

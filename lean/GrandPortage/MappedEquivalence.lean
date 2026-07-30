@@ -11,7 +11,7 @@ import GrandPortage.Points
 
 namespace GrandPortage
 
-universe u v
+universe u v w
 
 /-- Every source point is sent to a target point by the declared map. -/
 def MapsTo {A : Type u} {B : Type v}
@@ -39,6 +39,67 @@ theorem MappedEquivalence.hasPoint_backward
     {A : Type u} {B : Type v} {src : Model A} {dst : Model B}
     (e : MappedEquivalence src dst) : HasPoint dst -> HasPoint src
   | Exists.intro y hy => Exists.intro (e.backward y) (e.backward_maps y hy)
+
+/-- Reindex a source predicate into target coordinates. Because `forward` is
+    the point map, the expression-level rewrite uses `backward`. -/
+def MappedEquivalence.rewriteAlong
+    {A : Type u} {B : Type v} {src : Model A} {dst : Model B}
+    (e : MappedEquivalence src dst) (predicate : A -> Prop) : B -> Prop :=
+  fun y => predicate (e.backward y)
+
+/-- Reindex a target predicate into source coordinates. -/
+def MappedEquivalence.rewriteAgainst
+    {A : Type u} {B : Type v} {src : Model A} {dst : Model B}
+    (e : MappedEquivalence src dst) (predicate : B -> Prop) : A -> Prop :=
+  fun x => predicate (e.forward x)
+
+/-- Rewriting along a mapped equivalence preserves the predicate on every
+    source point. This pins the contravariant use of `backward`. -/
+theorem MappedEquivalence.rewriteAlong_forward
+    {A : Type u} {B : Type v} {src : Model A} {dst : Model B}
+    (e : MappedEquivalence src dst) (predicate : A -> Prop) (x : A) :
+    e.rewriteAlong predicate (e.forward x) ↔ predicate x := by
+  rw [MappedEquivalence.rewriteAlong, e.left_inv]
+
+/-- Rewriting against a mapped equivalence preserves the predicate on every
+    target point. -/
+theorem MappedEquivalence.rewriteAgainst_backward
+    {A : Type u} {B : Type v} {src : Model A} {dst : Model B}
+    (e : MappedEquivalence src dst) (predicate : B -> Prop) (y : B) :
+    e.rewriteAgainst predicate (e.backward y) ↔ predicate y := by
+  rw [MappedEquivalence.rewriteAgainst, e.right_inv]
+
+/-- Verified coordinate changes compose as coordinate changes. -/
+def MappedEquivalence.trans
+    {A : Type u} {B : Type v} {C : Type w}
+    {src : Model A} {mid : Model B} {dst : Model C}
+    (first : MappedEquivalence src mid)
+    (second : MappedEquivalence mid dst) :
+    MappedEquivalence src dst where
+  forward := fun x => second.forward (first.forward x)
+  backward := fun z => first.backward (second.backward z)
+  left_inv := by
+    intro x
+    rw [second.left_inv, first.left_inv]
+  right_inv := by
+    intro z
+    rw [first.right_inv, second.right_inv]
+  forward_maps := by
+    intro x hx
+    exact second.forward_maps _ (first.forward_maps x hx)
+  backward_maps := by
+    intro z hz
+    exact first.backward_maps _ (second.backward_maps z hz)
+
+/-- Condition rewriting is functorial: rewriting through two verified passes is
+    exactly rewriting through their composite. -/
+theorem MappedEquivalence.rewriteAlong_trans
+    {A : Type u} {B : Type v} {C : Type w}
+    {src : Model A} {mid : Model B} {dst : Model C}
+    (first : MappedEquivalence src mid)
+    (second : MappedEquivalence mid dst) (predicate : A -> Prop) :
+    (first.trans second).rewriteAlong predicate =
+      second.rewriteAlong (first.rewriteAlong predicate) := rfl
 
 def onlyB : Model Two := fun x => x = Two.b
 

@@ -172,7 +172,7 @@ ELIMINATION = OperationContract(
     open_obligations=(
         "contraction completeness beyond Q/prime fields, bounded pure lex, and polynomial sections",
         "point-surjectivity beyond global polynomial sections needs a separately typed certificate",
-        "structured condition rewriting and expressibility across composed coordinate changes",
+        "structured condition rewrite contracts beyond verified coordinate equivalences",
     ),
     licensed_consequences=(
         "the entire built ideal is contained in the contraction of the source ideal",
@@ -180,7 +180,7 @@ ELIMINATION = OperationContract(
         "source points map to target points, so target emptiness implies source emptiness",
         "a verified section or Groebner certificate plus no-invention licenses source-derived retained-ring identities along",
         "a verified section plus no-invention supplies point-surjective image authority over the declared coefficient algebra",
-        "point-surjectivity transports direct, structured retained-coordinate predicates, including NONZERO atoms",
+        "point-surjectivity transports structured retained-coordinate predicates, including NONZERO atoms, after exact rewriting through verified coordinate equivalences",
     ),
 )
 

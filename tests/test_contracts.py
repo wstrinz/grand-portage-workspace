@@ -435,9 +435,8 @@ def test_section_transports_target_expressible_nonvanishing_condition():
     assert licensed
     assert "closedness is not required" in trace[0][3]
 
-    # Composition is deliberately not invented. A prior semantic coordinate
-    # change would require rewriting the structured condition, which the first
-    # pilot does not yet do.
+    # The identity law is now executable: a literal identity-coordinate pass
+    # preserves the structured syntax before the section-certified elimination.
     graph.apply({"ev": "model", "id": "PRE", "what": "prior presentation",
                  "characteristic": 0, "ring_vars": ["y", "x"],
                  "generators": ["y*x-1", "y^2-x"]},
@@ -458,9 +457,80 @@ def test_section_transports_target_expressible_nonvanishing_condition():
                 source="test", lineno=8)
     graph.validate()
     chained, chained_trace = C.audit_inference(graph, "I2")
-    assert not chained
-    assert chained_trace[0][2]
-    assert "no structured target-expressibility proof" in chained_trace[1][3]
+    assert chained
+    assert "identity point-map substitution" in chained_trace[0][3]
+    assert "closedness is not required" in chained_trace[1][3]
+
+
+def test_verified_mapped_equivalences_rewrite_conditions_and_compose():
+    graph = _condition_graph("x", relation="NONZERO")
+    for model_id in ("PRE1", "PRE2"):
+        graph.apply({
+            "ev": "model", "id": model_id, "what": "mapped presentation",
+            "characteristic": 0, "ring_vars": ["y", "x"],
+            "generators": ["y*x-1", "y^2-x"],
+        }, source="test", lineno=5)
+    graph.apply({
+        "ev": "edge", "id": "EQ1", "src": "PRE1", "dst": "SOURCE",
+        "type": K.EQUIVALENCE, "map_kind": K.POLYNOMIAL,
+        "why": "translate x by one", "ring_iso": True,
+        "forward": {"y": "y", "x": "x+1"},
+        "inverse": {"y": "y", "x": "x-1"},
+    }, source="test", lineno=6)
+    graph.apply({
+        "ev": "edge", "id": "EQ2", "src": "PRE2", "dst": "PRE1",
+        "type": K.EQUIVALENCE, "map_kind": K.POLYNOMIAL,
+        "why": "translate x by two", "ring_iso": True,
+        "forward": {"y": "y", "x": "x+2"},
+        "inverse": {"y": "y", "x": "x-2"},
+    }, source="test", lineno=7)
+    graph.apply({
+        "ev": "claim", "id": "P3", "model": "PRE2",
+        "kind": K.PREDICATE, "statement": "x+3 is nonzero",
+        "condition": {"all": [
+            {"relation": "NONZERO", "expression": "x+3"},
+        ]},
+    }, source="test", lineno=8)
+    graph.apply({
+        "ev": "inference", "id": "I3", "claim": "P3",
+        "path": [["EQ2", K.ALONG], ["EQ1", K.ALONG], ["E", K.ALONG]],
+        "concludes_kind": K.PREDICATE,
+        "asserted": "x is nonzero after two coordinate changes",
+    }, source="test", lineno=9)
+    graph.validate()
+    graph.edges["EQ1"]["ring_iso_verdict"] = V.ISO_VERIFIED
+    graph.edges["EQ2"]["ring_iso_verdict"] = V.ISO_VERIFIED
+
+    first, first_why = C.rewrite_condition_across_equivalence(
+        graph, graph.claims["P3"]["condition"], graph.edges["EQ2"], K.ALONG)
+    second, second_why = C.rewrite_condition_across_equivalence(
+        graph, first, graph.edges["EQ1"], K.ALONG)
+    assert first["all"][0]["expression"] == "x+1"
+    assert second["all"][0]["expression"] == "x"
+    assert "inverse point-map" in first_why
+    assert "inverse point-map" in second_why
+    against, against_why = C.rewrite_condition_across_equivalence(
+        graph, {"all": [{"relation": "NONZERO", "expression": "x"}]},
+        graph.edges["EQ1"], K.AGAINST)
+    assert against["all"][0]["expression"] == "x+1"
+    assert "forward point-map" in against_why
+
+    licensed, trace = C.audit_inference(graph, "I3")
+    assert licensed
+    assert [step[2] for step in trace] == [True, True, True]
+    assert "closedness is not required" in trace[2][3]
+
+    graph.edges["EQ1"]["ring_iso_verdict"] = "UNVERIFIED"
+    refused, refused_trace = C.audit_inference(graph, "I3")
+    assert not refused
+    assert "lacks current VERIFIED" in refused_trace[1][3]
+    assert "no structured target-expressibility proof" in refused_trace[2][3]
+
+    graph.edges["EQ1"]["ring_iso_verdict"] = V.ISO_VERIFIED
+    graph.edges["EQ1"]["ring_iso"] = False
+    refused, refused_trace = C.audit_inference(graph, "I3")
+    assert not refused
+    assert "lacks current VERIFIED" in refused_trace[1][3]
 
 
 def test_section_refuses_condition_naming_an_eliminated_coordinate():
