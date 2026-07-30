@@ -62,11 +62,46 @@ minting a model, built-in certificate overwrite, strictness-witness-as-
 equivalence-documentation, taint stopping at the first generation, baseline
 acceptance surviving a change of meaning, and identity origin.
 
-**Suite: <!--checks-->1053<!--/checks--> checks, ~40 s.** Was 171 before the v0.2 pass.
+**Suite: <!--checks-->1070<!--/checks--> checks, ~40 s.** Was 171 before the v0.2 pass.
 
 ---
 
-## CURRENT PRESSURE TEST — JC dm4 exact target plus independent point lift
+## CURRENT PRESSURE TEST -- bounded-polynomial JC coefficient lowering
+
+The scalar dm4 campaign is complete. The active test asks whether its point
+authority survives after every JC variable denotes a bounded polynomial in
+`Q[y]` rather than a field element.
+
+1. Translation-validate every coefficient of `G1,G2,G3,G5` with cap 1 on the
+   seven retained polynomials and cap 0 on `dm4`. All sixteen rows through
+   degree 3 must be present; omitted overflow and invented rows must fail.
+2. Check the retained tuple `dm2=1`, `d2=y`, all other retained polynomials
+   zero, against all seventeen equations of the scalar exact target. Then check
+   its cap-0 source fiber independently. The target identities must vanish, but
+   the fiber must be UNIT because the `y` coefficient of `G2` is `3/2` for
+   every constant `dm4`.
+3. Raise only the `dm4` cap to 1 and verify the nonunit-divisor control
+   `dm2=y`, `d2=1`, `dm4=-y/2`. Every one of the sixteen full source rows must
+   vanish. This proves that nonunit division can be exact while the degree cap
+   remains load-bearing.
+4. Attempt complete coefficient-level contraction only under a fixed budget.
+   COST or backend termination records an algorithmic boundary and earns no
+   exactness or point-surjectivity authority.
+
+**Pass condition:** complete and selected coefficient checks report different
+authorities; the cap-negative scalar-target point is refused by the bounded
+source; both positive bounded witnesses verify; a costly contraction attempt
+leaves the graph without an elimination edge or inferred lift.
+
+**Observed result:** PASS. Three translation-validation reports replayed, the
+two positive witnesses and the cap-negative unit certificate were independently
+verified, and the durable campaign has zero unsound-premise findings. The
+generic fifteen-coordinate pure-lex run was killed with exit 9 after roughly
+four minutes, so it remains a recorded cost result only.
+
+---
+
+## PREVIOUS PRESSURE TEST -- JC dm4 exact target plus independent point lift (COMPLETED)
 
 The gamma=4 blind run below is complete. The active pressure test is now the
 real eight-variable JC source projected away from `dm4`, because it makes the
@@ -102,7 +137,8 @@ refused without a partially materialized target.
 the next action. It failed usefully: the blind agent superseded a refusal
 instead of satisfying it, which forced the parallel-edge, vacuity,
 self-built-claim, partition, premise, and typed-discharge repairs summarized in
-`HANDOFF.md`. The current pressure test is the JC dm4 assay above.
+`HANDOFF.md`. The current pressure test is the bounded-polynomial coefficient
+assay above.
 
 **The claim at risk:** the tool does not induce plausible mislabelling.
 

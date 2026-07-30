@@ -120,6 +120,47 @@ vanishing power instead of conflating ideal membership with radical membership.
 This earns point-surjectivity but does not earn exact contraction; the latter
 still needs a section or Groebner completeness certificate plus no-invention.
 
+## Coefficient-expansion pilot
+
+Bounded polynomial unknowns are lowered to scalar coefficient coordinates
+before the exact-affine kernel sees them. The deterministic command
+
+`gp verify-coefficient-expansion --spec lowering.json`
+
+translation-validates that boundary without trusting the script that emitted
+the rows. A closed `coefficient_expansion_v1` specification declares the
+polynomial parameter, source template variables, scalar coefficient ring,
+bounded-variable caps and ordered coordinates, exact substitution images, and
+the recorded coefficient rows for each source equation.
+
+The checker distinguishes two contracts:
+
+```text
+selected rows   polynomial identity -> the checked rows vanish
+complete rows   polynomial identity <-> every row 0..degree vanishes
+```
+
+Complete mode rejects a missing overflow coefficient, a wrong or invented row,
+a cap with the wrong number of coordinates, coordinate reuse, reordered pack
+maps, source equations that smuggle in lowered coordinates, and rows that still
+contain the polynomial parameter. Selected mode remains useful for sound kills,
+but deliberately reports no converse. The JSON report is translation evidence;
+it does not mint elimination or graph-transport authority by itself.
+
+The first live JC assay puts cap 1 on the seven retained polynomials. With cap 0
+on `dm4`, all sixteen coefficients of `G1,G2,G3,G5` are checked in fifteen
+scalar coordinates. The retained tuple `dm2=1`, `d2=y` satisfies every one of
+the seventeen scalar exact-target identities, while its only unrestricted lift
+is `dm4=-y/2`; the cap-0 coefficient fiber contains the unit `3/2`. Thus the
+scalar point-lift theorem does not survive the degree cap. Raising `dm4` to cap
+1 admits the independently checked nonunit example `dm2=y`, `d2=1`,
+`dm4=-y/2`.
+
+Lean formalizes finite coefficient vectors, the selected-versus-complete
+distinction, polynomial reconstruction, and the precise payoff: coefficient-
+level point-surjectivity supplies an existential bounded `dm4` vector, never a
+uniqueness theorem.
+
 The positive section control eliminates `y` from `(yx-1, y^2-x)` and uses
 `y -> x^2`. The hyperbola `(xy-1) -> (0)` is the decisive separation: its
 elimination ideal is exact and the Groebner route can certify it, but the target

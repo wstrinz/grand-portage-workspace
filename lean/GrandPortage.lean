@@ -4,6 +4,7 @@ import GrandPortage.Identity
 import GrandPortage.Conditions
 import GrandPortage.Localization
 import GrandPortage.OperationContract
+import GrandPortage.CoefficientExpansion
 import GrandPortage.ImageClosure
 import GrandPortage.Exhaustive
 import GrandPortage.BackendTrust

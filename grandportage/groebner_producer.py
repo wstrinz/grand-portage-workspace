@@ -162,10 +162,12 @@ def produce_elimination_groebner(backend, ring_vars, source_generators,
         raise cas.CASError("elimination cannot remove every ring variable")
     variables = ordered_eliminated + retained
     try:
-        for expression in source_generators:
+        safe_source = [
             G.canonical_polynomial(
                 expression, variables, characteristic, budget
             )
+            for expression in source_generators
+        ]
         for expression in target_generators:
             parsed = G.parse_polynomial(
                 expression, variables, characteristic, budget
@@ -182,7 +184,7 @@ def produce_elimination_groebner(backend, ring_vars, source_generators,
         ring="GP_R",
         ring_vars=variables,
         decls=[
-            ("GP_F", "ideal", ",".join(source_generators)),
+            ("GP_F", "ideal", ",".join(safe_source)),
             ("GP_A", "matrix", "0"),
             ("GP_G", "ideal", "liftstd(GP_F,GP_A)"),
             ("GP_B", "matrix", "lift(GP_G,GP_F)"),

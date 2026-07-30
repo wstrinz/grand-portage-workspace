@@ -71,6 +71,15 @@ target evaluation on the retained coordinates. Lean proves that
 point-surjectivity transports every such predicate and separately pins the need
 for expressibility with a countermodel.
 
+`GrandPortage/CoefficientExpansion.lean` - bounded polynomial unknowns as finite
+coefficient vectors and their reconstruction as finitely supported formal
+polynomials. Selected coefficient rows are proved necessary only; complete row
+coverage is proved equivalent to polynomial vanishing. Coefficient-level point
+surjectivity yields an honest bounded witness, while a countermodel prevents it
+from being silently strengthened to uniqueness. This is the semantic contract
+implemented by the runtime coefficient-expansion checker; the Lean theorem does
+not verify the Python parser or substitution engine.
+
 `GrandPortage/Conditions.lean` — **that conjecture is refuted.** The four gated
 conditions turn out to be three different shapes, and one of them is not about
 the map at all. Details below.

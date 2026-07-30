@@ -108,6 +108,29 @@ def _produce(backend=None):
     return backend, produced
 
 
+def test_authored_exact_syntax_is_canonicalized_before_singular_lowering():
+    seen = []
+
+    def runner(program, timeout):
+        seen.append(program.text)
+        return _producer_runner(program, timeout)
+
+    backend = _backend(runner)
+    produced = GP.produce_elimination_groebner(
+        backend,
+        ["u", "y", "x"],
+        ["u**2-x", "u**3-y"],
+        ["u"],
+        ["2*y**2-2*x**3"],
+    )
+
+    assert produced["proof"]["source_generators"] == ["u**2-x", "u**3-y"]
+    assert produced["proof"]["target_generators"] == ["2*y**2-2*x**3"]
+    assert seen
+    assert all("**" not in program for program in seen)
+    assert "u^2-x" in seen[0]
+
+
 def test_cas_program_order_is_closed_rendered_and_fingerprinted():
     common = dict(
         dialect=cas.SINGULAR, ring="R", ring_vars=["x"],

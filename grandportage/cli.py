@@ -15,6 +15,7 @@ from . import __version__
 from . import artifacts as A
 from . import cas
 from . import check as C
+from . import coefficient_expansion as CE
 from . import hook as H
 from . import kernel as K
 from . import migration as MIG
@@ -742,6 +743,34 @@ def cmd_verify_elimination_groebner(args):
         print("\nrecorded checked proof and producer provenance; "
               "`gp history` shows the verdict.")
     return 0 if verdict == V.GROEBNER_VERIFIED else 1
+
+
+def cmd_verify_coefficient_expansion(args):
+    """Translation-validate polynomial identities lowered to coefficients."""
+    try:
+        with open(args.spec, "r", encoding="utf-8") as handle:
+            spec = json.load(handle)
+        report = CE.verify(spec)
+    except (OSError, ValueError, json.JSONDecodeError,
+            CE.CoefficientExpansionError) as exc:
+        sys.stderr.write("COEFFICIENT EXPANSION FAILED\n  %s\n" % exc)
+        return 2
+    if args.json:
+        print(json.dumps(report, indent=2, sort_keys=True))
+    else:
+        print(report["verdict"])
+        print("    %d polynomial equation(s), %d scalar coordinate(s)" % (
+            len(report["equations"]),
+            len(report["coefficient_variables"]),
+        ))
+        if report["verdict"] == CE.VERIFIED_COMPLETE:
+            print("    authority: polynomial identity iff every recorded "
+                  "coefficient row vanishes")
+        else:
+            print("    authority: polynomial identity implies the selected "
+                  "coefficient rows vanish; no converse")
+        print("    spec sha256: %s" % report["spec_fingerprint"])
+    return 0
 
 
 def cmd_materialize_elimination_groebner(args):
@@ -1884,6 +1913,14 @@ def build_parser():
         "--dry-run", action="store_true",
         help="run and display without recording artifacts or authority")
     groebner.set_defaults(func=cmd_verify_elimination_groebner)
+    coefficient_expansion = sub.add_parser(
+        "verify-coefficient-expansion",
+        help="translation-validate polynomial equations lowered to coefficients")
+    coefficient_expansion.add_argument(
+        "--spec", required=True,
+        help="closed coefficient_expansion_v1 JSON specification")
+    coefficient_expansion.add_argument("--json", action="store_true")
+    coefficient_expansion.set_defaults(func=cmd_verify_coefficient_expansion)
     materialize = sub.add_parser(
         "materialize-elimination-groebner",
         help="discover, certify, and declare a pure-lex elimination target")

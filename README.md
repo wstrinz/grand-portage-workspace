@@ -30,7 +30,7 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1053<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1070<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
@@ -175,6 +175,14 @@ Three rows carry most of the value:
   `ZERO`/`NONZERO` condition can use that authority through verified coordinate
   rewrites, identity refinements, and elimination projections. The pure
   Groebner route remains coordinate-ring authority only.
+* **Coefficient expansion is a checked compiler boundary.** `gp
+  verify-coefficient-expansion --spec lowering.json` independently reconstructs
+  a polynomial template after bounded-coordinate substitution and checks the
+  recorded scalar rows. Selected coefficients are licensed only as necessary
+  conditions; complete `0..degree` coverage earns the converse and rejects
+  omitted overflow rows. The first JC cap assay proves why this is separate
+  from scalar elimination: `dm2=1,d2=y` satisfies the scalar exact target but
+  needs `dm4=-y/2`, so it cannot lift when `dm4` has cap zero.
 * **`IMAGE_CLOSURE` AGAINST / `NONEMPTY` is Chevalley.** A point of the Zariski
   closure need not lift. This is why elimination is a sound way to *derive*
   equations and an unsound source of *witnesses* — and why a cell that survives
@@ -242,7 +250,7 @@ Pure stdlib. No solver, no network, no model in the loop. Under a second.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1053<!--/checks--> checks
+python -m pytest        # <!--checks-->1070<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two
