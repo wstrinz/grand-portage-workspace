@@ -5,6 +5,7 @@ from dataclasses import FrozenInstanceError
 import pytest
 
 from grandportage import cas
+from grandportage import cli
 from grandportage import check as C
 from grandportage import contracts as OC
 from grandportage import kernel as K
@@ -153,13 +154,19 @@ def test_elimination_contract_is_multi_sorted_and_one_sided():
     assert {item.name for item in contract.checked_obligations} == {
         "generator_expressibility",
         "generator_source_membership",
+        "section_completeness",
     }
+    local = contract.checked_obligations[:2]
+    exact = contract.checked_obligations[2]
     assert all(item.verifier_subject == "operation"
                and item.verifier_function == "operation_output"
-               for item in contract.checked_obligations)
+               for item in local)
+    assert exact.verifier_subject == "elimination"
+    assert exact.verifier_function == "elimination_section"
     assert any("completeness" in item for item in contract.open_obligations)
-    assert not any("along" in item.lower() and "identit" in item.lower()
-                   for item in contract.licensed_consequences)
+    assert any("verified section" in item.lower()
+               and "identit" in item.lower()
+               for item in contract.licensed_consequences)
 
 
 def test_elimination_constructor_and_execution_preserve_the_contract():
@@ -218,7 +225,7 @@ def test_incomplete_elimination_passes_local_check_but_not_exact_contract():
     assert certificate["target_ring_vars"] == ["x"]
     assert certificate["eliminated"] == ["y"]
     assert "DOES NOT SAY: that the output is COMPLETE" in why
-    assert any("completeness" in item
+    assert any("no polynomial section" in item
                for item in done.contract.open_obligations)
 
 
@@ -300,3 +307,140 @@ def test_local_elimination_verdict_does_not_mint_exact_forward_authority():
     graph.edges["E"].pop("built_by_operation")
     licensed, _trace = C.audit_inference(graph, "I")
     assert licensed, "an authored exact IMAGE_CLOSURE still states exactness"
+class _SectionBackend:
+    """Semantic test double for the section checker, never for persistence."""
+
+    def __init__(self):
+        self.pullbacks = []
+
+    def pullback_reduce(self, ring, expression, images, generators=(), **_kw):
+        assert ring == ["y", "x"]
+        assert images == {"y": "x^2", "x": "x"}
+        assert generators == []
+        self.pullbacks.append(expression)
+        return {
+            "y*x-1": "x^3-1",
+            "y^2-x": "x^4-x",
+        }[expression], False
+
+    def membership(self, ring, expression, generators, **_kw):
+        assert ring == ["x"]
+        assert generators == ["x^3-1"]
+        return {
+            "is_member": True,
+            "reduced": "0",
+            "cofactors": ["1" if expression == "x^3-1" else "x"],
+        }
+
+    def check_membership(self, ring, expression, generators, cofactors, **_kw):
+        assert ring == ["x"]
+        assert generators == ["x^3-1"]
+        expected = ["1" if expression == "x^3-1" else "x"]
+        return cofactors == expected, expression
+
+
+def _section_graph():
+    return S.Graph().apply_all([
+        ({"ev": "model", "id": "SOURCE", "what": "source",
+          "characteristic": 0, "ring_vars": ["y", "x"],
+          "generators": ["y*x-1", "y^2-x"]}, "test", 0),
+        ({"ev": "model", "id": "TARGET", "what": "elimination target",
+          "characteristic": 0, "ring_vars": ["x"],
+          "generators": ["x^3-1"], "eliminated": ["y"]}, "test", 1),
+        ({"ev": "edge", "id": "E", "src": "SOURCE", "dst": "TARGET",
+          "type": K.IMAGE_CLOSURE, "map_kind": K.POLYNOMIAL,
+          "why": "eliminate y", "built_by_operation": "Eliminate"},
+         "test", 2),
+    ]).validate()
+
+
+def test_polynomial_section_certifies_missing_contraction_inclusion():
+    graph = _section_graph()
+    verdict, why, certificate = V.elimination_section(
+        graph, "E", {"y": "x^2"}, _backend=_SectionBackend())
+
+    assert verdict == V.SECTION_VERIFIED, why
+    assert certificate["method"] == "polynomial_section_v1"
+    assert certificate["images"] == {"y": "x^2", "x": "x"}
+    assert [row["cofactors"] for row in certificate["rows"]] == [["1"], ["x"]]
+    assert "exact contraction" in why
+    assert "does not by itself" in why
+
+
+def test_section_and_no_invention_unlock_identity_but_not_point_closure():
+    graph = _section_graph()
+    edge = graph.edges["E"]
+    edge["output_verdict"] = V.OP_SOUND
+    edge["contraction_verdict"] = V.SECTION_VERIFIED
+
+    assert C.effective_exact_contraction(edge)
+    assert not C.effective_geometric_closure(edge)
+    identity = K.transport(
+        K.IMAGE_CLOSURE, K.ALONG, K.IDENTITY,
+        map_kind=K.POLYNOMIAL,
+        exact_contraction=C.effective_exact_contraction(edge),
+        geometric_closure=C.effective_geometric_closure(edge))
+    predicate = K.transport(
+        K.IMAGE_CLOSURE, K.ALONG, K.PREDICATE,
+        zariski_closed=True,
+        exact_contraction=C.effective_exact_contraction(edge),
+        geometric_closure=C.effective_geometric_closure(edge))
+    assert identity.licensed
+    assert not predicate.licensed
+    assert "geometric point-closure" in predicate.reason
+
+
+def test_false_section_is_rejected_without_refuting_exactness():
+    graph = S.Graph().apply_all([
+        ({"ev": "model", "id": "SOURCE", "what": "source",
+          "characteristic": 0, "ring_vars": ["y", "x"],
+          "generators": ["x"]}, "test", 0),
+        ({"ev": "model", "id": "TARGET", "what": "incomplete target",
+          "characteristic": 0, "ring_vars": ["x"],
+          "generators": [], "eliminated": ["y"]}, "test", 1),
+        ({"ev": "edge", "id": "E", "src": "SOURCE", "dst": "TARGET",
+          "type": K.IMAGE_CLOSURE, "map_kind": K.POLYNOMIAL,
+          "why": "false elimination", "built_by_operation": "Eliminate"},
+         "test", 2),
+    ]).validate()
+
+    class ZeroTargetBackend:
+        def pullback_reduce(self, *_args, **_kwargs):
+            return "x", False
+
+    verdict, why, certificate = V.elimination_section(
+        graph, "E", {"y": "0"}, _backend=ZeroTargetBackend())
+    assert verdict == V.SECTION_REJECTED
+    assert "not to zero" in why
+    assert certificate is None
+    assert not C.effective_exact_contraction(graph.edges["E"])
+
+
+def test_section_must_live_in_retained_ring_before_backend_runs():
+    graph = _section_graph()
+    verdict, why, certificate = V.elimination_section(
+        graph, "E", {"y": "y+x"}, _backend=object())
+    assert verdict == V.SECTION_REJECTED
+    assert "outside the retained ring" in why
+    assert certificate is None
+def test_verify_elimination_cli_passes_explicit_section(
+        tmp_path, monkeypatch, capsys):
+    seen = {}
+
+    def fake(root, edge, section, timeout, record):
+        seen.update(root=root, edge=edge, section=section,
+                    timeout=timeout, record=record)
+        return V.SECTION_VERIFIED, "checked", {"rows": []}
+
+    monkeypatch.setattr(V, "verify_elimination_section", fake)
+    status = cli.main([
+        "--root", str(tmp_path), "verify-elimination", "E",
+        "--section", '{"y":"x^2"}', "--timeout", "19", "--dry-run",
+    ])
+
+    assert status == 0
+    assert "VERIFIED_SECTION" in capsys.readouterr().out
+    assert seen == {
+        "root": str(tmp_path), "edge": "E", "section": {"y": "x^2"},
+        "timeout": 19, "record": False,
+    }

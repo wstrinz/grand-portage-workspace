@@ -27,20 +27,39 @@ That is a semantic change, so it is an epoch change rather than an unannounced
 checker tweak. Format-1/kernel-epoch-1 graphs migrate non-destructively:
 
 ```console
-gp --graph old/.portage/graph.jsonl migrate --to-kernel2
+gp --graph old/.portage/graph.jsonl migrate --to-current-kernel
 ```
 
-The command writes a new `graph.kernel2.jsonl` and audit file. The source is
+The command writes a new graph named for the current kernel epoch and an audit file. The source is
 never replaced; prior verdicts remain in history but are stale, and every
 transport is re-audited under epoch 2.
 
+Version 0.7.0 also keeps graph format 1 and advances to **kernel epoch 3**.
+It introduces a separately versioned `elimination` verifier subject and splits
+exact coordinate-ring contraction from geometric point-closure authority. A
+current `VERIFIED` operation-output verdict plus a current
+`VERIFIED_SECTION` polynomial-section verdict licenses exact retained-ring
+identity transport. It does not license closed point predicates: those still
+need an independently checked field/radical-aware geometric theorem.
+
+This is both a transport-meaning and verifier-trust change, so epoch 2 graphs
+must be re-audited. The migration command is now epoch-neutral:
+
+```console
+gp --graph old/.portage/graph.jsonl migrate --to-current-kernel
+```
+
+It writes `graph.kernel3.jsonl` by default. The old `--to-kernel2` spelling is
+accepted only as a hidden compatibility alias; new automation should use the
+current-kernel spelling. The source remains untouched and all earlier verdicts
+remain readable but stale.
 Within one kernel epoch, no field may silently acquire a more permissive
 interpretation. A syntax-only extension can bump `graph_format`; transport
 meaning or verifier trust bumps `kernel_epoch` or the narrower verifier/backend
 implementation version as appropriate.
 ## Epoch-0 graphs
 
-Unversioned graphs are epoch 0. Version 0.6 continues to read them through a conservative,
+Unversioned graphs are epoch 0. Version 0.7 continues to read them through a conservative,
 read-only importer. It will not append new events to them and will not blend
 them with epoch-1 graphs.
 
@@ -150,13 +169,15 @@ The transcript-completeness boundary binds a fresh nonce to every execution and
 accepts mathematical output only when the matching marker is the final
 non-whitespace line. Singular implementation version 2 made pre-marker verdicts
 stale; implementation version 3 adds the durable content-addressed envelope.
-Before adding a second backend, the next trust problem is elimination
-completeness evidence: a backend-independent certificate or cross-validation
-rule that can earn exact-output authority rather than assert it.
+The first narrow elimination-completeness certificate is now implemented:
+a checked polynomial section earns exact contraction without trusting a second
+backend. The remaining trust work is a general Gröbner certificate for cases
+without such a section and a separate geometric image-closure proof.
 
 The release order is now visible in the epochs: close known semantic defects,
 cut format 1 / kernel epoch 1, finish the backend evidence seam, then advance to
-kernel epoch 2 when the elimination contract exposed a narrower real licence.
+kernel epoch 2 when the elimination contract exposed a narrower real licence,
+then kernel epoch 3 when a certificate earned back only the coordinate-ring half.
 
 ## Sealed campaigns
 

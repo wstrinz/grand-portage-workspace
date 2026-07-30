@@ -765,6 +765,155 @@ def operation_output(graph, eid, timeout=300, _runner=None, _backend=None):
             "eliminated": list(built.get("eliminated") or [])}
 
 
+SECTION_VERIFIED = "VERIFIED_SECTION"
+SECTION_REJECTED = "CERTIFICATE_REJECTED"
+
+
+def elimination_section(graph, eid, section, timeout=300, _runner=None,
+                        _backend=None):
+    """Check a polynomial retraction proving elimination completeness.
+
+    The ordinary operation verifier proves that every recorded target
+    generator came from the source ideal. This checker proves the independent
+    reverse inclusion: substitute polynomial images for eliminated variables,
+    fix retained variables literally, and certify that every source generator
+    lands in the recorded target ideal. Together those two certificates give
+    exact contraction; this checker deliberately says nothing yet about
+    base-relative point closure.
+    """
+    e = graph.edges.get(eid)
+    if not e or e.get("built_by_operation") != "Eliminate":
+        return UNVERIFIED, (
+            "edge %s is not a constructor-built Eliminate edge" % eid), None
+    stale = _stale_endpoint(graph, eid)
+    if stale:
+        return UNVERIFIED, stale, None
+    source = graph.models.get(e.get("src")) or {}
+    target = graph.models.get(e.get("dst")) or {}
+    for mid, model in ((e.get("src"), source), (e.get("dst"), target)):
+        pending = _pending_ideal(mid, model)
+        if pending:
+            return UNVERIFIED, pending, None
+        if model.get("generators") is None:
+            return UNVERIFIED, (
+                "%s records no ideal, so a section cannot be checked" % mid
+            ), None
+    source_ring = source.get("ring_vars") or []
+    target_ring = target.get("ring_vars") or []
+    eliminated = target.get("eliminated")
+    if (not source_ring or not isinstance(eliminated, list)
+            or not eliminated or len(eliminated) != len(set(eliminated))
+            or any(variable not in source_ring for variable in eliminated)):
+        return UNVERIFIED, (
+            "%s does not record a valid nonempty eliminated-variable subset"
+            % e.get("dst")), None
+    expected_target = [v for v in source_ring if v not in set(eliminated)]
+    if target_ring != expected_target:
+        return UNVERIFIED, (
+            "%s's retained ring %s is not the ordered complement %s"
+            % (e.get("dst"), target_ring, expected_target)), None
+    source_ch, missing = _declared_characteristic(e.get("src"), source)
+    if missing:
+        return UNVERIFIED, missing, None
+    target_ch, missing = _declared_characteristic(e.get("dst"), target)
+    if missing:
+        return UNVERIFIED, missing, None
+    if source_ch != target_ch:
+        return UNVERIFIED, (
+            "the elimination endpoints have different characteristics"
+        ), None
+    if not isinstance(section, dict) or set(section) != set(eliminated):
+        return SECTION_REJECTED, (
+            "a polynomial section must give exactly the eliminated variables "
+            "%s; got %s" % (eliminated, sorted(section) if isinstance(
+                section, dict) else type(section).__name__)), None
+    for variable in eliminated:
+        image = section.get(variable)
+        if not isinstance(image, str) or not image.strip():
+            return SECTION_REJECTED, (
+                "the image of %s must be a nonempty polynomial string"
+                % variable), None
+        foreign = cas.foreign_symbols(target_ring, image)
+        if foreign:
+            return SECTION_REJECTED, (
+                "the proposed image %s -> %s names %s outside the retained "
+                "ring" % (variable, image, ", ".join(foreign))), None
+
+    images = dict((v, v) for v in target_ring)
+    images.update((v, section[v]) for v in eliminated)
+    # The backend map is simultaneous, but its image list must follow the
+    # source-ring order. A sequential substitution silently breaks swaps and
+    # nonlinear sections.
+    images = dict((v, images[v]) for v in source_ring)
+    backend = _backend or cas.SingularBackend(runner=_runner)
+    target_generators = list(target["generators"])
+    rows = []
+    for generator in source["generators"]:
+        substituted, _ = backend.pullback_reduce(
+            source_ring, generator, images, generators=[],
+            characteristic=source_ch, timeout=timeout)
+        foreign = cas.foreign_symbols(target_ring, substituted)
+        if foreign:
+            return SECTION_REJECTED, (
+                "substituting into %s produced %s, which still names %s "
+                "outside the retained ring"
+                % (generator, substituted, ", ".join(foreign))), None
+        if not target_generators:
+            if substituted.replace(" ", "") != "0":
+                return SECTION_REJECTED, (
+                    "the proposed section sends source generator %s to %s, "
+                    "not to zero in the recorded zero target ideal"
+                    % (generator, substituted)), None
+            cofactors = []
+        else:
+            membership = backend.membership(
+                target_ring, substituted, target_generators,
+                characteristic=source_ch, timeout=timeout)
+            if not membership["is_member"]:
+                return SECTION_REJECTED, (
+                    "the proposed section sends source generator %s to %s, "
+                    "which is not in the target ideal (remainder %s)"
+                    % (generator, substituted, membership["reduced"])), None
+            cofactors = list(membership["cofactors"])
+            bad_cofactors = cas.foreign_symbols(target_ring, *cofactors)
+            if bad_cofactors:
+                return SECTION_REJECTED, (
+                    "the membership cofactors name %s outside the retained "
+                    "ring" % ", ".join(bad_cofactors)), None
+            ok, expanded = backend.check_membership(
+                target_ring, substituted, target_generators, cofactors,
+                characteristic=source_ch, timeout=timeout)
+            if not ok:
+                return SECTION_REJECTED, (
+                    "the membership search returned cofactors for %s, but "
+                    "independent expansion produced %s"
+                    % (substituted, expanded)), None
+        rows.append({
+            "source_generator": generator,
+            "substituted": substituted,
+            "cofactors": cofactors,
+        })
+
+    representation = {
+        "method": "polynomial_section_v1",
+        "section": dict((v, section[v]) for v in eliminated),
+        "source_ring_vars": list(source_ring),
+        "target_ring_vars": list(target_ring),
+        "eliminated": list(eliminated),
+        "source_generators": list(source["generators"]),
+        "target_generators": target_generators,
+        "images": images,
+        "rows": rows,
+    }
+    return SECTION_VERIFIED, (
+        "the simultaneous polynomial section fixes every retained variable "
+        "and sends every source generator into the recorded target ideal; "
+        "expanded cofactors independently confirm each membership. This "
+        "establishes contraction completeness. Combined with VERIFIED "
+        "operation output it yields exact contraction, but it does not by "
+        "itself establish base-relative geometric image closure."
+    ), representation
+
 COVERS = "VERIFIED"
 NOT_EXHAUSTIVE = "NOT_EXHAUSTIVE"
 NOT_GEOMETRICALLY_EXHAUSTIVE = "NOT_GEOMETRICALLY_EXHAUSTIVE"
@@ -1110,12 +1259,41 @@ def _verdict_event(graph, subject, of, verdict, why, representation=None,
     # identity and semantic input that made it authoritative.
     ev = {"ev": S.EV_VERDICT, "subject": subject, "of": of,
           "verdict": verdict, "why": why}
-    ev.update(P.metadata(graph, subject, of, execution=execution))
+    ev.update(P.metadata(
+        graph, subject, of, execution=execution,
+        representation=representation))
     if representation:
         ev["representation"] = representation
     ev["id"] = "v.%s.%s" % (of, P.event_digest(ev))
     return ev
 
+
+def verify_elimination_section(root, eid, section, timeout=300, record=True,
+                               backend=None, _runner=None):
+    """Check and optionally persist one explicit elimination section."""
+    path = S.graph_path(root)
+    graph = S.load(path)
+    if backend is not None and _runner is not None:
+        raise ValueError("pass backend or legacy _runner, not both")
+    backend = backend or cas.SingularBackend(runner=_runner)
+    if record and not backend.can_record_verdicts:
+        raise ValueError(
+            "record=True requires the exact production backend and binary; "
+            "test doubles may be used only with record=False")
+    execution_start = backend.execution_count
+    try:
+        verdict, why, representation = elimination_section(
+            graph, eid, section, timeout=timeout, _backend=backend)
+    except cas.CASError as exc:
+        verdict, why, representation = UNVERIFIED, (
+            "the CAS could not check this section:\n  %s" % exc), None
+    if record:
+        A.persist_all(root, backend.execution_artifacts(execution_start))
+        event = _verdict_event(
+            graph, "elimination", eid, verdict, why, representation,
+            execution=backend.provenance(execution_start))
+        S.append([event], root)
+    return verdict, why, representation
 
 def verify_all(root=".", timeout=300, _runner=None, record=True, backend=None):
     """Verify every checkable edge AND claim, and RECORD the answers.

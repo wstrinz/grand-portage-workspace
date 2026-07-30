@@ -266,6 +266,58 @@ theorem elimination_semantics_transports_identity_along
   intro h
   apply (exact (lhs - rhs)).2
   rwa [include_sub]
+/-- The missing half of elimination exactness: every source relation that is
+    expressible in the retained ring was recorded in the target ideal. -/
+def EliminationCompleteness {R : Type u} {S : Type v}
+    (p : EliminationParams R S) (I : Ideal R) (J : Ideal S) : Prop :=
+  IdealGrows (ContractIdeal p.embedding I) J
+
+/-- The cheap no-invention check and an independently earned completeness
+    certificate combine to recover exact contraction semantics. -/
+theorem elimination_checked_and_complete_semantics
+    {R : Type u} {S : Type v}
+    {p : EliminationParams R S} {I : Ideal R} {J : Ideal S}
+    (pre : EliminationPrecondition p I J)
+    (checked : EliminationChecked p I J)
+    (complete : EliminationCompleteness p I J) :
+    EliminationSemantics p I J := by
+  intro g
+  constructor
+  · exact elimination_checked_no_invented_elements pre checked g
+  · exact complete g
+
+/-- A polynomial section is stronger than bare completeness. Runtime checks
+    instantiate `retract` by simultaneous polynomial substitution, fix every
+    retained coordinate literally, and certify that every recorded source
+    generator maps into the target ideal. `source_generated` and
+    `preimage_is_ideal` are the abstract bridge showing those finite checks
+    carry the entire source ideal; polynomial substitution supplies the latter
+    because inverse images of ideals under ring homomorphisms are ideals. -/
+structure EliminationSectionCertificate {R : Type u} {S : Type v}
+    (p : EliminationParams R S) (I : Ideal R) (J : Ideal S) where
+  retract : R → S
+  retract_embedding : ∀ g, retract (p.embedding g) = g
+  sourceGenerator : R → Prop
+  source_generated :
+    ∀ f, I f ↔ GeneratedIdeal p.sourceIdeal sourceGenerator f
+  preimage_is_ideal : p.sourceIdeal (fun f => J (retract f))
+  carries_source_generator :
+    ∀ f, sourceGenerator f → J (retract f)
+
+/-- The finite generator certificates lift through ideal generation, and the
+    checked polynomial section therefore proves contraction completeness. -/
+theorem elimination_section_entails_completeness
+    {R : Type u} {S : Type v}
+    {p : EliminationParams R S} {I : Ideal R} {J : Ideal S}
+    (certificate : EliminationSectionCertificate p I J) :
+    EliminationCompleteness p I J := by
+  intro g hg
+  rw [← certificate.retract_embedding g]
+  have generated := (certificate.source_generated (p.embedding g)).1 hg
+  exact generated
+    (fun f => J (certificate.retract f))
+    certificate.preimage_is_ideal
+    certificate.carries_source_generator
 /-! ## What the checked guarantee licenses -/
 
 /-- Source identities remain valid on the checked saturation result.  This is
@@ -429,6 +481,15 @@ theorem checked_does_not_imply_elimination_semantics :
   simp only [zeroI] at zeroTwo
   omega
 
+/-- The same witness shows that completeness itself is not hidden inside the
+    cheap checked guarantee. -/
+theorem incomplete_elimination_has_no_completeness :
+    Not (EliminationCompleteness incompleteEliminationParams evens zeroI) := by
+  intro complete
+  have evenTwo : evens 2 := ⟨1, by omega⟩
+  have zeroTwo : zeroI 2 := complete 2 evenTwo
+  simp only [zeroI] at zeroTwo
+  omega
 /-- Consequently the locally checked output cannot carry the source identity
     `2 = 0` along to the incomplete target. -/
 theorem checked_elimination_does_not_transport_identity_along :

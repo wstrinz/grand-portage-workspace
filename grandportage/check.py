@@ -11,6 +11,7 @@ Those are orthogonal axes and conflating them is how a project ends up with an
 
 import hashlib
 
+from . import format as F
 from . import kernel as K
 from . import store as S
 from .cas import foreign_symbols as cas_foreign_symbols
@@ -188,7 +189,7 @@ def audit_inference(graph, iid):
             detail += (
                 " (partition exhaustiveness has no current VERIFIED verdict; "
                 "a declaration alone does not license a case split in "
-                "kernel epoch 2)")
+                "kernel epoch %d)" % F.KERNEL_EPOCH)
         return r.licensed, [(UNCOVERED_PARTITION, "COVERS", r.licensed, detail)]
     # EVERY premise, not just the first.  An argument is only as licensed as
     # its weakest leg, and before the multi-premise form existed the extra legs
@@ -219,7 +220,8 @@ def audit_inference(graph, iid):
                 coefficients_in_base=claim.get("coefficients_in_base"),
                 zariski_dense=e.get("zariski_dense"),
                 existential=claim.get("existential"),
-                image_complete=effective_image_complete(e))
+                exact_contraction=effective_exact_contraction(e),
+                geometric_closure=effective_geometric_closure(e))
             trace.append((eid, direction, r.licensed, r.reason))
             if not r.licensed:
                 ok = False
@@ -264,7 +266,8 @@ def probe(graph, claim_id, edge_id, direction, etype=None, map_kind=None,
         coefficients_in_base=claim.get("coefficients_in_base"),
         zariski_dense=edge.get("zariski_dense"),
         existential=claim.get("existential"),
-        image_complete=effective_image_complete(edge))
+        exact_contraction=effective_exact_contraction(edge),
+        geometric_closure=effective_geometric_closure(edge))
 
 
 def contradicting_claims(graph, model_id, kind, exclude=()):
@@ -1332,18 +1335,34 @@ def effective_ring_iso(edge):
     return edge.get("ring_iso_verdict") == "VERIFIED"
 
 
-def effective_image_complete(edge):
-    """Whether an IMAGE_CLOSURE target has exact-output authority.
+def effective_exact_contraction(edge):
+    """Whether a constructed elimination has exact contraction authority.
 
-    A hand-declared image closure states the exact mathematical relation. A
-    constructor-built elimination is different: its current translation
-    validator proves only that recorded generators belong to the contraction.
-    Until a completeness certificate exists, exact-dependent forward moves
-    fail closed.
+    Two independent proofs are required: the existing operation validator
+    establishes that the target invented no equations, and a section
+    certificate establishes that it omitted no retained source equations.
     """
     if edge.get("built_by_operation") != "Eliminate":
         return True
-    return edge.get("output_verdict") == "VERIFIED_EXACT"
+    return (edge.get("output_verdict") == "VERIFIED"
+            and edge.get("contraction_verdict") == "VERIFIED_SECTION")
+
+
+def effective_geometric_closure(edge):
+    """Whether point-level geometric image-closure transport is established.
+
+    Manual IMAGE_CLOSURE edges assert that semantic relation. A constructor
+    polynomial section proves equality of ideals, not by itself the relevant
+    base-relative point theorem, so epoch 3 keeps this gate closed for all
+    constructed eliminations.
+    """
+    return edge.get("built_by_operation") != "Eliminate"
+
+
+def effective_image_complete(edge):
+    """Epoch-2 compatibility view: both exact authorities at once."""
+    return (effective_exact_contraction(edge)
+            and effective_geometric_closure(edge))
 
 
 def effective_certificate(claim):

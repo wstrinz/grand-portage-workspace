@@ -47,11 +47,13 @@ the named backend/verifier TCB; verifier-native structural decisions explicitly
 spawn no backend artifact.
 
 `GrandPortage/OperationContract.lean` - the first backend-neutral operation
-contract. Exact saturation semantics, locally checked guarantees, and licensed
-transport consequences are distinct predicates. Ideal generation is modeled by
-its universal property, so certificates for every recorded output generator now
-lift to an ideal-level sound envelope. A concrete counterexample separately
-refuses the still-open output-completeness direction.
+contracts. Exact saturation and elimination semantics, locally checked
+guarantees, and licensed transport consequences are distinct predicates. Ideal
+generation lifts generator certificates to ideal-level sound envelopes.
+Elimination completeness is a separate inclusion; a polynomial retraction
+certificate proves it, and combining it with no-invention recovers exact
+contraction. Concrete counterexamples show neither saturation nor elimination
+completeness is hidden in the cheap local checks.
 
 `GrandPortage/Conditions.lean` — **that conjecture is refuted.** The four gated
 conditions turn out to be three different shapes, and one of them is not about

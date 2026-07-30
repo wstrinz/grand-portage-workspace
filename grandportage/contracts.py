@@ -142,15 +142,23 @@ ELIMINATION = OperationContract(
             "operation_output",
             "every recorded output generator maps into the source ideal",
         ),
+        ValidationObligation(
+            "section_completeness",
+            "elimination",
+            "elimination_section",
+            "a polynomial retraction fixes the retained ring and carries the "
+            "entire source ideal into the recorded target ideal",
+        ),
     ),
     open_obligations=(
-        "inclusion^-1(I(source)) is contained in I(built) (output completeness)",
+        "general completeness certificates for exact eliminations with no polynomial section",
         "point-set closure identification needs explicit field and radical hypotheses",
     ),
     licensed_consequences=(
         "the entire built ideal is contained in the contraction of the source ideal",
         "target identities pull back to source identities (IMAGE_CLOSURE/AGAINST)",
         "source points map to target points, so target emptiness implies source emptiness",
+        "a verified section plus no-invention licenses source-derived retained-ring identities along",
     ),
 )
 

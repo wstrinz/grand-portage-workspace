@@ -18,6 +18,7 @@ from grandportage import discharge as D
 from grandportage import kernel as K
 from grandportage import mcp
 from grandportage import store as S
+from grandportage import verify as V
 
 
 def rpc(method, params=None, rid=1):
@@ -510,3 +511,35 @@ def test_a_refused_graph_says_which_graph_refused(tmp_path):
     assert "THE GRAPH BEING WRITTEN IS" in text
     assert os.path.abspath(p) in text
     assert "may be about your campaign at all" in text
+
+def test_elimination_verifier_tool_exposes_and_passes_typed_section(
+        project, monkeypatch):
+    seen = {}
+
+    def fake(root, edge, section, timeout, record):
+        seen.update(root=root, edge=edge, section=section,
+                    timeout=timeout, record=record)
+        return V.SECTION_VERIFIED, "checked exact contraction", {"rows": []}
+
+    monkeypatch.setattr(V, "verify_elimination_section", fake)
+    result = call("portage_verify_elimination", {
+        "edge": "E", "section": {"y": "x^2"},
+        "timeout": 17, "dry_run": True,
+    }, project)
+
+    assert not result.get("isError")
+    assert "VERIFIED_SECTION" in text(result)
+    assert seen == {
+        "root": project, "edge": "E", "section": {"y": "x^2"},
+        "timeout": 17, "record": False,
+    }
+
+
+def test_elimination_verifier_tool_schema_requires_edge_and_section():
+    tools = {tool["name"]: tool
+             for tool in mcp.dispatch(rpc("tools/list"))["result"]["tools"]}
+    schema = tools["portage_verify_elimination"]["inputSchema"]
+    assert set(schema["required"]) == {"edge", "section"}
+    assert schema["properties"]["section"]["type"] == "object"
+    assert schema["properties"]["section"]["additionalProperties"] == {
+        "type": "string"}

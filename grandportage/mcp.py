@@ -459,6 +459,24 @@ TOOLS = [
         []),
 
     _tool(
+        "portage_verify_elimination",
+        "Certify exact coordinate-ring contraction for one constructor-built "
+        "Eliminate edge using a polynomial section. The section fixes retained "
+        "variables and maps every eliminated variable to a polynomial in them. "
+        "This is deliberately separate from geometric point-closure authority.",
+        {"edge": {"type": "string"},
+         "section": {
+             "type": "object",
+             "additionalProperties": {"type": "string"},
+             "description": (
+                 "map each eliminated variable to its polynomial image in the "
+                 "retained variables")},
+         "timeout": {"type": "integer", "default": 300},
+         "dry_run": {"type": "boolean", "default": False},
+         "root": {"type": "string",
+                  "description": "campaign directory holding .portage/"}},
+        ["edge", "section"]),
+    _tool(
         "cas_health",
         "Check that the CAS is reachable and answers correctly, WITHOUT "
         "touching the graph. Runs a trivial ideal with a known answer. Use "
@@ -670,6 +688,26 @@ def h_portage_verify(args, root):
     return _text("\n\n".join(lines))
 
 
+def h_portage_verify_elimination(args, root):
+    from . import verify as V
+    path = S.graph_path(root)
+    if not os.path.exists(path):
+        return _text("no graph yet at %s" % path)
+    section = args.get("section")
+    if not isinstance(section, dict):
+        return _err("section must be an object mapping variables to polynomials")
+    try:
+        verdict, why, _representation = V.verify_elimination_section(
+            root, args.get("edge"), section,
+            timeout=int(args.get("timeout") or 300),
+            record=not args.get("dry_run"))
+    except (A.ArtifactError, OSError, S.GraphError, ValueError) as exc:
+        return _err("elimination verification failed: %s" % exc)
+    suffix = ("--dry-run: nothing was recorded."
+              if args.get("dry_run") else "verdict recorded.")
+    return _text("%s  elimination %s\n    %s\n\n%s"
+                 % (verdict, args.get("edge"), why, suffix))
+
 def _render(findings):
     if not findings:
         return "no findings: every recorded conclusion is licensed by the "\
@@ -819,6 +857,7 @@ HANDLERS = {
     "portage_declare": h_portage_declare,
     "portage_check": h_portage_check,
     "portage_verify": h_portage_verify,
+    "portage_verify_elimination": h_portage_verify_elimination,
     "cas_health": h_cas_health,
     "portage_show": h_portage_show,
     "portage_transport_table": h_portage_transport_table,

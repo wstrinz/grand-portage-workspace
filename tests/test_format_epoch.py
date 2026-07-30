@@ -10,6 +10,7 @@ from grandportage import check as C
 from grandportage import cli
 from grandportage import format as F
 from grandportage import kernel as K
+from grandportage import migration as MIG
 from grandportage import operations as O
 from grandportage import store as S
 
@@ -27,7 +28,7 @@ def test_init_starts_with_epoch_metadata(tmp_path):
     path = S.graph_path(str(tmp_path))
     events = list(S.load_events(path))
     assert events[0][0] == {
-        "created_with": "grandportage/0.6.0",
+        "created_with": "grandportage/0.7.0",
         "ev": "meta",
         "graph_format": 1,
         "kernel_epoch": F.KERNEL_EPOCH,
@@ -272,7 +273,7 @@ def test_first_append_creates_a_native_graph(tmp_path):
 def test_kernel_epoch1_migration_is_non_destructive_and_reaudits_transport(
         tmp_path):
     source = tmp_path / "epoch1.jsonl"
-    destination = tmp_path / "epoch2.jsonl"
+    destination = tmp_path / "current-kernel.jsonl"
     events = [
         {"ev": "meta", "graph_format": 1, "kernel_epoch": 1,
          "created_with": "grandportage/0.5.0"},
@@ -297,16 +298,34 @@ def test_kernel_epoch1_migration_is_non_destructive_and_reaudits_transport(
     before = source.read_bytes()
 
     assert cli.main([
-        "--graph", str(source), "migrate", "--to-kernel2",
+        "--graph", str(source), "migrate", "--to-current-kernel",
         "--kernel-output", str(destination),
     ]) == 0
 
     assert source.read_bytes() == before
     graph = S.load(str(destination))
-    assert graph.kernel_epoch == F.KERNEL_EPOCH == 2
+    assert graph.kernel_epoch == F.KERNEL_EPOCH == 3
     finding = [item for item in C.run(graph) if item.rule == C.R_TRANSPORT]
     assert len(finding) == 1
     assert "completeness" in finding[0].detail
-    audit = json.loads((tmp_path / "epoch2.jsonl.audit.json").read_text())
+    audit = json.loads((tmp_path / "current-kernel.jsonl.audit.json").read_text())
     assert audit["from_kernel_epoch"] == 1
-    assert audit["kernel_epoch"] == 2
+    assert audit["kernel_epoch"] == 3
+
+
+def test_kernel_epoch2_migrates_non_destructively_to_epoch3(tmp_path):
+    source = tmp_path / "epoch2.jsonl"
+    destination = tmp_path / "epoch3.jsonl"
+    _write(source, [{
+        "ev": "meta", "graph_format": 1, "kernel_epoch": 2,
+        "created_with": "grandportage/0.6.0",
+    }])
+    before = source.read_bytes()
+
+    reports = MIG.migrate_kernel_epoch(
+        [str(source)], output=str(destination))
+
+    assert source.read_bytes() == before
+    assert reports[0]["from_kernel_epoch"] == 2
+    assert reports[0]["kernel_epoch"] == F.KERNEL_EPOCH == 3
+    assert S.load(str(destination)).kernel_epoch == 3

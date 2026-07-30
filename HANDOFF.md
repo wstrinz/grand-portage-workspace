@@ -35,7 +35,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about seven days. Version 0.6.0. <!--checks-->945<!--/checks--> checks.** Treat
+**Age: about seven days. Version 0.7.0. <!--checks-->963<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -52,18 +52,25 @@ verdicts remain readable but stale. Only the exact production adapter with its
 probed binary may record authority; injected runners and subclasses remain
 non-authoritative.
 
-**OperationContract now has two Lean-backed pilots.** Saturation separates
-`J = I : f^∞` from the checked one-sided envelope. Elimination is the first
-multi-sorted contract: for `ι : S → R`, exact semantics is `J = ι⁻¹(I)`, while
-runtime typing and membership certificates establish only `J ⊆ ι⁻¹(I)`. Lean
-proves both generated-ideal lifts and pins incompleteness with explicit small
-counterexamples. The elimination pilot exposed a live authority defect:
-kernel epoch 1 let a source-derived identity travel forward on the strength of
-a local verdict that explicitly meant only “nothing invented.” Version 0.6.0
-therefore advances to kernel epoch 2. Constructed eliminations fail closed on
-the two exact-dependent forward cells until completeness evidence exists;
-checked pullback and point-map directions remain available. Format-1/epoch-1
-graphs migrate non-destructively with `gp migrate --to-kernel2`. See
+**OperationContract now has two Lean-backed pilots and one exactness certificate.**
+Saturation separates `J = I : f^∞` from its checked one-sided envelope.
+Elimination is multi-sorted: for `ι : S → R`, exact semantics is
+`J = ι⁻¹(I)`, while `verify.operation_output` establishes only
+`J ⊆ ι⁻¹(I)`. `verify.elimination_section` now checks a simultaneous polynomial
+retraction fixing `S` and carrying every source generator into `J`; Lean proves
+that such a section gives the missing inclusion. Both current verdicts are
+required before a constructed elimination gets exact contraction authority.
+
+Version 0.7.0 advances format 1 to kernel epoch 3 because it also corrects an
+important conflation: exact coordinate-ring contraction licenses a retained-ring
+identity moving forward, but does not by itself prove base-relative geometric
+image closure. Closed predicates therefore remain refused on constructed
+eliminations. Epoch-2 graphs migrate non-destructively with
+`gp migrate --to-current-kernel`; earlier verdicts remain history but stale.
+The positive live control is `(yx-1,y²-x) → (x³-1)` with section `y ↦ x²`;
+the hyperbola control remains exact but intentionally uncertifiable by this
+narrow section class. General Gröbner completeness evidence and the separate
+geometric theorem are the next formal/backend obligations. See
 `OPERATION-CONTRACTS.md` and `COMPATIBILITY.md`.
 There is now a **public repo**: `github.com/wstrinz/grandportage`, Apache-2.0,
 the tool plus all three fixtures plus `DESIGN.md` / `REVIEW.md` /
@@ -353,7 +360,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->945<!--/checks--> checks, ~10 s) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->963<!--/checks--> checks, ~10 s) |
 
 ---
 
@@ -460,7 +467,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->945<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->963<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.

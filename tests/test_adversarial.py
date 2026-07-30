@@ -2865,8 +2865,8 @@ def test_the_readme_transport_table_matches_the_kernel():
              "map_polynomial": "if denominator-free",
              "scheme_scope": "only with a certificate",
              "closed_condition": "if Zariski-closed",
-             "exact_image_identity": "if exact image",
-             "closed_exact_image": "if closed + exact image"}
+             "exact_image_identity": "if exact contraction",
+             "closed_exact_image": "if closed + geometric closure"}
 
     documented = {}
     for line in text.splitlines():

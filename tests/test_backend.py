@@ -530,3 +530,110 @@ def test_golden_geometric_hole_and_overlapping_decomposition():
     assert backend.membership(
         ["x", "y"], "y^3+1", returned_ideal, timeout=120
     )["is_member"] is False
+
+@pytest.mark.live
+def test_real_singular_polynomial_section_persists_exact_contraction(tmp_path):
+    """The first exact-elimination authority runs end to end on real CAS.
+
+    The section y -> x^2 sends (y*x-1, y^2-x) into (x^3-1). The ordinary
+    output verifier independently proves the other inclusion, and every raw
+    execution is persisted before either verdict reaches the graph.
+    """
+    from grandportage import check as C
+
+    root = str(tmp_path)
+    S.append([
+        {"ev": "model", "id": "SOURCE", "what": "source",
+         "characteristic": 0, "ring_vars": ["y", "x"],
+         "generators": ["y*x-1", "y^2-x"]},
+        {"ev": "model", "id": "TARGET", "what": "target",
+         "characteristic": 0, "ring_vars": ["x"],
+         "generators": ["x^3-1"], "eliminated": ["y"]},
+        {"ev": "edge", "id": "E", "src": "SOURCE", "dst": "TARGET",
+         "type": K.IMAGE_CLOSURE, "map_kind": K.POLYNOMIAL,
+         "why": "eliminate y", "built_by_operation": "Eliminate"},
+    ], root)
+
+    V.verify_all(root=root, timeout=120, record=True)
+    verdict, why, certificate = V.verify_elimination_section(
+        root, "E", {"y": "x^2"}, timeout=120, record=True)
+
+    assert verdict == V.SECTION_VERIFIED, why
+    assert certificate["rows"][1]["cofactors"] == ["x"]
+    graph = S.load(S.graph_path(root))
+    edge = graph.edges["E"]
+    assert edge["output_verdict"] == V.OP_SOUND
+    assert edge["contraction_verdict"] == V.SECTION_VERIFIED
+    assert C.effective_exact_contraction(edge)
+    assert not C.effective_geometric_closure(edge)
+    assert A.audit_graph(root, graph) == []
+
+
+@pytest.mark.live
+def test_real_singular_hyperbola_has_no_false_polynomial_section():
+    """Exact elimination can exist without this deliberately narrow proof."""
+    graph = S.Graph().apply_all([
+        ({"ev": "model", "id": "SOURCE", "what": "hyperbola",
+          "characteristic": 0, "ring_vars": ["y", "x"],
+          "generators": ["x*y-1"]}, "test", 0),
+        ({"ev": "model", "id": "TARGET", "what": "dense image closure",
+          "characteristic": 0, "ring_vars": ["x"],
+          "generators": [], "eliminated": ["y"]}, "test", 1),
+        ({"ev": "edge", "id": "E", "src": "SOURCE", "dst": "TARGET",
+          "type": K.IMAGE_CLOSURE, "map_kind": K.POLYNOMIAL,
+          "why": "eliminate y", "built_by_operation": "Eliminate"},
+         "test", 2),
+    ]).validate()
+
+    verdict, why, certificate = V.elimination_section(
+        graph, "E", {"y": "0"}, timeout=120)
+    assert verdict == V.SECTION_REJECTED
+    assert "not to zero" in why
+    assert certificate is None
+def test_section_wrapper_persists_verdict_and_every_answering_artifact(
+        tmp_path, monkeypatch):
+    root = str(tmp_path)
+    S.append([
+        {"ev": "model", "id": "SOURCE", "what": "source",
+         "characteristic": 0, "ring_vars": ["y", "x"],
+         "generators": ["y*x-1", "y^2-x"]},
+        {"ev": "model", "id": "TARGET", "what": "target",
+         "characteristic": 0, "ring_vars": ["x"],
+         "generators": ["x^3-1"], "eliminated": ["y"]},
+        {"ev": "edge", "id": "E", "src": "SOURCE", "dst": "TARGET",
+         "type": K.IMAGE_CLOSURE, "map_kind": K.POLYNOMIAL,
+         "why": "eliminate y", "built_by_operation": "Eliminate"},
+    ], root)
+
+    def runner(program, _timeout):
+        declarations = dict((name, value) for name, _kind, value in program.decls)
+        if program.outputs == ["GP_E"]:
+            value = {"y*x-1": "x^3-1", "y^2-x": "x^4-x"}[
+                declarations["GP_P"]]
+            output = "@@GP_E:\n%s\n" % value
+        elif program.outputs == ["GP_RED"]:
+            output = "@@GP_RED:\n0\n"
+        elif program.outputs == ["GP_M"]:
+            coefficient = "x" if "x^4-x" in declarations["GP_T"] else "1"
+            output = "@@GP_M:\nGP_M[1,1]=%s\n" % coefficient
+        elif program.outputs == ["GP_DIFF"]:
+            output = "@@GP_DIFF:\n0\n"
+        else:
+            pytest.fail("unexpected section program outputs %r" % program.outputs)
+        return _raw(_finished(program, output))
+
+    backend = cas.SingularBackend(
+        runner=runner, binary_version="Singular 4.4.1")
+    monkeypatch.setattr(
+        cas.SingularBackend, "can_record_verdicts",
+        property(lambda _self: True))
+
+    verdict, why, representation = V.verify_elimination_section(
+        root, "E", {"y": "x^2"}, backend=backend, record=True)
+
+    assert verdict == V.SECTION_VERIFIED, why
+    assert len(backend.executions) == 8
+    assert representation["rows"][1]["cofactors"] == ["x"]
+    graph = S.load(S.graph_path(root))
+    assert graph.edges["E"]["contraction_verdict"] == V.SECTION_VERIFIED
+    assert A.audit_graph(root, graph) == []

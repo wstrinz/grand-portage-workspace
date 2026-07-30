@@ -246,7 +246,7 @@ def test_image_forward_transport_needs_exact_output_authority():
     assert not identity.licensed
     assert "completeness" in identity.reason
     assert not predicate.licensed
-    assert "looser target" in predicate.reason
+    assert "geometric point-closure" in predicate.reason
     assert pullback.licensed, "the checked J subset contraction direction suffices"
 
 

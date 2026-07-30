@@ -779,7 +779,8 @@ def transport(etype, direction, kind, scope=None, certificate=None,
               map_kind=IDENTITY_MAP, zariski_closed=None,
               identity_origin=None, integral=None, ring_iso=None,
               coefficients_in_base=None, zariski_dense=None,
-              existential=None, image_complete=True):
+              existential=None, image_complete=True, exact_contraction=None,
+              geometric_closure=None):
     """Return a Ruling for moving a claim of `kind` across an edge of `etype`.
 
     Deliberately takes plain values rather than objects: the kernel must be
@@ -794,6 +795,13 @@ def transport(etype, direction, kind, scope=None, certificate=None,
     if kind not in CLAIM_KINDS:
         raise KeyError("unknown claim kind %r" % (kind,))
 
+    # `image_complete` is the epoch-2 compatibility argument. Epoch 3 splits
+    # exact coordinate-ring contraction from geometric point-closure
+    # authority; callers that use the old argument intentionally set both.
+    if exact_contraction is None:
+        exact_contraction = image_complete
+    if geometric_closure is None:
+        geometric_closure = image_complete
     rule = TRANSPORT[etype][direction][kind]
 
     def ruling(ok, reason, rulename):
@@ -947,7 +955,7 @@ def transport(etype, direction, kind, scope=None, certificate=None,
                           "IDENTITY rewriting needs a denominator-free map; "
                           "this edge's map is %s" % map_kind,
                           _MAP_POLYNOMIAL)
-        if image_complete:
+        if exact_contraction:
             return ruling(True,
                           "licensed: the map is denominator-free and the "
                           "target has exact image/contraction authority",
@@ -964,15 +972,16 @@ def transport(etype, direction, kind, scope=None, certificate=None,
                           "only Zariski-closed conditions extend from an "
                           "image to its closure; this predicate is not "
                           "declared closed", _CLOSED_CONDITION)
-        if image_complete:
+        if geometric_closure:
             return ruling(True,
                           "licensed: the condition is Zariski-closed and the "
-                          "target has exact image authority",
-                          _CLOSED_EXACT_IMAGE)
+                          "target has independently established geometric image-closure "
+                          "authority", _CLOSED_EXACT_IMAGE)
         return ruling(False,
                       "a closed condition extends to the actual closure, but "
-                      "this locally checked elimination may be a strictly "
-                      "looser target because output completeness is open",
+                      "this elimination has no independent geometric point-closure "
+                      "certificate; exact contraction alone does not settle "
+                      "base-relative image closure",
                       _CLOSED_EXACT_IMAGE)
     if rule == _CLOSED_CONDITION:
         if zariski_closed:

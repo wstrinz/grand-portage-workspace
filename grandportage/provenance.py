@@ -32,6 +32,7 @@ VERIFIERS = {
     "ring_iso": ("verify.ring_iso", 2),
     "witness": ("verify.point_witness", 2),
     "operation": ("verify.operation_output", 2),
+    "elimination": ("verify.elimination_section", 1),
     "partition": ("verify.partition_exhaustiveness", 2),
 }
 
@@ -47,6 +48,8 @@ _COMPUTED_FIELDS = {
     "ring_iso_verdict", "ring_iso_why",
     "witness_verdict", "witness_why",
     "output_verdict", "output_why",
+    "contraction_verdict", "contraction_why",
+    "contraction_representation",
     "exhaustive_verdict", "exhaustive_why",
     "representation",
 }
@@ -78,7 +81,7 @@ def input_payload(graph, subject, of):
     of fields.  Adding a new declaration field therefore invalidates old
     verdicts conservatively until the verifier is rerun.
     """
-    if subject in ("edge", "ring_iso", "operation"):
+    if subject in ("edge", "ring_iso", "operation", "elimination"):
         edge = graph.edges.get(of)
         return {
             "subject": subject,
@@ -117,10 +120,15 @@ def input_payload(graph, subject, of):
     raise ValueError("unknown verdict subject %r" % subject)
 
 
-def input_fingerprint(graph, subject, of):
+def input_fingerprint(graph, subject, of, representation=None):
     """Stable SHA-256 of the canonical semantic verifier input."""
+    payload = input_payload(graph, subject, of)
+    # A proof object is part of what was checked, not an annotation on the
+    # answer. Binding it here makes any later certificate mutation stale.
+    if representation is not None:
+        payload["verifier_evidence"] = representation
     encoded = json.dumps(
-        input_payload(graph, subject, of),
+        payload,
         sort_keys=True,
         separators=(",", ":"),
         ensure_ascii=True,
@@ -226,6 +234,31 @@ def _eligible_structural_operation(graph, event):
     )
 
 
+def _eligible_structural_elimination(graph, event):
+    """A section over the zero source ideal is a proof without a CAS run."""
+    if event.get("verdict") != "VERIFIED_SECTION":
+        # Rejections and inability to pose a check grant no authority, but are
+        # still legitimate verifier-native history when validation stops
+        # before spawning a backend process.
+        return event.get("verdict") in ("CERTIFICATE_REJECTED", "UNVERIFIED")
+    edge = graph.edges.get(event.get("of")) or {}
+    source = _active_model(graph, edge.get("src")) or {}
+    target = _active_model(graph, edge.get("dst")) or {}
+    rep = event.get("representation") or {}
+    eliminated = target.get("eliminated")
+    source_ring = source.get("ring_vars") or []
+    return (
+        edge.get("built_by_operation") == "Eliminate"
+        and source.get("generators") == []
+        and target.get("generators") is not None
+        and isinstance(eliminated, list) and bool(eliminated)
+        and target.get("ring_vars") == [
+            v for v in source_ring if v not in set(eliminated)]
+        and rep.get("method") == "polynomial_section_v1"
+        and rep.get("rows") == []
+        and set(rep.get("section") or {}) == set(eliminated)
+    )
+
 def _allows_empty_structural_trace(graph, event):
     """Recognize eligible verifier-native decisions with no backend run."""
     if event.get("verdict") == "UNVERIFIED":
@@ -234,6 +267,8 @@ def _allows_empty_structural_trace(graph, event):
         return _eligible_structural_containment(graph, event.get("of"))
     if event.get("subject") == "operation":
         return _eligible_structural_operation(graph, event)
+    if event.get("subject") == "elimination":
+        return _eligible_structural_elimination(graph, event)
     return False
 
 def encode_backend_provenance(execution):
@@ -296,7 +331,7 @@ def backend_provenance(value, current_only=True):
     return manifest
 
 
-def metadata(graph, subject, of, execution=None):
+def metadata(graph, subject, of, execution=None, representation=None):
     """Provenance fields attached to a newly computed verdict event."""
     if execution is None:
         raise ValueError(
@@ -309,7 +344,8 @@ def metadata(graph, subject, of, execution=None):
         "verifier_version": verifier_version,
         "kernel_epoch": F.KERNEL_EPOCH,
         "backend": encode_backend_provenance(execution),
-        "input_fingerprint": input_fingerprint(graph, subject, of),
+        "input_fingerprint": input_fingerprint(
+            graph, subject, of, representation=representation),
     }
 
 def current_verdict(graph, event):
@@ -349,6 +385,8 @@ def current_verdict(graph, event):
     fingerprint = event.get("input_fingerprint")
     if not isinstance(fingerprint, str) or not _FINGERPRINT_RE.match(fingerprint):
         return False, "input fingerprint is malformed"
-    if fingerprint != input_fingerprint(graph, subject, event.get("of")):
+    if fingerprint != input_fingerprint(
+            graph, subject, event.get("of"),
+            representation=event.get("representation")):
         return False, "verifier input fingerprint does not match"
     return True, "current"

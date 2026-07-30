@@ -458,3 +458,127 @@ def test_partition_witness_and_certificate_decline_unknown_characteristic():
     for verdict, why, *_rest in results:
         assert verdict == V.UNVERIFIED
         assert "no characteristic" in why
+
+def _elimination_graph():
+    graph = S.Graph()
+    graph.apply(F.meta_event())
+    graph.apply({
+        "ev": "model", "id": "SOURCE", "what": "source",
+        "characteristic": 0, "ring_vars": ["y", "x"],
+        "generators": ["y*x-1", "y^2-x"],
+    })
+    graph.apply({
+        "ev": "model", "id": "TARGET", "what": "target",
+        "characteristic": 0, "ring_vars": ["x"],
+        "generators": ["x^3-1"], "eliminated": ["y"],
+    })
+    graph.apply({
+        "ev": "edge", "id": "E", "src": "SOURCE", "dst": "TARGET",
+        "type": K.IMAGE_CLOSURE, "map_kind": K.POLYNOMIAL,
+        "why": "eliminate y", "built_by_operation": "Eliminate",
+    })
+    return graph
+
+
+def _section_representation():
+    return {
+        "method": "polynomial_section_v1",
+        "section": {"y": "x^2"},
+        "source_ring_vars": ["y", "x"],
+        "target_ring_vars": ["x"],
+        "eliminated": ["y"],
+        "source_generators": ["y*x-1", "y^2-x"],
+        "target_generators": ["x^3-1"],
+        "images": {"y": "x^2", "x": "x"},
+        "rows": [
+            {"source_generator": "y*x-1", "substituted": "x^3-1",
+             "cofactors": ["1"]},
+            {"source_generator": "y^2-x", "substituted": "x^4-x",
+             "cofactors": ["x"]},
+        ],
+    }
+
+
+def test_verified_section_projects_distinct_contraction_authority():
+    graph = _elimination_graph()
+    event = V._verdict_event(
+        graph, "elimination", "E", V.SECTION_VERIFIED,
+        "section checked", _section_representation(), execution=_execution())
+    graph.apply(event)
+
+    edge = graph.edges["E"]
+    assert edge["contraction_verdict"] == V.SECTION_VERIFIED
+    assert edge["contraction_representation"]["section"] == {"y": "x^2"}
+    assert "representation" not in edge
+    assert graph.verdicts[event["id"]]["current"] is True
+
+
+def test_rejected_section_does_not_erase_prior_exact_certificate():
+    graph = _elimination_graph()
+    success = V._verdict_event(
+        graph, "elimination", "E", V.SECTION_VERIFIED,
+        "section checked", _section_representation(), execution=_execution())
+    graph.apply(success)
+    rejected = V._verdict_event(
+        graph, "elimination", "E", V.SECTION_REJECTED,
+        "this different proposed section fails",
+        execution=_execution(with_trace=False))
+    graph.apply(rejected)
+
+    assert graph.edges["E"]["contraction_verdict"] == V.SECTION_VERIFIED
+    assert graph.edges["E"]["contraction_why"] == "section checked"
+    assert graph.verdicts[rejected["id"]]["current"] is True
+
+
+def test_elimination_authority_fields_are_not_declarable():
+    graph = _elimination_graph()
+    with pytest.raises(S.GraphError) as exc:
+        graph.apply({
+            "ev": "edge", "id": "FORGED", "src": "SOURCE", "dst": "TARGET",
+            "type": K.IMAGE_CLOSURE, "map_kind": K.POLYNOMIAL,
+            "why": "forged", "contraction_verdict": V.SECTION_VERIFIED,
+        })
+    assert ("VERDICT and not a declaration" in str(exc.value)
+            or "unknown field `contraction_verdict`" in str(exc.value))
+def test_verified_section_without_proof_object_is_refused():
+    graph = _elimination_graph()
+    event = V._verdict_event(
+        graph, "elimination", "E", V.SECTION_VERIFIED,
+        "claims a section but stores none", execution=_execution())
+    with pytest.raises(S.GraphError, match="needs its polynomial-section"):
+        graph.apply(event)
+
+
+def test_section_proof_object_must_match_its_exact_endpoints():
+    graph = _elimination_graph()
+    representation = _section_representation()
+    representation["source_generators"] = ["invented"]
+    representation["rows"][0]["source_generator"] = "invented"
+    representation["rows"] = representation["rows"][:1]
+    event = V._verdict_event(
+        graph, "elimination", "E", V.SECTION_VERIFIED,
+        "mismatched proof object", representation, execution=_execution())
+    with pytest.raises(S.GraphError, match="does not match the exact source"):
+        graph.apply(event)
+
+
+def test_contraction_representation_is_a_guarded_computed_field():
+    assert S.Graph._COMPUTED_FIELDS["contraction_representation"] == (
+        "verify.elimination_section")
+def test_mutating_stored_section_certificate_makes_verdict_stale():
+    original_graph = _elimination_graph()
+    event = V._verdict_event(
+        original_graph, "elimination", "E", V.SECTION_VERIFIED,
+        "section checked", _section_representation(), execution=_execution())
+    event["representation"]["section"]["y"] = "x^99"
+    event["representation"]["images"]["y"] = "x^99"
+    event["representation"]["rows"][0]["substituted"] = "totally_forged"
+    event["representation"]["rows"][0]["cofactors"] = ["also_forged"]
+
+    replay = _elimination_graph()
+    replay.apply(event)
+
+    assert replay.verdicts[event["id"]]["current"] is False
+    assert "fingerprint does not match" in (
+        replay.verdicts[event["id"]]["stale_reason"])
+    assert "contraction_verdict" not in replay.edges["E"]

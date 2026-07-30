@@ -211,7 +211,8 @@ def cmd_migrate(args):
     exists to avoid, so the migration takes the false negative every time and
     says in the caveat where the strength went.
     """
-    if getattr(args, "to_kernel2", False):
+    if (getattr(args, "to_current_kernel", False)
+            or getattr(args, "to_kernel2", False)):
         reports = MIG.migrate_kernel_epoch(
             _graphs(args), dry_run=args.dry_run,
             output=getattr(args, "kernel_output", None))
@@ -664,6 +665,33 @@ def cmd_verify(args):
     return 1 if bad else 0
 
 
+def cmd_verify_elimination(args):
+    """Check one explicit polynomial section for an elimination edge."""
+    from . import verify as V
+    try:
+        section = json.loads(args.section)
+    except (TypeError, ValueError) as exc:
+        sys.stderr.write("invalid --section JSON: %s\n" % exc)
+        return 2
+    if not isinstance(section, dict):
+        sys.stderr.write("--section must decode to an object\n")
+        return 2
+    try:
+        verdict, why, _representation = V.verify_elimination_section(
+            args.root, args.edge, section, timeout=args.timeout,
+            record=not args.dry_run)
+    except (A.ArtifactError, OSError, S.GraphError, ValueError) as exc:
+        sys.stderr.write("ELIMINATION VERIFICATION FAILED\n  %s\n" % exc)
+        return 2
+    print("%-20s elimination %s" % (verdict, args.edge))
+    for line in why.splitlines():
+        print("    " + line)
+    if args.dry_run:
+        print("\n--dry-run: nothing was recorded.")
+    else:
+        print("\nrecorded verifier verdict; `gp history` shows the diagnostic.")
+    return 0 if verdict == V.SECTION_VERIFIED else 1
+
 def cmd_artifacts_check(args):
     """Audit raw execution objects without making graph folding ambient."""
     if args.graph:
@@ -1062,8 +1090,8 @@ def cmd_table(args):
     print("  scheme_scope        EMPTY base-changes only if its certificate does")
     print("  map_polynomial      IDENTITY rewriting needs a denominator-free map")
     print("  closed_condition    only Zariski-closed predicates reach a closure")
-    print("  exact_image_identity forward identity needs exact output authority")
-    print("  closed_exact_image  forward closed predicate also needs exact output")
+    print("  exact_image_identity forward identity needs exact contraction")
+    print("  closed_exact_image  forward closed predicate needs geometric closure")
     print("  ambient_identity    a rewriting DERIVED from the source's own")
     print("                      equations does not survive dropping them")
     print("  ring_isomorphism    an EQUIVALENCE carries a rewriting only if it")
@@ -1679,12 +1707,14 @@ def build_parser():
     g.add_argument("--epoch1-output",
                    help="destination for --to-epoch1 (one source only; default "
                         "is graph.epoch1.jsonl beside the source)")
-    g.add_argument("--to-kernel2", action="store_true",
-                   help="copy a format-1 kernel-epoch-1 graph into the current "
+    g.add_argument("--to-current-kernel", action="store_true",
+                   help="copy an older format-1 graph into the current "
                         "stricter kernel epoch; prior verdicts remain stale")
+    g.add_argument("--to-kernel2", action="store_true",
+                   help=argparse.SUPPRESS)
     g.add_argument("--kernel-output",
-                   help="destination for --to-kernel2 (one source only; "
-                        "default is graph.kernel2.jsonl beside the source)")
+                   help="destination for --to-current-kernel (one source only; "
+                        "default names the current kernel epoch beside the source)")
     g.set_defaults(func=cmd_migrate)
 
     g = sub.add_parser("docs",
@@ -1736,6 +1766,18 @@ def build_parser():
                    help="report the verdicts without recording them")
     v.set_defaults(func=cmd_verify)
 
+    exact = sub.add_parser(
+        "verify-elimination",
+        help="certify exact contraction using an explicit polynomial section")
+    exact.add_argument("edge", help="constructor-built Eliminate edge id")
+    exact.add_argument(
+        "--section", required=True,
+        help='JSON object mapping each eliminated variable to a polynomial '
+             'in the retained variables, e.g. {"y":"x^2"}')
+    exact.add_argument("--timeout", type=int, default=300)
+    exact.add_argument("--dry-run", action="store_true",
+                       help="check and display without recording authority")
+    exact.set_defaults(func=cmd_verify_elimination)
     artifacts = sub.add_parser(
         "artifacts",
         help="audit durable raw CAS programs, transcripts, and certificates")

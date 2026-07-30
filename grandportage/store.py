@@ -298,6 +298,11 @@ class Graph(object):
                                         "UNVERIFIED"),
                       "why_field": "output_why",
                       "writer": "verify.operation_output"},
+        "elimination": {"contraction_verdict": (
+                            "VERIFIED_SECTION", "CERTIFICATE_REJECTED",
+                            "UNVERIFIED"),
+                        "why_field": "contraction_why",
+                        "writer": "verify.elimination_section"},
         "partition": {"exhaustive_verdict": (
                           "VERIFIED", "NOT_EXHAUSTIVE",
                           "NOT_GEOMETRICALLY_EXHAUSTIVE", "UNVERIFIED"),
@@ -557,6 +562,13 @@ class Graph(object):
                  "%s: verdict %r needs `why` -- the reduction that produced it"
                  % (where, ev.get("id")))
 
+        _require(
+            subject != "elimination"
+            or ev.get("verdict") != "VERIFIED_SECTION"
+            or ev.get("representation") is not None,
+            "%s: VERIFIED_SECTION verdict %r needs its polynomial-section "
+            "representation; the proof object is the authority"
+            % (where, ev.get("id")))
         # A VERDICT IS EXECUTABLE TRUST, NOT AN IMMORTAL STRING. Epoch-0
         # records and answers produced by another verifier/kernel/backend (or
         # against different semantic inputs) remain readable history, but
@@ -569,6 +581,12 @@ class Graph(object):
         if not current:
             return
 
+        # A rejected section refutes the proposed proof object, not exact
+        # contraction. Keep it as history without erasing an earlier valid
+        # certificate projected onto the edge.
+        if (subject == "elimination"
+                and ev["verdict"] != "VERIFIED_SECTION"):
+            return
         target[of][field] = ev["verdict"]
         target[of][spec["why_field"]] = ev["why"]
         # THE CERTIFICATE, WHEN THE VERIFIER MINTED ONE.
@@ -587,7 +605,63 @@ class Graph(object):
         # exactly the honour system this machinery exists to replace.
         if ev.get("representation") is not None:
             rep = ev["representation"]
-            if subject == "operation":
+            if subject == "elimination":
+                required = {
+                    "method", "section", "source_ring_vars",
+                    "target_ring_vars", "eliminated", "source_generators",
+                    "target_generators", "images", "rows",
+                }
+                _require(
+                    isinstance(rep, dict)
+                    and set(rep) == required
+                    and rep.get("method") == "polynomial_section_v1"
+                    and isinstance(rep.get("section"), dict)
+                    and isinstance(rep.get("images"), dict)
+                    and all(isinstance(rep.get(field), list)
+                            for field in (
+                                "source_ring_vars", "target_ring_vars",
+                                "eliminated", "source_generators",
+                                "target_generators", "rows"))
+                    and all(isinstance(value, str) and value.strip()
+                            for value in rep["section"].values())
+                    and all(isinstance(value, str) and value.strip()
+                            for value in rep["images"].values())
+                    and all(
+                        isinstance(row, dict)
+                        and set(row) == {
+                            "source_generator", "substituted", "cofactors"}
+                        and isinstance(row["source_generator"], str)
+                        and isinstance(row["substituted"], str)
+                        and isinstance(row["cofactors"], list)
+                        and all(isinstance(value, str)
+                                for value in row["cofactors"])
+                        for row in rep["rows"]),
+                    "%s: elimination verdict %r carries a malformed "
+                    "polynomial-section certificate."
+                    % (where, ev.get("id")))
+                edge = target[of]
+                source = self.models.get(edge.get("src")) or {}
+                built = self.models.get(edge.get("dst")) or {}
+                _require(
+                    rep["source_ring_vars"] == (source.get("ring_vars") or [])
+                    and rep["target_ring_vars"] == (built.get("ring_vars") or [])
+                    and rep["eliminated"] == (built.get("eliminated") or [])
+                    and rep["source_generators"] == source.get("generators")
+                    and rep["target_generators"] == built.get("generators")
+                    and set(rep["section"]) == set(rep["eliminated"])
+                    and set(rep["images"]) == set(rep["source_ring_vars"])
+                    and all(rep["images"].get(v) == v
+                            for v in rep["target_ring_vars"])
+                    and all(rep["images"].get(v) == rep["section"].get(v)
+                            for v in rep["eliminated"])
+                    and [row["source_generator"] for row in rep["rows"]]
+                        == rep["source_generators"],
+                    "%s: elimination verdict %r's certificate does not match "
+                    "the exact source, target, partition, or fixed-coordinate "
+                    "section it claims to certify."
+                    % (where, ev.get("id")))
+                target[of]["contraction_representation"] = rep
+            elif subject == "operation":
                 required = {
                     "cofactors", "targets", "generators", "ring_vars",
                     "target_ring_vars", "eliminated",
@@ -606,7 +680,8 @@ class Graph(object):
                          "%s: verdict %r carries a `representation` with no "
                          "cofactors. The cofactors ARE the certificate."
                          % (where, ev.get("id")))
-            target[of]["representation"] = rep
+            if subject != "elimination":
+                target[of]["representation"] = rep
 
     def _apply_certificate(self, ev, where):
         # A BUILT-IN CANNOT BE REDEFINED FROM A GRAPH.
@@ -1133,6 +1208,8 @@ class Graph(object):
     # `representation` is a verdict payload for the same reason: the cofactors
     # are a CERTIFICATE, and one nobody computed is the honour system again.
     _COMPUTED_FIELDS["representation"] = "verify.identity"
+    _COMPUTED_FIELDS["contraction_representation"] = (
+        "verify.elimination_section")
 
     def _reject_computed_fields(self, ev, where):
         for bad, writer in sorted(self._COMPUTED_FIELDS.items()):
