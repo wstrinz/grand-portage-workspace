@@ -157,15 +157,19 @@ def test_elimination_contract_is_multi_sorted_and_one_sided():
         "generator_source_membership",
         "section_completeness",
         "groebner_completeness",
+        "piecewise_point_lift",
     }
     local = contract.checked_obligations[:2]
     exact = contract.checked_obligations[2:]
     assert all(item.verifier_subject == "operation"
                and item.verifier_function == "operation_output"
                for item in local)
-    assert {item.verifier_subject for item in exact} == {"elimination"}
+    assert {item.verifier_subject for item in exact} == {
+        "elimination", "point_lift",
+    }
     assert {item.verifier_function for item in exact} == {
         "elimination_section", "elimination_groebner",
+        "elimination_point_lift",
     }
     assert {item.name for item in contract.transport_obligations} == {
         "retained_coordinate_expressibility",

@@ -305,6 +305,11 @@ class Graph(object):
                             "GROEBNER_CERTIFICATE_REJECTED", "UNVERIFIED"),
                         "why_field": "contraction_why",
                         "writer": "verify.elimination_section"},
+        "point_lift": {"point_lift_verdict": (
+                           "VERIFIED_POINT_LIFT",
+                           "POINT_LIFT_CERTIFICATE_REJECTED", "UNVERIFIED"),
+                       "why_field": "point_lift_why",
+                       "writer": "verify.elimination_point_lift"},
         "partition": {"exhaustive_verdict": (
                           "VERIFIED", "NOT_EXHAUSTIVE",
                           "NOT_GEOMETRICALLY_EXHAUSTIVE", "UNVERIFIED"),
@@ -578,6 +583,13 @@ class Graph(object):
             "%s: VERIFIED_GROEBNER verdict %r needs its exact checked "
             "representation; the proof object is the authority"
             % (where, ev.get("id")))
+        _require(
+            subject != "point_lift"
+            or ev.get("verdict") != "VERIFIED_POINT_LIFT"
+            or ev.get("representation") is not None,
+            "%s: VERIFIED_POINT_LIFT verdict %r needs its finite lift-cover "
+            "representation; the proof object is the authority"
+            % (where, ev.get("id")))
         # A VERDICT IS EXECUTABLE TRUST, NOT AN IMMORTAL STRING. Epoch-0
         # records and answers produced by another verifier/kernel/backend (or
         # against different semantic inputs) remain readable history, but
@@ -596,6 +608,9 @@ class Graph(object):
         if (subject == "elimination"
                 and ev["verdict"] not in (
                     "VERIFIED_SECTION", "VERIFIED_GROEBNER")):
+            return
+        if (subject == "point_lift"
+                and ev["verdict"] != "VERIFIED_POINT_LIFT"):
             return
         target[of][field] = ev["verdict"]
         target[of][spec["why_field"]] = ev["why"]
@@ -751,6 +766,218 @@ class Graph(object):
                     "section it claims to certify."
                     % (where, ev.get("id")))
                 target[of]["contraction_representation"] = rep
+            elif subject == "point_lift":
+                required = {
+                    "method", "edge", "source_model", "target_model",
+                    "characteristic", "source_ring_vars", "target_ring_vars",
+                    "eliminated", "source_generators", "target_generators",
+                    "charts", "fallback",
+                }
+                _require(
+                    isinstance(rep, dict) and set(rep) == required
+                    and rep.get("method") == "piecewise_rational_lift_v1"
+                    and isinstance(rep.get("charts"), list)
+                    and len(rep["charts"]) <= 16
+                    and isinstance(rep.get("fallback"), dict),
+                    "%s: point-lift verdict %r carries a malformed finite "
+                    "lift-cover envelope." % (where, ev.get("id")))
+                edge = target[of]
+                source = self.models.get(edge.get("src")) or {}
+                built = self.models.get(edge.get("dst")) or {}
+                source_ring = source.get("ring_vars") or []
+                target_ring = built.get("ring_vars") or []
+                eliminated = built.get("eliminated") or []
+                exact_domain = (
+                    "Q" if source.get("characteristic") == 0
+                    else "F_%s" % source.get("characteristic")
+                )
+                declared_domains = [
+                    model.get("coefficient_domain", model.get("field"))
+                    for model in (source, built)
+                ]
+                _require(
+                    all(value is None or value == exact_domain
+                        for value in declared_domains),
+                    "%s: point-lift verdict %r is scoped to %s but an "
+                    "endpoint declares %r."
+                    % (where, ev.get("id"), exact_domain, declared_domains))
+                _require(
+                    rep["edge"] == of
+                    and rep["source_model"] == edge.get("src")
+                    and rep["target_model"] == edge.get("dst")
+                    and edge.get("built_by_operation") == "Eliminate"
+                    and rep["characteristic"]
+                        == source.get("characteristic")
+                        == built.get("characteristic")
+                    and rep["source_ring_vars"] == source_ring
+                    and rep["target_ring_vars"] == target_ring
+                    and rep["eliminated"] == eliminated
+                    and rep["source_generators"] == source.get("generators")
+                    and rep["target_generators"] == built.get("generators")
+                    and target_ring == [
+                        value for value in source_ring
+                        if value not in set(eliminated)],
+                    "%s: point-lift verdict %r does not match the exact edge, "
+                    "endpoints, field, partition, or ordered generators."
+                    % (where, ev.get("id")))
+                row_fields = {
+                    "source_generator", "numerator", "denominator_power",
+                    "vanishing_power", "localization_power", "membership_target",
+                    "membership_generators", "cofactors",
+                }
+
+                def replay_rows(rows, images, guard, generators):
+                    _require(
+                        isinstance(rows, list)
+                        and len(rows) == len(rep["source_generators"]),
+                        "%s: point-lift verdict %r has the wrong number of "
+                        "source-generator rows." % (where, ev.get("id")))
+                    for generator, row in zip(rep["source_generators"], rows):
+                        _require(
+                            isinstance(row, dict) and set(row) == row_fields
+                            and row.get("source_generator") == generator
+                            and isinstance(row.get("numerator"), str)
+                            and type(row.get("denominator_power")) is int
+                            and type(row.get("vanishing_power")) is int
+                            and 1 <= row["vanishing_power"] <= 4
+                            and type(row.get("localization_power")) is int
+                            and 0 <= row["localization_power"] <= 8
+                            and row.get("membership_generators") == generators
+                            and isinstance(row.get("cofactors"), list),
+                            "%s: point-lift verdict %r has a malformed chart "
+                            "membership row." % (where, ev.get("id")))
+                        try:
+                            numerator, denominator_power = (
+                                G.guarded_rational_substitute(
+                                    generator, source_ring, target_ring,
+                                    images, guard, rep["characteristic"]
+                                )
+                            )
+                            powered = G.multiply_polynomial_power(
+                                "1", numerator, row["vanishing_power"],
+                                target_ring, rep["characteristic"]
+                            )
+                            membership_target = G.multiply_polynomial_power(
+                                powered, guard, row["localization_power"],
+                                target_ring, rep["characteristic"]
+                            )
+                            _require(
+                                row["numerator"] == numerator
+                                and row["denominator_power"]
+                                    == denominator_power
+                                and row["membership_target"]
+                                    == membership_target,
+                                "%s: point-lift verdict %r's substituted "
+                                "numerator or denominator does not replay."
+                                % (where, ev.get("id")))
+                            G.check_membership_identity(
+                                membership_target, generators,
+                                row["cofactors"], target_ring,
+                                rep["characteristic"]
+                            )
+                        except G.CertificateError as exc:
+                            raise GraphError(
+                                "%s: point-lift verdict %r fails exact replay: "
+                                "%s" % (where, ev.get("id"), exc)
+                            )
+
+                guards = []
+                for chart in rep["charts"]:
+                    _require(
+                        isinstance(chart, dict)
+                        and set(chart) == {"guard", "lift", "rows"}
+                        and isinstance(chart.get("guard"), str)
+                        and isinstance(chart.get("lift"), dict)
+                        and set(chart["lift"]) == set(eliminated),
+                        "%s: point-lift verdict %r has a malformed open chart."
+                        % (where, ev.get("id")))
+                    try:
+                        guard = G.canonical_polynomial(
+                            chart["guard"], target_ring,
+                            rep["characteristic"]
+                        )
+                    except G.CertificateError as exc:
+                        raise GraphError(
+                            "%s: point-lift verdict %r has an invalid guard: %s"
+                            % (where, ev.get("id"), exc)
+                        )
+                    _require(
+                        guard == chart["guard"] and guard != "0"
+                        and guard not in guards,
+                        "%s: point-lift verdict %r has a zero, duplicate, or "
+                        "noncanonical guard." % (where, ev.get("id")))
+                    guards.append(guard)
+                    images = dict((name, {
+                        "numerator": name, "denominator_power": 0,
+                    }) for name in target_ring)
+                    for name in eliminated:
+                        value = chart["lift"].get(name)
+                        _require(
+                            isinstance(value, dict)
+                            and set(value) == {
+                                "numerator", "denominator_power"},
+                            "%s: point-lift verdict %r has a malformed rational "
+                            "coordinate." % (where, ev.get("id")))
+                        try:
+                            canonical = G.canonical_polynomial(
+                                value["numerator"], target_ring,
+                                rep["characteristic"]
+                            )
+                        except G.CertificateError as exc:
+                            raise GraphError(
+                                "%s: point-lift verdict %r has an invalid "
+                                "coordinate: %s" % (where, ev.get("id"), exc)
+                            )
+                        _require(
+                            canonical == value["numerator"]
+                            and type(value["denominator_power"]) is int
+                            and 0 <= value["denominator_power"] <= 64,
+                            "%s: point-lift verdict %r has a noncanonical or "
+                            "unbounded rational coordinate."
+                            % (where, ev.get("id")))
+                        images[name] = value
+                    images = dict((name, images[name]) for name in source_ring)
+                    replay_rows(
+                        chart["rows"], images, guard,
+                        rep["target_generators"]
+                    )
+
+                fallback = rep["fallback"]
+                _require(
+                    set(fallback) == {"lift", "rows"}
+                    and isinstance(fallback["lift"], dict)
+                    and set(fallback["lift"]) == set(eliminated),
+                    "%s: point-lift verdict %r has a malformed fallback."
+                    % (where, ev.get("id")))
+                fallback_images = dict((name, {
+                    "numerator": name, "denominator_power": 0,
+                }) for name in target_ring)
+                for name in eliminated:
+                    value = fallback["lift"].get(name)
+                    try:
+                        canonical = G.canonical_polynomial(
+                            value, target_ring, rep["characteristic"]
+                        )
+                    except (G.CertificateError, TypeError) as exc:
+                        raise GraphError(
+                            "%s: point-lift verdict %r has an invalid fallback "
+                            "coordinate: %s" % (where, ev.get("id"), exc)
+                        )
+                    _require(
+                        canonical == value,
+                        "%s: point-lift verdict %r has a noncanonical fallback "
+                        "coordinate." % (where, ev.get("id")))
+                    fallback_images[name] = {
+                        "numerator": value, "denominator_power": 0,
+                    }
+                fallback_images = dict(
+                    (name, fallback_images[name]) for name in source_ring
+                )
+                replay_rows(
+                    fallback["rows"], fallback_images, "1",
+                    rep["target_generators"] + guards
+                )
+                target[of]["point_lift_representation"] = rep
             elif subject == "operation":
                 required = {
                     "cofactors", "targets", "generators", "ring_vars",
@@ -770,7 +997,7 @@ class Graph(object):
                          "%s: verdict %r carries a `representation` with no "
                          "cofactors. The cofactors ARE the certificate."
                          % (where, ev.get("id")))
-            if subject != "elimination":
+            if subject not in ("elimination", "point_lift"):
                 target[of]["representation"] = rep
 
     def _apply_certificate(self, ev, where):
@@ -1300,6 +1527,8 @@ class Graph(object):
     _COMPUTED_FIELDS["representation"] = "verify.identity"
     _COMPUTED_FIELDS["contraction_representation"] = (
         "verify.elimination_section")
+    _COMPUTED_FIELDS["point_lift_representation"] = (
+        "verify.elimination_point_lift")
 
     def _reject_computed_fields(self, ev, where):
         for bad, writer in sorted(self._COMPUTED_FIELDS.items()):

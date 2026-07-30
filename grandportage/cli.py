@@ -696,6 +696,33 @@ def cmd_verify_elimination(args):
         print("\nrecorded verifier verdict; `gp history` shows the diagnostic.")
     return 0 if verdict == V.SECTION_VERIFIED else 1
 
+def cmd_verify_elimination_point_lift(args):
+    """Check a finite rational-chart point-lift cover."""
+    from . import verify as V
+    try:
+        certificate = json.loads(args.certificate)
+    except (TypeError, ValueError) as exc:
+        sys.stderr.write("invalid --certificate JSON: %s\n" % exc)
+        return 2
+    if not isinstance(certificate, dict):
+        sys.stderr.write("--certificate must decode to an object\n")
+        return 2
+    try:
+        verdict, why, _representation = V.verify_elimination_point_lift(
+            args.root, args.edge, certificate, timeout=args.timeout,
+            record=not args.dry_run)
+    except (A.ArtifactError, OSError, S.GraphError, ValueError) as exc:
+        sys.stderr.write("POINT-LIFT VERIFICATION FAILED\n  %s\n" % exc)
+        return 2
+    print("%-20s point lift %s" % (verdict, args.edge))
+    for line in why.splitlines():
+        print("    " + line)
+    if args.dry_run:
+        print("\n--dry-run: nothing was recorded.")
+    else:
+        print("\nrecorded checked point-lift cover; `gp history` shows it.")
+    return 0 if verdict == V.POINT_LIFT_VERIFIED else 1
+
 def cmd_verify_elimination_groebner(args):
     """Produce and certify exact contraction through a pure-lex proof."""
     from . import verify as V
@@ -1804,6 +1831,19 @@ def build_parser():
     exact.add_argument("--dry-run", action="store_true",
                        help="check and display without recording authority")
     exact.set_defaults(func=cmd_verify_elimination)
+    point_lift = sub.add_parser(
+        "verify-elimination-point-lift",
+        help="check a finite rational-chart point-lift cover")
+    point_lift.add_argument(
+        "edge", help="constructor-built Eliminate edge id")
+    point_lift.add_argument(
+        "--certificate", required=True,
+        help="JSON with principal-open rational charts and an all-guards-zero fallback")
+    point_lift.add_argument("--timeout", type=int, default=300)
+    point_lift.add_argument(
+        "--dry-run", action="store_true",
+        help="check and display without recording artifacts or authority")
+    point_lift.set_defaults(func=cmd_verify_elimination_point_lift)
     groebner = sub.add_parser(
         "verify-elimination-groebner",
         help="produce and check a pure-lex exact-contraction certificate")

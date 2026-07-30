@@ -35,7 +35,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.12.0. <!--checks-->1035<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.13.0. <!--checks-->1045<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -90,6 +90,16 @@ maps and unchecked projections still lose syntax. A RESTRICTION whose exact
 endpoint rings disagree is rejected when the graph folds, because every one of
 its point-transport cells presupposes a common point universe.
 
+Version 0.13.0 adds the next point-level evidence route. A finite piecewise
+lift certificate covers the target by principal opens with guarded rational
+formulas plus an all-guards-zero polynomial fallback. Singular searches for
+localization/radical memberships; the small exact checker re-expands every
+stored cofactor identity, and graph folding replays the whole proof envelope.
+Lean's `FiniteEliminationPointLiftCover` theorem shows why joint n-ary coverage
+plus local lift/projection laws entails point-surjectivity. The cusp
+normalization is the positive control: `u=y/x` on `x!=0`, `u=0` on `x=0`.
+This authority is deliberately independent of exact contraction.
+
 Version 0.7.0 advanced format 1 to kernel epoch 3 when this distinction first
 changed transport meaning: exact coordinate-ring contraction licenses a
 retained-ring identity moving forward, but does not prove base-relative
@@ -101,7 +111,9 @@ persisted condition syntax and newly licensed target-expressible nonclosed
 predicate transport. Version 0.11.0 keeps format 2 and advances to kernel epoch
 6 because verified coordinate-map composition licenses new paths. Version
 0.12.0 keeps format 2 and advances to kernel epoch 7 when generic concrete
-point-map pullback licenses restriction and projection compositions. Older
+point-map pullback licenses restriction and projection compositions. Version
+0.13.0 keeps format 2 and advances to kernel epoch 8 when checked finite lift
+covers license new point-surjective predicate transports. Older
 native graphs migrate non-destructively with
 `gp migrate --to-current-kernel`; absent condition fields remain absent and
 earlier verdicts remain history but stale.
@@ -118,8 +130,9 @@ fold the whole graph. The section theorem plus the structured-condition pilot
 now closes retained-coordinate predicate transport through verified mapped
 coordinate changes, identity-coordinate refinements, and checked projection
 pullbacks. The next semantic obligations are concrete maps for remaining
-nonidentity operations and point-lifting evidence beyond global polynomial
-sections. See `OPERATION-CONTRACTS.md` and
+nonidentity operations, broader lift charts beyond the bounded Q/prime-field
+principal-open form, and pressure from an actual research campaign. See
+`OPERATION-CONTRACTS.md` and
 `COMPATIBILITY.md`.
 There is now a **public repo**: `github.com/wstrinz/grandportage`, Apache-2.0,
 the tool plus all three fixtures plus `DESIGN.md` / `REVIEW.md` /
@@ -153,6 +166,7 @@ review. Worth knowing because it predicts where the next one comes from.
 | **v0.10 retained-predicate pressure** | **PASS, positive plus refusal controls** | Real Singular checked the section `y -> x^2` for `(yx-1, y^2-x) -> (x^3-1)`. The resulting point-lift authority carried structured `x != 0`; both open and closed predicates naming eliminated `y` were refused as inexpressible at the target |
 | **v0.11 mapped-predicate composition** | **PASS, positive plus refusal controls** | Real Singular verified the translation `x -> x+1` before the same section. `x+1 != 0` rewrote with the inverse map to `x != 0` and crossed; stale authority, a bare authored flag, and eliminated-coordinate controls remained refused |
 | **v0.12 predicate-pullback composition** | **PASS, positive plus refusal controls** | The real Singular section assay pulled `x != 0` through a same-coordinate restriction and back through the checked elimination projection before reusing the section lift. Unspecified polynomial maps, unchecked projections, and characteristic-mismatched identity maps remained refused |
+| **v0.13 finite point-lift cover** | **PASS, positive plus refusal controls** | Real Singular checked the cusp normalization with `u=y/x` on `x!=0` and fallback `u=0` on `x=0`. The fallback correctly required a radical witness (`y^2`, not `y`, lies in the augmented ideal). The persisted cover unlocked retained `NONZERO` predicate transport without minting exact contraction; a false fallback was refused |
 
 ### The reviews found the mathematics; the runs found the tool
 
@@ -414,7 +428,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1035<!--/checks--> checks, ~40 s) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1045<!--/checks--> checks, ~40 s) |
 
 ---
 
@@ -521,7 +535,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1035<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1045<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.

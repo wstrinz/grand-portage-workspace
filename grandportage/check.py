@@ -1584,27 +1584,33 @@ def effective_point_surjective(edge):
     """Whether every recorded target point has a checked source-point lift.
 
     This is strictly stronger than presenting the closure of an image. The
-    first runtime producer is a checked polynomial section paired with the
+    runtime producers are a checked polynomial section or finite lift cover
+    paired with the
     independent no-invention verdict. Manual IMAGE_CLOSURE declarations and
     pure Groebner certificates do not acquire this authority.
     """
     return (edge.get("built_by_operation") == "Eliminate"
             and edge.get("output_verdict") == "VERIFIED"
-            and edge.get("contraction_verdict") == "VERIFIED_SECTION")
+            and (edge.get("contraction_verdict") == "VERIFIED_SECTION"
+                 or edge.get("point_lift_verdict")
+                    == "VERIFIED_POINT_LIFT"))
 
 
 def effective_geometric_closure(edge):
     """Whether closure-level geometric image transport is established.
 
     Manual IMAGE_CLOSURE edges assert that semantic relation. For a constructed
-    elimination, a checked polynomial section establishes this relation as a
+    elimination, a checked section or finite lift cover establishes this
+    relation as a
     consequence of the stronger point-surjectivity fact. A pure Groebner
     certificate proves ideal equality but supplies no point lift.
     """
     if edge.get("built_by_operation") != "Eliminate":
         return True
     return (edge.get("output_verdict") == "VERIFIED"
-            and edge.get("contraction_verdict") == "VERIFIED_SECTION")
+            and (edge.get("contraction_verdict") == "VERIFIED_SECTION"
+                 or edge.get("point_lift_verdict")
+                    == "VERIFIED_POINT_LIFT"))
 
 
 def effective_image_complete(edge):

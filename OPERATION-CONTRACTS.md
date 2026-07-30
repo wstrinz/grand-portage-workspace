@@ -1,7 +1,7 @@
 # Operation contracts
 
 **Status:** two executable pilots
-**Authoritative runtime semantics:** graph format 2, kernel epoch 7
+**Authoritative runtime semantics:** graph format 2, kernel epoch 8
 **Formal shadow:** `lean/GrandPortage/OperationContract.lean`
 
 Grand Portage now has a small operation-contract foundation. Its first job is
@@ -84,6 +84,29 @@ witnesses; GP's backend-neutral exact checker replays source span, every
 critical pair, the elimination order, and retained-basis membership. This earns
 ideal completeness only. Search is untrusted and point lifting is not inferred.
 
+`gp verify-elimination-point-lift EDGE --certificate ...` supplies the missing
+point authority independently. A finite certificate gives principal-open
+charts: on guard `g != 0`, each eliminated coordinate is a polynomial numerator
+divided by a bounded power of `g`. A final polynomial fallback applies when all
+guards vanish. That dichotomy covers every point over the declared exact field.
+For each source generator, Singular searches for bounded localization/radical
+membership cofactors and GP exactly re-expands the stored identity. The search
+is untrusted; the persisted finite equalities are the proof object.
+
+The cusp normalization is the first positive pressure case:
+
+```text
+Q[u,y,x]/(u^2-x, u^3-y) -> Q[y,x]/(y^2-x^3)
+open x != 0:  u = y/x
+fallback x = 0: u = 0
+```
+
+The fallback is pointwise rather than ideal-theoretic: `y` is not literally in
+`(y^2-x^3,x)`, while `y^2` is. The certificate therefore records the checked
+vanishing power instead of conflating ideal membership with radical membership.
+This earns point-surjectivity but does not earn exact contraction; the latter
+still needs a section or Groebner completeness certificate plus no-invention.
+
 The positive section control eliminates `y` from `(yx-1, y^2-x)` and uses
 `y -> x^2`. The hyperbola `(xy-1) -> (0)` is the decisive separation: its
 elimination ideal is exact and the Groebner route can certify it, but the target
@@ -105,16 +128,17 @@ through the target evaluation on retained coordinates. Lean proves that
 point-surjectivity transports every such predicate, and gives a countermodel
 showing that point-surjectivity alone cannot transport an unrelated predicate.
 
-## Authority and kernel epoch 7
+## Authority and kernel epoch 8
 
-Kernel epoch 7 keeps six facts separate:
+Kernel epoch 8 keeps six facts separate:
 
 - **exact contraction** requires current no-invention plus either a checked
   polynomial section or a checked pure-lex certificate;
 - **geometric closure authority** is enough for a closed predicate but not an
   arbitrary point predicate;
 - **point-surjective image authority** requires current no-invention plus a
-  checked polynomial section. A pure Groebner certificate never opens it;
+  checked global polynomial section or finite piecewise rational lift cover. A
+  pure Groebner certificate never opens it;
 - **retained-coordinate expressibility** belongs to the claim, not the map;
 - **equivalence-rewrite authority** requires a literal identity map or a current
   verified ring isomorphism, with predicate syntax moving contravariantly;
@@ -147,6 +171,12 @@ failure. Free-text predicates remain legal and conservative. Unsupported or
 unverified passes may still transport the proposition abstractly, but they lose
 machine-readable expression typing and cannot unlock a later elimination.
 
+Lean also defines partial elimination point lifts and an n-ary finite cover.
+It proves that joint coverage plus each chart's checked lift/projection law
+entails `EliminationPointSurjective`; no individual chart mints global
+authority. The runtime's rational charts and all-guards-zero fallback are one
+finite exact-affine implementation of those premises.
+
 Lean defines generic predicate `Pullback` along a point map, proves that an
 everywhere-valid target predicate pulls back to the source, and proves identity
 and composition laws. `MappedEquivalence` specializes that calculus in both
@@ -163,8 +193,10 @@ do not mint point-surjectivity. Constructed eliminations earn only what their
 current evidence proves. The persisted condition syntax advances graph format 1
 to 2, and the newly licensed nonclosed predicate transport advances kernel epoch
 4 to 5; verified coordinate-map composition then advances the runtime to epoch
-6, and generic concrete point-map pullback advances it to epoch 7, without
-changing graph syntax. Migration remains non-destructive:
+6, and generic concrete point-map pullback advances it to epoch 7. Finite
+piecewise point-lift covers then advance it to epoch 8 because they license
+new nonclosed predicate transports, without changing graph syntax. Migration
+remains non-destructive:
 
 ```console
 gp --graph old/.portage/graph.jsonl migrate --to-current-kernel
@@ -185,7 +217,7 @@ artifact store           exact immutable programs and raw transcripts
 ```
 
 The next earned steps are explicit concrete maps for the remaining nonidentity
-operations and a separately typed point-lifting certificate beyond global
-polynomial sections, both exercised against harder live eliminations. Contracts remain
-compiled constructor metadata until the pilots show that persisting them in the
-IR buys more than it costs.
+operations, broader chart coverage beyond the current Q/prime-field bounded
+principal-open form, and more live use in actual research campaigns. Contracts
+remain compiled constructor metadata until the pilots show that persisting them
+in the IR buys more than it costs.

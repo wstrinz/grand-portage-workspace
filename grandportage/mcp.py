@@ -517,6 +517,24 @@ TOOLS = [
                   "description": "campaign directory holding .portage/"}},
         ["edge", "section"]),
     _tool(
+        "portage_verify_elimination_point_lift",
+        "Check a finite cover of a constructor-built Eliminate target by "
+        "principal-open rational lift charts plus one all-guards-zero "
+        "polynomial fallback. Exact membership identities are replayed before "
+        "point-surjective authority is recorded; contraction exactness remains "
+        "a separate obligation.",
+        {"edge": {"type": "string"},
+         "certificate": {
+             "type": "object",
+             "description": (
+                 "{charts:[{guard, lift:{variable:{numerator,"
+                 "denominator_power}}}], fallback:{lift:{variable:poly}}}")},
+         "timeout": {"type": "integer", "default": 300},
+         "dry_run": {"type": "boolean", "default": False},
+         "root": {"type": "string",
+                  "description": "campaign directory holding .portage/"}},
+        ["edge", "certificate"]),
+    _tool(
         "portage_verify_elimination_groebner",
         "Produce a bounded pure-lex Groebner certificate for one constructor-"
         "built Eliminate edge, check it without trusting Singular, persist "
@@ -761,6 +779,26 @@ def h_portage_verify_elimination(args, root):
     return _text("%s  elimination %s\n    %s\n\n%s"
                  % (verdict, args.get("edge"), why, suffix))
 
+def h_portage_verify_elimination_point_lift(args, root):
+    from . import verify as V
+    path = S.graph_path(root)
+    if not os.path.exists(path):
+        return _text("no graph yet at %s" % path)
+    certificate = args.get("certificate")
+    if not isinstance(certificate, dict):
+        return _err("certificate must be an object with charts and fallback")
+    try:
+        verdict, why, _representation = V.verify_elimination_point_lift(
+            root, args.get("edge"), certificate,
+            timeout=int(args.get("timeout") or 300),
+            record=not args.get("dry_run"))
+    except (A.ArtifactError, OSError, S.GraphError, ValueError) as exc:
+        return _err("point-lift verification failed: %s" % exc)
+    suffix = ("--dry-run: nothing was recorded."
+              if args.get("dry_run") else "checked lift cover recorded.")
+    return _text("%s  point lift %s\n    %s\n\n%s"
+                 % (verdict, args.get("edge"), why, suffix))
+
 def h_portage_verify_elimination_groebner(args, root):
     from . import verify as V
     path = S.graph_path(root)
@@ -928,6 +966,8 @@ HANDLERS = {
     "portage_check": h_portage_check,
     "portage_verify": h_portage_verify,
     "portage_verify_elimination": h_portage_verify_elimination,
+    "portage_verify_elimination_point_lift": (
+        h_portage_verify_elimination_point_lift),
     "portage_verify_elimination_groebner": (
         h_portage_verify_elimination_groebner),
     "cas_health": h_cas_health,

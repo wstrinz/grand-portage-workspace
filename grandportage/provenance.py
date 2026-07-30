@@ -33,6 +33,7 @@ VERIFIERS = {
     "witness": ("verify.point_witness", 2),
     "operation": ("verify.operation_output", 2),
     "elimination": ("verify.elimination_section", 2),
+    "point_lift": ("verify.elimination_point_lift", 1),
     "partition": ("verify.partition_exhaustiveness", 2),
 }
 
@@ -67,6 +68,8 @@ _COMPUTED_FIELDS = {
     "output_verdict", "output_why",
     "contraction_verdict", "contraction_why",
     "contraction_representation",
+    "point_lift_verdict", "point_lift_why",
+    "point_lift_representation",
     "exhaustive_verdict", "exhaustive_why",
     "representation",
 }
@@ -98,7 +101,8 @@ def input_payload(graph, subject, of):
     of fields.  Adding a new declaration field therefore invalidates old
     verdicts conservatively until the verifier is rerun.
     """
-    if subject in ("edge", "ring_iso", "operation", "elimination"):
+    if subject in (
+            "edge", "ring_iso", "operation", "elimination", "point_lift"):
         edge = graph.edges.get(of)
         return {
             "subject": subject,

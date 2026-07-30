@@ -461,6 +461,129 @@ def substitute_polynomial(expression, variables, images, characteristic=0,
     return render_polynomial(answer)
 
 
+def guarded_rational_substitute(expression, source_variables, target_variables,
+                                images, guard, characteristic=0,
+                                _budget=None):
+    """Substitute numerators divided by powers of one chart guard.
+
+    The output is a polynomial numerator and one common denominator exponent.
+    Restricting every denominator to a power of the declared guard makes
+    definedness local and keeps normalization finite and exact. Source and
+    target rings may have different variables, unlike ordinary coordinate
+    rewriting.
+    """
+    source_variables = tuple(source_variables)
+    target_variables = tuple(target_variables)
+    if not isinstance(images, dict) or set(images) != set(source_variables):
+        raise CertificateError(
+            "a guarded substitution must give exactly one image for every "
+            "source variable"
+        )
+    source = parse_polynomial(
+        expression, source_variables, characteristic, _ArithmeticBudget()
+    )
+    budget = _budget or _ArithmeticBudget()
+    guard_poly = parse_polynomial(
+        guard, target_variables, characteristic, budget
+    )
+    if guard_poly.is_zero:
+        raise CertificateError("a rational-lift chart guard must be nonzero")
+    parsed = {}
+    for name in source_variables:
+        image = images[name]
+        if not isinstance(image, dict) or set(image) != {
+                "numerator", "denominator_power"}:
+            raise CertificateError(
+                "the image of %s must contain numerator and denominator_power"
+                % name
+            )
+        power = image["denominator_power"]
+        if type(power) is not int or not 0 <= power <= 64:
+            raise CertificateError(
+                "the denominator power of %s must be an integer from 0 to 64"
+                % name
+            )
+        parsed[name] = (
+            parse_polynomial(
+                image["numerator"], target_variables, characteristic, budget
+            ),
+            power,
+        )
+
+    terms = []
+    common_power = 0
+    for monomial, coefficient in source.terms.items():
+        term = Polynomial.scalar(
+            target_variables, characteristic, coefficient, budget
+        )
+        denominator_power = 0
+        for name, exponent in zip(source_variables, monomial):
+            if exponent:
+                numerator, power = parsed[name]
+                term = term * (numerator ** exponent)
+                denominator_power += power * exponent
+                if denominator_power > _MAX_EXPONENT:
+                    raise CertificateError(
+                        "guarded substitution denominator is too large"
+                    )
+        terms.append((term, denominator_power))
+        common_power = max(common_power, denominator_power)
+
+    answer = Polynomial.scalar(
+        target_variables, characteristic, 0, budget
+    )
+    for term, denominator_power in terms:
+        answer = answer + term * (guard_poly ** (
+            common_power - denominator_power
+        ))
+    return render_polynomial(answer), common_power
+
+
+def multiply_polynomial_power(expression, factor, exponent, variables,
+                              characteristic=0, _budget=None):
+    """Return ``expression * factor^exponent`` in canonical exact syntax."""
+    if type(exponent) is not int or exponent < 0:
+        raise CertificateError(
+            "polynomial multiplier exponent must be nonnegative"
+        )
+    budget = _budget or _ArithmeticBudget()
+    value = parse_polynomial(expression, variables, characteristic, budget)
+    multiplier = parse_polynomial(factor, variables, characteristic, budget)
+    return render_polynomial(value * (multiplier ** exponent))
+
+
+def check_membership_identity(target, generators, cofactors, variables,
+                              characteristic=0, _budget=None):
+    """Check one finite ideal-membership identity by exact expansion only.
+
+    Search may come from Singular or another backend. This checker trusts only
+    the stored equality ``target = sum(cofactor_i * generator_i)``.
+    """
+    if (not isinstance(generators, list)
+            or not isinstance(cofactors, list)
+            or len(generators) != len(cofactors)):
+        raise CertificateError(
+            "a membership identity needs one cofactor per generator"
+        )
+    budget = _budget or _ArithmeticBudget()
+    wanted = parse_polynomial(target, variables, characteristic, budget)
+    expanded = Polynomial.scalar(variables, characteristic, 0, budget)
+    for generator, cofactor in zip(generators, cofactors):
+        expanded = expanded + (
+            parse_polynomial(cofactor, variables, characteristic, budget)
+            * parse_polynomial(generator, variables, characteristic, budget)
+        )
+    difference = expanded - wanted
+    if not difference.is_zero:
+        raise CertificateError(
+            "membership cofactors expand to the wrong polynomial: %s"
+            % render_polynomial(difference)
+        )
+    return {
+        "target": render_polynomial(wanted),
+        "generator_count": len(generators),
+    }
+
 def s_polynomial(expression_left, expression_right, variables,
                  characteristic=0, _budget=None):
     """Return the canonical pure-lex S-polynomial for producer phase two."""

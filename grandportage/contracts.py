@@ -159,6 +159,14 @@ ELIMINATION = OperationContract(
             "basis-span identity, "
             "bounded S-pair representation, and retained-basis membership",
         ),
+        ValidationObligation(
+            "piecewise_point_lift",
+            "point_lift",
+            "elimination_point_lift",
+            "principal-open rational lift charts plus an all-guards-zero "
+            "fallback jointly cover the target; exact radical/localization "
+            "identities prove every chart lands in the source",
+        ),
     ),
     transport_obligations=(
         ValidationObligation(
@@ -171,7 +179,6 @@ ELIMINATION = OperationContract(
     ),
     open_obligations=(
         "contraction completeness beyond Q/prime fields, bounded pure lex, and polynomial sections",
-        "point-surjectivity beyond global polynomial sections needs a separately typed certificate",
         "explicit concrete point maps for nonidentity refinements and base changes",
     ),
     licensed_consequences=(
@@ -179,7 +186,7 @@ ELIMINATION = OperationContract(
         "target identities pull back to source identities (IMAGE_CLOSURE/AGAINST)",
         "source points map to target points, so target emptiness implies source emptiness",
         "a verified section or Groebner certificate plus no-invention licenses source-derived retained-ring identities along",
-        "a verified section plus no-invention supplies point-surjective image authority over the declared coefficient algebra",
+        "a verified global section or finite piecewise lift cover plus no-invention supplies point-surjective image authority over the declared coefficient field",
         "point-surjectivity transports structured retained-coordinate predicates, including NONZERO atoms, after exact equivalence rewriting or concrete point-map pullback",
     ),
 )

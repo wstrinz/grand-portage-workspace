@@ -63,8 +63,11 @@ bridge here; it does not yet verify the Python parser or Buchberger checker.
 Either completeness route combines with no-invention to recover exact
 contraction. The section additionally lifts every target-valued point; a
 separate countermodel proves exact contraction alone has no point-surjectivity
-consequence. `RetainedCoordinateExpressible` then states that a source predicate
-factors through target evaluation on the retained coordinates. Lean proves that
+consequence. Partial elimination lifts and `FiniteEliminationPointLiftCover`
+then prove that an n-ary family of locally sound charts with joint coverage
+earns the same point-surjectivity proposition; no chart individually does.
+`RetainedCoordinateExpressible` states that a source predicate factors through
+target evaluation on the retained coordinates. Lean proves that
 point-surjectivity transports every such predicate and separately pins the need
 for expressibility with a countermodel.
 

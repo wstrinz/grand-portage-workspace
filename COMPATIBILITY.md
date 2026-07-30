@@ -129,6 +129,22 @@ declare that metadata; its point transports require one common point universe. T
 licensed, so the kernel epoch advances without a graph-format change. Epoch-6
 graphs migrate non-destructively and all earlier verdicts remain stale history.
 
+Version 0.13.0 keeps **graph format 2** and advances to **kernel epoch 8**.
+A new `point_lift` verifier subject checks finite point-lift covers independently
+of elimination completeness. Each principal-open chart gives rational formulas
+whose denominators are powers of one nonzero guard; a final polynomial fallback
+applies where all guards vanish. Bounded localization/radical searches produce
+cofactors, and the graph fold replays every stored polynomial identity with the
+small exact checker.
+
+Current no-invention plus `VERIFIED_POINT_LIFT` now grants the same
+point-surjective image authority as a checked global polynomial section, while
+leaving exact contraction closed unless section or Groebner completeness is
+also proved. This licenses new nonclosed retained-predicate transports, so it is
+a kernel-epoch change. The proof envelope and verdict field are computed-only,
+fingerprint-bound, and independently stale. Epoch-7 graphs migrate
+non-destructively; their old verdicts remain readable history.
+
 Within one kernel epoch, no field may silently acquire a more permissive
 interpretation. A syntax-only extension can bump `graph_format`; transport
 meaning or verifier trust bumps `kernel_epoch` or the narrower verifier/backend
@@ -136,7 +152,7 @@ implementation version as appropriate.
 
 ## Epoch-0 graphs
 
-Unversioned graphs are epoch 0. Version 0.12 continues to read them through a conservative,
+Unversioned graphs are epoch 0. Version 0.13 continues to read them through a conservative,
 read-only importer. It will not append new events to them and will not blend
 them with epoch-1 graphs.
 
@@ -270,9 +286,10 @@ then kernel epoch 3 when a certificate earned back only the coordinate-ring
 half, kernel epoch 4 when polynomial sections were correctly recognized as
 point-lifting evidence, graph format 2 / kernel epoch 5 when retained predicate syntax made that
 authority safely usable beyond closed conditions, kernel epoch 6 when verified
-coordinate changes made that typing compositional, then kernel epoch 7 when the
+coordinate changes made that typing compositional, kernel epoch 7 when the
 generic point-map pullback law became executable for restrictions and
-projections.
+projections, and kernel epoch 8 when finite checked point-lift covers gained
+point-surjective authority.
 
 ## Sealed campaigns
 

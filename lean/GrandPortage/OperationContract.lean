@@ -380,6 +380,53 @@ theorem elimination_section_entails_point_surjectivity
   change q.eval (certificate.retract (p.embedding g)) = q.eval g
   rw [certificate.retract_embedding]
 
+/-- One partial point lift, defined on a predicate over target points.
+
+    Runtime chart certificates instantiate `domain` by a principal-open
+    condition (a guard is nonzero) or by the final closed fallback (all guards
+    vanish). Rational formulas and ideal-membership certificates establish
+    `lift` and `projects`; the semantic kernel only needs this contract. -/
+structure PartialEliminationPointLift
+    {R : Type u} {S : Type v} {A : Type w}
+    (p : EliminationParams R S) (I : Ideal R) (J : Ideal S)
+    (sourceEvaluation : (R -> A) -> Prop)
+    (targetEvaluation : (S -> A) -> Prop) (zero : A) where
+  domain : AffinePoint targetEvaluation zero J -> Prop
+  lift :
+    forall q : AffinePoint targetEvaluation zero J, domain q ->
+      AffinePoint sourceEvaluation zero I
+  projects :
+    forall (q : AffinePoint targetEvaluation zero J) (hq : domain q)
+      (g : S), (lift q hq).eval (p.embedding g) = q.eval g
+
+/-- A finite family of partial lifts covers the target point set. Keeping
+    coverage separate from each chart is the n-ary inference boundary: no
+    individual chart claims global authority. -/
+structure FiniteEliminationPointLiftCover
+    {R : Type u} {S : Type v} {A : Type w}
+    (p : EliminationParams R S) (I : Ideal R) (J : Ideal S)
+    (sourceEvaluation : (R -> A) -> Prop)
+    (targetEvaluation : (S -> A) -> Prop) (zero : A) where
+  charts : List (PartialEliminationPointLift p I J
+    sourceEvaluation targetEvaluation zero)
+  covers :
+    forall q : AffinePoint targetEvaluation zero J,
+      Exists fun chart => chart ∈ charts ∧ chart.domain q
+
+/-- Finite checked partial lifts plus their joint coverage entail the same
+    point-surjectivity proposition as a global polynomial section. -/
+theorem finite_lift_cover_entails_point_surjectivity
+    {R : Type u} {S : Type v} {A : Type w}
+    {p : EliminationParams R S} {I : Ideal R} {J : Ideal S}
+    {sourceEvaluation : (R -> A) -> Prop}
+    {targetEvaluation : (S -> A) -> Prop} {zero : A}
+    (certificate : FiniteEliminationPointLiftCover p I J
+      sourceEvaluation targetEvaluation zero) :
+    EliminationPointSurjective p I J
+      sourceEvaluation targetEvaluation zero := by
+  intro q
+  obtain ⟨chart, _inCover, hq⟩ := certificate.covers q
+  exact ⟨chart.lift q hq, chart.projects q hq⟩
 /-- A source predicate is expressible in the retained coordinates when it is
     the pullback of a target predicate: evaluations agreeing on every embedded
     retained coordinate give the same proposition. This is the semantic object

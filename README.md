@@ -30,11 +30,11 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1035<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1045<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
-* **[COMPATIBILITY.md](COMPATIBILITY.md) — graph format 2, kernel epoch 7, durable artifacts, and conservative migration**
+* **[COMPATIBILITY.md](COMPATIBILITY.md) — graph format 2, kernel epoch 8, durable artifacts, and conservative migration**
 * **[QUICKSTART.md](QUICKSTART.md) — install, a campaign in ten minutes, and the three things worth knowing on day one**
 * [DESIGN.md](DESIGN.md) — architecture and the decisions behind it
 * [REVIEW.md](REVIEW.md) — **where I am least confident**, for a reviewer
@@ -161,20 +161,19 @@ Three rows carry most of the value:
   `NONEMPTY` travels along the arrow and `EMPTY` needs a certificate. Anyone
   who internalised "emptiness always transports" is primed to get this exactly
   backwards, which is how the erratum above happened.
-* **Constructed elimination is one-sided by default and earns exactness by
-  certificate.** The local verifier proves every recorded target generator lies
-  in the source contraction, `J ⊆ ι⁻¹(I)`. `gp verify-elimination` checks an
-  explicit polynomial section; `gp verify-elimination-groebner` instead asks
-  Singular for a bounded pure-lex certificate and rechecks it with GP's small
-  exact-polynomial checker. Either proves the reverse inclusion. Kernel epoch
-  5 requires no-invention plus one current completeness verdict before a
-  source-derived identity travels `ALONG`. A section is stronger: its checked
-  polynomial retraction explicitly lifts every target-valued point, so together
-  with no-invention it also earns point-surjective image authority. A structured
-  `condition` records an exact conjunction of polynomial `ZERO`/`NONZERO` atoms;
-  when every atom uses retained target coordinates, that point lift transports
-  the predicate even when it is not closed. The pilot is deliberately direct-edge
-  only until condition rewriting across composed maps is formalized. The pure
+* **Constructed elimination is one-sided by default; exactness and point lifts
+  are separate certificates.** The local verifier proves every recorded target
+  generator lies in the source contraction, `J ⊆ ι⁻¹(I)`. `gp
+  verify-elimination` checks a global polynomial section; `gp
+  verify-elimination-groebner` asks Singular for a bounded pure-lex proof and
+  rechecks it with GP's small exact-polynomial checker. Either can earn the
+  missing contraction inclusion. `gp verify-elimination-point-lift` instead
+  checks finitely many principal-open rational lift charts plus an
+  all-guards-zero fallback. Its localization/radical membership cofactors are
+  exactly replayed and earn point-surjectivity without pretending to prove
+  contraction exactness. Under kernel epoch 8, a structured retained-coordinate
+  `ZERO`/`NONZERO` condition can use that authority through verified coordinate
+  rewrites, identity refinements, and elimination projections. The pure
   Groebner route remains coordinate-ring authority only.
 * **`IMAGE_CLOSURE` AGAINST / `NONEMPTY` is Chevalley.** A point of the Zariski
   closure need not lift. This is why elimination is a sound way to *derive*
@@ -243,7 +242,7 @@ Pure stdlib. No solver, no network, no model in the loop. Under a second.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1035<!--/checks--> checks
+python -m pytest        # <!--checks-->1045<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

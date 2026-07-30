@@ -772,6 +772,8 @@ SECTION_VERIFIED = "VERIFIED_SECTION"
 SECTION_REJECTED = "CERTIFICATE_REJECTED"
 GROEBNER_VERIFIED = "VERIFIED_GROEBNER"
 GROEBNER_REJECTED = "GROEBNER_CERTIFICATE_REJECTED"
+POINT_LIFT_VERIFIED = "VERIFIED_POINT_LIFT"
+POINT_LIFT_REJECTED = "POINT_LIFT_CERTIFICATE_REJECTED"
 
 
 def elimination_section(graph, eid, section, timeout=300, _runner=None,
@@ -918,6 +920,266 @@ def elimination_section(graph, eid, section, timeout=300, _runner=None,
         "polynomial lift of every target-valued point. Combined with VERIFIED "
         "operation output it yields exact contraction and point-surjective "
         "image authority over the declared coefficient algebra."
+    ), representation
+
+def elimination_piecewise_lift(graph, eid, certificate, timeout=300,
+                               _runner=None, _backend=None):
+    """Check a finite rational-chart cover giving every target point a lift.
+
+    Each open chart uses one nonzero polynomial guard and writes every
+    eliminated coordinate as a numerator divided by a power of that guard.
+    A final polynomial fallback applies when every guard is zero. Coverage is
+    therefore a field tautology; exact membership identities prove that every
+    chart formula lands in the source model. This authority is independent of
+    contraction completeness.
+    """
+    e = graph.edges.get(eid)
+    if not e or e.get("built_by_operation") != "Eliminate":
+        return UNVERIFIED, (
+            "edge %s is not a constructor-built Eliminate edge" % eid), None
+    stale = _stale_endpoint(graph, eid)
+    if stale:
+        return UNVERIFIED, stale, None
+    source_id, target_id = e.get("src"), e.get("dst")
+    source = graph.models.get(source_id) or {}
+    target = graph.models.get(target_id) or {}
+    for mid, model in ((source_id, source), (target_id, target)):
+        pending = _pending_ideal(mid, model)
+        if pending:
+            return UNVERIFIED, pending, None
+        if model.get("generators") is None:
+            return UNVERIFIED, (
+                "%s records no ideal, so point lifts cannot be checked" % mid
+            ), None
+    source_ring = source.get("ring_vars") or []
+    target_ring = target.get("ring_vars") or []
+    eliminated = target.get("eliminated")
+    if (not source_ring or not isinstance(eliminated, list)
+            or not eliminated or len(eliminated) != len(set(eliminated))
+            or any(variable not in source_ring for variable in eliminated)):
+        return UNVERIFIED, (
+            "%s does not record a valid nonempty eliminated-variable subset"
+            % target_id), None
+    expected_target = [v for v in source_ring if v not in set(eliminated)]
+    if target_ring != expected_target:
+        return UNVERIFIED, (
+            "%s's retained ring %s is not the ordered complement %s"
+            % (target_id, target_ring, expected_target)), None
+    source_ch, missing = _declared_characteristic(source_id, source)
+    if missing:
+        return UNVERIFIED, missing, None
+    target_ch, missing = _declared_characteristic(target_id, target)
+    if missing:
+        return UNVERIFIED, missing, None
+    if source_ch != target_ch:
+        return UNVERIFIED, (
+            "the elimination endpoints have different characteristics"), None
+    exact_domain = "Q" if source_ch == 0 else "F_%s" % source_ch
+    declared_domains = [
+        model.get("coefficient_domain", model.get("field"))
+        for model in (source, target)
+    ]
+    if any(value is not None and value != exact_domain
+           for value in declared_domains):
+        return UNVERIFIED, (
+            "piecewise rational lifting is checked over %s, but an endpoint "
+            "declares %r" % (exact_domain, declared_domains)), None
+
+    if not isinstance(certificate, dict) or set(certificate) != {
+            "charts", "fallback"}:
+        return POINT_LIFT_REJECTED, (
+            "a point-lift certificate must contain exactly charts and fallback"
+        ), None
+    charts = certificate.get("charts")
+    fallback = certificate.get("fallback")
+    if (not isinstance(charts, list) or len(charts) > 16
+            or not isinstance(fallback, dict)
+            or set(fallback) != {"lift"}):
+        return POINT_LIFT_REJECTED, (
+            "charts must be a list of at most 16 open charts and fallback "
+            "must contain exactly one lift"), None
+
+    backend = _backend or cas.SingularBackend(runner=_runner)
+    target_generators = list(target["generators"])
+
+    def checked_lift(raw, rational):
+        if not isinstance(raw, dict) or set(raw) != set(eliminated):
+            raise G.CertificateError(
+                "a chart lift must give exactly the eliminated variables %s"
+                % eliminated
+            )
+        normalized = {}
+        for variable in eliminated:
+            value = raw[variable]
+            if rational:
+                if not isinstance(value, dict) or set(value) != {
+                        "numerator", "denominator_power"}:
+                    raise G.CertificateError(
+                        "the rational lift of %s needs numerator and "
+                        "denominator_power" % variable
+                    )
+                normalized[variable] = {
+                    "numerator": G.canonical_polynomial(
+                        value["numerator"], target_ring, source_ch),
+                    "denominator_power": value["denominator_power"],
+                }
+            else:
+                normalized[variable] = G.canonical_polynomial(
+                    value, target_ring, source_ch)
+        return normalized
+
+    def membership(target_expression, generators):
+        canonical_target = G.canonical_polynomial(
+            target_expression, target_ring, source_ch)
+        if not generators:
+            if canonical_target != "0":
+                return None
+            return []
+        found = backend.membership(
+            target_ring, canonical_target, generators,
+            characteristic=source_ch, timeout=timeout)
+        if not found["is_member"]:
+            return None
+        cofactors = list(found["cofactors"])
+        G.check_membership_identity(
+            canonical_target, generators, cofactors, target_ring, source_ch
+        )
+        return cofactors
+
+    normalized_charts = []
+    guards = []
+    try:
+        for index, chart in enumerate(charts):
+            if not isinstance(chart, dict) or set(chart) != {"guard", "lift"}:
+                raise G.CertificateError(
+                    "chart %d must contain exactly guard and lift" % index
+                )
+            guard = G.canonical_polynomial(
+                chart["guard"], target_ring, source_ch
+            )
+            if guard == "0":
+                raise G.CertificateError("chart %d has the zero guard" % index)
+            if guard in guards:
+                raise G.CertificateError("chart guards must be distinct")
+            guards.append(guard)
+            lift = checked_lift(chart["lift"], True)
+            images = dict((name, {
+                "numerator": name, "denominator_power": 0,
+            }) for name in target_ring)
+            images.update(lift)
+            images = dict((name, images[name]) for name in source_ring)
+            rows = []
+            for generator in source["generators"]:
+                numerator, denominator_power = G.guarded_rational_substitute(
+                    generator, source_ring, target_ring, images, guard,
+                    source_ch,
+                )
+                cofactors = None
+                vanishing_power = None
+                localization_power = None
+                membership_target = None
+                for radical_power in range(1, 5):
+                    powered = G.multiply_polynomial_power(
+                        "1", numerator, radical_power, target_ring, source_ch
+                    )
+                    for power in range(9):
+                        candidate = G.multiply_polynomial_power(
+                            powered, guard, power, target_ring, source_ch
+                        )
+                        cofactors = membership(candidate, target_generators)
+                        if cofactors is not None:
+                            vanishing_power = radical_power
+                            localization_power = power
+                            membership_target = candidate
+                            break
+                    if cofactors is not None:
+                        break
+                if cofactors is None:
+                    return POINT_LIFT_REJECTED, (
+                        "chart %d does not send source generator %s to zero "
+                        "on guard %s within the bounded localization check"
+                        % (index, generator, guard)), None
+                rows.append({
+                    "source_generator": generator,
+                    "numerator": numerator,
+                    "denominator_power": denominator_power,
+                    "vanishing_power": vanishing_power,
+                    "localization_power": localization_power,
+                    "membership_target": membership_target,
+                    "membership_generators": list(target_generators),
+                    "cofactors": cofactors,
+                })
+            normalized_charts.append({
+                "guard": guard, "lift": lift, "rows": rows,
+            })
+
+        fallback_lift = checked_lift(fallback["lift"], False)
+        fallback_images = dict((name, {
+            "numerator": name, "denominator_power": 0,
+        }) for name in target_ring)
+        fallback_images.update(dict((name, {
+            "numerator": value, "denominator_power": 0,
+        }) for name, value in fallback_lift.items()))
+        fallback_images = dict(
+            (name, fallback_images[name]) for name in source_ring
+        )
+        fallback_generators = target_generators + guards
+        fallback_rows = []
+        for generator in source["generators"]:
+            numerator, denominator_power = G.guarded_rational_substitute(
+                generator, source_ring, target_ring, fallback_images, "1",
+                source_ch,
+            )
+            cofactors = None
+            vanishing_power = None
+            membership_target = None
+            for radical_power in range(1, 5):
+                candidate = G.multiply_polynomial_power(
+                    "1", numerator, radical_power, target_ring, source_ch
+                )
+                cofactors = membership(candidate, fallback_generators)
+                if cofactors is not None:
+                    vanishing_power = radical_power
+                    membership_target = candidate
+                    break
+            if cofactors is None:
+                return POINT_LIFT_REJECTED, (
+                    "the fallback does not send source generator %s to zero "
+                    "where every chart guard vanishes within the bounded "
+                    "radical check" % generator), None
+            fallback_rows.append({
+                "source_generator": generator,
+                "numerator": numerator,
+                "denominator_power": denominator_power,
+                "vanishing_power": vanishing_power,
+                "localization_power": 0,
+                "membership_target": membership_target,
+                "membership_generators": list(fallback_generators),
+                "cofactors": cofactors,
+            })
+    except (G.CertificateError, KeyError, TypeError, ValueError) as exc:
+        return POINT_LIFT_REJECTED, str(exc), None
+
+    representation = {
+        "method": "piecewise_rational_lift_v1",
+        "edge": eid,
+        "source_model": source_id,
+        "target_model": target_id,
+        "characteristic": source_ch,
+        "source_ring_vars": list(source_ring),
+        "target_ring_vars": list(target_ring),
+        "eliminated": list(eliminated),
+        "source_generators": list(source["generators"]),
+        "target_generators": target_generators,
+        "charts": normalized_charts,
+        "fallback": {"lift": fallback_lift, "rows": fallback_rows},
+    }
+    return POINT_LIFT_VERIFIED, (
+        "the %d principal-open rational lift chart(s) and final all-guards-zero "
+        "fallback cover every %s-valued target point. Exact expanded "
+        "membership identities show every partial lift lands in the source, "
+        "so the elimination projection is point-surjective independently of "
+        "contraction completeness." % (len(charts), exact_domain)
     ), representation
 
 def elimination_groebner(graph, eid, certificate):
@@ -1421,6 +1683,38 @@ def verify_elimination_section(root, eid, section, timeout=300, record=True,
         event = _verdict_event(
             graph, "elimination", eid, verdict, why, representation,
             execution=backend.provenance(execution_start))
+        S.append([event], root)
+    return verdict, why, representation
+
+def verify_elimination_point_lift(root, eid, certificate, timeout=300,
+                                  record=True, backend=None, _runner=None):
+    """Check and optionally persist one finite piecewise point-lift cover."""
+    path = S.graph_path(root)
+    graph = S.load(path)
+    if backend is not None and _runner is not None:
+        raise ValueError("pass backend or legacy _runner, not both")
+    backend = backend or cas.SingularBackend(runner=_runner)
+    if record and not backend.can_record_verdicts:
+        raise ValueError(
+            "record=True requires the exact production backend and binary; "
+            "test doubles may be used only with record=False"
+        )
+    execution_start = backend.execution_count
+    try:
+        verdict, why, representation = elimination_piecewise_lift(
+            graph, eid, certificate, timeout=timeout, _backend=backend
+        )
+    except cas.CASError as exc:
+        verdict, why, representation = UNVERIFIED, (
+            "the CAS could not check this point-lift cover:\n  %s" % exc
+        ), None
+    if record:
+        A.persist_all(root, backend.execution_artifacts(execution_start))
+        event = _verdict_event(
+            graph, "point_lift", eid, verdict, why, representation,
+            execution=backend.provenance(execution_start),
+            verifier="verify.elimination_point_lift",
+        )
         S.append([event], root)
     return verdict, why, representation
 
