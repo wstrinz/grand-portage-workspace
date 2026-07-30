@@ -70,10 +70,12 @@ module that answered a question it had not asked would be the honour system
 wearing a computation.
 """
 
+import json
 import os
 
 from . import artifacts as A
 from . import cas
+from . import groebner as G
 from . import kernel as K
 from . import provenance as P
 from . import store as S
@@ -767,6 +769,8 @@ def operation_output(graph, eid, timeout=300, _runner=None, _backend=None):
 
 SECTION_VERIFIED = "VERIFIED_SECTION"
 SECTION_REJECTED = "CERTIFICATE_REJECTED"
+GROEBNER_VERIFIED = "VERIFIED_GROEBNER"
+GROEBNER_REJECTED = "GROEBNER_CERTIFICATE_REJECTED"
 
 
 def elimination_section(graph, eid, section, timeout=300, _runner=None,
@@ -912,6 +916,128 @@ def elimination_section(graph, eid, section, timeout=300, _runner=None,
         "establishes contraction completeness. Combined with VERIFIED "
         "operation output it yields exact contraction, but it does not by "
         "itself establish base-relative geometric image closure."
+    ), representation
+
+def elimination_groebner(graph, eid, certificate):
+    """Check a backend-neutral Gröbner certificate against one exact edge.
+
+    The pure checker establishes contraction completeness only. It deliberately
+    does not run Singular, persist a verdict, or grant geometric point-closure
+    authority. Exact contraction additionally needs the independent current
+    operation-output verdict proving no equation was invented.
+    """
+    e = graph.edges.get(eid)
+    if not e or e.get("built_by_operation") != "Eliminate":
+        return UNVERIFIED, (
+            "edge %s is not a constructor-built Eliminate edge" % eid
+        ), None
+    stale = _stale_endpoint(graph, eid)
+    if stale:
+        return UNVERIFIED, stale, None
+    source_id, target_id = e.get("src"), e.get("dst")
+    source = graph.models.get(source_id) or {}
+    target = graph.models.get(target_id) or {}
+    for mid, model in ((source_id, source), (target_id, target)):
+        pending = _pending_ideal(mid, model)
+        if pending:
+            return UNVERIFIED, pending, None
+        if model.get("generators") is None:
+            return UNVERIFIED, (
+                "%s records no ideal, so a Gröbner certificate cannot be "
+                "bound to it" % mid
+            ), None
+    source_ring = source.get("ring_vars") or []
+    target_ring = target.get("ring_vars") or []
+    eliminated = target.get("eliminated")
+    if (not source_ring or not isinstance(eliminated, list)
+            or not eliminated or len(eliminated) != len(set(eliminated))
+            or any(variable not in source_ring for variable in eliminated)):
+        return UNVERIFIED, (
+            "%s does not record a valid nonempty eliminated-variable subset"
+            % target_id
+        ), None
+    eliminated_set = set(eliminated)
+    ordered_eliminated = [
+        variable for variable in source_ring if variable in eliminated_set
+    ]
+    ordered_retained = [
+        variable for variable in source_ring if variable not in eliminated_set
+    ]
+    if target_ring != ordered_retained:
+        return UNVERIFIED, (
+            "%s's retained ring %s is not the ordered complement %s"
+            % (target_id, target_ring, ordered_retained)
+        ), None
+    source_ch, missing = _declared_characteristic(source_id, source)
+    if missing:
+        return UNVERIFIED, missing, None
+    target_ch, missing = _declared_characteristic(target_id, target)
+    if missing:
+        return UNVERIFIED, missing, None
+    if source_ch != target_ch:
+        return UNVERIFIED, (
+            "the elimination endpoints have different characteristics"
+        ), None
+    exact_domain = "Q" if source_ch == 0 else "F_%d" % source_ch
+    for mid, model in ((source_id, source), (target_id, target)):
+        declared = model.get("coefficient_domain", model.get("field"))
+        if declared is not None and declared != exact_domain:
+            return UNVERIFIED, (
+                "%s declares coefficient field %r, but this certificate "
+                "checker proves polynomial identities only over %s"
+                % (mid, declared, exact_domain)
+            ), None
+    try:
+        G.preflight_certificate(certificate)
+    except G.CertificateError as exc:
+        return GROEBNER_REJECTED, str(exc), None
+    try:
+        proof = json.loads(json.dumps(
+            certificate, sort_keys=True, separators=(",", ":")
+        ))
+    except (TypeError, ValueError, RecursionError, MemoryError) as exc:
+        return GROEBNER_REJECTED, (
+            "certificate is not a bounded JSON proof object: %s" % exc
+        ), None
+    expected = {
+        "characteristic": source_ch,
+        "ring_vars": ordered_eliminated + ordered_retained,
+        "eliminated": ordered_eliminated,
+        "source_generators": list(source["generators"]),
+        "target_generators": list(target["generators"]),
+    }
+    mismatches = [
+        field for field, value in expected.items()
+        if proof.get(field) != value
+    ]
+    if mismatches:
+        return GROEBNER_REJECTED, (
+            "the certificate does not belong to edge %s: %s differ from the "
+            "exact ordered graph inputs"
+            % (eid, ", ".join(mismatches))
+        ), None
+    try:
+        checked = G.check_elimination_certificate(proof)
+    except G.CertificateError as exc:
+        return GROEBNER_REJECTED, str(exc), None
+    representation = {
+        "method": "groebner_elimination_v1",
+        "edge": eid,
+        "source_model": source_id,
+        "target_model": target_id,
+        "proof": proof,
+        "checked": checked,
+    }
+    return GROEBNER_VERIFIED, (
+        "the exact polynomial checker verified each recorded source "
+        "generator's basis-span identity, "
+        "all %d bounded critical-pair representations, the pure-lex "
+        "elimination order, and every retained-basis membership in the "
+        "recorded target ideal. This proves contraction completeness "
+        "I(source) ∩ %s ⊆ I(target). Exact contraction still requires the "
+        "independent current no-invention verdict; this does not establish "
+        "geometric point-image closure."
+        % (checked["critical_pair_count"], target_ring)
     ), representation
 
 COVERS = "VERIFIED"

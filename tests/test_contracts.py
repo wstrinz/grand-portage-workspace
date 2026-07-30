@@ -155,14 +155,17 @@ def test_elimination_contract_is_multi_sorted_and_one_sided():
         "generator_expressibility",
         "generator_source_membership",
         "section_completeness",
+        "groebner_completeness",
     }
     local = contract.checked_obligations[:2]
-    exact = contract.checked_obligations[2]
+    exact = contract.checked_obligations[2:]
     assert all(item.verifier_subject == "operation"
                and item.verifier_function == "operation_output"
                for item in local)
-    assert exact.verifier_subject == "elimination"
-    assert exact.verifier_function == "elimination_section"
+    assert {item.verifier_subject for item in exact} == {"elimination"}
+    assert {item.verifier_function for item in exact} == {
+        "elimination_section", "elimination_groebner",
+    }
     assert any("completeness" in item for item in contract.open_obligations)
     assert any("verified section" in item.lower()
                and "identit" in item.lower()
@@ -225,7 +228,7 @@ def test_incomplete_elimination_passes_local_check_but_not_exact_contract():
     assert certificate["target_ring_vars"] == ["x"]
     assert certificate["eliminated"] == ["y"]
     assert "DOES NOT SAY: that the output is COMPLETE" in why
-    assert any("no polynomial section" in item
+    assert any("bounded pure lex" in item
                for item in done.contract.open_obligations)
 
 
