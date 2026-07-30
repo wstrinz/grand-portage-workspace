@@ -24,7 +24,9 @@ not show they *are*. Closing that gap is what this is for.
 
 `GrandPortage/Points.lean` — models as predicates, `Refines` as inclusion.
 The three cells inclusion licenses, proved; the three it refuses, with
-countermodels. Plus `Cover` and the partition recombination law, which is why
+countermodels. Generic predicate `Pullback` along a point map has its everywhere,
+identity, and composition laws here. Plus `Cover` and the partition recombination
+law, which is why
 a partition is a distinct inference form rather than another edge type.
 
 `GrandPortage/MappedEquivalence.lean` - an invertible change of coordinates

@@ -30,11 +30,11 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1034<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1035<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
-* **[COMPATIBILITY.md](COMPATIBILITY.md) — graph format 2, kernel epoch 6, durable artifacts, and conservative migration**
+* **[COMPATIBILITY.md](COMPATIBILITY.md) — graph format 2, kernel epoch 7, durable artifacts, and conservative migration**
 * **[QUICKSTART.md](QUICKSTART.md) — install, a campaign in ten minutes, and the three things worth knowing on day one**
 * [DESIGN.md](DESIGN.md) — architecture and the decisions behind it
 * [REVIEW.md](REVIEW.md) — **where I am least confident**, for a reviewer
@@ -124,6 +124,11 @@ names are `forward` and `inverse`; the plausible aliases `maps` and
 these verified maps: `ALONG` rewrites with `inverse`, `AGAINST` with `forward`,
 and a later section-certified elimination checks the rewritten condition in its
 retained ring. A bare flag or stale verdict never supplies this typing authority.
+
+Ordinary predicate pullback is also executable in the sound `AGAINST` direction:
+a literal identity-coordinate edge preserves syntax only across matching exact
+rings (and a mismatched exact RESTRICTION is rejected as ill-typed), and a currently checked `Eliminate` projection embeds retained-coordinate
+syntax back into its source. Unspecified polynomial maps remain conservative.
 
 Printed by the kernel itself with `gp table`, so a document quoting it and the
 code applying it cannot drift apart.
@@ -238,7 +243,7 @@ Pure stdlib. No solver, no network, no model in the loop. Under a second.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1034<!--/checks--> checks
+python -m pytest        # <!--checks-->1035<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

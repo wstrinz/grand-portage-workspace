@@ -463,6 +463,8 @@ def _declare_epilog():
         "containment in the written coordinates. Structured conditions also\n"
         "rewrite through VERIFIED mapped equivalences: ALONG uses inverse and\n"
         "AGAINST uses forward before later operation contracts inspect them.\n"
+        "Ordinary AGAINST pullback also preserves structured syntax through a\n"
+        "matching exact identity map or a checked Eliminate projection.\n"
         "The spellings `maps` and `inverse_maps` are refused as inert aliases.\n"
         "\n"
         "vocabularies:\n"
@@ -1114,7 +1116,7 @@ def cmd_table(args):
     print("  exact_image_identity forward identity needs exact contraction")
     print("  closed_exact_image  forward predicate needs either closed+closure or")
     print("                      point lift+structured target expressibility")
-    print("                      (after exact VERIFIED equivalence rewrites)")
+    print("                      (after verified rewrites or concrete pullback)")
     print("  ambient_identity    a rewriting DERIVED from the source's own")
     print("                      equations does not survive dropping them")
     print("  ring_isomorphism    an EQUIVALENCE carries a rewriting only if it")

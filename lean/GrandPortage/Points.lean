@@ -13,7 +13,7 @@ heavy machinery, that would itself be a finding.
 
 namespace GrandPortage
 
-universe u v
+universe u v w
 
 /-- A model is its solution set, and a solution set is a predicate.
 
@@ -28,6 +28,30 @@ def IsEmpty {α : Type u} (M : Model α) : Prop := ∀ x, ¬ M x
 def HasPoint {α : Type u} (M : Model α) : Prop := ∃ x, M x
 def Everywhere {α : Type u} (M : Model α) (P : α → Prop) : Prop :=
   ∀ x, M x → P x
+
+/-- Reindex a predicate contravariantly along a point map. -/
+def Pullback {α : Type u} {β : Type v}
+    (pointMap : α → β) (predicate : β → Prop) : α → Prop :=
+  fun x => predicate (pointMap x)
+
+/-- A predicate true on every target point pulls back to every source point
+    whenever the declared point map really maps source points into the target. -/
+theorem everywhere_pullback {α : Type u} {β : Type v}
+    {src : Model α} {dst : Model β} (pointMap : α → β)
+    (maps : ∀ x, src x → dst (pointMap x)) (predicate : β → Prop) :
+    Everywhere dst predicate → Everywhere src (Pullback pointMap predicate) :=
+  fun holds x hx => holds (pointMap x) (maps x hx)
+
+/-- Pullback along the identity point map changes no predicate syntax. -/
+theorem pullback_id {α : Type u} (predicate : α → Prop) :
+    Pullback id predicate = predicate := rfl
+
+/-- Predicate pullback is functorial: a composite point map pulls back in the
+    opposite, stepwise order. -/
+theorem pullback_comp {α : Type u} {β : Type v} {γ : Type w}
+    (first : α → β) (second : β → γ) (predicate : γ → Prop) :
+    Pullback (fun x => second (first x)) predicate =
+      Pullback first (Pullback second predicate) := rfl
 
 /-! ## The three cells inclusion licenses
 

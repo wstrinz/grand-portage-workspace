@@ -1868,6 +1868,19 @@ def test_a_restriction_may_not_change_coordinates():
              "type": K.RESTRICTION, "why": "positivity", "map_kind": "RATIONAL"}])
     assert "SAME COORDINATES" in str(exc.value)
 
+    exact_models = [
+        {"ev": "model", "id": "CHAR0", "desc": "char zero",
+         "characteristic": 0, "ring_vars": ["x"], "generators": ["x"]},
+        {"ev": "model", "id": "CHAR2", "desc": "char two",
+         "characteristic": 2, "ring_vars": ["x"], "generators": ["x"]},
+    ]
+    with pytest.raises(S.GraphError, match="same exact coordinate ring"):
+        _graph(exact_models + [{
+            "ev": "edge", "id": "E", "src": "CHAR0", "dst": "CHAR2",
+            "type": K.RESTRICTION, "map_kind": K.IDENTITY_MAP,
+            "why": "incorrectly hides a coefficient change",
+        }])
+
 
 def test_the_generic_versus_global_cell_refuses_and_says_why():
     """THE CELL THE CENSUS EXISTS TO PROTECT.

@@ -390,7 +390,9 @@ def test_host_pair_work_obeys_the_total_deadline(monkeypatch):
     original = GP.G.s_polynomial
 
     def slow(*args, **kwargs):
-        time.sleep(0.03)
+        # Leave enough room for a loaded Windows runner to enter phase one;
+        # the host-side pair work must still overrun the shared deadline.
+        time.sleep(0.6)
         return original(*args, **kwargs)
 
     monkeypatch.setattr(GP.G, "s_polynomial", slow)
@@ -398,7 +400,7 @@ def test_host_pair_work_obeys_the_total_deadline(monkeypatch):
     with pytest.raises(cas.CASError, match="total timeout"):
         GP.produce_elimination_groebner(
             backend, ["u", "y", "x"], ["u^2-x", "u^3-y"],
-            ["u"], ["2*y^2-2*x^3"], timeout=0.01
+            ["u"], ["2*y^2-2*x^3"], timeout=0.5
         )
     assert backend.execution_count == 1
 

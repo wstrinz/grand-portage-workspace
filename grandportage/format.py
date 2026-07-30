@@ -12,7 +12,7 @@ JSON booleans rather than merely truthy values.
 import re
 
 GRAPH_FORMAT = 2
-KERNEL_EPOCH = 6
+KERNEL_EPOCH = 7
 META_EVENT = "meta"
 
 

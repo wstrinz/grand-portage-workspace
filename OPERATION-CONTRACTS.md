@@ -1,7 +1,7 @@
 # Operation contracts
 
 **Status:** two executable pilots
-**Authoritative runtime semantics:** graph format 2, kernel epoch 6
+**Authoritative runtime semantics:** graph format 2, kernel epoch 7
 **Formal shadow:** `lean/GrandPortage/OperationContract.lean`
 
 Grand Portage now has a small operation-contract foundation. Its first job is
@@ -105,9 +105,9 @@ through the target evaluation on retained coordinates. Lean proves that
 point-surjectivity transports every such predicate, and gives a countermodel
 showing that point-surjectivity alone cannot transport an unrelated predicate.
 
-## Authority and kernel epoch 6
+## Authority and kernel epoch 7
 
-Kernel epoch 6 keeps five facts separate:
+Kernel epoch 7 keeps six facts separate:
 
 - **exact contraction** requires current no-invention plus either a checked
   polynomial section or a checked pure-lex certificate;
@@ -116,10 +116,12 @@ Kernel epoch 6 keeps five facts separate:
 - **point-surjective image authority** requires current no-invention plus a
   checked polynomial section. A pure Groebner certificate never opens it;
 - **retained-coordinate expressibility** belongs to the claim, not the map;
-- **coordinate-rewrite authority** requires a literal identity map or a current
-  verified ring isomorphism, with predicate syntax moving contravariantly.
+- **equivalence-rewrite authority** requires a literal identity map or a current
+  verified ring isomorphism, with predicate syntax moving contravariantly;
+- **predicate-pullback authority** requires a concrete point map: currently a
+  matching exact identity-coordinate map or a checked elimination projection.
 
-The runtime projection of the last item is intentionally small:
+The runtime projection of the last three items is intentionally small:
 
 ```json
 {"condition":{"all":[
@@ -145,18 +147,24 @@ failure. Free-text predicates remain legal and conservative. Unsupported or
 unverified passes may still transport the proposition abstractly, but they lose
 machine-readable expression typing and cannot unlock a later elimination.
 
-Lean defines predicate reindexing on `MappedEquivalence`, proves the
-contravariant orientation, composes verified coordinate changes, and proves
-that rewriting through the composite equals rewriting step by step. The Python
-projection evaluates the corresponding exact polynomial substitutions; it does
-not persist a synthesized claim or mutate the campaign graph.
+Lean defines generic predicate `Pullback` along a point map, proves that an
+everywhere-valid target predicate pulls back to the source, and proves identity
+and composition laws. `MappedEquivalence` specializes that calculus in both
+directions and pins the contravariant orientation. The Python projection now
+recognizes three concrete maps: checked equivalence substitutions, literal
+identity-coordinate maps with matching exact endpoint rings (enforced for exact
+RESTRICTION endpoints), and currently
+checked constructor-built elimination projections. The last two support the
+ordinary `AGAINST` predicate pullback law. No synthesized claim is persisted
+and the campaign graph is not mutated.
 
 Manual `IMAGE_CLOSURE` declarations continue to state their closure relation but
 do not mint point-surjectivity. Constructed eliminations earn only what their
 current evidence proves. The persisted condition syntax advances graph format 1
 to 2, and the newly licensed nonclosed predicate transport advances kernel epoch
 4 to 5; verified coordinate-map composition then advances the runtime to epoch
-6 without changing graph syntax. Migration remains non-destructive:
+6, and generic concrete point-map pullback advances it to epoch 7, without
+changing graph syntax. Migration remains non-destructive:
 
 ```console
 gp --graph old/.portage/graph.jsonl migrate --to-current-kernel
@@ -164,7 +172,7 @@ gp --graph old/.portage/graph.jsonl migrate --to-current-kernel
 
 The source is untouched, prior verdicts remain history but stale, absent
 `condition` fields stay absent, and the new fold re-audits transport under epoch
-6.
+7.
 
 ## Trust boundary
 
@@ -176,8 +184,8 @@ authority/provenance     who checked what, under which epoch and inputs
 artifact store           exact immutable programs and raw transcripts
 ```
 
-The next earned steps are rewrite contracts for operations other than verified
-coordinate equivalence and a separately typed point-lifting certificate beyond
-global polynomial sections, both exercised against harder live eliminations. Contracts remain
+The next earned steps are explicit concrete maps for the remaining nonidentity
+operations and a separately typed point-lifting certificate beyond global
+polynomial sections, both exercised against harder live eliminations. Contracts remain
 compiled constructor metadata until the pilots show that persisting them in the
 IR buys more than it costs.

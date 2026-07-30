@@ -4,7 +4,7 @@ A brief for an independent reviewer. Deliberately not a tour: the parts that
 work are visible from the tests. What follows is where the risk actually is,
 ordered by how much damage a mistake would do.
 
-**v0.11, nine days old, eleven live user sessions, <!--checks-->1034<!--/checks--> checks.** One external
+**v0.12, nine days old, eleven live user sessions, <!--checks-->1035<!--/checks--> checks.** One external
 adversarial review has happened and found eight defects; §7 is what it taught.
 Treat everything here as provisional.
 
@@ -59,15 +59,16 @@ identities pull back and do not push forward. Five cells assumed otherwise:
 
 **What I want checked now:**
 
-- **Is the v0.11 mapped-condition projection narrow enough?** A structured
+- **Is the v0.12 predicate-pullback projection narrow enough?** A structured
   `ZERO`/`NONZERO` conjunction is rewritten contravariantly through verified
-  mapped equivalences, then parsed in the elimination target; only a section-
-  certified point lift may carry a nonclosed condition. Attack the `ALONG`/
-  `AGAINST` orientation, simultaneous substitution, and composition law. The
-  runtime currently requires identical endpoint variable names, rewrites only
-  through verified equivalences (or literal identity maps), and keeps the
-  rewritten condition ephemeral. Check both false licensing and needless false
-  refusal at each boundary.
+  mapped equivalences; ordinary `AGAINST` transport preserves syntax only for
+  matching exact identity-coordinate maps or currently checked constructor-
+  built elimination projections. Attack orientation, simultaneous substitution,
+  projection shape, the graph-level exact-ring check on RESTRICTION, and
+  composition. The runtime keeps
+  every rewritten condition ephemeral and deliberately refuses unspecified
+  polynomial maps. Check both false licensing and needless false refusal at
+  each boundary.
 - **Is `IMAGE_CLOSURE/ALONG/IDENTITY` right to be unconditional?** I argue yes:
   the image is dense in its closure, so the pullback is injective. That makes it
   the one lossy type where identities travel *with* the arrow, and it is the

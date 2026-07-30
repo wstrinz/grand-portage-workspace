@@ -51,7 +51,7 @@ def MappedEquivalence.rewriteAlong
 def MappedEquivalence.rewriteAgainst
     {A : Type u} {B : Type v} {src : Model A} {dst : Model B}
     (e : MappedEquivalence src dst) (predicate : B -> Prop) : A -> Prop :=
-  fun x => predicate (e.forward x)
+  Pullback e.forward predicate
 
 /-- Rewriting along a mapped equivalence preserves the predicate on every
     source point. This pins the contravariant use of `backward`. -/
@@ -67,7 +67,7 @@ theorem MappedEquivalence.rewriteAgainst_backward
     {A : Type u} {B : Type v} {src : Model A} {dst : Model B}
     (e : MappedEquivalence src dst) (predicate : B -> Prop) (y : B) :
     e.rewriteAgainst predicate (e.backward y) ↔ predicate y := by
-  rw [MappedEquivalence.rewriteAgainst, e.right_inv]
+  rw [MappedEquivalence.rewriteAgainst, Pullback, e.right_inv]
 
 /-- Verified coordinate changes compose as coordinate changes. -/
 def MappedEquivalence.trans

@@ -246,6 +246,9 @@ def audit_inference(graph, iid):
                     next_condition, rewrite_why = (
                         rewrite_condition_across_equivalence(
                             graph, current_condition, e, direction))
+                elif direction == K.AGAINST:
+                    next_condition, rewrite_why = pullback_condition_across_edge(
+                        graph, current_condition, e, direction)
                 elif target_expressible:
                     next_condition = current_condition
                     rewrite_why = (
@@ -1436,6 +1439,85 @@ def condition_expressible_at(graph, claim_or_condition, model_id):
     except (G.CertificateError, KeyError, TypeError, ValueError):
         return False
     return True
+
+
+def _canonical_condition_at(graph, condition, model_id):
+    """Recheck and canonicalize a structured condition in one exact ring."""
+    payload = _condition_payload(condition) or {}
+    atoms = payload.get("all") if isinstance(payload, dict) else None
+    model = graph.models.get(model_id) or {}
+    ring_vars = model.get("ring_vars") or []
+    characteristic = model.get("characteristic")
+    if not atoms or not ring_vars or type(characteristic) is not int:
+        raise G.CertificateError(
+            "the destination model has no exact polynomial ring")
+    return {"all": [
+        {
+            "relation": atom["relation"],
+            "expression": G.canonical_polynomial(
+                atom["expression"], ring_vars, characteristic),
+        }
+        for atom in atoms
+    ]}
+
+
+def pullback_condition_across_edge(graph, condition, edge, direction):
+    """Pull target predicate syntax back through a concrete point map.
+
+    This is the runtime projection of Lean's generic `Pullback` law. Abstract
+    PREDICATE transport remains the kernel's decision; this helper preserves
+    machine-readable syntax only for a literal identity-coordinate map or a
+    currently checked constructor-built elimination projection.
+    """
+    if direction != K.AGAINST:
+        return None, "structured predicate pullback requires AGAINST"
+    source = graph.models.get(edge.get("src")) or {}
+    target = graph.models.get(edge.get("dst")) or {}
+    source_vars = source.get("ring_vars") or []
+    target_vars = target.get("ring_vars") or []
+    source_characteristic = source.get("characteristic")
+    target_characteristic = target.get("characteristic")
+
+    if edge.get("map_kind") == K.IDENTITY_MAP:
+        if (not source_vars or set(source_vars) != set(target_vars)
+                or type(source_characteristic) is not int
+                or source_characteristic != target_characteristic):
+            return None, (
+                "structured condition pullback stopped: the declared identity "
+                "map does not have matching exact endpoint rings")
+        mode = "literal identity point map"
+    elif (edge.get("type") == K.IMAGE_CLOSURE
+          and edge.get("built_by_operation") == "Eliminate"
+          and edge.get("map_kind") == K.POLYNOMIAL
+          and edge.get("output_verdict") == "VERIFIED"):
+        eliminated = target.get("eliminated")
+        valid_eliminated = (
+            isinstance(eliminated, list) and bool(eliminated)
+            and len(eliminated) == len(set(eliminated))
+            and all(name in source_vars for name in eliminated))
+        expected_target = (
+            [name for name in source_vars if name not in set(eliminated)]
+            if valid_eliminated else None)
+        if (type(source_characteristic) is not int
+                or source_characteristic != target_characteristic
+                or target_vars != expected_target):
+            return None, (
+                "structured condition pullback stopped: the checked Eliminate "
+                "edge is not an exact retained-coordinate projection")
+        mode = "checked retained-coordinate projection"
+    else:
+        return None, (
+            "structured condition pullback stopped: this edge has no concrete "
+            "identity or checked projection map")
+
+    try:
+        rewritten = _canonical_condition_at(
+            graph, condition, edge.get("src"))
+    except (G.CertificateError, KeyError, TypeError, ValueError) as exc:
+        return None, "structured condition pullback failed exact checking: %s" % exc
+    return rewritten, (
+        "pulled back %d structured condition atom(s) through the %s"
+        % (len(rewritten["all"]), mode))
 
 
 def rewrite_condition_across_equivalence(graph, condition, edge, direction):

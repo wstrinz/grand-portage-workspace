@@ -533,6 +533,80 @@ def test_verified_mapped_equivalences_rewrite_conditions_and_compose():
     assert "lacks current VERIFIED" in refused_trace[1][3]
 
 
+def test_predicate_pullback_preserves_identity_and_checked_projection_syntax():
+    graph = _condition_graph("x", relation="NONZERO")
+    graph.apply({
+        "ev": "model", "id": "LOOSE", "what": "same-coordinate ambient",
+        "characteristic": 0, "ring_vars": ["y", "x"],
+        "generators": ["y*x-1", "y^2-x"],
+    }, source="test", lineno=5)
+    graph.apply({
+        "ev": "edge", "id": "R", "src": "SOURCE", "dst": "LOOSE",
+        "type": K.RESTRICTION, "map_kind": K.IDENTITY_MAP,
+        "why": "forget an open side condition",
+    }, source="test", lineno=6)
+
+    graph.apply({
+        "ev": "edge", "id": "N", "src": "SOURCE", "dst": "LOOSE",
+        "type": K.NECESSARY_CONDITION, "map_kind": K.POLYNOMIAL,
+        "why": "a polynomial point map whose expressions are not recorded",
+    }, source="test", lineno=7)
+    graph.apply({
+        "ev": "claim", "id": "P-LOOSE", "model": "LOOSE",
+        "kind": K.PREDICATE, "statement": "x is nonzero",
+        "condition": {"all": [
+            {"relation": "NONZERO", "expression": "x"},
+        ]},
+    }, source="test", lineno=8)
+    graph.apply({
+        "ev": "claim", "id": "P-TARGET", "model": "TARGET",
+        "kind": K.PREDICATE, "statement": "x is nonzero",
+        "condition": {"all": [
+            {"relation": "NONZERO", "expression": "x"},
+        ]},
+    }, source="test", lineno=9)
+    graph.apply({
+        "ev": "inference", "id": "I-RESTRICT", "claim": "P-LOOSE",
+        "path": [["R", K.AGAINST], ["E", K.ALONG]],
+        "concludes_kind": K.PREDICATE,
+        "asserted": "the ambient condition reaches the elimination target",
+    }, source="test", lineno=10)
+    graph.apply({
+        "ev": "inference", "id": "I-PROJECT", "claim": "P-TARGET",
+        "path": [["E", K.AGAINST], ["E", K.ALONG]],
+        "concludes_kind": K.PREDICATE,
+        "asserted": "projection pullback and section pushforward compose",
+    }, source="test", lineno=11)
+    graph.apply({
+        "ev": "inference", "id": "I-NO-MAP", "claim": "P-LOOSE",
+        "path": [["N", K.AGAINST], ["E", K.ALONG]],
+        "concludes_kind": K.PREDICATE,
+        "asserted": "an unspecified polynomial map rewrites the condition",
+    }, source="test", lineno=12)
+    graph.validate()
+
+
+    restricted, restriction_trace = C.audit_inference(graph, "I-RESTRICT")
+    assert restricted
+    assert "literal identity point map" in restriction_trace[0][3]
+    assert "closedness is not required" in restriction_trace[1][3]
+
+    projected, projection_trace = C.audit_inference(graph, "I-PROJECT")
+    assert projected
+    assert "checked retained-coordinate projection" in projection_trace[0][3]
+    assert "closedness is not required" in projection_trace[1][3]
+
+    no_map, no_map_trace = C.audit_inference(graph, "I-NO-MAP")
+    assert not no_map
+    assert "no concrete identity or checked projection map" in no_map_trace[0][3]
+    assert "no structured target-expressibility proof" in no_map_trace[1][3]
+
+    graph.edges["E"]["output_verdict"] = "UNVERIFIED"
+    unchecked, unchecked_trace = C.audit_inference(graph, "I-PROJECT")
+    assert not unchecked
+    assert "no concrete identity or checked projection map" in unchecked_trace[0][3]
+
+
 def test_section_refuses_condition_naming_an_eliminated_coordinate():
     for relation in ("NONZERO", "ZERO"):
         graph = _condition_graph("y", relation=relation)

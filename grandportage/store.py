@@ -2003,6 +2003,32 @@ class Graph(object):
                 _require(e[end] in self.models,
                          "edge %r has undeclared %s model %r"
                          % (eid, end, e[end]))
+            if e.get("type") == K.RESTRICTION:
+                source_model = self.models[e["src"]]
+                target_model = self.models[e["dst"]]
+                source_vars = source_model.get("ring_vars") or []
+                target_vars = target_model.get("ring_vars") or []
+                source_characteristic = source_model.get("characteristic")
+                target_characteristic = target_model.get("characteristic")
+                declared_variable_disagreement = (
+                    source_vars and target_vars
+                    and set(source_vars) != set(target_vars))
+                declared_characteristic_disagreement = (
+                    type(source_characteristic) is int
+                    and type(target_characteristic) is int
+                    and source_characteristic != target_characteristic)
+                _require(
+                    not (declared_variable_disagreement
+                         or declared_characteristic_disagreement),
+                    "edge %r is a RESTRICTION, so its endpoints must use "
+                    "the same exact coordinate ring when both sides declare "
+                    "that metadata; got k_%s[%s] and k_%s[%s]. Unknown legacy "
+                    "metadata remains unknown, while an explicit coefficient "
+                    "or coordinate change is a separate typed edge."
+                    % (eid, source_characteristic,
+                       ", ".join(source_vars) or "?",
+                       target_characteristic,
+                       ", ".join(target_vars) or "?"))
             if K.is_mapped_equivalence(e):
                 src_vars = self.models[e["src"]].get("ring_vars") or []
                 dst_vars = self.models[e["dst"]].get("ring_vars") or []

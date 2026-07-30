@@ -549,6 +549,9 @@ def test_real_singular_polynomial_section_persists_exact_contraction(tmp_path):
         {"ev": "model", "id": "SOURCE", "what": "source",
          "characteristic": 0, "ring_vars": ["y", "x"],
          "generators": ["y*x-1", "y^2-x"]},
+        {"ev": "model", "id": "LOOSE", "what": "ambient open-condition model",
+         "characteristic": 0, "ring_vars": ["y", "x"],
+         "generators": ["y*x-1", "y^2-x"]},
         {"ev": "model", "id": "TARGET", "what": "target",
          "characteristic": 0, "ring_vars": ["x"],
          "generators": ["x^3-1"], "eliminated": ["y"]},
@@ -557,6 +560,9 @@ def test_real_singular_polynomial_section_persists_exact_contraction(tmp_path):
          "why": "translate x by one", "ring_iso": True,
          "forward": {"y": "y", "x": "x+1"},
          "inverse": {"y": "y", "x": "x-1"}},
+        {"ev": "edge", "id": "R", "src": "SOURCE", "dst": "LOOSE",
+         "type": K.RESTRICTION, "map_kind": K.IDENTITY_MAP,
+         "why": "forget an open side condition"},
         {"ev": "edge", "id": "E", "src": "SOURCE", "dst": "TARGET",
          "type": K.IMAGE_CLOSURE, "map_kind": K.POLYNOMIAL,
          "why": "eliminate y", "built_by_operation": "Eliminate"},
@@ -573,6 +579,24 @@ def test_real_singular_polynomial_section_persists_exact_contraction(tmp_path):
     # retained predicate crosses; closedness cannot rescue a condition whose
     # expression still names the eliminated coordinate.
     S.append([
+        {"ev": "claim", "id": "P-LOOSE", "model": "LOOSE",
+         "kind": K.PREDICATE, "statement": "x is nonzero",
+         "condition": {"all": [
+             {"relation": "NONZERO", "expression": "x"},
+         ]}},
+        {"ev": "inference", "id": "I-LOOSE", "claim": "P-LOOSE",
+         "path": [["R", K.AGAINST], ["E", K.ALONG]],
+         "concludes_kind": K.PREDICATE,
+         "asserted": "the ambient condition holds on the elimination target"},
+        {"ev": "claim", "id": "P-TARGET", "model": "TARGET",
+         "kind": K.PREDICATE, "statement": "x is nonzero",
+         "condition": {"all": [
+             {"relation": "NONZERO", "expression": "x"},
+         ]}},
+        {"ev": "inference", "id": "I-PROJECTION", "claim": "P-TARGET",
+         "path": [["E", K.AGAINST], ["E", K.ALONG]],
+         "concludes_kind": K.PREDICATE,
+         "asserted": "the projection pullback composes with the checked lift"},
         {"ev": "claim", "id": "P-PRE", "model": "PRE",
          "kind": K.PREDICATE, "statement": "x+1 is nonzero",
          "condition": {"all": [
@@ -609,6 +633,12 @@ def test_real_singular_polynomial_section_persists_exact_contraction(tmp_path):
     assert C.effective_exact_contraction(edge)
     assert C.effective_geometric_closure(edge)
     assert C.effective_point_surjective(edge)
+    restricted_ok, restricted_trace = C.audit_inference(graph, "I-LOOSE")
+    assert restricted_ok
+    assert "literal identity point map" in restricted_trace[0][3]
+    projected_ok, projected_trace = C.audit_inference(graph, "I-PROJECTION")
+    assert projected_ok
+    assert "checked retained-coordinate projection" in projected_trace[0][3]
     mapped_ok, mapped_trace = C.audit_inference(graph, "I-PRE")
     assert mapped_ok
     assert "inverse point-map substitution" in mapped_trace[0][3]
