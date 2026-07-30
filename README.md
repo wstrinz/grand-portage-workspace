@@ -34,7 +34,7 @@ All five layers are built and gated: <!--checks-->1024<!--/checks--> checks, liv
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
-* **[COMPATIBILITY.md](COMPATIBILITY.md) — graph format 1, kernel epoch 3, durable artifacts, and conservative migration**
+* **[COMPATIBILITY.md](COMPATIBILITY.md) — graph format 1, kernel epoch 4, durable artifacts, and conservative migration**
 * **[QUICKSTART.md](QUICKSTART.md) — install, a campaign in ten minutes, and the three things worth knowing on day one**
 * [DESIGN.md](DESIGN.md) — architecture and the decisions behind it
 * [REVIEW.md](REVIEW.md) — **where I am least confident**, for a reviewer
@@ -159,10 +159,11 @@ Three rows carry most of the value:
   explicit polynomial section; `gp verify-elimination-groebner` instead asks
   Singular for a bounded pure-lex certificate and rechecks it with GP's small
   exact-polynomial checker. Either proves the reverse inclusion. Kernel epoch
-  3 requires no-invention plus one current completeness verdict before a
-  source-derived identity travels `ALONG`. This is exact coordinate-ring
-  contraction authority, not a point theorem: closed predicates remain refused
-  until geometric image-closure authority is independently established.
+  4 requires no-invention plus one current completeness verdict before a
+  source-derived identity travels `ALONG`. A section is stronger: its checked
+  polynomial retraction explicitly lifts every target-valued point, so together
+  with no-invention it also earns point-surjective image authority. The pure
+  Groebner route remains coordinate-ring authority only.
 * **`IMAGE_CLOSURE` AGAINST / `NONEMPTY` is Chevalley.** A point of the Zariski
   closure need not lift. This is why elimination is a sound way to *derive*
   equations and an unsound source of *witnesses* — and why a cell that survives

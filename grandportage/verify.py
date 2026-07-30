@@ -783,8 +783,8 @@ def elimination_section(graph, eid, section, timeout=300, _runner=None,
     reverse inclusion: substitute polynomial images for eliminated variables,
     fix retained variables literally, and certify that every source generator
     lands in the recorded target ideal. Together those two certificates give
-    exact contraction; this checker deliberately says nothing yet about
-    base-relative point closure.
+    exact contraction. The same polynomial retraction also gives an explicit
+    lift of every target-valued point over the declared coefficient algebra.
     """
     e = graph.edges.get(eid)
     if not e or e.get("built_by_operation") != "Eliminate":
@@ -914,9 +914,10 @@ def elimination_section(graph, eid, section, timeout=300, _runner=None,
         "the simultaneous polynomial section fixes every retained variable "
         "and sends every source generator into the recorded target ideal; "
         "expanded cofactors independently confirm each membership. This "
-        "establishes contraction completeness. Combined with VERIFIED "
-        "operation output it yields exact contraction, but it does not by "
-        "itself establish base-relative geometric image closure."
+        "establishes contraction completeness and gives an explicit "
+        "polynomial lift of every target-valued point. Combined with VERIFIED "
+        "operation output it yields exact contraction and point-surjective "
+        "image authority over the declared coefficient algebra."
     ), representation
 
 def elimination_groebner(graph, eid, certificate):

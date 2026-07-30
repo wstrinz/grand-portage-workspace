@@ -35,7 +35,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about seven days. Version 0.8.0. <!--checks-->1024<!--/checks--> checks.** Treat
+**Age: about eight days. Version 0.9.0. <!--checks-->1024<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -63,14 +63,18 @@ Singular producer discovers a bounded pure-lex basis and span witnesses, then
 GP's small exact-polynomial checker independently replays the source identities,
 all critical pairs, the elimination order, and retained-basis memberships.
 Lean proves that independent no-invention plus either completeness route yields
-exact contraction. Neither route grants geometric point-image closure.
+exact contraction. It now also proves the stronger fact carried by the section:
+precomposing a target evaluation with the polynomial retraction lifts every
+target-valued point. The pure Groebner route grants no such point authority.
 
 Version 0.7.0 advanced format 1 to kernel epoch 3 when this distinction first
 changed transport meaning: exact coordinate-ring contraction licenses a
 retained-ring identity moving forward, but does not prove base-relative
-geometric image closure. Version 0.8.0 stays in epoch 3 because it adds a new
-certificate/verifier for the already-formalized contract rather than changing
-that meaning. Epoch-2 graphs migrate non-destructively with
+geometric image closure. Version 0.8.0 stayed in epoch 3 because it added a new
+certificate/verifier for the already-formalized contract. Version 0.9.0 advances
+to kernel epoch 4: section plus no-invention now earns point-surjective image
+authority, while Groebner plus no-invention remains ideal authority only.
+Older format-1 graphs migrate non-destructively with
 `gp migrate --to-current-kernel`; earlier verdicts remain history but stale.
 
 Live validation now includes the polynomial-section control and bounded
@@ -81,8 +85,9 @@ prose says Q but their old model records omit machine-readable characteristic,
 so the replays used disposable copies with explicit `characteristic: 0` and
 `coefficient_domain: Q`. W10 additionally needed the exact `maps`/`inverse_maps`
 to `forward`/`inverse` repair established by W11 before the current kernel would
-fold the whole graph. The next semantic obligation is the separate geometric
-image-closure theorem, not more coordinate-ring exactness. See
+fold the whole graph. The section theorem now closes the narrow polynomial-lift
+case. The next semantic obligations are typed retained-coordinate expressibility
+and point-lifting evidence beyond global polynomial sections. See
 `OPERATION-CONTRACTS.md` and `COMPATIBILITY.md`.
 There is now a **public repo**: `github.com/wstrinz/grandportage`, Apache-2.0,
 the tool plus all three fixtures plus `DESIGN.md` / `REVIEW.md` /
@@ -112,6 +117,7 @@ review. Worth knowing because it predicts where the next one comes from.
 | **W10** Claude Opus enforcement | **PASS**, 0 blockers | Claude received the automatic exit-2/stderr refusal, RETRACT-cleared it, completed the three real constructors, recorded 30 correct verdicts, and finished with no findings. It also exposed mapped `EQUIVALENCE` being conflated with literal containment; the Lean-backed repair now gives coordinate changes the exact `forward`/`inverse` surface W10 needed |
 | **W11** mapped-equivalence repair assay | **PASS**, 0 blockers | malformed aliases and one-sided maps were atomically refused; exact canonical maps folded; real Singular verified both ideal pullbacks and both inverse compositions; no literal-containment verdict was scheduled; final full check was empty and an independent symbolic handcheck agreed |
 | **v0.8 elimination replay** | **PASS**, 0 semantic failures | W7-W10 exact contractions verified through bounded pure-lex certificates; the run exposed and fixed a Windows console-encoding crash after successful verification. Legacy field metadata and the W11 map repair were supplied only in disposable copies |
+| **v0.9 JC elimination pressure** | **PASS by refusal** | A proposed 3-generator exact image target was only a necessary system: the source pure-lex basis had 21 elements, 17 retained, and the target omitted `d2*dm1^3 + 3*dm1^2*dm3 + 3*dm1*dm2^2 - 2*Phi`. GP refused exact promotion; the persisted campaign retypes the edge as `NECESSARY_CONDITION` |
 
 ### The reviews found the mathematics; the runs found the tool
 

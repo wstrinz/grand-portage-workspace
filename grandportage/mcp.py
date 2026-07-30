@@ -463,7 +463,8 @@ TOOLS = [
         "Certify exact coordinate-ring contraction for one constructor-built "
         "Eliminate edge using a polynomial section. The section fixes retained "
         "variables and maps every eliminated variable to a polynomial in them. "
-        "This is deliberately separate from geometric point-closure authority.",
+        "It also supplies explicit polynomial point lifts; constructed image "
+        "authority requires the independent no-invention verdict as well.",
         {"edge": {"type": "string"},
          "section": {
              "type": "object",

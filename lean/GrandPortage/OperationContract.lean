@@ -318,6 +318,67 @@ theorem elimination_section_entails_completeness
     (fun f => J (certificate.retract f))
     certificate.preimage_is_ideal
     certificate.carries_source_generator
+
+/-- A valued affine point is a valid evaluation that kills every element of the
+    model ideal. `validEvaluation` is the abstract stand-in for a ring/algebra
+    homomorphism in this Mathlib-free development; the value type `A` keeps the
+    coefficient algebra explicit. -/
+structure AffinePoint {R : Type u} {A : Type w}
+    (validEvaluation : (R -> A) -> Prop) (zero : A) (I : Ideal R) where
+  eval : R -> A
+  valid : validEvaluation eval
+  vanishes : forall f, I f -> eval f = zero
+
+/-- Point-surjectivity of the elimination projection over one coefficient
+    algebra: every target-valued point has a source-valued lift whose retained
+    coordinates are unchanged. -/
+def EliminationPointSurjective {R : Type u} {S : Type v} {A : Type w}
+    (p : EliminationParams R S) (I : Ideal R) (J : Ideal S)
+    (sourceEvaluation : (R -> A) -> Prop)
+    (targetEvaluation : (S -> A) -> Prop) (zero : A) : Prop :=
+  forall q : AffinePoint targetEvaluation zero J,
+    Exists fun sourcePoint : AffinePoint sourceEvaluation zero I =>
+      forall g : S, sourcePoint.eval (p.embedding g) = q.eval g
+
+/-- A polynomial section is point-level evidence, not merely ideal evidence.
+
+    Runtime polynomial substitution supplies `precompose_valid`: composing a
+    target algebra evaluation with the checked polynomial retraction is again a
+    valid source evaluation. Generator membership then makes that lift satisfy
+    the entire source ideal, and `retract_embedding` proves that projecting it
+    recovers the original target point. -/
+theorem elimination_section_entails_point_surjectivity
+    {R : Type u} {S : Type v} {A : Type w}
+    {p : EliminationParams R S} {I : Ideal R} {J : Ideal S}
+    (certificate : EliminationSectionCertificate p I J)
+    (sourceEvaluation : (R -> A) -> Prop)
+    (targetEvaluation : (S -> A) -> Prop) (zero : A)
+    (precompose_valid :
+      forall (q : S -> A), targetEvaluation q ->
+        sourceEvaluation (fun f => q (certificate.retract f))) :
+    EliminationPointSurjective p I J
+      sourceEvaluation targetEvaluation zero := by
+  intro q
+  let liftEval : R -> A := fun f => q.eval (certificate.retract f)
+  have liftValid : sourceEvaluation liftEval :=
+    precompose_valid q.eval q.valid
+  have liftVanishes : forall f, I f -> liftEval f = zero := by
+    intro f hf
+    have generated := (certificate.source_generated f).1 hf
+    have mapped : J (certificate.retract f) := generated
+      (fun x => J (certificate.retract x))
+      certificate.preimage_is_ideal
+      certificate.carries_source_generator
+    exact q.vanishes (certificate.retract f) mapped
+  let lifted : AffinePoint sourceEvaluation zero I := {
+    eval := liftEval
+    valid := liftValid
+    vanishes := liftVanishes
+  }
+  refine Exists.intro lifted ?_
+  intro g
+  change q.eval (certificate.retract (p.embedding g)) = q.eval g
+  rw [certificate.retract_embedding]
 /-! ## General Gröbner completeness boundary
 
 The polynomial-section certificate above is powerful but special: many exact
@@ -620,4 +681,33 @@ theorem checked_elimination_does_not_transport_identity_along :
   · simp only [EqMod, zeroI]
     omega
 
+/-- A point semantics with no admissible source evaluations. This tiny abstract
+    countermodel isolates the logical gap that the hyperbola supplies
+    geometrically at runtime: ideal equality alone contains no point-lifting
+    theorem. -/
+def noValidEvaluation : (Int -> Unit) -> Prop := fun _ => False
+
+def anyValidEvaluation : (Int -> Unit) -> Prop := fun _ => True
+
+/-- Exact contraction does not imply point-surjectivity. The additional
+    polynomial-section structure is load-bearing, not a different spelling of
+    ideal equality. -/
+theorem exact_contraction_does_not_imply_point_surjectivity :
+    EliminationSemantics incompleteEliminationParams zeroI zeroI ∧
+      Not (EliminationPointSurjective
+        incompleteEliminationParams zeroI zeroI
+        noValidEvaluation anyValidEvaluation ()) := by
+  constructor
+  · intro g
+    rfl
+  · intro surjective
+    let target : AffinePoint anyValidEvaluation () zeroI := {
+      eval := fun _ => ()
+      valid := True.intro
+      vanishes := by
+        intro _ _
+        rfl
+    }
+    obtain ⟨sourcePoint, _⟩ := surjective target
+    exact sourcePoint.valid
 end GrandPortage

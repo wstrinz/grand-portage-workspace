@@ -53,6 +53,7 @@ It writes `graph.kernel3.jsonl` by default. The old `--to-kernel2` spelling is
 accepted only as a hidden compatibility alias; new automation should use the
 current-kernel spelling. The source remains untouched and all earlier verdicts
 remain readable but stale.
+
 Version 0.8.0 keeps graph format 1 and **kernel epoch 3**. It adds a second,
 separately pinned verifier algorithm for the existing elimination-completeness
 obligation: `VERIFIED_GROEBNER`. Singular may produce a pure-lex basis and
@@ -66,13 +67,29 @@ This is an evidence and verifier extension inside the OperationContract already
 formalized in epoch 3, not a change to transport meaning. Existing section
 verdicts therefore remain current; the new verifier identity is independently
 versioned and its producer artifacts are content-addressed.
+
+Version 0.9.0 keeps graph format 1 and advances to **kernel epoch 4**. The
+polynomial-section verifier was previously under-credited: a checked polynomial
+retraction does not merely prove ideal completeness. For every target-valued
+point, evaluating the section polynomials gives a source-valued lift whose
+retained coordinates are unchanged. Combined with the independent no-invention
+verdict, this earns point-surjective image authority over the declared
+coefficient algebra. `VERIFIED_GROEBNER` remains ideal authority only.
+
+This reopens the existing Zariski-closed predicate transport cell for
+section-certified constructed eliminations, so it is a transport-meaning change
+and requires a new kernel epoch. Section verifier version 2 and epoch 4 make all
+older section verdicts readable but stale. Migration writes `graph.kernel4.jsonl`
+and never replaces its source.
+
 Within one kernel epoch, no field may silently acquire a more permissive
 interpretation. A syntax-only extension can bump `graph_format`; transport
 meaning or verifier trust bumps `kernel_epoch` or the narrower verifier/backend
 implementation version as appropriate.
+
 ## Epoch-0 graphs
 
-Unversioned graphs are epoch 0. Version 0.8 continues to read them through a conservative,
+Unversioned graphs are epoch 0. Version 0.9 continues to read them through a conservative,
 read-only importer. It will not append new events to them and will not blend
 them with epoch-1 graphs.
 
@@ -183,20 +200,25 @@ accepts mathematical output only when the matching marker is the final
 non-whitespace line. Singular implementation version 2 made pre-marker verdicts
 stale; implementation version 3 adds the durable content-addressed envelope.
 The first narrow elimination-completeness certificate was a checked polynomial
-section, which earns exact contraction without trusting a second backend.
+section, which earns the missing contraction inclusion without trusting a second
+backend.
 Version 0.8 adds a second route for cases with no polynomial section: Singular
 produces a bounded pure-lex basis and representation witnesses, while the small
 backend-neutral exact checker independently verifies source span, every critical
 pair, the elimination order, and retained-basis membership in the target ideal.
 The producer remains untrusted search; only the checked certificate carries
-authority. The remaining semantic work is a separate geometric image-closure
-proof. Backend cross-checking can strengthen confidence in certificate
-production, but it is not part of the trusted argument.
+authority. Epoch 4 recognizes that the section additionally supplies explicit
+point lifts. The remaining semantic work is typed point-lifting evidence beyond
+global polynomial sections and retained-coordinate expressibility in the claim
+IR. Backend cross-checking can strengthen confidence in certificate production,
+but it is not part of the trusted argument.
 
 The release order is now visible in the epochs: close known semantic defects,
 cut format 1 / kernel epoch 1, finish the backend evidence seam, then advance to
 kernel epoch 2 when the elimination contract exposed a narrower real licence,
-then kernel epoch 3 when a certificate earned back only the coordinate-ring half.
+then kernel epoch 3 when a certificate earned back only the coordinate-ring
+half, and kernel epoch 4 when polynomial sections were correctly recognized as
+point-lifting evidence.
 
 ## Sealed campaigns
 

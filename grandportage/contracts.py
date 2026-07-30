@@ -126,8 +126,8 @@ ELIMINATION = OperationContract(
     source_endpoint="src",
     transport_reason=(
         "exact elimination contracts the source ideal to the retained-coordinate "
-        "ring; geometrically it presents the scheme-theoretic image, while "
-        "point-set closure needs additional field/radical hypotheses"
+        "ring; a polynomial section additionally supplies target-point lifts, "
+        "while a pure Groebner certificate supplies only ideal equality"
     ),
     checked_obligations=(
         ValidationObligation(
@@ -160,13 +160,14 @@ ELIMINATION = OperationContract(
     ),
     open_obligations=(
         "contraction completeness beyond Q/prime fields, bounded pure lex, and polynomial sections",
-        "point-set closure identification needs explicit field and radical hypotheses",
+        "point-surjectivity beyond global polynomial sections needs a separately typed certificate",
     ),
     licensed_consequences=(
         "the entire built ideal is contained in the contraction of the source ideal",
         "target identities pull back to source identities (IMAGE_CLOSURE/AGAINST)",
         "source points map to target points, so target emptiness implies source emptiness",
-        "a verified section or Gröbner certificate plus no-invention licenses source-derived retained-ring identities along",
+        "a verified section or Groebner certificate plus no-invention licenses source-derived retained-ring identities along",
+        "a verified section plus no-invention supplies point-surjective image authority over the declared coefficient algebra",
     ),
 )
 

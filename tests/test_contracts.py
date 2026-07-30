@@ -367,17 +367,23 @@ def test_polynomial_section_certifies_missing_contraction_inclusion():
     assert certificate["images"] == {"y": "x^2", "x": "x"}
     assert [row["cofactors"] for row in certificate["rows"]] == [["1"], ["x"]]
     assert "exact contraction" in why
-    assert "does not by itself" in why
+    assert "explicit polynomial lift" in why
 
 
-def test_section_and_no_invention_unlock_identity_but_not_point_closure():
+def test_section_and_no_invention_unlock_identity_and_point_surjectivity():
     graph = _section_graph()
     edge = graph.edges["E"]
-    edge["output_verdict"] = V.OP_SOUND
     edge["contraction_verdict"] = V.SECTION_VERIFIED
 
-    assert C.effective_exact_contraction(edge)
+    # A section is a target-point lift, but the recorded edge is not yet known
+    # to receive every source point until no-invention is independently checked.
+    assert not C.effective_exact_contraction(edge)
     assert not C.effective_geometric_closure(edge)
+
+    edge["output_verdict"] = V.OP_SOUND
+    assert C.effective_exact_contraction(edge)
+    assert C.effective_geometric_closure(edge)
+    assert C.effective_image_complete(edge)
     identity = K.transport(
         K.IMAGE_CLOSURE, K.ALONG, K.IDENTITY,
         map_kind=K.POLYNOMIAL,
@@ -389,8 +395,8 @@ def test_section_and_no_invention_unlock_identity_but_not_point_closure():
         exact_contraction=C.effective_exact_contraction(edge),
         geometric_closure=C.effective_geometric_closure(edge))
     assert identity.licensed
-    assert not predicate.licensed
-    assert "geometric point-closure" in predicate.reason
+    assert predicate.licensed
+    assert "geometric image-closure authority" in predicate.reason
 
 
 def test_false_section_is_rejected_without_refuting_exactness():

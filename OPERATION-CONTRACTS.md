@@ -1,7 +1,7 @@
 # Operation contracts
 
 **Status:** two executable pilots
-**Authoritative runtime semantics:** kernel epoch 3
+**Authoritative runtime semantics:** kernel epoch 4
 **Formal shadow:** `lean/GrandPortage/OperationContract.lean`
 
 Grand Portage now has a small operation-contract foundation. Its first job is
@@ -53,68 +53,80 @@ Lean proves the one-sided lift and pins the completeness gap with `I = (6)`,
 ## Elimination pilot
 
 Elimination is genuinely multi-sorted. Let `R` be the source ring, `S` the
-retained-coordinate ring, `ι : S → R` the coordinate inclusion, `I` the source
+retained-coordinate ring, `i : S -> R` the coordinate inclusion, `I` the source
 ideal, and `J` the recorded output ideal:
 
 ```text
-exact semantics          J = ι⁻¹(I)
-no-invention check       J ⊆ ι⁻¹(I)
-section certificate      r : R → S, r ∘ ι = id, r(I) ⊆ J
-formal section theorem   ι⁻¹(I) ⊆ J
-combined authority       J = ι⁻¹(I)
+exact semantics             J = inverse_image(i, I)
+no-invention check          J subset inverse_image(i, I)
+section completeness        r : R -> S, r o i = id, r(I) subset J
+Groebner completeness       checked pure-lex basis gives inverse_image(i, I) subset J
+combined ideal authority    J = inverse_image(i, I)
+section point authority     every target-valued point lifts through r
 ```
 
 `verify.operation_output` checks the eliminated/retained variable partition,
 expression typing, and source membership for every recorded target generator.
-Its representation records the two ring sorts and proves only the first
-inclusion.
+It proves only no-invention.
 
-`gp verify-elimination EDGE --section '{"y":"x^2"}'` checks the independent
-reverse inclusion. The section must map exactly the eliminated variables to
-polynomials in the retained variables; retained variables are fixed literally.
-The checker applies the map simultaneously, proves each substituted source
-generator belongs to `J`, and independently expands the membership cofactors.
-The stored `polynomial_section_v1` object records every image, substitution, and
-cofactor. A rejected section refutes that proof candidate, not exactness, and
-cannot erase a previously verified certificate.
+`gp verify-elimination EDGE --section '{"y":"x^2"}'` checks a polynomial
+retraction. Retained variables are fixed literally; eliminated variables map to
+polynomials in the retained ring; every substituted source generator is proved
+inside `J` with independently expanded cofactors. This is stronger than ideal
+completeness: evaluating the checked polynomials at any target-valued point
+produces a source-valued point that projects back identically.
 
-The first positive control eliminates `y` from
-`(yx-1, y²-x) ⊂ Q[y,x]`, records `(x³-1) ⊂ Q[x]`, and uses `y ↦ x²`.
-The two substituted generators are `x³-1` and `x⁴-x = x(x³-1)`.
-The negative controls retain the old incomplete `(x) → (0)` example and the
-hyperbola `(xy-1) → (0)`: the latter has exact contraction but no polynomial
-section of this shape, so it stays conservative pending a general Gröbner
-certificate.
+`gp verify-elimination-groebner EDGE` covers eliminations with no polynomial
+section. Singular searches for a bounded pure-lex basis and representation
+witnesses; GP's backend-neutral exact checker replays source span, every
+critical pair, the elimination order, and retained-basis membership. This earns
+ideal completeness only. Search is untrusted and point lifting is not inferred.
 
-Lean now defines `EliminationCompleteness`, proves that it combines with the
-no-invention theorem to give `EliminationSemantics`, and proves that an
-`EliminationSectionCertificate` entails completeness. The `(2) → (0)` model
-separately proves that the cheap checked guarantee does not contain this new
-authority.
+The positive section control eliminates `y` from `(yx-1, y^2-x)` and uses
+`y -> x^2`. The hyperbola `(xy-1) -> (0)` is the decisive separation: its
+elimination ideal is exact and the Groebner route can certify it, but the target
+point `x=0` has no lift. Exact contraction is therefore not point-surjectivity.
 
-## Authority and kernel epoch 3
+A harder eight-variable live pressure test exercised the other failure mode. A
+plausible three-generator retained system was not the full elimination ideal: a
+21-element pure-lex basis contained 17 retained elements and exposed a concrete
+missing relation. The verifier refused exact promotion, preserving the target as
+a sound necessary system. This is the intended operational value of separating
+the contract from the backend program.
 
-Kernel epoch 2 correctly closed exact-dependent forward transport on locally
-checked constructed eliminations. Epoch 3 makes the first reopening precise by
-splitting two facts that the earlier `image_complete` gate conflated:
+Lean defines `EliminationCompleteness`, the section and basis boundaries, and a
+coefficient-algebra-relative `EliminationPointSurjective` proposition. It proves
+that the section lifts every valid target evaluation, and separately provides a
+countermodel showing exact contraction alone has no point-lifting consequence.
 
-- **exact contraction** licenses `IMAGE_CLOSURE / ALONG / IDENTITY` for a
-  denominator-free map, but only when both the no-invention and section
-  verdicts are current;
-- **geometric point closure** licenses a closed `PREDICATE` moving `ALONG` and
-  remains false for constructor-built eliminations until a separate field- and
-  radical-aware theorem is checked.
+## Authority and kernel epoch 4
 
-Manual `IMAGE_CLOSURE` declarations continue to state both exact semantic
-relations. Constructed eliminations earn only what their evidence proves.
-Format-1 graphs migrate non-destructively with:
+Kernel epoch 4 derives two different authorities from the evidence method:
+
+- **exact contraction** requires current no-invention plus either a checked
+  polynomial section or a checked pure-lex certificate;
+- **point-surjective image authority** requires current no-invention plus a
+  checked polynomial section. A pure Groebner certificate never opens it.
+
+Point-surjectivity is actually strong enough for any target-expressible
+predicate. The current claim IR does not yet type retained-coordinate
+expressibility, so the runtime conservatively uses it only to reopen the
+existing Zariski-closed `PREDICATE / ALONG` cell. This is an explicit false
+refusal boundary, not evidence that closedness is mathematically necessary once
+a section exists.
+
+Manual `IMAGE_CLOSURE` declarations continue to state their semantic relation.
+Constructed eliminations earn only what their current evidence proves. Because
+this changes transport meaning for existing section verdicts, format 1 advances
+from kernel epoch 3 to 4 and section-verifier version 2. Migration remains
+non-destructive:
 
 ```console
 gp --graph old/.portage/graph.jsonl migrate --to-current-kernel
 ```
 
 The source is untouched, prior verdicts remain history but stale, and the new
-fold re-audits transport under epoch 3.
+fold re-audits transport under epoch 4.
 
 ## Trust boundary
 
@@ -126,7 +138,7 @@ authority/provenance     who checked what, under which epoch and inputs
 artifact store           exact immutable programs and raw transcripts
 ```
 
-The next earned step is a general Gröbner completeness certificate for eliminations
-without polynomial sections, alongside the separate geometric point-closure theorem.
-Contracts remain compiled constructor metadata until the two pilots show that
-persisting them in the IR buys more than it costs.
+The next earned step is a separately typed point-lifting certificate beyond
+global polynomial sections, exercised against harder live eliminations. Contracts
+remain compiled constructor metadata until the pilots show that persisting them
+in the IR buys more than it costs.

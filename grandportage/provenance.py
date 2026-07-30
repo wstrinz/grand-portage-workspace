@@ -32,7 +32,7 @@ VERIFIERS = {
     "ring_iso": ("verify.ring_iso", 2),
     "witness": ("verify.point_witness", 2),
     "operation": ("verify.operation_output", 2),
-    "elimination": ("verify.elimination_section", 1),
+    "elimination": ("verify.elimination_section", 2),
     "partition": ("verify.partition_exhaustiveness", 2),
 }
 
@@ -42,7 +42,7 @@ VERIFIERS = {
 # the same checker.
 VERIFIER_ALTERNATIVES = {
     "elimination": {
-        "verify.elimination_section": 1,
+        "verify.elimination_section": 2,
         "verify.elimination_groebner": 1,
     },
 }

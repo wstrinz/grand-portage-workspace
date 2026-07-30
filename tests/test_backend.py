@@ -565,7 +565,7 @@ def test_real_singular_polynomial_section_persists_exact_contraction(tmp_path):
     assert edge["output_verdict"] == V.OP_SOUND
     assert edge["contraction_verdict"] == V.SECTION_VERIFIED
     assert C.effective_exact_contraction(edge)
-    assert not C.effective_geometric_closure(edge)
+    assert C.effective_geometric_closure(edge)
     assert A.audit_graph(root, graph) == []
 
 

@@ -1351,14 +1351,18 @@ def effective_exact_contraction(edge):
 
 
 def effective_geometric_closure(edge):
-    """Whether point-level geometric image-closure transport is established.
+    """Whether point-level geometric image transport is established.
 
-    Manual IMAGE_CLOSURE edges assert that semantic relation. A constructor
-    polynomial section proves equality of ideals, not by itself the relevant
-    base-relative point theorem, so epoch 3 keeps this gate closed for all
-    constructed eliminations.
+    Manual IMAGE_CLOSURE edges assert that semantic relation. For a constructed
+    elimination, a checked polynomial section supplies a lift of every target
+    point, while the independent output verdict proves that source points map
+    into the target. A pure Groebner certificate proves ideal equality but
+    supplies no point lift.
     """
-    return edge.get("built_by_operation") != "Eliminate"
+    if edge.get("built_by_operation") != "Eliminate":
+        return True
+    return (edge.get("output_verdict") == "VERIFIED"
+            and edge.get("contraction_verdict") == "VERIFIED_SECTION")
 
 
 def effective_image_complete(edge):

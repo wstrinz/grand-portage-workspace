@@ -51,13 +51,14 @@ contracts. Exact saturation and elimination semantics, locally checked
 guarantees, and licensed transport consequences are distinct predicates. Ideal
 generation lifts generator certificates to ideal-level sound envelopes.
 Elimination completeness is a separate inclusion; a polynomial retraction
-certificate proves it in favorable cases, while the general Gröbner boundary
+certificate proves it in favorable cases, while the general Groebner boundary
 isolates endpoint interpretation and finite checked basis facts from the
 still-explicit Buchberger/elimination theorem. Lean proves the final semantic
-bridge here; it does not yet verify the Python parser or Buchberger checker. Either completeness route combines with
-no-invention to recover exact contraction. Concrete counterexamples show
-neither saturation nor elimination completeness is hidden in the cheap local
-checks.
+bridge here; it does not yet verify the Python parser or Buchberger checker.
+Either completeness route combines with no-invention to recover exact
+contraction. The section additionally lifts every target-valued point; a
+separate countermodel proves exact contraction alone has no point-surjectivity
+consequence.
 
 `GrandPortage/Conditions.lean` — **that conjecture is refuted.** The four gated
 conditions turn out to be three different shapes, and one of them is not about
