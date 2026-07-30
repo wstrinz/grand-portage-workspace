@@ -19,6 +19,54 @@ def test_table_is_total():
         assert k in K.TRANSPORT[t][d], (t, d, k)
 
 
+def test_point_cells_are_compiled_from_relational_capabilities():
+    """The point table is a compiled artifact, not 42 independent choices.
+
+    For the relation from source points to target points, ``total`` licenses
+    forward witnesses and backward universal claims; ``surjective`` licenses
+    the dual directions.  Three named cells refine that generic point
+    semantics with operation-specific evidence.
+    """
+    capabilities = {
+        K.EQUIVALENCE: (True, True),
+        K.NECESSARY_CONDITION: (True, False),
+        K.RESTRICTION: (True, False),
+        K.BASE_EXTENSION: (True, False),
+        K.IMAGE_CLOSURE: (True, False),
+        K.SPECIALIZATION: (False, False),
+        K.UNTYPED: (False, False),
+    }
+    overrides = {
+        (K.BASE_EXTENSION, K.ALONG, K.EMPTY): K._SCHEME_SCOPE,
+        (K.IMAGE_CLOSURE, K.ALONG, K.PREDICATE):
+            K._CLOSED_EXACT_IMAGE,
+        (K.IMAGE_CLOSURE, K.AGAINST, K.NONEMPTY): K._EXISTENTIAL,
+    }
+    assert K._POINT_RELATION_CAPABILITIES == capabilities
+    assert K._POINT_RULE_OVERRIDES == overrides
+
+    def relational_rule(etype, direction, kind):
+        total, surjective = capabilities[etype]
+        if kind == K.NONEMPTY:
+            return total if direction == K.ALONG else surjective
+        return surjective if direction == K.ALONG else total
+
+    for etype, direction, kind in itertools.product(
+            capabilities, K.DIRECTIONS,
+            (K.EMPTY, K.NONEMPTY, K.PREDICATE)):
+        key = (etype, direction, kind)
+        expected = overrides.get(
+            key, relational_rule(etype, direction, kind))
+        assert K.TRANSPORT[etype][direction][kind] == expected, key
+        assert K._derived_point_rule(etype, direction, kind) == expected, key
+
+
+def test_point_compiler_refuses_coordinate_ring_claims():
+    """IDENTITY has a different semantic sort and stays hand-specified."""
+    with pytest.raises(KeyError, match="point-rule derivation"):
+        K._derived_point_rule(K.EQUIVALENCE, K.ALONG, K.IDENTITY)
+
+
 def test_equivalence_forbids_nothing_about_points():
     """If it forbade anything about POINTS it would not be an equivalence.
 

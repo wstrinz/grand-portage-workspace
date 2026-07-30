@@ -17,8 +17,13 @@ The point half looks like one subset argument repeated. The identity half is
 where every hand-entered boolean lives — `ring_iso`, `identity_origin`,
 `integral`, `coefficients_in_base` — and none of it follows from points.
 
-That measurement shows the cells are *consistent with* being derived. It does
-not show they *are*. Closing that gap is what this is for.
+That historical measurement has now become an executable architecture. The
+Python kernel compiles all 42 point cells (including `UNTYPED`) from relation
+totality and surjectivity, with exactly three named evidence refinements:
+base-extension scheme emptiness, closed exact-image predicates, and existential
+image witnesses. Lean proves the corresponding predicate-transformer laws.
+The 14 `IDENTITY` cells (including `UNTYPED`) stay explicit because point maps
+do not determine coordinate-ring equality.
 
 ## What is here
 

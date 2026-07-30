@@ -3765,36 +3765,31 @@ def test_specialization_has_no_containment_to_verify():
     assert "not nested" in why and "Fano" in why
 
 
-def test_most_point_cells_follow_from_inclusion_alone():
-    """The measurement that found the bug above, kept as a gate.
+def test_only_three_point_cells_override_the_relational_core():
+    """The old inclusion measurement is now an exact compiler invariant.
 
-    If a future edit makes one of the 27 inclusion-derived cells disagree with
-    plain subset reasoning, that is either a discovery or a mistake -- and
-    either way it should be noticed rather than absorbed into the table.
+    Totality and surjectivity derive every ordinary point cell.  The only
+    differences are three evidence-sensitive refinements whose mathematical
+    reasons are named by their rule values.
     """
-    inclusion = {
-        (K.ALONG, K.EMPTY): False, (K.ALONG, K.NONEMPTY): True,
-        (K.ALONG, K.PREDICATE): False,
-        (K.AGAINST, K.EMPTY): True, (K.AGAINST, K.NONEMPTY): False,
-        (K.AGAINST, K.PREDICATE): True,
-    }
-    # The three groups that legitimately differ, each for a stated reason.
-    stronger = {K.EQUIVALENCE}          # inclusion BOTH ways
-    conditional = {K.BASE_EXTENSION, K.IMAGE_CLOSURE}   # needs a capability
-    not_nested = {K.SPECIALIZATION}     # different fibres, not a subset
-
-    for etype in K.ALL_TYPES:
-        for d in K.DIRECTIONS:
+    observed = set()
+    for etype, capabilities in K._POINT_RELATION_CAPABILITIES.items():
+        total, surjective = capabilities
+        for direction in K.DIRECTIONS:
             for kind in (K.EMPTY, K.NONEMPTY, K.PREDICATE):
-                actual = K.TRANSPORT[etype][d][kind]
-                want = inclusion[(d, kind)]
-                if actual == want or isinstance(actual, str):
-                    continue
-                assert etype in stronger | conditional | not_nested, (
-                    "%s/%s/%s departs from plain inclusion (%s vs %s) and its "
-                    "type is not in a group with a recorded reason. Either the "
-                    "cell is wrong or a fourth reason exists and should be "
-                    "named." % (etype, d, kind, actual, want))
+                if kind == K.NONEMPTY:
+                    core = total if direction == K.ALONG else surjective
+                else:
+                    core = surjective if direction == K.ALONG else total
+                if K.TRANSPORT[etype][direction][kind] != core:
+                    observed.add((etype, direction, kind))
+
+    assert observed == {
+        (K.BASE_EXTENSION, K.ALONG, K.EMPTY),
+        (K.IMAGE_CLOSURE, K.ALONG, K.PREDICATE),
+        (K.IMAGE_CLOSURE, K.AGAINST, K.NONEMPTY),
+    }
+    assert set(K._POINT_RULE_OVERRIDES) == observed
 
 
 def test_the_witness_discharge_names_the_right_model_at_each_end():

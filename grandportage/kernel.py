@@ -445,8 +445,60 @@ _ZARISKI_DENSE = "zariski_dense"
 # ---------------------------------------------------------------------------
 _EXISTENTIAL = "existential"
 
+# ---------------------------------------------------------------------------
+# DERIVED POINT TRANSPORT.
+#
+# Every typed edge has a point relation from src to dst. Two independent
+# capabilities determine the ordinary point claims:
+#
+#   total on src       every src point relates to a dst point
+#   surjective on dst  every dst point relates to a src point
+#
+# Existential claims follow the relation; universal claims (EMPTY and
+# PREDICATE) run contravariantly. Three cells carry operation-specific
+# authority beyond this relational core and are explicit overrides.
+# IDENTITY is deliberately absent: it is a coordinate-ring claim.
+# ---------------------------------------------------------------------------
+_POINT_RELATION_CAPABILITIES = {
+    EQUIVALENCE: (True, True),
+    NECESSARY_CONDITION: (True, False),
+    RESTRICTION: (True, False),
+    BASE_EXTENSION: (True, False),
+    IMAGE_CLOSURE: (True, False),
+    SPECIALIZATION: (False, False),
+    UNTYPED: (False, False),
+}
+
+_POINT_RULE_OVERRIDES = {
+    (BASE_EXTENSION, ALONG, EMPTY): _SCHEME_SCOPE,
+    (IMAGE_CLOSURE, ALONG, PREDICATE): _CLOSED_EXACT_IMAGE,
+    (IMAGE_CLOSURE, AGAINST, NONEMPTY): _EXISTENTIAL,
+}
+
+
+def _derived_point_rule(etype, direction, kind):
+    """Compile one EMPTY/NONEMPTY/PREDICATE cell from relation capabilities."""
+    override = _POINT_RULE_OVERRIDES.get((etype, direction, kind))
+    if override is not None:
+        return override
+    total, surjective = _POINT_RELATION_CAPABILITIES[etype]
+    if kind == NONEMPTY:
+        return total if direction == ALONG else surjective
+    if kind in (EMPTY, PREDICATE):
+        return surjective if direction == ALONG else total
+    raise KeyError("point-rule derivation does not cover kind %r" % (kind,))
+
+
+def _transport_row(etype, direction, identity_rule):
+    row = {kind: _derived_point_rule(etype, direction, kind)
+           for kind in (EMPTY, NONEMPTY, PREDICATE)}
+    row[IDENTITY] = identity_rule
+    return row
+
+
 # ===========================================================================
-# THE TRANSPORT TABLE.  This is the whole type system.
+# THE TRANSPORT TABLE. Point cells are compiled above; identity cells remain
+# explicit because their semantics lives in coordinate rings.
 # ===========================================================================
 TRANSPORT = {
     EQUIVALENCE: {
@@ -473,10 +525,8 @@ TRANSPORT = {
         # a RING ISOMORPHISM -- the algebra is the same, not merely the
         # solution set.  Every other cell is unaffected: those are about points,
         # and about points the converse is exactly the right evidence.
-        ALONG:   {EMPTY: True, NONEMPTY: True, PREDICATE: True,
-                  IDENTITY: _RING_ISOMORPHISM},
-        AGAINST: {EMPTY: True, NONEMPTY: True, PREDICATE: True,
-                  IDENTITY: _RING_ISOMORPHISM},
+        ALONG: _transport_row(EQUIVALENCE, ALONG, _RING_ISOMORPHISM),
+        AGAINST: _transport_row(EQUIVALENCE, AGAINST, _RING_ISOMORPHISM),
     },
     NECESSARY_CONDITION: {
         # tighter -> looser.  A point of the tighter model is a point of the
@@ -484,14 +534,14 @@ TRANSPORT = {
         # rewriting to be AMBIENT: the pullback O(dst) -> O(src) is surjective
         # and not injective here, so a relation derived from src's own ideal
         # does not push forward.  See the k[x]/(x) counterexample above.
-        ALONG:   {EMPTY: False, NONEMPTY: True, PREDICATE: False,
-                  IDENTITY: _AMBIENT_IDENTITY},
+        ALONG: _transport_row(
+            NECESSARY_CONDITION, ALONG, _AMBIENT_IDENTITY),
         # looser -> tighter.  THIS is the direction that closes cells.  An
         # identity of any origin pulls back, because the ring map points this
         # way; the denominator-free condition is what keeps the expression
         # meaningful after substitution.
-        AGAINST: {EMPTY: True, NONEMPTY: False, PREDICATE: True,
-                  IDENTITY: _MAP_POLYNOMIAL},
+        AGAINST: _transport_row(
+            NECESSARY_CONDITION, AGAINST, _MAP_POLYNOMIAL),
     },
     RESTRICTION: {
         # src = the semialgebraic subset (a positivity cone, an open region);
@@ -504,16 +554,14 @@ TRANSPORT = {
         # IDENTITY ALONG IS UNCONDITIONAL, and it took an external review and a
         # nodal cubic to see that the gate here was answering a question nobody
         # had asked.  See the retraction above _ZARISKI_DENSE.
-        ALONG:   {EMPTY: False, NONEMPTY: True, PREDICATE: False,
-                  IDENTITY: True},
+        ALONG: _transport_row(RESTRICTION, ALONG, True),
         # AGAINST/IDENTITY IS THE OTHER PLACE THIS DIFFERS, and it is
         # unconditional where NECESSARY_CONDITION needs a denominator-free map.
         # A restriction does not change coordinates at all -- it is a subset
         # inclusion, the identity on functions -- so there is no substitution to
         # go wrong.  A relation valid at every point of dst is valid at every
         # point of a subset of dst, and that is the whole argument.
-        AGAINST: {EMPTY: True, NONEMPTY: False, PREDICATE: True,
-                  IDENTITY: True},
+        AGAINST: _transport_row(RESTRICTION, AGAINST, True),
     },
     BASE_EXTENSION: {
         # src = the model over the SMALL field k; dst = over the BIG field K.
@@ -535,10 +583,9 @@ TRANSPORT = {
         #
         # Descent is sound by faithful flatness exactly when both sides lie in
         # the base ring, which is a property of the CLAIM and not of the edge.
-        ALONG:   {EMPTY: _SCHEME_SCOPE, NONEMPTY: True, PREDICATE: False,
-                  IDENTITY: True},
-        AGAINST: {EMPTY: True, NONEMPTY: False, PREDICATE: True,
-                  IDENTITY: _COEFFICIENTS_IN_BASE},
+        ALONG: _transport_row(BASE_EXTENSION, ALONG, True),
+        AGAINST: _transport_row(
+            BASE_EXTENSION, AGAINST, _COEFFICIENTS_IN_BASE),
     },
     IMAGE_CLOSURE: {
         # src = the true constructible image; dst = its Zariski closure.
@@ -586,13 +633,12 @@ TRANSPORT = {
         # hand-declared IMAGE_CLOSURE along a RATIONAL map can introduce
         # denominators in the pullback and this refuses it.  Two real
         # conditions; only one of them used to be checked.
-        ALONG:   {EMPTY: False, NONEMPTY: True,
-                  PREDICATE: _CLOSED_EXACT_IMAGE,
-                  IDENTITY: _EXACT_IMAGE_IDENTITY},
+        ALONG: _transport_row(
+            IMAGE_CLOSURE, ALONG, _EXACT_IMAGE_IDENTITY),
         # A point of the closure need NOT lift: NONEMPTY does not travel here.
         # That single cell is Chevalley.
-        AGAINST: {EMPTY: True, NONEMPTY: _EXISTENTIAL, PREDICATE: True,
-                  IDENTITY: _MAP_POLYNOMIAL},
+        AGAINST: _transport_row(
+            IMAGE_CLOSURE, AGAINST, _MAP_POLYNOMIAL),
     },
     SPECIALIZATION: {
         # generic fibre <-> special fibre of a scheme over Spec Z.
@@ -638,14 +684,13 @@ TRANSPORT = {
         #   certificate this kernel cannot see.
         #   AGAINST (lift to char 0) is unsound outright.  `p*x = 0` holds
         #   identically in characteristic p and lifts to nothing.
-        ALONG:   {EMPTY: False, NONEMPTY: False, PREDICATE: False,
-                  IDENTITY: _INTEGRAL_IDENTITY},
-        AGAINST: {EMPTY: False, NONEMPTY: False, PREDICATE: False,
-                  IDENTITY: False},
+        ALONG: _transport_row(
+            SPECIALIZATION, ALONG, _INTEGRAL_IDENTITY),
+        AGAINST: _transport_row(SPECIALIZATION, AGAINST, False),
     },
     UNTYPED: {
-        ALONG:   {k: False for k in CLAIM_KINDS},
-        AGAINST: {k: False for k in CLAIM_KINDS},
+        ALONG: _transport_row(UNTYPED, ALONG, False),
+        AGAINST: _transport_row(UNTYPED, AGAINST, False),
     },
 }
 

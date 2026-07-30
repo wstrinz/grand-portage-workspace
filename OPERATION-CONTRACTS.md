@@ -51,6 +51,13 @@ Both properties compose. Same-coordinate refinement is totality of the equality
 relation, while finite chart lifting supplies surjectivity. This does not absorb
 coordinate-ring identities or evidence freshness: those remain separate sorts.
 
+The runtime table now compiles every point cell from those two capabilities.
+Only three evidence-sensitive refinements are named as overrides: scheme-scoped
+emptiness under base extension, closed predicates on an exact image, and an
+existential witness for image lifting. `IDENTITY` remains an explicit table
+fragment because its rules concern coordinate rings, expression typing, and
+certificate scope rather than relations between points.
+
 ## Saturation pilot
 
 For source ideal `I`, polynomial `f`, and recorded output ideal `J`:
