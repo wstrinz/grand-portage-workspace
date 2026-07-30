@@ -223,7 +223,7 @@ def verify(spec):
         try:
             expanded_text = G.substitute_polynomial(
                 equation.get("expression"), variables, identities,
-                characteristic,
+                characteristic, _preserve_sparse=True,
             )
         except G.CertificateError as exc:
             raise CoefficientExpansionError("%s lowering failed: %s" % (

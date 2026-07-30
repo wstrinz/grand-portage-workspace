@@ -97,6 +97,15 @@ target evaluation on the retained coordinates. Lean proves that
 point-surjectivity transports every such predicate and separately pins the need
 for expressibility with a countermodel.
 
+`GrandPortage/Localization.lean` - saturation semantics for one or many
+declared guards, plus the exact certificate shape implemented by
+`localization_membership_v1`. It proves localized equality does not imply
+ambient ideal membership. The rows 7--8 pilot adds the complementary unit-ideal
+bridge: if a permitted guard monomial times `1` belongs to the ideal, no point
+into a nontrivial target can satisfy the localized quotient. The runtime can
+check the premise today; it deliberately does not yet persist the derived
+`EMPTY` claim.
+
 `GrandPortage/CoefficientExpansion.lean` - bounded polynomial unknowns as finite
 coefficient vectors and their reconstruction as finitely supported formal
 polynomials. Selected coefficient rows are proved necessary only; complete row

@@ -38,7 +38,7 @@ def _closed(value, fields, where):
 
 def _canonical(expression, variables, characteristic, where):
     try:
-        return G.canonical_polynomial(expression, variables, characteristic)
+        return G.canonical_polynomial_value(expression, variables, characteristic)
     except G.CertificateError as exc:
         raise LocalizationError("%s: %s" % (where, exc))
 
@@ -99,9 +99,15 @@ def verify(spec):
         _canonical(value, variables, characteristic, "guard %d" % n)
         for n, value in enumerate(guards, 1)
     ]
-    _require(all(value != "0" for value in guards),
+    _require(all(not G.parse_polynomial(
+        value, variables, characteristic
+    ).is_zero for value in guards),
              "a zero polynomial cannot be inverted")
-    _require(len(guards) == len(set(guards)),
+    guard_keys = [
+        json.dumps(value, sort_keys=True, separators=(",", ":"))
+        if isinstance(value, dict) else value for value in guards
+    ]
+    _require(len(guard_keys) == len(set(guard_keys)),
              "guards must remain distinct after exact normalization")
 
     expression = spec.get("expression")
@@ -130,7 +136,11 @@ def verify(spec):
         certificate.get("membership_target"), variables, characteristic,
         "membership_target",
     )
-    _require(recorded_target == expected_target,
+    _require(G.parse_polynomial(
+        recorded_target, variables, characteristic
+    ) == G.parse_polynomial(
+        expected_target, variables, characteristic
+    ),
              "membership_target is not numerator times the declared guard "
              "powers: expected %s" % expected_target)
     cofactors = certificate.get("cofactors")

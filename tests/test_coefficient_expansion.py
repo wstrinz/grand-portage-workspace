@@ -7,6 +7,7 @@ import pytest
 
 from grandportage import coefficient_expansion as CE
 from grandportage import cli
+from grandportage import groebner as G
 
 
 def _product_spec(coverage=CE.COMPLETE):
@@ -187,3 +188,46 @@ def test_cli_reports_the_authority_boundary(tmp_path, capsys):
     output = capsys.readouterr().out
     assert CE.VERIFIED_SELECTED in output
     assert "no converse" in output
+
+
+def test_large_sparse_image_survives_coefficient_lowering_without_infix_ast():
+    terms = []
+    for exponent in range(1200, -1, -1):
+        powers = [["c", 1]]
+        if exponent:
+            powers.append(["y", exponent])
+        terms.append({"coefficient": "1", "powers": powers})
+    image = {"schema": G.SPARSE_POLYNOMIAL_SCHEMA, "terms": terms}
+    spec = {
+        "schema": CE.SCHEMA,
+        "characteristic": 0,
+        "parameter": "y",
+        "coefficient_variables": ["c"],
+        "source_variables": ["A"],
+        "images": {"A": image},
+        "bounded_variables": {},
+        "equations": [{
+            "id": "large-selected-row",
+            "expression": "A",
+            "degree": 1200,
+            "coverage": CE.SELECTED,
+            "coefficients": {"0": "c"},
+        }],
+    }
+
+    report = CE.verify(spec)
+
+    assert report["verdict"] == CE.VERIFIED_SELECTED
+    assert report["equations"][0]["checked_coefficients"] == {"0": "c"}
+
+
+def test_large_sparse_image_order_mutation_is_refused():
+    spec = {
+        "schema": G.SPARSE_POLYNOMIAL_SCHEMA,
+        "terms": [
+            {"coefficient": "1", "powers": [["x", 1]]},
+            {"coefficient": "1", "powers": [["x", 2]]},
+        ],
+    }
+    with pytest.raises(G.CertificateError, match="descending lexicographic"):
+        G.parse_polynomial(spec, ["x"])

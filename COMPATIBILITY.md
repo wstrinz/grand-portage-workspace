@@ -145,7 +145,6 @@ a kernel-epoch change. The proof envelope and verdict field are computed-only,
 fingerprint-bound, and independently stale. Epoch-7 graphs migrate
 non-destructively; their old verdicts remain readable history.
 
-Within one kernel epoch, no field may silently acquire a more permissive
 Version 0.14.0 advances to **graph format 3** and **kernel epoch 9**.
 Models may now declare two independent, bounded semantic attributes:
 
@@ -169,7 +168,24 @@ checker. It grants no persisted graph or transport authority, so it is an
 evidence-language extension within epoch 9 rather than another semantic epoch
 change.
 
+Version 0.15.0 remains at **graph format 3** and **kernel epoch 9**. It adds the
+standalone `sparse_polynomial_v1` evidence encoding to the shared exact
+polynomial checker. A sparse value is a closed object containing canonical
+nonzero coefficient strings and a descending lexicographic list of monomials;
+each monomial names positive powers in ring-variable order. Existing term,
+exponent, coefficient-bit, variable-power-entry, multiplication, and global
+arithmetic budgets still apply.
 
+This is an evidence-language and resource-boundary extension, not a transport
+change. Legacy infix polynomial strings remain accepted. The localization and
+coefficient-expansion validators preserve sparse inputs through checking and
+normalized reports instead of rendering them into an infix expression that the
+same checker would conservatively refuse. The first live batch replay checks
+all twelve frozen JC q-window pivots independently; it does not grant authority
+to their composition or to the surrounding research claim.
+
+
+Within one kernel epoch, no field may silently acquire a more permissive
 interpretation. A syntax-only extension can bump `graph_format`; transport
 meaning or verifier trust bumps `kernel_epoch` or the narrower verifier/backend
 implementation version as appropriate.

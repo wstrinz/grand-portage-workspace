@@ -348,3 +348,75 @@ quit;
 
     checked = G.check_elimination_certificate(_cusp_certificate())
     assert checked["critical_pair_count"] == 6
+
+
+def _sparse_polynomial():
+    return {
+        "schema": G.SPARSE_POLYNOMIAL_SCHEMA,
+        "terms": [
+            {"coefficient": "2", "powers": [["x", 2]]},
+            {"coefficient": "-3/5", "powers": [["y", 1]]},
+            {"coefficient": "7", "powers": []},
+        ],
+    }
+
+
+def test_sparse_polynomial_round_trip_is_exact_and_canonical():
+    sparse = _sparse_polynomial()
+    parsed = G.parse_polynomial(sparse, ["x", "y"])
+
+    assert G.encode_sparse_polynomial(parsed) == sparse
+    assert parsed == G.parse_polynomial("2*x^2-3/5*y+7", ["x", "y"])
+    assert G.substitute_polynomial(
+        sparse, ["x", "y"], {"x": "x", "y": "y"}
+    ) == "(2)*x^2+(-3/5)*y+7"
+    assert G.canonical_polynomial_value(sparse, ["x", "y"]) == sparse
+
+
+@pytest.mark.parametrize("mutate, message", [
+    (lambda value: value.update({"extra": True}), "exactly schema and terms"),
+    (lambda value: value["terms"].__setitem__(
+        0, {"coefficient": "2/1", "powers": [["x", 2]]}),
+     "nonzero canonical"),
+    (lambda value: value["terms"].__setitem__(
+        0, {"coefficient": "0", "powers": [["x", 2]]}),
+     "nonzero canonical"),
+    (lambda value: value["terms"][0].update({
+        "powers": [["y", 1], ["x", 2]]}), "ring-variable order"),
+    (lambda value: value["terms"].reverse(), "descending lexicographic"),
+    (lambda value: value["terms"][0].update({
+        "powers": [["z", 1]]}), "unknown variable"),
+])
+def test_sparse_polynomial_surface_is_closed_bounded_and_unique(
+        mutate, message):
+    sparse = _sparse_polynomial()
+    mutate(sparse)
+
+    with pytest.raises(G.CertificateError, match=message):
+        G.parse_polynomial(sparse, ["x", "y"])
+
+
+def test_sparse_encoding_bypasses_no_algebraic_resource_budget(monkeypatch):
+    sparse = {
+        "schema": G.SPARSE_POLYNOMIAL_SCHEMA,
+        "terms": [
+            {"coefficient": "1", "powers": [["x", exponent]]}
+            for exponent in range(40, 0, -1)
+        ],
+    }
+    monkeypatch.setattr(G, "_MAX_TERMS", 39)
+
+    with pytest.raises(G.CertificateError, match="at most 39"):
+        G.parse_polynomial(sparse, ["x"])
+
+
+def test_sparse_prime_field_coefficients_are_canonical_residues():
+    sparse = {"schema": G.SPARSE_POLYNOMIAL_SCHEMA, "terms": [
+        {"coefficient": "2", "powers": [["x", 1]]},
+    ]}
+    assert G.parse_polynomial(sparse, ["x"], 3) == G.parse_polynomial(
+        "-x", ["x"], 3
+    )
+    sparse["terms"][0]["coefficient"] = "-1"
+    with pytest.raises(G.CertificateError, match="invalid"):
+        G.parse_polynomial(sparse, ["x"], 3)

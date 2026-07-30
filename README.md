@@ -30,7 +30,7 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1098<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1111<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
@@ -193,6 +193,23 @@ Three rows carry most of the value:
   coordinate ring, promote the equality to the ambient ideal, or grant point
   transport. This is the first bounded surface for unit-sensitive JC
   elimination pivots; graph-bound authority waits for live use.
+  Version 0.15 adds a second exact-polynomial wire form,
+  `sparse_polynomial_v1`, for certificates too large to survive the bounded
+  infix AST. It is not a larger parser budget: coefficients, term count,
+  variable-power entries, exponents, ring-variable order, and descending
+  monomial order are all checked before arithmetic. Small legacy strings remain
+  readable and normalize as before. Localization and coefficient-expansion
+  replay retain sparse values end to end. In the first live JC application, GP
+  independently verified all twelve 163--2,011-term q-window pivots under the
+  frozen q-chart digest, granting one localized identity per pivot and no
+  whole-chain, ambient, source-membership, or H3 authority.
+  The rows 7--8 live packet also supplies two unit-ideal controls: after
+  localizing at `q,t`, the row-8 coefficient `-5*q^3*t^2` kills the q bare
+  family; after localizing at `p,t`, `5*p^4*t^2` kills the p bare family. The
+  exact checker verifies both as localized `1=0` identities, and Lean proves
+  such an identity admits no localized point. Runtime graph authority remains
+  unchanged: promotion to persisted `EMPTY` awaits an explicit localized-unit-
+  ideal operation contract.
 * **`IMAGE_CLOSURE` AGAINST / `NONEMPTY` is Chevalley.** A point of the Zariski
   closure need not lift. This is why elimination is a sound way to *derive*
   equations and an unsound source of *witnesses* — and why a cell that survives
@@ -260,7 +277,7 @@ Pure stdlib. No solver, no network, no model in the loop. Under a second.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1098<!--/checks--> checks
+python -m pytest        # <!--checks-->1111<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

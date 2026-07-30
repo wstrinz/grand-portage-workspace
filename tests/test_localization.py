@@ -6,6 +6,7 @@ import json
 import pytest
 
 from grandportage import cli
+from grandportage import groebner as G
 from grandportage import localization as L
 
 
@@ -115,4 +116,27 @@ def test_mutating_the_recorded_target_does_not_survive():
     spec["certificate"]["membership_target"] = "q*y"
 
     with pytest.raises(L.LocalizationError, match="expected q\\*t\\*y"):
+        L.verify(spec)
+
+
+def test_sparse_generator_and_target_verify_without_infix_reparsing():
+    spec = _spec()
+    sparse = G.encode_sparse_polynomial(G.parse_polynomial(
+        "q*t*y", spec["ring_vars"]
+    ))
+    spec["generators"] = [sparse]
+    spec["certificate"]["membership_target"] = sparse
+
+    report = L.verify(spec)
+
+    assert report["verdict"] == L.VERIFIED
+    assert report["normalized"]["generators"] == [sparse]
+
+
+def test_sparse_zero_guard_is_still_refused():
+    spec = _spec()
+    spec["guards"] = [{
+        "schema": G.SPARSE_POLYNOMIAL_SCHEMA, "terms": [],
+    }]
+    with pytest.raises(L.LocalizationError, match="zero polynomial"):
         L.verify(spec)

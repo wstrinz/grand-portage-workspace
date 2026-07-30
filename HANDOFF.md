@@ -35,7 +35,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.14.0. <!--checks-->1098<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.15.0. <!--checks-->1111<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -143,8 +143,20 @@ denominator powers, a guard-monomial multiplier, and exact ideal-membership
 cofactors. Its only licence is an identity in the declared localized coordinate
 algebra. It does not alter RESTRICTION semantics, mint an ambient identity, or
 grant point transport. Lean proves the certificate shape entails multi-guard
-localized membership. The surface is intentionally standalone until H3 live
-use identifies the right graph-bound obligation and provenance owner.
+localized membership. The first H3 live use confirms that individual pivot
+identities are useful while whole-chain authority remains separate; the surface
+therefore stays standalone until a graph-bound operation and provenance owner
+are justified. Version 0.15 adds the closed, canonical `sparse_polynomial_v1`
+wire form without
+raising the infix parser limits or changing graph authority. Localization and
+coefficient expansion retain large sparse values through exact checking.
+
+The first live H3 batch replay now verifies all twelve frozen q-window pivots:
+163--2,011 terms per equation, pivots `c9_0..c9_11`, coefficient `10*t`, and a
+separate source fingerprint per step. Every verdict is still only one identity
+in the declared q localization. The batch deliberately performs no dense
+back-substitution and earns no chain, ambient, source-membership, p-chart, or
+H3 conclusion.
 
 Version 0.7.0 advanced format 1 to kernel epoch 3 when this distinction first
 changed transport meaning: exact coordinate-ring contraction licenses a
@@ -161,7 +173,10 @@ point-map pullback licenses restriction and projection compositions. Version
 0.13.0 keeps format 2 and advances to kernel epoch 8 when checked finite lift
 covers license new point-surjective predicate transports. Version 0.14.0 uses
 format 3 / kernel epoch 9 to separate coefficient domains from point universes
-for scoped geometric authority. Older native graphs migrate non-destructively with
+for scoped geometric authority. Version 0.15.0 stays at format 3 / epoch 9
+because sparse polynomial objects extend the standalone evidence language and
+resource boundary without changing transport meaning. Older native graphs
+migrate non-destructively with
 `gp migrate --to-current-kernel`; absent condition fields remain absent and
 earlier verdicts remain history but stale.
 
@@ -475,7 +490,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1098<!--/checks--> checks, ~40 s) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1111<!--/checks--> checks, ~40 s) |
 
 ---
 
@@ -582,7 +597,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1098<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1111<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.

@@ -125,4 +125,62 @@ DERIVED, and NECESSARY_CONDITION/ALONG/IDENTITY refuses a DERIVED rewriting, so
 that path is already sound without a new gate.  The two constructors were
 always the two readings; only the prose confused them. -/
 
+
+/-! ## A checked localized unit ideal has no points
+
+The standalone runtime checker can prove `MultiSatMem I guards 1`: after
+inverting the declared guards, the quotient identifies `1` with `0`.  The
+following tiny point interface states only the semantic facts needed to turn
+that coordinate-ring certificate into emptiness.  Keeping it separate matters:
+the current runtime verdict licenses the identity but does not yet persist or
+transport the resulting point claim.
+-/
+
+universe v
+
+/-- A point of the quotient after every declared guard has been inverted.
+
+`guard_monomial_unit` packages the defining localization property.  We do not
+need a full ring hierarchy: ideal equations evaluate to zero, guard monomials
+evaluate to units, and the two elementary multiplication laws below suffice. -/
+structure LocalizedPoint {R : Type u} [Mul R] [OfNat R 1]
+    (I : Ideal R) (guards : List R) (S : Type v)
+    [Mul S] [OfNat S 0] [OfNat S 1] where
+  evaluate : R -> S
+  ideal_zero : forall r, I r -> evaluate r = 0
+  mul_one : forall r, evaluate (r * 1) = evaluate r
+  guard_monomial_unit : forall m, GuardMonomial guards m ->
+    Exists fun inverse => evaluate m * inverse = 1
+  zero_mul : forall s : S, 0 * s = 0
+  zero_ne_one : Not ((0 : S) = 1)
+
+/-- The point-level bridge needed by the rows 7--8 bare-family certificates.
+
+If a permitted guard monomial times `1` belongs to the ideal, every localized
+point would send that monomial both to zero and to a unit.  Hence there is no
+point in any nontrivial target satisfying the localization interface. -/
+theorem localized_unit_ideal_has_no_point
+    {R : Type u} [Mul R] [OfNat R 1]
+    {I : Ideal R} {guards : List R}
+    {S : Type v} [Mul S] [OfNat S 0] [OfNat S 1]
+    (unitIdeal : MultiSatMem I guards 1) :
+    LocalizedPoint I guards S -> False := by
+  intro point
+  let multiplier := unitIdeal.choose
+  have allowed := unitIdeal.choose_spec.1
+  have membership := unitIdeal.choose_spec.2
+  have evaluatesZero : point.evaluate (multiplier * 1) = 0 :=
+    point.ideal_zero _ membership
+  have multiplierZero : point.evaluate multiplier = 0 := by
+    rw [point.mul_one multiplier] at evaluatesZero
+    exact evaluatesZero
+  let inverse := (point.guard_monomial_unit multiplier allowed).choose
+  have inverseLaw :=
+    (point.guard_monomial_unit multiplier allowed).choose_spec
+  apply point.zero_ne_one
+  calc
+    (0 : S) = 0 * inverse := (point.zero_mul inverse).symm
+    _ = point.evaluate multiplier * inverse := by rw [multiplierZero]
+    _ = 1 := inverseLaw
+
 end GrandPortage

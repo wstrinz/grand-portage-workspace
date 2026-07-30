@@ -335,6 +335,51 @@ The source is untouched, prior verdicts remain history but stale, absent
 `condition` fields stay absent, and the new fold re-audits transport under epoch
 9.
 
+## Candidate contract exposed by rows 7--8: localized unit ideal
+
+The first real rows 7--8 replay supplies a contract smaller than general
+localization and stronger than an arbitrary localized identity:
+
+```text
+LocalizedUnitIdeal
+  object sort:       exact-affine quotient with declared inverted guards
+  proposition:       1 belongs to the localized ideal
+  evidence:          guard monomial D and cofactors with D = sum h_i f_i
+  local consequence: no points over any nontrivial target algebra
+  transport:         none by itself
+```
+
+`localization_membership_v1` already checks the evidence when its numerator is
+`1`. Lean theorem `localized_unit_ideal_has_no_point` proves the point-level
+consequence from precisely the localization interface: ideal equations vanish,
+guard monomials become units, and the target is nontrivial. The q control uses
+`D=q^3*t^2`; the p control uses `D=p^4*t^2`.
+
+This must not silently turn every localized identity verdict into `EMPTY`.
+Before graph promotion the runtime needs a distinct obligation/result kind that
+binds the exact localized model, generator list, guards, coefficient domain,
+and point universe. It may then support a local `EMPTY` claim on that model;
+it still grants no parent/source membership, chart coverage, whole elimination
+chain, or H3 conclusion. Because that would add graph claim authority, its
+epoch/verifier compatibility treatment must be explicit at implementation.
+
+The companion bracket-receipt edge is a different contract. Its lowering uses
+Laurent support intervals, formal derivatives, and multiplication by declared
+parameter powers before coefficient comparison. Ordinary
+`coefficient_expansion_v1` starts after those operations and cannot certify
+them. The eventual pipeline should therefore be compositional:
+
+```text
+Laurent template typing
+  -> checked formal derivative
+  -> declared guard/monomial clearing
+  -> bounded coefficient expansion
+```
+
+Directly entering the final scalar rows would validate their arithmetic while
+skipping the load-bearing chart translation, so it is intentionally refused as
+a promotion shortcut.
+
 ## Trust boundary
 
 ```text

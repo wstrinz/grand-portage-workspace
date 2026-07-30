@@ -34,7 +34,9 @@ _MAX_MULTIPLICATION_BIT_WORK = 20000000
 _MAX_TOTAL_ARITHMETIC_WORK = 20000000
 _MAX_CERTIFICATE_NODES = 250000
 _MAX_CERTIFICATE_CHARACTERS = 2000000
+_MAX_SPARSE_FACTOR_ENTRIES = 250000
 _IDENTIFIER = re.compile(r"^[A-Za-z][A-Za-z0-9_]*$")
+SPARSE_POLYNOMIAL_SCHEMA = "sparse_polynomial_v1"
 
 
 def _valid_characteristic(value):
@@ -302,8 +304,139 @@ class Polynomial:
         )
 
 
+def _parse_sparse_polynomial(value, variables, characteristic, budget):
+    """Decode the canonical bounded sparse-polynomial object format."""
+    if set(value) != {"schema", "terms"}:
+        raise CertificateError(
+            "a sparse polynomial must contain exactly schema and terms"
+        )
+    if value["schema"] != SPARSE_POLYNOMIAL_SCHEMA:
+        raise CertificateError(
+            "sparse polynomial schema must be %s"
+            % SPARSE_POLYNOMIAL_SCHEMA
+        )
+    terms = value["terms"]
+    if not isinstance(terms, list) or len(terms) > _MAX_TERMS:
+        raise CertificateError(
+            "sparse polynomial terms must be a list of at most %d entries"
+            % _MAX_TERMS
+        )
+    variable_indices = dict(
+        (name, index) for index, name in enumerate(variables)
+    )
+    decoded = {}
+    previous = None
+    factor_entries = 0
+    for position, term in enumerate(terms):
+        if not isinstance(term, dict) or set(term) != {
+                "coefficient", "powers"}:
+            raise CertificateError(
+                "sparse term %d must contain exactly coefficient and powers"
+                % position
+            )
+        coefficient_text = term["coefficient"]
+        if type(coefficient_text) is not str:
+            raise CertificateError(
+                "sparse term %d coefficient must be a canonical string"
+                % position
+            )
+        try:
+            if characteristic == 0:
+                coefficient = _coefficient(
+                    Fraction(coefficient_text), characteristic
+                )
+            else:
+                if not re.fullmatch(r"[0-9]+", coefficient_text):
+                    raise ValueError
+                coefficient = _coefficient(
+                    int(coefficient_text), characteristic
+                )
+        except (ValueError, ZeroDivisionError):
+            raise CertificateError(
+                "sparse term %d coefficient is invalid" % position
+            )
+        if not coefficient or _coefficient_text(coefficient) != coefficient_text:
+            raise CertificateError(
+                "sparse term %d coefficient is not nonzero canonical form"
+                % position
+            )
+        powers = term["powers"]
+        if not isinstance(powers, list):
+            raise CertificateError(
+                "sparse term %d powers must be a list" % position
+            )
+        factor_entries += len(powers)
+        if factor_entries > _MAX_SPARSE_FACTOR_ENTRIES:
+            raise CertificateError(
+                "sparse polynomial has too many variable-power entries"
+            )
+        monomial = [0] * len(variables)
+        last_index = -1
+        for factor in powers:
+            if (not isinstance(factor, list) or len(factor) != 2
+                    or type(factor[0]) is not str
+                    or type(factor[1]) is not int):
+                raise CertificateError(
+                    "sparse term %d powers must be [variable, exponent] pairs"
+                    % position
+                )
+            name, exponent = factor
+            if name not in variable_indices:
+                raise CertificateError(
+                    "sparse term %d names unknown variable %r"
+                    % (position, name)
+                )
+            index = variable_indices[name]
+            if index <= last_index:
+                raise CertificateError(
+                    "sparse term %d powers are not in ring-variable order"
+                    % position
+                )
+            if not 0 < exponent <= _MAX_EXPONENT:
+                raise CertificateError(
+                    "sparse term %d exponent must be between 1 and %d"
+                    % (position, _MAX_EXPONENT)
+                )
+            monomial[index] = exponent
+            last_index = index
+        monomial = tuple(monomial)
+        if previous is not None and monomial >= previous:
+            raise CertificateError(
+                "sparse terms must be unique and in descending lexicographic "
+                "order"
+            )
+        decoded[monomial] = coefficient
+        previous = monomial
+    return Polynomial(variables, characteristic, decoded, budget)
+
+
 def parse_polynomial(expression, variables, characteristic=0, _budget=None):
-    """Parse the deliberately small exact-polynomial certificate language."""
+    """Parse infix syntax or a canonical sparse polynomial object."""
+    if isinstance(expression, (dict, Polynomial)):
+        if not _valid_characteristic(characteristic):
+            raise CertificateError(
+                "characteristic must be 0 or a prime field characteristic"
+            )
+        variables = tuple(variables)
+        if (any(type(name) is not str or not _IDENTIFIER.fullmatch(name)
+                for name in variables)
+                or len(set(variables)) != len(variables)):
+            raise CertificateError(
+                "ring variables must be unique ASCII CAS identifiers"
+            )
+        budget = _budget or _ArithmeticBudget()
+        if isinstance(expression, Polynomial):
+            if (expression.variables != variables
+                    or expression.characteristic != characteristic):
+                raise CertificateError("polynomials belong to different rings")
+            if expression._budget is budget:
+                return expression
+            return Polynomial(
+                variables, characteristic, expression.terms, budget
+            )
+        return _parse_sparse_polynomial(
+            expression, variables, characteristic, budget
+        )
     if type(expression) is not str or not expression.strip():
         raise CertificateError("a polynomial must be a nonempty string")
     if len(expression) > _MAX_EXPRESSION_LENGTH:
@@ -416,6 +549,48 @@ def render_polynomial(polynomial):
             pieces.append(term)
     return "".join(pieces)
 
+def encode_sparse_polynomial(polynomial):
+    """Return the unique bounded JSON encoding of a parsed polynomial."""
+    if not isinstance(polynomial, Polynomial):
+        raise TypeError("encode_sparse_polynomial expects a parsed Polynomial")
+    terms = []
+    for monomial in sorted(polynomial.terms, reverse=True):
+        terms.append({
+            "coefficient": _coefficient_text(polynomial.terms[monomial]),
+            "powers": [
+                [name, exponent]
+                for name, exponent in zip(polynomial.variables, monomial)
+                if exponent
+            ],
+        })
+    return {"schema": SPARSE_POLYNOMIAL_SCHEMA, "terms": terms}
+
+
+def portable_polynomial(polynomial, prefer_sparse=False):
+    """Use legacy infix for small values and sparse JSON for large values."""
+    if not isinstance(polynomial, Polynomial):
+        raise TypeError("portable_polynomial expects a parsed Polynomial")
+    if prefer_sparse or len(polynomial.terms) > 1000:
+        return encode_sparse_polynomial(polynomial)
+    rendered = render_polynomial(polynomial)
+    if len(rendered) > _MAX_EXPRESSION_LENGTH:
+        return encode_sparse_polynomial(polynomial)
+    try:
+        tree = ast.parse(rendered.replace("^", "**"), mode="eval")
+    except (SyntaxError, RecursionError, MemoryError):
+        return encode_sparse_polynomial(polynomial)
+    if sum(1 for _node in ast.walk(tree)) > _MAX_AST_NODES:
+        return encode_sparse_polynomial(polynomial)
+    return rendered
+
+
+def canonical_polynomial_value(value, variables, characteristic=0,
+                               _budget=None):
+    """Normalize either accepted encoding without forcing a large infix AST."""
+    polynomial = parse_polynomial(value, variables, characteristic, _budget)
+    return portable_polynomial(polynomial, prefer_sparse=isinstance(value, dict))
+
+
 
 def canonical_polynomial(expression, variables, characteristic=0,
                          _budget=None):
@@ -426,7 +601,7 @@ def canonical_polynomial(expression, variables, characteristic=0,
 
 
 def substitute_polynomial(expression, variables, images, characteristic=0,
-                          _budget=None):
+                          _budget=None, _preserve_sparse=False):
     """Apply one bounded, simultaneous exact-polynomial substitution.
 
     `images` gives the point-map image of every variable in the shared ring.
@@ -458,6 +633,12 @@ def substitute_polynomial(expression, variables, images, characteristic=0,
             if exponent:
                 term = term * (parsed_images[name] ** exponent)
         answer = answer + term
+    if _preserve_sparse:
+        return portable_polynomial(
+            answer, prefer_sparse=(isinstance(expression, dict)
+                                   or any(isinstance(value, dict)
+                                          for value in images.values()))
+        )
     return render_polynomial(answer)
 
 
@@ -549,7 +730,10 @@ def multiply_polynomial_power(expression, factor, exponent, variables,
     budget = _budget or _ArithmeticBudget()
     value = parse_polynomial(expression, variables, characteristic, budget)
     multiplier = parse_polynomial(factor, variables, characteristic, budget)
-    return render_polynomial(value * (multiplier ** exponent))
+    product = value * (multiplier ** exponent)
+    return portable_polynomial(
+        product, prefer_sparse=isinstance(expression, dict)
+    )
 
 
 def check_membership_identity(target, generators, cofactors, variables,
@@ -580,7 +764,9 @@ def check_membership_identity(target, generators, cofactors, variables,
             % render_polynomial(difference)
         )
     return {
-        "target": render_polynomial(wanted),
+        "target": portable_polynomial(
+            wanted, prefer_sparse=isinstance(target, dict)
+        ),
         "generator_count": len(generators),
     }
 
