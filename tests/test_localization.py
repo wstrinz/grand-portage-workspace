@@ -161,14 +161,18 @@ class _LocalizedMembershipBackend:
         return {"is_member": False, "cofactors": []}
 
 
-def _localized_empty_graph():
+def _localized_empty_graph(model_overrides=None):
     graph = S.Graph()
     graph.apply(F.meta_event())
-    graph.apply({
+    model = {
         "ev": "model", "id": "OPEN", "what": "q and t nonzero",
-        "characteristic": 0, "ring_vars": ["q", "t"],
-        "generators": ["q*t"], "open_conditions": ["q", "t"],
-    })
+        "characteristic": 0, "coefficient_domain": "Q",
+        "point_universe": S.ALGEBRAIC_CLOSURE_POINT_UNIVERSE,
+        "ring_vars": ["q", "t"], "generators": ["q*t"],
+        "open_conditions": ["q", "t"],
+    }
+    model.update(model_overrides or {})
+    graph.apply(model)
     graph.apply({
         "ev": "claim", "id": "OPEN-EMPTY", "model": "OPEN",
         "kind": K.EMPTY, "statement": "the open chart has no points",
@@ -258,6 +262,66 @@ def test_localized_unit_verdict_replays_and_projects_current_authority():
     with pytest.raises(S.GraphError, match="exact replay|does not match"):
         graph.apply(mutated)
 
+@pytest.mark.parametrize("model_updates", [
+    {"generators": ["q*t^2"]},
+    {"open_conditions": ["q"]},
+    {"open_conditions": ["q^2", "t"]},
+    {"characteristic": 5, "coefficient_domain": "F_5"},
+    {"point_universe": S.BASE_POINT_UNIVERSE},
+    {"ring_vars": ["p", "t"], "generators": ["p*t"],
+     "open_conditions": ["p", "t"]},
+])
+def test_localized_unit_verdict_refuses_or_stales_on_exact_model_change(
+        model_updates):
+    original = _localized_empty_graph()
+    verdict, why, representation = V.localized_unit_ideal(
+        original, "OPEN-EMPTY", _backend=_LocalizedMembershipBackend())
+    event = V._verdict_event(
+        original, "certificate", "OPEN-EMPTY", verdict, why, representation,
+        execution=_execution_manifest())
+    changed = _localized_empty_graph(model_updates)
+
+    try:
+        changed.apply(event)
+    except S.GraphError as exc:
+        assert "replay" in str(exc) or "does not match" in str(exc)
+    else:
+        stored = changed.verdicts[event["id"]]
+        assert stored["current"] is False
+        assert "fingerprint" in stored["stale_reason"]
+        assert changed.claims["OPEN-EMPTY"].get(
+            "certificate_verdict") is None
+
+
+def test_local_empty_does_not_transport_to_its_parent_without_coverage():
+    graph = _localized_empty_graph()
+    claim = graph.claims["OPEN-EMPTY"]
+    graph.claims["OPEN-EMPTY"] = dict(
+        claim, certificate_verdict=V.CERT_VERIFIED)
+    graph.apply({
+        "ev": "model", "id": "PARENT", "what": "the ambient q,t model",
+        "characteristic": 0, "coefficient_domain": "Q",
+        "point_universe": S.ALGEBRAIC_CLOSURE_POINT_UNIVERSE,
+        "ring_vars": ["q", "t"], "generators": ["q*t"],
+    })
+    graph.apply({
+        "ev": "edge", "id": "OPEN-IN-PARENT", "src": "OPEN",
+        "dst": "PARENT", "type": K.RESTRICTION,
+        "map_kind": K.IDENTITY_MAP,
+        "why": "the principal-open chart is only part of its parent",
+    })
+    graph.apply({
+        "ev": "inference", "id": "ILLICIT-PARENT-EMPTY",
+        "claim": "OPEN-EMPTY", "path": [["OPEN-IN-PARENT", K.ALONG]],
+        "concludes_kind": K.EMPTY,
+        "asserted": "the parent is empty because one open chart is empty",
+    })
+
+    licensed, trace = C.audit_inference(graph, "ILLICIT-PARENT-EMPTY")
+    assert not licensed
+    assert "does NOT license EMPTY" in trace[0][3]
+
+
 def test_localized_unit_name_alone_grants_no_effective_authority():
     graph = _localized_empty_graph()
     claim = graph.claims["OPEN-EMPTY"]
@@ -271,8 +335,10 @@ def test_localized_unit_name_alone_grants_no_effective_authority():
     assert "name alone grants no effective certificate" in findings[0].detail
     graph.apply({
         "ev": "model", "id": "COPY", "what": "equivalent copy",
-        "characteristic": 0, "ring_vars": ["q", "t"],
-        "generators": ["q*t"], "open_conditions": ["q", "t"],
+        "characteristic": 0, "coefficient_domain": "Q",
+        "point_universe": S.ALGEBRAIC_CLOSURE_POINT_UNIVERSE,
+        "ring_vars": ["q", "t"], "generators": ["q*t"],
+        "open_conditions": ["q", "t"],
     })
     graph.apply({
         "ev": "edge", "id": "ISO", "src": "OPEN", "dst": "COPY",

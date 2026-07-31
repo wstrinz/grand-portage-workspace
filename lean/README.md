@@ -102,9 +102,10 @@ declared guards, plus the exact certificate shape implemented by
 `localization_membership_v1`. It proves localized equality does not imply
 ambient ideal membership. The rows 7--8 pilot adds the complementary unit-ideal
 bridge: if a permitted guard monomial times `1` belongs to the ideal, no point
-into a nontrivial target can satisfy the localized quotient. The runtime can
-check the premise today; it deliberately does not yet persist the derived
-`EMPTY` claim.
+into a nontrivial target can satisfy the localized quotient. The runtime
+independently replays that premise and may persist the derived local `EMPTY`
+claim only through `LOCALIZED_UNIT_IDEAL_CERT`; ordinary localized membership
+still earns no point authority.
 
 `GrandPortage/CoefficientExpansion.lean` - bounded polynomial unknowns as finite
 coefficient vectors and their reconstruction as finitely supported formal
@@ -195,6 +196,22 @@ with the original affine equation. Lean packages those laws as a
 `MappedEquivalence` and proves both point transports. Runtime Python constructs
 `x -> x-s` and `x -> x+s`; the CAS ring-isomorphism verifier must discharge the
 laws for each actual ideal before identity authority is enabled.
+
+## Ordered triangular composition
+
+`TriangularChain.lean` states the semantic half of the bounded ordered-chain
+checker. A heterogeneous `MappedEquivalenceChain` remembers the intermediate
+model types and composes step equivalences in order. Lean proves witness
+transport in both directions and `IsEmpty src <-> IsEmpty dst`. The Python
+checker does not assume those premises: it earns only exact ordered polynomial
+substitution and leaves graph model binding, interpreted units, and forward/
+reverse point maps as explicit obligations. Runtime v2 can additionally prove
+each affine form modulo declared persistent normalization equations, but the
+Lean premise still requires those equations to vanish in the interpreted
+model before any mapped equivalence is constructed. The explicit
+`normalizedEquation_zero_iff_affine_zero` bridge proves both directions from
+the checked receipt, context vanishing, unit witness, and narrow zero laws.
+
 ## Trust
 
 No `sorry`. Mathlib-free — core Lean only, so a fresh `lake build` is seconds

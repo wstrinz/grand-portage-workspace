@@ -35,7 +35,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.17.0. <!--checks-->1203<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.18.0. <!--checks-->1235<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -173,6 +173,24 @@ are inconsistent. The remaining step is no longer polynomial arithmetic: bind
 both equations to the same pinned quotient/localization and prove that target's
 domain and unit witnesses. Until then GP still refuses axis emptiness.
 
+**Current ordered-chain status.** The bounded
+`localized_triangular_solve_chain_v1` checker now validates exact ordered
+localized affine substitutions, not merely independent pivots. It binds the
+coefficient domain, point universe, ring order, guard list, ordered generator
+states, selected equation, unit coefficient, pivot-independent solution, and
+both state fingerprints at every step. The first five-step fixture uses the
+landed JC source top-face row order and solve expressions. Mutations of step
+order, prior substitution, state fingerprint, unit scope, normalized output,
+or schema fail closed. This is deliberately standalone evidence: Lean proves
+that a chain of semantically bound `MappedEquivalence` steps preserves points
+and emptiness, but runtime graph binding has not been minted and therefore no
+model equivalence or EMPTY authority follows yet. The second-face consumer
+then correctly refuted literal v1 normalization: all five differences contain
+`15*t^3+1`. The v2 evidence envelope now checks an exact cofactor against that
+persistent scalar-gauge generator at every step and verifies the landed 31/31
+native-check receipt. This is the desired live-driven extension, not a generic
+quotient simplifier.
+
 **Current product-split status.** `product_split_v1` replays the landed bottom
 split `E[2,0]=10(c6_0p+c8_0)(c7_0p+c9_0)` and independently verifies
 `E[4,0]=-pE[2,0]`. Lean derives the binary factor disjunction under the
@@ -240,8 +258,11 @@ format 3 and advances to epoch 10 because a checked localized-unit proof may
 now establish local EMPTY graph authority; no transport cell changes. Version
 0.17.0 stays at format 3 / epoch 10 because Laurent lowering, canonical
 polynomial export, and exact two-pass binding extend only the standalone
-evidence language; they grant no graph authority. Older
-native graphs
+evidence language; they grant no graph authority. Version 0.18.0 also stays at
+format 3 / epoch 10: campaign projections and the Three.js explorer are
+read-only derived views, while ordered localized solve chains remain standalone
+translation evidence with explicit normalization debt and no graph claim
+authority. Older native graphs
 migrate non-destructively with
 `gp migrate --to-current-kernel`; absent condition fields remain absent and
 earlier verdicts remain history but stale.
@@ -556,7 +577,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1203<!--/checks--> checks, ~40 s) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1235<!--/checks--> checks, ~40 s) |
 
 ---
 
@@ -663,7 +684,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1203<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1235<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.

@@ -84,6 +84,8 @@ def graph_bound_replay(chart):
             "ev": "model", "id": model_id,
             "what": "%s on its declared principal-open chart" % receipt,
             "characteristic": spec["characteristic"],
+            "coefficient_domain": "Q",
+            "point_universe": S.ALGEBRAIC_CLOSURE_POINT_UNIVERSE,
             "ring_vars": spec["ring_vars"],
             "generators": spec["generators"],
             "open_conditions": spec["guards"],
@@ -126,6 +128,16 @@ def mutation_controls():
     changed = copy.deepcopy(base)
     changed["certificate"]["localization_powers"] = [2, 2]
     cases.append(("wrong localization power", changed))
+
+    changed = copy.deepcopy(base)
+    changed["guards"] = ["q"]
+    changed["expression"]["denominator_powers"] = [0]
+    changed["certificate"]["localization_powers"] = [3]
+    cases.append(("removed t guard", changed))
+
+    changed = copy.deepcopy(base)
+    changed["guards"] = ["q^2", "t"]
+    cases.append(("changed guard exponent", changed))
 
     changed = copy.deepcopy(base)
     changed["certificate"]["cofactors"] = ["1/5"]

@@ -216,6 +216,26 @@ persisted claim, graph transport, source-chart theorem, or H3 authority.
 Version 0.17 therefore extends the evidence language and compiler-pass trust
 boundary without changing graph syntax or kernel transport meaning.
 
+Version 0.18.0 remains at **graph format 3** and **kernel epoch 10**.
+It adds two surfaces outside persisted graph authority.
+`grand-portage-projection/v1` is a deterministic, read-only projection of a
+folded campaign for review and visualization. It carries source fingerprints
+and an explicit `DERIVED_READ_MODEL_ONLY` authority marker; neither projection
+JSON nor the generated Three.js explorer is accepted by the kernel.
+
+The closed `localized_triangular_solve_chain_v1` evidence schema checks an
+ordered sequence of exact localized affine substitutions and fingerprints every
+intermediate generator state. Version 2 additionally checks exact cofactors
+against persistent normalization generators. The live second source ladder
+requires precisely this distinction: all five polynomialized solves agree with
+the native faces modulo `15*t^3+1`, not as literal ambient polynomials. Both
+schemas bind the native receipt digest and deliberately grant no graph model
+equivalence, emptiness, source membership, coverage, or H3 conclusion. Lean
+proves the semantic normalization and chain-composition laws that a future
+graph-bound result would need. Consequently v0.18 extends review tooling and
+the standalone evidence language without changing graph syntax or transport
+meaning.
+
 Within one kernel epoch, no field may silently acquire a more permissive
 interpretation. A syntax-only extension can bump `graph_format`; transport
 meaning or verifier trust bumps `kernel_epoch` or the narrower verifier/backend

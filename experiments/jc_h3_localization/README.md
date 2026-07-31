@@ -70,3 +70,9 @@ extend the replay envelope explicitly; do not normalize them away informally.
 The default replay mints no graph authority. The opt-in graph-bound replay
 mints only local `EMPTY` after exact proof replay; neither mode grants source,
 parent, chain, or H3 authority.
+
+The next bounded composition assay lives in
+`fixtures/jc_source_ladder/localized_triangular_solve_chain_v1.json`. Unlike
+this directory's twelve independent q pivots, it checks the actual five-step
+source top-face order and recomputes every state transition. It remains
+standalone translation validation until graph endpoint binding is designed.

@@ -26,7 +26,10 @@ from . import kernel as K
 from . import migration as MIG
 from . import provenance as P
 from . import product_split as PS
+from . import projection as PROJ
 from . import store as S
+from . import triangular as TRI
+from . import visualization as VIZ
 from .discharge import (DISCHARGE_KINDS, KNOWN_CONSERVATISM,
                         KNOWN_UNSOUND, discharge_for)
 
@@ -915,6 +918,31 @@ def cmd_verify_localization_membership(args):
               normalized["expression"]["numerator"])
         print("    authority: identity in the declared localization only; "
               "no ambient identity or point transport")
+        print("    spec sha256: %s" % report["spec_fingerprint"])
+    return 0
+
+
+def cmd_verify_localized_triangular_chain(args):
+    """Check an ordered chain of exact localized affine substitutions."""
+    try:
+        with open(args.spec, "r", encoding="utf-8") as handle:
+            spec = json.load(handle)
+        report = TRI.verify(spec)
+    except (OSError, ValueError, json.JSONDecodeError,
+            TRI.TriangularChainError) as exc:
+        sys.stderr.write("LOCALIZED TRIANGULAR CHAIN FAILED\n  %s\n" % exc)
+        return 2
+    if args.json:
+        print(json.dumps(report, indent=2, sort_keys=True))
+    else:
+        print(report["verdict"])
+        print("    %d exact ordered solve step(s)" % report["checked_steps"])
+        if report["normalization_generators"]:
+            print("    normalization generators: %d" %
+                  len(report["normalization_generators"]))
+        print("    final state: %s" % report["final_state_fingerprint"])
+        print("    authority: standalone translation validation only; "
+              "no graph equivalence, emptiness, coverage, source, or H3 claim")
         print("    spec sha256: %s" % report["spec_fingerprint"])
     return 0
 
@@ -1934,6 +1962,71 @@ def cmd_events(args):
     return 0
 
 
+def _read_projection(args):
+    graph = _load(args)
+    baseline = H.read_baseline(args.root)
+    findings = C.run(graph, baseline["accepted"])
+    projection = PROJ.build(
+        graph, sources=_graphs(args), findings=findings, accepted=baseline,
+        package_version=__version__,
+    )
+    try:
+        return PROJ.focus(projection, args.focus, args.radius)
+    except ValueError as exc:
+        sys.stderr.write("projection refused: %s\n" % exc)
+        raise SystemExit(2)
+
+
+def _write_derived_output(args, content):
+    path = os.path.abspath(args.output)
+    protected = {os.path.abspath(source) for source in _graphs(args)}
+    if path in protected:
+        sys.stderr.write(
+            "refusing to overwrite an authoritative graph with a derived "
+            "view: %s\n" % path)
+        return 2
+    if os.path.exists(path) and not args.force:
+        sys.stderr.write(
+            "derived output already exists: %s (pass --force to replace it)\n"
+            % path)
+        return 2
+    directory = os.path.dirname(path)
+    if directory:
+        os.makedirs(directory, exist_ok=True)
+    temporary = "%s.%d.tmp" % (path, os.getpid())
+    try:
+        with open(temporary, "x", encoding="utf-8", newline="\n") as stream:
+            stream.write(content)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, path)
+    finally:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+    print(path)
+    return 0
+
+
+def cmd_project(args):
+    """Emit the complete non-authoritative campaign read model."""
+    content = PROJ.canonical_json(
+        _read_projection(args), pretty=not args.compact)
+    if args.output:
+        return _write_derived_output(args, content)
+    sys.stdout.write(content)
+    return 0
+
+
+def cmd_visualize(args):
+    """Generate a standalone Three.js explorer around a campaign projection."""
+    projection = _read_projection(args)
+    content = VIZ.render(
+        projection, title=args.title or "Grand Portage campaign",
+        three_root=args.three_root,
+    )
+    return _write_derived_output(args, content)
+
+
 def build_parser():
     p = argparse.ArgumentParser(prog="gp", description=__doc__)
     # `--version` printed the top-level usage and exited 2 without saying no
@@ -1962,6 +2055,36 @@ def build_parser():
 
     s = sub.add_parser("show", help="print the graph")
     s.set_defaults(func=cmd_show)
+
+    pr = sub.add_parser("project",
+                        help="emit a complete derived campaign read model")
+    pr.add_argument("--focus",
+                    help="entity id or kind:id for a presentation neighborhood")
+    pr.add_argument("--radius", type=int, default=2,
+                    help="undirected presentation-neighborhood radius (default: 2)")
+    pr.add_argument("--output",
+                    help="write JSON to this path instead of stdout")
+    pr.add_argument("--compact", action="store_true",
+                    help="emit canonical compact JSON")
+    pr.add_argument("--force", action="store_true",
+                    help="replace an existing derived output file")
+    pr.set_defaults(func=cmd_project)
+
+    vz = sub.add_parser("visualize",
+                        help="generate a read-only Three.js campaign explorer")
+    vz.add_argument("--output", required=True,
+                    help="standalone HTML file to generate")
+    vz.add_argument("--title")
+    vz.add_argument("--focus",
+                    help="entity id or kind:id for a presentation neighborhood")
+    vz.add_argument("--radius", type=int, default=2,
+                    help="undirected presentation-neighborhood radius (default: 2)")
+    vz.add_argument("--three-root", default=VIZ.DEFAULT_THREE_ROOT,
+                    help="Three.js package root URL or relative path")
+    vz.add_argument("--force", action="store_true",
+                    help="replace an existing derived output file")
+    vz.set_defaults(func=cmd_visualize)
+
 
     a = sub.add_parser("accept",
                        help="record findings this campaign knowingly carries")
@@ -2153,6 +2276,14 @@ def build_parser():
         help="closed localization_membership_v1 JSON specification")
     localization.add_argument("--json", action="store_true")
     localization.set_defaults(func=cmd_verify_localization_membership)
+    triangular = sub.add_parser(
+        "verify-localized-triangular-chain",
+        help="check an ordered localized affine solve chain")
+    triangular.add_argument(
+        "--spec", required=True,
+        help="closed localized_triangular_solve_chain_v1/v2 JSON specification")
+    triangular.add_argument("--json", action="store_true")
+    triangular.set_defaults(func=cmd_verify_localized_triangular_chain)
     materialize = sub.add_parser(
         "materialize-elimination-groebner",
         help="discover, certify, and declare a pure-lex elimination target")

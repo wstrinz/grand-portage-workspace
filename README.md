@@ -30,7 +30,7 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1203<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1235<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
@@ -40,6 +40,7 @@ for the first, written up in full.
 * [REVIEW.md](REVIEW.md) — **where I am least confident**, for a reviewer
 * [Foundations and prior art](docs/FOUNDATIONS-PRIOR-ART.md) - bounded research questions and deliberate deferrals
 * [JC `dm4` polynomial-lift audit](docs/JC-DM4-POLYNOMIAL-LIFT.md) - corrected valuation proof spine and remaining obligations
+* [Campaign projections and Three.js explorer](docs/VISUALIZATION.md) - read-only review artifacts and local visualization
 
 Five further documents live in the private workspace only — `HANDOFF.md` and
 `TESTPLAN.md` because they describe traps in blind trials not yet run, and
@@ -69,6 +70,7 @@ What they contain, since the summaries name no domain:
 | store | `grandportage/store.py` | append-only graph log; merge is concatenation |
 | artifacts | `grandportage/artifacts.py` | immutable raw programs/transcripts addressed outside the semantic graph |
 | checker | `grandportage/check.py` | findings, derived severities, exit code |
+| projection | `grandportage/projection.py`, `visualization.py` | versioned read model and guided, read-only Three.js explorer |
 | discharge | `grandportage/discharge.py` | refusal → canonical next move |
 | CAS + MCP | `grandportage/cas.py`, `mcp.py` | **declare the transport or no process spawns** |
 | hook | `grandportage/hook.py` | runs the checker after each tool call and refuses |
@@ -264,6 +266,19 @@ Three rows carry most of the value:
   proof to persisted `EMPTY` on the recorded open model. The proof is replayed
   and fingerprint-bound; bounded search failure stays `UNVERIFIED`, and the
   existing RESTRICTION law refuses to move the emptiness to the parent.
+* **Ordered localized solves now have a bounded composition envelope.** `gp
+  verify-localized-triangular-chain --spec chain.json` checks a closed sequence
+  of exact equations `unit * (pivot - solution)`, requires the unit to use only
+  declared guards, recomputes every ordered post-substitution generator list,
+  and binds every step to input/output state fingerprints. The first fixture
+  preserves the landed five-step JC source top-face order and expressions. Its
+  verdict is intentionally translation validation only: graph endpoint
+  equivalence, emptiness, source extraction, parent coverage, and H3 all remain
+  outside until separately bound. The second native ladder exposed the first
+  necessary extension: its polynomialized solutions are equal only modulo the
+  scalar-gauge equation `15*t^3+1`. The v2 envelope therefore accepts explicit
+  cofactor receipts against fingerprinted persistent normalization generators;
+  it does not silently reduce or invert a residual.
 * **`IMAGE_CLOSURE` AGAINST / `NONEMPTY` is Chevalley.** A point of the Zariski
   closure need not lift. This is why elimination is a sound way to *derive*
   equations and an unsound source of *witnesses* — and why a cell that survives
@@ -321,17 +336,21 @@ gp check --json                  # machine-readable findings
 gp table                         # print the transport table and certificates
 gp show                          # print the graph
 gp artifacts check               # audit exact raw CAS executions
+gp project --output campaign.json  # complete, derived read model
+gp visualize --output campaign.html # read-only Three.js explorer
 
 gp --graph fixtures/jc2/graph.jsonl check      # the JC(2) retrodiction
 gp --graph fixtures/matroid/graph.jsonl check  # the matroid retrodiction
 ```
 
-Pure stdlib. No solver, no network, no model in the loop. Under a second.
+The core checker and JSON projection are pure stdlib: no solver, network, or
+model in the loop, and under a second. The generated explorer imports a pinned
+Three.js build by default; `--three-root` can point it at a local package.
 
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1203<!--/checks--> checks
+python -m pytest        # <!--checks-->1235<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

@@ -492,6 +492,34 @@ Lean's `AffineCoordinate.lean` packages exactly those inverse-map laws as a
 `MappedEquivalence` and proves the normalized pivot equation. On the JC product
 branches this realizes `c8_0 -> -p*c6_0` and, symmetrically,
 `c9_0 -> -p*c7_0`; the left branch passes against real Singular.
+### Ordered localized triangular solves
+
+`localized_triangular_solve_chain_v1` is the bounded composition envelope for
+native elimination ladders. Every step names the exact current equation,
+requires a coefficient that is one nonzero rational scalar times a monomial in
+declared localization generators, solves one pivot without referring to any
+chain pivot, substitutes simultaneously through the remaining ordered
+generators, and binds both endpoint state fingerprints. The envelope also binds
+the native receipt id and SHA-256. Reordering individually valid pivots or
+replaying one against another chain state therefore fails.
+
+The first live fixture starts from the five exact JC top-face equations in row
+order `(2,5,1,4,3)` and validates the landed solutions with no normalization
+debt. The second source face exposed a deliberately refused v1 case: its
+polynomialized solutions use `45*t^3=-3`, and every literal discrepancy is a
+multiple of `15*t^3+1`. `localized_triangular_solve_chain_v2` records that
+persistent equation and checks an exact aligned cofactor at every step. Context
+generators may not contain a chain pivot, so v2 is not an implicit general
+quotient simplifier.
+
+Lean's `normalizedEquation_zero_iff_affine_zero` proves the one-step semantic
+bridge from the exact receipt, context vanishing, a unit witness, and a
+no-zero-divisors target. `MappedEquivalenceChain` proves that semantically bound
+steps compose and preserve witnesses and emptiness in both directions. Runtime
+reports those model-binding premises as open obligations. Neither evidence
+schema currently emits an edge, verdict, or claim; graph authority and any
+epoch change remain a later reviewed decision.
+
 ## Trust boundary
 
 ```text
