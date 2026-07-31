@@ -35,7 +35,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.17.0. <!--checks-->1170<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.17.0. <!--checks-->1189<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -176,10 +176,14 @@ domain and unit witnesses. Until then GP still refuses axis emptiness.
 **Current product-split status.** `product_split_v1` replays the landed bottom
 split `E[2,0]=10(c6_0p+c8_0)(c7_0p+c9_0)` and independently verifies
 `E[4,0]=-pE[2,0]`. Lean derives the binary factor disjunction under the
-same typed domain/unit premises. GP does not yet construct the two branch
-models, assert their joint coverage, or recombine claims across them; those are
-the next genuine n-ary OperationContract boundary, not consequences of parsing
-a factorization.
+same typed domain/unit premises. The separate `PartitionContract` and supported
+`gp construct product-split` path now compile the constant-unit `E[2,0]`
+receipt into two same-ring branches plus a covering claim; real Singular
+verifies the emitted partition exhaustive. This is deliberately not an
+`OperationContract`, because no single edge carries the n-ary theorem. The
+variable-unit `E[4,0]` receipt remains evidence-only until cover verification is
+localization-aware. Recombination still requires conclusions on every branch
+plus the exact partition's verified exhaustiveness verdict.
 
 **Current localization status.** `gp verify-localization-membership --spec
 SPEC.json` checks a closed principal-open certificate with explicit guards,
@@ -544,7 +548,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1170<!--/checks--> checks, ~40 s) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1189<!--/checks--> checks, ~40 s) |
 
 ---
 
@@ -651,7 +655,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1170<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1189<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.

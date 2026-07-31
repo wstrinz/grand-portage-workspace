@@ -47,6 +47,8 @@ NECESSARY_CONDITION; one of those was right by accident.
 from . import backend as B
 from . import cas
 from . import contracts as OC
+from . import groebner as G
+from . import product_split as PS
 from . import kernel as K
 
 # What each constructor emits as its transport relation.  Written as a table so
@@ -59,6 +61,9 @@ DERIVES = {
                  "with a condition on points, so returning to the ambient "
                  "model drops the inequality f != 0 and no equation"),
     "SaturateClosure": OC.SATURATION.derivation,
+    "ProductSplit": (K.NECESSARY_CONDITION,
+                     "each branch adjoins one factor equation to the parent; "
+                     "returning to the parent drops that branch condition"),
     "Decompose": (K.NECESSARY_CONDITION,
                   "a component of a factorizing decomposition carries the "
                   "parent's equations and more, so returning to the parent "
@@ -394,6 +399,101 @@ def decompose(src, ring_vars, generators, produces="%s_C%d",
         DERIVES["Decompose"][1],
         artifacts=[execution.artifact])
 
+
+def product_split(src, ring_vars, generators, receipt_spec, receipt_id,
+                  produces="%s_F%d", characteristic=0,
+                  open_conditions=None, coefficient_domain=None,
+                  point_universe=None):
+    """Mint a checked two-branch partition from one binary product receipt.
+
+    This constructor deliberately accepts only a constant scalar and a receipt
+    equation literally present among the parent generators. The existing ideal
+    cover verifier can then re-decide the emitted partition without silently
+    relying on localization or an unrecorded ideal-membership argument.
+    """
+    report = PS.verify(receipt_spec)
+    if receipt_spec["ring_vars"] != list(ring_vars):
+        raise ValueError("product receipt ring_vars must equal the parent ring")
+    if receipt_spec["characteristic"] != characteristic:
+        raise ValueError(
+            "product receipt characteristic must equal the parent characteristic")
+    receipts = dict((item["id"], item) for item in report["receipts"])
+    if receipt_id not in receipts:
+        raise ValueError("receipt_id must select one verified product receipt")
+    selected = receipts[receipt_id]
+    budget = G._ArithmeticBudget()
+    scalar = G.parse_polynomial(
+        selected["scalar"], ring_vars, characteristic, _budget=budget)
+    monomial, _coefficient = next(iter(scalar.terms.items()))
+    if any(monomial):
+        raise ValueError(
+            "product branch construction currently requires a constant-unit "
+            "scalar; variable-unit receipts need localization-aware coverage")
+    equation = G.parse_polynomial(
+        selected["equation"], ring_vars, characteristic, _budget=budget)
+    parent_generators = [G.parse_polynomial(
+        value, ring_vars, characteristic, _budget=budget)
+        for value in generators]
+    if equation not in parent_generators:
+        raise ValueError(
+            "selected product equation must be a literal parent generator; "
+            "non-literal ideal membership needs a checked cofactor witness")
+
+    ids = []
+    for index in range(2):
+        if "%" not in produces:
+            branch_id = "%s%d" % (produces, index)
+        else:
+            try:
+                branch_id = produces % (src, index)
+            except TypeError:
+                branch_id = produces % index
+        ids.append(branch_id)
+    if len(set(ids)) != 2 or src in ids:
+        raise ValueError("product split must produce two distinct branch ids")
+    factors = [selected["left"], selected["right"]]
+    events = []
+    scope = _point_scope_fields(coefficient_domain, point_universe)
+    for branch_id, factor in zip(ids, factors):
+        extra = dict(scope)
+        extra.update({
+            "characteristic": characteristic,
+            "component_of": src,
+        })
+        if open_conditions:
+            extra["open_conditions"] = list(open_conditions)
+        events.append(_model(
+            branch_id,
+            "the %s branch of %s, adjoining %s = 0"
+            % (receipt_id, src, factor),
+            ring_vars, list(generators) + [factor], **extra))
+        events.append(_edge(
+            "E-%s" % branch_id, branch_id, src, "ProductSplit",
+            "The dropped branch equation is %s = 0." % factor))
+    cover = "CL-%s-%s-COVER" % (src, receipt_id)
+    events.append({
+        "ev": "claim", "id": cover, "model": src, "kind": K.PREDICATE,
+        "statement": "every point of %s lies on one of %s" %
+                     (src, ", ".join(ids)),
+        "established_by": "RAN", "ladder": "exact-checked",
+    })
+    events.append({
+        "ev": "partition", "id": "P-%s-%s" % (src, receipt_id),
+        "parent": src, "branches": ids, "exhaustive": cover,
+        "why": "the checked constant-unit binary product %s vanishes" %
+               receipt_id,
+        "receipt_schema": PS.SCHEMA,
+        "receipt_fingerprint": "sha256:" + report["spec_fingerprint"],
+        "receipt_id": receipt_id,
+    })
+    return Operation(
+        "ProductSplit", events, None,
+        "verify.partition_exhaustiveness re-decides the two-branch cover from "
+        "the recorded parent and branch ideals",
+        DERIVES["ProductSplit"][1],
+        request={"receipt_id": receipt_id,
+                 "receipt_fingerprint": "sha256:" + report["spec_fingerprint"]},
+        contract=OC.PRODUCT_SPLIT_PARTITION)
 
 def eliminate(src, variables, produces, ring_vars, generators,
               characteristic=0, coefficient_domain=None,

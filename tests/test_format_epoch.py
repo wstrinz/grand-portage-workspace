@@ -462,3 +462,49 @@ def test_older_epochs_migrate_non_destructively_to_format3_epoch10(tmp_path):
     }])
     with pytest.raises(S.GraphError, match="cannot migrate forward"):
         MIG.migrate_kernel_epoch([str(future)])
+
+
+def test_partition_receipt_binding_fields_are_native_schema():
+    event = {
+        "ev": "partition",
+        "id": "P",
+        "parent": "M",
+        "branches": ["L", "R"],
+        "exhaustive": "C",
+        "why": "a checked binary-product cover",
+        "receipt_schema": "product_split_v1",
+        "receipt_id": "E_2_0_bottom_split",
+        "receipt_fingerprint": "sha256:" + "a" * 64,
+    }
+
+    F.validate_native_event(event, "test:1", S.GraphError)
+
+
+def test_partition_receipt_binding_is_all_or_none_and_typed():
+    base = {
+        "ev": "partition",
+        "id": "P",
+        "parent": "M",
+        "branches": ["L", "R"],
+        "exhaustive": "C",
+        "why": "cover",
+    }
+    with pytest.raises(S.GraphError, match="must provide"):
+        F.validate_native_event(
+            dict(base, receipt_schema="product_split_v1"),
+            "test:1", S.GraphError)
+
+    complete = dict(
+        base,
+        receipt_schema="product_split_v1",
+        receipt_id="E",
+        receipt_fingerprint="sha256:" + "a" * 64,
+    )
+    for field, value, message in (
+        ("receipt_schema", "", "non-empty string"),
+        ("receipt_id", None, "non-empty string"),
+        ("receipt_fingerprint", "sha256:ABC", "64 lowercase hex"),
+    ):
+        with pytest.raises(S.GraphError, match=message):
+            F.validate_native_event(
+                dict(complete, **{field: value}), "test:1", S.GraphError)

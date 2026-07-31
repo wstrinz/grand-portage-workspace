@@ -454,10 +454,26 @@ The live fixture checks
 
 Lean theorem `unit_times_product_zero_implies_factor_zero` proves the local
 semantic disjunction in a no-zero-divisors target with a scalar unit witness.
-Neither layer creates graph branches. Turning `left = 0 or right = 0` into two
-models requires model binding; treating those branches as exhaustive requires a
-first-class cover inference; recombining later claims requires its own n-ary
-rule. The runtime report refuses all three shortcuts explicitly.
+The receipt verifier itself creates no graph authority. A distinct
+`PartitionContract` now represents the n-ary boundary, rather than forcing it
+into the one-source/one-target `OperationContract` record.
+
+`gp construct product-split --src MODEL --spec RECEIPTS.json --receipt ID`
+exposes the contract through the supported dry-run/`--declare` campaign path;
+`operations.product_split` compiles it into two same-ring branch
+models, two branch-to-parent `NECESSARY_CONDITION` edges, a covering claim, and
+a partition. It does so only when the checked equation is literally a parent
+generator and the scalar is a nonzero constant coefficient. The existing
+`verify.partition_exhaustiveness` then independently rechecks the emitted
+ideals; the real JC `E[2,0]` cover passes against Singular. The valid `E[4,0]`
+receipt has scalar `-10*p` and is intentionally refused for branch construction:
+its cover is true only on the p-open locus, while the current ideal-only cover
+verifier ignores localization guards.
+
+Recombining later branch claims still uses the pre-existing n-ary kernel rule:
+all branches must carry the supported claim kind and the exact partition must
+have a `VERIFIED` exhaustiveness verdict.
+
 ## Trust boundary
 
 ```text

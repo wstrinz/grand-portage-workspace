@@ -71,6 +71,7 @@ EVENT_FIELDS = {
     "built_by": {"ev", "model", "inference"},
     "partition": {
         "ev", "id", "parent", "branches", "exhaustive", "why",
+        "receipt_schema", "receipt_id", "receipt_fingerprint",
     } | _LIFECYCLE,
     "same_as": {"ev", "id", "models", "why"} | _LIFECYCLE,
     "family": {"ev", "id", "count", "desc", "members"} | _LIFECYCLE,
@@ -143,6 +144,28 @@ def validate_native_event(ev, where, error):
             raise error(
                 "%s: epoch-1 %s %r `%s` must be true or false, not %r"
                 % (where, kind, ev.get("id"), field, ev[field]))
+    if kind == "partition":
+        receipt_fields = {
+            "receipt_schema", "receipt_id", "receipt_fingerprint"}
+        present = receipt_fields & set(ev)
+        if present and present != receipt_fields:
+            raise error(
+                "%s: partition receipt binding must provide %s together"
+                % (where, ", ".join("`%s`" % field
+                                    for field in sorted(receipt_fields))))
+        if present:
+            for field in ("receipt_schema", "receipt_id"):
+                if (not isinstance(ev[field], str)
+                        or not ev[field].strip()):
+                    raise error(
+                        "%s: partition `%s` must be a non-empty string"
+                        % (where, field))
+            if (not isinstance(ev["receipt_fingerprint"], str)
+                    or not re.match(r"^sha256:[0-9a-f]{64}$",
+                                    ev["receipt_fingerprint"])):
+                raise error(
+                    "%s: partition `receipt_fingerprint` must be "
+                    "sha256:<64 lowercase hex>" % where)
     if kind == "verdict":
         if not isinstance(ev["verifier"], str) or not ev["verifier"].strip():
             raise error("%s: verdict `verifier` must be a non-empty string"

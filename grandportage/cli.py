@@ -1814,7 +1814,7 @@ def cmd_construct(args):
         field: src[field] for field in ("coefficient_domain", "point_universe")
         if field in src
     }
-    if args.op != "decompose" and not args.produces:
+    if args.op not in ("decompose", "product-split") and not args.produces:
         sys.stderr.write("construct %s requires --produces.\n" % args.op)
         return 2
     if args.op in ("localize", "saturate") and not args.at:
@@ -1822,6 +1822,10 @@ def cmd_construct(args):
         return 2
     if args.op == "eliminate" and not args.vars:
         sys.stderr.write("construct eliminate requires --vars.\n")
+        return 2
+    if args.op == "product-split" and (not args.spec or not args.receipt):
+        sys.stderr.write(
+            "construct product-split requires --spec and --receipt.\n")
         return 2
 
     try:
@@ -1835,6 +1839,13 @@ def cmd_construct(args):
             variables = [v.strip() for v in args.vars.split(",")]
             op = O.eliminate(args.src, variables, args.produces, ring, gens,
                              characteristic=ch, **point_scope)
+        elif args.op == "product-split":
+            with open(args.spec, "r", encoding="utf-8") as handle:
+                receipt_spec = json.load(handle)
+            op = O.product_split(
+                args.src, ring, gens, receipt_spec, args.receipt,
+                produces=args.produces or "%s_F%d", characteristic=ch,
+                open_conditions=src.get("open_conditions"), **point_scope)
         else:
             op = O.decompose(args.src, ring, gens,
                              produces=args.produces or "%s_C%d",
@@ -1842,7 +1853,7 @@ def cmd_construct(args):
                              **point_scope)
         if args.run:
             op = O.execute(op, timeout=args.timeout)
-    except (ValueError, cas.CASError) as exc:
+    except (ValueError, OSError, cas.CASError) as exc:
         sys.stderr.write("%s\n" % exc)
         return 2
     if not op.events:
@@ -2176,13 +2187,15 @@ def build_parser():
         "construct",
         help="run a structured operation and emit its events")
     con.add_argument("op", choices=["localize", "saturate", "eliminate",
-                                    "decompose"])
+                                    "decompose", "product-split"])
     con.add_argument("--src", required=True,
                      help="the source MODEL; its ring and ideal are read from "
                           "the graph")
     con.add_argument("--at", help="the polynomial, for localize / saturate")
     con.add_argument("--vars", help="comma-separated, for eliminate")
-    con.add_argument("--produces", help="id for the model this mints")
+    con.add_argument("--spec", help="receipt JSON, for product-split")
+    con.add_argument("--receipt", help="selected receipt id, for product-split")
+    con.add_argument("--produces", help="model id, or branch-id pattern for product-split")
     con.add_argument("--run", action="store_true",
                      help="execute a pending saturation/elimination program "
                           "and emit completed generators")

@@ -93,6 +93,36 @@ class OperationContract:
         return self.edge_type, self.transport_reason
 
 
+@dataclass(frozen=True)
+class PartitionContract:
+    """Contract for one parent and an indexed branch family.
+
+    This is intentionally not an ``OperationContract``: a partition's useful
+    theorem is n-ary and no single branch edge carries its conclusion.
+    """
+
+    kind: str
+    parent_sort: str
+    branch_sort: str
+    parameters: tuple
+    preconditions: tuple
+    semantic_relation: str
+    branch_edge_type: str
+    checked_obligations: tuple
+    open_obligations: tuple
+    licensed_consequences: tuple
+
+    def __post_init__(self):
+        if self.branch_edge_type not in K.ALL_TYPES:
+            raise ValueError("%s names unknown branch edge type %s"
+                             % (self.kind, self.branch_edge_type))
+        if not self.semantic_relation or not self.checked_obligations:
+            raise ValueError("%s is missing partition semantics or validation"
+                             % self.kind)
+        names = [obligation.name for obligation in self.checked_obligations]
+        if len(names) != len(set(names)):
+            raise ValueError("%s repeats a checked obligation" % self.kind)
+
 SATURATION = OperationContract(
     kind="SaturateClosure",
     source_sort="ideal in an exact polynomial ring",
@@ -241,11 +271,66 @@ ELIMINATION = OperationContract(
 )
 
 
+PRODUCT_SPLIT_PARTITION = PartitionContract(
+    kind="ProductSplit",
+    parent_sort="ideal model in one exact polynomial ring",
+    branch_sort="two same-ring models obtained by adjoining one factor",
+    parameters=(
+        "verified binary product receipt",
+        "selected receipt id",
+        "left and right branch ids",
+    ),
+    preconditions=(
+        "the receipt ring and characteristic equal the parent declarations",
+        "the selected equation is literally a recorded parent generator",
+        "the selected scalar is a nonzero constant coefficient",
+    ),
+    semantic_relation=(
+        "V(parent) = V(parent + (left)) union V(parent + (right))"
+    ),
+    branch_edge_type=K.NECESSARY_CONDITION,
+    checked_obligations=(
+        ValidationObligation(
+            "binary_product_identity", "receipt", "verify-product-split",
+            "equation = scalar * left * right exactly",
+        ),
+        ValidationObligation(
+            "parent_equation_binding", "operation",
+            "product_split_constructor",
+            "the checked equation is a literal generator of the parent ideal",
+        ),
+        ValidationObligation(
+            "constant_unit_scalar", "operation", "product_split_constructor",
+            "the scalar is a nonzero coefficient unit, so no open-locus "
+            "coverage premise is hidden",
+        ),
+        ValidationObligation(
+            "partition_exhaustiveness", "partition",
+            "partition_exhaustiveness",
+            "the two recorded branch ideals cover the parent",
+        ),
+    ),
+    open_obligations=(
+        "localized product covers whose scalar contains declared open units",
+        "non-literal parent ideal membership with a checked cofactor witness",
+    ),
+    licensed_consequences=(
+        "two branch models, each included in the parent",
+        "a verifier-decidable claim that the branches jointly cover the parent",
+        "partition recombination only after the existing n-ary kernel rule "
+        "sees every branch conclusion and VERIFIED exhaustiveness",
+    ),
+)
+
 CONTRACTS = MappingProxyType({
     SATURATION.kind: SATURATION,
     ELIMINATION.kind: ELIMINATION,
 })
 
+
+PARTITION_CONTRACTS = MappingProxyType({
+    PRODUCT_SPLIT_PARTITION.kind: PRODUCT_SPLIT_PARTITION,
+})
 
 def for_operation(kind):
     """Return the formalization-backed runtime contract, if one exists."""

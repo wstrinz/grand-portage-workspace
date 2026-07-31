@@ -180,9 +180,12 @@ vanishing with a checked affine consequence and a second unit witness, yielding
 
 `ProductSplit.lean` reuses the factor-power unit and no-zero-divisors interfaces
 to derive `left = 0 or right = 0` from a checked unit-times-binary-product
-identity. It proves no cover or branch-recombination theorem: those require the
-runtime factors to be bound to equations in one model and then represented as a
-first-class n-ary inference.
+identity. `PartitionContract.lean` then makes the n-ary shape structural: an
+indexed branch family, a parent-relative precondition, and a theorem that the
+family covers the parent. Its binary instance turns a pointwise factor
+disjunction into the two expected parent-and-factor branches. It does not prove
+runtime model binding or claim recombination.
+
 ## Trust
 
 No `sorry`. Mathlib-free — core Lean only, so a fresh `lake build` is seconds
