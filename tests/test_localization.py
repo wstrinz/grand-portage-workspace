@@ -5,9 +5,15 @@ import json
 
 import pytest
 
+from grandportage import backend as B
+from grandportage import check as C
 from grandportage import cli
 from grandportage import groebner as G
+from grandportage import format as F
+from grandportage import kernel as K
 from grandportage import localization as L
+from grandportage import store as S
+from grandportage import verify as V
 
 
 def _spec():
@@ -140,3 +146,151 @@ def test_sparse_zero_guard_is_still_refused():
     }]
     with pytest.raises(L.LocalizationError, match="zero polynomial"):
         L.verify(spec)
+
+
+class _LocalizedMembershipBackend:
+    def __init__(self):
+        self.targets = []
+
+    def membership(self, ring_vars, target, generators, characteristic=0,
+                   timeout=300):
+        self.targets.append(target)
+        if G.parse_polynomial(target, ring_vars, characteristic) == \
+                G.parse_polynomial("q*t", ring_vars, characteristic):
+            return {"is_member": True, "cofactors": ["1"]}
+        return {"is_member": False, "cofactors": []}
+
+
+def _localized_empty_graph():
+    graph = S.Graph()
+    graph.apply(F.meta_event())
+    graph.apply({
+        "ev": "model", "id": "OPEN", "what": "q and t nonzero",
+        "characteristic": 0, "ring_vars": ["q", "t"],
+        "generators": ["q*t"], "open_conditions": ["q", "t"],
+    })
+    graph.apply({
+        "ev": "claim", "id": "OPEN-EMPTY", "model": "OPEN",
+        "kind": K.EMPTY, "statement": "the open chart has no points",
+        "certificate": "LOCALIZED_UNIT_IDEAL_CERT",
+        "established_by": "RAN", "ladder": "exact-checked",
+    })
+    return graph
+
+
+def test_localized_unit_certificate_promotes_only_the_exact_open_model():
+    graph = _localized_empty_graph()
+    backend = _LocalizedMembershipBackend()
+    verdict, why, representation = V.localized_unit_ideal(
+        graph, "OPEN-EMPTY", _backend=backend)
+
+    assert verdict == V.CERT_VERIFIED
+    assert backend.targets == ["q*t"]
+    assert representation["method"] == "localized_unit_ideal_v1"
+    assert representation["proof"]["certificate"][
+        "localization_powers"] == [1, 1]
+    assert "No parent emptiness is implied" in why
+    assert K.derive_scope(
+        K.EMPTY, "LOCALIZED_UNIT_IDEAL_CERT", None) == K.SCHEME
+    assert not K.transport(
+        K.RESTRICTION, K.ALONG, K.EMPTY, scope=K.SCHEME,
+        certificate="LOCALIZED_UNIT_IDEAL_CERT").licensed
+
+
+def test_localized_unit_bounded_miss_is_typed_ignorance_not_refutation():
+    class Miss(_LocalizedMembershipBackend):
+        def membership(self, *args, **kwargs):
+            return {"is_member": False, "cofactors": []}
+
+    verdict, why, representation = V.localized_unit_ideal(
+        _localized_empty_graph(), "OPEN-EMPTY", _backend=Miss())
+
+    assert verdict == V.UNVERIFIED
+    assert representation is None
+    assert "search exhaustion" in why
+    assert "not evidence" in why
+
+def _execution_manifest():
+    trace = [{
+        "semantic_input_fingerprint": B.semantic_fingerprint("test", []),
+        "program_fingerprint": B.text_fingerprint("test program"),
+        "stdout_fingerprint": B.text_fingerprint("test output"),
+        "stderr_fingerprint": B.text_fingerprint(""),
+        "artifact_fingerprint": B.semantic_fingerprint("artifact", []),
+        "returncode": 0,
+        "aborted": False,
+    }]
+    return {
+        "schema": 2,
+        "contract": B.SINGULAR_CONTRACT,
+        "implementation": B.SINGULAR_IMPLEMENTATION,
+        "implementation_version": B.SINGULAR_IMPLEMENTATION_VERSION,
+        "protocol_version": B.BACKEND_PROTOCOL_VERSION,
+        "binary_version": "Singular test",
+        "executions": trace,
+        "trace_fingerprint": B.semantic_fingerprint(
+            "backend_execution_trace", trace),
+    }
+
+
+def test_localized_unit_verdict_replays_and_projects_current_authority():
+    graph = _localized_empty_graph()
+    verdict, why, representation = V.localized_unit_ideal(
+        graph, "OPEN-EMPTY", _backend=_LocalizedMembershipBackend())
+    event = V._verdict_event(
+        graph, "certificate", "OPEN-EMPTY", verdict, why, representation,
+        execution=_execution_manifest())
+
+    graph.apply(event)
+
+    claim = graph.claims["OPEN-EMPTY"]
+    assert event["verifier"] == "verify.localized_unit_ideal"
+    assert claim["certificate_verdict"] == V.CERT_VERIFIED
+    assert claim["representation"] == representation
+    assert graph.verdicts[event["id"]]["current"] is True
+
+    mutated = json.loads(json.dumps(event))
+    mutated["id"] = "mutated-local-proof"
+    mutated["representation"]["proof"]["guards"] = ["q"]
+    mutated["input_fingerprint"] = V.P.input_fingerprint(
+        graph, "certificate", "OPEN-EMPTY",
+        representation=mutated["representation"])
+    with pytest.raises(S.GraphError, match="exact replay|does not match"):
+        graph.apply(mutated)
+
+def test_localized_unit_name_alone_grants_no_effective_authority():
+    graph = _localized_empty_graph()
+    claim = graph.claims["OPEN-EMPTY"]
+
+    assert C.effective_certificate(claim) is None
+    findings = [
+        finding for finding in C.run(graph)
+        if finding.fid == "EVIDENCE-GRADE:localized-unit:OPEN-EMPTY"
+    ]
+    assert len(findings) == 1
+    assert "name alone grants no effective certificate" in findings[0].detail
+    graph.apply({
+        "ev": "model", "id": "COPY", "what": "equivalent copy",
+        "characteristic": 0, "ring_vars": ["q", "t"],
+        "generators": ["q*t"], "open_conditions": ["q", "t"],
+    })
+    graph.apply({
+        "ev": "edge", "id": "ISO", "src": "OPEN", "dst": "COPY",
+        "type": K.EQUIVALENCE, "map_kind": K.RATIONAL,
+        "why": "positive control: an equivalence would normally carry EMPTY",
+    })
+    graph.apply({
+        "ev": "inference", "id": "CARRY", "claim": "OPEN-EMPTY",
+        "path": [["ISO", K.ALONG]], "concludes_kind": K.EMPTY,
+        "asserted": "the equivalent copy is empty",
+    })
+    graph.validate()
+    licensed, trace = C.audit_inference(graph, "CARRY")
+    assert not licensed
+    assert "no current VERIFIED verdict" in trace[0][3]
+
+
+    checked = dict(claim, certificate_verdict="VERIFIED")
+    assert C.effective_certificate(checked) == "LOCALIZED_UNIT_IDEAL_CERT"
+    graph.claims["OPEN-EMPTY"] = checked
+    assert C.audit_inference(graph, "CARRY")[0]

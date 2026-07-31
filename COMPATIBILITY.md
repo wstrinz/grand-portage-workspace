@@ -184,6 +184,21 @@ same checker would conservatively refuse. The first live batch replay checks
 all twelve frozen JC q-window pivots independently; it does not grant authority
 to their composition or to the surrounding research claim.
 
+Version 0.16.0 remains at **graph format 3** and advances to **kernel epoch 10**.
+It adds one narrowly scoped graph authority: an `EMPTY` claim on a recorded
+principal-open model may cite `LOCALIZED_UNIT_IDEAL_CERT`. The
+`verify.localized_unit_ideal` producer searches a bounded set of guard
+monomials; only an exact cofactor identity promotes the claim. A bounded miss is
+`UNVERIFIED`, never a refutation or nonemptiness result.
+
+The persisted `localized_unit_ideal_v1` proof envelope is fingerprint-bound to
+the exact claim, model, characteristic, ordered ring variables, generators,
+and open conditions, and the graph fold replays it with the backend-neutral
+exact checker. The certificate base-changes because its polynomial identity
+does. It grants EMPTY only at that open model. Existing RESTRICTION transport
+refuses EMPTY from the open chart to its parent, so this epoch adds no new
+transport-table cell. Epoch-9 graphs migrate non-destructively; all earlier
+verdicts remain readable but stale.
 
 Within one kernel epoch, no field may silently acquire a more permissive
 interpretation. A syntax-only extension can bump `graph_format`; transport

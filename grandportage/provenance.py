@@ -42,11 +42,24 @@ VERIFIERS = {
 # pure-lex certificates both prove elimination completeness without becoming
 # the same checker.
 VERIFIER_ALTERNATIVES = {
+    "certificate": {
+        "verify.unit_ideal": 2,
+        "verify.localized_unit_ideal": 1,
+    },
     "elimination": {
         "verify.elimination_section": 2,
         "verify.elimination_groebner": 1,
     },
 }
+
+
+def _certificate_verifier(graph, of):
+    claim = graph.claims.get(of) or {}
+    if claim.get("certificate") == "LOCALIZED_UNIT_IDEAL_CERT":
+        return "verify.localized_unit_ideal"
+    return "verify.unit_ideal"
+
+
 ELIMINATION_VERDICT_VERIFIER = {
     "VERIFIED_SECTION": "verify.elimination_section",
     "CERTIFICATE_REJECTED": "verify.elimination_section",
@@ -361,7 +374,9 @@ def metadata(graph, subject, of, execution=None, representation=None,
             "cannot be replaced by a fabricated empty trace"
         )
     default_verifier, default_version = VERIFIERS[subject]
-    verifier = verifier or default_verifier
+    verifier = verifier or (
+        _certificate_verifier(graph, of)
+        if subject == "certificate" else default_verifier)
     alternatives = VERIFIER_ALTERNATIVES.get(subject, {
         default_verifier: default_version,
     })
@@ -374,6 +389,8 @@ def metadata(graph, subject, of, execution=None, representation=None,
         ELIMINATION_VERDICT_VERIFIER.get(verdict)
         if subject == "elimination" else None
     )
+    if subject == "certificate":
+        required_verifier = _certificate_verifier(graph, of)
     if required_verifier is not None and verifier != required_verifier:
         raise ValueError(
             "%s verdict must be produced by %s, not %s"
@@ -418,6 +435,9 @@ def current_verdict(graph, event):
         ELIMINATION_VERDICT_VERIFIER.get(event.get("verdict"))
         if subject == "elimination" else None
     )
+    if subject == "certificate":
+        required_verifier = _certificate_verifier(
+            graph, event.get("of"))
     if (required_verifier is not None
             and event.get("verifier") != required_verifier):
         return False, "verifier identity does not match verdict method"

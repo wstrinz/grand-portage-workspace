@@ -30,11 +30,11 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1111<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1115<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
-* **[COMPATIBILITY.md](COMPATIBILITY.md) — graph format 3, kernel epoch 9, typed point scope, durable artifacts, and conservative migration**
+* **[COMPATIBILITY.md](COMPATIBILITY.md) — graph format 3, kernel epoch 10, localized EMPTY certificates, durable artifacts, and conservative migration**
 * **[QUICKSTART.md](QUICKSTART.md) — install, a campaign in ten minutes, and the three things worth knowing on day one**
 * [DESIGN.md](DESIGN.md) — architecture and the decisions behind it
 * [REVIEW.md](REVIEW.md) — **where I am least confident**, for a reviewer
@@ -192,7 +192,8 @@ Three rows carry most of the value:
   localization. It does not turn the open-locus `RESTRICTION` into a different
   coordinate ring, promote the equality to the ambient ideal, or grant point
   transport. This is the first bounded surface for unit-sensitive JC
-  elimination pivots; graph-bound authority waits for live use.
+  elimination pivots; arbitrary localized identities still gain no graph
+  authority.
   Version 0.15 adds a second exact-polynomial wire form,
   `sparse_polynomial_v1`, for certificates too large to survive the bounded
   infix AST. It is not a larger parser budget: coefficients, term count,
@@ -207,9 +208,11 @@ Three rows carry most of the value:
   localizing at `q,t`, the row-8 coefficient `-5*q^3*t^2` kills the q bare
   family; after localizing at `p,t`, `5*p^4*t^2` kills the p bare family. The
   exact checker verifies both as localized `1=0` identities, and Lean proves
-  such an identity admits no localized point. Runtime graph authority remains
-  unchanged: promotion to persisted `EMPTY` awaits an explicit localized-unit-
-  ideal operation contract.
+  such an identity admits no localized point. Version 0.16 implements the
+  distinct `LOCALIZED_UNIT_IDEAL_CERT`: `gp verify` may now promote this exact
+  proof to persisted `EMPTY` on the recorded open model. The proof is replayed
+  and fingerprint-bound; bounded search failure stays `UNVERIFIED`, and the
+  existing RESTRICTION law refuses to move the emptiness to the parent.
 * **`IMAGE_CLOSURE` AGAINST / `NONEMPTY` is Chevalley.** A point of the Zariski
   closure need not lift. This is why elimination is a sound way to *derive*
   equations and an unsound source of *witnesses* — and why a cell that survives
@@ -277,7 +280,7 @@ Pure stdlib. No solver, no network, no model in the loop. Under a second.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1111<!--/checks--> checks
+python -m pytest        # <!--checks-->1115<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

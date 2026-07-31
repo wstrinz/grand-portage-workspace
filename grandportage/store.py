@@ -1030,6 +1030,62 @@ class Graph(object):
                     "scope. Empty cofactors are legal when the computed ideal "
                     "has no recorded generators."
                     % (where, ev.get("id")))
+            elif (subject == "certificate"
+                  and rep.get("method") == "localized_unit_ideal_v1"):
+                required = {
+                    "method", "claim", "model", "proof", "checked",
+                }
+                _require(
+                    isinstance(rep, dict)
+                    and set(rep) == required
+                    and rep.get("claim") == of
+                    and isinstance(rep.get("proof"), dict)
+                    and isinstance(rep.get("checked"), dict),
+                    "%s: localized-unit verdict %r carries a malformed "
+                    "certificate envelope." % (where, ev.get("id")))
+                claim = target[of]
+                model = self.models.get(claim.get("model")) or {}
+                _require(
+                    claim.get("certificate")
+                        == "LOCALIZED_UNIT_IDEAL_CERT"
+                    and rep.get("model") == claim.get("model"),
+                    "%s: localized-unit verdict %r does not belong to the "
+                    "claim and model it names." % (where, ev.get("id")))
+                try:
+                    from . import localization as L
+                    replay = L.verify(rep["proof"])
+                    variables = model.get("ring_vars") or []
+                    characteristic = model.get("characteristic")
+                    expected_generators = [
+                        G.canonical_polynomial_value(
+                            value, variables, characteristic)
+                        for value in (model.get("generators") or [])
+                    ]
+                    expected_guards = [
+                        G.canonical_polynomial_value(
+                            value, variables, characteristic)
+                        for value in (model.get("open_conditions") or [])
+                    ]
+                except (L.LocalizationError, G.CertificateError,
+                        ValueError) as exc:
+                    raise GraphError(
+                        "%s: localized-unit verdict %r fails exact replay: %s"
+                        % (where, ev.get("id"), exc))
+                normalized = replay["normalized"]
+                _require(
+                    normalized["characteristic"]
+                        == model.get("characteristic")
+                    and normalized["ring_vars"]
+                        == (model.get("ring_vars") or [])
+                    and normalized["generators"] == expected_generators
+                    and normalized["guards"] == expected_guards
+                    and normalized["expression"]["numerator"] == "1"
+                    and all(power == 0 for power in
+                            normalized["expression"]["denominator_powers"])
+                    and replay["checked"] == rep["checked"],
+                    "%s: localized-unit verdict %r's proof does not match "
+                    "the exact open model, or does not prove localized 1=0."
+                    % (where, ev.get("id")))
             else:
                 _require(isinstance(rep, dict) and rep.get("cofactors"),
                          "%s: verdict %r carries a `representation` with no "

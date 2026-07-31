@@ -1903,6 +1903,8 @@ def build_parser():
             "  identity                  the rewriting -- and mints the "
             "cofactors for a DERIVED one\n"
             "  unit_ideal                an EMPTY's certificate, by expansion\n"
+            "  localized_unit_ideal      EMPTY on an exact open chart, by a "
+            "guard-monomial certificate\n"
             "  ring_iso                  an EQUIVALENCE's maps, by reduction\n"
             "  point_witness             a NONEMPTY's `witness_point`, by "
             "substitution\n"

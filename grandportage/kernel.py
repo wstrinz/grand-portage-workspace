@@ -271,6 +271,10 @@ SCHEME = "SCHEME"        # the field-independent emptiness scope
 # ---------------------------------------------------------------------------
 BUILTIN_CERTIFICATES = {
     "UNIT_IDEAL_CERT": True,            # 1 in I, exhibited over the base
+    # A guard monomial lies in I, so 1 lies in the localized ideal and the
+    # recorded principal-open model has no points.  This base-changes because
+    # the same polynomial identity survives every coefficient extension.
+    "LOCALIZED_UNIT_IDEAL_CERT": True,
     "NONZERO_RESULTANT": True,          # res in Q^*, hence in K^*
     "EXACT_VALUATION_COLLISION": True,  # an inequality between integers
     "DEGREE_COUNT": True,               # an inequality between integers

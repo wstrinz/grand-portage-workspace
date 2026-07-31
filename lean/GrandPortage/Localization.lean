@@ -132,8 +132,9 @@ The standalone runtime checker can prove `MultiSatMem I guards 1`: after
 inverting the declared guards, the quotient identifies `1` with `0`.  The
 following tiny point interface states only the semantic facts needed to turn
 that coordinate-ring certificate into emptiness.  Keeping it separate matters:
-the current runtime verdict licenses the identity but does not yet persist or
-transport the resulting point claim.
+kernel epoch 10 may persist that local EMPTY claim when the distinct
+localized-unit certificate replays. The ordinary RESTRICTION law still refuses
+to move the claim from the open chart to its parent.
 -/
 
 universe v

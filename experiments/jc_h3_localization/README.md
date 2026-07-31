@@ -15,6 +15,7 @@ python experiments/jc_h3_localization/adapter.py --self-test
 python experiments/jc_h3_localization/q_live_replay.py
 python experiments/jc_h3_localization/q_live_replay_all.py
 python experiments/jc_h3_localization/rows78_bare_family.py
+python experiments/jc_h3_localization/rows78_bare_family.py --graph-bound
 ```
 
 The live q replay imports the frozen JC producer read-only from the sibling
@@ -35,8 +36,11 @@ by `-5*q^3*t^2`; the p certificate proves `p^4*t^2` lies in the ideal generated
 by `5*p^4*t^2`. Because the corresponding chart variables and `t` are guards,
 each report certifies `1=0` in its declared localized quotient. Lean theorem
 `localized_unit_ideal_has_no_point` proves the point-level consequence. The
-runtime reports retain their narrower standalone identity licence, and no graph
-`EMPTY` claim is minted.
+ordinary run retains the narrower standalone identity licence. With
+`--graph-bound`, the script creates a disposable epoch-10 campaign for each
+chart, runs real Singular through `verify.localized_unit_ideal`, reloads the
+fingerprint-bound proof, and confirms local `EMPTY` authority with no parent
+emptiness. The temporary campaigns and artifacts are removed on exit.
 
 The bracket-receipt promotion remains a typed open interface, not a failed
 calculation. Its source expressions involve Laurent supports, derivatives, and
@@ -63,5 +67,6 @@ monomial in declared guards with nonnegative powers. If real elimination emits
 rational residual equations or negative powers before the pivot, stop and
 extend the replay envelope explicitly; do not normalize them away informally.
 
-Nothing here mints graph authority. The output's sole licence remains
-`identity_in_declared_localization_only`.
+The default replay mints no graph authority. The opt-in graph-bound replay
+mints only local `EMPTY` after exact proof replay; neither mode grants source,
+parent, chain, or H3 authority.

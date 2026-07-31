@@ -164,9 +164,14 @@ def audit_inference(graph, iid):
         # A slot contributes NOTHING to coverage, deliberately: it is a
         # declaration that the branch is unsettled, so the branch stays
         # uncovered and the partition is correctly refused.
-        carried = {graph.claims[pr["claim"]]["model"] for pr in inf["premises"]
-                   if pr.get("claim")
-                   and graph.claims[pr["claim"]]["kind"] == kind}
+        carried = {
+            graph.claims[pr["claim"]]["model"] for pr in inf["premises"]
+            if pr.get("claim")
+            and graph.claims[pr["claim"]]["kind"] == kind
+            and (kind != K.EMPTY
+                 or effective_certificate(graph.claims[pr["claim"]])
+                    is not None)
+        }
         covered = all(b in carried for b in p["branches"])
         cites_exhaustive = any(pr.get("claim") == p["exhaustive"]
                                for pr in inf["premises"])
@@ -207,6 +212,16 @@ def audit_inference(graph, iid):
                 "%s" % (pr["required_kind"], pr["at"], pr["missing_why"])))
             continue
         claim = graph.claims[pr["claim"]]
+        if (claim.get("certificate") == "LOCALIZED_UNIT_IDEAL_CERT"
+                and effective_certificate(claim) is None
+                and pr["path"]):
+            ok = False
+            trace.append((
+                "(localized-unit certificate)", "PREMISE", False,
+                "LOCALIZED_UNIT_IDEAL_CERT has no current VERIFIED verdict. "
+                "The declaration remains unfinished mathematics and grants "
+                "no downstream transport until its exact proof replays."))
+            continue
         current_condition = claim.get("condition")
         for step_index, (eid, direction) in enumerate(pr["path"]):
             e = graph.edges[eid]
@@ -1638,10 +1653,37 @@ def effective_certificate(claim):
     and guessing would replace a false licence with a different one. `None`
     makes `derive_scope` refuse, which is the honest answer.
     """
+    certificate = claim.get("certificate")
     if claim.get("certificate_verdict") == "NOT_UNIT":
         return None
-    return claim.get("certificate")
+    if (certificate == "LOCALIZED_UNIT_IDEAL_CERT"
+            and claim.get("certificate_verdict") != "VERIFIED"):
+        return None
+    return certificate
 
+
+def check_localized_unit_certificates(graph):
+    """A localized-unit name grants nothing until its exact proof replays."""
+    findings = []
+    for cid in sorted(graph.claims):
+        claim = graph.claims[cid]
+        if (claim.get("superseded_by")
+                or claim.get("certificate")
+                    != "LOCALIZED_UNIT_IDEAL_CERT"
+                or claim.get("certificate_verdict") == "VERIFIED"):
+            continue
+        findings.append(Finding(
+            R_EVIDENCE, "%s:localized-unit:%s" % (R_EVIDENCE, cid),
+            DEBT, cid,
+            "claim %s names LOCALIZED_UNIT_IDEAL_CERT but has no current "
+            "VERIFIED localized-unit verdict. The name alone grants no "
+            "effective certificate, base-change authority, or partition "
+            "coverage." % cid,
+            "Run `gp verify`. A bounded miss remains UNVERIFIED; only a "
+            "guard-monomial cofactor identity replayed against the exact open "
+            "model discharges this debt.",
+            semantic_key=cid))
+    return findings
 
 def check_refuted_evidence(graph):
     """A certificate or an isomorphism the verifier REFUTED, said out loud.
@@ -3300,6 +3342,7 @@ def run(graph, accepted=None):
                 + check_coefficients_in_base(graph)
                 + check_integral(graph)
                 + check_origin_contradiction(graph)
+                + check_localized_unit_certificates(graph)
                 + check_refuted_evidence(graph)
                 + check_evidence(graph)
                 + check_parallel_edges(graph)

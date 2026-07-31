@@ -28,7 +28,7 @@ def test_init_starts_with_epoch_metadata(tmp_path):
     path = S.graph_path(str(tmp_path))
     events = list(S.load_events(path))
     assert events[0][0] == {
-        "created_with": "grandportage/0.15.0",
+        "created_with": "grandportage/0.16.0",
         "ev": "meta",
         "graph_format": 3,
         "kernel_epoch": F.KERNEL_EPOCH,
@@ -379,18 +379,18 @@ def test_kernel_epoch1_migration_is_non_destructive_and_reaudits_transport(
 
     assert source.read_bytes() == before
     graph = S.load(str(destination))
-    assert graph.kernel_epoch == F.KERNEL_EPOCH == 9
+    assert graph.kernel_epoch == F.KERNEL_EPOCH == 10
     finding = [item for item in C.run(graph) if item.rule == C.R_TRANSPORT]
     assert len(finding) == 1
     assert "completeness" in finding[0].detail
     audit = json.loads((tmp_path / "current-kernel.jsonl.audit.json").read_text())
     assert audit["from_kernel_epoch"] == 1
-    assert audit["kernel_epoch"] == 9
+    assert audit["kernel_epoch"] == 10
 
 
-def test_older_epochs_migrate_non_destructively_to_format3_epoch9(tmp_path):
+def test_older_epochs_migrate_non_destructively_to_format3_epoch10(tmp_path):
     source = tmp_path / "format1-epoch4.jsonl"
-    destination = tmp_path / "format3-epoch9.jsonl"
+    destination = tmp_path / "format3-epoch10.jsonl"
     _write(source, [{
         "ev": "meta", "graph_format": 1, "kernel_epoch": 4,
         "created_with": "grandportage/0.8.0",
@@ -404,9 +404,9 @@ def test_older_epochs_migrate_non_destructively_to_format3_epoch9(tmp_path):
     assert reports[0]["from_graph_format"] == 1
     assert reports[0]["from_kernel_epoch"] == 4
     assert reports[0]["graph_format"] == F.GRAPH_FORMAT == 3
-    assert reports[0]["kernel_epoch"] == F.KERNEL_EPOCH == 9
+    assert reports[0]["kernel_epoch"] == F.KERNEL_EPOCH == 10
     assert S.load(str(destination)).graph_format == 3
-    assert S.load(str(destination)).kernel_epoch == 9
+    assert S.load(str(destination)).kernel_epoch == 10
 
     epoch5 = tmp_path / "format2-epoch5.jsonl"
     epoch8_from_epoch5 = tmp_path / "format2-epoch8-from-epoch5.jsonl"
@@ -421,8 +421,8 @@ def test_older_epochs_migrate_non_destructively_to_format3_epoch9(tmp_path):
     assert epoch5_reports[0]["from_graph_format"] == 2
     assert epoch5_reports[0]["from_kernel_epoch"] == 5
     assert epoch5_reports[0]["graph_format"] == 3
-    assert epoch5_reports[0]["kernel_epoch"] == 9
-    assert S.load(str(epoch8_from_epoch5)).kernel_epoch == 9
+    assert epoch5_reports[0]["kernel_epoch"] == 10
+    assert S.load(str(epoch8_from_epoch5)).kernel_epoch == 10
 
     epoch6 = tmp_path / "format2-epoch6.jsonl"
     epoch8 = tmp_path / "format2-epoch8-from-epoch6.jsonl"
@@ -437,8 +437,8 @@ def test_older_epochs_migrate_non_destructively_to_format3_epoch9(tmp_path):
     assert epoch6_reports[0]["from_graph_format"] == 2
     assert epoch6_reports[0]["from_kernel_epoch"] == 6
     assert epoch6_reports[0]["graph_format"] == 3
-    assert epoch6_reports[0]["kernel_epoch"] == 9
-    assert S.load(str(epoch8)).kernel_epoch == 9
+    assert epoch6_reports[0]["kernel_epoch"] == 10
+    assert S.load(str(epoch8)).kernel_epoch == 10
 
     epoch7 = tmp_path / "format2-epoch7.jsonl"
     epoch8_from_epoch7 = tmp_path / "format2-epoch8-from-epoch7.jsonl"
@@ -453,11 +453,11 @@ def test_older_epochs_migrate_non_destructively_to_format3_epoch9(tmp_path):
     assert epoch7_reports[0]["from_graph_format"] == 2
     assert epoch7_reports[0]["from_kernel_epoch"] == 7
     assert epoch7_reports[0]["graph_format"] == 3
-    assert epoch7_reports[0]["kernel_epoch"] == 9
-    assert S.load(str(epoch8_from_epoch7)).kernel_epoch == 9
+    assert epoch7_reports[0]["kernel_epoch"] == 10
+    assert S.load(str(epoch8_from_epoch7)).kernel_epoch == 10
     future = tmp_path / "format1-future-epoch.jsonl"
     _write(future, [{
-        "ev": "meta", "graph_format": 1, "kernel_epoch": 10,
+        "ev": "meta", "graph_format": 1, "kernel_epoch": 11,
         "created_with": "grandportage/future",
     }])
     with pytest.raises(S.GraphError, match="cannot migrate forward"):

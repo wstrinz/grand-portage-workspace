@@ -1,11 +1,12 @@
 # Operation contracts
 
-**Status:** two executable pilots
-**Authoritative runtime semantics:** graph format 3, kernel epoch 9
+**Status:** executable pilots plus one graph-bound localized-unit contract
+**Authoritative runtime semantics:** graph format 3, kernel epoch 10
 **Formal shadow:** `lean/GrandPortage/OperationContract.lean`
 
 
-Kernel epoch 9 makes point scope explicit on models: exact certificate
+Kernel epoch 10 retains the epoch-9 point-scope split and adds checked local
+EMPTY authority. Epoch 9 made point scope explicit on models: exact certificate
 arithmetic belongs to `coefficient_domain`, while existence and geometric
 coverage belong to `point_universe`. The first consumer is partition
 verification, where a geometric hole is a refutation only for a model declared
@@ -333,9 +334,9 @@ gp --graph old/.portage/graph.jsonl migrate --to-current-kernel
 
 The source is untouched, prior verdicts remain history but stale, absent
 `condition` fields stay absent, and the new fold re-audits transport under epoch
-9.
+10.
 
-## Candidate contract exposed by rows 7--8: localized unit ideal
+## Implemented contract exposed by rows 7--8: localized unit ideal
 
 The first real rows 7--8 replay supplies a contract smaller than general
 localization and stronger than an arbitrary localized identity:
@@ -355,13 +356,14 @@ consequence from precisely the localization interface: ideal equations vanish,
 guard monomials become units, and the target is nontrivial. The q control uses
 `D=q^3*t^2`; the p control uses `D=p^4*t^2`.
 
-This must not silently turn every localized identity verdict into `EMPTY`.
-Before graph promotion the runtime needs a distinct obligation/result kind that
-binds the exact localized model, generator list, guards, coefficient domain,
-and point universe. It may then support a local `EMPTY` claim on that model;
-it still grants no parent/source membership, chart coverage, whole elimination
-chain, or H3 conclusion. Because that would add graph claim authority, its
-epoch/verifier compatibility treatment must be explicit at implementation.
+Kernel epoch 10 implements that distinction as
+`LOCALIZED_UNIT_IDEAL_CERT` plus verifier `verify.localized_unit_ideal`.
+`gp verify` searches a bounded guard-monomial frontier, independently expands
+any returned cofactors, and persists a proof envelope bound to the exact claim,
+model, characteristic, variables, generators, and guards. Search exhaustion is
+`UNVERIFIED`. A successful verdict supports only local `EMPTY` on that model;
+it grants no parent/source membership, chart coverage, whole elimination chain,
+or H3 conclusion. Existing RESTRICTION/ALONG/EMPTY remains refused.
 
 The companion bracket-receipt edge is a different contract. Its lowering uses
 Laurent support intervals, formal derivatives, and multiplication by declared

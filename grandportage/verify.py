@@ -1666,6 +1666,136 @@ def unit_ideal(graph, cid, timeout=300, _runner=None, _backend=None):
                      "generators": list(gens), "ring_vars": list(ring)}
 
 
+def localized_unit_ideal(graph, cid, timeout=300, _runner=None,
+                         _backend=None):
+    """Certify that the exact recorded principal-open model is empty.
+
+    A point of ``D(g_1)...D(g_n)`` would make every guard invertible. If a
+    guard monomial belongs to the model ideal, it would therefore be both zero
+    and invertible. The bounded search is only a producer: success is checked
+    by exact cofactor expansion, while exhaustion returns UNVERIFIED.
+    """
+    from . import localization as L
+
+    c = graph.claims.get(cid)
+    if not c:
+        return UNVERIFIED, "no such claim", None
+    if (c.get("kind") != K.EMPTY
+            or c.get("certificate") != "LOCALIZED_UNIT_IDEAL_CERT"):
+        return UNVERIFIED, (
+            "claim %s does not ask for LOCALIZED_UNIT_IDEAL_CERT" % cid), None
+    model = graph.models.get(c.get("model")) or {}
+    ring = model.get("ring_vars")
+    gens = model.get("generators")
+    guards = model.get("open_conditions")
+    if not ring or not gens or not guards:
+        return UNVERIFIED, (
+            "model %s needs ring_vars, generators, and open_conditions for "
+            "a localized-unit certificate" % c.get("model")), None
+    ch, missing = _declared_characteristic(c.get("model"), model)
+    if missing:
+        return UNVERIFIED, missing, None
+
+    backend = _backend or cas.SingularBackend(runner=_runner)
+    # First try pure guard monomials already visible in the generators. This is
+    # only a producer hint, but it makes the JC q^3*t^2 and p^4*t^2 controls
+    # one-shot instead of launching a total-degree walk. Non-variable guards
+    # simply skip the hint and use the bounded frontier below.
+    candidates = []
+    guard_indices = []
+    for guard in guards:
+        polynomial = G.parse_polynomial(guard, ring, ch)
+        if len(polynomial.terms) != 1:
+            guard_indices = []
+            break
+        exponent, coefficient = next(iter(polynomial.terms.items()))
+        if coefficient != 1 or sum(exponent) != 1:
+            guard_indices = []
+            break
+        guard_indices.append(exponent.index(1))
+    if len(set(guard_indices)) != len(guards):
+        guard_indices = []
+    if guard_indices:
+        outside = set(range(len(ring))) - set(guard_indices)
+        for generator in gens:
+            for exponent in G.parse_polynomial(
+                    generator, ring, ch).terms:
+                powers = tuple(exponent[index] for index in guard_indices)
+                if (any(powers)
+                        and all(power <= 64 for power in powers)
+                        and all(exponent[index] == 0 for index in outside)
+                        and powers not in candidates):
+                    candidates.append(powers)
+                    if len(candidates) >= 8:
+                        break
+            if len(candidates) >= 8:
+                break
+
+    # Then small total degrees, deterministically. The cap is a producer
+    # budget, not a theorem: failing to find a row proves nothing.
+    product = tuple(1 for _ in guards)
+    if product not in candidates:
+        candidates.append(product)
+    frontier = [tuple(0 for _ in guards)]
+    seen = set(candidates + frontier)
+    while frontier and len(candidates) < 32:
+        powers = frontier.pop(0)
+        if sum(powers) >= 64:
+            continue
+        for index in range(len(guards)):
+            nxt = list(powers)
+            nxt[index] += 1
+            nxt = tuple(nxt)
+            if nxt not in seen:
+                seen.add(nxt)
+                candidates.append(nxt)
+                frontier.append(nxt)
+                if len(candidates) >= 32:
+                    break
+
+    for powers in candidates:
+        target = "1"
+        for guard, power in zip(guards, powers):
+            target = G.multiply_polynomial_power(
+                target, guard, power, ring, ch)
+        found = backend.membership(
+            ring, target, list(gens), characteristic=ch, timeout=timeout)
+        if not found["is_member"]:
+            continue
+        spec = {
+            "schema": L.SCHEMA,
+            "characteristic": ch,
+            "ring_vars": list(ring),
+            "generators": list(gens),
+            "guards": list(guards),
+            "expression": {
+                "numerator": "1",
+                "denominator_powers": [0 for _ in guards],
+            },
+            "certificate": {
+                "localization_powers": list(powers),
+                "membership_target": target,
+                "cofactors": list(found["cofactors"]),
+            },
+        }
+        checked = L.verify(spec)
+        rep = {
+            "method": "localized_unit_ideal_v1",
+            "claim": cid,
+            "model": c.get("model"),
+            "proof": checked["normalized"],
+            "checked": checked["checked"],
+        }
+        return CERT_VERIFIED, (
+            "a guard monomial with powers %s belongs to the recorded ideal; "
+            "exact cofactor expansion proves 1=0 in this localization, so "
+            "the open model %s has no points. No parent emptiness is implied."
+            % (list(powers), c.get("model"))), rep
+    return UNVERIFIED, (
+        "no localized-unit witness was found in the bounded search of %d "
+        "guard monomials. This is search exhaustion, not evidence that the "
+        "open model has a point." % len(candidates)), None
+
 def _verdict_event(graph, subject, of, verdict, why, representation=None,
                    execution=None, verifier=None):
     # Content-address the answer together with the exact verifier/kernel/backend
@@ -2097,6 +2227,12 @@ def verify_all(root=".", timeout=300, _runner=None, record=True, backend=None):
         # witness for the same reason as an unstructured IDENTITY: that is an
         # unasked question, not a failed one, and `check` is where the hole
         # gets reported.
+        if (c.get("kind") == K.EMPTY
+                and c.get("certificate") == "LOCALIZED_UNIT_IDEAL_CERT"
+                and not c.get("certificate_verdict")):
+            run("certificate", cid,
+                lambda cid=cid: localized_unit_ideal(
+                    graph, cid, timeout=timeout, _backend=backend))
         if (c.get("kind") == K.NONEMPTY and c.get("witness_point")
                 and not c.get("witness_verdict")):
             run("witness", cid, lambda cid=cid: point_witness(

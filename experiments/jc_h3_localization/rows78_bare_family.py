@@ -3,11 +3,17 @@
 
 from __future__ import annotations
 
+import argparse
 import copy
 import json
+import tempfile
 
+from grandportage import check as C
 from grandportage import groebner as G
+from grandportage import kernel as K
 from grandportage import localization as L
+from grandportage import store as S
+from grandportage import verify as V
 
 
 def family_spec(chart):
@@ -61,11 +67,56 @@ def replay(chart):
         "certified_coordinate_statement":
             "1 = 0 in the declared localized quotient",
         "lean_bridge": "localized_unit_ideal_has_no_point",
-        "point_emptiness_is_not_graph_bound": True,
+        "standalone_point_emptiness_is_not_graph_bound": True,
         "source_membership_authority": False,
         "h3_authority": False,
     }
 
+
+def graph_bound_replay(chart):
+    """Run the production producer/verdict/fold loop in a disposable graph."""
+    receipt, spec = family_spec(chart)
+    model_id = "%s-BARE-OPEN" % chart.upper()
+    claim_id = "%s-BARE-EMPTY" % chart.upper()
+    with tempfile.TemporaryDirectory(
+            prefix="gp-jc-rows78-", dir=".") as root:
+        S.append([{
+            "ev": "model", "id": model_id,
+            "what": "%s on its declared principal-open chart" % receipt,
+            "characteristic": spec["characteristic"],
+            "ring_vars": spec["ring_vars"],
+            "generators": spec["generators"],
+            "open_conditions": spec["guards"],
+        }, {
+            "ev": "claim", "id": claim_id, "model": model_id,
+            "kind": K.EMPTY,
+            "statement": "%s bare family has no points on this chart" % chart,
+            "certificate": "LOCALIZED_UNIT_IDEAL_CERT",
+            "established_by": "RAN", "ladder": "exact-checked",
+        }], root=root)
+        results = V.verify_all(root=root)
+        graph = S.load(S.graph_path(root))
+        claim = graph.claims[claim_id]
+        debts = [
+            finding.fid for finding in C.run(graph)
+            if "localized-unit" in finding.fid
+        ]
+        if claim.get("certificate_verdict") != V.CERT_VERIFIED or debts:
+            raise AssertionError(
+                "graph-bound localized EMPTY did not promote: %r / %r"
+                % (claim.get("certificate_verdict"), debts))
+        return {
+            "chart": chart,
+            "claim": claim_id,
+            "verdict": claim["certificate_verdict"],
+            "verifier": next(
+                verdict["verifier"] for verdict in graph.verdicts.values()
+                if verdict.get("of") == claim_id),
+            "method": claim["representation"]["method"],
+            "local_empty_authority": True,
+            "parent_empty_authority": False,
+            "results": [list(result[:3]) for result in results],
+        }
 
 def mutation_controls():
     _receipt, base = family_spec("q")
@@ -98,12 +149,21 @@ def mutation_controls():
     return mutations
 
 
-def main():
-    print(json.dumps({
-        "schema": "jc_h3_rows78_bare_family_replay_v1",
+def main(argv=None):
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--graph-bound", action="store_true",
+        help="also run real Singular and persist/reload local EMPTY verdicts")
+    args = parser.parse_args(argv)
+    report = {
+        "schema": "jc_h3_rows78_bare_family_replay_v2",
         "reports": [replay("q"), replay("p")],
         "refused_mutations": mutation_controls(),
-    }, indent=2, sort_keys=True))
+    }
+    if args.graph_bound:
+        report["graph_bound_reports"] = [
+            graph_bound_replay("q"), graph_bound_replay("p")]
+    print(json.dumps(report, indent=2, sort_keys=True))
     return 0
 
 
