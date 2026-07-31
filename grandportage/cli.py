@@ -16,6 +16,8 @@ from . import artifacts as A
 from . import cas
 from . import check as C
 from . import coefficient_expansion as CE
+from . import factor_power as FP
+from . import factor_power_contradiction as FPC
 from . import laurent_coefficient_pipeline as LCP
 from . import laurent_lowering as LL
 from . import hook as H
@@ -821,6 +823,53 @@ def cmd_verify_laurent_coefficient_pipeline(args):
               report["coefficient_report"]["verdict"])
         print("    authority: exact compiler-pass composition only; "
               "no source derivation, chart validity, or claim transport")
+        print("    spec sha256: %s" % report["spec_fingerprint"])
+    return 0
+
+def cmd_verify_factor_power(args):
+    """Translation-validate exact unit-times-positive-power identities."""
+    try:
+        with open(args.spec, "r", encoding="utf-8") as handle:
+            spec = json.load(handle)
+        report = FP.verify(spec)
+    except (OSError, ValueError, json.JSONDecodeError,
+            FP.FactorPowerError) as exc:
+        sys.stderr.write("FACTOR POWER FAILED\n  %s\n" % exc)
+        return 2
+    if args.json:
+        print(json.dumps(report, indent=2, sort_keys=True))
+    else:
+        print(report["verdict"])
+        print("    %d exact unit-times-positive-power receipt(s)" %
+              len(report["receipts"]))
+        print("    authority: factor identity only; no base-vanishing, "
+              "emptiness, or claim transport")
+        print("    open obligations: target equation vanishing, "
+              "no zero divisors, and interpreted coefficient/generator units")
+        print("    spec sha256: %s" % report["spec_fingerprint"])
+    return 0
+
+def cmd_verify_factor_power_contradiction(args):
+    """Compose a factor receipt with an exact affine unit contradiction."""
+    try:
+        with open(args.spec, "r", encoding="utf-8") as handle:
+            spec = json.load(handle)
+        report = FPC.verify(spec)
+    except (OSError, ValueError, json.JSONDecodeError,
+            FPC.FactorPowerContradictionError) as exc:
+        sys.stderr.write("FACTOR POWER CONTRADICTION FAILED\n  %s\n" % exc)
+        return 2
+    if args.json:
+        print(json.dumps(report, indent=2, sort_keys=True))
+    else:
+        print(report["verdict"])
+        print("    factor: %s" % report["factor_receipt"])
+        print("    consequence: %s -> %s" % (
+            report["consequence"]["id"],
+            report["consequence"]["residual"],
+        ))
+        print("    authority: exact contradiction pattern only; "
+              "no model binding, emptiness, or claim transport")
         print("    spec sha256: %s" % report["spec_fingerprint"])
     return 0
 
@@ -2029,6 +2078,23 @@ def build_parser():
     laurent_pipeline.add_argument("--json", action="store_true")
     laurent_pipeline.set_defaults(
         func=cmd_verify_laurent_coefficient_pipeline)
+    factor_power = sub.add_parser(
+        "verify-factor-power",
+        help="check exact unit-times-positive-power identities")
+    factor_power.add_argument(
+        "--spec", required=True,
+        help="closed factor_power_v1 JSON specification")
+    factor_power.add_argument("--json", action="store_true")
+    factor_power.set_defaults(func=cmd_verify_factor_power)
+    factor_contradiction = sub.add_parser(
+        "verify-factor-power-contradiction",
+        help="compose a factor receipt with an affine unit contradiction")
+    factor_contradiction.add_argument(
+        "--spec", required=True,
+        help="closed factor_power_affine_contradiction_v1 JSON specification")
+    factor_contradiction.add_argument("--json", action="store_true")
+    factor_contradiction.set_defaults(
+        func=cmd_verify_factor_power_contradiction)
     localization = sub.add_parser(
         "verify-localization-membership",
         help="check a rational identity after declared guards are inverted")

@@ -408,6 +408,41 @@ Directly entering the final scalar rows would validate their arithmetic while
 skipping the load-bearing chart translation, so it remains intentionally
 refused as a promotion shortcut.
 
+### Exact factor-power receipt
+
+`factor_power_v1` is a translation validator for identities
+`equation = scalar * base^k`. It recomputes the identity over the declared exact
+polynomial ring, requires `1 <= k <= 64`, and admits as `scalar` only one
+nonzero coefficient times a monomial in explicitly declared unit generators.
+The pass earns only `exact_declared_unit_monomial_times_positive_power_identity`.
+
+The semantic contraction is deliberately a separate step. Lean theorem
+`unit_times_positive_power_zero_implies_base_zero` proves it from exactly three
+consumer obligations: the equation evaluates to zero, the interpreted target
+has no zero divisors, and the coefficient plus generator factors evaluate to
+units. Runtime reports those debts and grants no base-vanishing, component,
+emptiness, source-membership, or claim-transport authority.
+
+`fixtures/jc_p_axis/factor_power_v1.json` is the first live projection. It
+replays the distinct JC receipts `E[3,22] = 5*(c9_11+p*t)^2` and
+`E[5,22] = (-5*p)*(c9_11+p*t)^2` in the scoped axis ring. It intentionally does
+not claim that the equations vanish in the pinned quotient or that the whole
+axis is empty; those need the still-explicit localization/domain bridge and the
+affine consequence receipt.
+
+The companion `factor_power_affine_contradiction_v1` pass composes that receipt
+with a deliberately narrow affine solve. It requires the selected base to be
+literally `pivot - solution`, with the solution independent of the pivot, then
+simultaneously substitutes the solution into a second equation and requires the
+recorded residual to be one nonzero coefficient times declared unit generators.
+For the JC fixture this checks
+`c9_11 = -p*t` and `E[1,22] |_(c9_11=-p*t) = 5*p*t^2` exactly.
+
+Lean theorem `factorPower_and_unitConsequence_are_incompatible` links the two
+passes semantically from right-inverse witnesses for both unit monomials. The
+runtime result remains a contradiction *pattern*: both equations must still be
+bound to the same interpreted model, and the domain/unit premises discharged,
+before any local emptiness authority exists.
 ## Trust boundary
 
 ```text

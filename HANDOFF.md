@@ -35,7 +35,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.17.0. <!--checks-->1132<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.17.0. <!--checks-->1158<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -156,6 +156,22 @@ geometry, chart validity, integration, guard invertibility, graph claims, and H3
 remain outside. Version 0.17 packages this standalone evidence-language seam;
 it changes neither format 3 nor epoch 10 and should earn graph persistence only
 after more live consumption.
+
+**Current factor-power status.** The newly landed JC p-window packet supplies
+two independent exact square receipts on the `c9_11` axis. GP now replays their
+scoped polynomial identities with `factor_power_v1`; malformed exponents,
+nonunit monomials, changed equations, and schema drift fail closed. The checker
+persists the crucial distinction between a verified factor identity and its
+point consequence. Equation vanishing in the pinned quotient, a no-zero-
+divisors interpretation, and unit witnesses for the nonzero coefficient, `p`,
+and `t` remain named obligations. Mathlib-free Lean proves those premises are
+sufficient. No axis emptiness, p-chart conclusion, or graph transport is minted.
+The companion affine-composition pass now verifies that the monic base forces
+`c9_11=-p*t` and that exact substitution into `10*t*c9_11+15*p*t^2`
+yields the declared unit `5*p*t^2`; Lean proves the resulting semantic premises
+are inconsistent. The remaining step is no longer polynomial arithmetic: bind
+both equations to the same pinned quotient/localization and prove that target's
+domain and unit witnesses. Until then GP still refuses axis emptiness.
 
 **Current localization status.** `gp verify-localization-membership --spec
 SPEC.json` checks a closed principal-open certificate with explicit guards,
@@ -520,7 +536,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1132<!--/checks--> checks, ~40 s) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1158<!--/checks--> checks, ~40 s) |
 
 ---
 
@@ -627,7 +643,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1132<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1158<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.

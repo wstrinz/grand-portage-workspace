@@ -30,7 +30,7 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1132<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1158<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
@@ -203,6 +203,18 @@ Three rows carry most of the value:
   passes and requires every downstream source image to equal its named export
   as the same canonical JSON object; a separately self-consistent edited
   intermediate fails.
+* **Factor-power receipts expose their semantic debt.** `gp
+  verify-factor-power --spec factor.json` checks exact identities of the form
+  `equation = scalar * base^k`, with `k > 0` and `scalar` a nonzero coefficient
+  times a monomial in declared unit generators. It licenses only that
+  polynomial identity. Concluding `base = 0` still requires the equation to
+  vanish in the interpreted target, the target to have no zero divisors, and
+  the coefficient and declared generators to remain units. The first live
+  fixture independently replays the two landed JC p-axis square receipts while
+  refusing axis emptiness and graph transport. The companion `gp
+  verify-factor-power-contradiction` pass selects one factor receipt, verifies a
+  monic affine solution for its base, and recomputes a second equation's exact
+  declared-unit residual. It still grants no model binding or emptiness.
 * **Localized coordinate identities now have a deliberately narrow checker.**
   `gp verify-localization-membership --spec localization.json` records
   principal-open guards, explicit denominator powers, and an exact guard-
@@ -298,7 +310,7 @@ Pure stdlib. No solver, no network, no model in the loop. Under a second.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1132<!--/checks--> checks
+python -m pytest        # <!--checks-->1158<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

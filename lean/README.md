@@ -163,6 +163,19 @@ And one genuine compression did happen. `identity_origin: AMBIENT` is not an
 extra rule — it is `eqMod_against` applied from the zero ideal. A corollary
 that had been carrying its own gate.
 
+## Factor-power bridge
+
+`FactorPower.lean` formalizes the semantic half of `factor_power_v1` without
+formalizing its JSON parser or polynomial arithmetic. `PositivePowerOf` excludes
+the exponent-zero case by construction. The main theorem derives base
+vanishing from a right-invertible scalar, a positive power, equation vanishing,
+and the target's no-zero-divisors law. This is deliberately stronger in
+premises and narrower in conclusion than the JC producer packet: GP does not
+assume the pinned quotient/localization is a domain merely because a certificate
+says so. `factorPower_and_unitConsequence_are_incompatible` then composes base
+vanishing with a checked affine consequence and a second unit witness, yielding
+`False` without smuggling model binding or emptiness into the theorem.
+
 ## Trust
 
 No `sorry`. Mathlib-free — core Lean only, so a fresh `lake build` is seconds
