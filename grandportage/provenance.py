@@ -29,7 +29,7 @@ VERIFIERS = {
     "claim": ("verify.identity", 2),
     "edge": ("verify.containment", 2),
     "certificate": ("verify.unit_ideal", 2),
-    "ring_iso": ("verify.ring_iso", 2),
+    "ring_iso": ("verify.ring_iso", 3),
     "witness": ("verify.point_witness", 2),
     "operation": ("verify.operation_output", 2),
     "elimination": ("verify.elimination_section", 2),
@@ -293,12 +293,28 @@ def _eligible_structural_elimination(graph, event):
         and set(rep.get("section") or {}) == set(eliminated)
     )
 
+def _eligible_structural_ring_iso(graph, event):
+    """An exact cofactor envelope is verifier-native, not an empty CAS run."""
+    if (event.get("subject") != "ring_iso"
+            or event.get("verdict") != "VERIFIED"):
+        return False
+    edge = graph.edges.get(event.get("of")) or {}
+    certificate = edge.get("ring_iso_certificate") or {}
+    return (
+        edge.get("ring_iso") is True
+        and isinstance(edge.get("forward"), dict)
+        and isinstance(edge.get("inverse"), dict)
+        and certificate.get("schema") == "mapped_ring_iso_v1"
+    )
+
 def _allows_empty_structural_trace(graph, event):
     """Recognize eligible verifier-native decisions with no backend run."""
     if event.get("verdict") == "UNVERIFIED":
         return True
     if event.get("subject") == "edge" and event.get("verdict") == "VERIFIED":
         return _eligible_structural_containment(graph, event.get("of"))
+    if event.get("subject") == "ring_iso":
+        return _eligible_structural_ring_iso(graph, event)
     if event.get("subject") == "operation":
         return _eligible_structural_operation(graph, event)
     if event.get("subject") == "elimination":

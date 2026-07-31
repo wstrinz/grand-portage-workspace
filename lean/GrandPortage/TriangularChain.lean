@@ -79,6 +79,25 @@ theorem normalizedEquation_zero_iff_affine_zero
     (fun affineZero => normalizedEquation_zero_of_affine_zero
       mulZero zeroAdd receipt affineZero contextZero)
 
+/-- The equation adjoined by the runtime localization compiler supplies the
+unit witness required by the semantic solve-step theorem. This is the precise
+bridge used when a principal open is algebraized with an inverse coordinate. -/
+theorem normalizedEquation_zero_iff_affine_zero_of_inverseEquation
+    {R : Type u} [Mul R] [Add R] [OfNat R 0] [OfNat R 1]
+    (zeroMul : forall r : R, 0 * r = 0)
+    (mulZero : forall r : R, r * 0 = 0)
+    (addZero : forall r : R, r + 0 = r)
+    (zeroAdd : forall r : R, 0 + r = r)
+    (zeroNeOne : Not ((0 : R) = 1))
+    (noZeroDivisors : HasNoZeroDivisors (R := R))
+    {equation unit inverse affine contextDebt : R}
+    (inverseEquation : unit * inverse = 1)
+    (receipt : equation = unit * affine + contextDebt)
+    (contextZero : contextDebt = 0) :
+    equation = 0 <-> affine = 0 :=
+  normalizedEquation_zero_iff_affine_zero
+    zeroMul mulZero addZero zeroAdd zeroNeOne noZeroDivisors
+    ⟨inverse, inverseEquation⟩ receipt contextZero
 /-- Identity is a mapped equivalence. -/
 def MappedEquivalence.refl {A : Type u} (model : Model A) :
     MappedEquivalence model model where

@@ -251,6 +251,29 @@ fan-out merge and exact-polynomial differential reports are derived assays only.
 A projection bug fix maps certificate and witness verdicts to the claims they
 verify; projections remain `DERIVED_READ_MODEL_ONLY` and are never accepted as
 kernel input.
+
+Version 0.20.0 advances to **graph format 4** and remains at **kernel epoch 10**.
+Format 4 adds the optional, closed `ring_iso_certificate` field to a mapped
+`EQUIVALENCE`. Its first representation, `mapped_ring_iso_v1`, carries one
+exact cofactor row for every generator in both ideal-pullback directions. The
+ring-isomorphism verifier expands every row with the backend-neutral polynomial
+checker and separately checks both forward/inverse map compositions.
+
+This is a proof-carrying alternative for the existing coordinate-ring
+isomorphism obligation, not new authority: successful solver search and a
+successful exact envelope license the same identity transport between the same
+exact endpoint quotients. The ring-isomorphism verifier advances to version 3,
+so earlier map verdicts become stale and must be rerun. No edge type, claim
+kind, transport cell, or containment scope changed; kernel epoch 10 therefore
+remains current. Invalid envelopes are `UNVERIFIED`, not refutations. Format-3
+graphs migrate non-destructively to format 4 with the optional field absent.
+
+The two live JC consumers are the five-step source top and second faces. The top
+face represents localization with an inverse coordinate; the second face uses
+its normalization relation to supply a checked polynomial inverse. Both compile
+to exact cofactor envelopes and retain no source-extraction, parent, coverage,
+actual-source-membership, or H3 authority.
+
 Within one kernel epoch, no field may silently acquire a more permissive
 interpretation. A syntax-only extension can bump `graph_format`; transport
 meaning or verifier trust bumps `kernel_epoch` or the narrower verifier/backend

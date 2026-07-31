@@ -6,10 +6,10 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 
 ## Release boundary
 
-- Package version: <!--version-->0.19.0<!--/version-->.
-- Graph format: <!--graph-format-->3<!--/graph-format-->.
+- Package version: <!--version-->0.20.0<!--/version-->.
+- Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1268<!--/checks--> checks.
+- Test collection: <!--checks-->1278<!--/checks--> checks.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
@@ -43,7 +43,6 @@ Several newer exact checkers intentionally stop before graph authority:
 
 - finite Laurent lowering and its coefficient pipeline;
 - factor-power and factor/affine contradiction receipts;
-- ordered localized triangular solve chains;
 - derived projections and visualization.
 
 Their reports state their licenses and open obligations explicitly.
@@ -57,9 +56,16 @@ factor/affine contradiction to an ordinary cofactor certificate; replays that
 certificate; and mints only local `EMPTY`. The parent transport is refused.
 The review packet is under `review/v0.19/`.
 
-The ordered five-step source ladders are the next composition assay. Their exact
-standalone evidence verifies, while graph-bound mapped-equivalence authority
-remains open.
+Both ordered five-step source ladders now have graph-bound mapped-equivalence
+authority. The top face algebraizes the `t` localization with an explicit
+inverse coordinate. The second face uses `15*t^3+1=0` to derive and exactly
+check the polynomial inverse `t^-1=-15*t^2`. Their producer composes explicit
+cofactor proofs for both ideal pullbacks; `verify.ring_iso` expands those proofs
+and checks both map round trips without Gröbner search. Mutated cofactors are
+`UNVERIFIED`, while the legacy top-face Singular path independently agrees and
+rejects a missing inverse equation. The review packet is under `review/v0.20/`.
+Native source extraction, depths 2--6, parent coverage, actual-source membership,
+and H3 remain open.
 
 ## Active release discipline
 

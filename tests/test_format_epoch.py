@@ -28,13 +28,13 @@ def test_init_starts_with_epoch_metadata(tmp_path):
     path = S.graph_path(str(tmp_path))
     events = list(S.load_events(path))
     assert events[0][0] == {
-        "created_with": "grandportage/0.19.0",
+        "created_with": "grandportage/0.20.0",
         "ev": "meta",
-        "graph_format": 3,
+        "graph_format": 4,
         "kernel_epoch": F.KERNEL_EPOCH,
     }
     graph = S.load(path)
-    assert graph.graph_format == 3
+    assert graph.graph_format == 4
     assert graph.kernel_epoch == F.KERNEL_EPOCH
     assert graph.compatibility_mode is False
 
@@ -95,6 +95,16 @@ def test_native_edges_require_map_kind_and_reject_unknown_or_deprecated_fields()
         with pytest.raises(S.GraphError, match="unknown field"):
             F.validate_native_event(bad, "test:1", S.GraphError)
 
+
+def test_native_ring_iso_certificate_must_be_an_object():
+    edge = {
+        "ev": "edge", "id": "E", "src": "A", "dst": "B",
+        "type": K.EQUIVALENCE, "why": "mapped",
+        "map_kind": K.POLYNOMIAL,
+        "ring_iso_certificate": "not a proof object",
+    }
+    with pytest.raises(S.GraphError, match="must be an object"):
+        F.validate_native_event(edge, "test:1", S.GraphError)
 
 def test_native_verdict_requires_versioned_provenance():
     verdict = {"ev": "verdict", "id": "V", "subject": "claim", "of": "C",
@@ -388,9 +398,9 @@ def test_kernel_epoch1_migration_is_non_destructive_and_reaudits_transport(
     assert audit["kernel_epoch"] == 10
 
 
-def test_older_epochs_migrate_non_destructively_to_format3_epoch10(tmp_path):
+def test_older_epochs_migrate_non_destructively_to_format4_epoch10(tmp_path):
     source = tmp_path / "format1-epoch4.jsonl"
-    destination = tmp_path / "format3-epoch10.jsonl"
+    destination = tmp_path / "format4-epoch10.jsonl"
     _write(source, [{
         "ev": "meta", "graph_format": 1, "kernel_epoch": 4,
         "created_with": "grandportage/0.8.0",
@@ -403,9 +413,9 @@ def test_older_epochs_migrate_non_destructively_to_format3_epoch10(tmp_path):
     assert source.read_bytes() == before
     assert reports[0]["from_graph_format"] == 1
     assert reports[0]["from_kernel_epoch"] == 4
-    assert reports[0]["graph_format"] == F.GRAPH_FORMAT == 3
+    assert reports[0]["graph_format"] == F.GRAPH_FORMAT == 4
     assert reports[0]["kernel_epoch"] == F.KERNEL_EPOCH == 10
-    assert S.load(str(destination)).graph_format == 3
+    assert S.load(str(destination)).graph_format == 4
     assert S.load(str(destination)).kernel_epoch == 10
 
     epoch5 = tmp_path / "format2-epoch5.jsonl"
@@ -420,7 +430,7 @@ def test_older_epochs_migrate_non_destructively_to_format3_epoch10(tmp_path):
     assert epoch5.read_bytes() == epoch5_before
     assert epoch5_reports[0]["from_graph_format"] == 2
     assert epoch5_reports[0]["from_kernel_epoch"] == 5
-    assert epoch5_reports[0]["graph_format"] == 3
+    assert epoch5_reports[0]["graph_format"] == 4
     assert epoch5_reports[0]["kernel_epoch"] == 10
     assert S.load(str(epoch8_from_epoch5)).kernel_epoch == 10
 
@@ -436,7 +446,7 @@ def test_older_epochs_migrate_non_destructively_to_format3_epoch10(tmp_path):
     assert epoch6.read_bytes() == epoch6_before
     assert epoch6_reports[0]["from_graph_format"] == 2
     assert epoch6_reports[0]["from_kernel_epoch"] == 6
-    assert epoch6_reports[0]["graph_format"] == 3
+    assert epoch6_reports[0]["graph_format"] == 4
     assert epoch6_reports[0]["kernel_epoch"] == 10
     assert S.load(str(epoch8)).kernel_epoch == 10
 
@@ -452,7 +462,7 @@ def test_older_epochs_migrate_non_destructively_to_format3_epoch10(tmp_path):
     assert epoch7.read_bytes() == epoch7_before
     assert epoch7_reports[0]["from_graph_format"] == 2
     assert epoch7_reports[0]["from_kernel_epoch"] == 7
-    assert epoch7_reports[0]["graph_format"] == 3
+    assert epoch7_reports[0]["graph_format"] == 4
     assert epoch7_reports[0]["kernel_epoch"] == 10
     assert S.load(str(epoch8_from_epoch7)).kernel_epoch == 10
     future = tmp_path / "format1-future-epoch.jsonl"

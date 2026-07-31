@@ -523,20 +523,42 @@ quotient simplifier.
 
 Lean's `normalizedEquation_zero_iff_affine_zero` proves the one-step semantic
 bridge from the exact receipt, context vanishing, a unit witness, and a
-no-zero-divisors target. `MappedEquivalenceChain` proves that semantically bound
-steps compose and preserve witnesses and emptiness in both directions. Runtime
-reports those model-binding premises as open obligations. Neither evidence
-schema currently emits an edge, verdict, or claim; graph authority and any
-epoch change remain a later reviewed decision.
+no-zero-divisors target. The explicit-inverse corollary records how an adjoined
+`unit * inverse = 1` equation supplies that unit witness.
+`MappedEquivalenceChain` proves that semantically bound steps compose and
+preserve witnesses and emptiness in both directions.
+
+The isolated JC authority adapter supplies two graph-bound consumers. For the
+top face it algebraizes the declared `t` principal open by adjoining `GP_INV_t`
+and `t*GP_INV_t-1`. For the normalization-bearing second face it recognizes
+that `15*t^3+1=0` already supplies the polynomial inverse `-15*t^2`, then checks
+that inverse by an exact ideal representation instead of adding a coordinate.
+
+Both chains compile their five translations into a mapped `EQUIVALENCE` and a
+closed `mapped_ring_iso_v1` envelope. The producer composes explicit cofactors
+for every forward and inverse ideal pullback from the checked step receipts.
+`verify.ring_iso` independently expands every cofactor identity and checks both
+map round trips. The general solver-backed map verifier remains available and
+agrees on the smaller top face; removing its inverse equation makes it fail.
+A bad proof envelope is `UNVERIFIED`, not a refutation of the authored map.
+Current verdicts license identity transport only between the exact endpoint
+quotient rings. They do not bind native source extraction, chart coverage,
+parent models, actual-source membership, or H3.
+
+The standalone v1/v2 evidence schemas themselves retain graph effect `NONE`.
+Graph format 4 owns the optional proof envelope and ring-isomorphism verifier
+version 3 owns its exact replay. No edge type, claim kind, transport cell, or
+kernel meaning changed, so kernel epoch 10 remains current.
 
 ## Trust boundary
 
 `grandportage.evidence` provides the common `AffineContext`, read-only
 `EvidenceEnvelope`, and authority manifest used to describe this boundary.
 Every specialized standalone schema currently declares graph effect `NONE`.
-The sole manifest entry with `LOCAL_EMPTY` effect is the graph-bound
-`verify.localized_unit_ideal` contract, scoped to its exact model. This is
-descriptive static metadata, not a runtime plugin registry.
+The manifest distinguishes graph-bound `LOCAL_EMPTY` from
+`IDENTITY_TRANSPORT`: `verify.localized_unit_ideal` is scoped to one exact
+localized model, while `verify.ring_iso` is scoped to its exact endpoint
+quotient rings. This is descriptive static metadata, not a runtime plugin registry.
 
 ```text
 operation contract       mathematical intent and transport theorems

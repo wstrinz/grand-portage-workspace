@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 from grandportage import check as C
 from grandportage import cli
+from grandportage import migration as MIG
 from grandportage import projection as P
 from grandportage import store as S
 from grandportage import visualization as V
@@ -133,13 +134,15 @@ def test_cli_project_and_visualize_write_only_derived_outputs(tmp_path):
     assert "sha256:" in html
 
 
-def test_certificate_verdict_projects_to_its_claim_in_live_review_packet():
+def test_certificate_verdict_projects_after_non_destructive_migration(tmp_path):
     root = Path(__file__).parents[1]
     source = (root / "review" / "v0.19" / "jc-p-axis" /
               ".portage" / "graph.jsonl")
-    graph = S.load(str(source))
+    migrated = tmp_path / "jc-p-axis-format4.jsonl"
+    MIG.migrate_kernel_epoch([str(source)], output=str(migrated))
+    graph = S.load(str(migrated))
     projected = P.build(
-        graph, sources=[str(source)], findings=C.run(graph),
+        graph, sources=[str(migrated)], findings=C.run(graph),
         accepted={"accepted": {}, "note": ""}, package_version="test")
     keys = {node["key"] for node in projected["nodes"]}
     links = [relation for relation in projected["relations"]

@@ -30,11 +30,11 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1268<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1278<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
-* **[COMPATIBILITY.md](COMPATIBILITY.md) — graph format 3, kernel epoch 10, localized EMPTY certificates, durable artifacts, and conservative migration**
+* **[COMPATIBILITY.md](COMPATIBILITY.md) — graph format 4, kernel epoch 10, proof-carrying mapped equivalences, durable artifacts, and conservative migration**
 * **[QUICKSTART.md](QUICKSTART.md) — install, a campaign in ten minutes, and the three things worth knowing on day one**
 * [DESIGN.md](DESIGN.md) — architecture and the decisions behind it
 * [REVIEW.md](REVIEW.md) — **where I am least confident**, for a reviewer
@@ -287,13 +287,17 @@ Three rows carry most of the value:
   declared guards, recomputes every ordered post-substitution generator list,
   and binds every step to input/output state fingerprints. The first fixture
   preserves the landed five-step JC source top-face order and expressions. Its
-  verdict is intentionally translation validation only: graph endpoint
-  equivalence, emptiness, source extraction, parent coverage, and H3 all remain
-  outside until separately bound. The second native ladder exposed the first
-  necessary extension: its polynomialized solutions are equal only modulo the
-  scalar-gauge equation `15*t^3+1`. The v2 envelope therefore accepts explicit
-  cofactor receipts against fingerprinted persistent normalization generators;
-  it does not silently reduce or invert a residual.
+  standalone verdict is intentionally translation validation only. The isolated
+  authority adapter compiles each checked chain into a mapped equivalence plus
+  `mapped_ring_iso_v1`: explicit cofactors for both ideal pullbacks and exact
+  forward/inverse maps. The checker expands this proof without Gröbner search;
+  the legacy Singular route remains an independent top-face differential. The
+  top face adjoins an inverse coordinate for `t`. On the second face,
+  `15*t^3+1=0` supplies the checked polynomial inverse `-15*t^2`, so no redundant
+  coordinate is added. Both recorded `review/v0.20/` campaigns earn identity
+  transport only between their exact quotient rings; source extraction, parent
+  coverage, and H3 remain outside. A mutated cofactor is refused as unverified,
+  and removing the top-face inverse equation fails the solver crosscheck.
 * **`IMAGE_CLOSURE` AGAINST / `NONEMPTY` is Chevalley.** A point of the Zariski
   closure need not lift. This is why elimination is a sound way to *derive*
   equations and an unsound source of *witnesses* — and why a cell that survives
@@ -365,7 +369,7 @@ Three.js build by default; `--three-root` can point it at a local package.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1268<!--/checks--> checks
+python -m pytest        # <!--checks-->1278<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

@@ -100,14 +100,23 @@ def test_manifest_covers_every_stable_or_experimental_affine_schema():
                for contract in EV.EVIDENCE_CONTRACTS)
 
 
-def test_manifest_names_the_only_current_localized_graph_effect():
-    assert len(EV.AUTHORITY_CONTRACTS) == 1
-    contract = EV.AUTHORITY_CONTRACTS[0]
+def test_manifest_names_current_graph_authority_effects():
+    assert len(EV.AUTHORITY_CONTRACTS) == 2
+    contracts = {
+        contract.verifier: contract for contract in EV.AUTHORITY_CONTRACTS
+    }
 
-    assert contract.verifier == "verify.localized_unit_ideal"
-    assert contract.representation == "localized_unit_ideal_v1"
-    assert contract.graph_effect == EV.GRAPH_EFFECT_LOCAL_EMPTY
-    assert "no parent" in contract.containment
+    localized = contracts["verify.localized_unit_ideal"]
+    assert localized.representation == "localized_unit_ideal_v1"
+    assert localized.graph_effect == EV.GRAPH_EFFECT_LOCAL_EMPTY
+    assert "no parent" in localized.containment
+
+    ring_iso = contracts["verify.ring_iso"]
+    assert ring_iso.representation.startswith("mapped_ring_iso_v1")
+    assert ring_iso.graph_effect == EV.GRAPH_EFFECT_IDENTITY_TRANSPORT
+    assert "optional cofactor proof" in ring_iso.binds
+    assert "exact endpoint quotient rings" in ring_iso.containment
+    assert "no unencoded localization" in ring_iso.containment
 
 
 def test_factor_affine_contract_compiles_to_existing_localization_schema():

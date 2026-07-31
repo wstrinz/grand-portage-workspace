@@ -211,6 +211,8 @@ Lean premise still requires those equations to vanish in the interpreted
 model before any mapped equivalence is constructed. The explicit
 `normalizedEquation_zero_iff_affine_zero` bridge proves both directions from
 the checked receipt, context vanishing, unit witness, and narrow zero laws.
+`normalizedEquation_zero_iff_affine_zero_of_inverseEquation` records the
+compiler bridge from an explicit polynomial inverse equation to that witness.
 
 ## Trust
 

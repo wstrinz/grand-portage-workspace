@@ -14,6 +14,7 @@ from typing import Any, Dict, Optional, Tuple
 
 GRAPH_EFFECT_NONE = "NONE"
 GRAPH_EFFECT_LOCAL_EMPTY = "LOCAL_EMPTY"
+GRAPH_EFFECT_IDENTITY_TRANSPORT = "IDENTITY_TRANSPORT"
 
 
 def fingerprint(value):
@@ -204,6 +205,19 @@ AUTHORITY_CONTRACTS = (
         ),
         GRAPH_EFFECT_LOCAL_EMPTY,
         "the exact localized model only; no parent or cover authority",
+    ),
+    AuthorityContract(
+        "verify.ring_iso",
+        "mapped_ring_iso_v1 or solver-checked polynomial maps",
+        (
+            "edge", "endpoint models", "coefficient domains",
+            "point universes", "ring orders", "generator ideals",
+            "forward map", "inverse map", "optional cofactor proof",
+            "verifier epoch",
+        ),
+        GRAPH_EFFECT_IDENTITY_TRANSPORT,
+        "the exact endpoint quotient rings only; no unencoded localization, "
+        "source-extraction, parent, or coverage authority",
     ),
 )
 

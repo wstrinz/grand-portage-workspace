@@ -11,7 +11,7 @@ JSON booleans rather than merely truthy values.
 
 import re
 
-GRAPH_FORMAT = 3
+GRAPH_FORMAT = 4
 KERNEL_EPOCH = 10
 META_EVENT = "meta"
 
@@ -51,7 +51,8 @@ EVENT_FIELDS = {
     "edge": {
         "ev", "id", "src", "dst", "type", "why", "map_kind", "drops",
         "support", "debt_why", "strictness_witness", "converse_witness",
-        "forward", "inverse", "ring_iso", "refinement", "discharge_hint",
+        "forward", "inverse", "ring_iso", "ring_iso_certificate",
+        "refinement", "discharge_hint",
         "cite", "prime", "built_by_operation",
     } | _LIFECYCLE,
     "claim": {
@@ -144,6 +145,10 @@ def validate_native_event(ev, where, error):
             raise error(
                 "%s: epoch-1 %s %r `%s` must be true or false, not %r"
                 % (where, kind, ev.get("id"), field, ev[field]))
+    if (kind == "edge" and "ring_iso_certificate" in ev
+            and not isinstance(ev["ring_iso_certificate"], dict)):
+        raise error(
+            "%s: edge `ring_iso_certificate` must be an object" % where)
     if kind == "partition":
         receipt_fields = {
             "receipt_schema", "receipt_id", "receipt_fingerprint"}

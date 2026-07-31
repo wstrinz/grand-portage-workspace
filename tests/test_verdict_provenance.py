@@ -83,6 +83,37 @@ def test_fresh_verdict_carries_detailed_backend_provenance():
     )
 
 
+def test_exact_ring_iso_certificate_allows_a_verifier_native_empty_trace():
+    graph = S.Graph()
+    graph.apply(F.meta_event())
+    for model_id in ("A", "B"):
+        graph.apply({
+            "ev": "model", "id": model_id, "what": model_id,
+            "characteristic": 0, "ring_vars": ["x"],
+            "generators": ["x"],
+        })
+    graph.apply({
+        "ev": "edge", "id": "E", "src": "A", "dst": "B",
+        "type": K.EQUIVALENCE, "map_kind": K.POLYNOMIAL,
+        "why": "identity", "ring_iso": True,
+        "forward": {"x": "x"}, "inverse": {"x": "x"},
+        "ring_iso_certificate": {
+            "schema": "mapped_ring_iso_v1",
+            "forward_cofactors": [["1"]],
+            "inverse_cofactors": [["1"]],
+        },
+    })
+    verdict, why = V.ring_iso(graph, "E")
+    assert verdict == V.ISO_VERIFIED, why
+    event = V._verdict_event(
+        graph, "ring_iso", "E", verdict, why,
+        execution=_execution(with_trace=False))
+
+    graph.apply(event)
+
+    assert graph.verdicts[event["id"]]["current"] is True
+    assert graph.edges["E"]["ring_iso_verdict"] == V.ISO_VERIFIED
+
 def test_v050_reader_shape_accepts_m2_event_but_its_backend_rule_is_stale():
     """Freeze the v0.5.0 closed schema and backend equality rule.
 

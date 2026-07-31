@@ -461,6 +461,63 @@ ISO_VERIFIED = "VERIFIED"
 ISO_NOT_ISO = "NOT_AN_ISOMORPHISM"
 
 
+def _check_mapped_ring_iso_certificate(certificate, ring, characteristic,
+                                       source_generators, target_generators,
+                                       forward, inverse):
+    """Replay a closed mapped-ring-isomorphism proof by exact expansion."""
+    if set(certificate) != {
+            "schema", "forward_cofactors", "inverse_cofactors"}:
+        return "the ring-isomorphism certificate has unknown or missing fields"
+    if certificate.get("schema") != "mapped_ring_iso_v1":
+        return "unsupported ring-isomorphism certificate schema %r" % (
+            certificate.get("schema"),)
+    forward_cofactors = certificate.get("forward_cofactors")
+    inverse_cofactors = certificate.get("inverse_cofactors")
+    if (not isinstance(forward_cofactors, list)
+            or len(forward_cofactors) != len(target_generators)):
+        return "the forward pullback certificate has the wrong generator count"
+    if (not isinstance(inverse_cofactors, list)
+            or len(inverse_cofactors) != len(source_generators)):
+        return "the inverse pullback certificate has the wrong generator count"
+    try:
+        for generator, cofactors in zip(
+                target_generators, forward_cofactors):
+            pulled = G.substitute_polynomial(
+                generator, ring, forward, characteristic)
+            G.check_membership_identity(
+                pulled, source_generators, cofactors,
+                ring, characteristic)
+        for generator, cofactors in zip(
+                source_generators, inverse_cofactors):
+            pulled = G.substitute_polynomial(
+                generator, ring, inverse, characteristic)
+            G.check_membership_identity(
+                pulled, target_generators, cofactors,
+                ring, characteristic)
+        for variable in ring:
+            inverse_then_forward = G.substitute_polynomial(
+                G.substitute_polynomial(
+                    variable, ring, inverse, characteristic),
+                ring, forward, characteristic)
+            if G.canonical_polynomial(
+                    inverse_then_forward, ring, characteristic) != variable:
+                return (
+                    "the exact certificate maps fail the left inverse law "
+                    "at %s" % variable)
+            forward_then_inverse = G.substitute_polynomial(
+                G.substitute_polynomial(
+                    variable, ring, forward, characteristic),
+                ring, inverse, characteristic)
+            if G.canonical_polynomial(
+                    forward_then_inverse, ring, characteristic) != variable:
+                return (
+                    "the exact certificate maps fail the right inverse law "
+                    "at %s" % variable)
+    except (G.CertificateError, KeyError, TypeError, ValueError, IndexError) as exc:
+        return "the exact ring-isomorphism certificate was rejected: %s" % exc
+    return None
+
+
 def ring_iso(graph, eid, timeout=300, _runner=None, _backend=None):
     """Check an EQUIVALENCE's `ring_iso` against the maps, by reduction.
 
@@ -530,6 +587,23 @@ def ring_iso(graph, eid, timeout=300, _runner=None, _backend=None):
         return UNVERIFIED, (
             "the two models are written in different rings; a substitution "
             "between them needs both variable lists to agree")
+
+    certificate = e.get("ring_iso_certificate")
+    if certificate is not None:
+        certificate_problem = _check_mapped_ring_iso_certificate(
+            certificate, ring, ch, list(src["generators"]),
+            list(dst["generators"]), fwd, inv)
+        if certificate_problem:
+            return UNVERIFIED, (
+                "%s. The authored maps may still be an isomorphism, but this "
+                "proof does not establish it; invalid evidence is not a "
+                "mathematical refutation." % certificate_problem)
+        return ISO_VERIFIED, (
+            "the mapped_ring_iso_v1 certificate exactly expands both ideal "
+            "pullbacks and both polynomial map compositions are the identity. "
+            "This backend-free proof establishes an isomorphism of the exact "
+            "endpoint COORDINATE RINGS; it grants no authority outside them."
+        )
 
     # A point-forward map F : src -> dst pulls target functions back to src.
     for g in dst["generators"]:
