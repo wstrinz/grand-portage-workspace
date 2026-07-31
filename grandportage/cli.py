@@ -16,8 +16,10 @@ from . import artifacts as A
 from . import cas
 from . import check as C
 from . import coefficient_expansion as CE
+from . import evidence as EV
 from . import factor_power as FP
 from . import factor_power_contradiction as FPC
+from . import format as F
 from . import laurent_coefficient_pipeline as LCP
 from . import laurent_lowering as LL
 from . import hook as H
@@ -1243,6 +1245,12 @@ def cmd_why(args):
 
 
 CHECKS_SPAN = re.compile(r"(<!--checks-->)(\d+)(<!--/checks-->)")
+VERSION_SPAN = re.compile(
+    r"(<!--version-->)([^<]+)(<!--/version-->)")
+GRAPH_FORMAT_SPAN = re.compile(
+    r"(<!--graph-format-->)(\d+)(<!--/graph-format-->)")
+KERNEL_EPOCH_SPAN = re.compile(
+    r"(<!--kernel-epoch-->)(\d+)(<!--/kernel-epoch-->)")
 
 
 def cmd_docs(args):
@@ -1293,7 +1301,14 @@ def cmd_docs(args):
         path = os.path.join(root, name)
         with open(path, encoding="utf-8") as fh:
             text = fh.read()
-        new = CHECKS_SPAN.sub(lambda mm: mm.group(1) + str(n) + mm.group(3), text)
+        new = CHECKS_SPAN.sub(
+            lambda mm: mm.group(1) + str(n) + mm.group(3), text)
+        new = VERSION_SPAN.sub(
+            lambda mm: mm.group(1) + __version__ + mm.group(3), new)
+        new = GRAPH_FORMAT_SPAN.sub(
+            lambda mm: mm.group(1) + str(F.GRAPH_FORMAT) + mm.group(3), new)
+        new = KERNEL_EPOCH_SPAN.sub(
+            lambda mm: mm.group(1) + str(F.KERNEL_EPOCH) + mm.group(3), new)
         if new != text:
             with open(path, "w", encoding="utf-8") as fh:
                 fh.write(new)
@@ -1413,12 +1428,47 @@ def cmd_table(args):
     return 0
 
 
+def cmd_evidence(args):
+    """Print the shared evidence and authority manifest."""
+    manifest = EV.manifest()
+    if args.json:
+        print(json.dumps(manifest, indent=2, sort_keys=True))
+        return 0
+    print("STANDALONE EVIDENCE CONTRACTS")
+    for contract in EV.EVIDENCE_CONTRACTS:
+        print("  %-46s effect=%-11s %s" % (
+            contract.schema, contract.standalone_graph_effect,
+            contract.maturity))
+        print("      compiles to: %s" % contract.compilation_target)
+    print()
+    print("GRAPH AUTHORITY CONTRACTS")
+    for contract in EV.AUTHORITY_CONTRACTS:
+        print("  %-34s effect=%s" % (
+            contract.verifier, contract.graph_effect))
+        print("      representation: %s" % contract.representation)
+        print("      binds: %s" % ", ".join(contract.binds))
+        print("      containment: %s" % contract.containment)
+    return 0
+
+
 def _wrap(text, width=68):
     import textwrap
     out = []
     for para in str(text).split("\n"):
         out.extend(textwrap.wrap(para, width) or [""])
     return out
+
+
+def _representation_summary(rep):
+    """Describe checked evidence without assuming one certificate layout."""
+    method = rep.get("method") or "checked_evidence"
+    cofactors = rep.get("cofactors")
+    if method == "localized_unit_ideal_v1":
+        cofactors = ((rep.get("proof") or {}).get("certificate") or {}).get(
+            "cofactors")
+    if isinstance(cofactors, list):
+        return "rep=%s, %d cofactor(s)" % (method, len(cofactors))
+    return "rep=%s" % method
 
 
 def cmd_show(args):
@@ -1534,6 +1584,8 @@ def cmd_show(args):
         extra = []
         if c.get("certificate"):
             extra.append("cert=%s" % c["certificate"])
+        if c.get("certificate_verdict"):
+            extra.append("cert-verdict=%s" % c["certificate_verdict"])
         if c.get("identity_origin"):
             extra.append("origin=%s" % c["identity_origin"])
         # THE REWRITING ITSELF, and whether anybody has checked it.
@@ -1552,8 +1604,7 @@ def cmd_show(args):
         # verdict without one, and the listing showed them identically. One can
         # be rechecked by expansion; the other is a report of a run.
         if c.get("representation"):
-            extra.append("rep=%d cofactor(s)"
-                         % len(c["representation"]["cofactors"]))
+            extra.append(_representation_summary(c["representation"]))
         # THE POINT, AND WHETHER ANYBODY SUBSTITUTED IT -- for exactly the
         # reason `lhs = rhs` is printed two lines up. A reader could not tell a
         # checkable witness from a prose one without opening graph.jsonl.
@@ -2052,6 +2103,11 @@ def build_parser():
 
     t = sub.add_parser("table", help="print the transport table")
     t.set_defaults(func=cmd_table)
+
+    e = sub.add_parser(
+        "evidence", help="print the evidence and graph-authority manifest")
+    e.add_argument("--json", action="store_true")
+    e.set_defaults(func=cmd_evidence)
 
     s = sub.add_parser("show", help="print the graph")
     s.set_defaults(func=cmd_show)

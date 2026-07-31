@@ -1,4 +1,9 @@
-# HANDOFF.md — read this first
+# HANDOFF.md — chronological implementation record
+
+> **Current readers:** start with `CURRENT.md`, then `ARCHITECTURE.md` and
+> `REVIEW.md`. This file preserves the detailed development narrative and
+> experiment history; later sections may describe superseded implementation
+> states and should not be read as current authority.
 
 Written for a session with **no prior context**. Everything needed to pick this
 up is here or linked from here.
@@ -35,7 +40,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.18.0. <!--checks-->1235<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.19.0. <!--checks-->1268<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -172,6 +177,14 @@ yields the declared unit `5*p*t^2`; Lean proves the resulting semantic premises
 are inconsistent. The remaining step is no longer polynomial arithmetic: bind
 both equations to the same pinned quotient/localization and prove that target's
 domain and unit witnesses. Until then GP still refuses axis emptiness.
+Version 0.19 closes that exact composition seam without adding a specialized
+authority: the adapter emits a cofactor identity for a guard monomial, the
+existing localized-unit verifier binds and replays it against the frozen
+`c9_11` axis model, and the graph mints local `EMPTY`. The declared
+`NECESSARY_CONDITION` edge refuses moving that result to the ambient axis. The
+review packet retains the native and frozen digests, real Singular artifacts,
+graph, projection, explorer, and mutation controls; no p-chart, source, lift,
+or H3 conclusion is present.
 
 **Current ordered-chain status.** The bounded
 `localized_triangular_solve_chain_v1` checker now validates exact ordered
@@ -577,7 +590,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1235<!--/checks--> checks, ~40 s) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1268<!--/checks--> checks, ~40 s) |
 
 ---
 
@@ -684,7 +697,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1235<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1268<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.

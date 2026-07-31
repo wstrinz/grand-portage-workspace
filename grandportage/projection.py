@@ -12,6 +12,22 @@ import os
 
 SCHEMA = "grand-portage-projection/v1"
 
+# Verdict subjects describe verifier jobs, not always graph entity kinds.
+# Keep this projection explicit and test it against Graph._VERDICTS: a
+# certificate or witness verifies a claim, while ring/operation checks verify
+# an edge.
+VERDICT_TARGET_KINDS = {
+    "claim": "claim",
+    "certificate": "claim",
+    "witness": "claim",
+    "partition": "partition",
+    "edge": "edge",
+    "ring_iso": "edge",
+    "operation": "edge",
+    "elimination": "edge",
+    "point_lift": "edge",
+}
+
 
 def _portable(value):
     """Project folded values into deterministic JSON data."""
@@ -256,10 +272,11 @@ def build(graph, sources=(), findings=(), accepted=None, package_version=""):
 
     for identifier, verdict in collections["verdicts"].items():
         subject = verdict.get("subject")
-        target = "%s:%s" % (subject, verdict.get("of")) if subject else None
+        target_kind = VERDICT_TARGET_KINDS.get(subject)
+        target = ("%s:%s" % (target_kind, verdict.get("of"))
+                  if target_kind else None)
         link("verdict-of", "verdict:%s" % identifier, target,
              verdict.get("verdict", ""))
-
     for model, inferences in collections["built_by"].items():
         for inference in inferences:
             link("built-by", "inference:%s" % inference,

@@ -1,7 +1,9 @@
 import json
+from pathlib import Path
 from grandportage import check as C
 from grandportage import cli
 from grandportage import projection as P
+from grandportage import store as S
 from grandportage import visualization as V
 
 import helpers as H
@@ -129,3 +131,32 @@ def test_cli_project_and_visualize_write_only_derived_outputs(tmp_path):
     assert "grand-portage-projection/v1" in html
     assert "graph.jsonl" in html
     assert "sha256:" in html
+
+
+def test_certificate_verdict_projects_to_its_claim_in_live_review_packet():
+    root = Path(__file__).parents[1]
+    source = (root / "review" / "v0.19" / "jc-p-axis" /
+              ".portage" / "graph.jsonl")
+    graph = S.load(str(source))
+    projected = P.build(
+        graph, sources=[str(source)], findings=C.run(graph),
+        accepted={"accepted": {}, "note": ""}, package_version="test")
+    keys = {node["key"] for node in projected["nodes"]}
+    links = [relation for relation in projected["relations"]
+             if relation["kind"] == "verdict-of"]
+
+    assert links
+    assert all(link["source"] in keys and link["target"] in keys
+               for link in links)
+    certificate_links = [
+        link for link in links
+        if projected["collections"]["verdicts"][
+            link["source"].split(":", 1)[1]]["subject"] == "certificate"
+    ]
+    assert [link["target"] for link in certificate_links] == [
+        "claim:JC-P-C9-AXIS-EMPTY"]
+def test_every_verdict_subject_has_an_explicit_projection_target_kind():
+    assert set(P.VERDICT_TARGET_KINDS) == set(S.Graph._VERDICTS)
+    assert P.VERDICT_TARGET_KINDS["certificate"] == "claim"
+    assert P.VERDICT_TARGET_KINDS["witness"] == "claim"
+    assert P.VERDICT_TARGET_KINDS["ring_iso"] == "edge"

@@ -82,9 +82,24 @@ that matter were all in the surfaces, this one would not exist.
 
 ### A6. Operation validators become as complex as the CAS code
 
-Untested. Currently the validators are two functions of about forty lines each,
-against a CAS boundary of several hundred. The moment a validator needs its own
-test suite to be trusted, this criterion is live.
+**Live as of v0.18; the strong criterion has not fired.** The exact-affine
+validators now occupy substantial modules with dedicated adversarial suites, so
+the old trigger ("needs its own test suite") has unambiguously fired. The
+project no longer has a uniformly tiny trusted implementation.
+
+The stronger failure described by this criterion is not yet observed. The
+validators remain closed-schema, bounded, deterministic replay checkers. They
+do not perform heuristic algebraic search, and successful authority still
+depends on supplied proof objects and exact graph binding. That is a materially
+smaller trust class than the CAS engines they check.
+
+Measure this from now on by: duplicated evidence-envelope logic, unbounded or
+heuristic behavior inside a checker, differential disagreements with independent
+exact systems, false authority caused by parsing/canonicalization, and whether
+new checker code composes into durable conclusions. If specialized evidence
+languages keep accumulating without compiling to a smaller shared certificate,
+the substantive A6 criterion fires and the project should narrow to checkpoint
+auditing.
 
 ### A7. The relation vocabulary does not transfer beyond polynomial systems
 

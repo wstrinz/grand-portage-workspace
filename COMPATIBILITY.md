@@ -236,6 +236,21 @@ graph-bound result would need. Consequently v0.18 extends review tooling and
 the standalone evidence language without changing graph syntax or transport
 meaning.
 
+Version 0.19.0 remains at **graph format 3** and **kernel epoch 10**. It is a
+consolidation and composition release. The JC `c9_11` p-axis adapter compiles a
+specialized factor/affine receipt to the existing localized-unit-ideal proof
+language and uses the existing graph-bound verifier to mint only local `EMPTY`.
+No new graph field, edge type, claim kind, transport cell, or verifier authority
+is introduced.
+
+`grandportage.evidence` adds a descriptive shared affine context, evidence
+envelope, and static authority manifest. All specialized standalone evidence
+contracts retain graph effect `NONE`; `verify.localized_unit_ideal` remains the
+only manifest entry with the narrowly contained `LOCAL_EMPTY` effect. The
+fan-out merge and exact-polynomial differential reports are derived assays only.
+A projection bug fix maps certificate and witness verdicts to the claims they
+verify; projections remain `DERIVED_READ_MODEL_ONLY` and are never accepted as
+kernel input.
 Within one kernel epoch, no field may silently acquire a more permissive
 interpretation. A syntax-only extension can bump `graph_format`; transport
 meaning or verifier trust bumps `kernel_epoch` or the narrower verifier/backend

@@ -62,7 +62,31 @@ minting a model, built-in certificate overwrite, strictness-witness-as-
 equivalence-documentation, taint stopping at the first generation, baseline
 acceptance surviving a change of meaning, and identity origin.
 
-**Suite: <!--checks-->1235<!--/checks--> checks, ~40 s.** Was 171 before the v0.2 pass.
+**Suite: <!--checks-->1268<!--/checks--> checks, ~40 s.** Was 171 before the v0.2 pass.
+
+---
+
+## CONSOLIDATION GATE -- authority composition and repository seams (v0.19)
+
+The frozen JC `c9_11` p-axis receipt now compiles to a graph-bound localized
+unit-ideal certificate and earns only local `EMPTY`; attempted parent transport
+is refused. `experiments/consolidation/merge_assay.py` runs four two-log
+fan-outs in both orders. It records one intentional unresolved-alias diagnostic,
+one exact-normalization conflict, a stale consumer after cross-branch
+supersession, and stale/current verdict coexistence. The deterministic
+`differential_affine.py` corpus checks sparse round trips, characteristics,
+variable order, and simultaneous substitution against real Singular as an
+untrusted oracle.
+
+**Pass condition:** no new graph vocabulary; all specialized standalone
+evidence remains effect `NONE`; local authority remains fingerprint-bound;
+merge order does not alter the fold; external-oracle disagreements fail; and
+projection relations never point to nonexistent nodes.
+
+**Observed result:** PASS for the bounded v0.19 cases. The alias assay records
+semantic-identity debt rather than inventing an alias, and the projection assay
+caught and repaired certificate-verdict links that previously targeted a
+nonexistent certificate node.
 
 ---
 

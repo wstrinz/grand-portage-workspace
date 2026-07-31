@@ -30,7 +30,7 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1235<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1268<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
@@ -71,6 +71,7 @@ What they contain, since the summaries name no domain:
 | artifacts | `grandportage/artifacts.py` | immutable raw programs/transcripts addressed outside the semantic graph |
 | checker | `grandportage/check.py` | findings, derived severities, exit code |
 | projection | `grandportage/projection.py`, `visualization.py` | versioned read model and guided, read-only Three.js explorer |
+| evidence manifest | `grandportage/evidence.py` | shared affine context, envelope, compilation targets, and graph-effect boundaries |
 | discharge | `grandportage/discharge.py` | refusal → canonical next move |
 | CAS + MCP | `grandportage/cas.py`, `mcp.py` | **declare the transport or no process spawns** |
 | hook | `grandportage/hook.py` | runs the checker after each tool call and refuses |
@@ -217,6 +218,11 @@ Three rows carry most of the value:
   verify-factor-power-contradiction` pass selects one factor receipt, verifies a
   monic affine solution for its base, and recomputes a second equation's exact
   declared-unit residual. It still grants no model binding or emptiness.
+  The v0.19 JC adapter supplies that concrete binding without enlarging the
+  authority vocabulary: it compiles the specialized contradiction to an
+  ordinary localized cofactor certificate. The graph-bound verifier replays
+  it and mints `EMPTY` only on the exact `c9_11` axis model; the parent edge
+  remains refused.
 * **Product splits stop before branch authority.** `gp verify-product-split`
   checks exact binary factorizations with declared-unit monomial scalars. The
   first fixture replays the landed JC `E[2,0]` split and its `-p` multiple
@@ -266,6 +272,15 @@ Three rows carry most of the value:
   proof to persisted `EMPTY` on the recorded open model. The proof is replayed
   and fingerprint-bound; bounded search failure stays `UNVERIFIED`, and the
   existing RESTRICTION law refuses to move the emptiness to the parent.
+  The first full composition is retained under `review/v0.19/`: native and
+  frozen source digests, specialized receipt, compiled localized certificate,
+  real Singular artifacts, folded graph, projection, and explorer. Nothing in
+  it licenses the full p chart, actual-source membership, infinite lift, or H3.
+* **Evidence contracts have one descriptive source.** `gp evidence` (or
+  `gp evidence --json`) lists every standalone affine evidence schema, its
+  maturity and compilation target, plus the exact graph effect and containment
+  of current authority verifiers. This shared envelope reduces context drift;
+  it is deliberately not a dynamic theorem-plugin system.
 * **Ordered localized solves now have a bounded composition envelope.** `gp
   verify-localized-triangular-chain --spec chain.json` checks a closed sequence
   of exact equations `unit * (pivot - solution)`, requires the unit to use only
@@ -350,7 +365,7 @@ Three.js build by default; `--three-root` can point it at a local package.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1235<!--/checks--> checks
+python -m pytest        # <!--checks-->1268<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

@@ -11,9 +11,7 @@ records the exact state transition; a later graph-bound result can only earn
 point-equivalence after binding the states, localization, and model semantics.
 """
 
-import hashlib
-import json
-
+from . import evidence as EV
 from . import factor_power as FP
 from . import groebner as G
 
@@ -55,22 +53,20 @@ def _parse(value, variables, characteristic, budget, where):
 
 
 def _fingerprint(payload):
-    return "sha256:" + hashlib.sha256(json.dumps(
-        payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True,
-    ).encode("utf-8")).hexdigest()
+    return EV.fingerprint(payload)
 
 
 def _state_payload(characteristic, coefficient_domain, point_universe,
                    variables, units, generators,
                    normalization_generators=None):
-    payload = {
-        "characteristic": characteristic,
-        "coefficient_domain": coefficient_domain,
-        "point_universe": point_universe,
-        "ring_vars": list(variables),
-        "unit_generators": list(units),
-        "generators": list(generators),
-    }
+    payload = EV.AffineContext(
+        characteristic=characteristic,
+        coefficient_domain=coefficient_domain,
+        point_universe=point_universe,
+        ring_vars=tuple(variables),
+        unit_generators=tuple(units),
+        generators=tuple(generators),
+    ).as_dict()
     if normalization_generators is not None:
         payload["normalization_generators"] = list(normalization_generators)
     return payload

@@ -443,6 +443,15 @@ passes semantically from right-inverse witnesses for both unit monomials. The
 runtime result remains a contradiction *pattern*: both equations must still be
 bound to the same interpreted model, and the domain/unit premises discharged,
 before any local emptiness authority exists.
+
+The v0.19 JC p-axis adapter performs that concrete binding and, importantly,
+does not add graph authority for this specialized schema. It algebraically
+compiles the selected equations and affine residual into an existing
+`localization_membership_v1` cofactor identity for a declared guard monomial.
+`verify.localized_unit_ideal` then replays the smaller certificate against the
+exact graph model and may mint only local `EMPTY`. Thus the factor receipt is a
+producer language while localized ideal membership remains the authority
+language.
 ### Exact binary product split
 
 `product_split_v1` independently recomputes identities
@@ -521,6 +530,13 @@ schema currently emits an edge, verdict, or claim; graph authority and any
 epoch change remain a later reviewed decision.
 
 ## Trust boundary
+
+`grandportage.evidence` provides the common `AffineContext`, read-only
+`EvidenceEnvelope`, and authority manifest used to describe this boundary.
+Every specialized standalone schema currently declares graph effect `NONE`.
+The sole manifest entry with `LOCAL_EMPTY` effect is the graph-bound
+`verify.localized_unit_ideal` contract, scoped to its exact model. This is
+descriptive static metadata, not a runtime plugin registry.
 
 ```text
 operation contract       mathematical intent and transport theorems
