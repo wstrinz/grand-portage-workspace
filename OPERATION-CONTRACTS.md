@@ -443,6 +443,21 @@ passes semantically from right-inverse witnesses for both unit monomials. The
 runtime result remains a contradiction *pattern*: both equations must still be
 bound to the same interpreted model, and the domain/unit premises discharged,
 before any local emptiness authority exists.
+### Exact binary product split
+
+`product_split_v1` independently recomputes identities
+`equation = scalar * left * right`, requiring distinct nonzero factors and the
+same bounded declared-unit-monomial scalar language as factor-power receipts.
+The live fixture checks
+`E[2,0] = 10*(c6_0*p+c8_0)*(c7_0*p+c9_0)` and separately checks the landed
+`E[4,0] = -p*E[2,0]` identity as the scalar `-10*p` times the same factors.
+
+Lean theorem `unit_times_product_zero_implies_factor_zero` proves the local
+semantic disjunction in a no-zero-divisors target with a scalar unit witness.
+Neither layer creates graph branches. Turning `left = 0 or right = 0` into two
+models requires model binding; treating those branches as exhaustive requires a
+first-class cover inference; recombining later claims requires its own n-ary
+rule. The runtime report refuses all three shortcuts explicitly.
 ## Trust boundary
 
 ```text

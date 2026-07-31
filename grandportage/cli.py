@@ -25,6 +25,7 @@ from . import localization as L
 from . import kernel as K
 from . import migration as MIG
 from . import provenance as P
+from . import product_split as PS
 from . import store as S
 from .discharge import (DISCHARGE_KINDS, KNOWN_CONSERVATISM,
                         KNOWN_UNSOUND, discharge_for)
@@ -870,6 +871,27 @@ def cmd_verify_factor_power_contradiction(args):
         ))
         print("    authority: exact contradiction pattern only; "
               "no model binding, emptiness, or claim transport")
+        print("    spec sha256: %s" % report["spec_fingerprint"])
+    return 0
+
+def cmd_verify_product_split(args):
+    """Translation-validate exact binary product-split identities."""
+    try:
+        with open(args.spec, "r", encoding="utf-8") as handle:
+            spec = json.load(handle)
+        report = PS.verify(spec)
+    except (OSError, ValueError, json.JSONDecodeError,
+            PS.ProductSplitError) as exc:
+        sys.stderr.write("PRODUCT SPLIT FAILED\n  %s\n" % exc)
+        return 2
+    if args.json:
+        print(json.dumps(report, indent=2, sort_keys=True))
+    else:
+        print(report["verdict"])
+        print("    %d exact binary product receipt(s)" %
+              len(report["receipts"]))
+        print("    authority: product identity only; no factor disjunction, "
+              "branch creation, coverage, emptiness, or claim transport")
         print("    spec sha256: %s" % report["spec_fingerprint"])
     return 0
 
@@ -2095,6 +2117,14 @@ def build_parser():
     factor_contradiction.add_argument("--json", action="store_true")
     factor_contradiction.set_defaults(
         func=cmd_verify_factor_power_contradiction)
+    product_split = sub.add_parser(
+        "verify-product-split",
+        help="check exact binary product-split identities")
+    product_split.add_argument(
+        "--spec", required=True,
+        help="closed product_split_v1 JSON specification")
+    product_split.add_argument("--json", action="store_true")
+    product_split.set_defaults(func=cmd_verify_product_split)
     localization = sub.add_parser(
         "verify-localization-membership",
         help="check a rational identity after declared guards are inverted")

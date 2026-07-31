@@ -30,7 +30,7 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1158<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1170<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
@@ -215,6 +215,11 @@ Three rows carry most of the value:
   verify-factor-power-contradiction` pass selects one factor receipt, verifies a
   monic affine solution for its base, and recomputes a second equation's exact
   declared-unit residual. It still grants no model binding or emptiness.
+* **Product splits stop before branch authority.** `gp verify-product-split`
+  checks exact binary factorizations with declared-unit monomial scalars. The
+  first fixture replays the landed JC `E[2,0]` split and its `-p` multiple
+  `E[4,0]`. A successful check licenses only the identities: factor
+  disjunction, branch creation, exhaustiveness, and recombination remain separate.
 * **Localized coordinate identities now have a deliberately narrow checker.**
   `gp verify-localization-membership --spec localization.json` records
   principal-open guards, explicit denominator powers, and an exact guard-
@@ -310,7 +315,7 @@ Pure stdlib. No solver, no network, no model in the loop. Under a second.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1158<!--/checks--> checks
+python -m pytest        # <!--checks-->1170<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two
