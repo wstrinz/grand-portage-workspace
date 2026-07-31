@@ -115,6 +115,17 @@ from being silently strengthened to uniqueness. This is the semantic contract
 implemented by the runtime coefficient-expansion checker; the Lean theorem does
 not verify the Python parser or substitution engine.
 
+`GrandPortage/LaurentLowering.lean` - coefficient-function semantics for the
+finite Laurent compiler pass. It proves formal differentiation is additive
+under the exact coefficient-ring law, proves checked equality survives a
+declared monomial shift and coefficient scaling, proves the support bound that
+makes such a shift an ordinary polynomial export, combines that support fact
+with equality into the two-pass export contract, and formalizes the live chart
+negative control: the legal instance `G=y^-5` makes `6*y^2*G` nonzero, so the
+depressed row cannot be replaced by the covered-chart zero row. Runtime
+parsing, finiteness budgets, and polynomial arithmetic remain translation-
+validation implementation rather than Lean claims.
+
 `GrandPortage/Conditions.lean` — **that conjecture is refuted.** The four gated
 conditions turn out to be three different shapes, and one of them is not about
 the map at all. Details below.

@@ -369,18 +369,44 @@ The companion bracket-receipt edge is a different contract. Its lowering uses
 Laurent support intervals, formal derivatives, and multiplication by declared
 parameter powers before coefficient comparison. Ordinary
 `coefficient_expansion_v1` starts after those operations and cannot certify
-them. The eventual pipeline should therefore be compositional:
+them. The pipeline is therefore compositional:
 
 ```text
-Laurent template typing
-  -> checked formal derivative
-  -> declared guard/monomial clearing
-  -> bounded coefficient expansion
+frozen source/template receipt                    outside GP authority
+  -> laurent_lowering_v1                          implemented
+       finite exact inputs
+       bounded add / multiply / coefficient scale
+       formal derivative / declared y-shift
+       exact Laurent equality
+       explicit support-clearing shift
+       canonical sparse-polynomial export
+  -> exact export-to-image binding
+  -> coefficient_expansion_v1                     implemented
+       selected rows: necessary only
+       complete bounded rows: equivalence
 ```
 
+`laurent_lowering_v1` is a closed straight-line language, not a general CAS.
+Its coefficient ring reuses GP's bounded exact-polynomial checker and its
+Laurent support is an explicit finite integer-keyed map. A successful replay
+licenses the declared Laurent equalities. A distinct export license says only
+that the canonical polynomial is the declared monomial shift of the computed
+Laurent value; the coefficient checker accepts that wire object directly.
+`laurent_coefficient_pipeline_v1` verifies both nested specs
+and requires total, unique, exact export-to-image bindings. Thus a hand-edited
+intermediate cannot inherit upstream authority merely because its own scalar
+rows are self-consistent. It does not prove that the input
+template came from the source geometry, that a chart map is valid, that an
+antiderivative exists, or that a scaling factor is invertible. The frozen replay is
+`fixtures/jc_rows78/laurent_lowering_v1.json`; the bound two-pass artifact is
+`fixtures/jc_rows78/laurent_coefficient_pipeline_v1.json`. Its `F_-7` export passes complete
+`coefficient_expansion_v1` replay. In the first rows 7--8 replay the
+corrected depressed-chart equations pass exactly, while
+the old `G=0` right-hand side and a `21 -> 20` mutation fail.
+
 Directly entering the final scalar rows would validate their arithmetic while
-skipping the load-bearing chart translation, so it is intentionally refused as
-a promotion shortcut.
+skipping the load-bearing chart translation, so it remains intentionally
+refused as a promotion shortcut.
 
 ## Trust boundary
 

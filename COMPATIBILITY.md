@@ -200,6 +200,22 @@ refuses EMPTY from the open chart to its parent, so this epoch adds no new
 transport-table cell. Epoch-9 graphs migrate non-destructively; all earlier
 verdicts remain readable but stale.
 
+Version 0.17.0 remains at **graph format 3** and **kernel epoch 10**. It adds
+two standalone, closed translation validators. `laurent_lowering_v1`
+independently evaluates bounded finite Laurent straight-line programs over the
+shared exact-polynomial coefficient ring, checks declared equalities, and may
+export a value as canonical `sparse_polynomial_v1` only after an explicit
+monomial shift clears every negative exponent.
+
+`laurent_coefficient_pipeline_v1` verifies a nested Laurent specification and
+coefficient-expansion specification, then requires total, unique, exact
+export-to-image bindings. Consequently, a hand-edited intermediate cannot
+inherit the upstream receipt merely because its downstream scalar rows are
+self-consistent. These verdicts remain standalone evidence: they grant no
+persisted claim, graph transport, source-chart theorem, or H3 authority.
+Version 0.17 therefore extends the evidence language and compiler-pass trust
+boundary without changing graph syntax or kernel transport meaning.
+
 Within one kernel epoch, no field may silently acquire a more permissive
 interpretation. A syntax-only extension can bump `graph_format`; transport
 meaning or verifier trust bumps `kernel_epoch` or the narrower verifier/backend

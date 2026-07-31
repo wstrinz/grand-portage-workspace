@@ -35,7 +35,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.16.0. <!--checks-->1115<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.17.0. <!--checks-->1132<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -137,6 +137,26 @@ also exposed and now fixes a smaller boundary bug: exact syntax accepted as
 `**` is canonicalized to Singular's `^` before execution.
 
 
+**Current Laurent-lowering status.** `gp verify-laurent-lowering --spec
+SPEC.json` checks a closed finite Laurent straight-line program over GP's exact
+polynomial coefficient ring. Add, multiply, coefficient scale, formal
+derivative, and declared `y`-shift nodes are bounded and independently
+recomputed. Explicit support-clearing exports are canonical
+`sparse_polynomial_v1` objects accepted directly by coefficient expansion; an
+insufficient shift fails closed. The separate
+`laurent_coefficient_pipeline_v1` checker verifies both passes and requires
+total, unique, exact export-to-image bindings, so a self-consistent edited
+intermediate is refused. The frozen JC rows 7--8 replay at
+`fixtures/jc_rows78/laurent_lowering_v1.json`, with its bound two-pass sibling
+`laurent_coefficient_pipeline_v1.json`, verifies the corrected depressed-
+chart equations and rejects both the old symbolic-`G` zero RHS and a `21 -> 20`
+mutation, and its `F_-7` export passes complete scalar-row replay. Equality
+and export are distinct licenses. Their authority stops before: source
+geometry, chart validity, integration, guard invertibility, graph claims, and H3
+remain outside. Version 0.17 packages this standalone evidence-language seam;
+it changes neither format 3 nor epoch 10 and should earn graph persistence only
+after more live consumption.
+
 **Current localization status.** `gp verify-localization-membership --spec
 SPEC.json` checks a closed principal-open certificate with explicit guards,
 denominator powers, a guard-monomial multiplier, and exact ideal-membership
@@ -181,7 +201,10 @@ for scoped geometric authority. Version 0.15.0 stays at format 3 / epoch 9
 because sparse polynomial objects extend the standalone evidence language and
 resource boundary without changing transport meaning. Version 0.16.0 stays at
 format 3 and advances to epoch 10 because a checked localized-unit proof may
-now establish local EMPTY graph authority; no transport cell changes. Older
+now establish local EMPTY graph authority; no transport cell changes. Version
+0.17.0 stays at format 3 / epoch 10 because Laurent lowering, canonical
+polynomial export, and exact two-pass binding extend only the standalone
+evidence language; they grant no graph authority. Older
 native graphs
 migrate non-destructively with
 `gp migrate --to-current-kernel`; absent condition fields remain absent and
@@ -497,7 +520,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1115<!--/checks--> checks, ~40 s) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1132<!--/checks--> checks, ~40 s) |
 
 ---
 
@@ -604,7 +627,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1115<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1132<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.

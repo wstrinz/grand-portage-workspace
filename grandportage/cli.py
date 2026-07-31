@@ -16,6 +16,8 @@ from . import artifacts as A
 from . import cas
 from . import check as C
 from . import coefficient_expansion as CE
+from . import laurent_coefficient_pipeline as LCP
+from . import laurent_lowering as LL
 from . import hook as H
 from . import localization as L
 from . import kernel as K
@@ -773,6 +775,54 @@ def cmd_verify_coefficient_expansion(args):
         print("    spec sha256: %s" % report["spec_fingerprint"])
     return 0
 
+
+def cmd_verify_laurent_lowering(args):
+    """Translation-validate a finite exact Laurent straight-line program."""
+    try:
+        with open(args.spec, "r", encoding="utf-8") as handle:
+            spec = json.load(handle)
+        report = LL.verify(spec)
+    except (OSError, ValueError, json.JSONDecodeError,
+            LL.LaurentLoweringError) as exc:
+        sys.stderr.write("LAURENT LOWERING FAILED\n  %s\n" % exc)
+        return 2
+    if args.json:
+        print(json.dumps(report, indent=2, sort_keys=True))
+    else:
+        print(report["verdict"])
+        print("    %d arithmetic node(s), %d exact equality check(s), "
+              "%d polynomial export(s)" % (
+                  len(report["program"]), len(report["equalities"]),
+                  len(report["exports"]),
+              ))
+        print("    authority: exact finite Laurent arithmetic only; "
+              "no chart validity, integration, or claim transport")
+        print("    spec sha256: %s" % report["spec_fingerprint"])
+    return 0
+
+
+def cmd_verify_laurent_coefficient_pipeline(args):
+    """Verify and bind Laurent lowering to coefficient expansion."""
+    try:
+        with open(args.spec, "r", encoding="utf-8") as handle:
+            spec = json.load(handle)
+        report = LCP.verify(spec)
+    except (OSError, ValueError, json.JSONDecodeError,
+            LCP.LaurentCoefficientPipelineError) as exc:
+        sys.stderr.write("LAURENT/COEFFICIENT PIPELINE FAILED\n  %s\n" % exc)
+        return 2
+    if args.json:
+        print(json.dumps(report, indent=2, sort_keys=True))
+    else:
+        print(report["verdict"])
+        print("    %d exact export-to-image binding(s)" %
+              len(report["bindings"]))
+        print("    downstream: %s" %
+              report["coefficient_report"]["verdict"])
+        print("    authority: exact compiler-pass composition only; "
+              "no source derivation, chart validity, or claim transport")
+        print("    spec sha256: %s" % report["spec_fingerprint"])
+    return 0
 
 def cmd_verify_localization_membership(args):
     """Check one exact identity in a declared principal-open localization."""
@@ -1962,6 +2012,23 @@ def build_parser():
         help="closed coefficient_expansion_v1 JSON specification")
     coefficient_expansion.add_argument("--json", action="store_true")
     coefficient_expansion.set_defaults(func=cmd_verify_coefficient_expansion)
+    laurent_lowering = sub.add_parser(
+        "verify-laurent-lowering",
+        help="translation-validate finite exact Laurent arithmetic")
+    laurent_lowering.add_argument(
+        "--spec", required=True,
+        help="closed laurent_lowering_v1 JSON specification")
+    laurent_lowering.add_argument("--json", action="store_true")
+    laurent_lowering.set_defaults(func=cmd_verify_laurent_lowering)
+    laurent_pipeline = sub.add_parser(
+        "verify-laurent-coefficient-pipeline",
+        help="verify and bind Laurent lowering to coefficient expansion")
+    laurent_pipeline.add_argument(
+        "--spec", required=True,
+        help="closed laurent_coefficient_pipeline_v1 JSON specification")
+    laurent_pipeline.add_argument("--json", action="store_true")
+    laurent_pipeline.set_defaults(
+        func=cmd_verify_laurent_coefficient_pipeline)
     localization = sub.add_parser(
         "verify-localization-membership",
         help="check a rational identity after declared guards are inverted")

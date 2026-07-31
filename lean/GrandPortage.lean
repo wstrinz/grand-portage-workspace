@@ -7,6 +7,7 @@ import GrandPortage.Conditions
 import GrandPortage.Localization
 import GrandPortage.OperationContract
 import GrandPortage.CoefficientExpansion
+import GrandPortage.LaurentLowering
 import GrandPortage.ImageClosure
 import GrandPortage.Exhaustive
 import GrandPortage.BackendTrust

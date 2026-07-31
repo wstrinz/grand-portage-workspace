@@ -30,7 +30,7 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1115<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1132<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
@@ -185,6 +185,24 @@ Three rows carry most of the value:
   omitted overflow rows. The first JC cap assay proves why this is separate
   from scalar elimination: `dm2=1,d2=y` satisfies the scalar exact target but
   needs `dm4=-y/2`, so it cannot lift when `dm4` has cap zero.
+* **Finite Laurent lowering is a separate checked compiler pass.** `gp
+  verify-laurent-lowering --spec laurent.json` evaluates a closed, bounded
+  straight-line program over finite Laurent expressions. Inputs have exact
+  polynomial coefficients; nodes may add, multiply, scale, shift by a declared
+  `y` exponent, or take the formal derivative. Every declared output equality
+  is recomputed. This catches chart-sensitive errors before ordinary bounded
+  coefficient expansion, including the rows 7--8 mistake of replacing
+  `6*y^2*G` and `-3*y^2*G^2` by zero while `G` remains symbolic. The verdict
+  licenses only those finite Laurent equalities: it does not establish the
+  source template, chart change, antiderivative existence, guard invertibility,
+  or any graph claim transport.
+  A requested export succeeds only after an explicit `y` shift clears every
+  negative exponent, and emits canonical `sparse_polynomial_v1` accepted
+  directly by coefficient expansion. Equality and export are distinct licenses.
+  `gp verify-laurent-coefficient-pipeline --spec pipeline.json` verifies both
+  passes and requires every downstream source image to equal its named export
+  as the same canonical JSON object; a separately self-consistent edited
+  intermediate fails.
 * **Localized coordinate identities now have a deliberately narrow checker.**
   `gp verify-localization-membership --spec localization.json` records
   principal-open guards, explicit denominator powers, and an exact guard-
@@ -280,7 +298,7 @@ Pure stdlib. No solver, no network, no model in the loop. Under a second.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1115<!--/checks--> checks
+python -m pytest        # <!--checks-->1132<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two
