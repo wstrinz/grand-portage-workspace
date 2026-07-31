@@ -5,9 +5,9 @@ semantics and the weaker relation established by local validation.  These
 immutable values make that same distinction inspectable at the Python
 boundary.  They are plans and audit data, not proof objects.
 
-Saturation and elimination are the two exercised pilots. Their operation-local
-checks stay separate from claim-side transport obligations: a correct output is
-not by itself a proof that an arbitrary proposition can be stated at the target.
+Operation-local checks stay separate from claim-side transport obligations: a
+correct output is not by itself a proof that an arbitrary proposition can be
+stated at the target.
 """
 
 from dataclasses import dataclass
@@ -271,6 +271,61 @@ ELIMINATION = OperationContract(
 )
 
 
+AFFINE_COORDINATE_SOLVE = OperationContract(
+    kind="AffineCoordinateSolve",
+    source_sort="ideal model with one literal unit-coefficient affine equation",
+    target_sort="same model in translated coordinates with the pivot equal to zero",
+    parameters=("pivot coordinate", "pivot solution", "target model id"),
+    preconditions=(
+        "the pivot is a declared ring variable",
+        "the solution is a polynomial independent of the pivot",
+        "pivot - solution is literally one source generator",
+        "every source generator is simultaneously rewritten by the inverse translation",
+    ),
+    semantic_relation=(
+        "the source and target coordinate rings are isomorphic under the "
+        "mutually inverse affine translations"
+    ),
+    edge_type=K.EQUIVALENCE,
+    built_endpoint="dst",
+    source_endpoint="src",
+    point_transport=PointTransportContract(
+        relation="mapped equivalence under inverse affine translations",
+        total=True,
+        point_surjective=True,
+        predicate_transformer="rewrite through the checked inverse point map",
+        conditional_capabilities=(),
+    ),
+    transport_reason=(
+        "subtracting the pivot solution is an invertible polynomial coordinate "
+        "translation; its inverse adds the same pivot-independent polynomial"
+    ),
+    checked_obligations=(
+        ValidationObligation(
+            "literal_affine_definition", "operation", "constructor",
+            "pivot - solution is exactly a recorded source generator",
+        ),
+        ValidationObligation(
+            "simultaneous_generator_rewrite", "operation", "constructor",
+            "every target generator is the exact inverse-map rewrite of one source generator",
+        ),
+        ValidationObligation(
+            "coordinate_ring_isomorphism", "ring_iso", "ring_iso",
+            "both ideal pullbacks and both coordinate-map round trips verify",
+        ),
+    ),
+    transport_obligations=(),
+    open_obligations=(
+        "affine pivots whose coefficient is a nonconstant declared unit",
+        "dropping the normalized zero coordinate into a smaller polynomial ring",
+    ),
+    licensed_consequences=(
+        "source and target point claims transport in both directions",
+        "structured identities rewrite only after the ring-isomorphism verdict is VERIFIED",
+        "the normalized pivot is zero on the target presentation",
+    ),
+)
+
 PRODUCT_SPLIT_PARTITION = PartitionContract(
     kind="ProductSplit",
     parent_sort="ideal model in one exact polynomial ring",
@@ -325,6 +380,7 @@ PRODUCT_SPLIT_PARTITION = PartitionContract(
 CONTRACTS = MappingProxyType({
     SATURATION.kind: SATURATION,
     ELIMINATION.kind: ELIMINATION,
+    AFFINE_COORDINATE_SOLVE.kind: AFFINE_COORDINATE_SOLVE,
 })
 
 

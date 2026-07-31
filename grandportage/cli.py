@@ -1823,6 +1823,10 @@ def cmd_construct(args):
     if args.op == "eliminate" and not args.vars:
         sys.stderr.write("construct eliminate requires --vars.\n")
         return 2
+    if args.op == "affine-solve" and (not args.solve or args.value is None):
+        sys.stderr.write(
+            "construct affine-solve requires --solve and --value.\n")
+        return 2
     if args.op == "product-split" and (not args.spec or not args.receipt):
         sys.stderr.write(
             "construct product-split requires --spec and --receipt.\n")
@@ -1845,6 +1849,11 @@ def cmd_construct(args):
             op = O.product_split(
                 args.src, ring, gens, receipt_spec, args.receipt,
                 produces=args.produces or "%s_F%d", characteristic=ch,
+                open_conditions=src.get("open_conditions"), **point_scope)
+        elif args.op == "affine-solve":
+            op = O.affine_coordinate_solve(
+                args.src, args.solve, args.value, args.produces, ring, gens,
+                characteristic=ch,
                 open_conditions=src.get("open_conditions"), **point_scope)
         else:
             op = O.decompose(args.src, ring, gens,
@@ -2187,7 +2196,7 @@ def build_parser():
         "construct",
         help="run a structured operation and emit its events")
     con.add_argument("op", choices=["localize", "saturate", "eliminate",
-                                    "decompose", "product-split"])
+                                    "decompose", "product-split", "affine-solve"])
     con.add_argument("--src", required=True,
                      help="the source MODEL; its ring and ideal are read from "
                           "the graph")
@@ -2195,6 +2204,8 @@ def build_parser():
     con.add_argument("--vars", help="comma-separated, for eliminate")
     con.add_argument("--spec", help="receipt JSON, for product-split")
     con.add_argument("--receipt", help="selected receipt id, for product-split")
+    con.add_argument("--solve", help="pivot coordinate, for affine-solve")
+    con.add_argument("--value", help="pivot solution, for affine-solve")
     con.add_argument("--produces", help="model id, or branch-id pattern for product-split")
     con.add_argument("--run", action="store_true",
                      help="execute a pending saturation/elimination program "

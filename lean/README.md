@@ -186,6 +186,15 @@ family covers the parent. Its binary instance turns a pointwise factor
 disjunction into the two expected parent-and-factor branches. It does not prove
 runtime model binding or claim recombination.
 
+## Affine coordinate normalization
+
+`AffineCoordinate.lean` specifies the translation-validation boundary after a
+product split. An `AffineTranslation` carries concrete forward and inverse
+pivot maps, both inverse laws, and the law identifying a zero normalized pivot
+with the original affine equation. Lean packages those laws as a
+`MappedEquivalence` and proves both point transports. Runtime Python constructs
+`x -> x-s` and `x -> x+s`; the CAS ring-isomorphism verifier must discharge the
+laws for each actual ideal before identity authority is enabled.
 ## Trust
 
 No `sorry`. Mathlib-free — core Lean only, so a fresh `lake build` is seconds

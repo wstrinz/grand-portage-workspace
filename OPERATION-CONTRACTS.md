@@ -474,6 +474,24 @@ Recombining later branch claims still uses the pre-existing n-ary kernel rule:
 all branches must carry the supported claim kind and the exact partition must
 have a `VERIFIED` exhaustiveness verdict.
 
+### Affine coordinate normalization
+
+`AffineCoordinateSolve` is the exact consumer immediately after a checked
+product split. Given a literal source generator `x - s = 0`, where `s` is a
+polynomial independent of `x`, the constructor emits the point-forward map
+`x -> x-s`, its inverse `x -> x+s`, and rewrites every source generator and
+open condition simultaneously through the inverse. The target keeps the same
+ring variables and has `x = 0`; keeping the zero coordinate is deliberate,
+because the current ring-isomorphism verifier requires identical endpoint
+variable sets.
+
+The edge is an authored `EQUIVALENCE` with `ring_iso: true`, not a pre-verified
+identity license. `verify.ring_iso` must still check both ideal pullbacks and
+both map compositions before structured coordinate-ring identities cross it.
+Lean's `AffineCoordinate.lean` packages exactly those inverse-map laws as a
+`MappedEquivalence` and proves the normalized pivot equation. On the JC product
+branches this realizes `c8_0 -> -p*c6_0` and, symmetrically,
+`c9_0 -> -p*c7_0`; the left branch passes against real Singular.
 ## Trust boundary
 
 ```text

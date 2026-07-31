@@ -61,6 +61,7 @@ DERIVES = {
                  "with a condition on points, so returning to the ambient "
                  "model drops the inequality f != 0 and no equation"),
     "SaturateClosure": OC.SATURATION.derivation,
+    "AffineCoordinateSolve": OC.AFFINE_COORDINATE_SOLVE.derivation,
     "ProductSplit": (K.NECESSARY_CONDITION,
                      "each branch adjoins one factor equation to the parent; "
                      "returning to the parent drops that branch condition"),
@@ -399,6 +400,75 @@ def decompose(src, ring_vars, generators, produces="%s_C%d",
         DERIVES["Decompose"][1],
         artifacts=[execution.artifact])
 
+
+def affine_coordinate_solve(src, solved, solution, produces, ring_vars,
+                            generators, characteristic=0,
+                            open_conditions=None, coefficient_domain=None,
+                            point_universe=None):
+    """Normalize one literal monic affine equation by coordinate translation.
+
+    If the source records ``solved - solution = 0`` and ``solution`` is
+    independent of ``solved``, the point-forward translation sends the pivot
+    to ``solved - solution``. Its inverse adds the same polynomial. Rewriting
+    every generator through that inverse produces an equivalent presentation
+    in which the pivot itself is zero.
+    """
+    ring_vars = list(ring_vars)
+    if solved not in ring_vars:
+        raise ValueError("the affine pivot must be a declared ring variable")
+    budget = G._ArithmeticBudget()
+    solution_poly = G.parse_polynomial(
+        solution, ring_vars, characteristic, _budget=budget)
+    solved_index = ring_vars.index(solved)
+    if any(monomial[solved_index] for monomial in solution_poly.terms):
+        raise ValueError("the affine solution must be independent of the pivot")
+    pivot_poly = G.parse_polynomial(
+        solved, ring_vars, characteristic, _budget=budget)
+    forward_value = G.render_polynomial(pivot_poly - solution_poly)
+    inverse_value = G.render_polynomial(pivot_poly + solution_poly)
+    source_generators = [G.parse_polynomial(
+        value, ring_vars, characteristic, _budget=budget)
+        for value in generators]
+    if pivot_poly - solution_poly not in source_generators:
+        raise ValueError(
+            "pivot - solution must be a literal source generator; an ideal "
+            "membership argument needs its own checked witness")
+
+    forward = dict((name, name) for name in ring_vars)
+    inverse = dict(forward)
+    forward[solved] = forward_value
+    inverse[solved] = inverse_value
+    target_generators = [G.substitute_polynomial(
+        value, ring_vars, inverse, characteristic, _budget=budget)
+        for value in generators]
+    target_open = [G.substitute_polynomial(
+        value, ring_vars, inverse, characteristic, _budget=budget)
+        for value in (open_conditions or [])]
+    extra = dict(_point_scope_fields(coefficient_domain, point_universe))
+    extra["characteristic"] = characteristic
+    if target_open:
+        extra["open_conditions"] = target_open
+    model = _model(
+        produces,
+        "the presentation of %s translated so %s - (%s) becomes %s = 0"
+        % (src, solved, solution, solved),
+        ring_vars, target_generators, **extra)
+    edge = {
+        "ev": "edge", "id": "E-%s" % produces,
+        "src": src, "dst": produces, "type": K.EQUIVALENCE,
+        "map_kind": K.POLYNOMIAL, "ring_iso": True,
+        "forward": forward, "inverse": inverse,
+        "converse_witness": "the inverse affine translation adds %s" % solution,
+        "why": OC.AFFINE_COORDINATE_SOLVE.transport_reason,
+        "built_by_operation": "AffineCoordinateSolve",
+    }
+    return Operation(
+        "AffineCoordinateSolve", [model, edge], None,
+        "run `gp verify` to check both ideal pullbacks and both affine-map "
+        "round trips before using coordinate-ring identity transport",
+        OC.AFFINE_COORDINATE_SOLVE.transport_reason,
+        request={"solved": solved, "solution": solution},
+        contract=OC.AFFINE_COORDINATE_SOLVE)
 
 def product_split(src, ring_vars, generators, receipt_spec, receipt_id,
                   produces="%s_F%d", characteristic=0,

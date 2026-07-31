@@ -35,7 +35,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.17.0. <!--checks-->1189<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.17.0. <!--checks-->1203<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -184,6 +184,14 @@ verifies the emitted partition exhaustive. This is deliberately not an
 variable-unit `E[4,0]` receipt remains evidence-only until cover verification is
 localization-aware. Recombination still requires conclusions on every branch
 plus the exact partition's verified exhaustiveness verdict.
+**Current affine-branch status.** `gp construct affine-solve` consumes the
+literal unit-coefficient branch equations produced above. It keeps the same
+ring, translates the solved coordinate to zero, rewrites the entire ideal and
+open guards simultaneously, and emits explicit inverse polynomial maps. The
+JC left map `c8_0 -> -p*c6_0` passes the real Singular ring-isomorphism check;
+the right map is symmetric. No structured identity crosses until that verdict
+is current and `VERIFIED`. Dropping the normalized zero coordinate remains a
+separate open operation contract.
 
 **Current localization status.** `gp verify-localization-membership --spec
 SPEC.json` checks a closed principal-open certificate with explicit guards,
@@ -548,7 +556,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1189<!--/checks--> checks, ~40 s) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1203<!--/checks--> checks, ~40 s) |
 
 ---
 
@@ -655,7 +663,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1189<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1203<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.

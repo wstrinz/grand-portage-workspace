@@ -30,7 +30,7 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1189<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1203<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
@@ -226,6 +226,16 @@ Three rows carry most of the value:
   the ordinary closed graph schema. The existing partition verifier then
   independently checks their coverage. The variable-unit `E[4,0]` receipt
   cannot mint a cover until that verifier understands localization guards.
+* **Affine product branches normalize through checked coordinate maps.** `gp
+  construct affine-solve --src BRANCH --solve c8_0 --value=-p*c6_0
+  --produces NORMAL` recognizes only a literal monic affine generator
+  `c8_0-(-p*c6_0)`. It translates the pivot to zero, simultaneously rewrites
+  every generator and open condition through the inverse map, and emits an
+  `EQUIVALENCE` with explicit forward/inverse substitutions. The declaration
+  carries `ring_iso: true`, but structured identity transport remains disabled
+  until `gp verify` checks both ideal pullbacks and both map round trips. The
+  first real Singular replay verifies the JC left-branch translation; the right
+  branch has the symmetric `c9_0 -> -p*c7_0` form.
 * **Localized coordinate identities now have a deliberately narrow checker.**
   `gp verify-localization-membership --spec localization.json` records
   principal-open guards, explicit denominator powers, and an exact guard-
@@ -321,7 +331,7 @@ Pure stdlib. No solver, no network, no model in the loop. Under a second.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1189<!--/checks--> checks
+python -m pytest        # <!--checks-->1203<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

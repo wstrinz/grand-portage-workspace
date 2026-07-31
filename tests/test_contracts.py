@@ -89,7 +89,8 @@ def test_contract_values_are_immutable_audit_data():
 
 
 
-@pytest.mark.parametrize("contract", [OC.SATURATION, OC.ELIMINATION])
+@pytest.mark.parametrize(
+    "contract", [OC.SATURATION, OC.ELIMINATION, OC.AFFINE_COORDINATE_SOLVE])
 def test_operation_contracts_project_to_the_point_rule_compiler(contract):
     """Operation semantics, edge baselines, and claim typing stay distinct."""
     point = contract.point_transport
