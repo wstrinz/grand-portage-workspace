@@ -135,7 +135,33 @@ visualization packet.
 
 ## Run
 
+The aggregate post-receipt gate is the normal entry point. Its default fast
+mode checks the conditional source seam, exact selected-face extraction,
+ordered chain envelope, and frozen boundary projection. It deliberately
+defers the two expensive graph-authority recomputations and still ends at the
+explicit open `target_pair_to_normalized_laurent_root` obligation:
+
 ```powershell
+python experiments/jc_h3_source_depth6/replay_all.py `
+  --check-native-bindings --output PATH
+```
+
+Use `--full` at milestone synchronization points. It additionally rederives
+the five rows, materializes and checks the complete 147-row/78-variable graph
+inclusion, replays all 25 ambient substitutions, and recomputes both boundary
+equivalences. This took 160 seconds on the development machine and requires
+the optional SymPy dependency. Use `--native-replay` separately when a landed
+JC source-seam manifest/verifier changes; it runs the five native upstream
+checkers and all nine mutation refusals, taking about 55 seconds here.
+
+Every mode emits the same machine-readable ledger schema,
+`gp-jc-h3-depth6-milestone-replay/v1`. Passing means
+`VERIFIED_TO_EXPLICIT_OPEN_OBLIGATION`, not original-source membership or H3.
+The aggregate itself has graph effect `NONE`; its full-mode stage records make
+the already-existing point-inclusion and identity-transport authority visible
+without minting any new campaign conclusion.
+
+`powershell
 python experiments/jc_h3_source_depth6/adapter.py
 python experiments/jc_h3_source_depth6/chain_adapter.py
 python experiments/jc_h3_source_depth6/chain_adapter.py --full-replay

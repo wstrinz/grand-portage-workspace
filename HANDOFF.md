@@ -40,7 +40,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.22.0. <!--checks-->1338<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.22.0. <!--checks-->1344<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -617,7 +617,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1338<!--/checks--> checks, ~140 s on the current development machine) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1344<!--/checks--> checks, ~140 s on the current development machine) |
 
 ---
 
@@ -724,7 +724,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1338<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1344<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -1019,3 +1019,24 @@ that is awkward.
   keeps the limitations honest.
 - Do not claim this finds equations. It routes attention to where one is
   missing. Every actual advance in the parent campaign was an equation.
+
+---
+
+## 2026-08-01 — aggregate JC H3 depth-6 replay gate
+
+`experiments/jc_h3_source_depth6/replay_all.py` now composes the conditional
+source seam, graded face extraction, complete finite template, ordered chain,
+and boundary projection into one post-receipt ledger. Fast mode checks the
+frozen welds in roughly five seconds and marks expensive graph authorities
+deferred. Full mode rederives the five rows, verifies exact inclusion of 25
+selected rows in the 147-row/78-variable template, replays all 25 ambient
+substitutions, and checks both boundary equivalences; the measured run was 160
+seconds. `--native-replay` separately ran all five native upstream checkers and
+refused nine mutations in 55 seconds.
+
+All modes retain aggregate graph effect `NONE` and terminate successfully at
+`VERIFIED_TO_EXPLICIT_OPEN_OBLIGATION`. The first missing authority is still
+`target_pair_to_normalized_laurent_root`; original-pair membership, reverse
+lifting, coverage, H3, and verdict promotion remain refused. The coordinator
+usage packet and two real review ledgers live beside the assay and under
+`review/` respectively.

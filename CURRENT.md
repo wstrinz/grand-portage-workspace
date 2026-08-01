@@ -9,7 +9,7 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 - Package version: <!--version-->0.22.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1338<!--/checks--> checks.
+- Test collection: <!--checks-->1344<!--/checks--> checks.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
@@ -103,6 +103,16 @@ unmaterialized. Original-pair membership, reverse lifting, parent coverage, H3,
 and verdict promotion remain open.
 The v0.22 review packet freezes this complete extraction and graph-
 authority milestone under review/v0.22/.
+
+A bounded aggregate replay gate now composes these adapters in their semantic
+order and emits a machine-readable stage ledger. Routine fast mode checks all
+frozen welds in about five seconds while explicitly deferring the expensive
+graph-authority recomputations. Full mode rederives the rows, verifies the
+147-row inclusion, replays all 25 substitutions, and checks both boundary
+equivalences in about 160 seconds. A separately opt-in native mode runs the JC
+upstream checkers and nine mutation refusals. Every passing mode terminates at
+`VERIFIED_TO_EXPLICIT_OPEN_OBLIGATION`; the aggregate grants no new graph
+authority and keeps `target_pair_to_normalized_laurent_root` visibly open.
 
 ## Active release discipline
 
