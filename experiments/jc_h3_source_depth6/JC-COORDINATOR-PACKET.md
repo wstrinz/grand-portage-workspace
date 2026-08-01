@@ -2,10 +2,11 @@
 
 > **Resolution (2026-08-01):** JC commit `cb3136c` delivered the requested
 > ordered certificate and native replay checker. GP independently replays all
-> 23 solves and two residuals and welds both endpoints. The only remaining
-> source-side request is a separate bounded certificate deriving the 25 frozen
-> face tables from raw E-system rows. No actual-source or H3 authority has been
-> minted.
+> 23 solves and two residuals and welds both endpoints. GP subsequently derived
+> the 25 faces from five exact reduced rows and bound the complete finite model.
+> JC d4a18b4 now freezes the conditional normalized-root-to-row seam; the
+> coefficient-level original-pair-to-normalized-root map remains explicitly
+> open. No actual-source or H3 authority has been minted.
 
 **Date:** 2026-07-31
 **Audience:** lead JC implementation/coordinator agent

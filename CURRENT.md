@@ -9,7 +9,7 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 - Package version: <!--version-->0.22.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1328<!--/checks--> checks.
+- Test collection: <!--checks-->1338<!--/checks--> checks.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
@@ -92,10 +92,16 @@ global bump is needed. The graph is about 39.5 MB. Projection schema v2 avoids
 duplicating its model records inside visualization nodes, cutting the measured
 compact read artifact from 68.8 MB to 34.4 MB without changing graph authority.
 Deep polynomial interning would save only another roughly 1 MB and is deferred.
-The remaining upstream seam is original polynomial-pair membership in the
-reduced E-system;
-selected-face reverse lifting, parent coverage, H3, and verdict promotion
-remain open. The v0.22 review packet freezes this complete extraction and graph-
+JC commit d4a18b4 now freezes the honest conditional upstream boundary. Its
+native verifier replays all five reduced rows from normalized Laurent-root data,
+runs five upstream checkers, rejects nine mutations, and deliberately refuses
+strict original-source mode. GP binds its manifest and verifier, welds the five
+row digests to the existing exact fixture, and retains graph effect NONE.
+The remaining seam is now named precisely: the coefficient-level map from the
+source-derived target pair to the normalized Laurent-root presentation is
+unmaterialized. Original-pair membership, reverse lifting, parent coverage, H3,
+and verdict promotion remain open.
+The v0.22 review packet freezes this complete extraction and graph-
 authority milestone under review/v0.22/.
 
 ## Active release discipline

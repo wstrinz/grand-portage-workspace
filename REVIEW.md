@@ -6,7 +6,7 @@ through v0.18 is preserved in `HISTORY/REVIEW-through-v0.18.md`.
 **Version <!--version-->0.22.0<!--/version-->, graph format
 <!--graph-format-->4<!--/graph-format-->, kernel epoch
 <!--kernel-epoch-->10<!--/kernel-epoch-->, and
-<!--checks-->1328<!--/checks--> collected checks.**
+<!--checks-->1338<!--/checks--> collected checks.**
 
 ## Highest-risk claim
 
@@ -116,6 +116,14 @@ attempt to promote selected-face survival, source membership, parent coverage,
 H3, or the (75,125) verdict. Also scrutinize the roughly 39.5 MB persisted
 graph: it is authoritative and usable, but exposes the need for a smaller
 content-addressed review projection.
+
+JC commit d4a18b4 adds a conditional original-pair seam manifest and verifier.
+The positive result is only normalized Laurent-root data to the five exact
+reduced rows. The exact source pair is not serialized, and the coefficient-level
+target-pair to normalized-root map is explicitly UNMATERIALIZED_OPEN. The GP
+adapter must keep graph effect NONE, reproduce all five row commitments, and
+refuse any mutation that promotes strict source authority, moves the downstream
+t pin into row derivation, or drops source-membership and H3 refusals.
 
 ## 7. Project-level falsification
 
