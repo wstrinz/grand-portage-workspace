@@ -57,6 +57,21 @@ def test_checked_in_chain_fast_gate_welds_both_gp_endpoints():
     assert all("H3" not in license for license in envelope["licenses"])
 
 
+def test_preflight_checks_bindings_without_any_sparse_decode(monkeypatch):
+    def forbidden(*_args, **_kwargs):
+        raise AssertionError("preflight attempted sparse decoding")
+
+    monkeypatch.setattr(ADAPTER, "_decode_sparse", forbidden)
+    report = ADAPTER.preflight_chain()
+
+    assert report["verdict"] == "PREFLIGHT_BINDINGS_ONLY"
+    assert report["graph_effect"] == EV.GRAPH_EFFECT_NONE
+    assert report["ordered_steps_bound"] == 23
+    assert report["residual_digests_checked"] == 2
+    assert report["licenses"] == ["frozen_inputs_are_the_named_inputs"]
+    assert "chain identity authority" in report["refuses"]
+
+
 def test_checked_in_copy_is_byte_identical_to_landed_native_certificate():
     if not ADAPTER.DEFAULT_NATIVE.exists():
         pytest.skip("the sibling JC research checkout is not present")

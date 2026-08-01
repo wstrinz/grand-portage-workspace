@@ -9,7 +9,7 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 - Package version: <!--version-->0.22.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1344<!--/checks--> checks.
+- Test collection: <!--checks-->1374<!--/checks--> checks.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
@@ -109,10 +109,30 @@ order and emits a machine-readable stage ledger. Routine fast mode checks all
 frozen welds in about five seconds while explicitly deferring the expensive
 graph-authority recomputations. Full mode rederives the rows, verifies the
 147-row inclusion, replays all 25 substitutions, and checks both boundary
-equivalences in about 160 seconds. A separately opt-in native mode runs the JC
+equivalences; it measured 160 seconds historically and 310.6 seconds under the
+latest machine load. A separately opt-in native mode runs the JC
 upstream checkers and nine mutation refusals. Every passing mode terminates at
 `VERIFIED_TO_EXPLICIT_OPEN_OBLIGATION`; the aggregate grants no new graph
 authority and keeps `target_pair_to_normalized_laurent_root` visibly open.
+
+The corrected R1--R7 source-frontier adapter now binds the three landed native
+manifests with LF-normalized digests. It keeps pair positive-j forcing distinct
+from the still-open Q-side relocation and from the landed-only `(1,2)` point.
+Aggregate replay schema v2 exposes R5, R6, R7, Q-side relocation, and the
+parent source seam as separate open frontier entries. A generated delimited
+status projection carries supported/not-supported authority into review without
+editing or parsing JC prose.
+
+The replay gate now has three authority tiers: roughly 1.2-second binding-only
+preflight, roughly 3.9--4.8-second exact seam replay, and a load-sensitive full
+recomputation most recently measured at 310.6 seconds. Preflight performs no
+sparse decoding and grants no mathematical verdict. Seam preserves the former fast verdict and licenses;
+full retains all face substitutions and graph checks. An fsynced per-stage
+diagnostic journal survives interrupted runs without replacing the atomic final
+ledger. A real full run spent 242.7 seconds in the chain stage, reproducing the
+reported 255-second signature while seam mode spent 2.7 seconds there. This
+supports full-mode invocation plus machine load, not a fast-tier regression;
+the original argv was not preserved.
 
 ## Active release discipline
 

@@ -40,7 +40,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.22.0. <!--checks-->1344<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.22.0. <!--checks-->1374<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -617,7 +617,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1344<!--/checks--> checks, ~140 s on the current development machine) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1374<!--/checks--> checks, ~140 s on the current development machine) |
 
 ---
 
@@ -724,7 +724,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1344<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1374<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -1040,3 +1040,39 @@ All modes retain aggregate graph effect `NONE` and terminate successfully at
 lifting, coverage, H3, and verdict promotion remain refused. The coordinator
 usage packet and two real review ledgers live beside the assay and under
 `review/` respectively.
+
+---
+
+## 2026-08-01 — corrected R1--R7 promotion firewall and replay tiers
+
+The coordinator correction at math-stuff `fb18749` is now frozen in
+`r1_r7_seam_adapter.py`. Seven LF-normalized source bindings preserve the exact
+distinctions the audit required: branch A is refuted in every gauge only under
+its premises; pair positive-j is forced; Q positive-j remains open; and the
+`(1,2)` point is actual nonzero only in the landed normalization. Ten named
+mutations independently refuse every requested scope widening. The adapter has
+graph effect `NONE` and runs no native checker unless explicitly requested.
+
+Aggregate schema v2 exposes R5, R6, R7, `R6.Q_side_relocation`, and
+`target_pair_to_normalized_laurent_root` as a typed open frontier. Old v1
+ledgers migrate only through a visibly lossy record; no R1--R7 authority is
+invented. `status_block.py` projects supported/not-supported authority between
+one exact delimiter pair, is a no-op when delimiters are absent, refuses bad
+boundaries, and reaches a fixed point. It does not edit any JC file.
+
+The replay gate now has three authority tiers:
+
+- `--preflight`: about 1.2s, bindings/digests/rung welds, no sparse decoding,
+  verdict `PREFLIGHT_BINDINGS_ONLY`;
+- `--seam`: about 3.9s without and 4.8s with live sibling bindings, identical
+  verdict and licenses to the former fast gate;
+- `--full`: the existing complete authority recomputation, most recently
+  310.6s under machine load, including 242.7s in the full chain replay.
+
+That full measurement reproduces the previously reported 255-second chain
+signature; the seam chain is only 2.7s. Full replay or an equivalent path plus
+load is therefore the evidence-backed explanation, although the earlier argv
+was not preserved. An fsynced append-only JSONL journal now records each
+completed stage independently of the atomic final ledger, and is explicitly
+diagnostic-only. Real schema-v2 seam and full ledgers plus a generated status
+projection are checked in under `review/`.

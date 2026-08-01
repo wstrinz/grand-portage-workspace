@@ -296,6 +296,90 @@ def _validate_envelope(certificate, canonical, compressed):
              "expected exactly two depth-6 residuals")
 
 
+def preflight_chain(path=DEFAULT_FROZEN):
+    """Check frozen bindings, record digests, order, and rung welds only.
+
+    This tier intentionally never calls ``_decode_sparse`` and performs no
+    polynomial arithmetic.  Its verdict names inputs; it is not a chain
+    identity verdict and carries no mathematical license.
+    """
+    started = time.time()
+    compressed, canonical, certificate = _load_gzip(path)
+    _validate_envelope(certificate, canonical, compressed)
+    boundary = json.loads(BOUNDARY_FIXTURE.read_text(encoding="utf-8"))
+    rung_by_var = {rung["var"]: rung for rung in
+                   boundary["schedule"]["rungs"]}
+
+    for name, record in certificate["faces"].items():
+        _require(set(record) == {"sha256", "sparse", "terms"},
+                 name + ": face record shape changed")
+        _require(_sparse_digest(record["sparse"]) == record["sha256"] and
+                 record["terms"] == len(record["sparse"]["terms"]),
+                 name + ": face digest or term count changed")
+
+    prefix = []
+    for entry in certificate["input_state"]["values"]:
+        variable = entry["var"]
+        _require(_sparse_digest(entry["sparse"]) == entry["sha256"],
+                 "input digest mismatch: " + variable)
+        _require(rung_by_var[variable]["value_sha256"] == entry["sha256"],
+                 "input is not welded to boundary schedule: " + variable)
+        prefix.append([variable, entry["sha256"]])
+    _require(_fingerprint(prefix) == certificate["input_state"]["fingerprint"],
+             "input state fingerprint mismatch")
+
+    for index, step in enumerate(certificate["steps"]):
+        label = "step %d (%s)" % (index, step.get("var", "?"))
+        _require(step.get("prior") == [item[0] for item in prefix],
+                 label + ": ordered prior mismatch")
+        _require(step.get("input_fingerprint") == _fingerprint(prefix),
+                 label + ": input fingerprint mismatch")
+        for record_name in ("equation", "value"):
+            record = step[record_name]
+            _require(_sparse_digest(record["sparse"]) == record["sha256"] and
+                     record["terms"] == len(record["sparse"]["terms"]),
+                     "%s: %s digest or term count mismatch" %
+                     (label, record_name))
+        value = step["value"]
+        _require(rung_by_var[step["var"]]["value_sha256"] == value["sha256"],
+                 label + ": rung weld fails")
+        prefix.append([step["var"], value["sha256"]])
+        _require(step.get("output_fingerprint") == _fingerprint(prefix),
+                 label + ": output fingerprint mismatch")
+
+    residuals = {}
+    for residual in certificate["residuals"]:
+        label = "residual " + residual.get("seam", "?")
+        _require(residual.get("prior") == [item[0] for item in prefix] and
+                 residual.get("input_fingerprint") == _fingerprint(prefix),
+                 label + ": prior or fingerprint mismatch")
+        equation = residual["equation"]
+        _require(_sparse_digest(equation["sparse"]) == equation["sha256"] and
+                 equation["terms"] == len(equation["sparse"]["terms"]),
+                 label + ": digest or term count mismatch")
+        residuals[residual["identified_with"]] = equation["sha256"]
+    _require(residuals.get("R2B") ==
+             boundary["residuals"]["R2B"]["native_sha256"],
+             "R2B output digest is not welded to the boundary projection")
+
+    return {
+        "verdict": "PREFLIGHT_BINDINGS_ONLY",
+        "certificate_digest": "sha256:" + EXPECTED_CANONICAL_SHA256,
+        "faces_digest_checked": 25,
+        "input_rungs_welded": 10,
+        "ordered_steps_bound": 23,
+        "residual_digests_checked": 2,
+        "graph_effect": EV.GRAPH_EFFECT_NONE,
+        "licenses": ["frozen_inputs_are_the_named_inputs"],
+        "refuses": [
+            "chain identity authority",
+            "solve or unit authority",
+            "source membership, coverage, H3, or verdict promotion",
+        ],
+        "seconds": round(time.time() - started, 3),
+    }
+
+
 def verify_chain(path=DEFAULT_FROZEN, full_replay=False):
     """Verify the frozen chain, its GP input/output welds, and optionally V3."""
     started = time.time()
@@ -311,7 +395,8 @@ def verify_chain(path=DEFAULT_FROZEN, full_replay=False):
         _require(_sparse_digest(record["sparse"]) == record["sha256"]
                  and record["terms"] == len(record["sparse"]["terms"]),
                  name + ": face digest or term count changed")
-        faces[name] = _decode_sparse(record["sparse"], "face " + name)
+        if full_replay:
+            faces[name] = _decode_sparse(record["sparse"], "face " + name)
 
     _gp_input_digests(certificate)
     values = {}
@@ -485,11 +570,16 @@ def native_copy_matches(path=DEFAULT_NATIVE):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--full-replay", action="store_true",
-                        help="also recompute all 25 ambient face substitutions")
+    modes = parser.add_mutually_exclusive_group()
+    modes.add_argument("--preflight", action="store_true",
+                       help="check bindings and digests without sparse decoding")
+    modes.add_argument("--full-replay", action="store_true",
+                       help="also recompute all 25 ambient face substitutions")
     parser.add_argument("--certificate", type=Path, default=DEFAULT_FROZEN)
     args = parser.parse_args(argv)
-    print(json.dumps(verify_chain(args.certificate, args.full_replay),
+    report = (preflight_chain(args.certificate) if args.preflight else
+              verify_chain(args.certificate, args.full_replay))
+    print(json.dumps(report,
                      indent=2, sort_keys=True))
     return 0
 
