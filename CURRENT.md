@@ -9,7 +9,7 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 - Package version: <!--version-->0.21.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1308<!--/checks--> checks.
+- Test collection: <!--checks-->1319<!--/checks--> checks.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
@@ -65,20 +65,30 @@ and checks both map round trips without Gröbner search. Mutated cofactors are
 `UNVERIFIED`, while the legacy top-face Singular path independently agrees and
 rejects a missing inverse equation. The review packet is under `review/v0.20/`.
 A follow-on isolated assay imports the frozen depth-6 residual pair: the
-3,262-term `R2B` and 6,124-term `beta` maps are independently decoded and
-native-digest-welded. Existing `mapped_ring_iso_v1` evidence certifies the
-generic affine solve for `c7_5` and the discriminant collapse to `beta=0`, both
-without CAS. The earlier receipt exposed the 33 intermediate values only as
-digests. JC commit `cb3136c` now lands all bodies and a 23-step depth-2..6
-chain certificate. GP retains a byte-identical 951 KB copy, independently
-verifies all ordered solve/unit identities in its fast gate, welds the ten
-inputs to the already-verified top/second-face fixtures, and welds both outputs
-to the frozen boundary projection. A full exact replay of all 25 face
-substitutions is green in about 80 seconds. Authority remains
-`graph_effect: NONE`: the face tables are exact and digest-bound, but their
-extraction from the raw E-system is not proved by this certificate. GP therefore
-still creates no actual-source edge or stratum cover. Source extraction, parent
-coverage, actual-source membership, and H3 remain open. The review packet is under `review/v0.21/`.
+3,262-term R2B and 6,124-term beta maps are independently decoded and
+native-digest-welded. Existing mapped_ring_iso_v1 evidence certifies the
+generic affine solve for c7_5 and the discriminant collapse to beta=0, both
+without CAS. JC commit cb3136c lands all 25 depth-2..6 face bodies and the
+23-step ordered chain. GP retains a byte-identical copy, independently verifies
+every solve/unit transition, welds the inputs to the graph-bound top/second
+ladders, and welds the outputs to the boundary projection.
+
+The new graded face-extraction checker closes the next translation-validation
+gap: it independently expands five exact reduced E-system rows to all 25
+selected faces in about one second. A stronger roughly 15-second audit
+reconstructs those rows from the normalized root series, fourteen P-side
+triangular eliminations, and the defining E-system formula. Lean proves the
+one-way point semantics and supplies a countermodel to reverse transport.
+
+Authority remains graph_effect: NONE for a typed reason rather than missing
+arithmetic. The selected system has 55 active variables, while the complete
+finite root template has 74 root coefficients before scalar parameters and
+cannot be an honest source endpoint under the current 64-variable exact-affine
+bound. GP does not project it and call the projection the source. The remaining
+upstream seam is original polynomial-pair membership in the reduced E-system;
+source-image sufficiency, parent coverage, H3, and verdict promotion remain
+open. The v0.21 review packet records the preceding chain milestone under
+review/v0.21/.
 
 ## Active release discipline
 

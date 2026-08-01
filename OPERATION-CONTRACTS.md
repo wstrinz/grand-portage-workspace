@@ -550,26 +550,40 @@ Graph format 4 owns the optional proof envelope and ring-isomorphism verifier
 version 3 owns its exact replay. No edge type, claim kind, transport cell, or
 kernel meaning changed, so kernel epoch 10 remains current.
 
-### Depth-6 boundary strata and the remaining graded-transport seam
+### Depth-6 graded face extraction
 
-The frozen JC depth-6 receipt provides complete sparse maps for `R2B` and
-`beta`, so the isolated adapter can bind two downstream affine rewrites without
-inventing a new operation. On `alpha != 0`, an explicit inverse coordinate
-reduces `alpha*c7_5+beta` to a zero pivot; on the discriminant, the same row is
-exactly `beta`. Both compile to `mapped_ring_iso_v1`.
+The frozen JC depth-6 receipt provides complete sparse maps for R2B and beta,
+so the isolated adapter binds two downstream affine rewrites without inventing
+a new graph operation. On alpha != 0, an explicit inverse coordinate reduces
+alpha*c7_5+beta to a zero pivot; on the discriminant, the same row is exactly
+beta. Both compile to mapped_ring_iso_v1.
 
-A fresh `GP_BETA` coordinate plus the exact alias equation `GP_BETA-beta=0`
-keeps the maps and cofactors small while retaining all 6,124 terms. Exact
-substitution now detects when a polynomial's support misses every changed
-coordinate and preserves its sparse encoding. This changes resource use only;
-it adds no algebraic rule or authority.
+JC commit cb3136c then supplies all 25 depth-2..6 face bodies and the 23-step
+ordered solve chain. The independent chain replay checks those transitions but,
+by itself, only authenticates the selected face tables.
 
-The receipt's 33 intermediate solve values remain term counts and digest
-commitments. Those commitments authenticate bytes but cannot prove a
-coefficient extraction or solve transition, so no actual-source edge is
-created. The missing contract should be requirements-driven by a receipt that
-exposes exact per-step polynomials or a smaller checkable straight-line
-certificate; GP should not bless a hash-only `GradedCoefficientTransport`.
+graded_face_extraction_v1 now closes the next translation-validation seam. The
+routine checker expands five exact reduced E-system row polynomials under the
+declared finite root supports and matches every landed face. Its stronger audit
+reconstructs the reduced rows from the normalized root series, fourteen
+unit-triangular P-side solves, the defining E-system formula, and the invariant
+substitution. Lean's GradedFaceExtraction contract proves the semantic
+direction: a source witness lowers to a selected-face witness, so selected-face
+emptiness refutes the source. A countermodel proves that selected-face survival
+does not supply a source witness.
+
+This does not yet produce a graph edge. The selected assay fits in 55 active
+variables, but the complete finite root template has 74 root coefficients
+before scalar parameters and exceeds the current 64-variable exact-affine
+model bound. A graph-bound edge would lack an honest source endpoint. The
+standalone evidence therefore retains graph effect NONE rather than disguising
+a projection as the source. It licenses exact selected coefficient extraction,
+not source-image sufficiency, original polynomial-pair membership, chart
+coverage, H3, or a verdict change.
+
+No graph format, edge type, claim kind, transport cell, or kernel meaning
+changed, so graph format 4 and kernel epoch 10 remain current.
+
 ## Trust boundary
 
 `grandportage.evidence` provides the common `AffineContext`, read-only

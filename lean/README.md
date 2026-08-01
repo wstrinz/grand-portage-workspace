@@ -116,6 +116,14 @@ from being silently strengthened to uniqueness. This is the semantic contract
 implemented by the runtime coefficient-expansion checker; the Lean theorem does
 not verify the Python parser or substitution engine.
 
+GrandPortage/GradedFaceExtraction.lean - the one-way semantic contract used
+by the JC depth-chain assay. Vanishing of a source coefficient family entails
+every explicitly selected face equation, while a two-coefficient countermodel
+prevents a proper selection from being treated as sufficient. A bounded
+extraction is packaged as a total point map: source nonemptiness moves forward
+and selected-face emptiness moves back, but face survival earns no source
+witness.
+
 `GrandPortage/LaurentLowering.lean` - coefficient-function semantics for the
 finite Laurent compiler pass. It proves formal differentiation is additive
 under the exact coefficient-ring law, proves checked equality survives a

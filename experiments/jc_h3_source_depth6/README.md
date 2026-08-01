@@ -49,25 +49,50 @@ and `alpha*c7_5+beta` boundary projection. `--full-replay` recomputes every
 ambient face substitution and explicit `15*t^3+1` cofactor; it currently takes
 about 80 seconds on the development machine.
 
-The full independent replay is green. Its authority is nevertheless
-`graph_effect: NONE`: the certificate binds the 25 extracted face tables by
-digest but does not itself derive those tables from the raw E-system rows.
-That source-extraction seam is now the first unresolved boundary.
+The chain certificate alone retains graph effect NONE: it authenticates and
+replays the landed face tables, but it does not derive them from the E-system.
+
+face_extraction_adapter.py closes that translation-validation seam in two
+layers. Its roughly one-second routine gate independently expands the five
+frozen reduced E-system rows through the declared finite root supports and
+matches all 25 landed depth-2..6 face digests and term counts. The stronger
+--full-source-replay audit reconstructs those five rows from
+
+- Zu = 1 + sum(z_e u^e);
+- the fourteen unit-triangular P-side eliminations; and
+- the defining Zu^5 + a4 Zu^4 + a2 Zu^2 + a1 Zu + am1 Zu^-1 + lam Zu^-2
+  formula with the declared invariant substitution.
+
+That audit takes about 15 seconds on the development machine and agrees
+exactly. The checker is bounded to 50 million sparse term products and 20,000
+terms per intermediate; the live fixture uses 67,868 products.
 
 ## Deliberate refusals
 
-The graph contains no edge from the actual-source E-system. The landed chain
-proves much more than the earlier digest-only receipt, but a digest-bound face
-table is still not a proof that the raw source row extracts to that table.
-Therefore this assay grants no:
+The selected face system uses 55 active variables and fits the exact-affine
+kernel. The complete finite root template carries 74 root coefficients before
+its scalar parameters and exceeds the current 64-variable model bound.
+Persisting a graph edge would therefore require either a larger source-object
+sort or a dishonest projection pretending to be the source. GP does neither.
 
-- actual-source coefficient-extraction authority;
+The standalone extraction envelope consequently retains graph_effect: NONE
+even though its local proposition is verified. It licenses that the 25 selected
+faces are necessary consequences of the declared reduced E-system template. It
+does not license the reverse point lift or prove that an original polynomial
+pair belongs to that template.
+
+Therefore this assay still grants no:
+
+- source-image sufficiency or selected-face-to-source nonemptiness;
+- original polynomial-pair membership;
 - checked cover joining the generic and discriminant graph components;
-- actual-source membership, depth-7, H3, or `(75,125)` conclusion.
+- q- or p-chart membership;
+- depth-7, H3, or (75,125) conclusion.
 
-The next honest source-composition input is a bounded face-extraction
-certificate from raw E-system rows to these 25 exact face bodies. No new graph
-edge or claim kind is needed unless that live certificate proves otherwise.
+The next upstream seam is the mathematical/presentation bridge from an
+original polynomial pair to this reduced E-system. A second live consumer may
+justify a higher-sorted finite-template object later; this assay alone does not
+justify enlarging the graph schema or variable cap.
 
 ## Review-surface measurement
 
@@ -85,8 +110,11 @@ review input.
 python experiments/jc_h3_source_depth6/adapter.py
 python experiments/jc_h3_source_depth6/chain_adapter.py
 python experiments/jc_h3_source_depth6/chain_adapter.py --full-replay
+python experiments/jc_h3_source_depth6/face_extraction_adapter.py --check-native-bindings
+python experiments/jc_h3_source_depth6/face_extraction_adapter.py --full-source-replay --check-native-bindings
 python -m pytest -q tests/test_jc_source_depth6_authority.py
 python -m pytest -q tests/test_jc_source_depth6_chain.py
+python -m pytest -q tests/test_jc_source_depth6_face_extraction.py
 ```
 
 To build a disposable persisted campaign and record both equivalence verdicts:

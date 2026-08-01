@@ -7,6 +7,7 @@ import GrandPortage.Conditions
 import GrandPortage.Localization
 import GrandPortage.OperationContract
 import GrandPortage.CoefficientExpansion
+import GrandPortage.GradedFaceExtraction
 import GrandPortage.LaurentLowering
 import GrandPortage.FactorPower
 import GrandPortage.ProductSplit
