@@ -625,6 +625,22 @@ def substitute_polynomial(expression, variables, images, characteristic=0,
                                 characteristic, budget))
         for name in variables
     )
+    nonidentity_indices = [
+        index for index, name in enumerate(variables)
+        if parsed_images[name] != Polynomial.variable(
+            variables, characteristic, name, budget)
+    ]
+    # Sparse campaign artifacts routinely carry thousands of terms while a
+    # coordinate change touches only one variable. Re-expanding a polynomial
+    # whose support misses every changed coordinate is not validation work;
+    # it is a quadratic rendering tax. The parsed image comparison above is
+    # exact, so this shortcut changes only resource use, not accepted maths.
+    if not source.uses_any(nonidentity_indices):
+        if _preserve_sparse:
+            return portable_polynomial(
+                source, prefer_sparse=isinstance(expression, dict)
+            )
+        return render_polynomial(source)
     answer = Polynomial.scalar(variables, characteristic, 0, budget)
     for monomial, coefficient in source.terms.items():
         term = Polynomial.scalar(

@@ -3,10 +3,10 @@
 This is the attack surface for the current release. The full historical review
 through v0.18 is preserved in `HISTORY/REVIEW-through-v0.18.md`.
 
-**Version <!--version-->0.20.0<!--/version-->, graph format
+**Version <!--version-->0.21.0<!--/version-->, graph format
 <!--graph-format-->4<!--/graph-format-->, kernel epoch
 <!--kernel-epoch-->10<!--/kernel-epoch-->, and
-<!--checks-->1278<!--/checks--> collected checks.**
+<!--checks-->1308<!--/checks--> collected checks.**
 
 ## Highest-risk claim
 
@@ -91,9 +91,21 @@ native receipt, standalone factor/affine replay, compiled localized-unit proof,
 graph binding, real backend artifacts, and local `EMPTY` verdict are retained
 in `review/v0.19/`. The parent edge remains a refusal control.
 
-The next composition target is the five-step ordered source ladder: bind its
-fingerprinted states to exact graph models and earn mapped equivalence only
-through explicit forward/reverse point-map premises.
+Both five-step source ladders now have graph-bound mapped-equivalence authority.
+The next isolated composition target has also landed: JC commit `cb3136c` carries
+25 exact sparse face tables, ten input bodies, 23 ordered solve transitions,
+and two boundary residuals. `experiments/jc_h3_source_depth6/chain_adapter.py`
+independently checks the chain, welds its inputs to GP's ladder fixtures, and
+welds its outputs to GP's boundary fixture. The routine gate is fast; the full
+ambient substitution replay takes about 80 seconds and is release/review-only.
+
+Attack the compressed and uncompressed digest pins, canonical sparse order,
+step order, prefix fingerprints, pin cofactors, t-unit witnesses, rung welds,
+and endpoint welds. The most important refusal control is semantic: even a
+fully replayed chain has `graph_effect: NONE` until a separate certificate
+proves that the 25 face tables are extracted from the raw E-system. Any
+actual-source edge, source membership, chart cover, H3, or verdict promotion at
+this stage is a defect.
 
 ## 7. Project-level falsification
 

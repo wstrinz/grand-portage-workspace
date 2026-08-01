@@ -6,10 +6,10 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 
 ## Release boundary
 
-- Package version: <!--version-->0.20.0<!--/version-->.
+- Package version: <!--version-->0.21.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1278<!--/checks--> checks.
+- Test collection: <!--checks-->1308<!--/checks--> checks.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
@@ -64,8 +64,21 @@ cofactor proofs for both ideal pullbacks; `verify.ring_iso` expands those proofs
 and checks both map round trips without Gröbner search. Mutated cofactors are
 `UNVERIFIED`, while the legacy top-face Singular path independently agrees and
 rejects a missing inverse equation. The review packet is under `review/v0.20/`.
-Native source extraction, depths 2--6, parent coverage, actual-source membership,
-and H3 remain open.
+A follow-on isolated assay imports the frozen depth-6 residual pair: the
+3,262-term `R2B` and 6,124-term `beta` maps are independently decoded and
+native-digest-welded. Existing `mapped_ring_iso_v1` evidence certifies the
+generic affine solve for `c7_5` and the discriminant collapse to `beta=0`, both
+without CAS. The earlier receipt exposed the 33 intermediate values only as
+digests. JC commit `cb3136c` now lands all bodies and a 23-step depth-2..6
+chain certificate. GP retains a byte-identical 951 KB copy, independently
+verifies all ordered solve/unit identities in its fast gate, welds the ten
+inputs to the already-verified top/second-face fixtures, and welds both outputs
+to the frozen boundary projection. A full exact replay of all 25 face
+substitutions is green in about 80 seconds. Authority remains
+`graph_effect: NONE`: the face tables are exact and digest-bound, but their
+extraction from the raw E-system is not proved by this certificate. GP therefore
+still creates no actual-source edge or stratum cover. Source extraction, parent
+coverage, actual-source membership, and H3 remain open. The review packet is under `review/v0.21/`.
 
 ## Active release discipline
 

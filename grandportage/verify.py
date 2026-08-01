@@ -483,14 +483,16 @@ def _check_mapped_ring_iso_certificate(certificate, ring, characteristic,
         for generator, cofactors in zip(
                 target_generators, forward_cofactors):
             pulled = G.substitute_polynomial(
-                generator, ring, forward, characteristic)
+                generator, ring, forward, characteristic,
+                _preserve_sparse=True)
             G.check_membership_identity(
                 pulled, source_generators, cofactors,
                 ring, characteristic)
         for generator, cofactors in zip(
                 source_generators, inverse_cofactors):
             pulled = G.substitute_polynomial(
-                generator, ring, inverse, characteristic)
+                generator, ring, inverse, characteristic,
+                _preserve_sparse=True)
             G.check_membership_identity(
                 pulled, target_generators, cofactors,
                 ring, characteristic)

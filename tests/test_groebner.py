@@ -372,6 +372,17 @@ def test_sparse_polynomial_round_trip_is_exact_and_canonical():
     ) == "(2)*x^2+(-3/5)*y+7"
     assert G.canonical_polynomial_value(sparse, ["x", "y"]) == sparse
 
+def test_sparse_substitution_skips_coordinates_absent_from_support():
+    sparse = _sparse_polynomial()
+
+    assert G.substitute_polynomial(
+        sparse,
+        ["x", "y", "z"],
+        {"x": "x", "y": "y", "z": "z+1"},
+        _budget=G._ArithmeticBudget(10),
+        _preserve_sparse=True,
+    ) == sparse
+
 
 @pytest.mark.parametrize("mutate, message", [
     (lambda value: value.update({"extra": True}), "exactly schema and terms"),

@@ -274,6 +274,22 @@ its normalization relation to supply a checked polynomial inverse. Both compile
 to exact cofactor envelopes and retain no source-extraction, parent, coverage,
 actual-source-membership, or H3 authority.
 
+Version 0.21.0 remains at **graph format 4** and **kernel epoch 10**. It adds
+two isolated review consumers without expanding graph authority. The JC
+depth-6 assay independently decodes the frozen boundary residuals, verifies
+the generic and discriminant mapped equivalences, and replays a landed 23-step
+chain through 25 digest-bound face tables. Its evidence envelope has graph
+effect `NONE` because raw E-system-to-face extraction remains an explicit
+premise. The Stacks applicability sidecar pins three theorem statements and
+audits their printed and application-specific hypotheses; discovery ranking
+and application packets likewise have no graph effect.
+
+The exact substitution checker now preserves an already-canonical sparse
+polynomial when every nonidentity coordinate map is absent from its support.
+The shortcut follows an exact parsed support test and changes only resource
+use; verifier meaning and version remain unchanged. Version 0.21 therefore
+adds no edge type, claim kind, transport cell, verifier authority, graph field,
+or kernel-epoch transition.
 Within one kernel epoch, no field may silently acquire a more permissive
 interpretation. A syntax-only extension can bump `graph_format`; transport
 meaning or verifier trust bumps `kernel_epoch` or the narrower verifier/backend

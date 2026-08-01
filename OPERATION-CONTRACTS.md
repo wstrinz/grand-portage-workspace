@@ -550,6 +550,26 @@ Graph format 4 owns the optional proof envelope and ring-isomorphism verifier
 version 3 owns its exact replay. No edge type, claim kind, transport cell, or
 kernel meaning changed, so kernel epoch 10 remains current.
 
+### Depth-6 boundary strata and the remaining graded-transport seam
+
+The frozen JC depth-6 receipt provides complete sparse maps for `R2B` and
+`beta`, so the isolated adapter can bind two downstream affine rewrites without
+inventing a new operation. On `alpha != 0`, an explicit inverse coordinate
+reduces `alpha*c7_5+beta` to a zero pivot; on the discriminant, the same row is
+exactly `beta`. Both compile to `mapped_ring_iso_v1`.
+
+A fresh `GP_BETA` coordinate plus the exact alias equation `GP_BETA-beta=0`
+keeps the maps and cofactors small while retaining all 6,124 terms. Exact
+substitution now detects when a polynomial's support misses every changed
+coordinate and preserves its sparse encoding. This changes resource use only;
+it adds no algebraic rule or authority.
+
+The receipt's 33 intermediate solve values remain term counts and digest
+commitments. Those commitments authenticate bytes but cannot prove a
+coefficient extraction or solve transition, so no actual-source edge is
+created. The missing contract should be requirements-driven by a receipt that
+exposes exact per-step polynomials or a smaller checkable straight-line
+certificate; GP should not bless a hash-only `GradedCoefficientTransport`.
 ## Trust boundary
 
 `grandportage.evidence` provides the common `AffineContext`, read-only

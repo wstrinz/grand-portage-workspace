@@ -98,6 +98,61 @@ theorem normalizedEquation_zero_iff_affine_zero_of_inverseEquation
   normalizedEquation_zero_iff_affine_zero
     zeroMul mulZero addZero zeroAdd zeroNeOne noZeroDivisors
     ⟨inverse, inverseEquation⟩ receipt contextZero
+
+/-- On a principal open, an affine equation with a two-sided inverse is exactly
+the translated zero-coordinate equation used by the depth-6 generic stratum
+compiler. The explicit laws keep this bridge independent of Mathlib. -/
+theorem affineEquation_zero_iff_shift_zero_of_inverse
+    {R : Type u} [Mul R] [Add R] [OfNat R 0] [OfNat R 1]
+    (mulAssoc : forall a b c : R, (a * b) * c = a * (b * c))
+    (mulAdd : forall a b c : R, a * (b + c) = a * b + a * c)
+    (oneMul : forall r : R, 1 * r = r)
+    (mulZero : forall r : R, r * 0 = 0)
+    {coefficient inverse pivot constant : R}
+    (rightInverse : coefficient * inverse = 1)
+    (leftInverse : inverse * coefficient = 1) :
+    coefficient * pivot + constant = 0 <->
+      pivot + inverse * constant = 0 := by
+  constructor
+  · intro equationZero
+    calc
+      pivot + inverse * constant =
+          1 * pivot + inverse * constant := by rw [oneMul]
+      _ = (inverse * coefficient) * pivot + inverse * constant := by
+            rw [leftInverse]
+      _ = inverse * (coefficient * pivot) + inverse * constant := by
+            rw [mulAssoc]
+      _ = inverse * (coefficient * pivot + constant) := by
+            rw [mulAdd]
+      _ = inverse * 0 := by rw [equationZero]
+      _ = 0 := mulZero inverse
+  · intro shiftedZero
+    calc
+      coefficient * pivot + constant =
+          coefficient * pivot + 1 * constant := by rw [oneMul]
+      _ = coefficient * pivot + (coefficient * inverse) * constant := by
+            rw [rightInverse]
+      _ = coefficient * pivot + coefficient * (inverse * constant) := by
+            rw [mulAssoc]
+      _ = coefficient * (pivot + inverse * constant) := by
+            rw [mulAdd]
+      _ = coefficient * 0 := by rw [shiftedZero]
+      _ = 0 := mulZero coefficient
+
+/-- On the discriminant stratum the affine coefficient is a multiple of a
+vanishing factor, so the boundary equation is exactly its constant term. -/
+theorem affineEquation_zero_iff_constant_zero_of_factor_zero
+    {R : Type u} [Mul R] [Add R] [OfNat R 0]
+    (mulZero : forall r : R, r * 0 = 0)
+    (zeroMul : forall r : R, 0 * r = 0)
+    (zeroAdd : forall r : R, 0 + r = r)
+    {scale discriminant pivot constant : R}
+    (discriminantZero : discriminant = 0) :
+    (scale * discriminant) * pivot + constant = 0 <-> constant = 0 := by
+  have collapse : (scale * discriminant) * pivot + constant = constant := by
+    rw [discriminantZero, mulZero, zeroMul, zeroAdd]
+  rw [collapse]
+
 /-- Identity is a mapped equivalence. -/
 def MappedEquivalence.refl {A : Type u} (model : Model A) :
     MappedEquivalence model model where

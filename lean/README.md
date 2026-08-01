@@ -213,6 +213,9 @@ model before any mapped equivalence is constructed. The explicit
 the checked receipt, context vanishing, unit witness, and narrow zero laws.
 `normalizedEquation_zero_iff_affine_zero_of_inverseEquation` records the
 compiler bridge from an explicit polynomial inverse equation to that witness.
+`affineEquation_zero_iff_shift_zero_of_inverse` and
+`affineEquation_zero_iff_constant_zero_of_factor_zero` formalize the two
+depth-6 boundary strata without asserting their source extraction or coverage.
 
 ## Trust
 

@@ -40,7 +40,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.19.0. <!--checks-->1278<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.21.0. <!--checks-->1308<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -194,15 +194,30 @@ states, selected equation, unit coefficient, pivot-independent solution, and
 both state fingerprints at every step. The first five-step fixture uses the
 landed JC source top-face row order and solve expressions. Mutations of step
 order, prior substitution, state fingerprint, unit scope, normalized output,
-or schema fail closed. This is deliberately standalone evidence: Lean proves
-that a chain of semantically bound `MappedEquivalence` steps preserves points
-and emptiness, but runtime graph binding has not been minted and therefore no
-model equivalence or EMPTY authority follows yet. The second-face consumer
-then correctly refuted literal v1 normalization: all five differences contain
-`15*t^3+1`. The v2 evidence envelope now checks an exact cofactor against that
-persistent scalar-gauge generator at every step and verifies the landed 31/31
-native-check receipt. This is the desired live-driven extension, not a generic
-quotient simplifier.
+or schema fail closed. Lean proves that a chain of semantically bound
+`MappedEquivalence` steps
+preserves points and emptiness. Version 0.20 compiles both five-step chains to
+explicit forward/reverse maps and cofactor proofs; `verify.ring_iso` now earns
+graph-bound mapped-equivalence authority for the exact endpoint quotients. The
+second-face consumer correctly refuted literal v1 normalization: all five
+differences contain `15*t^3+1`. The v2 evidence envelope checks an exact
+cofactor against that persistent scalar-gauge generator at every step and
+verifies the landed 31/31 native-check receipt. This is the desired live-driven
+extension, not a generic quotient simplifier.
+
+**Current depth-6 chain status.** JC commit `cb3136c` lands a compressed exact
+certificate containing 25 sparse depth-2..6 face tables, the ten top/second
+input bodies, 23 ordered solves, and two residuals. GP freezes the native bytes,
+checks compressed and canonical digests, independently replays the ordered
+prefix fingerprints, affine splits, t-unit witnesses, pin cofactors and solves,
+and welds the endpoints to its existing ladder and boundary fixtures. The fast
+integrity/solve gate takes a few seconds; a separate full ambient substitution
+replay is green in about 80 seconds. Mutations of order, unit evidence, solved
+values, or refusal scope fail closed. The resulting evidence intentionally has
+`graph_effect: NONE`: `cb3136c` binds the extracted face bodies but does not
+prove their derivation from the raw E-system. A bounded source-to-face
+extraction certificate is the next composition seam; actual-source membership,
+chart coverage, H3, and verdict promotion remain refused.
 
 **Current product-split status.** `product_split_v1` replays the landed bottom
 split `E[2,0]=10(c6_0p+c8_0)(c7_0p+c9_0)` and independently verifies
@@ -590,7 +605,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1278<!--/checks--> checks, ~40 s) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1308<!--/checks--> checks, ~40 s) |
 
 ---
 
@@ -697,7 +712,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1278<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1308<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.

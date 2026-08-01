@@ -28,7 +28,7 @@ def test_init_starts_with_epoch_metadata(tmp_path):
     path = S.graph_path(str(tmp_path))
     events = list(S.load_events(path))
     assert events[0][0] == {
-        "created_with": "grandportage/0.20.0",
+        "created_with": "grandportage/0.21.0",
         "ev": "meta",
         "graph_format": 4,
         "kernel_epoch": F.KERNEL_EPOCH,

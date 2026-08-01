@@ -1471,6 +1471,16 @@ def _representation_summary(rep):
     return "rep=%s" % method
 
 
+def _generator_summary(value):
+    """Render structured exact polynomials without dumping huge certificates."""
+    if isinstance(value, str):
+        return value
+    if (isinstance(value, dict)
+            and value.get("schema") == "sparse_polynomial_v1"
+            and isinstance(value.get("terms"), list)):
+        return "<sparse_polynomial_v1: %d terms>" % len(value["terms"])
+    return "<structured polynomial>"
+
 def cmd_show(args):
     g = _load(args)
     for mid in sorted(g.models):
@@ -1502,7 +1512,8 @@ def cmd_show(args):
             print("    ring   k[%s]" % ", ".join(m["ring_vars"]))
         if m.get("generators") is not None:
             gens = m["generators"]
-            print("    ideal  (%s)" % (", ".join(gens) if gens else "0"))
+            rendered = [_generator_summary(value) for value in gens]
+            print("    ideal  (%s)" % (", ".join(rendered) if gens else "0"))
         # A MODEL WAITING ON ITS IDEAL MUST NOT LOOK LIKE ONE WITH NO IDEAL.
         # In this listing they were indistinguishable -- both simply had no
         # `ideal` line -- which is the same conflation the store now refuses
