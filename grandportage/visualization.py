@@ -324,8 +324,21 @@ _HTML = r'''<!doctype html>
       const text = String(value || '').trim().replace(/\s+/g, ' ');
       return text.length > limit ? text.slice(0, limit - 1) + '...' : text;
     }
+    function recordFor(node) {
+      if (Object.prototype.hasOwnProperty.call(node, 'record')) return node.record;
+      const ref = node.record_ref || {};
+      const collection = data.collections?.[ref.collection];
+      let record;
+      if (Object.prototype.hasOwnProperty.call(ref, 'id') && collection && !Array.isArray(collection)) {
+        record = collection[ref.id];
+      } else if (Number.isInteger(ref.index) && Array.isArray(collection)) {
+        record = collection[ref.index];
+      }
+      if (ref.field !== undefined) record = record?.[ref.field];
+      return record || {};
+    }
     function readingFor(node) {
-      const r = node.record || {};
+      const r = recordFor(node);
       if (node.kind === 'inference') {
         const route = (r.path || []).map(step => `${step[0]} ${step[1]}`).join(', ') || 'no transport edge';
         return {
@@ -413,7 +426,7 @@ _HTML = r'''<!doctype html>
       panel.querySelector('h1').textContent = node.id;
       const pills = panel.querySelectorAll('.pill'); pills[0].textContent = node.kind; pills[1].textContent = node.status;
       panel.querySelector('.selectionSummary').textContent = readingFor(node).summary;
-      panel.querySelector('pre').textContent = JSON.stringify(node.record, null, 2);
+      panel.querySelector('pre').textContent = JSON.stringify(recordFor(node), null, 2);
       const neighbors = document.getElementById('neighbors'); neighbors.replaceChildren();
       const items = [...(incident.get(key) || [])].sort((a,b) => a.other.localeCompare(b.other));
       for (const item of items) {
@@ -449,7 +462,7 @@ _HTML = r'''<!doctype html>
       const neighborhood = selected ? contextKeys(selected, depth) : null;
       for (const [key, mesh] of meshByKey) {
         const node = nodeByKey.get(key);
-        const matches = !search || key.toLowerCase().includes(search) || JSON.stringify(node.record).toLowerCase().includes(search);
+        const matches = !search || key.toLowerCase().includes(search) || JSON.stringify(recordFor(node)).toLowerCase().includes(search);
         const outside = neighborhood && !neighborhood.has(key);
         mesh.visible = enabled.has(node.kind) && matches && !(isolate && outside);
         const dim = context && outside;

@@ -301,6 +301,12 @@ This changes verifier implementation and trust without changing containment or
 transport meaning. Version-2 containment verdicts therefore remain readable
 but stale and must be recomputed; no kernel-epoch transition is required. The
 first live consumer is the 78-variable JC finite-template assay.
+
+Development after v0.22 introduces derived projection schema v2. It replaces
+duplicate node records with references into the projection collections. This is
+a read-surface compatibility boundary only: projections remain non-
+authoritative,
+and graph format 4, kernel epoch 10, and folded graph meaning are unchanged.
 Within one kernel epoch, no field may silently acquire a more permissive
 interpretation. A syntax-only extension can bump `graph_format`; transport
 meaning or verifier trust bumps `kernel_epoch` or the narrower verifier/backend

@@ -27,7 +27,7 @@ def test_projection_is_complete_deterministic_and_non_authoritative():
 
     assert first == second
     assert P.canonical_json(first) == P.canonical_json(second)
-    assert first["schema"] == "grand-portage-projection/v1"
+    assert first["schema"] == "grand-portage-projection/v2"
     assert first["authority"] == "DERIVED_READ_MODEL_ONLY"
     assert first["source"]["graphs"][0]["fingerprint"].startswith("sha256:")
     assert first["counts"]["accepted_findings"] == 0
@@ -49,6 +49,30 @@ def test_projection_is_complete_deterministic_and_non_authoritative():
             if node["kind"] == "certificate"} == set(graph.certificates)
     assert all(relation["source"] in key_set and relation["target"] in key_set
                for relation in first["relations"])
+    assert all(P.resolve_record(first, node) is not None
+               for node in first["nodes"])
+
+
+def test_projection_v2_references_canonical_records_instead_of_copying_them():
+    graph = S.Graph()
+    marker = "projection-only-marker-" + "x" * 10_000
+    graph.models["BIG"] = {
+        "ev": "model",
+        "id": "BIG",
+        "characteristic": 0,
+        "ring_vars": ["x"],
+        "generators": [marker],
+    }
+
+    projected = P.build(graph, package_version="test")
+    node = next(node for node in projected["nodes"]
+                if node["key"] == "model:BIG")
+
+    assert "record" not in node
+    assert node["record_ref"] == {"collection": "models", "id": "BIG"}
+    assert P.resolve_record(projected, node) == projected[
+        "collections"]["models"]["BIG"]
+    assert P.canonical_json(projected, pretty=False).count(marker) == 1
 
 
 def test_relative_source_path_remains_portable(tmp_path, monkeypatch):
@@ -129,7 +153,7 @@ def test_cli_project_and_visualize_write_only_derived_outputs(tmp_path):
     ]) == 0
     html = explorer.read_text(encoding="utf-8")
     assert "JC2 review" in html
-    assert "grand-portage-projection/v1" in html
+    assert "grand-portage-projection/v2" in html
     assert "graph.jsonl" in html
     assert "sha256:" in html
 

@@ -10,7 +10,7 @@ import json
 import os
 
 
-SCHEMA = "grand-portage-projection/v1"
+SCHEMA = "grand-portage-projection/v2"
 
 # Verdict subjects describe verifier jobs, not always graph entity kinds.
 # Keep this projection explicit and test it against Graph._VERDICTS: a
@@ -80,19 +80,54 @@ def _status(record):
     return "DECLARED"
 
 
-def _node(kind, identifier, record, label=None):
+def _node(kind, identifier, record, label=None, record_ref=None):
     key = "%s:%s" % (kind, identifier)
     status = _status(record) if isinstance(record, dict) else "DECLARED"
     if kind == "finding" and isinstance(record, dict):
         status = str(record.get("severity") or status)
-    return {
+    node = {
         "key": key,
         "kind": kind,
         "id": str(identifier),
         "label": str(label if label is not None else identifier),
         "status": status,
-        "record": _portable(record),
     }
+    if record_ref is None:
+        node["record"] = _portable(record)
+    else:
+        node["record_ref"] = _portable(record_ref)
+    return node
+
+
+def resolve_record(projection, node):
+    """Resolve a v2 node record without duplicating serialized JSON.
+
+    Inline record remains supported for synthesized nodes and v1 inputs.
+    References name a canonical record already present under collections.
+    """
+    if "record" in node:
+        return node["record"]
+    reference = node.get("record_ref")
+    if not isinstance(reference, dict):
+        raise ValueError("projected node has neither record nor record_ref")
+    collection = projection.get("collections", {}).get(
+        reference.get("collection"))
+    if "id" in reference and isinstance(collection, dict):
+        record = collection.get(str(reference["id"]))
+    elif "index" in reference and isinstance(collection, list):
+        index = reference["index"]
+        record = (collection[index]
+                  if isinstance(index, int) and 0 <= index < len(collection)
+                  else None)
+    else:
+        record = None
+    if record is None:
+        raise ValueError("projected node record_ref does not resolve")
+    if reference.get("field") is not None:
+        if not isinstance(record, dict) or reference["field"] not in record:
+            raise ValueError("projected node record_ref field does not resolve")
+        record = record[reference["field"]]
+    return record
 
 
 def _relation(kind, source, target, label=""):
@@ -161,31 +196,35 @@ def build(graph, sources=(), findings=(), accepted=None, package_version=""):
     nodes = []
     nodes_by_kind = {}
 
-    def add(kind, identifier, record, label=None):
-        node = _node(kind, identifier, record, label)
+    def add(kind, identifier, record, label=None, record_ref=None):
+        node = _node(
+            kind, identifier, record, label, record_ref=record_ref)
         nodes.append(node)
         nodes_by_kind.setdefault(kind, set()).add(str(identifier))
 
     entity_collections = (
-        ("model", collections["models"]),
-        ("edge", collections["edges"]),
-        ("claim", collections["claims"]),
-        ("inference", collections["inferences"]),
-        ("partition", collections["partitions"]),
-        ("family", collections["families"]),
-        ("alias", collections["aliases"]),
-        ("citation", collections["citations"]),
-        ("evidence", collections["evidence"]),
-        ("doubt", collections["doubts"]),
-        ("verdict", collections["verdicts"]),
-        ("note", collections["named_notes"]),
+        ("model", "models", collections["models"]),
+        ("edge", "edges", collections["edges"]),
+        ("claim", "claims", collections["claims"]),
+        ("inference", "inferences", collections["inferences"]),
+        ("partition", "partitions", collections["partitions"]),
+        ("family", "families", collections["families"]),
+        ("alias", "aliases", collections["aliases"]),
+        ("citation", "citations", collections["citations"]),
+        ("evidence", "evidence", collections["evidence"]),
+        ("doubt", "doubts", collections["doubts"]),
+        ("verdict", "verdicts", collections["verdicts"]),
+        ("note", "named_notes", collections["named_notes"]),
     )
-    for kind, records in entity_collections:
+    for kind, collection_name, records in entity_collections:
         for identifier, record in records.items():
-            add(kind, identifier, record)
+            add(kind, identifier, record, record_ref={
+                "collection": collection_name, "id": str(identifier),
+            })
     for index, record in enumerate(collections["notes"]):
         if not record.get("id"):
-            add("note", "@%d" % index, record, "note %d" % (index + 1))
+            add("note", "@%d" % index, record, "note %d" % (index + 1),
+                record_ref={"collection": "notes", "index": index})
     for identifier, base_changes in collections["certificates"].items():
         record = dict(collections["certificate_records"].get(identifier, {}))
         record.setdefault("base_changes", base_changes)
@@ -195,9 +234,10 @@ def build(graph, sources=(), findings=(), accepted=None, package_version=""):
     for item in tombstones:
         add("tombstone", "%s:%s" % (item["entity_kind"], item["id"]),
             item["record"])
-    for finding in findings:
+    for index, finding in enumerate(findings):
         add("finding", finding.get("id", "@%d" % len(nodes)), finding,
-            finding.get("severity", "finding"))
+            finding.get("severity", "finding"),
+            record_ref={"collection": "findings", "index": index})
 
     relations = []
 
@@ -292,7 +332,7 @@ def build(graph, sources=(), findings=(), accepted=None, package_version=""):
                 link("finding-trace", "edge:%s" % trace["edge"],
                      finding_key, str(trace.get("direction", "")))
 
-    for kind, records in entity_collections:
+    for kind, _collection_name, records in entity_collections:
         for identifier, record in records.items():
             successors = record.get("superseded_by") or []
             if isinstance(successors, str):

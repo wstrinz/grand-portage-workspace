@@ -9,7 +9,7 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 - Package version: <!--version-->0.22.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1327<!--/checks--> checks.
+- Test collection: <!--checks-->1328<!--/checks--> checks.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
@@ -88,9 +88,12 @@ findings.
 
 This corrects the earlier diagnosis: 64 is a shared bound on specialized
 checkers and producers, not on graph models or the core sparse parser. No
-global bump is needed. The graph is about 39.5 MB, so structured-generator
-interning is now a measured review-surface priority. The remaining upstream
-seam is original polynomial-pair membership in the reduced E-system;
+global bump is needed. The graph is about 39.5 MB. Projection schema v2 avoids
+duplicating its model records inside visualization nodes, cutting the measured
+compact read artifact from 68.8 MB to 34.4 MB without changing graph authority.
+Deep polynomial interning would save only another roughly 1 MB and is deferred.
+The remaining upstream seam is original polynomial-pair membership in the
+reduced E-system;
 selected-face reverse lifting, parent coverage, H3, and verdict promotion
 remain open. The v0.22 review packet freezes this complete extraction and graph-
 authority milestone under review/v0.22/.

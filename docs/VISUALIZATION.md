@@ -15,8 +15,13 @@ python -m http.server 8000
 Then open `http://127.0.0.1:8000/campaign.html`. Serving the file over HTTP is
 important because browsers apply module restrictions to `file:` URLs.
 
-The JSON output uses schema `grand-portage-projection/v1`. It carries source
-paths, SHA-256 fingerprints, graph format, kernel epoch, package version, every
+The JSON output uses schema `grand-portage-projection/v2`. Node records are
+references into canonical entries under `collections`, avoiding a second serialized
+copy of large model payloads. On the 78-variable JC complete-template assay,
+this reduces compact projection JSON from 68,782,731 to 34,393,822 bytes
+and the standalone explorer from 68,813,798 to 34,425,501 bytes. A measured
+deep polynomial pool would save only about another 1.0 MB, so v2 deliberately
+stops at record references. It carries source paths, SHA-256 fingerprints, graph format, kernel epoch, package version, every
 folded collection, normalized nodes and normalized relations. Its authority is
 always `DERIVED_READ_MODEL_ONLY`.
 
