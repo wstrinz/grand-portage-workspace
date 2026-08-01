@@ -15,6 +15,7 @@ from typing import Any, Dict, Optional, Tuple
 GRAPH_EFFECT_NONE = "NONE"
 GRAPH_EFFECT_LOCAL_EMPTY = "LOCAL_EMPTY"
 GRAPH_EFFECT_IDENTITY_TRANSPORT = "IDENTITY_TRANSPORT"
+GRAPH_EFFECT_POINT_INCLUSION = "POINT_INCLUSION"
 
 
 def fingerprint(value):
@@ -151,6 +152,13 @@ EVIDENCE_CONTRACTS = (
         "localization_membership_v1 when an exact cofactor can be emitted",
     ),
     EvidenceContract(
+        "graded_face_extraction_v1",
+        "bounded weighted coefficient faces from a finite algebraic template",
+        "experimental",
+        GRAPH_EFFECT_NONE,
+        "NECESSARY_CONDITION after complete source-model materialization",
+    ),
+    EvidenceContract(
         "laurent_lowering_v1",
         "finite Laurent straight-line equalities and support-cleared exports",
         "experimental",
@@ -196,6 +204,19 @@ EVIDENCE_CONTRACTS = (
 
 
 AUTHORITY_CONTRACTS = (
+    AuthorityContract(
+        "verify.containment",
+        "ideal_containment_v3 (exact generator inclusion or backend reduction)",
+        (
+            "edge", "endpoint models", "coefficient domains",
+            "point universes", "ring orders", "generator ideals",
+            "verifier epoch",
+        ),
+        GRAPH_EFFECT_POINT_INCLUSION,
+        "the exact directed endpoint relation only; failed ideal membership "
+        "does not refute point containment, and no reverse, source-extraction, "
+        "parent, or coverage authority is implied",
+    ),
     AuthorityContract(
         "verify.localized_unit_ideal",
         "localized_unit_ideal_v1",

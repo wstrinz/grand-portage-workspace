@@ -6,7 +6,7 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 
 ## Release boundary
 
-- Package version: <!--version-->0.21.0<!--/version-->.
+- Package version: <!--version-->0.22.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
 - Test collection: <!--checks-->1327<!--/checks--> checks.
@@ -92,8 +92,8 @@ global bump is needed. The graph is about 39.5 MB, so structured-generator
 interning is now a measured review-surface priority. The remaining upstream
 seam is original polynomial-pair membership in the reduced E-system;
 selected-face reverse lifting, parent coverage, H3, and verdict promotion
-remain open. The v0.21 review packet records the preceding chain milestone
-under review/v0.21/.
+remain open. The v0.22 review packet freezes this complete extraction and graph-
+authority milestone under review/v0.22/.
 
 ## Active release discipline
 

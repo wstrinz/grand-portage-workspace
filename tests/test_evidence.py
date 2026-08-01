@@ -85,6 +85,7 @@ def test_manifest_covers_every_stable_or_experimental_affine_schema():
         CE.SCHEMA,
         FP.SCHEMA,
         FPC.SCHEMA,
+        "graded_face_extraction_v1",
         LCP.SCHEMA,
         LL.SCHEMA,
         LOC.SCHEMA,
@@ -101,10 +102,16 @@ def test_manifest_covers_every_stable_or_experimental_affine_schema():
 
 
 def test_manifest_names_current_graph_authority_effects():
-    assert len(EV.AUTHORITY_CONTRACTS) == 2
+    assert len(EV.AUTHORITY_CONTRACTS) == 3
     contracts = {
         contract.verifier: contract for contract in EV.AUTHORITY_CONTRACTS
     }
+
+    containment = contracts["verify.containment"]
+    assert containment.representation.startswith("ideal_containment_v3")
+    assert containment.graph_effect == EV.GRAPH_EFFECT_POINT_INCLUSION
+    assert "failed ideal membership does not refute" in containment.containment
+    assert "no reverse" in containment.containment
 
     localized = contracts["verify.localized_unit_ideal"]
     assert localized.representation == "localized_unit_ideal_v1"

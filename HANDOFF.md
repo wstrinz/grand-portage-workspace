@@ -40,7 +40,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.21.0. <!--checks-->1327<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.22.0. <!--checks-->1327<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and

@@ -290,7 +290,7 @@ The shortcut follows an exact parsed support test and changes only resource
 use; verifier meaning and version remain unchanged. Version 0.21 therefore
 adds no edge type, claim kind, transport cell, verifier authority, graph field,
 or kernel-epoch transition.
-Development after version 0.21 keeps graph format 4 and kernel epoch 10.
+Version 0.22.0 keeps graph format 4 and kernel epoch 10.
 Containment verifier version 3 recognizes one backend-free proof already
 implicit in ideal semantics: if every target generator is an exactly parsed,
 verbatim member of the source generator list, unit cofactors establish the

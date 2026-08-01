@@ -3,7 +3,7 @@
 This is the attack surface for the current release. The full historical review
 through v0.18 is preserved in `HISTORY/REVIEW-through-v0.18.md`.
 
-**Version <!--version-->0.21.0<!--/version-->, graph format
+**Version <!--version-->0.22.0<!--/version-->, graph format
 <!--graph-format-->4<!--/graph-format-->, kernel epoch
 <!--kernel-epoch-->10<!--/kernel-epoch-->, and
 <!--checks-->1327<!--/checks--> collected checks.**
@@ -99,13 +99,23 @@ independently checks the chain, welds its inputs to GP's ladder fixtures, and
 welds its outputs to GP's boundary fixture. The routine gate is fast; the full
 ambient substitution replay takes about 80 seconds and is release/review-only.
 
-Attack the compressed and uncompressed digest pins, canonical sparse order,
-step order, prefix fingerprints, pin cofactors, t-unit witnesses, rung welds,
-and endpoint welds. The most important refusal control is semantic: even a
-fully replayed chain has `graph_effect: NONE` until a separate certificate
-proves that the 25 face tables are extracted from the raw E-system. Any
-actual-source edge, source membership, chart cover, H3, or verdict promotion at
-this stage is a defect.
+The v0.22 extraction assay closes that specific open edge. A standalone
+`graded_face_extraction_v1` checker reconstructs all 25 selected faces from five
+reduced E-system rows, and its stronger mode reconstructs those rows from the
+normalized root series, fourteen P-side eliminations, and the defining
+E-system formula. Lean proves only the necessary-condition direction and
+exhibits why reverse transport is invalid.
+
+The graph-bound assay materializes the complete finite reduced E-system
+template: 147 nonzero equations, 78 active variables, and 424,934 sparse
+terms. The selected 25 equations occur verbatim. `verify.containment` v3
+therefore checks the declared `NECESSARY_CONDITION` by exact parsed generator
+inclusion, with no backend process. Attack malformed equal generators,
+cross-context replay, direction reversal, old v2 verdict staleness, and any
+attempt to promote selected-face survival, source membership, parent coverage,
+H3, or the (75,125) verdict. Also scrutinize the roughly 39.5 MB persisted
+graph: it is authoritative and usable, but exposes the need for a smaller
+content-addressed review projection.
 
 ## 7. Project-level falsification
 
