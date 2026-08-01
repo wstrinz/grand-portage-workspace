@@ -40,7 +40,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.21.0. <!--checks-->1319<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.21.0. <!--checks-->1327<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -205,26 +205,31 @@ cofactor against that persistent scalar-gauge generator at every step and
 verifies the landed 31/31 native-check receipt. This is the desired live-driven
 extension, not a generic quotient simplifier.
 
-**Current depth-6 chain status.** JC commit cb3136c lands a compressed exact
-certificate containing 25 sparse depth-2..6 face tables, ten top/second inputs,
-23 ordered solves, and two residuals. GP freezes the native bytes, independently
-replays every transition and welds both ends to its earlier verified fixtures.
+**Current depth-6 chain status.** JC commit cb3136c lands 25 sparse
+depth-2..6 face tables, ten top/second inputs, 23 ordered solves, and two
+residuals. GP independently replays every transition and welds both ends to its
+earlier verified fixtures.
 
-The new bounded graded extraction closes the certificate's raw-face seam. Its
-fast native sparse engine expands five frozen reduced E-system rows through the
-declared root supports and matches all 25 outputs. A stronger audit independently
-reconstructs those rows from Zu, fourteen P-side triangular eliminations, the
-E-system formula, and invariant substitution. The fast gate takes about one
-second, the full source audit about 15 seconds, and mutation controls fail
-closed. Lean proves source witness -> selected-face witness and selected-face
-emptiness -> source emptiness, while refuting the reverse witness inference.
+The bounded graded extractor closes the raw-face seam. Its fast sparse engine
+expands five frozen reduced E-system rows through the declared root supports
+and matches all 25 outputs. A stronger audit reconstructs those rows from Zu,
+fourteen P-side triangular eliminations, the E-system formula, and invariant
+substitution. Lean proves source witness -> selected-face witness and
+selected-face emptiness -> source emptiness, while refuting the reverse witness
+inference.
 
-The evidence still intentionally has graph_effect: NONE. This is no longer
-because the face bodies are underived: it is because the honest complete finite
-root-template source has 74 root coefficients before scalars, beyond GP's
-current 64-variable exact-affine model bound. The checked 55-variable selection
-cannot stand in for that source. Original polynomial-pair -> reduced E-system,
-reverse lifting, chart coverage, H3, and verdict promotion remain refused.
+The full finite-template assay materializes the honest source endpoint:
+78 active variables and 147 complete nonzero coefficient equations. The target
+retains 25 of those generators exactly. Containment verifier version 3 reparses
+the included generators and treats their unit-cofactor inclusion as a
+verifier-native structural decision, so the existing NECESSARY_CONDITION edge
+earns VERIFIED without CAS and the persisted campaign has zero findings.
+
+The earlier statement that the graph had a 64-variable model bound was wrong.
+That bound belongs to specialized checkers and producers. The measured cost of
+the honest graph is instead size: about 39.5 MB of JSONL because large
+generators repeat. Original polynomial-pair -> reduced E-system, reverse
+lifting, chart coverage, H3, and verdict promotion remain refused.
 
 **Current product-split status.** `product_split_v1` replays the landed bottom
 split `E[2,0]=10(c6_0p+c8_0)(c7_0p+c9_0)` and independently verifies
@@ -612,7 +617,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1319<!--/checks--> checks, ~40 s) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1327<!--/checks--> checks, ~140 s on the current development machine) |
 
 ---
 
@@ -719,7 +724,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1319<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1327<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.

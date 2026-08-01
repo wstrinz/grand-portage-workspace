@@ -175,12 +175,12 @@ def _power(value, exponent, budget, where):
     return result
 
 
-def _series_multiply(left, right, budget, where):
-    output = [{} for _ in range(DEPTH + 1)]
+def _series_multiply(left, right, budget, where, depth=DEPTH):
+    output = [{} for _ in range(depth + 1)]
     for i, left_coefficient in enumerate(left):
         if not left_coefficient:
             continue
-        for j, right_coefficient in enumerate(right[:DEPTH + 1 - i]):
+        for j, right_coefficient in enumerate(right[:depth + 1 - i]):
             if not right_coefficient:
                 continue
             product = _multiply(left_coefficient, right_coefficient,
@@ -189,10 +189,10 @@ def _series_multiply(left, right, budget, where):
     return output
 
 
-def _series_power(value, exponent, budget, where):
-    result = [{(): Q(1)}] + [{} for _ in range(DEPTH)]
+def _series_power(value, exponent, budget, where, depth=DEPTH):
+    result = [{(): Q(1)}] + [{} for _ in range(depth)]
     for _ in range(exponent):
-        result = _series_multiply(result, value, budget, where)
+        result = _series_multiply(result, value, budget, where, depth=depth)
     return result
 
 
@@ -206,11 +206,11 @@ def _coordinate_name(root, lift):
     return "c%d_%d" % (root, lift)
 
 
-def _coordinate_series(root):
+def _coordinate_series(root, depth=DEPTH):
     top_lift = len(ROOT_SUPPORTS[root]) - 1
     output = []
-    for depth in range(DEPTH + 1):
-        lift = top_lift - depth
+    for offset in range(depth + 1):
+        lift = top_lift - offset
         output.append({((_coordinate_name(root, lift), 1),): Q(1)}
                       if lift >= 0 else {})
     return output
@@ -243,17 +243,17 @@ def _row_max(row):
     return maximum
 
 
-def _build_faces(source_rows):
+def _build_faces(source_rows, depth=DEPTH):
     """Independent native sparse implementation of the weighted face pass."""
     budget = _Budget()
-    root_series = {root: _coordinate_series(root) for root in ROOTS}
+    root_series = {root: _coordinate_series(root, depth=depth) for root in ROOTS}
     scalars = _scalar_images()
     faces = {}
     row_maxima = {}
     for row_number, row in sorted(source_rows.items()):
         maximum = _row_max(row)
         row_maxima[row_number] = maximum
-        output = [{} for _ in range(DEPTH + 1)]
+        output = [{} for _ in range(depth + 1)]
         for term_index, (monomial, coefficient) in enumerate(row.items()):
             powers = dict(monomial)
             weight = sum(powers.get("z%d" % root, 0) *
@@ -263,7 +263,7 @@ def _build_faces(source_rows):
                      "row %d term %d violates the frozen grading" %
                      (row_number, term_index))
             gap = distance // DELTA
-            if gap > DEPTH:
+            if gap > depth:
                 continue
             scalar = {(): coefficient}
             for name in SCALARS:
@@ -273,7 +273,7 @@ def _build_faces(source_rows):
                         scalar, _power(scalars[name], exponent, budget,
                                        "scalar substitution"),
                         budget, "scalar substitution")
-            product_series = [{(): Q(1)}] + [{} for _ in range(DEPTH)]
+            product_series = [{(): Q(1)}] + [{} for _ in range(depth)]
             for root in ROOTS:
                 name = "z%d" % root
                 exponent = powers.pop(name, 0)
@@ -281,20 +281,21 @@ def _build_faces(source_rows):
                     product_series = _series_multiply(
                         product_series,
                         _series_power(root_series[root], exponent, budget,
-                                      "root-series power"),
-                        budget, "root-series product")
+                                      "root-series power", depth=depth),
+                        budget, "root-series product", depth=depth)
             _require(not powers,
                      "source row contains an unsupported symbol: %s" %
                      sorted(powers))
-            for depth, value in enumerate(product_series[:DEPTH + 1 - gap]):
+            for series_depth, value in enumerate(
+                    product_series[:depth + 1 - gap]):
                 if value:
                     contribution = _multiply(
                         scalar, value, budget, "face contribution")
-                    output[gap + depth] = _add(
-                        output[gap + depth], contribution, budget,
+                    output[gap + series_depth] = _add(
+                        output[gap + series_depth], contribution, budget,
                         "face accumulation")
-        for depth, value in enumerate(output):
-            faces[(row_number, depth)] = value
+        for face_depth, value in enumerate(output):
+            faces[(row_number, face_depth)] = value
     return faces, row_maxima, budget.products
 
 

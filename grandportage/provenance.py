@@ -17,6 +17,7 @@ import re
 
 from . import backend as B
 from . import format as F
+from . import groebner as G
 from . import kernel as K
 
 
@@ -27,7 +28,7 @@ BACKEND = "singular"
 # these independent avoids invalidating every verdict when one checker changes.
 VERIFIERS = {
     "claim": ("verify.identity", 2),
-    "edge": ("verify.containment", 2),
+    "edge": ("verify.containment", 3),
     "certificate": ("verify.unit_ideal", 2),
     "ring_iso": ("verify.ring_iso", 3),
     "witness": ("verify.point_witness", 2),
@@ -217,7 +218,20 @@ def _eligible_structural_containment(graph, eid):
             or source["characteristic"] != target["characteristic"]
             or set(target.get("ring_vars") or []) != set(ring)):
         return False
-    return target["generators"] == []
+    target_generators = target["generators"]
+    if target_generators == []:
+        return True
+    source_generators = source["generators"]
+    if not all(generator in source_generators
+               for generator in target_generators):
+        return False
+    try:
+        for generator in target_generators:
+            G.parse_polynomial(
+                generator, ring, source["characteristic"])
+    except G.CertificateError:
+        return False
+    return True
 
 
 def _eligible_structural_operation(graph, event):

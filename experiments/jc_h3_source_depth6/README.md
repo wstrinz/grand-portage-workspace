@@ -63,47 +63,76 @@ matches all 25 landed depth-2..6 face digests and term counts. The stronger
 - the defining Zu^5 + a4 Zu^4 + a2 Zu^2 + a1 Zu + am1 Zu^-1 + lam Zu^-2
   formula with the declared invariant substitution.
 
-That audit takes about 15 seconds on the development machine and agrees
-exactly. The checker is bounded to 50 million sparse term products and 20,000
-terms per intermediate; the live fixture uses 67,868 products.
+That audit takes about 15 seconds and agrees exactly. The checker remains
+bounded to 50 million sparse term products and 20,000 terms per intermediate;
+the selected live fixture uses 67,868 products.
+
+## Complete finite-template graph assay
+
+The graph itself has no 64-variable model limit. Sixty-four is a shared
+resource bound on several specialized certificate checkers and producers.
+Raising it globally would relax unrelated trust boundaries and is unnecessary
+for this seam.
+
+full_template_campaign.py instead expands the complete declared finite root
+supports while leaving every global bound unchanged. The resulting exact model
+has:
+
+- 78 active variables;
+- 147 nonzero coefficient equations through complete row depths
+  25, 27, 28, 30, and 32;
+- 424,934 sparse terms and 914,741 checked sparse products;
+- the 25 landed depth-2..6 equations as literal members of that generator set.
+
+The generic containment verifier now recognizes exact generator inclusion as a
+unit-cofactor proof before spawning a backend. It reparses every included
+target generator, so identical malformed payloads are refused. Containment
+verifier version 3 makes the backend-free result replayable as a current
+verifier-native structural decision.
+
+A disposable persisted campaign earns VERIFIED containment on a
+NECESSARY_CONDITION edge from the complete reduced E-system template to the
+25-face selection, produces zero findings, and spawns no CAS process. Its JSONL
+is about 39.5 MB, making generator interning or content-addressed model payloads
+the next review-tooling issue rather than a reason to weaken semantic scope.
 
 ## Deliberate refusals
 
-The selected face system uses 55 active variables and fits the exact-affine
-kernel. The complete finite root template carries 74 root coefficients before
-its scalar parameters and exceeds the current 64-variable model bound.
-Persisting a graph edge would therefore require either a larger source-object
-sort or a dishonest projection pretending to be the source. GP does neither.
+The graph-bound edge establishes exactly:
 
-The standalone extraction envelope consequently retains graph_effect: NONE
-even though its local proposition is verified. It licenses that the 25 selected
-faces are necessary consequences of the declared reduced E-system template. It
-does not license the reverse point lift or prove that an original polynomial
-pair belongs to that template.
+- a reduced-E-system witness gives a selected-face witness;
+- emptiness of the selected face system refutes the complete reduced E-system
+  template.
 
-Therefore this assay still grants no:
+It does not establish the reverse witness direction. More importantly, its
+source endpoint is the reduced E-system presentation, not an original
+polynomial pair. Therefore the assay still grants no:
 
-- source-image sufficiency or selected-face-to-source nonemptiness;
+- selected-face survival -> reduced-E-system survival;
 - original polynomial-pair membership;
-- checked cover joining the generic and discriminant graph components;
+- checked cover joining the generic and discriminant components;
 - q- or p-chart membership;
 - depth-7, H3, or (75,125) conclusion.
 
 The next upstream seam is the mathematical/presentation bridge from an
-original polynomial pair to this reduced E-system. A second live consumer may
-justify a higher-sorted finite-template object later; this assay alone does not
-justify enlarging the graph schema or variable cap.
+original polynomial pair to this reduced E-system. No graph field, edge type,
+claim kind, transport cell, or kernel-epoch change was needed.
 
 ## Review-surface measurement
 
-A persisted five-model/two-edge campaign folds with zero findings, and
-`gp show` now summarizes the structured generators instead of dumping or
-crashing on them. A full pretty projection measured about 56 MB and the static
-explorer about 9 MB because the read model repeats the large generator payloads.
-Those temporary artifacts were not checked in. Projection interning or
-structured-polynomial summaries should be addressed before publishing a review
-packet for this assay; the frozen 4.6 MB evidence fixture remains the canonical
-review input.
+The complete two-model/one-edge campaign is about 39.5 MB as JSONL because
+its 25 target generators repeat values already carried by the 147-generator
+source model. It folds cleanly. gp show now collapses large structured ideals
+to generator count, total term count, and the per-generator range instead of
+printing 147 individual summaries.
+
+An earlier five-model/two-edge boundary projection measured about 56 MB and
+its static explorer about 9 MB because the derived read model also repeats
+large generator payloads. Those temporary artifacts were not checked in.
+Content-addressed generator bundles or projection interning are now supported
+by two live measurements; they should precede publishing a full-template
+visualization packet.
+
 ## Run
 
 ```powershell
@@ -112,9 +141,12 @@ python experiments/jc_h3_source_depth6/chain_adapter.py
 python experiments/jc_h3_source_depth6/chain_adapter.py --full-replay
 python experiments/jc_h3_source_depth6/face_extraction_adapter.py --check-native-bindings
 python experiments/jc_h3_source_depth6/face_extraction_adapter.py --full-source-replay --check-native-bindings
+python experiments/jc_h3_source_depth6/full_template_campaign.py
+python experiments/jc_h3_source_depth6/full_template_campaign.py --campaign-root PATH --record
 python -m pytest -q tests/test_jc_source_depth6_authority.py
 python -m pytest -q tests/test_jc_source_depth6_chain.py
 python -m pytest -q tests/test_jc_source_depth6_face_extraction.py
+python -m pytest -q tests/test_jc_source_depth6_full_template.py
 ```
 
 To build a disposable persisted campaign and record both equivalence verdicts:

@@ -202,8 +202,32 @@ def containment(graph, eid, timeout=300, _runner=None, _backend=None):
             "ideal containment between them is not a reduction question"
             % (", ".join(ring), ", ".join(dst.get("ring_vars") or [])))
 
+    # Exact generator inclusion is already a complete certificate for this
+    # special case: if every target generator occurs verbatim among the source
+    # generators, then I(dst) is contained in I(src) with unit cofactors. Do
+    # this before spawning a backend. Besides avoiding pointless Groebner
+    # search, this keeps large sparse campaign models usable without weakening
+    # the bounded search/checker contracts elsewhere. Parse the matched values
+    # so identical malformed payloads cannot earn mathematical authority.
     src_gens = list(src["generators"])
-    for g in dst["generators"]:
+    dst_gens = list(dst["generators"])
+    if all(generator in src_gens for generator in dst_gens):
+        try:
+            for generator in dst_gens:
+                G.parse_polynomial(generator, ring, ch)
+        except G.CertificateError as exc:
+            return UNVERIFIED, (
+                "the target generators occur verbatim in the source, but "
+                "one is not a valid polynomial in the declared ring: %s"
+                % exc)
+        return VERIFIED, (
+            "every generator of %s's ideal occurs exactly among %s's "
+            "generators, so unit-cofactor inclusion gives I(%s) inside "
+            "I(%s) and V(%s) inside V(%s) without backend search."
+            % (e["dst"], e["src"], e["dst"], e["src"],
+               e["src"], e["dst"]))
+
+    for g in dst_gens:
         origin, evidence = (_backend or cas.SingularBackend(runner=_runner)).classify_identity(
             ring, lhs=g, rhs="0", generators=src_gens,
             characteristic=ch, timeout=timeout)

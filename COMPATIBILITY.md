@@ -290,6 +290,17 @@ The shortcut follows an exact parsed support test and changes only resource
 use; verifier meaning and version remain unchanged. Version 0.21 therefore
 adds no edge type, claim kind, transport cell, verifier authority, graph field,
 or kernel-epoch transition.
+Development after version 0.21 keeps graph format 4 and kernel epoch 10.
+Containment verifier version 3 recognizes one backend-free proof already
+implicit in ideal semantics: if every target generator is an exactly parsed,
+verbatim member of the source generator list, unit cofactors establish the
+required ideal inclusion. Every non-subset case still uses the existing backend
+reduction, and malformed equal payloads are refused.
+
+This changes verifier implementation and trust without changing containment or
+transport meaning. Version-2 containment verdicts therefore remain readable
+but stale and must be recomputed; no kernel-epoch transition is required. The
+first live consumer is the 78-variable JC finite-template assay.
 Within one kernel epoch, no field may silently acquire a more permissive
 interpretation. A syntax-only extension can bump `graph_format`; transport
 meaning or verifier trust bumps `kernel_epoch` or the narrower verifier/backend

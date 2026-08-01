@@ -1481,6 +1481,32 @@ def _generator_summary(value):
         return "<sparse_polynomial_v1: %d terms>" % len(value["terms"])
     return "<structured polynomial>"
 
+
+def _ideal_summary(generators, inline_limit=12):
+    """Keep a large structured ideal readable without hiding its scale."""
+    if not generators:
+        return "0"
+    rendered = [_generator_summary(value) for value in generators]
+    if len(generators) <= inline_limit:
+        return "(%s)" % ", ".join(rendered)
+    sparse_counts = [
+        len(value["terms"])
+        for value in generators
+        if (isinstance(value, dict)
+            and value.get("schema") == "sparse_polynomial_v1"
+            and isinstance(value.get("terms"), list))
+    ]
+    if len(sparse_counts) == len(generators):
+        return (
+            "<%d sparse generators; %d total terms; %d..%d "
+            "terms/generator>"
+            % (len(generators), sum(sparse_counts), min(sparse_counts),
+               max(sparse_counts)))
+    return "<%d generators; %d structured>" % (
+        len(generators), sum(not isinstance(value, str)
+                             for value in generators))
+
+
 def cmd_show(args):
     g = _load(args)
     for mid in sorted(g.models):
@@ -1512,8 +1538,7 @@ def cmd_show(args):
             print("    ring   k[%s]" % ", ".join(m["ring_vars"]))
         if m.get("generators") is not None:
             gens = m["generators"]
-            rendered = [_generator_summary(value) for value in gens]
-            print("    ideal  (%s)" % (", ".join(rendered) if gens else "0"))
+            print("    ideal  %s" % _ideal_summary(gens))
         # A MODEL WAITING ON ITS IDEAL MUST NOT LOOK LIKE ONE WITH NO IDEAL.
         # In this listing they were indistinguishable -- both simply had no
         # `ideal` line -- which is the same conflation the store now refuses

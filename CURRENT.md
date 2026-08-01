@@ -9,7 +9,7 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 - Package version: <!--version-->0.21.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1319<!--/checks--> checks.
+- Test collection: <!--checks-->1327<!--/checks--> checks.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
@@ -69,26 +69,31 @@ A follow-on isolated assay imports the frozen depth-6 residual pair: the
 native-digest-welded. Existing mapped_ring_iso_v1 evidence certifies the
 generic affine solve for c7_5 and the discriminant collapse to beta=0, both
 without CAS. JC commit cb3136c lands all 25 depth-2..6 face bodies and the
-23-step ordered chain. GP retains a byte-identical copy, independently verifies
-every solve/unit transition, welds the inputs to the graph-bound top/second
-ladders, and welds the outputs to the boundary projection.
+23-step ordered chain. GP independently verifies every transition and welds
+both ends to its earlier fixtures.
 
-The new graded face-extraction checker closes the next translation-validation
-gap: it independently expands five exact reduced E-system rows to all 25
-selected faces in about one second. A stronger roughly 15-second audit
-reconstructs those rows from the normalized root series, fourteen P-side
-triangular eliminations, and the defining E-system formula. Lean proves the
-one-way point semantics and supplies a countermodel to reverse transport.
+The graded face-extraction checker then expands five exact reduced E-system
+rows to all 25 selected faces in about one second. A stronger audit reconstructs
+those rows from the normalized root series, fourteen P-side triangular
+eliminations, and the defining E-system formula. Lean proves the one-way point
+semantics and supplies a countermodel to reverse transport.
 
-Authority remains graph_effect: NONE for a typed reason rather than missing
-arithmetic. The selected system has 55 active variables, while the complete
-finite root template has 74 root coefficients before scalar parameters and
-cannot be an honest source endpoint under the current 64-variable exact-affine
-bound. GP does not project it and call the projection the source. The remaining
-upstream seam is original polynomial-pair membership in the reduced E-system;
-source-image sufficiency, parent coverage, H3, and verdict promotion remain
-open. The v0.21 review packet records the preceding chain milestone under
-review/v0.21/.
+The complete finite-template assay now gives that proposition graph authority.
+It materializes 147 nonzero coefficient equations in 78 active variables,
+retains the selected 25 verbatim, and declares the existing
+NECESSARY_CONDITION relation. Containment verifier version 3 recognizes exact
+generator inclusion as a checked unit-cofactor proof, reparses every target,
+and earns VERIFIED with no backend process. The persisted assay has zero
+findings.
+
+This corrects the earlier diagnosis: 64 is a shared bound on specialized
+checkers and producers, not on graph models or the core sparse parser. No
+global bump is needed. The graph is about 39.5 MB, so structured-generator
+interning is now a measured review-surface priority. The remaining upstream
+seam is original polynomial-pair membership in the reduced E-system;
+selected-face reverse lifting, parent coverage, H3, and verdict promotion
+remain open. The v0.21 review packet records the preceding chain milestone
+under review/v0.21/.
 
 ## Active release discipline
 

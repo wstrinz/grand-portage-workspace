@@ -554,17 +554,14 @@ kernel meaning changed, so kernel epoch 10 remains current.
 
 The frozen JC depth-6 receipt provides complete sparse maps for R2B and beta,
 so the isolated adapter binds two downstream affine rewrites without inventing
-a new graph operation. On alpha != 0, an explicit inverse coordinate reduces
-alpha*c7_5+beta to a zero pivot; on the discriminant, the same row is exactly
-beta. Both compile to mapped_ring_iso_v1.
+a new graph operation. JC commit cb3136c additionally supplies all 25
+depth-2..6 face bodies and the 23-step ordered solve chain. The independent
+chain replay checks those transitions but, by itself, only authenticates the
+selected face tables.
 
-JC commit cb3136c then supplies all 25 depth-2..6 face bodies and the 23-step
-ordered solve chain. The independent chain replay checks those transitions but,
-by itself, only authenticates the selected face tables.
-
-graded_face_extraction_v1 now closes the next translation-validation seam. The
-routine checker expands five exact reduced E-system row polynomials under the
-declared finite root supports and matches every landed face. Its stronger audit
+graded_face_extraction_v1 closes the translation-validation seam. Its routine
+checker expands five exact reduced E-system row polynomials under the declared
+finite root supports and matches every landed face. Its stronger audit
 reconstructs the reduced rows from the normalized root series, fourteen
 unit-triangular P-side solves, the defining E-system formula, and the invariant
 substitution. Lean's GradedFaceExtraction contract proves the semantic
@@ -572,17 +569,30 @@ direction: a source witness lowers to a selected-face witness, so selected-face
 emptiness refutes the source. A countermodel proves that selected-face survival
 does not supply a source witness.
 
-This does not yet produce a graph edge. The selected assay fits in 55 active
-variables, but the complete finite root template has 74 root coefficients
-before scalar parameters and exceeds the current 64-variable exact-affine
-model bound. A graph-bound edge would lack an honest source endpoint. The
-standalone evidence therefore retains graph effect NONE rather than disguising
-a projection as the source. It licenses exact selected coefficient extraction,
-not source-image sufficiency, original polynomial-pair membership, chart
-coverage, H3, or a verdict change.
+A follow-up full-template assay establishes an honest graph endpoint without
+raising a checker bound. The graph store and core sparse parser do not impose
+the specialized checkers' 64-variable ceiling. Complete expansion gives a
+78-variable model with 147 nonzero coefficient equations; the selected 25 are
+literal members of that generator list. The edge is therefore the existing
+NECESSARY_CONDITION relation in one coordinate ring.
+
+Containment verifier version 3 adds one backend-free structural proof case:
+when every target generator occurs verbatim among the source generators, exact
+parsing plus unit cofactors proves I(target) is contained in I(source).
+Malformed equal payloads are refused, and every other case falls through to
+the existing backend reduction. The disposable JC campaign earns VERIFIED,
+has zero findings, and spawns no CAS.
+
+The persisted graph is about 39.5 MB because the read model duplicates large
+structured generators. That is evidence for content-addressed generator
+bundles or projection interning, not for flattening or omitting the source.
+The remaining upstream premise is original polynomial-pair membership in the
+reduced E-system. Reverse lifting, chart coverage, H3, and verdict promotion
+remain refused.
 
 No graph format, edge type, claim kind, transport cell, or kernel meaning
-changed, so graph format 4 and kernel epoch 10 remain current.
+changed, so graph format 4 and kernel epoch 10 remain current. Containment
+verifier version 2 verdicts become stale and must be rerun under version 3.
 
 ## Trust boundary
 
