@@ -13,6 +13,7 @@ import GrandPortage.FactorPower
 import GrandPortage.ProductSplit
 import GrandPortage.PartitionContract
 import GrandPortage.AffineCoordinate
+import GrandPortage.AffineFiberBlock
 import GrandPortage.TriangularChain
 import GrandPortage.ImageClosure
 import GrandPortage.Exhaustive

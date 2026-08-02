@@ -16,6 +16,7 @@ GRAPH_EFFECT_NONE = "NONE"
 GRAPH_EFFECT_LOCAL_EMPTY = "LOCAL_EMPTY"
 GRAPH_EFFECT_IDENTITY_TRANSPORT = "IDENTITY_TRANSPORT"
 EXCEPTIONAL_FACTOR_COLUMN_SCHEMA = "exceptional_factor_column_v1"
+AFFINE_FIBER_BLOCK_SCHEMA = "affine_fiber_block_v1"
 GRAPH_EFFECT_POINT_INCLUSION = "POINT_INCLUSION"
 
 
@@ -131,6 +132,13 @@ class AuthorityContract:
 
 
 EVIDENCE_CONTRACTS = (
+    EvidenceContract(
+        AFFINE_FIBER_BLOCK_SCHEMA,
+        "exact affine coefficient blocks with determined coordinates and residual compatibility",
+        "experimental",
+        GRAPH_EFFECT_NONE,
+        "a graph-bound necessary-condition model after residual materialization",
+    ),
     EvidenceContract(
         EXCEPTIONAL_FACTOR_COLUMN_SCHEMA,
         "finite exact coefficient columns and exceptional-factor decompositions",

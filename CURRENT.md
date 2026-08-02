@@ -9,7 +9,7 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 - Package version: <!--version-->0.22.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1460<!--/checks--> checks.
+- Test collection: <!--checks-->1475<!--/checks--> checks.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
@@ -218,6 +218,22 @@ model leaves it unchanged. The assay therefore licenses an exact exceptional-
 factor ledger and coordinate normalization only, with graph effect `NONE`.
 The next open authority object is still just six coefficients: `c8_5` and
 `c9_7` in `E[2,19]`, `E[3,20]`, and `E[4,22]` on `X_b`.
+
+Those six coefficients have now landed, together with the invariant transported
+block. GP composes them with the earlier `c9_7` pivot and checks the exact
+anti-diagonal matrix
+`[[0,-5*a*t],[-(5/8)*a^4*c,0],[0,(5/2)*a^2*t]]`. Its nonzero 2-by-2 minor is a
+unit on the declared localization, so the necessary depth-eight block has
+constant rank two. The left syzygy `(a,0,2)` leaves one symbolic compatibility
+`Psi8=a*r8_1+2*r8_3`.
+
+This closes the six-coefficient request without materializing the three
+boundary bodies. The native derivative-table chain-rule assembly is consumed
+as frozen semantics rather than falsely reconstructed from the six direct
+coefficients alone. The residual vector `r8` is not exported, so `Psi8` is not
+yet an explicit coordinate-ring polynomial, and the block is necessary rather
+than equivalent to the complete source fiber. The new general contract is
+`affine_fiber_block_v1`; graph effect remains `NONE`.
 
 ## Active release discipline
 

@@ -513,6 +513,17 @@ consumer: if every downstream predicate ignores the solved pivot, translating
 that pivot leaves the model literally unchanged. Standalone graph effect is
 `NONE`.
 
+`affine_fiber_block_v1` handles the next bounded composition seam. Its runtime
+instance must bind an exact affine coefficient matrix, audited unit pivots,
+rank witnesses, a residual vector or explicit declaration that the residual is
+missing, and the compatibility pairing left after solving the determined
+coordinates. Lean's `DeterminedAffineFiber` contract proves that a correctly
+characterized block has a point exactly on its compatibility locus and that
+its determined coordinates are unique. Neither the matrix rank nor this Lean
+theorem supplies source sufficiency: graph binding still requires a concrete
+necessary-condition model, and reverse transport requires independent
+completeness evidence.
+
 ### Ordered localized triangular solves
 
 `localized_triangular_solve_chain_v1` is the bounded composition envelope for

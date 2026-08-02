@@ -6,7 +6,7 @@ through v0.18 is preserved in `HISTORY/REVIEW-through-v0.18.md`.
 **Version <!--version-->0.22.0<!--/version-->, graph format
 <!--graph-format-->4<!--/graph-format-->, kernel epoch
 <!--kernel-epoch-->10<!--/kernel-epoch-->, and
-<!--checks-->1460<!--/checks--> collected checks.**
+<!--checks-->1475<!--/checks--> collected checks.**
 
 ## Highest-risk claim
 
@@ -230,3 +230,19 @@ value is a determination step rather than a ninth compatibility equation; and
 the ledger does not establish a component, source lift, H3, or graph claim.
 The checked report must preserve the six depth-eight boundary coefficients as
 its first open obligation and retain graph effect `NONE`.
+
+## 14. Depth-eight determined affine-block control
+
+`experiments/jc_h3_b0_free_plane/depth8_adapter.py` composes the prior verified
+affine pivot with the landed nine raw coefficients and transported `3x2`
+matrix. Attack all nine coefficient hashes, the block hash, the forced sign of
+`D7`, the three minors, the unit audit for `c2_3`, `c3_5`, and `t`, the left
+syzygy `(c2_3,0,2)`, and the symbolic augmented determinant.
+
+The key review trap is attempting to derive the invariant block from the six
+direct raw coefficients alone. The native chain-rule assembly also includes
+earlier solved-coordinate sensitivities; GP records that assembly and the
+affine-degree argument as consumed frozen semantics. The positive result is a
+constant-rank-two **necessary** extension block. `r8` is absent, `Psi8` is only
+a symbolic pairing, and no complete-fiber equivalence, source sufficiency,
+geometry of `Z(Psi8)`, H3, verdict, or graph authority follows.

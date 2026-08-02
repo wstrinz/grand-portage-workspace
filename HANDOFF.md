@@ -40,7 +40,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.22.0. <!--checks-->1460<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.22.0. <!--checks-->1475<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -617,7 +617,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1460<!--/checks--> checks, ~300 s on the current development machine) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1475<!--/checks--> checks, ~300 s on the current development machine) |
 
 ---
 
@@ -724,7 +724,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1460<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1475<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -1243,3 +1243,31 @@ and leaves the minimal depth-eight request open: six coefficients, namely the
 `c8_5` and `c9_7` columns of `E[2,19]`, `E[3,20]`, and `E[4,22]` on `X_b`.
 The final full non-live suite passes 1,419 checks with one skip and 40 live
 deselections in 480.50 seconds on a contended development machine.
+
+---
+
+## 2026-08-02 — transported depth-eight affine fiber block
+
+JC commit `033f63a` fulfilled the six-coefficient request and supplied the
+invariant transported block. GP freezes all nine raw coefficient columns,
+matches their native commitments, composes against the previously verified
+`c9_7` pivot prerequisite, and independently checks the exact `3x2` block,
+minors, left syzygy, and symbolic augmented determinant. The native replay
+passes 40/40.
+
+The block has constant rank two on the declared localization: `E[2,19]`
+determines `c8_5`, `E[3,20]` determines transported `c7_4`, and the remaining
+row contributes the symbolic compatibility `Psi8=a*r8_1+2*r8_3`. The native
+chain-rule assembly includes earlier solved-coordinate sensitivities and is
+explicitly labeled consumed frozen semantics; GP does not reconstruct it from
+the six direct coefficients alone.
+
+`lean/GrandPortage/AffineFiberBlock.lean` adds the reusable semantic contract:
+a correctly characterized determined block is inhabited exactly on its
+compatibility locus, and its solved coordinates are unique. The current
+instance is standalone `affine_fiber_block_v1` evidence with graph effect
+`NONE`. The next missing authority object is `r8`, the three boundary residuals
+after earlier legal solves on `X_b`. Without it, `Psi8` is not an explicit
+polynomial and no complete-fiber/source equivalence or sufficiency follows.
+The final full non-live suite passes 1,434 checks with one skip and 40 live
+deselections in 370.01 seconds.

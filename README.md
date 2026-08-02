@@ -30,7 +30,7 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1460<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1475<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
@@ -286,6 +286,10 @@ Three rows carry most of the value:
   independently checks its `b`/`Delta` factorizations and one reversible affine
   pivot, and retains graph effect `NONE`. It distinguishes a solved rung value
   from a new compatibility equation without adding a graph relation or claim.
+  Its depth-eight successor uses `affine_fiber_block_v1`: an exact coefficient
+  block may determine named fiber coordinates and expose a residual
+  compatibility, but it still grants no graph authority until the residual and
+  exact necessary-condition model are materialized and bound.
 * **Ordered localized solves now have a bounded composition envelope.** `gp
   verify-localized-triangular-chain --spec chain.json` checks a closed sequence
   of exact equations `unit * (pivot - solution)`, requires the unit to use only
@@ -374,7 +378,7 @@ Three.js build by default; `--three-root` can point it at a local package.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1460<!--/checks--> checks
+python -m pytest        # <!--checks-->1475<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two
