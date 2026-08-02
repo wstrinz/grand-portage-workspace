@@ -53,6 +53,7 @@ import threading
 
 from . import artifacts as A
 from . import backend as B
+from . import groebner as G
 from . import kernel as K
 from . import store as S
 
@@ -1731,6 +1732,18 @@ def membership_representation(ring_vars, target, generators, characteristic=0,
     Returns {"is_member", "cofactors", "reduced"}.  `reduced` is the normal
     form, which is the useful thing to print when the answer is no.
     """
+    # The exact checker accepts both infix strings and bounded sparse objects.
+    # Singular accepts text only. Compile every accepted representation here,
+    # at the backend boundary, rather than letting Python dict syntax leak into
+    # a program (first exposed by a 499-term localized guard).
+    try:
+        target = G.render_polynomial(G.parse_polynomial(
+            target, ring_vars, characteristic))
+        generators = [G.render_polynomial(G.parse_polynomial(
+            value, ring_vars, characteristic)) for value in generators]
+    except G.CertificateError as exc:
+        raise CASError("invalid exact membership polynomial: %s" % exc)
+
     # TWO CALLS, for the reason the unit version documents: `lift` errors when
     # there is nothing to lift, so asking for membership and a representation
     # in one program turns "not a member" -- a fine and common answer -- into a
@@ -1801,6 +1814,16 @@ def check_membership_representation(ring_vars, target, generators, cofactors,
             "coefficient per generator, in the same order; a shorter list "
             "would verify an identity about a different ideal and report it "
             "as this one." % (len(cofactors), len(generators)))
+    try:
+        target = G.render_polynomial(G.parse_polynomial(
+            target, ring_vars, characteristic))
+        generators = [G.render_polynomial(G.parse_polynomial(
+            value, ring_vars, characteristic)) for value in generators]
+        cofactors = [G.render_polynomial(G.parse_polynomial(
+            value, ring_vars, characteristic)) for value in cofactors]
+    except G.CertificateError as exc:
+        raise CASError("invalid exact membership representation: %s" % exc)
+
     terms = " + ".join("(%s)*(%s)" % (b, f)
                        for b, f in zip(cofactors, generators))
     prog = CASProgram(

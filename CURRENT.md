@@ -9,7 +9,7 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 - Package version: <!--version-->0.22.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1423<!--/checks--> checks.
+- Test collection: <!--checks-->1433<!--/checks--> checks.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
@@ -176,6 +176,17 @@ first-order compatibility fiber. The other eleven base directions, the
 Galois conjugate, nonlinear lifting, component exclusion, source authority,
 H3, and verdict promotion remain explicitly open or refused. The report has
 graph effect `NONE`.
+
+The S2 on-wall `OB != 0` dead-row obstruction is the first recent JC assay to
+compile all the way into existing graph authority. GP freezes the exact
+502-term `value_24` and 499-term ambient `OB`, checks
+`OB = value_24 + 45*c2_3*t*c8_9*R`, and uses the existing localized-unit-ideal
+certificate to mint `LOCAL_EMPTY` on the exact `R=0, OB!=0` consequence model.
+The complete nine-body parent and its necessary-condition edge are deliberately
+absent, so this grants no component, source, H3, or verdict authority. The live
+WSL/Singular replay succeeded. This assay also exposed and fixed a general CAS
+boundary defect: exact sparse polynomials are now canonically compiled before
+membership and cofactor-representation programs are emitted.
 
 ## Active release discipline
 

@@ -5,6 +5,7 @@ import pytest
 from grandportage import artifacts as A
 from grandportage import backend as B
 from grandportage import cas
+from grandportage import groebner as G
 from grandportage import kernel as K
 from grandportage import provenance as P
 from grandportage import store as S
@@ -381,6 +382,44 @@ def _assert_member(backend, ring, target, generators, characteristic=0):
         characteristic=characteristic, timeout=120,
     )
     assert ok, expanded
+
+
+def test_membership_boundary_compiles_sparse_polynomials_before_singular():
+    sparse = {
+        "schema": G.SPARSE_POLYNOMIAL_SCHEMA,
+        "terms": [{"coefficient": "1", "powers": [["x", 2]]}],
+    }
+    seen = []
+
+    def runner(program, _timeout):
+        seen.append(program.text)
+        assert "{'schema'" not in program.text
+        assert '"schema"' not in program.text
+        return _raw(_finished(program, "@@GP_RED:\nGP_RED[1]=0\n"))
+
+    # The first probe is sufficient to exercise sparse target and generator
+    # compilation. It then attempts `lift`; stop there with a typed CAS error.
+    with pytest.raises(cas.CASError):
+        cas.membership_representation(
+            ["x"], sparse, [sparse], _runner=runner)
+    assert seen and "x^2" in seen[0]
+
+
+def test_membership_checker_compiles_sparse_target_generator_and_cofactor():
+    sparse_x = {
+        "schema": G.SPARSE_POLYNOMIAL_SCHEMA,
+        "terms": [{"coefficient": "1", "powers": [["x", 1]]}],
+    }
+
+    def runner(program, _timeout):
+        assert "{'schema'" not in program.text
+        assert '"schema"' not in program.text
+        assert "x" in program.text
+        return _raw(_finished(program, "@@GP_DIFF:\nGP_DIFF[1]=0\n"))
+
+    valid, difference = cas.check_membership_representation(
+        ["x"], sparse_x, [sparse_x], ["1"], _runner=runner)
+    assert valid and difference == "0"
 
 
 @pytest.mark.live

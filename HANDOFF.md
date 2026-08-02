@@ -40,7 +40,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.22.0. <!--checks-->1423<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.22.0. <!--checks-->1433<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -617,7 +617,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1423<!--/checks--> checks, ~140 s on the current development machine) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1433<!--/checks--> checks, ~190 s on the current development machine) |
 
 ---
 
@@ -724,7 +724,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1423<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1433<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -1152,3 +1152,28 @@ Accordingly the Galois conjugate, every other base direction, the full
 12-dimensional survivor, nonlinear lifting, component exclusion, source
 authority, H3, depth nine, and verdict promotion remain open or refused. The
 checked report is `review/jc-h3-depth8-fiber-v1.json`; graph effect is `NONE`.
+
+---
+
+## 2026-08-01 — graph-bound S2 wall obstruction
+
+The landed JC on-wall receipt proves the exact dead-row identity
+`value_24 = OB - 45*c2_3*t*R*c8_9`. GP freezes the 502-term dead row and
+499-term ambient obstruction, independently checks
+`OB = value_24 + 45*c2_3*t*c8_9*R`, and compiles it through the existing
+`localization_membership_v1` / `LOCALIZED_UNIT_IDEAL_CERT` authority path. A
+real WSL/Singular run recorded a current verifier verdict and minted
+`LOCAL_EMPTY` for the exact `R=0, OB!=0` dead-row consequence model.
+
+The complete nine-body parent, the edge showing that this equation is its
+necessary consequence, the complementary `R=OB=0` piece, component exclusion,
+source membership, H3, and verdict promotion remain unmaterialized or refused.
+No relation, claim kind, evidence schema, graph field, or kernel epoch was
+added. The large sparse fixture did expose a general implementation defect:
+membership targets, generators, and cofactors could reach Singular as Python
+dictionary syntax. The CAS boundary now parses and canonically renders every
+exact polynomial before emitting either membership program.
+
+The focused wall/backend suite passes 26 checks in about 36 seconds. The full
+non-live suite passes 1,392 checks with one skip and 40 live deselections in
+188.44 seconds on the current development machine.

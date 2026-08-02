@@ -6,7 +6,7 @@ through v0.18 is preserved in `HISTORY/REVIEW-through-v0.18.md`.
 **Version <!--version-->0.22.0<!--/version-->, graph format
 <!--graph-format-->4<!--/graph-format-->, kernel epoch
 <!--kernel-epoch-->10<!--/kernel-epoch-->, and
-<!--checks-->1423<!--/checks--> collected checks.**
+<!--checks-->1433<!--/checks--> collected checks.**
 
 ## Highest-risk claim
 
@@ -173,3 +173,19 @@ and a separate conditional nonlinear bridge. The adapter instantiates only the
 first theorem. Mutations promoting the result to nonlinear nonextension,
 another base point, the component, K-valued scope, depth nine, source/H3
 authority, or graph effect must refuse.
+
+## 11. Graph-bound on-wall localized obstruction
+
+`experiments/jc_h3_wall_ob_open/adapter.py` freezes the landed 502-term S2
+dead-row equation and 499-term ambient obstruction. Attack the exact identity
+`OB = value_24 + 45*c2_3*t*c8_9*R`, the `R=0` generator, the `OB!=0` guard,
+the other declared chart guards, coefficient domain, point universe, source
+digests, and graph fingerprint. The positive control is a current
+`LOCALIZED_UNIT_IDEAL_CERT` that mints `LOCAL_EMPTY` only on the named dead-row
+consequence model.
+
+The complete nine-body parent and its edge to this consequence model do not
+exist in the assay. Any component, source, H3, verdict, or complementary
+`R=OB=0` conclusion is therefore an authority escalation. Also fuzz the
+generic membership backend with sparse targets, generators, and cofactors:
+none may be interpolated into Singular as Python or JSON dictionary syntax.
