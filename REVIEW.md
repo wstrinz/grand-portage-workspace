@@ -6,7 +6,7 @@ through v0.18 is preserved in `HISTORY/REVIEW-through-v0.18.md`.
 **Version <!--version-->0.22.0<!--/version-->, graph format
 <!--graph-format-->4<!--/graph-format-->, kernel epoch
 <!--kernel-epoch-->10<!--/kernel-epoch-->, and
-<!--checks-->1433<!--/checks--> collected checks.**
+<!--checks-->1447<!--/checks--> collected checks.**
 
 ## Highest-risk claim
 
@@ -189,3 +189,29 @@ exist in the assay. Any component, source, H3, verdict, or complementary
 `R=OB=0` conclusion is therefore an authority escalation. Also fuzz the
 generic membership backend with sparse targets, generators, and cofactors:
 none may be interpolated into Singular as Python or JSON dictionary syntax.
+
+## 12. Localized ring-element class control
+
+`experiments/jc_h3_b0_compatibility/adapter.py` checks a proposition sort not
+represented by the model-level graph claims: whether one exact localized
+coordinate-ring element is zero or a unit. Attack the five-row matrix and RHS,
+the equality of its determinant with `det5`, every Lambda fiber part, the
+`3/2` eliminant scalar, clearing exponent two, the full `Phi_b0_compat`, and
+the specialization into the three-variable slice. Exponent one must retain a
+nonzero remainder.
+
+The adapter recomputes the resultant and first subresultant, strips only roots
+shared with the exact guard product and `S11`, and checks both observations in
+their quotient rings. Mutate the degree-14 modulus, `S10`, `S11`, `det5`, the
+`OB` pivot, or either point direction. The positive conclusion is exactly
+`nonzero AND nonunit`; attempts to infer nonzerodivisor status, component
+geometry, `K`-rationality, wall survival/emptiness, lifting, source, H8, H3,
+verdict, or graph authority must refuse. Review the deliberate choice to keep
+this as standalone evidence with graph effect `NONE` rather than prematurely
+adding a graph claim kind.
+
+The fixture also embeds the later `compatibility_module/1` certificate. Check
+that its principal generator digest is byte-identical to the independently
+reconstructed `Phi`, that its `(5,1,1)` localized ranks and zero rank strata
+remain scoped to the declared guards, and that its fiber semantics are labeled
+as consumed frozen premises rather than GP-rederived facts.

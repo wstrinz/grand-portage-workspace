@@ -9,7 +9,7 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 - Package version: <!--version-->0.22.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1433<!--/checks--> checks.
+- Test collection: <!--checks-->1447<!--/checks--> checks.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
@@ -187,6 +187,21 @@ absent, so this grants no component, source, H3, or verdict authority. The live
 WSL/Singular replay succeeded. This assay also exposed and fixed a general CAS
 boundary defect: exact sparse polynomials are now canonically compiled before
 membership and cofactor-representation programs are emitted.
+
+The `b=0` compatibility-class assay exercises a different proposition sort:
+one named element of a localized coordinate ring. It independently reconstructs
+the wall-wide `det5` Cramer solve, the forced-square pushforward to the frozen
+3,137-term `Phi_b0_compat`, the degree-26 subresultant chain, a quadratic
+quotient observation where the class is nonzero, and a legal degree-14 quotient
+observation where it is zero. Lean proves that these observations license
+exactly **nonzero and nonunit**. Nonzerodivisor status, `K`-rationality,
+component geometry, lifting, source, H8, H3, verdict, and graph authority remain
+open or refused. This is standalone `localized_ring_element_class_v1` evidence
+with graph effect `NONE`, not a new graph claim kind. The later exact
+`compatibility_module/1` rendezvous binds the same `Phi` digest and supplies
+the principal-compatibility-ideal and materialized-fiber semantics as explicit
+frozen native premises; GP keeps those separate from what it independently
+replays.
 
 ## Active release discipline
 

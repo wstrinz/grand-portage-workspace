@@ -19,3 +19,4 @@ import GrandPortage.Exhaustive
 import GrandPortage.BackendTrust
 import GrandPortage.ParametricRecurrence
 import GrandPortage.FirstOrderFiber
+import GrandPortage.RingElementClass

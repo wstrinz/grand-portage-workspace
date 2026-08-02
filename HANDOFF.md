@@ -40,7 +40,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.22.0. <!--checks-->1433<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.22.0. <!--checks-->1447<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -617,7 +617,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1433<!--/checks--> checks, ~190 s on the current development machine) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1447<!--/checks--> checks, ~300 s on the current development machine) |
 
 ---
 
@@ -724,7 +724,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1433<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1447<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -1177,3 +1177,38 @@ exact polynomial before emitting either membership program.
 The focused wall/backend suite passes 26 checks in about 36 seconds. The full
 non-live suite passes 1,392 checks with one skip and 40 live deselections in
 188.44 seconds on the current development machine.
+
+---
+
+## 2026-08-02 — localized `b=0` compatibility class
+
+The JC coordinator supplied a bounded rendezvous packet for the exact
+materialized-depth locus `X_b : b=R=A=OB=0`, localized at `c2_3`, `p`, and
+`det5`. GP now freezes and independently replays the five-row affine chart,
+proves its determinant is the committed `det5`, reconstructs the 3,137-term
+`Phi_b0_compat = det5^2 Lambda|det5-solve`, and checks that one power of
+`det5` is insufficient. It then recomputes the degree-26 resultant and first
+subresultant.
+
+Two exact observations classify the element. In a nontrivial quadratic
+quotient its image is a unit and therefore nonzero. In a nontrivial degree-14
+quotient its image is zero while `det5`, the `OB` pivot, and the subresultant
+coefficient remain invertible. Hence the source class is not a unit.
+`lean/GrandPortage/RingElementClass.lean` proves precisely these reusable
+semantic implications without assuming a richer algebra library.
+
+The earned statement is only that `Phi_b0_compat` is **nonzero and nonunit** in
+the declared localized materialized-depth ring. Despite the native enum name
+`GENERIC_NONZERO_DIVISOR`, neither GP nor the native receipt proves
+nonzerodivisor status. The witness is not promoted to a `K`-point or an
+all-orders/source lift. The assay uses standalone
+`localized_ring_element_class_v1` evidence and graph effect `NONE`; it adds no
+graph relation, claim kind, field, or kernel epoch. Routine replay takes about
+one minute because it recomputes the Cramer and subresultant determinants.
+
+The subsequently landed native `compatibility_module/1` packet is bound to the
+identical `Phi_b0_compat` digest. GP consumes its principal-compatibility-ideal
+and fiber-semantics statements as frozen native premises, while retaining the
+independently rederived Cramer and quotient checks as a distinct trust layer.
+The native module replay passes 32/32. The final full non-live GP suite passes
+1,406 checks with one skip and 40 live deselections in 302.04 seconds.
