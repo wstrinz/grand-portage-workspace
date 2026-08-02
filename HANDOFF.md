@@ -40,7 +40,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.22.0. <!--checks-->1408<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.22.0. <!--checks-->1423<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -617,7 +617,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1408<!--/checks--> checks, ~140 s on the current development machine) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1423<!--/checks--> checks, ~140 s on the current development machine) |
 
 ---
 
@@ -724,7 +724,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1408<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1423<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -1128,3 +1128,27 @@ membership, H3, and graph authority stay outside the adapter. The report also
 does not adopt blanket minimality of `S-1` inside the final zero regimes. This
 is a standalone evidence schema and does not change the package API, graph
 format, kernel epoch, relation set, or claim kinds.
+
+---
+
+## 2026-08-01 — scoped depth-eight first-order fiber assay
+
+The newer JC straggler/zero-block composition supersedes the earlier reading
+of the depth-eight obstruction as merely a fixed `c7_4`, `c8_5=0` witness.
+On the nine-relation locus, the exact zero-block equation solves `c7_4`
+affinely in `c8_5`; the rotated combined cokernel has rank four, and the exact
+L-valued `Omega_comb` is nonzero at the landed base witness. Since the scalar
+does not vary with `c8_5`, the first-order incompatibility covers that base
+witness's entire free fiber.
+
+GP freezes this as `first_order_fiber_obstruction_v1`. The runtime verifies
+the native and transitive bindings, exact L-coordinate nonvanishing, unit/rank
+premises, and scope text. Lean proves that a nonzero base-only necessary scalar
+excludes every point in the named fiber. A second Lean theorem records the
+nonlinear consequence only under a supplied sound linearization map; this live
+adapter deliberately does not instantiate it.
+
+Accordingly the Galois conjugate, every other base direction, the full
+12-dimensional survivor, nonlinear lifting, component exclusion, source
+authority, H3, depth nine, and verdict promotion remain open or refused. The
+checked report is `review/jc-h3-depth8-fiber-v1.json`; graph effect is `NONE`.

@@ -9,7 +9,7 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 - Package version: <!--version-->0.22.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1408<!--/checks--> checks.
+- Test collection: <!--checks-->1423<!--/checks--> checks.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
@@ -166,6 +166,16 @@ Finite operators are explicitly padded to width at least eight and rational
 scalars act faithfully on the exact sparse matrix module. P1--P5, S2, the pin,
 and H8 remain named assumptions. The adapter also refuses a blanket
 minimal-`S-1` reading for the final zero regimes. Graph effect remains `NONE`.
+
+The depth-eight straggler/zero-block composition is now a second Lean-backed
+scope assay. The frozen native receipt solves `c7_4`, verifies a rank-four
+combined operator, and computes a nonzero rotated `Omega_comb` at one exact
+L-valued base witness. Because that necessary scalar is independent of the
+remaining `c8_5` coordinate, Lean licenses emptiness of the entire named
+first-order compatibility fiber. The other eleven base directions, the
+Galois conjugate, nonlinear lifting, component exclusion, source authority,
+H3, and verdict promotion remain explicitly open or refused. The report has
+graph effect `NONE`.
 
 ## Active release discipline
 

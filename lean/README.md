@@ -236,6 +236,15 @@ checks `start=6`, `cutoff=14`, and `B_13 != 0`; Lean proves the general
 backward-induction argument and the absence of any nonzero constant term. The
 theorem does not establish those instance premises or discharge H8.
 
+## Scoped first-order fibers
+
+`FirstOrderFiber.lean` separates two inference steps. A nonzero base-only
+necessary scalar excludes every compatible point in the named fiber. A
+first-order-empty fiber excludes nonlinear lifts through that same base only
+when a caller supplies a sound linearization map. The live JC depth-eight
+adapter instantiates the first theorem and deliberately leaves the second
+bridge unapplied.
+
 ## Trust
 
 No `sorry`. Mathlib-free — core Lean only, so a fresh `lake build` is seconds

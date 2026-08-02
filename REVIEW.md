@@ -6,7 +6,7 @@ through v0.18 is preserved in `HISTORY/REVIEW-through-v0.18.md`.
 **Version <!--version-->0.22.0<!--/version-->, graph format
 <!--graph-format-->4<!--/graph-format-->, kernel epoch
 <!--kernel-epoch-->10<!--/kernel-epoch-->, and
-<!--checks-->1408<!--/checks--> collected checks.**
+<!--checks-->1423<!--/checks--> collected checks.**
 
 ## Highest-risk claim
 
@@ -158,3 +158,18 @@ widening to a bilateral domain, dropping H8 from outstanding premises, or
 minting graph/H3 authority must refuse. Also scrutinize the excluded blanket
 minimality claim: the final padded regimes are zero and admit the unit
 annihilator even though `S-1` annihilates them.
+
+## 10. First-order depth-eight fiber control
+
+`experiments/jc_h3_depth8_fiber/adapter.py` freezes the landed composition
+receipt and checks the exact middle scope between pointwise and componentwise
+claims. Review the L-valued nonzero check for `Omega_comb`, the solved status
+of `c7_4`, the free `c8_5` quantifier, and the separation between the selected
+base witness and the rest of the 12-dimensional survivor. The positive result
+is emptiness of the entire named **first-order** compatibility fiber only.
+
+`lean/GrandPortage/FirstOrderFiber.lean` proves both the base-obstruction rule
+and a separate conditional nonlinear bridge. The adapter instantiates only the
+first theorem. Mutations promoting the result to nonlinear nonextension,
+another base point, the component, K-valued scope, depth nine, source/H3
+authority, or graph effect must refuse.
