@@ -17,3 +17,4 @@ import GrandPortage.TriangularChain
 import GrandPortage.ImageClosure
 import GrandPortage.Exhaustive
 import GrandPortage.BackendTrust
+import GrandPortage.ParametricRecurrence

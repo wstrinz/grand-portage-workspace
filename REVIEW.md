@@ -6,7 +6,7 @@ through v0.18 is preserved in `HISTORY/REVIEW-through-v0.18.md`.
 **Version <!--version-->0.22.0<!--/version-->, graph format
 <!--graph-format-->4<!--/graph-format-->, kernel epoch
 <!--kernel-epoch-->10<!--/kernel-epoch-->, and
-<!--checks-->1391<!--/checks--> collected checks.**
+<!--checks-->1408<!--/checks--> collected checks.**
 
 ## Highest-risk claim
 
@@ -144,3 +144,17 @@ Mandatory refusal controls include any attempt to turn 24 nonsquare-seed
 results into off-locus emptiness, omit the `C2!=0` branch, claim confinement of
 all points, widen the point universe, or give the structural cover a union-wide
 claim. The checked-in projection must retain graph effect `NONE`.
+
+## 9. Unilateral recurrence control
+
+`experiments/jc_h3_adjoint_recurrence/adapter.py` and
+`lean/GrandPortage/ParametricRecurrence.lean` deliberately split instance
+checking from semantic inference. Attack the declared unilateral start,
+cutoff, shift convention, rational operator coefficients, finite-width padding,
+zero-tail premise, and nonzero endpoint. The native correction must survive:
+`S^8` annihilates, `S^7` does not, and every coefficient below shift eight
+vanishes for any annihilator. Mutations restoring the original false prose,
+widening to a bilateral domain, dropping H8 from outstanding premises, or
+minting graph/H3 authority must refuse. Also scrutinize the excluded blanket
+minimality claim: the final padded regimes are zero and admit the unit
+annihilator even though `S-1` annihilates them.

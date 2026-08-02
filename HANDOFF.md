@@ -40,7 +40,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.22.0. <!--checks-->1391<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.22.0. <!--checks-->1408<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -617,7 +617,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1391<!--/checks--> checks, ~140 s on the current development machine) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1408<!--/checks--> checks, ~140 s on the current development machine) |
 
 ---
 
@@ -724,7 +724,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1391<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1408<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -1100,3 +1100,31 @@ decodes and checks frozen sparse bodies for the 952-term `C`, its exact 24-term
 only. The structural two-piece cover has no union claim and graph effect is
 `NONE`. This required no new kernel relation, claim kind, graph field, or
 epoch change.
+
+---
+
+## 2026-08-01 — Lean-backed unilateral recurrence assay
+
+The corrected JC adjoint receipt now drives a bounded
+`parametric_recurrence_v1` experiment. GP independently decodes the frozen
+padded five-by-two sparse operator matrices, reconstructs jumps exactly at
+depths 7, 9, 11, and 13, verifies the zero tail from depth 14, and verifies
+that `B_13` is nonzero. The current native producer independently passes
+44/44 checks; the earlier packet's 43/43 count was stale, while its certificate
+digest remains unchanged.
+
+`lean/GrandPortage/ParametricRecurrence.lean` supplies the previously required
+semantic interface without Mathlib. For finite constant-coefficient shift
+operators padded to sufficient width, a unilateral sequence starting at `s`,
+zero from `N`, and nonzero at `N-1` is annihilated exactly when every
+coefficient below shift `N-s` vanishes. The live instance uses rational
+operator coefficients acting faithfully on exact sparse matrices, `s=6`, and
+`N=14`; hence the annihilator ideal is `(S^8)`, `S^7` fails, and no operator
+with nonzero constant term can reconstruct backward.
+
+The native assumptions P1--P5, S2, the pin, and H8 remain explicit. Cokernel
+bases, straggler identities, additive values, geometric conclusions, source
+membership, H3, and graph authority stay outside the adapter. The report also
+does not adopt blanket minimality of `S-1` inside the final zero regimes. This
+is a standalone evidence schema and does not change the package API, graph
+format, kernel epoch, relation set, or claim kinds.

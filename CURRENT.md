@@ -9,7 +9,7 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 - Package version: <!--version-->0.22.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1391<!--/checks--> checks.
+- Test collection: <!--checks-->1408<!--/checks--> checks.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
@@ -152,6 +152,20 @@ while the principal-open `C=0, C2!=0` piece remains explicitly `OPEN`. The 24
 failed search seeds are bounded provenance only. The zero/nonzero split is a
 structural cover with no union claim, and the whole adapter retains graph
 effect `NONE`; no kernel relation or claim kind was added.
+
+The corrected adjoint recurrence is now the first Lean-backed
+`parametric_recurrence_v1` assay. The runtime independently decodes the padded
+five-by-two operator matrices, reconstructs the four jumps at depths
+7, 9, 11, and 13, checks that the sequence is zero from depth 14, and checks
+that the depth-13 block is nonzero. Lean proves the reusable theorem: on a
+unilateral domain starting at `s`, a sequence with zero tail from `N` and a
+nonzero last block has exactly those constant-coefficient annihilators whose
+coefficients below `N-s` vanish. Here `N-s=8`, so the ideal over `QQ` is
+exactly `(S^8)`; `S^7` fails, and no reversible backward recurrence exists.
+Finite operators are explicitly padded to width at least eight and rational
+scalars act faithfully on the exact sparse matrix module. P1--P5, S2, the pin,
+and H8 remain named assumptions. The adapter also refuses a blanket
+minimal-`S-1` reading for the final zero regimes. Graph effect remains `NONE`.
 
 ## Active release discipline
 

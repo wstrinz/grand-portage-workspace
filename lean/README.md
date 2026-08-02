@@ -225,6 +225,17 @@ compiler bridge from an explicit polynomial inverse equation to that witness.
 `affineEquation_zero_iff_constant_zero_of_factor_zero` formalize the two
 depth-6 boundary strata without asserting their source extraction or coverage.
 
+## Unilateral recurrence boundary
+
+`ParametricRecurrence.lean` defines a bounded constant-coefficient forward-
+shift operator on a declared unilateral domain. It proves that if a sequence
+vanishes from `cutoff` onward but is nonzero at `cutoff-1`, then an operator
+annihilates exactly when every coefficient below `cutoff-start` vanishes. This
+is the semantic theorem behind the corrected JC `(S^8)` receipt: the adapter
+checks `start=6`, `cutoff=14`, and `B_13 != 0`; Lean proves the general
+backward-induction argument and the absence of any nonzero constant term. The
+theorem does not establish those instance premises or discharge H8.
+
 ## Trust
 
 No `sorry`. Mathlib-free — core Lean only, so a fresh `lake build` is seconds
