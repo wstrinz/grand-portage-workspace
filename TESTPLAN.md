@@ -62,7 +62,7 @@ minting a model, built-in certificate overwrite, strictness-witness-as-
 equivalence-documentation, taint stopping at the first generation, baseline
 acceptance surviving a change of meaning, and identity origin.
 
-**Suite: <!--checks-->1447<!--/checks--> checks, ~300 s on the current development machine.** Was 171 before the v0.2 pass.
+**Suite: <!--checks-->1460<!--/checks--> checks, ~300--480 s on the current development machine.** Was 171 before the v0.2 pass.
 
 ---
 

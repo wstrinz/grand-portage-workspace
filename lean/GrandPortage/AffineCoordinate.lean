@@ -76,6 +76,44 @@ def affineTranslatedModel
   fun targetPoint => source (affineInverse translation targetPoint)
 
 
+/-- A model is pivot-independent when changing only the distinguished affine
+coordinate cannot change membership. This is the semantic condition needed
+to distinguish a spent solved coordinate from a new compatibility equation. -/
+def PivotIndependent
+    (source : Model (AffineCoordinatePoint R Tail)) : Prop :=
+  forall first second tail,
+    source { pivot := first, tail := tail } <->
+      source { pivot := second, tail := tail }
+
+
+/-- Translating a coordinate ignored by the model leaves the model literally
+unchanged. In the runtime assay this is used only after the downstream
+equation alphabets have been checked to omit the solved pivot. -/
+theorem affineTranslatedModel_eq_of_pivotIndependent
+    (source : Model (AffineCoordinatePoint R Tail))
+    (translation : AffineTranslation R Tail)
+    (independent : PivotIndependent source) :
+    affineTranslatedModel source translation = source := by
+  funext point
+  apply propext
+  exact independent
+    (translation.inversePivot point.pivot point.tail)
+    point.pivot
+    point.tail
+
+
+/-- Pivot independence is itself stable under an affine translation of that
+pivot. -/
+theorem affineTranslation_preserves_pivotIndependent
+    (source : Model (AffineCoordinatePoint R Tail))
+    (translation : AffineTranslation R Tail)
+    (independent : PivotIndependent source) :
+    PivotIndependent (affineTranslatedModel source translation) := by
+  rw [affineTranslatedModel_eq_of_pivotIndependent source translation
+    independent]
+  exact independent
+
+
 def affineTranslationEquivalence
     (source : Model (AffineCoordinatePoint R Tail))
     (translation : AffineTranslation R Tail) :

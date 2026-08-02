@@ -15,6 +15,7 @@ from typing import Any, Dict, Optional, Tuple
 GRAPH_EFFECT_NONE = "NONE"
 GRAPH_EFFECT_LOCAL_EMPTY = "LOCAL_EMPTY"
 GRAPH_EFFECT_IDENTITY_TRANSPORT = "IDENTITY_TRANSPORT"
+EXCEPTIONAL_FACTOR_COLUMN_SCHEMA = "exceptional_factor_column_v1"
 GRAPH_EFFECT_POINT_INCLUSION = "POINT_INCLUSION"
 
 
@@ -130,6 +131,13 @@ class AuthorityContract:
 
 
 EVIDENCE_CONTRACTS = (
+    EvidenceContract(
+        EXCEPTIONAL_FACTOR_COLUMN_SCHEMA,
+        "finite exact coefficient columns and exceptional-factor decompositions",
+        "experimental",
+        GRAPH_EFFECT_NONE,
+        "operation-specific restriction or affine-coordinate binding remains required",
+    ),
     EvidenceContract(
         "coefficient_expansion_v1",
         "bounded exact coefficient images",

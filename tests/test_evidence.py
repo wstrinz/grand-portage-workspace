@@ -82,6 +82,7 @@ def test_evidence_envelope_keeps_proposition_evidence_and_authority_separate():
 
 def test_manifest_covers_every_stable_or_experimental_affine_schema():
     expected = {
+        EV.EXCEPTIONAL_FACTOR_COLUMN_SCHEMA,
         CE.SCHEMA,
         FP.SCHEMA,
         FPC.SCHEMA,

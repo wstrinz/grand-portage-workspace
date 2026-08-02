@@ -40,7 +40,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.22.0. <!--checks-->1447<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.22.0. <!--checks-->1460<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -617,7 +617,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1447<!--/checks--> checks, ~300 s on the current development machine) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1460<!--/checks--> checks, ~300 s on the current development machine) |
 
 ---
 
@@ -724,7 +724,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1447<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1460<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -1212,3 +1212,34 @@ and fiber-semantics statements as frozen native premises, while retaining the
 independently rederived Cramer and quotient checks as a distinct trust layer.
 The native module replay passes 32/32. The final full non-live GP suite passes
 1,406 checks with one skip and 40 live deselections in 302.04 seconds.
+
+---
+
+## 2026-08-02 — `b=0` free-plane exceptional-factor ledger
+
+The native free-plane receipt landed as a complete finite object, so GP did
+not need a new graph relation or claim. The new
+`exceptional_factor_column_v1` assay freezes all 35 loaded coefficient rows
+(31 distinct bodies), verifies that only `E321`, `VD`, and two depth-seven
+rung values touch `(c7_4,c8_5)`, and matches all four exact coefficient hashes
+from the native certificate.
+
+Independent exact arithmetic recovers the ambient exceptional factors
+`(b,Delta)`, their S2 contraction to `(b)`, and the unique `c8_5` column
+`15*b*t^2`. The mutation controls explicitly show that wall-only `R=0` revives
+that column and that omitting S2 revives `E321`; neither broader freeness claim
+is licensed.
+
+The sole on-`X_b` survivor is the depth-seven row-one rung solving `c9_7`.
+Its `c7_4` coefficient is `-(3/2)*c2_3` and its march pivot is `10*t`, so the
+correct reading is the reversible affine normalization
+`c9_7 <-> c9_7+(3/2)*c2_3*c7_4`. It is a determination, not a compatibility
+equation, and `c9_7` is absent from all eight downstream equations. Lean's
+`PivotIndependent` theorem now formalizes why such a translation leaves the
+downstream model unchanged.
+
+The report is `review/jc-h3-b0-free-plane-v1.json`, has graph effect `NONE`,
+and leaves the minimal depth-eight request open: six coefficients, namely the
+`c8_5` and `c9_7` columns of `E[2,19]`, `E[3,20]`, and `E[4,22]` on `X_b`.
+The final full non-live suite passes 1,419 checks with one skip and 40 live
+deselections in 480.50 seconds on a contended development machine.

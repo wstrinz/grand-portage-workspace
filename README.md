@@ -30,7 +30,7 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1447<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1460<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
@@ -281,6 +281,11 @@ Three rows carry most of the value:
   maturity and compilation target, plus the exact graph effect and containment
   of current authority verifiers. This shared envelope reduces context drift;
   it is deliberately not a dynamic theorem-plugin system.
+  The JC `b=0` free-plane assay is a deliberately campaign-local example:
+  `exceptional_factor_column_v1` freezes a complete finite coefficient ledger,
+  independently checks its `b`/`Delta` factorizations and one reversible affine
+  pivot, and retains graph effect `NONE`. It distinguishes a solved rung value
+  from a new compatibility equation without adding a graph relation or claim.
 * **Ordered localized solves now have a bounded composition envelope.** `gp
   verify-localized-triangular-chain --spec chain.json` checks a closed sequence
   of exact equations `unit * (pivot - solution)`, requires the unit to use only
@@ -369,7 +374,7 @@ Three.js build by default; `--three-root` can point it at a local package.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1447<!--/checks--> checks
+python -m pytest        # <!--checks-->1460<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

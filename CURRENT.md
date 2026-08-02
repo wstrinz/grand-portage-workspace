@@ -9,7 +9,7 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 - Package version: <!--version-->0.22.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1447<!--/checks--> checks.
+- Test collection: <!--checks-->1460<!--/checks--> checks.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
@@ -202,6 +202,22 @@ with graph effect `NONE`, not a new graph claim kind. The later exact
 the principal-compatibility-ideal and materialized-fiber semantics as explicit
 frozen native premises; GP keeps those separate from what it independently
 replays.
+
+The landed `b=0` free-plane receipt now has a second, much smaller GP assay.
+Its frozen ledger contains 35 loaded objects (31 distinct) and exactly four
+live free-plane coefficient rows. GP independently checks
+`coef(E321,c7_4)=(5/2)t Delta`, the two pure `15 b t^2` columns, the exact
+two-factor split of `coef(VD,c7_4)`, and the surviving
+`coef(c9_7-value,c7_4)=-(3/2)a`. Dropping `b=0` revives `c8_5`; dropping
+`Delta=0` revives `E321`.
+
+The survivor is a unit-pivot march value solving `c9_7`, not a ninth fiber
+equation. A reversible affine translation absorbs it, and the eight downstream
+equations omit `c9_7`. Lean now proves that translating a pivot-independent
+model leaves it unchanged. The assay therefore licenses an exact exceptional-
+factor ledger and coordinate normalization only, with graph effect `NONE`.
+The next open authority object is still just six coefficients: `c8_5` and
+`c9_7` in `E[2,19]`, `E[3,20]`, and `E[4,22]` on `X_b`.
 
 ## Active release discipline
 

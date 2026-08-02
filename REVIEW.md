@@ -6,7 +6,7 @@ through v0.18 is preserved in `HISTORY/REVIEW-through-v0.18.md`.
 **Version <!--version-->0.22.0<!--/version-->, graph format
 <!--graph-format-->4<!--/graph-format-->, kernel epoch
 <!--kernel-epoch-->10<!--/kernel-epoch-->, and
-<!--checks-->1447<!--/checks--> collected checks.**
+<!--checks-->1460<!--/checks--> collected checks.**
 
 ## Highest-risk claim
 
@@ -215,3 +215,18 @@ that its principal generator digest is byte-identical to the independently
 reconstructed `Phi`, that its `(5,1,1)` localized ranks and zero rank strata
 remain scoped to the declared guards, and that its fiber semantics are labeled
 as consumed frozen premises rather than GP-rederived facts.
+
+## 13. `b=0` free-plane exceptional-factor control
+
+`experiments/jc_h3_b0_free_plane/adapter.py` freezes the native 35-object,
+two-column ledger and independently replays every nonzero coefficient over
+`QQ`. Attack the native coefficient commitments, the exact `b` and `Delta`
+factorizations, the S2 and `b=0` restrictions, and the reversible
+`c9_7 <-> c9_7+(3/2)c2_3*c7_4` translation.
+
+The strongest mandatory refusals are semantic: `R=0` alone does not make the
+plane free; ambient `E321` is not blind before `Delta=0`; a unit-pivot rung
+value is a determination step rather than a ninth compatibility equation; and
+the ledger does not establish a component, source lift, H3, or graph claim.
+The checked report must preserve the six depth-eight boundary coefficients as
+its first open obligation and retain graph effect `NONE`.

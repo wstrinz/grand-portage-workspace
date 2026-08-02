@@ -501,6 +501,18 @@ Lean's `AffineCoordinate.lean` packages exactly those inverse-map laws as a
 `MappedEquivalence` and proves the normalized pivot equation. On the JC product
 branches this realizes `c8_0 -> -p*c6_0` and, symmetrically,
 `c9_0 -> -p*c7_0`; the left branch passes against real Singular.
+
+`exceptional_factor_column_v1` is a bounded evidence contract that can justify
+using the same affine operation without itself minting an edge. It freezes a
+complete finite family of exact coefficient columns, checks declared common-
+factor decompositions under named restrictions, and separates a surviving
+unit-pivot determination from compatibility equations. A graph-bound consumer
+would still have to bind the exact model and translation. Lean's
+`PivotIndependent` theorem supplies the semantic bridge used by the first JC
+consumer: if every downstream predicate ignores the solved pivot, translating
+that pivot leaves the model literally unchanged. Standalone graph effect is
+`NONE`.
+
 ### Ordered localized triangular solves
 
 `localized_triangular_solve_chain_v1` is the bounded composition envelope for
