@@ -9,7 +9,7 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 - Package version: <!--version-->0.22.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1374<!--/checks--> checks.
+- Test collection: <!--checks-->1391<!--/checks--> checks.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
@@ -133,6 +133,25 @@ ledger. A real full run spent 242.7 seconds in the chain stage, reproducing the
 reported 255-second signature while seam mode spent 2.7 seconds there. This
 supports full-mode invocation plus machine load, not a fast-tier regression;
 the original argv was not preserved.
+
+The first external coordinator consumer has now run the seam gate against the
+landed JC tree and persisted its final ledger and per-stage journal under
+`review/`. It independently reproduced
+`VERIFIED_TO_EXPLICIT_OPEN_OBLIGATION`, graph effect `NONE`, the conditional
+authority ceiling, and the five-part R1--R7/open-source frontier in 5.054
+seconds. Its Windows journal also exposed that RSS samples were `null` because
+the 64-bit process handle was being truncated by default `ctypes` signatures;
+the sampler now declares the Windows API types and its regression requires a
+positive numeric value.
+
+The S4 constructible-scope assay is the next bounded consumer. It freezes and
+independently decodes the native 952-term fitting condition, its exact 24-term
+leading coefficient `C2`, and a 12-term rank witness, then checks the exact
+`K = QQ[t]/(15*t^3+1)` point. The closed `C=C2=0` piece is verified nonempty,
+while the principal-open `C=0, C2!=0` piece remains explicitly `OPEN`. The 24
+failed search seeds are bounded provenance only. The zero/nonzero split is a
+structural cover with no union claim, and the whole adapter retains graph
+effect `NONE`; no kernel relation or claim kind was added.
 
 ## Active release discipline
 

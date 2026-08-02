@@ -239,6 +239,27 @@ def test_checked_in_v2_ledgers_preserve_seam_and_full_authority_tiers():
     assert seam["bindings"] == full["bindings"]
 
 
+def test_coordinator_consumer_ledger_matches_the_frozen_seam_authority():
+    module = _load()
+    review = ROOT / "review"
+    coordinator = module.normalize_ledger(json.loads((
+        review / "jc-h3-depth6-fast-replay.json").read_text(
+            encoding="utf-8")))
+    seam = module.normalize_ledger(json.loads((
+        review / "jc-h3-depth6-seam-replay-v2.json").read_text(
+            encoding="utf-8")))
+
+    assert coordinator["runtime_seconds"] == 5.054
+    assert coordinator["native_bindings_checked"] is True
+    assert coordinator["overall_verdict"] == module.OVERALL_VERDICT
+    assert coordinator["aggregate_graph_effect"] == "NONE"
+    assert coordinator["authority_ceiling"] == seam["authority_ceiling"]
+    assert coordinator["first_missing_authority"] == (
+        seam["first_missing_authority"])
+    assert coordinator["open_frontier"] == seam["open_frontier"]
+    assert coordinator["bindings"] == seam["bindings"]
+
+
 def test_preflight_has_no_chain_decode_and_no_mathematical_verdict(monkeypatch):
     module = _load()
 
@@ -289,4 +310,5 @@ def test_interrupted_gate_leaves_completed_stage_journal(monkeypatch, tmp_path):
     assert [line["id"] for line in lines] == [
         "conditional_source_seam", "r1_r7_source_frontier"]
     assert all(line["diagnostic_only"] is True for line in lines)
-    assert all("rss_mb" in line for line in lines)
+    assert all(isinstance(line["rss_mb"], (int, float)) and
+               line["rss_mb"] > 0 for line in lines)

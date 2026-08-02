@@ -6,7 +6,7 @@ through v0.18 is preserved in `HISTORY/REVIEW-through-v0.18.md`.
 **Version <!--version-->0.22.0<!--/version-->, graph format
 <!--graph-format-->4<!--/graph-format-->, kernel epoch
 <!--kernel-epoch-->10<!--/kernel-epoch-->, and
-<!--checks-->1374<!--/checks--> collected checks.**
+<!--checks-->1391<!--/checks--> collected checks.**
 
 ## Highest-risk claim
 
@@ -132,3 +132,15 @@ test suites and the certifying checker is a real trust surface. The relevant
 question is no longer whether validators are tiny, but whether they remain
 bounded replay checkers, share a small exact substrate, resist differential
 attacks, and compose into conclusions worth their cost.
+
+## 8. S4 constructible-scope control
+
+`experiments/jc_h3_s4_scope/adapter.py` is a deliberately standalone pressure
+test for the distinction between one inhabited closed piece and an unresolved
+complementary open piece. Review the frozen cubic-field evaluator, the exact
+`p^2` coefficient slice, the rank-witness check, and the fixture/body digests.
+The positive control is `NONEMPTY` on `C=C2=0` over the declared base field.
+Mandatory refusal controls include any attempt to turn 24 nonsquare-seed
+results into off-locus emptiness, omit the `C2!=0` branch, claim confinement of
+all points, widen the point universe, or give the structural cover a union-wide
+claim. The checked-in projection must retain graph effect `NONE`.

@@ -148,8 +148,14 @@ def _rss_mb():
                 ]
             counters = Counters()
             counters.cb = ctypes.sizeof(counters)
-            process = ctypes.windll.kernel32.GetCurrentProcess()
-            ok = ctypes.windll.psapi.GetProcessMemoryInfo(
+            get_process = ctypes.windll.kernel32.GetCurrentProcess
+            get_process.restype = ctypes.c_void_p
+            process = get_process()
+            get_memory = ctypes.windll.psapi.GetProcessMemoryInfo
+            get_memory.argtypes = [
+                ctypes.c_void_p, ctypes.POINTER(Counters), ctypes.c_ulong]
+            get_memory.restype = ctypes.c_int
+            ok = get_memory(
                 process, ctypes.byref(counters), counters.cb)
             if ok:
                 return round(counters.WorkingSetSize / (1024 * 1024), 3)

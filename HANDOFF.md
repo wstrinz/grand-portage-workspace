@@ -40,7 +40,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.22.0. <!--checks-->1374<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.22.0. <!--checks-->1391<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -617,7 +617,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1374<!--/checks--> checks, ~140 s on the current development machine) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1391<!--/checks--> checks, ~140 s on the current development machine) |
 
 ---
 
@@ -724,7 +724,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1374<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1391<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -1076,3 +1076,27 @@ was not preserved. An fsynced append-only JSONL journal now records each
 completed stage independently of the atomic final ledger, and is explicitly
 diagnostic-only. Real schema-v2 seam and full ledgers plus a generated status
 projection are checked in under `review/`.
+
+---
+
+## 2026-08-01 — coordinator consumer and S4 scope assay
+
+The first independent coordinator invocation produced
+`review/jc-h3-depth6-fast-replay.json` and its diagnostic stage journal. It
+reproduced the seam-tier authority boundary in 5.054 seconds: graph effect
+`NONE`, conditional normalized-root-to-depth-6 authority only, and the same
+five explicit open-frontier entries. The journal's `rss_mb: null` values
+exposed a Windows-only diagnostic bug, not a semantic failure. `_rss_mb()` now
+declares the 64-bit Windows process handle and `GetProcessMemoryInfo` call
+types; the interrupted-journal test requires positive numeric samples.
+
+`experiments/jc_h3_s4_scope/adapter.py` consumes the landed S4 point receipt as
+a separate, bounded constructible-scope assay. Fixture construction executes
+the native producer only on explicit request. Normal verification instead
+decodes and checks frozen sparse bodies for the 952-term `C`, its exact 24-term
+`p^2` coefficient `C2`, and the 12-term rank witness over
+`K=QQ[t]/(15*t^3+1)`. It verifies one exact point on `C=C2=0`, records
+`C=0,C2!=0` as `OPEN`, and treats the 24 failed seeds as bounded provenance
+only. The structural two-piece cover has no union claim and graph effect is
+`NONE`. This required no new kernel relation, claim kind, graph field, or
+epoch change.
