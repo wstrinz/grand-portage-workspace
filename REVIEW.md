@@ -6,7 +6,7 @@ through v0.18 is preserved in `HISTORY/REVIEW-through-v0.18.md`.
 **Version <!--version-->0.22.0<!--/version-->, graph format
 <!--graph-format-->4<!--/graph-format-->, kernel epoch
 <!--kernel-epoch-->10<!--/kernel-epoch-->, and
-<!--checks-->1520<!--/checks--> collected checks.**
+<!--checks-->1532<!--/checks--> collected checks.**
 
 ## Highest-risk claim
 
@@ -324,3 +324,19 @@ The ranked artifact request may become `RESOLVED_TO_SCOPED_RESULTS`, but full
 resultant roots must remain open. The explicit `c2_1/c2_2` simultaneous zero is
 not a source witness. Graph effect remains `NONE`; no H3 or `(75,125)` claim is
 licensed.
+
+## 19. Cross-consumer frontier bundle
+
+Review `grandportage/frontier_bundle.py` for the absence of last-writer-wins
+semantics. Every receipt is LF-normalized-digest-bound and must expose stable
+item observations with exact scope, effective status, and open/closed state.
+Every repeated semantic ID must have exactly one manifest resolution. Exact
+open agreement requires identical scope and status across every named receipt;
+supersession requires every prior view to be open, one named current closed
+status, and existing distinct replacement items.
+
+The current manifest must retain full `b=0` as shared open agreement and close
+only the old pin-ablation artifact request, replacing it with the ten scoped
+handback results. Mutated receipt bytes, unexplained overlaps, scope/status
+conflicts, false current status, or absent replacement IDs must refuse. The
+bundle remains `DERIVED_READ_MODEL_ONLY` with graph effect `NONE`.

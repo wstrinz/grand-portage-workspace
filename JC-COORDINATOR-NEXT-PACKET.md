@@ -6,7 +6,7 @@ request, it says so explicitly here.
 
 **Date:** 2026-08-03
 
-**GP reference:** `945ca26` plus the current pin-ablation frontier update
+**GP reference:** `825a0c8` plus the current frontier-bundle update
 
 **JC references:** `6e692d2`, `8cdb4f1`, `e0377d8`, and handback `25e62b0`
 
@@ -109,6 +109,11 @@ GP's derived receipt is `review/jc-h3-pin-ablation-frontier-v1.json`. It marks
 the ranked artifact request resolved to scoped results while leaving full
 `b=0`, `c2_1`, `b`, `R`, `Delta`, non-normalized transport, and the resultant
 roots open. Graph effect is `NONE`; there is still no H3 or `(75,125)` result.
+
+The canonical cross-consumer view is now `review/frontier-current-v1.json`.
+It explicitly supersedes the older open pin-ablation artifact request and
+retains the shared full-`b=0` obligation as exact open agreement. This is a
+derived read model only and creates no new coordinator request.
 
 ## GP infrastructure update - no native action
 

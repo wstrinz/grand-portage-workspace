@@ -326,6 +326,35 @@ def build_document(value):
     )
 
 
+def item_observations(report):
+    """Return the minimal exact-scope item surface needed for aggregation."""
+    _require(isinstance(report, dict) and report.get("schema") == SCHEMA,
+             "item observations need a frontier/v1 report")
+    open_ids = report.get("open_items")
+    _require(isinstance(open_ids, list) and len(open_ids) == len(set(open_ids)),
+             "frontier open_items must be a unique list")
+    open_ids = set(open_ids)
+    observations = []
+    for item in report.get("items", []):
+        item_id = _stable_id(item.get("id"), "observation item.id")
+        scope = item.get("scope", {})
+        scope_id = _stable_id(
+            scope.get("id"), "%s observation scope.id" % item_id)
+        status = item.get("effective_status")
+        _require(isinstance(status, str) and status,
+                 "%s observation status is invalid" % item_id)
+        observations.append({
+            "id": item_id,
+            "scope_id": scope_id,
+            "state": "OPEN" if item_id in open_ids else "CLOSED",
+            "status": status,
+        })
+    observations.sort(key=lambda item: item["id"])
+    _require({item["id"] for item in observations} >= open_ids,
+             "frontier open_items names an absent item")
+    return observations
+
+
 def canonical_json(value, pretty=True):
     return json.dumps(
         value, sort_keys=True, indent=2 if pretty else None,

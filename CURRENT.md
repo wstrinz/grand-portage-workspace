@@ -9,7 +9,7 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 - Package version: <!--version-->0.22.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1520<!--/checks--> checks.
+- Test collection: <!--checks-->1532<!--/checks--> checks.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
@@ -305,12 +305,23 @@ conditional depth-six argument. This consumer performs no premise update and
 retains the source authority ceiling
 `CONDITIONAL_NORMALIZED_ROOT_TO_DEPTH6_BOUNDARY_ONLY`.
 
+`frontier-bundle/v1` now consolidates those three receipts into one canonical
+current boundary. Each receipt supplies minimal item observations containing a
+stable semantic ID, exact scope, effective status, and open/closed state. A
+repeated ID is refused unless the manifest names either exact open agreement or
+an explicit supersession; file order and timestamps have no authority. The
+current bundle contains 20 items: 12 open and 8 resolved. Its two declared
+overlaps retain full `b=0` as one shared open obligation and replace the stale
+open pin-ablation task with the scoped handback results. The manifest is
+`fixtures/frontier/current_v1.json`; the compact checked receipt is
+`review/frontier-current-v1.json`. Graph effect remains `NONE`.
+
 Focused coverage for the generic frontier compiler, its independent native
 consumers, and declaration targeting passes. The optional native-
 binding replay matches all five exact sibling receipts without invoking a
-math-stuff release gate. The complete local GP suite passes 1,479 tests with 41
-expected environment-dependent skips in 707.62 seconds; total collection is
-1,520.
+math-stuff release gate. The complete local GP suite passes 1,491 tests with 41
+expected environment-dependent skips in 691.29 seconds; total collection is
+1,532.
 
 ## Experiments
 

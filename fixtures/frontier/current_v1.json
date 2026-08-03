@@ -1,0 +1,61 @@
+{
+  "schema": "frontier-bundle-input/v1",
+  "root": "../..",
+  "receipts": [
+    {
+      "id": "depth6",
+      "path": "review/jc-h3-depth6-frontier-v1.json",
+      "digest_algo": "sha256-lf-normalized",
+      "sha256": "0027cac3f4a280863a759822710ad8cfa9385b7a0876acedd37caf2970f7b489"
+    },
+    {
+      "id": "h8-c79",
+      "path": "review/jc-h3-h8-c79-frontier-v1.json",
+      "digest_algo": "sha256-lf-normalized",
+      "sha256": "087512193e19c6ef263f7fb7ba55bf27497c85ba7ca1eced8493dcc4b677b02a"
+    },
+    {
+      "id": "pin-ablation",
+      "path": "review/jc-h3-pin-ablation-frontier-v1.json",
+      "digest_algo": "sha256-lf-normalized",
+      "sha256": "2a00f51326030b434a11478f0d1e38892475c6af0aa42e6b98be9156aa689786"
+    }
+  ],
+  "resolutions": [
+    {
+      "id": "JC.H3.FRONTIER.B0.AGREE_OPEN",
+      "item_id": "JC.H3.B0.SOURCE.EXCLUSION",
+      "mode": "AGREE_OPEN",
+      "scope_id": "JC.H3.B0.FULL",
+      "receipts": [
+        "h8-c79",
+        "pin-ablation"
+      ],
+      "reason": "Both consumers independently retain the same exact full-b=0 obligation as open."
+    },
+    {
+      "id": "JC.H3.FRONTIER.PIN_ABLATION.SUPERSEDE",
+      "item_id": "JC.H3.C79.SOURCE.FACE81.PIN_ABLATION",
+      "mode": "SUPERSEDE",
+      "scope_id": "JC.H3.C79.PIN_ABLATION",
+      "prior_receipts": [
+        "h8-c79"
+      ],
+      "current_receipt": "pin-ablation",
+      "current_status": "RESOLVED_TO_SCOPED_RESULTS",
+      "replacements": [
+        "JC.H3.B.RELAXATION",
+        "JC.H3.B0.SOURCE.EXCLUSION",
+        "JC.H3.C21.RELAXATION",
+        "JC.H3.C22.UNIFORM_SOURCE_EXCLUSION",
+        "JC.H3.C22_C710.JOINT_CONFINEMENT",
+        "JC.H3.C22_C710.NONNORMALIZED_TRANSPORT",
+        "JC.H3.C22_C710.NORMALIZED_LINE.GENERIC_EXCLUSION",
+        "JC.H3.C22_C710.NORMALIZED_LINE.RESULTANT_ROOTS",
+        "JC.H3.DELTA.RELAXATION",
+        "JC.H3.R.RELAXATION"
+      ],
+      "reason": "The landed handback completes the ranked artifact request by splitting it into exact positive, confinement, finite-remainder, transport, and off-wall results."
+    }
+  ]
+}

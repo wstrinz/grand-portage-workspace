@@ -1,0 +1,110 @@
+{
+  "authority": "DERIVED_READ_MODEL_ONLY",
+  "counts": {
+    "items": 20,
+    "open": 12,
+    "overlap_resolutions": 2,
+    "receipts": 3,
+    "resolved": 8
+  },
+  "graph_effect": "NONE",
+  "history": {
+    "immutable": true,
+    "input_fingerprint": "sha256:42a498f53fdf63f337495f3053745226ae1d96e04970831769923d1e6b508733"
+  },
+  "open_items": [
+    "JC.H3.B.RELAXATION",
+    "JC.H3.B0.SOURCE.EXCLUSION",
+    "JC.H3.C21.RELAXATION",
+    "JC.H3.C22_C710.NONNORMALIZED_TRANSPORT",
+    "JC.H3.C22_C710.NORMALIZED_LINE.RESULTANT_ROOTS",
+    "JC.H3.D6.R5.CUBIC_FACE",
+    "JC.H3.D6.R6.NONMONOMIAL_FRAME",
+    "JC.H3.D6.R6.Q_SIDE_RELOCATION",
+    "JC.H3.D6.R7.75_125_IDENTIFICATION",
+    "JC.H3.DELTA.RELAXATION",
+    "JC.H3.R.RELAXATION",
+    "JC.H3.SOURCE.TARGET_PAIR_TO_NORMALIZED_LAURENT_ROOT"
+  ],
+  "projection_schema": "frontier-bundle/v1",
+  "receipts": [
+    {
+      "digest_algo": "sha256-lf-normalized",
+      "id": "depth6",
+      "input_fingerprint": "sha256:f8df9afed4249e972872fa7cd5fbe2cca251276990f45c8d2ffdfa4954ea0fac",
+      "item_count": 5,
+      "open_count": 5,
+      "path": "review/jc-h3-depth6-frontier-v1.json",
+      "receipt_schema": "gp-jc-h3-depth6-frontier-review/v1",
+      "sha256": "sha256:0027cac3f4a280863a759822710ad8cfa9385b7a0876acedd37caf2970f7b489"
+    },
+    {
+      "digest_algo": "sha256-lf-normalized",
+      "id": "h8-c79",
+      "input_fingerprint": "sha256:97d2ead57c2b81c40c676eb44a4f65187c028ed8d1531100c3cdd2b2014ff22f",
+      "item_count": 6,
+      "open_count": 2,
+      "path": "review/jc-h3-h8-c79-frontier-v1.json",
+      "receipt_schema": "gp-jc-h3-frontier-review/v1",
+      "sha256": "sha256:087512193e19c6ef263f7fb7ba55bf27497c85ba7ca1eced8493dcc4b677b02a"
+    },
+    {
+      "digest_algo": "sha256-lf-normalized",
+      "id": "pin-ablation",
+      "input_fingerprint": "sha256:921d6dcdc31c369c951ef38b02ffed856d7c9fa654f68eb4078df083a2d6f320",
+      "item_count": 11,
+      "open_count": 7,
+      "path": "review/jc-h3-pin-ablation-frontier-v1.json",
+      "receipt_schema": "frontier/v1",
+      "sha256": "sha256:2a00f51326030b434a11478f0d1e38892475c6af0aa42e6b98be9156aa689786"
+    }
+  ],
+  "resolutions": [
+    {
+      "id": "JC.H3.FRONTIER.B0.AGREE_OPEN",
+      "item_id": "JC.H3.B0.SOURCE.EXCLUSION",
+      "mode": "AGREE_OPEN",
+      "reason": "Both consumers independently retain the same exact full-b=0 obligation as open.",
+      "receipts": [
+        "h8-c79",
+        "pin-ablation"
+      ],
+      "scope_id": "JC.H3.B0.FULL"
+    },
+    {
+      "current_receipt": "pin-ablation",
+      "current_status": "RESOLVED_TO_SCOPED_RESULTS",
+      "id": "JC.H3.FRONTIER.PIN_ABLATION.SUPERSEDE",
+      "item_id": "JC.H3.C79.SOURCE.FACE81.PIN_ABLATION",
+      "mode": "SUPERSEDE",
+      "prior_receipts": [
+        "h8-c79"
+      ],
+      "reason": "The landed handback completes the ranked artifact request by splitting it into exact positive, confinement, finite-remainder, transport, and off-wall results.",
+      "replacements": [
+        "JC.H3.B.RELAXATION",
+        "JC.H3.B0.SOURCE.EXCLUSION",
+        "JC.H3.C21.RELAXATION",
+        "JC.H3.C22.UNIFORM_SOURCE_EXCLUSION",
+        "JC.H3.C22_C710.JOINT_CONFINEMENT",
+        "JC.H3.C22_C710.NONNORMALIZED_TRANSPORT",
+        "JC.H3.C22_C710.NORMALIZED_LINE.GENERIC_EXCLUSION",
+        "JC.H3.C22_C710.NORMALIZED_LINE.RESULTANT_ROOTS",
+        "JC.H3.DELTA.RELAXATION",
+        "JC.H3.R.RELAXATION"
+      ],
+      "scope_id": "JC.H3.C79.PIN_ABLATION"
+    }
+  ],
+  "resolved_items": [
+    "JC.H3.C22.UNIFORM_SOURCE_EXCLUSION",
+    "JC.H3.C22_C710.JOINT_CONFINEMENT",
+    "JC.H3.C22_C710.NORMALIZED_LINE.GENERIC_EXCLUSION",
+    "JC.H3.C79.SOURCE.FACE81.PIN_ABLATION",
+    "JC.H3.C79.SOURCE.FACE81.UNIT",
+    "JC.H3.D9.PAIRING.DEG34",
+    "JC.H3.H8",
+    "JC.H3.OPERATOR_SCHEDULE.D8-15"
+  ],
+  "schema": "gp-frontier-current-review/v1"
+}

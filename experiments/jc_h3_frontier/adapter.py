@@ -122,6 +122,7 @@ def review_receipt(report):
         "history": report["history"],
         "changes": report["changes"],
         "open_items": report["open_items"],
+        "item_observations": FRONT.item_observations(report),
         "source_bindings": report["sources"],
         "does_not_discharge": report["discharges"][0][
             "does_not_discharge"],

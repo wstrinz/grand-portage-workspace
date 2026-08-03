@@ -236,12 +236,14 @@ def build(native_root=NATIVE_ROOT):
 
 
 def review_receipt(report):
-    return {
+    receipt = {
         key: report[key] for key in (
             "schema", "authority", "graph_effect", "consumer", "counts",
             "history", "sources", "open_items", "authority_ceiling",
             "live_replay_note")
     }
+    receipt["item_observations"] = FRONT.item_observations(report)
+    return receipt
 
 
 def main(argv=None):

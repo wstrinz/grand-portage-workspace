@@ -7,6 +7,38 @@
     "input_fingerprint": "sha256:f8df9afed4249e972872fa7cd5fbe2cca251276990f45c8d2ffdfa4954ea0fac",
     "item_count": 5
   },
+  "item_observations": [
+    {
+      "id": "JC.H3.D6.R5.CUBIC_FACE",
+      "scope_id": "JC.H3.D6.CONDITIONAL_NORMALIZED_ROOT",
+      "state": "OPEN",
+      "status": "CHECKED_PREMISE_BOUND"
+    },
+    {
+      "id": "JC.H3.D6.R6.NONMONOMIAL_FRAME",
+      "scope_id": "JC.H3.D6.CONDITIONAL_NORMALIZED_ROOT",
+      "state": "OPEN",
+      "status": "OPEN_NONMONOMIAL_FRAME_CONVERSION"
+    },
+    {
+      "id": "JC.H3.D6.R6.Q_SIDE_RELOCATION",
+      "scope_id": "JC.H3.D6.CONDITIONAL_NORMALIZED_ROOT",
+      "state": "OPEN",
+      "status": "OPEN"
+    },
+    {
+      "id": "JC.H3.D6.R7.75_125_IDENTIFICATION",
+      "scope_id": "JC.H3.D6.CONDITIONAL_NORMALIZED_ROOT",
+      "state": "OPEN",
+      "status": "INFERRED_UNBOUND_75_125_IDENTIFICATION"
+    },
+    {
+      "id": "JC.H3.SOURCE.TARGET_PAIR_TO_NORMALIZED_LAURENT_ROOT",
+      "scope_id": "JC.H3.SOURCE.TARGET_PAIR.SEAM",
+      "state": "OPEN",
+      "status": "UNMATERIALIZED_OPEN"
+    }
+  ],
   "items": [
     {
       "blocked_downstream": [

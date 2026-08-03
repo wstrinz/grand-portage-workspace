@@ -40,7 +40,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.22.0. <!--checks-->1520<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.22.0. <!--checks-->1532<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -617,7 +617,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1520<!--/checks--> checks, ~300 s on the current development machine) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1532<!--/checks--> checks, ~300 s on the current development machine) |
 
 ---
 
@@ -724,7 +724,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1520<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1532<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -1456,3 +1456,32 @@ transport, preserve the explicit `c2_1` refusal, and exactly regenerate the
 review receipt. The repository now collects 1,520 tests; the complete local GP
 suite passes 1,479 with 41 expected environment-dependent skips in 707.62
 seconds.
+
+## 2026-08-03 - canonical cross-consumer frontier
+
+`grandportage/frontier_bundle.py` closes the composition gap between the three
+independent `frontier/v1` consumers. Their compact receipts now expose minimal
+`item_observations`: stable semantic ID, exact scope ID, effective status, and
+open/closed state. `gp frontier-bundle MANIFEST.json` binds each receipt with
+LF-normalized SHA-256 and refuses any repeated semantic ID unless the manifest
+provides exactly one resolution.
+
+`AGREE_OPEN` requires identical scope and status across every named receipt.
+`SUPERSEDE` requires all prior observations to be open, one named current
+closed observation with the exact asserted status, and distinct replacement
+items that exist in the compiled view. Receipt order and timestamps carry no
+authority. Digest drift, missing observations, unexplained overlap, scope or
+status disagreement, false supersession, and absent replacements fail closed.
+
+The canonical manifest is `fixtures/frontier/current_v1.json`; its checked
+receipt is `review/frontier-current-v1.json`. It compiles three receipts into
+20 current items: 12 open and 8 resolved. Two explicit resolutions retain
+`JC.H3.B0.SOURCE.EXCLUSION` as shared open agreement and supersede the older
+open pin-ablation artifact request with its ten scoped handback results. The
+surface remains `DERIVED_READ_MODEL_ONLY` with graph effect `NONE`.
+
+Twelve new regressions cover the generic bundle and the exact current
+manifest. The repository now collects 1,532 tests; the complete local GP suite
+passes 1,491 with 41 expected environment-dependent skips in 691.29 seconds.
+The cold external-review packet is
+`review/FRONTIER-BUNDLE-COLD-WEB-REVIEW-2026-08-03.md`.

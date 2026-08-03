@@ -84,6 +84,8 @@ Rules:
 - `frontier/v1` premise updates are exact-scope overlays over immutable
   historical envelopes; they infer no geometric containment or assumption
   weakening;
+- `frontier-bundle/v1` never resolves repeated semantic IDs by input order;
+  every overlap requires an exact-scope agreement or explicit supersession;
 - backend disagreements block promotion rather than selecting a winner;
 - a native campaign remains the source of its discovery artifacts.
 

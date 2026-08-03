@@ -167,6 +167,7 @@ def review_receipt(report):
         "source_overall_verdict": report["source_overall_verdict"],
         "source_authority_ceiling": report["source_authority_ceiling"],
         "open_items": report["open_items"],
+        "item_observations": FRONT.item_observations(report),
         "items": [{
             "id": item["id"],
             "status": item["effective_status"],

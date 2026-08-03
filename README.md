@@ -30,7 +30,7 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1520<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1532<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
@@ -42,6 +42,7 @@ for the first, written up in full.
 * [JC `dm4` polynomial-lift audit](docs/JC-DM4-POLYNOMIAL-LIFT.md) - corrected valuation proof spine and remaining obligations
 * [Campaign projections and Three.js explorer](docs/VISUALIZATION.md) - read-only review artifacts and local visualization
 * `gp frontier INPUT.json` - exact-scope proof-state linking over immutable evidence envelopes
+* `gp frontier-bundle MANIFEST.json` - fail-closed aggregation with explicit overlap resolution
 
 Five further documents live in the private workspace only — `HANDOFF.md` and
 `TESTPLAN.md` because they describe traps in blind trials not yet run, and
@@ -71,7 +72,7 @@ What they contain, since the summaries name no domain:
 | store | `grandportage/store.py` | append-only graph log; merge is concatenation |
 | artifacts | `grandportage/artifacts.py` | immutable raw programs/transcripts addressed outside the semantic graph |
 | checker | `grandportage/check.py` | findings, derived severities, exit code |
-| projection | `grandportage/frontier.py`, `projection.py`, `visualization.py` | versioned proof frontier, campaign read model, and guided Three.js explorer |
+| projection | `grandportage/frontier.py`, `frontier_bundle.py`, `projection.py`, `visualization.py` | versioned proof frontier and bundle, campaign read model, and guided Three.js explorer |
 | evidence manifest | `grandportage/evidence.py` | shared affine context, envelope, compilation targets, and graph-effect boundaries |
 | discharge | `grandportage/discharge.py` | refusal → canonical next move |
 | CAS + MCP | `grandportage/cas.py`, `mcp.py` | **declare the transport or no process spawns** |
@@ -369,6 +370,7 @@ gp artifacts check               # audit exact raw CAS executions
 gp project --output campaign.json  # complete, derived read model
 gp visualize --output campaign.html # read-only Three.js explorer
 gp frontier frontier-input.json    # scoped premise updates and open research boundary
+gp frontier-bundle fixtures/frontier/current_v1.json  # current cross-consumer boundary
 
 gp --graph fixtures/jc2/graph.jsonl check      # the JC(2) retrodiction
 gp --graph fixtures/matroid/graph.jsonl check  # the matroid retrodiction
@@ -381,7 +383,7 @@ Three.js build by default; `--three-root` can point it at a local package.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1520<!--/checks--> checks
+python -m pytest        # <!--checks-->1532<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

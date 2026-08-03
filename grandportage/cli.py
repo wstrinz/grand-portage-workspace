@@ -20,6 +20,7 @@ from . import evidence as EV
 from . import factor_power as FP
 from . import factor_power_contradiction as FPC
 from . import frontier as FRONT
+from . import frontier_bundle as FRONT_BUNDLE
 from . import format as F
 from . import laurent_coefficient_pipeline as LCP
 from . import laurent_lowering as LL
@@ -2130,6 +2131,18 @@ def cmd_frontier(args):
     return 0
 
 
+def cmd_frontier_bundle(args):
+    """Aggregate exact-scope frontier receipts with explicit resolutions."""
+    try:
+        projection = FRONT_BUNDLE.build_path(args.input)
+    except (OSError, FRONT_BUNDLE.FrontierBundleError) as exc:
+        sys.stderr.write("frontier-bundle refused: %s\n" % exc)
+        return 2
+    sys.stdout.write(FRONT_BUNDLE.canonical_json(
+        projection, pretty=not args.compact))
+    return 0
+
+
 def cmd_visualize(args):
     """Generate a standalone Three.js explorer around a campaign projection."""
     projection = _read_projection(args)
@@ -2195,6 +2208,14 @@ def build_parser():
     fr.add_argument("--compact", action="store_true",
                     help="emit canonical compact JSON")
     fr.set_defaults(func=cmd_frontier)
+
+    fb = sub.add_parser(
+        "frontier-bundle",
+        help="aggregate proof-frontier receipts with explicit supersession")
+    fb.add_argument("input", help="frontier-bundle-input/v1 JSON manifest")
+    fb.add_argument("--compact", action="store_true",
+                    help="emit canonical compact JSON")
+    fb.set_defaults(func=cmd_frontier_bundle)
 
     vz = sub.add_parser("visualize",
                         help="generate a read-only Three.js campaign explorer")

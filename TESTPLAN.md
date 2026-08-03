@@ -62,7 +62,7 @@ minting a model, built-in certificate overwrite, strictness-witness-as-
 equivalence-documentation, taint stopping at the first generation, baseline
 acceptance surviving a change of meaning, and identity origin.
 
-**Suite: <!--checks-->1520<!--/checks--> checks, ~300--720 s on the current development machine.** Was 171 before the v0.2 pass.
+**Suite: <!--checks-->1532<!--/checks--> checks, ~300--720 s on the current development machine.** Was 171 before the v0.2 pass.
 
 ---
 
@@ -411,6 +411,22 @@ exclusion. Assert uniform `c2_2` exclusion separately from joint confinement;
 keep the degree-130 resultant roots separate from non-normalized transport;
 and retain `c2_1`, `b`, `R`, and `Delta` as open items. Mutating any bound
 native byte must refuse before projection. The compact review receipt must
+regenerate exactly with graph effect `NONE`.
+
+## T11 - CROSS-CONSUMER FRONTIER CONSOLIDATION
+
+Bind multiple compact frontier receipts by LF-normalized digest. Require every
+receipt to expose stable item ID, exact scope, effective status, and open/closed
+state. A repeated item without an explicit resolution must refuse. Exact open
+agreement must refuse scope or status disagreement. Supersession must refuse a
+non-open prior observation, an unproved current status, a repeated current/prior
+receipt, or an absent/self replacement.
+
+Compile the checked H8/c7_9, depth-six, and pin-ablation receipts. The result
+must contain 20 items, 12 open, 8 resolved, and exactly two overlap resolutions.
+Full `b=0` remains open through exact agreement; pin ablation becomes
+`RESOLVED_TO_SCOPED_RESULTS` and names its ten bounded replacements. CLI and
+library output must be byte-deterministic, and the checked current receipt must
 regenerate exactly with graph effect `NONE`.
 
 ## What none of these test

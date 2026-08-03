@@ -47,6 +47,44 @@
     "input_fingerprint": "sha256:97d2ead57c2b81c40c676eb44a4f65187c028ed8d1531100c3cdd2b2014ff22f",
     "item_count": 6
   },
+  "item_observations": [
+    {
+      "id": "JC.H3.B0.SOURCE.EXCLUSION",
+      "scope_id": "JC.H3.B0.FULL",
+      "state": "OPEN",
+      "status": "OPEN"
+    },
+    {
+      "id": "JC.H3.C79.SOURCE.FACE81.PIN_ABLATION",
+      "scope_id": "JC.H3.C79.PIN_ABLATION",
+      "state": "OPEN",
+      "status": "OPEN"
+    },
+    {
+      "id": "JC.H3.C79.SOURCE.FACE81.UNIT",
+      "scope_id": "JC.H3.C79.CODIM5.RECORDED",
+      "state": "CLOSED",
+      "status": "CLOSED"
+    },
+    {
+      "id": "JC.H3.D9.PAIRING.DEG34",
+      "scope_id": "JC.H3.P1-P5.PIN.S2.D9.DEG34",
+      "state": "CLOSED",
+      "status": "VERIFIED"
+    },
+    {
+      "id": "JC.H3.H8",
+      "scope_id": "JC.H3.P1-P5.PIN.D8-15",
+      "state": "CLOSED",
+      "status": "DISCHARGED"
+    },
+    {
+      "id": "JC.H3.OPERATOR_SCHEDULE.D8-15",
+      "scope_id": "JC.H3.P1-P5.PIN.D8-15",
+      "state": "CLOSED",
+      "status": "VERIFIED"
+    }
+  ],
   "open_items": [
     "JC.H3.B0.SOURCE.EXCLUSION",
     "JC.H3.C79.SOURCE.FACE81.PIN_ABLATION"

@@ -14,6 +14,74 @@
     "input_fingerprint": "sha256:921d6dcdc31c369c951ef38b02ffed856d7c9fa654f68eb4078df083a2d6f320",
     "item_count": 11
   },
+  "item_observations": [
+    {
+      "id": "JC.H3.B.RELAXATION",
+      "scope_id": "JC.H3.B.OFF_WALL",
+      "state": "OPEN",
+      "status": "OPEN"
+    },
+    {
+      "id": "JC.H3.B0.SOURCE.EXCLUSION",
+      "scope_id": "JC.H3.B0.FULL",
+      "state": "OPEN",
+      "status": "OPEN"
+    },
+    {
+      "id": "JC.H3.C21.RELAXATION",
+      "scope_id": "JC.H3.C21_C22.JOINT",
+      "state": "OPEN",
+      "status": "OPEN_EXPLICIT_CERTIFICATE_FAILURE"
+    },
+    {
+      "id": "JC.H3.C22.UNIFORM_SOURCE_EXCLUSION",
+      "scope_id": "JC.H3.C22.UNIFORM",
+      "state": "CLOSED",
+      "status": "CLOSED"
+    },
+    {
+      "id": "JC.H3.C22_C710.JOINT_CONFINEMENT",
+      "scope_id": "JC.H3.C22_C710.JOINT",
+      "state": "CLOSED",
+      "status": "VERIFIED_CONFINEMENT"
+    },
+    {
+      "id": "JC.H3.C22_C710.NONNORMALIZED_TRANSPORT",
+      "scope_id": "JC.H3.C22_C710.FULL_CHART",
+      "state": "OPEN",
+      "status": "OPEN_TRANSPORT"
+    },
+    {
+      "id": "JC.H3.C22_C710.NORMALIZED_LINE.GENERIC_EXCLUSION",
+      "scope_id": "JC.H3.C22_C710.NORMALIZED_LINE",
+      "state": "CLOSED",
+      "status": "VERIFIED_GENERIC_WITH_FINITE_REMAINDER"
+    },
+    {
+      "id": "JC.H3.C22_C710.NORMALIZED_LINE.RESULTANT_ROOTS",
+      "scope_id": "JC.H3.C22_C710.NORMALIZED.LINE.ROOTS",
+      "state": "OPEN",
+      "status": "OPEN_FINITE_REMAINDER"
+    },
+    {
+      "id": "JC.H3.C79.SOURCE.FACE81.PIN_ABLATION",
+      "scope_id": "JC.H3.C79.PIN_ABLATION",
+      "state": "CLOSED",
+      "status": "RESOLVED_TO_SCOPED_RESULTS"
+    },
+    {
+      "id": "JC.H3.DELTA.RELAXATION",
+      "scope_id": "JC.H3.DELTA.OFF_WALL",
+      "state": "OPEN",
+      "status": "OPEN"
+    },
+    {
+      "id": "JC.H3.R.RELAXATION",
+      "scope_id": "JC.H3.R.OFF_WALL",
+      "state": "OPEN",
+      "status": "OPEN"
+    }
+  ],
   "live_replay_note": "c2_2 checker passed 14/14; joint checker passed K0-K21 and refused K22 because a clean tracked Python source has CRLF checkout bytes; LF normalization matches its certificate binding",
   "open_items": [
     "JC.H3.B.RELAXATION",
