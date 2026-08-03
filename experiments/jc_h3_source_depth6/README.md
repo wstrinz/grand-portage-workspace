@@ -133,6 +133,19 @@ Content-addressed generator bundles or projection interning are now supported
 by two live measurements; they should precede publishing a full-template
 visualization packet.
 
+## General proof-frontier projection
+
+`frontier_adapter.py` compiles the checked seam ledger into the shared
+`frontier/v1` read model. It is independent of the H8/c7_9 consumer and keeps
+all five depth-six statuses in their native vocabulary by marking their
+`frontier_state` explicitly `OPEN`. Stable semantic IDs replace local R5/R6/R7
+labels, the three R6 premises become stable source IDs, and the parent target-
+pair seam receives a scope distinct from the conditional depth-six argument.
+
+The older generated status block remains available for compatibility. The new
+projection is the current machine-facing research boundary; it changes no
+status, infers no discharge, and retains graph effect `NONE`.
+
 ## Run
 
 The aggregate post-receipt gate is the normal entry point. Its default seam
@@ -167,6 +180,7 @@ the already-existing point-inclusion and identity-transport authority visible
 without minting any new campaign conclusion.
 
 ```powershell
+python experiments/jc_h3_source_depth6/frontier_adapter.py
 python experiments/jc_h3_source_depth6/adapter.py
 python experiments/jc_h3_source_depth6/chain_adapter.py
 python experiments/jc_h3_source_depth6/chain_adapter.py --full-replay

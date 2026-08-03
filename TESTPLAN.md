@@ -62,7 +62,7 @@ minting a model, built-in certificate overwrite, strictness-witness-as-
 equivalence-documentation, taint stopping at the first generation, baseline
 acceptance surviving a change of meaning, and identity origin.
 
-**Suite: <!--checks-->1504<!--/checks--> checks, ~300--480 s on the current development machine.** Was 171 before the v0.2 pass.
+**Suite: <!--checks-->1515<!--/checks--> checks, ~300--480 s on the current development machine.** Was 171 before the v0.2 pass.
 
 ---
 
@@ -385,6 +385,23 @@ declared operator-schedule and degree-34 depth-nine consumers may lose their
 H8 qualifier. The recorded `c7_9` family must be closed while pin ablation and
 full `b=0` source exclusion remain open. Mutate a fixture byte, scope id,
 receipt verdict, or exact `face(8,1)` value; the replay must refuse.
+
+## T9 - COLD-RETURN DECLARATION AND SECOND FRONTIER CONSUMER
+
+Create separate native root and sidecar graphs, then declare through global
+`--graph`. Only the selected sidecar may change and success must print its
+absolute path. Repeated `--graph` values must refuse before stdin is read. An
+explicit epoch-0 target must remain byte-identical after refusal. Drive the
+same cases through the literal `portage_declare` console function so the MCP
+fallback cannot drift into a second writer.
+
+Compile the landed depth-six seam ledger through `frontier/v1`. All five local
+frontier records must receive stable semantic IDs and remain open without
+flattening their native status strings. R6 and Q relocation retain three
+stable source premises, the parent target-pair seam retains a distinct scope,
+and the review receipt must regenerate exactly. The H8 and depth-six consumers
+must share a schema while differing in both source shape and whether they emit
+premise updates.
 
 ## What none of these test
 

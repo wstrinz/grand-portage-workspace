@@ -2678,13 +2678,14 @@ def graph_path(root="."):
     return os.path.join(root, GRAPH_DIR, GRAPH_FILE)
 
 
-def append(events, root="."):
+def append(events, root=".", graph=None):
     """Append events to the working graph, after checking they still fold.
 
     Writing is transactional in the only sense that matters here: the new
     events are folded against the existing graph FIRST, and nothing is written
     if the result is not a well-formed graph.  A log you cannot fold is worse
-    than a rejected write.
+    than a rejected write. ``graph`` is an exact log path for callers that
+    already selected one; when omitted, the campaign-root path is used.
     """
     events = list(events)
     _require(
@@ -2692,7 +2693,7 @@ def append(events, root="."):
                 for event in events),
         "append owns the epoch metadata header; callers cannot append `meta` "
         "events because a second header would make the persisted log unreadable")
-    path = graph_path(root)
+    path = os.fspath(graph) if graph is not None else graph_path(root)
     d = os.path.dirname(path)
     if d and not os.path.isdir(d):
         os.makedirs(d)

@@ -583,6 +583,16 @@ def cmd_declare(args):
     Reads JSON from a file or stdin, accepting either one event object or a
     list of them.
     """
+    # A READ may merge repeated `--graph` inputs. A write has exactly one
+    # destination. Refuse ambiguity before reading stdin so a malformed target
+    # cannot leave an interactive caller waiting for a payload we will not use.
+    if args.graph and len(args.graph) != 1:
+        sys.stderr.write(
+            "declare needs exactly one write target; repeated --graph is "
+            "read/merge syntax.\n  Nothing was written.\n")
+        return 2
+    target = args.graph[0] if args.graph else None
+
     # `--file -` MEANS STDIN, because it means that everywhere else. Without
     # it this raised a bare FileNotFoundError naming a file called "-", which
     # tells a reader the path is wrong rather than that the idiom is
@@ -620,7 +630,7 @@ def cmd_declare(args):
             % type(events).__name__)
         return 2
     try:
-        S.append(events, args.root)
+        S.append(events, args.root, graph=target)
     except (S.GraphError, K.KernelRefusal) as exc:
         # THE WHOLE POINT: refused and NOTHING WRITTEN, so the next attempt
         # starts from a graph that still folds.
@@ -628,7 +638,8 @@ def cmd_declare(args):
                          "  Nothing was written. The graph is unchanged.\n"
                          % exc)
         return 2
-    print("declared %d event(s)." % len(events))
+    where = os.path.abspath(target or S.graph_path(args.root))
+    print("declared %d event(s) to %s." % (len(events), where))
     return 0
 
 
@@ -2490,6 +2501,32 @@ def main(argv=None):
             and args.func is not cmd_init):
         args.root = S.find_root(".")
     return args.func(args)
+
+
+def declare_main(argv=None):
+    """Dedicated console surface for transactional declarations.
+
+    MCP discovery depends on which Codex project owns a task. Campaigns still
+    expose ``portage_declare`` through MCP, while this literal command gives a
+    context-free task the same safe write path when nested MCP configuration is
+    not loaded.
+    """
+    parser = argparse.ArgumentParser(
+        prog="portage_declare",
+        description="transactionally append Grand Portage graph events")
+    parser.add_argument("--root", default=".", help="campaign root")
+    parser.add_argument("--graph", action="append",
+                        help="exact graph log to write; may be given once")
+    parser.add_argument("--file", help="JSON file; omit or use - for stdin")
+    args = parser.parse_args(
+        sys.argv[1:] if argv is None else argv)
+    forwarded = ["--root", args.root]
+    for graph in args.graph or []:
+        forwarded.extend(["--graph", graph])
+    forwarded.append("declare")
+    if args.file is not None:
+        forwarded.extend(["--file", args.file])
+    return main(forwarded)
 
 
 if __name__ == "__main__":

@@ -139,6 +139,9 @@ def _normalize_item(value):
         _require(isinstance(item["status_when_premises_discharged"], str)
                  and item["status_when_premises_discharged"],
                  "%s status_when_premises_discharged is invalid" % item_id)
+    if item.get("frontier_state") is not None:
+        _require(item["frontier_state"] in {"OPEN", "CLOSED"},
+                 "%s frontier_state must be OPEN or CLOSED" % item_id)
     return item
 
 
@@ -283,7 +286,9 @@ def build(items, discharges=(), sources=()):
 
     open_ids = [
         item["id"] for item in projected
-        if _is_open_status(item["effective_status"])
+        if (item.get("frontier_state") == "OPEN"
+            or (item.get("frontier_state") is None
+                and _is_open_status(item["effective_status"])))
     ]
     sources = [_portable(source) for source in sources]
     sources.sort(key=lambda source: json.dumps(source, sort_keys=True))

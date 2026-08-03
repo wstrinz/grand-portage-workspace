@@ -116,3 +116,15 @@ def test_cli_compiles_frontier_input(capsys, tmp_path):
     output = json.loads(capsys.readouterr().out)
     assert output["schema"] == "frontier/v1"
     assert output["items"][0]["effective_status"] == "DISCHARGED"
+
+
+def test_explicit_frontier_state_preserves_domain_status_vocabulary():
+    item = _item("A", status="CHECKED_PREMISE_BOUND", target=None)
+    item.pop("status_when_premises_discharged")
+    item["frontier_state"] = "OPEN"
+
+    result = F.build([item])
+
+    assert result["items"][0]["historical_status"] == (
+        "CHECKED_PREMISE_BOUND")
+    assert result["open_items"] == ["A"]

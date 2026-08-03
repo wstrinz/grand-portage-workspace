@@ -6,7 +6,7 @@ through v0.18 is preserved in `HISTORY/REVIEW-through-v0.18.md`.
 **Version <!--version-->0.22.0<!--/version-->, graph format
 <!--graph-format-->4<!--/graph-format-->, kernel epoch
 <!--kernel-epoch-->10<!--/kernel-epoch-->, and
-<!--checks-->1504<!--/checks--> collected checks.**
+<!--checks-->1515<!--/checks--> collected checks.**
 
 ## Highest-risk claim
 
@@ -289,3 +289,22 @@ The same view closes the recorded codimension-five `c7_9` family because
 open. Its smallest next source-side artifact is a ranked pin-ablation receipt
 that records the surviving identity or first exact defect term and maximal
 licensed scope. The checked-in review receipt has graph effect `NONE`.
+
+## 17. Declaration target and second frontier consumer
+
+Review declaration as one transactional path, not two implementations.
+`store.append(events, root=...)` remains compatible, while its exact `graph=`
+form is used by global `--graph`. Repeated graph arguments are legal for reads
+and merges but must refuse for a write before stdin is touched. A selected
+sidecar must change while the root graph remains byte-identical; selecting an
+epoch-0 log must still refuse without modification. The literal
+`portage_declare` console entry point must forward to this same path.
+
+Then review `experiments/jc_h3_source_depth6/frontier_adapter.py` as the
+generality check for `frontier/v1`. It consumes a stage ledger rather than the
+H8 evidence-envelope fixture, applies no discharges, and preserves five
+domain-specific statuses through explicit `frontier_state: OPEN`. The R6 frame
+conversion and Q relocation must remain separate items with the same three
+stable premises. The parent source seam must retain a distinct exact scope and
+the conditional depth-six authority ceiling. The checked-in receipt must
+regenerate exactly with graph effect `NONE`.

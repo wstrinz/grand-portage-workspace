@@ -24,6 +24,8 @@ gp = "grandportage.cli:main"
 # it. A live session lost time to this and its error message -- "Cannot find
 # path '...\check' because it does not exist" -- names neither cause nor cure.
 gport = "grandportage.cli:main"
+portage_declare = "grandportage.cli:declare_main"
+portage-declare = "grandportage.cli:declare_main"
 
 [project.optional-dependencies]
 test = ["pytest>=7"]

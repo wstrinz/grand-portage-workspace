@@ -30,7 +30,7 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1504<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1515<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
@@ -360,6 +360,7 @@ not a finding: the graph refuses to state it at all.
 
 ```bash
 gp init                          # create .portage/graph.jsonl
+portage_declare --file events.json # literal transactional write fallback
 gp check                         # type-check; exit 1 if anything is unsound
 gp check --json                  # machine-readable findings
 gp table                         # print the transport table and certificates
@@ -380,7 +381,7 @@ Three.js build by default; `--three-root` can point it at a local package.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1504<!--/checks--> checks
+python -m pytest        # <!--checks-->1515<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

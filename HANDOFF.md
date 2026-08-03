@@ -40,7 +40,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.22.0. <!--checks-->1504<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.22.0. <!--checks-->1515<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -617,7 +617,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1504<!--/checks--> checks, ~300 s on the current development machine) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1515<!--/checks--> checks, ~300 s on the current development machine) |
 
 ---
 
@@ -724,7 +724,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1504<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1515<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -1384,10 +1384,46 @@ complete call ledger and belief corrections are in
 `portage-depot/campaigns/lsem-census/L3-RETURN.md`; do not rewrite the result
 after seeing it.
 
-Verification for the GP change is green. Fifteen focused frontier tests cover
-immutability, deterministic order, exact-scope refusal, explicit export links,
-duplicate/unstable identifiers, CLI compilation, fixture mutation, native
-bindings, H8 refusal boundaries, c7_9 scope, and exact review regeneration. The
-five native receipt digests and verdicts match without running the math-stuff
-release gate. The complete non-live suite passes 1,463 tests with one expected
-skip and 40 live deselections in 543.69 seconds; total collection is 1,504.
+Verification for the GP change is green. Focused coverage includes the generic
+frontier compiler, both independent native consumers, exact review
+regeneration, declaration target selection, repeated-target refusal, and the
+unchanged epoch-0 boundary. The five native receipt digests and verdicts match
+without running the math-stuff release gate.
+
+## 2026-08-03 - declaration targeting repair and second frontier consumer
+
+The LSEM return separated one intentional compatibility boundary from two
+current-path defects. Refusing epoch-1 events on an unversioned epoch-0 log is
+correct and remains byte-preserving. What was wrong was that global `--graph`
+selected a graph for every read surface while `gp declare` ignored it and
+wrote through `--root`.
+
+`store.append` now accepts one exact graph path in addition to its historical
+campaign-root form. `cmd_declare` refuses repeated `--graph` values before it
+reads stdin, sends a single selected path through the same transactional fold,
+and prints the absolute destination on success. Four regressions pin explicit
+sidecar selection, ambiguous-target refusal, unchanged epoch-0 refusal, and
+root-graph byte preservation.
+
+MCP already advertised `portage_declare`; the cold task missed it because its
+Codex project root was `dev`, so the campaign's nested `.mcp.json` was not
+loaded. The package now also installs literal `portage_declare` and
+`portage-declare` console entry points. Both call the same CLI/store transaction
+and accept `--root`, one `--graph`, and `--file` or stdin. This is a fallback
+for task-host discovery, not a second writer implementation.
+
+The depth-six generated status ledger is now the second independent consumer
+of `frontier/v1`. `experiments/jc_h3_source_depth6/frontier_adapter.py` binds
+the checked seam ledger digest and compiles R5, R6, R7, Q-side relocation, and
+the parent normalized-root seam to stable semantic IDs. An explicit
+`frontier_state: OPEN` preserves domain statuses such as
+`CHECKED_PREMISE_BOUND` and `INFERRED_UNBOUND_75_125_IDENTIFICATION` without
+teaching the generic compiler JC vocabulary. The parent seam retains its own
+scope, all five items remain open, no discharge is invented, and graph effect
+stays `NONE`. The older Markdown status block remains a compatibility surface;
+`review/jc-h3-depth6-frontier-v1.json` is the compact current receipt.
+
+The focused declaration/frontier/surface/architecture run passes 323 tests,
+the repository collects 1,515 tests, and the complete local suite passes 1,474
+with 41 expected environment-dependent skips in 468.88 seconds. No math-stuff
+release gate was run for this GP-only milestone.

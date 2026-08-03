@@ -6,7 +6,7 @@ request, it says so explicitly here.
 
 **Date:** 2026-08-03
 
-**GP reference:** `bbb19f2` base plus the current `frontier/v1` update
+**GP reference:** `cef9ad5` base plus the current declaration/depth-six frontier update
 
 **JC reference:** `34b6999` - `Gate the exact c7_9-family source exclusion`
 
@@ -107,6 +107,15 @@ The reviewed load-bearing replay estimate is about 140 seconds and
 machine-load sensitive. A negative ablation result is still decisive: it names
 the restriction creating the unit collapse and the next term a theorem must
 control.
+
+## GP infrastructure update - no native action
+
+The depth-six seam ledger now compiles through the same `frontier/v1` surface
+as the H8/c7_9 packet. Its five items remain open with stable semantic IDs and
+their native status vocabulary intact. This creates no new JC request and does
+not change the pin-ablation handoff contract above. GP also repaired exact
+`--graph` declaration targeting after the LSEM cold return; that is local tool
+infrastructure and requires no coordinator action.
 
 ## When the coordinator should act
 

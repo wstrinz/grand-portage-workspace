@@ -39,6 +39,7 @@ campaign up from it alone, and that is the property worth protecting.
 
 ```bash
 gp declare --file events.json    # write; folds first or writes nothing
+portage_declare --file events.json # same transaction if MCP is not exposed
 gp check                         # what is licensed, and what is not
 gp show                          # what is in the graph
 gp history                       # where the campaign struggled
@@ -119,8 +120,11 @@ optional `root`, and **you should pass it**: without one the server writes to
 its own working directory, which is the session root and usually not the
 campaign you mean.
 
-The CLI is the better-tested path today. Prefer `gp declare` unless you have a
-reason.
+The CLI is the better-tested path today. Prefer `gp declare`. If a Codex task
+does not load the campaign's nested MCP configuration, the literal
+`portage_declare` (or `portage-declare`) command reaches the same transactional
+writer. Global `--graph` selects one exact write target; repeated graph inputs
+remain read/merge syntax and are refused for declarations.
 
 ## When something goes wrong
 

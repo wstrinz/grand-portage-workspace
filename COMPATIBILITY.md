@@ -458,3 +458,11 @@ point-surjective authority.
 A sealed epoch-0 experiment should continue with the executable pinned when it
 was sealed. Do not migrate or reinterpret it mid-experiment. Migration is for a
 new artifact after the seal opens, or for a new campaign root.
+
+Epoch-0 append refusal is intentional: the compatibility importer remains
+read-only and a declaration writes nothing until the graph is explicitly
+migrated beside its source. Current epoch-1 writers may select one exact log
+with global `--graph`; repeated graph arguments remain read/merge syntax and
+are refused for declaration. The `gp declare`, `portage_declare`,
+`portage-declare`, and MCP declaration surfaces all use the same transactional
+store path.
