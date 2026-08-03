@@ -6,9 +6,9 @@ request, it says so explicitly here.
 
 **Date:** 2026-08-03
 
-**GP reference:** `cef9ad5` base plus the current declaration/depth-six frontier update
+**GP reference:** `945ca26` plus the current pin-ablation frontier update
 
-**JC reference:** `34b6999` - `Gate the exact c7_9-family source exclusion`
+**JC references:** `6e692d2`, `8cdb4f1`, `e0377d8`, and handback `25e62b0`
 
 **Status:** HOLD - NO NEW JC REQUEST
 
@@ -78,7 +78,7 @@ It does not form or discharge additive residual bodies, actual-source
 membership, source sufficiency, H3, or `(75,125)`. Historical evidence remains
 unchanged and the projection has graph effect `NONE`.
 
-## Pin-ablation handoff contract
+## Pin-ablation handoff fulfilled and consumed
 
 The exact identity
 
@@ -90,30 +90,32 @@ closes source incidence on the recorded codimension-five `c7_9` family. It
 does not close the surrounding S2 locus or the full `b=0` branch because the
 identity currently uses the recorded pins.
 
-The native source-face generalization lane remains owned by the JC agent; GP
-is not requesting duplicate work. When that lane hands back a result, the
-coordinator should preserve these exact fields so GP can ingest it without a
-second discovery pass:
+The 2026-08-03 handback supplied every requested field and GP has consumed it.
+Uniform `c2_2` is source-excluded for all legal `a,c` at
+`c2_1=c7_10=0`. At `c2_1=0`, the joint `c2_2/c7_10` escape locus is confined
+to
 
-- ranked relaxed pin set: `c2_1`, `c2_2`, `c7_10`, then `b` and `R`;
-- all surviving chart guards and denominators;
-- the exact surviving identity, or the first nonzero defect term when it
-  fails;
-- the maximal licensed source-excluded scope or exact confinement divisor;
-- an explicit refusal to promote beyond that scope or to source sufficiency,
-  H3, or `(75,125)`.
+```text
+c2_2 = (15/2)*a*t^2*(2*c7_10 + a^2*c).
+```
 
-The reviewed load-bearing replay estimate is about 140 seconds and
-machine-load sensitive. A negative ablation result is still decisive: it names
-the restriction creating the unit collapse and the next term a theorem must
-control.
+At `a=c=1`, both intercepts and the generic point are source-excluded, with the
+at-most-130 roots of the exact degree-130 cofactor resultant retained as an
+open finite remainder. The residual torus invariant `J=a*c^(-3)` blocks
+automatic transport to the full `(a,c)` chart. The explicit failure point after
+freeing `c2_1` is confinement only, not source membership or sufficiency.
+
+GP's derived receipt is `review/jc-h3-pin-ablation-frontier-v1.json`. It marks
+the ranked artifact request resolved to scoped results while leaving full
+`b=0`, `c2_1`, `b`, `R`, `Delta`, non-normalized transport, and the resultant
+roots open. Graph effect is `NONE`; there is still no H3 or `(75,125)` result.
 
 ## GP infrastructure update - no native action
 
 The depth-six seam ledger now compiles through the same `frontier/v1` surface
 as the H8/c7_9 packet. Its five items remain open with stable semantic IDs and
 their native status vocabulary intact. This creates no new JC request and does
-not change the pin-ablation handoff contract above. GP also repaired exact
+not change the scoped pin-ablation conclusions above. GP also repaired exact
 `--graph` declaration targeting after the LSEM cold return; that is local tool
 infrastructure and requires no coordinator action.
 

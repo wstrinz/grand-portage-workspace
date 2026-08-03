@@ -9,7 +9,7 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 - Package version: <!--version-->0.22.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1515<!--/checks--> checks.
+- Test collection: <!--checks-->1520<!--/checks--> checks.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
@@ -288,10 +288,13 @@ chart or source scope. Additive residual bodies, source membership, source
 sufficiency, H3, and `(75,125)` remain open.
 
 The same projection records the exact `c7_9` family source exclusion as closed
-while keeping full `b=0` source exclusion open. Ranked pin ablation is the
-smallest current source-side artifact: replay the unit identity while freeing
-`c2_1`, `c2_2`, `c7_10`, then `b` and `R`, and retain the first exact defect
-term and maximal licensed scope when the identity fails.
+while keeping full `b=0` source exclusion open. The ranked pin-ablation
+handback has now been consumed by a third `frontier/v1` view. It closes uniform
+`c2_2` source incidence at `c2_1=c7_10=0`, confines the joint
+`c2_2/c7_10` lane to one exact hyperplane, and excludes both intercepts and the
+generic point after `a=c=1`. It does not close the at-most-130 resultant roots,
+transport off the residual-torus orbit, `c2_1`, full `b=0`, or the `b`, `R`,
+and `Delta` relaxations.
 
 The checked depth-six seam ledger is now the second independent
 `frontier/v1` consumer. Its five native statuses remain verbatim and explicitly
@@ -302,11 +305,12 @@ conditional depth-six argument. This consumer performs no premise update and
 retains the source authority ceiling
 `CONDITIONAL_NORMALIZED_ROOT_TO_DEPTH6_BOUNDARY_ONLY`.
 
-Focused coverage for the generic frontier compiler, both independent native
-consumers, and declaration targeting passes 323 tests. The optional native-
+Focused coverage for the generic frontier compiler, its independent native
+consumers, and declaration targeting passes. The optional native-
 binding replay matches all five exact sibling receipts without invoking a
-math-stuff release gate. The complete local GP suite passes 1,474 tests with 41
-expected environment-dependent skips in 468.88 seconds.
+math-stuff release gate. The complete local GP suite passes 1,479 tests with 41
+expected environment-dependent skips in 707.62 seconds; total collection is
+1,520.
 
 ## Experiments
 

@@ -6,7 +6,7 @@ through v0.18 is preserved in `HISTORY/REVIEW-through-v0.18.md`.
 **Version <!--version-->0.22.0<!--/version-->, graph format
 <!--graph-format-->4<!--/graph-format-->, kernel epoch
 <!--kernel-epoch-->10<!--/kernel-epoch-->, and
-<!--checks-->1515<!--/checks--> collected checks.**
+<!--checks-->1520<!--/checks--> collected checks.**
 
 ## Highest-risk claim
 
@@ -308,3 +308,19 @@ conversion and Q relocation must remain separate items with the same three
 stable premises. The parent source seam must retain a distinct exact scope and
 the conditional depth-six authority ceiling. The checked-in receipt must
 regenerate exactly with graph effect `NONE`.
+
+## 18. Pin-ablation handback
+
+Review `experiments/jc_h3_pin_ablation/frontier_adapter.py` as a scoped result
+consumer, not a component-cover proof. It must bind the joint low-jet, uniform
+`c2_2`, torus-normalization, and coordinator-handback bytes. Uniform `c2_2`
+source exclusion may close only at `c2_1=c7_10=0`. Joint `c2_2/c7_10`
+confinement must retain its exact hyperplane, the normalized generic exclusion
+must retain the degree-130 finite remainder, and the torus audit must block
+automatic transport away from `a=c^3`.
+
+The ranked artifact request may become `RESOLVED_TO_SCOPED_RESULTS`, but full
+`b=0`, `c2_1`, off-wall `b`, `R`, `Delta`, non-normalized transport, and the
+resultant roots must remain open. The explicit `c2_1/c2_2` simultaneous zero is
+not a source witness. Graph effect remains `NONE`; no H3 or `(75,125)` claim is
+licensed.

@@ -62,7 +62,7 @@ minting a model, built-in certificate overwrite, strictness-witness-as-
 equivalence-documentation, taint stopping at the first generation, baseline
 acceptance surviving a change of meaning, and identity origin.
 
-**Suite: <!--checks-->1515<!--/checks--> checks, ~300--480 s on the current development machine.** Was 171 before the v0.2 pass.
+**Suite: <!--checks-->1520<!--/checks--> checks, ~300--720 s on the current development machine.** Was 171 before the v0.2 pass.
 
 ---
 
@@ -402,6 +402,16 @@ stable source premises, the parent target-pair seam retains a distinct scope,
 and the review receipt must regenerate exactly. The H8 and depth-six consumers
 must share a schema while differing in both source shape and whether they emit
 premise updates.
+
+## T10 - PIN-ABLATION SCOPED RESULT
+
+Bind the three native pin-ablation certificates and the coordinator handback by
+exact digest. The ranked task must resolve without closing full `b=0` source
+exclusion. Assert uniform `c2_2` exclusion separately from joint confinement;
+keep the degree-130 resultant roots separate from non-normalized transport;
+and retain `c2_1`, `b`, `R`, and `Delta` as open items. Mutating any bound
+native byte must refuse before projection. The compact review receipt must
+regenerate exactly with graph effect `NONE`.
 
 ## What none of these test
 

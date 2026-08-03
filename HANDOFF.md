@@ -40,7 +40,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.22.0. <!--checks-->1515<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.22.0. <!--checks-->1520<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -617,7 +617,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1515<!--/checks--> checks, ~300 s on the current development machine) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1520<!--/checks--> checks, ~300 s on the current development machine) |
 
 ---
 
@@ -724,7 +724,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1515<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1520<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -1427,3 +1427,32 @@ The focused declaration/frontier/surface/architecture run passes 323 tests,
 the repository collects 1,515 tests, and the complete local suite passes 1,474
 with 41 expected environment-dependent skips in 468.88 seconds. No math-stuff
 release gate was run for this GP-only milestone.
+
+## 2026-08-03 - pin-ablation handback consumed
+
+JC returned `GP_PIN_ABLATION_HANDBACK_2026_08_03.md` against GP `945ca26`,
+binding native commits `6e692d2`, `8cdb4f1`, and `e0377d8`. The third bounded
+`frontier/v1` consumer lives at
+`experiments/jc_h3_pin_ablation/frontier_adapter.py`; its compact review receipt
+is `review/jc-h3-pin-ablation-frontier-v1.json`.
+
+The result is materially positive but scoped. The exact Bezout identity closes
+the whole `c2_2` stratum at `c2_1=c7_10=0`. With `c2_1=0`, the joint
+`c2_2/c7_10` escape locus is one exact hyperplane with no cross term. At
+`a=c=1`, both intercepts and its generic point are source-excluded. The
+degree-130 resultant leaves at most 130 points unresolved, and the residual
+torus invariant `J=a*c^(-3)` forbids automatic full-chart transport. The
+explicit `c2_1/c2_2` zero is a failure of this certificate pair, not a source
+witness. Full `b=0`, `c2_1`, `b`, `R`, and `Delta` remain open.
+
+The uniform `c2_2` checker passed 14/14. The joint checker reconstructed K0--K21
+but its raw-byte K22 failed on Windows CRLF checkout bytes for one otherwise
+clean tracked Python file; LF normalization reproduces the certificate's exact
+binding digest. No math-stuff release gate was requested or run, and the GP
+projection retains graph effect `NONE`.
+
+Five GP regressions bind the native bytes, separate the finite remainder from
+transport, preserve the explicit `c2_1` refusal, and exactly regenerate the
+review receipt. The repository now collects 1,520 tests; the complete local GP
+suite passes 1,479 with 41 expected environment-dependent skips in 707.62
+seconds.
