@@ -40,7 +40,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.22.0. <!--checks-->1475<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.22.0. <!--checks-->1489<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -617,7 +617,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1475<!--/checks--> checks, ~300 s on the current development machine) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1489<!--/checks--> checks, ~300 s on the current development machine) |
 
 ---
 
@@ -724,7 +724,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1475<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1489<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -1274,7 +1274,7 @@ deselections in 370.01 seconds.
 
 ---
 
-## 2026-08-02 - pending explicit `Psi8` and constrained `Omega8` replay
+## 2026-08-02 - explicit `Psi8` and constrained `Omega8` replay
 
 The JC coordinator fulfilled the residual request after GP commit `20bd252`.
 The landed sequence ends at math-stuff commit `b7abb3c` and supplies two exact
@@ -1292,27 +1292,37 @@ native handoff layers:
    degree-14 compatible witness algebra.
 
 Both native replays were rerun successfully from this GP session immediately
-before handoff. The current GP code does not yet ingest these certificates, so
-do not describe either native verdict as GP authority.
+before the adapter work began.
 
-### Exact next implementation loop
+### Completed GP implementation loop
 
-Work in `experiments/jc_h3_b0_free_plane/` and preserve the native certificates
-as immutable external inputs:
+`experiments/jc_h3_b0_free_plane/depth8_residual_adapter.py` preserves the
+native certificates as immutable external inputs and completes the requested
+bounded replay:
 
-1. add a bounded adapter that binds the prior depth-eight block report, decodes
+1. it binds the prior depth-eight block report, decodes
    `r8_1` and `r8_3`, and independently recomputes the exact 709-term `Psi8`;
-2. verify the residual-to-block compatibility identity and mutation-test the
-   syzygy scalars, sparse bodies, ring order, field pin, source digests, and
-   missing-middle-coordinate rationale;
-3. replay the constrained fiber substitution and complete exceptional-factor
+2. it verifies the residual-to-block compatibility identity and
+   mutation-tests the syzygy scalars, sparse bodies, ring order, field pin,
+   source digests, and missing-middle-coordinate rationale;
+3. it replays the constrained fiber substitution and complete exceptional-factor
    ledger to obtain `Omega8`, without silently cancelling unit factors;
-4. independently check the frozen quotient algebra and the coprimality/unit
+4. it independently checks the frozen quotient algebra and the coprimality/unit
    witness, with a mutation control for the witness polynomial and slice;
-5. emit a review artifact with graph effect `NONE` unless an existing smaller
-   graph-bound authority route independently applies. Do not add a relation,
-   claim kind, graph field, or evidence schema merely to mirror the native
-   enum.
+5. it emits `review/jc-h3-b0-depth8-psi8-omega8-v1.json` with graph effect
+   `NONE`, reusing `affine_fiber_block_v1`. No relation, claim kind, graph
+   field, or evidence schema was added.
+
+The GP replay reconstructs the 709-term `Psi8` and 4,123-term `Omega8` term for
+term. It audits and retains the exceptional content `c2_3^26*c3_5^2`, verifies
+that the denominator clearing introduces no new inversion, rechecks the
+degree-14 compatible quotient equations, and independently recomputes that
+`gcd(Omega8,r_final)` has degree zero. The two native fast replays also pass
+40/40 in aggregate. Fourteen focused GP tests include mutations of the syzygy
+body, ring order, field pin, source digest, missing-middle rationale,
+exceptional-factor policy, witness slice, and quotient modulus.
+The final non-live gate passes 1,448 tests with one expected skip and 40 live
+deselections in 396.39 seconds.
 
 The semantic ceiling is exact and important: this can exclude the frozen
 finite compatible witness and establish a necessary depth-eight scalar on the
@@ -1321,6 +1331,7 @@ decide the off-slice zero locus of `Omega8`, prove complete source-fiber
 equivalence or sufficiency, reach depth nine, or change H8, H3, or `(75,125)`.
 
 `JC-COORDINATOR-NEXT-PACKET.md` is the stable coordinator rendezvous path. It
-currently says HOLD / NO NEW REQUEST so a reset coordinator does not repeat
-the fulfilled residual computation. Replace that file only when GP replay
-identifies a smaller precise missing receipt.
+remains HOLD / NO NEW REQUEST because the replay exposed no smaller precise
+missing native receipt. The next work is an internal decision about the
+off-slice locus or a separately bounded component model, not a request to
+repeat or widen the fulfilled residual computation.

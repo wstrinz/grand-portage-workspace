@@ -34,19 +34,23 @@ has been fulfilled. In particular, the landed JC sequence now supplies:
 makes `Psi8` independent of it. GP accepts that bounded construction and does
 not currently request the full residual vector.
 
-## GP work now in progress
+## GP replay completed
 
-GP will independently ingest and mutation-test the landed objects in this
-order:
+GP has independently ingested and mutation-tested the landed objects:
 
-1. bind the two exact residual bodies and recompute `Psi8`;
-2. compose `Psi8` with the verified depth-eight affine fiber block;
-3. replay the exact constrained substitution and denominator ledger producing
+1. bound the two exact residual bodies and recomputed `Psi8`;
+2. composed `Psi8` with the verified depth-eight affine fiber block;
+3. replayed the exact constrained substitution and denominator ledger producing
    the 4,123-term base polynomial `Omega8`;
-4. verify the degree-14 witness-algebra unit calculation;
-5. preserve the native scope: necessary depth-eight condition and exclusion
+4. verified the degree-14 witness-algebra unit calculation;
+5. preserved the native scope: necessary depth-eight condition and exclusion
    of the frozen finite witness only, with graph effect `NONE` unless an
    existing graph-bound authority route separately earns more.
+
+The replay passed without exposing a smaller missing native receipt. It reused
+`affine_fiber_block_v1`, retained graph effect `NONE`, and added no relation,
+claim kind, graph field, or evidence schema. The coordinator status therefore
+remains HOLD.
 
 ## Authority ceiling to retain
 

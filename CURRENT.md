@@ -9,7 +9,7 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 - Package version: <!--version-->0.22.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1475<!--/checks--> checks.
+- Test collection: <!--checks-->1489<!--/checks--> checks.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
@@ -234,7 +234,7 @@ alone. At GP commit `20bd252`, `Psi8` is still only symbolic inside GP and the
 block remains necessary rather than equivalent to the complete source fiber.
 The general contract is `affine_fiber_block_v1`; graph effect remains `NONE`.
 
-The native JC tree has since landed the next bounded handoff through commit
+The native JC tree then landed the next bounded handoff through commit
 `b7abb3c`. It exports exact `r8_1` and `r8_3` bodies and the 709-term
 `Psi8 = c2_3*r8_1 + 2*r8_3`; `r8_2` is deliberately absent because the checked
 left syzygy has zero middle coordinate. Its fast native replay passes 22/22 and
@@ -243,15 +243,22 @@ coordinates. The subsequent exact constrained solve produces the 4,123-term
 base polynomial `Omega8`; its fast replay passes 18/18 and proves `Omega8` is a
 unit in one frozen degree-14 compatible witness algebra.
 
-Those are pending native inputs, not current GP authority. The next GP loop is
-to bind and independently recompute `Psi8`, compose it with the verified affine
-fiber block, replay the constrained substitution and denominator ledger, and
-check the finite-algebra unit witness. The authority ceiling remains a
-necessary depth-eight condition and exclusion of that frozen finite witness.
-It is not component-wide emptiness, complete-fiber or source equivalence,
-depth nine, H8, H3, or verdict authority. The stable coordinator request at
-`JC-COORDINATOR-NEXT-PACKET.md` is therefore on HOLD until that replay exposes
-a smaller missing receipt.
+GP now binds those immutable inputs and independently recomputes all four
+load-bearing layers. The exact sparse replay reconstructs `Psi8` from the two
+exported residuals, instantiates the prior block's augmented determinant,
+rebuilds the five Cramer numerators and `Omega8`, retains the explicit
+`c2_3^26*c3_5^2` exceptional content, and recomputes the degree-zero gcd in
+the frozen quotient algebra. The positive GP report is
+`review/jc-h3-b0-depth8-psi8-omega8-v1.json`.
+
+This earns the necessary depth-eight condition and exclusion of that frozen
+finite compatible witness only. The pointwise Lean bridge explicitly refuses
+turning one quotient observation into component-wide authority. Complete-fiber
+or source equivalence, the off-slice zero locus, depth nine, H8, H3, verdict
+authority, and graph authority remain open. The adapter reuses
+`affine_fiber_block_v1`; no relation, claim kind, graph field, or evidence
+schema was added. `JC-COORDINATOR-NEXT-PACKET.md` remains on HOLD because the
+replay exposed no smaller precise native receipt to request.
 
 ## Active release discipline
 

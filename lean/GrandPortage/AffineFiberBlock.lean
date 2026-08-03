@@ -60,4 +60,26 @@ theorem determinedAffineFiber_unique
   · exact firstCharacter.1.trans secondCharacter.1.symm
   · exact firstCharacter.2.1.trans secondCharacter.2.1.symm
 
+
+/-- If a checked compatibility condition is the vanishing of a scalar and an
+independent exact quotient calculation proves that scalar nonzero at a base,
+then the determined affine fiber over that base is empty.  The theorem is
+pointwise: it does not turn one finite quotient witness into a component-wide
+statement. -/
+theorem determinedAffineFiber_empty_of_scalar_nonzero
+    (block : DeterminedAffineFiber Base First Second)
+    (Scalar : Type z)
+    (compatibilityScalar : Base -> Scalar)
+    (zero : Scalar)
+    (characterizeCompatibility : forall base,
+      block.compatible base <-> compatibilityScalar base = zero)
+    (base : Base)
+    (nonzero : Not (compatibilityScalar base = zero)) :
+    Not (Exists fun first => Exists fun second =>
+      block.equations base first second) := by
+  intro solution
+  have compatible :=
+    (determinedAffineFiber_nonempty_iff block base).mp solution
+  exact nonzero ((characterizeCompatibility base).mp compatible)
+
 end GrandPortage
