@@ -7,6 +7,9 @@ from pathlib import Path
 
 import pytest
 
+
+pytestmark = pytest.mark.replay
+
 from grandportage import evidence as EV
 
 
@@ -53,6 +56,7 @@ def test_fast_face_extraction_welds_all_landed_faces_without_graph_effect():
                for premise in envelope["outstanding_premises"])
 
 
+@pytest.mark.exhaustive
 def test_full_source_formula_replay_rederives_all_five_rows():
     report = ADAPTER.verify_fixture(full_source_replay=True)
 

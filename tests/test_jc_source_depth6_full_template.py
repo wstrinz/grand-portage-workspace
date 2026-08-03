@@ -6,6 +6,9 @@ from pathlib import Path
 
 import pytest
 
+
+pytestmark = pytest.mark.exhaustive
+
 from grandportage import provenance as P
 from grandportage import verify as V
 from grandportage import cli

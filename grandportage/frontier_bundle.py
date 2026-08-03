@@ -20,6 +20,7 @@ GRAPH_EFFECT = "NONE"
 DIGEST_ALGO = "sha256-lf-normalized"
 
 _ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]*$")
+_FINGERPRINT = re.compile(r"^sha256:[0-9a-f]{64}$")
 
 
 class FrontierBundleError(ValueError):
@@ -83,8 +84,19 @@ def _normalize_observation(value, receipt_id):
     status = value.get("status")
     _require(isinstance(status, str) and status,
              "%s %s status must be nonempty" % (receipt_id, item_id))
-    return {"id": item_id, "scope_id": scope_id,
-            "state": state, "status": status}
+    observation = {"id": item_id, "scope_id": scope_id,
+                   "state": state, "status": status}
+    if "replacement_ids" in value:
+        replacements = sorted(_string_list(
+            value["replacement_ids"],
+            "%s %s replacement_ids" % (receipt_id, item_id)))
+        _require(state == "CLOSED",
+                 "%s %s open observation cannot declare replacements" % (
+                     receipt_id, item_id))
+        _require(item_id not in replacements,
+                 "%s %s cannot replace itself" % (receipt_id, item_id))
+        observation["replacement_ids"] = replacements
+    return observation
 
 
 def _load_receipts(manifest, manifest_path):
@@ -96,6 +108,8 @@ def _load_receipts(manifest, manifest_path):
     repository_root = (manifest_path.parent / root_value).resolve()
     records = []
     documents = {}
+    bound_paths = set()
+    bound_digests = set()
     for source in manifest.get("receipts", []):
         _require(isinstance(source, dict), "receipt binding must be an object")
         receipt_id = _stable_id(source.get("id"), "receipt id")
@@ -111,13 +125,19 @@ def _load_receipts(manifest, manifest_path):
             raise FrontierBundleError(
                 "%s receipt escapes the bundle root" % receipt_id)
         _require(path.is_file(), "%s receipt is absent: %s" % (receipt_id, path))
+        path_key = str(path).casefold()
+        _require(path_key not in bound_paths,
+                 "%s duplicates a normalized receipt path" % receipt_id)
         expected = source.get("sha256")
         _require(isinstance(expected, str) and re.fullmatch(r"[0-9a-f]{64}", expected),
                  "%s receipt digest is invalid" % receipt_id)
         _require(source.get("digest_algo") == DIGEST_ALGO,
                  "%s must use %s" % (receipt_id, DIGEST_ALGO))
-        _require(_digest(path) == expected,
+        actual_digest = _digest(path)
+        _require(actual_digest == expected,
                  "%s receipt digest changed" % receipt_id)
+        _require(actual_digest not in bound_digests,
+                 "%s duplicates receipt content" % receipt_id)
         try:
             document = json.loads(path.read_text(encoding="utf-8"))
         except json.JSONDecodeError as exc:
@@ -126,9 +146,16 @@ def _load_receipts(manifest, manifest_path):
         _require(document.get("authority") == AUTHORITY and
                  document.get("graph_effect") == GRAPH_EFFECT,
                  "%s widened bundle authority" % receipt_id)
-        _require(isinstance(document.get("schema"), str) and
-                 document["schema"],
-                 "%s receipt schema is absent" % receipt_id)
+        _require(document.get("schema") == "frontier/v1" or
+                 document.get("projection_schema") == "frontier/v1",
+                 "%s is not a frontier/v1 receipt" % receipt_id)
+        history = document.get("history")
+        _require(isinstance(history, dict),
+                 "%s history must be an object" % receipt_id)
+        input_fingerprint = history.get("input_fingerprint")
+        _require(isinstance(input_fingerprint, str) and
+                 _FINGERPRINT.fullmatch(input_fingerprint),
+                 "%s history.input_fingerprint is invalid" % receipt_id)
         observations = [_normalize_observation(item, receipt_id)
                         for item in document.get("item_observations", [])]
         ids = [item["id"] for item in observations]
@@ -140,14 +167,15 @@ def _load_receipts(manifest, manifest_path):
                                         if item["state"] == "OPEN"},
                  "%s open_items disagrees with item_observations" % receipt_id)
         documents[receipt_id] = observations
+        bound_paths.add(path_key)
+        bound_digests.add(actual_digest)
         records.append({
             "id": receipt_id,
             "path": relative.replace("\\", "/"),
             "sha256": "sha256:" + expected,
             "digest_algo": DIGEST_ALGO,
             "receipt_schema": document.get("schema"),
-            "input_fingerprint": document.get("history", {}).get(
-                "input_fingerprint"),
+            "input_fingerprint": input_fingerprint,
             "item_count": len(observations),
             "open_count": len(declared_open),
         })
@@ -266,6 +294,10 @@ def build_path(path):
             _require(current["state"] == "CLOSED" and
                      current["status"] == resolution["current_status"],
                      "%s supersession current status disagrees" % item_id)
+            _require(current.get("replacement_ids") ==
+                     resolution["replacements"],
+                     "%s supersession replacement provenance disagrees" %
+                     item_id)
             current_items.append({
                 **current,
                 "receipts": [resolution["current_receipt"]],

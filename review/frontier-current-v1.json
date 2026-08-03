@@ -10,7 +10,7 @@
   "graph_effect": "NONE",
   "history": {
     "immutable": true,
-    "input_fingerprint": "sha256:42a498f53fdf63f337495f3053745226ae1d96e04970831769923d1e6b508733"
+    "input_fingerprint": "sha256:1d6cf65a8c55445b915797d68f25371ca67a8f93350d45ec90d82e98a15e697d"
   },
   "open_items": [
     "JC.H3.B.RELAXATION",
@@ -51,12 +51,12 @@
     {
       "digest_algo": "sha256-lf-normalized",
       "id": "pin-ablation",
-      "input_fingerprint": "sha256:921d6dcdc31c369c951ef38b02ffed856d7c9fa654f68eb4078df083a2d6f320",
+      "input_fingerprint": "sha256:85f37986bf17a23ad0cb1406eb40ba449d0e3ba6814c08928f395b9e95e6bc82",
       "item_count": 11,
       "open_count": 7,
       "path": "review/jc-h3-pin-ablation-frontier-v1.json",
       "receipt_schema": "frontier/v1",
-      "sha256": "sha256:2a00f51326030b434a11478f0d1e38892475c6af0aa42e6b98be9156aa689786"
+      "sha256": "sha256:90f755423aaa3f83e3fad0dbb3fcd06fc56ffc45a2d391488bd62664fc18e412"
     }
   ],
   "resolutions": [

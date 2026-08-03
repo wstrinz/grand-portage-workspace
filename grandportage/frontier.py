@@ -343,12 +343,22 @@ def item_observations(report):
         status = item.get("effective_status")
         _require(isinstance(status, str) and status,
                  "%s observation status is invalid" % item_id)
-        observations.append({
+        observation = {
             "id": item_id,
             "scope_id": scope_id,
             "state": "OPEN" if item_id in open_ids else "CLOSED",
             "status": status,
-        })
+        }
+        if "replacement_ids" in item:
+            replacements = _string_list(
+                item["replacement_ids"],
+                "%s observation replacement_ids" % item_id)
+            _require(observation["state"] == "CLOSED",
+                     "%s open observation cannot declare replacements" % item_id)
+            _require(item_id not in replacements,
+                     "%s cannot replace itself" % item_id)
+            observation["replacement_ids"] = sorted(replacements)
+        observations.append(observation)
     observations.sort(key=lambda item: item["id"])
     _require({item["id"] for item in observations} >= open_ids,
              "frontier open_items names an absent item")

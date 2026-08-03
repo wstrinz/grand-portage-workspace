@@ -62,7 +62,25 @@ minting a model, built-in certificate overwrite, strictness-witness-as-
 equivalence-documentation, taint stopping at the first generation, baseline
 acceptance surviving a change of meaning, and identity origin.
 
-**Suite: <!--checks-->1532<!--/checks--> checks, ~300--720 s on the current development machine.** Was 171 before the v0.2 pass.
+**Suite: <!--checks-->1538<!--/checks--> checks, ~300--720 s on the current development machine.** Was 171 before the v0.2 pass.
+
+### Test cadence
+
+Plain `pytest` remains the full release gate. The markers provide explicit
+subsets without changing that default:
+
+```text
+pytest -m "not live and not replay and not exhaustive"
+pytest -m "replay and not live and not exhaustive"
+pytest -m "live and not exhaustive"
+pytest
+```
+
+`replay` means substantial deterministic decoding or reconstruction of frozen
+evidence. `exhaustive` means the largest finite campaign or full source
+reconstruction. `live` still means a real CAS process. Rendering and mutation
+tests should consume frozen reports when their assertion does not require a
+fresh replay; each authority path retains a real integration test.
 
 ---
 

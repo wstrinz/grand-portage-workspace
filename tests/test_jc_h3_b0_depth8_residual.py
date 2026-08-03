@@ -9,6 +9,9 @@ from pathlib import Path
 import pytest
 
 
+pytestmark = pytest.mark.replay
+
+
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = (ROOT / "experiments" / "jc_h3_b0_free_plane" /
           "depth8_residual_adapter.py")

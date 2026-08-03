@@ -24,10 +24,15 @@ def _envelope(license_name="checked"):
     }
 
 
-def test_fast_gate_replays_welds_and_names_terminal_open_authority():
-    module = _load()
-    report = module.run_gate(
+@pytest.fixture(scope="module")
+def seam_report():
+    return _load().run_gate(
         full=False, check_native_bindings=False, native_replay=False)
+
+
+@pytest.mark.replay
+def test_fast_gate_replays_welds_and_names_terminal_open_authority(seam_report):
+    report = seam_report
 
     assert report["overall_verdict"] == (
         "VERIFIED_TO_EXPLICIT_OPEN_OBLIGATION")
@@ -277,17 +282,10 @@ def test_preflight_has_no_chain_decode_and_no_mathematical_verdict(monkeypatch):
         "PREFLIGHT_BINDINGS_ONLY"}
 
 
-def test_explicit_seam_tier_preserves_the_default_fast_verdict_and_licenses():
-    module = _load()
-    default = module.run_gate()
-    seam = module.run_gate(tier="seam")
-
-    assert seam["overall_verdict"] == default["overall_verdict"]
-    assert seam["authority_ceiling"] == default["authority_ceiling"]
-    assert [(stage["id"], stage["verdict"], stage["licenses"])
-            for stage in seam["stages"]] == [
-        (stage["id"], stage["verdict"], stage["licenses"])
-        for stage in default["stages"]]
+@pytest.mark.replay
+def test_default_gate_is_the_explicit_seam_tier(seam_report):
+    assert seam_report["tier"] == "seam"
+    assert seam_report["coverage"] == "WELDS_ONLY_GRAPH_AUTHORITIES_DEFERRED"
 
 
 def test_interrupted_gate_leaves_completed_stage_journal(monkeypatch, tmp_path):

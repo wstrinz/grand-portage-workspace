@@ -121,8 +121,9 @@ def verify_native(native_root=NATIVE_ROOT):
 
 
 def _item(item_id, proposition, status, scope_id, scope, *, open_=False,
-          blocked=(), evidence=(), next_artifact=None, impact=()):
-    return {
+          blocked=(), evidence=(), next_artifact=None, impact=(),
+          replacement_ids=None):
+    item = {
         "id": item_id,
         "proposition": proposition,
         "status": status,
@@ -135,6 +136,9 @@ def _item(item_id, proposition, status, scope_id, scope, *, open_=False,
         "estimated_cost": None,
         "potential_impact": list(impact),
     }
+    if replacement_ids is not None:
+        item["replacement_ids"] = list(replacement_ids)
+    return item
 
 
 def build(native_root=NATIVE_ROOT):
@@ -150,7 +154,19 @@ def build(native_root=NATIVE_ROOT):
             "RESOLVED_TO_SCOPED_RESULTS", "JC.H3.C79.PIN_ABLATION",
             shared_scope + "; ranked c2_2, joint c2_2/c7_10, c2_1, b, and R outcomes",
             evidence=evidence,
-            impact=["replace the open artifact request with bounded result items"]),
+            impact=["replace the open artifact request with bounded result items"],
+            replacement_ids=[
+                "JC.H3.B.RELAXATION",
+                "JC.H3.B0.SOURCE.EXCLUSION",
+                "JC.H3.C21.RELAXATION",
+                "JC.H3.C22.UNIFORM_SOURCE_EXCLUSION",
+                "JC.H3.C22_C710.JOINT_CONFINEMENT",
+                "JC.H3.C22_C710.NONNORMALIZED_TRANSPORT",
+                "JC.H3.C22_C710.NORMALIZED_LINE.GENERIC_EXCLUSION",
+                "JC.H3.C22_C710.NORMALIZED_LINE.RESULTANT_ROOTS",
+                "JC.H3.DELTA.RELAXATION",
+                "JC.H3.R.RELAXATION",
+            ]),
         _item(
             "JC.H3.C22.UNIFORM_SOURCE_EXCLUSION",
             "Two shallow window faces generate the unit ideal uniformly in c2_2.",

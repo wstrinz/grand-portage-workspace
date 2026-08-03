@@ -11,7 +11,7 @@
   "graph_effect": "NONE",
   "history": {
     "immutable": true,
-    "input_fingerprint": "sha256:921d6dcdc31c369c951ef38b02ffed856d7c9fa654f68eb4078df083a2d6f320",
+    "input_fingerprint": "sha256:85f37986bf17a23ad0cb1406eb40ba449d0e3ba6814c08928f395b9e95e6bc82",
     "item_count": 11
   },
   "item_observations": [
@@ -65,6 +65,18 @@
     },
     {
       "id": "JC.H3.C79.SOURCE.FACE81.PIN_ABLATION",
+      "replacement_ids": [
+        "JC.H3.B.RELAXATION",
+        "JC.H3.B0.SOURCE.EXCLUSION",
+        "JC.H3.C21.RELAXATION",
+        "JC.H3.C22.UNIFORM_SOURCE_EXCLUSION",
+        "JC.H3.C22_C710.JOINT_CONFINEMENT",
+        "JC.H3.C22_C710.NONNORMALIZED_TRANSPORT",
+        "JC.H3.C22_C710.NORMALIZED_LINE.GENERIC_EXCLUSION",
+        "JC.H3.C22_C710.NORMALIZED_LINE.RESULTANT_ROOTS",
+        "JC.H3.DELTA.RELAXATION",
+        "JC.H3.R.RELAXATION"
+      ],
       "scope_id": "JC.H3.C79.PIN_ABLATION",
       "state": "CLOSED",
       "status": "RESOLVED_TO_SCOPED_RESULTS"

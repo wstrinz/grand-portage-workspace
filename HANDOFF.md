@@ -40,7 +40,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.22.0. <!--checks-->1532<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.22.0. <!--checks-->1538<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -617,7 +617,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1532<!--/checks--> checks, ~300 s on the current development machine) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1538<!--/checks--> checks, ~300 s on the current development machine) |
 
 ---
 
@@ -724,7 +724,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1532<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1538<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -1485,3 +1485,37 @@ manifest. The repository now collects 1,532 tests; the complete local GP suite
 passes 1,491 with 41 expected environment-dependent skips in 691.29 seconds.
 The cold external-review packet is
 `review/FRONTIER-BUNDLE-COLD-WEB-REVIEW-2026-08-03.md`.
+
+## 2026-08-03 - frontier-bundle protocol hardening and measured test lanes
+
+The external review of `d389983` passed the 20-item frontier and identified two
+protocol gaps. Bundle inputs now must be genuine `frontier/v1` projections
+(either directly or through `projection_schema`), carry a valid SHA-256 input
+fingerprint, and bind unique normalized paths and unique receipt content.
+`SUPERSEDE` now requires the closing observation itself to declare the exact
+sorted `replacement_ids` asserted by the manifest. The pin-ablation receipt
+therefore byte-binds its ten scoped successor items instead of leaving that
+provenance solely to the coordinator manifest.
+
+Direct mutations cover closed `AGREE_OPEN`, incomplete receipt sets in both
+resolution modes, a closed supersession prior, inconsistent `open_items`, a
+foreign schema, invalid fingerprints, duplicate path/content bindings, and
+replacement-provenance disagreement. A checked synthetic planning/execution
+bundle under `fixtures/frontier/synthetic/` proves the merge algebra is not
+JC-specific; it retains one shared open obligation and one open scoped
+replacement without widening authority or graph effect.
+
+Measured non-live runtime was 909.03 seconds before tiering, with cost
+concentrated in a handful of exact frozen-artifact replays. Pytest now exposes
+`replay` and `exhaustive` markers alongside `live`, while unqualified `pytest`
+remains the full release gate. The status-block presentation tests consume the
+checked-in seam ledger and retain one fresh integration replay. Two tests of
+the default/explicit seam alias share that replay instead of executing it
+twice. The documented fast, replay, live, and full commands are in
+`TESTPLAN.md` and `pyproject.toml`.
+
+Final validation: the fast lane passed 1,419 tests in 140.95 seconds; the replay
+lane passed 72 with one expected skip in 278.82 seconds; the exhaustive lane
+passed six in 48.16 seconds; and the marker-unfiltered full release gate passed
+1,497 with 41 expected environment-dependent skips in 392.51 seconds. The
+repository collects 1,538 tests.

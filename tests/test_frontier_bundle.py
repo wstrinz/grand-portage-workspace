@@ -8,12 +8,14 @@ from grandportage import cli
 from grandportage import frontier_bundle as B
 
 
-def _receipt(observations):
+def _receipt(observations, consumer="test"):
     return {
         "schema": "test-frontier-review/v1",
+        "projection_schema": "frontier/v1",
+        "consumer": consumer,
         "authority": "DERIVED_READ_MODEL_ONLY",
         "graph_effect": "NONE",
-        "history": {"input_fingerprint": "sha256:test"},
+        "history": {"input_fingerprint": "sha256:" + "1" * 64},
         "item_observations": observations,
         "open_items": [item["id"] for item in observations
                        if item["state"] == "OPEN"],
@@ -21,9 +23,12 @@ def _receipt(observations):
 
 
 def _observation(identifier, state="OPEN", status="OPEN",
-                 scope="scope.exact"):
-    return {"id": identifier, "scope_id": scope,
-            "state": state, "status": status}
+                 scope="scope.exact", replacements=None):
+    observation = {"id": identifier, "scope_id": scope,
+                   "state": state, "status": status}
+    if replacements is not None:
+        observation["replacement_ids"] = list(replacements)
+    return observation
 
 
 def _write_bundle(tmp_path, receipts, resolutions=()):
@@ -61,7 +66,7 @@ def _supersede(identifier="A"):
 
 
 def test_duplicate_open_item_requires_explicit_exact_agreement(tmp_path):
-    receipts = {name: _receipt([_observation("A")])
+    receipts = {name: _receipt([_observation("A")], consumer=name)
                 for name in ("old", "new")}
     manifest = _write_bundle(tmp_path, receipts)
 
@@ -76,24 +81,26 @@ def test_duplicate_open_item_requires_explicit_exact_agreement(tmp_path):
 
 def test_agreement_refuses_scope_or_status_conflicts(tmp_path):
     receipts = {
-        "old": _receipt([_observation("A")]),
-        "new": _receipt([_observation("A", scope="scope.other")]),
+        "old": _receipt([_observation("A")], consumer="old"),
+        "new": _receipt([_observation("A", scope="scope.other")], consumer="new"),
     }
     with pytest.raises(B.FrontierBundleError, match="incompatible exact scopes"):
         B.build_path(_write_bundle(tmp_path, receipts, [_agree()]))
 
-    receipts["new"] = _receipt([_observation("A", status="OPEN_OTHER")])
+    receipts["new"] = _receipt(
+        [_observation("A", status="OPEN_OTHER")], consumer="new")
     with pytest.raises(B.FrontierBundleError, match="statuses conflict"):
         B.build_path(_write_bundle(tmp_path, receipts, [_agree()]))
 
 
 def test_supersession_replaces_open_task_with_bounded_results(tmp_path):
     receipts = {
-        "old": _receipt([_observation("A")]),
+        "old": _receipt([_observation("A")], consumer="old"),
         "new": _receipt([
-            _observation("A", state="CLOSED", status="RESOLVED"),
+            _observation("A", state="CLOSED", status="RESOLVED",
+                         replacements=["B"]),
             _observation("B", status="OPEN_FINITE_REMAINDER"),
-        ]),
+        ], consumer="new"),
     }
     report = B.build_path(_write_bundle(
         tmp_path, receipts, [_supersede()]))
@@ -107,26 +114,29 @@ def test_supersession_replaces_open_task_with_bounded_results(tmp_path):
 
 def test_supersession_refuses_unproved_status_or_missing_replacement(tmp_path):
     receipts = {
-        "old": _receipt([_observation("A")]),
+        "old": _receipt([_observation("A")], consumer="old"),
         "new": _receipt([_observation(
-            "A", state="CLOSED", status="SOMETHING_ELSE")]),
+            "A", state="CLOSED", status="SOMETHING_ELSE",
+            replacements=["B"])], consumer="new"),
     }
     with pytest.raises(B.FrontierBundleError, match="status disagrees"):
         B.build_path(_write_bundle(tmp_path, receipts, [_supersede()]))
 
     receipts["new"] = _receipt([
-        _observation("A", state="CLOSED", status="RESOLVED")])
+        _observation("A", state="CLOSED", status="RESOLVED",
+                     replacements=["B"])], consumer="new")
     with pytest.raises(B.FrontierBundleError, match="replacement is absent"):
         B.build_path(_write_bundle(tmp_path, receipts, [_supersede()]))
 
 
 def test_supersession_refuses_current_as_prior_or_self_replacement(tmp_path):
     receipts = {
-        "old": _receipt([_observation("A")]),
+        "old": _receipt([_observation("A")], consumer="old"),
         "new": _receipt([
-            _observation("A", state="CLOSED", status="RESOLVED"),
+            _observation("A", state="CLOSED", status="RESOLVED",
+                         replacements=["B"]),
             _observation("B"),
-        ]),
+        ], consumer="new"),
     }
     resolution = _supersede()
     resolution["prior_receipts"].append("new")
@@ -160,8 +170,8 @@ def test_lf_normalized_digest_survives_crlf_checkout(tmp_path):
 
 def test_bundle_is_deterministic_and_cli_exposes_same_surface(tmp_path, capsys):
     receipts = {
-        "z": _receipt([_observation("Z")]),
-        "a": _receipt([_observation("A")]),
+        "z": _receipt([_observation("Z")], consumer="z"),
+        "a": _receipt([_observation("A")], consumer="a"),
     }
     manifest = _write_bundle(tmp_path, receipts)
     first = B.build_path(manifest)
@@ -171,3 +181,98 @@ def test_bundle_is_deterministic_and_cli_exposes_same_surface(tmp_path, capsys):
     assert first["open_items"] == ["A", "Z"]
     assert cli.main(["frontier-bundle", str(manifest), "--compact"]) == 0
     assert json.loads(capsys.readouterr().out) == first
+
+
+def test_agreement_refuses_closed_observation_or_incomplete_receipts(tmp_path):
+    receipts = {
+        "old": _receipt([_observation("A")], consumer="old"),
+        "new": _receipt([
+            _observation("A", state="CLOSED", status="RESOLVED")],
+            consumer="new"),
+    }
+    with pytest.raises(B.FrontierBundleError, match="includes a closed"):
+        B.build_path(_write_bundle(tmp_path, receipts, [_agree()]))
+
+    receipts["new"] = _receipt([_observation("A")], consumer="new")
+    with pytest.raises(B.FrontierBundleError, match="name every receipt"):
+        B.build_path(_write_bundle(
+            tmp_path, receipts, [_agree(receipts=("old",))]))
+
+
+def test_supersession_refuses_incomplete_receipts_or_closed_prior(tmp_path):
+    receipts = {
+        "old": _receipt([_observation("A")], consumer="old"),
+        "middle": _receipt([_observation("A")], consumer="middle"),
+        "new": _receipt([
+            _observation("A", state="CLOSED", status="RESOLVED",
+                         replacements=["B"]),
+            _observation("B"),
+        ], consumer="new"),
+    }
+    with pytest.raises(B.FrontierBundleError, match="name every receipt"):
+        B.build_path(_write_bundle(tmp_path, receipts, [_supersede()]))
+
+    receipts.pop("middle")
+    receipts["old"] = _receipt([
+        _observation("A", state="CLOSED", status="OLD_RESOLVED")],
+        consumer="old")
+    with pytest.raises(B.FrontierBundleError, match="prior state is not OPEN"):
+        B.build_path(_write_bundle(tmp_path, receipts, [_supersede()]))
+
+
+def test_receipt_refuses_open_list_foreign_schema_or_bad_fingerprint(tmp_path):
+    receipt = _receipt([_observation("A")])
+    receipt["open_items"] = []
+    with pytest.raises(B.FrontierBundleError, match="open_items disagrees"):
+        B.build_path(_write_bundle(tmp_path, {"only": receipt}))
+
+    receipt = _receipt([_observation("A")])
+    receipt.pop("projection_schema")
+    with pytest.raises(B.FrontierBundleError, match="not a frontier/v1"):
+        B.build_path(_write_bundle(tmp_path, {"only": receipt}))
+
+    receipt = _receipt([_observation("A")])
+    receipt["history"]["input_fingerprint"] = "sha256:not-a-digest"
+    with pytest.raises(B.FrontierBundleError, match="input_fingerprint"):
+        B.build_path(_write_bundle(tmp_path, {"only": receipt}))
+
+    receipt = _receipt([_observation("A")])
+    receipt["history"] = []
+    with pytest.raises(B.FrontierBundleError, match="history must be an object"):
+        B.build_path(_write_bundle(tmp_path, {"only": receipt}))
+
+
+def test_receipt_refuses_duplicate_normalized_path_or_content(tmp_path):
+    receipts = {
+        "first": _receipt([_observation("A")]),
+        "second": _receipt([_observation("A")]),
+    }
+    with pytest.raises(B.FrontierBundleError, match="duplicates receipt content"):
+        B.build_path(_write_bundle(tmp_path, receipts, [_agree(
+            receipts=("first", "second"))]))
+
+    manifest = _write_bundle(tmp_path, {
+        "first": _receipt([_observation("A")], consumer="first"),
+        "second": _receipt([_observation("B")], consumer="second"),
+    })
+    value = json.loads(manifest.read_text(encoding="utf-8"))
+    value["receipts"][1]["path"] = value["receipts"][0]["path"]
+    value["receipts"][1]["sha256"] = value["receipts"][0]["sha256"]
+    manifest.write_text(json.dumps(value), encoding="utf-8")
+    with pytest.raises(B.FrontierBundleError, match="normalized receipt path"):
+        B.build_path(manifest)
+
+
+def test_supersession_refuses_replacement_provenance_disagreement(tmp_path):
+    receipts = {
+        "old": _receipt([_observation("A")], consumer="old"),
+        "new": _receipt([
+            _observation("A", state="CLOSED", status="RESOLVED",
+                         replacements=["C"]),
+            _observation("B"),
+            _observation("C"),
+        ], consumer="new"),
+    }
+    with pytest.raises(B.FrontierBundleError,
+                       match="replacement provenance disagrees"):
+        B.build_path(_write_bundle(tmp_path, receipts, [_supersede()]))

@@ -47,8 +47,12 @@ testpaths = ["tests"]
 # real solver and the suite went green having not run them. So they run unless
 # you say otherwise:
 #
-#     pytest -m "not live"     fast loop while editing
-#     pytest                   everything, and what CI must run
+#     pytest -m "not live and not replay and not exhaustive"   edit loop
+#     pytest -m "replay and not live and not exhaustive"       frozen replay
+#     pytest -m "live and not exhaustive"                      real CAS boundary
+#     pytest                                                   full release gate
 markers = [
     "live: spawns a real CAS process; slow, and the only tests that touch one",
+    "replay: performs substantial deterministic frozen-artifact replay",
+    "exhaustive: performs the largest finite campaign or full reconstruction",
 ]

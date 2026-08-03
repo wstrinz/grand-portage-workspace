@@ -7,6 +7,9 @@ from pathlib import Path
 
 import pytest
 
+
+pytestmark = pytest.mark.replay
+
 from grandportage import check as C
 from grandportage import cli
 from grandportage import evidence as EV

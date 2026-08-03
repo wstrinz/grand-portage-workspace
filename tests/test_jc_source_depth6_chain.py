@@ -9,6 +9,9 @@ from pathlib import Path
 
 import pytest
 
+
+pytestmark = pytest.mark.replay
+
 from grandportage import evidence as EV
 
 

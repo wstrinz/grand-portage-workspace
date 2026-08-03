@@ -20,6 +20,13 @@ def _ledger(module):
     return module.REPLAY.run_gate(full=False)
 
 
+def _frozen_ledger():
+    return json.loads((ROOT / "review" /
+                       "jc-h3-depth6-seam-replay-v2.json").read_text(
+                           encoding="utf-8"))
+
+
+@pytest.mark.replay
 def test_projection_keeps_supported_and_unsupported_authority_distinct():
     module = _load()
     projection = module.status_projection(_ledger(module))
@@ -42,7 +49,7 @@ def test_exact_delimited_replacement_reaches_a_fixed_point(tmp_path):
     path = tmp_path / "status.md"
     path.write_text("before\n%s\nold\n%s\nafter\n" %
                     (module.BEGIN, module.END), encoding="utf-8")
-    ledger = _ledger(module)
+    ledger = _frozen_ledger()
 
     first = module.refresh_file(path, ledger)
     after_first = path.read_bytes()
@@ -62,7 +69,7 @@ def test_missing_delimiters_are_a_diagnosed_noop(tmp_path):
     path = tmp_path / "unowned.md"
     path.write_text("human-owned status\n", encoding="utf-8")
 
-    report = module.refresh_file(path, _ledger(module))
+    report = module.refresh_file(path, _frozen_ledger())
 
     assert report["delimiters_found"] is False
     assert report["changed"] is False
@@ -83,7 +90,7 @@ def test_missing_delimiters_are_a_diagnosed_noop(tmp_path):
 def test_unbalanced_duplicate_or_reversed_delimiters_refuse(text):
     module = _load()
     with pytest.raises(module.StatusBlockError):
-        module.replace_block(text, module.render_block(_ledger(module)))
+        module.replace_block(text, module.render_block(_frozen_ledger()))
 
 
 def test_v1_review_ledger_is_visibly_lossy_after_migration():
@@ -100,7 +107,7 @@ def test_v1_review_ledger_is_visibly_lossy_after_migration():
 
 def test_empty_open_frontier_is_refused():
     module = _load()
-    ledger = _ledger(module)
+    ledger = _frozen_ledger()
     ledger["open_frontier"] = []
 
     with pytest.raises(module.StatusBlockError,

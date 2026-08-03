@@ -9,7 +9,16 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 - Package version: <!--version-->0.22.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1532<!--/checks--> checks.
+- Test collection: <!--checks-->1538<!--/checks--> checks.
+
+Plain `pytest` is the full release gate. The ordinary edit loop is
+`pytest -m "not live and not replay and not exhaustive"`; deterministic frozen
+campaign replay and real-CAS checks have separate `replay` and `live` lanes,
+and the largest finite reconstructions are marked `exhaustive`.
+The final validation for this state passed 1,419 fast tests in 140.95 seconds,
+72 replay tests with one expected skip in 278.82 seconds, six exhaustive tests
+in 48.16 seconds, and the full release gate at 1,497 passed with 41 expected
+environment-dependent skips in 392.51 seconds.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
