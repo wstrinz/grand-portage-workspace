@@ -9,7 +9,7 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 - Package version: <!--version-->0.22.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1489<!--/checks--> checks.
+- Test collection: <!--checks-->1504<!--/checks--> checks.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
@@ -271,10 +271,43 @@ The next milestone is consolidation and composition:
 - specialized evidence should compile to an existing smaller authority
   certificate whenever possible.
 
+## Derived proof frontier
+
+The generic `frontier/v1` read surface now compiles evidence envelopes and
+premise-discharge overlays into one deterministic research boundary. It keeps
+historical status immutable, fingerprints that input, and applies updates only
+to exact scope IDs; explicit `exports_to_scopes` links are required for
+downstream propagation. It is outside the kernel and always reports
+`DERIVED_READ_MODEL_ONLY` with graph effect `NONE`.
+
+Its first JC consumer binds the complete H8 transfer receipts. H8 is now
+effectively discharged over depths 8--15 under P1--P5 and the pin, retaining
+S2 on S2-scoped consumers. The exact degree-34 depth-nine pairing and the
+operator schedule therefore lose their H8 qualifier without changing their
+chart or source scope. Additive residual bodies, source membership, source
+sufficiency, H3, and `(75,125)` remain open.
+
+The same projection records the exact `c7_9` family source exclusion as closed
+while keeping full `b=0` source exclusion open. Ranked pin ablation is the
+smallest current source-side artifact: replay the unit identity while freeing
+`c2_1`, `c2_2`, `c7_10`, then `b` and `R`, and retain the first exact defect
+term and maximal licensed scope when the identity fails.
+
+Fifteen focused frontier tests pass, the optional native-binding replay matches
+all five exact sibling receipts without invoking a math-stuff release gate, and
+the complete non-live GP suite passes 1,463 tests with one expected skip and 40
+live deselections in 543.69 seconds.
+
 ## Experiments
 
-- The LSEM cold-return campaign remains sealed until 2026-08-03. Do not alter
-  it before the cold-return measurement.
+- The preregistered LSEM cold return completed in a separate context-free task.
+  It oriented correctly, requested no unseal, preserved the original graph,
+  declared one narrow R3 inference, and finished with zero findings. The strict
+  verdict is `INCONCLUSIVE`: literal `portage_declare` was unavailable, the
+  first mutation attempt correctly refused the epoch-0 log, and documented
+  global `--graph` did not redirect `gp.exe declare`; an isolated epoch-1 root
+  succeeded on the third attempt. The full ledger is
+  `portage-depot/campaigns/lsem-census/L3-RETURN.md`.
 - The v0.19 fan-out assay covers semantic aliases, normalized id collisions,
   cross-branch supersession, and stale/current verdict coexistence. The exact
   checker also agrees with a deterministic Singular differential corpus.

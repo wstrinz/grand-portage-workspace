@@ -23,7 +23,7 @@ AFFINE_EVIDENCE = {
     "factor_power_contradiction", "product_split", "laurent_lowering",
     "laurent_coefficient_pipeline", "triangular",
 }
-DERIVED_READ_SURFACES = {"projection", "visualization"}
+DERIVED_READ_SURFACES = {"frontier", "projection", "visualization"}
 
 
 def _local_imports(module):

@@ -19,6 +19,7 @@ from . import coefficient_expansion as CE
 from . import evidence as EV
 from . import factor_power as FP
 from . import factor_power_contradiction as FPC
+from . import frontier as FRONT
 from . import format as F
 from . import laurent_coefficient_pipeline as LCP
 from . import laurent_lowering as LL
@@ -2104,6 +2105,20 @@ def cmd_project(args):
     return 0
 
 
+def cmd_frontier(args):
+    """Compile a read-only proof-frontier document from evidence envelopes."""
+    try:
+        with open(args.input, encoding="utf-8") as stream:
+            source = json.load(stream)
+        projection = FRONT.build_document(source)
+    except (OSError, json.JSONDecodeError, FRONT.FrontierError) as exc:
+        sys.stderr.write("frontier refused: %s\n" % exc)
+        return 2
+    sys.stdout.write(FRONT.canonical_json(
+        projection, pretty=not args.compact))
+    return 0
+
+
 def cmd_visualize(args):
     """Generate a standalone Three.js explorer around a campaign projection."""
     projection = _read_projection(args)
@@ -2161,6 +2176,14 @@ def build_parser():
     pr.add_argument("--force", action="store_true",
                     help="replace an existing derived output file")
     pr.set_defaults(func=cmd_project)
+
+    fr = sub.add_parser(
+        "frontier",
+        help="compile evidence envelopes to a derived proof frontier")
+    fr.add_argument("input", help="frontier-input/v1 JSON document")
+    fr.add_argument("--compact", action="store_true",
+                    help="emit canonical compact JSON")
+    fr.set_defaults(func=cmd_frontier)
 
     vz = sub.add_parser("visualize",
                         help="generate a read-only Three.js campaign explorer")

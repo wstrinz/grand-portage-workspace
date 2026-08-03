@@ -40,7 +40,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.22.0. <!--checks-->1489<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.22.0. <!--checks-->1504<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -617,7 +617,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1489<!--/checks--> checks, ~300 s on the current development machine) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1504<!--/checks--> checks, ~300 s on the current development machine) |
 
 ---
 
@@ -724,7 +724,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1489<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1504<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -1335,3 +1335,59 @@ remains HOLD / NO NEW REQUEST because the replay exposed no smaller precise
 missing native receipt. The next work is an internal decision about the
 off-slice locus or a separately bounded component model, not a request to
 repeat or widen the fulfilled residual computation.
+
+## 2026-08-03 - scoped H8 premise propagation and first `frontier/v1`
+
+The web review correctly identified the missing composition layer: accurate
+`first_open_obligation` strings were still local report fields rather than a
+global, scope-safe research frontier. `grandportage/frontier.py` now provides
+that derived layer. Every item names a stable semantic ID, proposition,
+premises, exact scope, blocked downstream work, superseding evidence, smallest
+next artifact, estimated cost, and potential impact. Discharges are immutable
+overlays. They apply only to enumerated scope IDs, and closed results propagate
+only through explicit `exports_to_scopes`; the code deliberately performs no
+geometric containment or assumption weakening.
+
+The first bounded consumer is `experiments/jc_h3_frontier/adapter.py`. Its
+frozen fixture binds the H8 schedule plus the depth-8, depth-9, and uniform
+depths-10--15 P3/P4 receipts. Those receipts discharge the final named H8
+transfer premise over the complete depth-8--15 range under P1--P5 and the pin,
+with S2 retained on the S2-scoped degree-34 consumer. The derived projection
+therefore changes H8 from `OPEN_PREMISE` to `DISCHARGED` and removes the H8
+qualifier from the operator schedule and exact degree-34 depth-nine pairing.
+Historical statuses remain present and fingerprinted.
+
+The consumer also binds the exact `c7_9` source-family certificate. It marks
+only the recorded codimension-five family closed by the unit `face(8,1)` and
+keeps full `b=0` source exclusion open. Its next artifact is the ranked
+pin-ablation result: for each relaxation of `c2_1`, `c2_2`, `c7_10`, then `b`
+and `R`, record surviving guards, the exact identity or first defect term, and
+the maximal licensed scope. The latest reviewed estimate for the load-bearing
+replay is about 140 seconds and is machine-load sensitive. The math-stuff agent
+owns that native lane; GP asks for no release gate and will consume its landed
+receipt later.
+
+The projection and checked-in compact review receipt have graph effect `NONE`.
+No relation, claim kind, graph field, or evidence schema was added.
+
+The LSEM cold return then completed in a separate context-free Codex task after
+the precommitted 2026-08-03 seal date. It produced a strong semantic result:
+correct settled/carried/open orientation before mutation, no unseal request,
+one appropriately narrowed R3 algebraic-identifiability inference, zero final
+findings, and preserved original history. The strict preregistered verdict is
+`INCONCLUSIVE`, not PASS, because literal `portage_declare` was not exposed.
+The equivalent `gp.exe declare` path needed three attempts: epoch-0 refusal,
+then a failed global `--graph` redirect whose writer still targeted the default
+graph, then success in an isolated epoch-1 root. This is exactly the useful
+backward-compatibility/interface split the test was meant to expose. The
+complete call ledger and belief corrections are in
+`portage-depot/campaigns/lsem-census/L3-RETURN.md`; do not rewrite the result
+after seeing it.
+
+Verification for the GP change is green. Fifteen focused frontier tests cover
+immutability, deterministic order, exact-scope refusal, explicit export links,
+duplicate/unstable identifiers, CLI compilation, fixture mutation, native
+bindings, H8 refusal boundaries, c7_9 scope, and exact review regeneration. The
+five native receipt digests and verdicts match without running the math-stuff
+release gate. The complete non-live suite passes 1,463 tests with one expected
+skip and 40 live deselections in 543.69 seconds; total collection is 1,504.

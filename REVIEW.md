@@ -6,7 +6,7 @@ through v0.18 is preserved in `HISTORY/REVIEW-through-v0.18.md`.
 **Version <!--version-->0.22.0<!--/version-->, graph format
 <!--graph-format-->4<!--/graph-format-->, kernel epoch
 <!--kernel-epoch-->10<!--/kernel-epoch-->, and
-<!--checks-->1489<!--/checks--> collected checks.**
+<!--checks-->1504<!--/checks--> collected checks.**
 
 ## Highest-risk claim
 
@@ -265,3 +265,27 @@ finite witness to a component. The positive result is the explicit necessary
 scalar and exclusion of the named degree-14 witness only. The report retains
 graph effect `NONE`; no relation, claim kind, graph field, or evidence schema
 was added.
+
+## 16. Scoped H8 discharge and `frontier/v1`
+
+`grandportage/frontier.py` is a general derived read surface over normalized
+evidence envelopes. Review its central refusal: a premise discharge applies
+only to exact scope IDs listed by the overlay, and a closed item reaches a
+consumer only through `exports_to_scopes`. No geometric containment or
+assumption weakening is inferred. Historical status and premise fields remain
+visible beside their effective projection, and the input fingerprint records
+the immutable source view.
+
+`experiments/jc_h3_frontier/adapter.py` is the first bounded consumer. It binds
+the H8 schedule, the exact depth-8, depth-9, and depths-10--15 P3/P4 receipts,
+and the `c7_9` family source certificate. The effective view discharges H8 and
+removes that qualifier from the depth-nine degree-34 pairing and the
+depth-8--15 operator schedule at their exact declared scopes. It must not
+discharge additive residual bodies, actual-source membership, source
+sufficiency, H3, or `(75,125)`.
+
+The same view closes the recorded codimension-five `c7_9` family because
+`face(8,1)` is a base-field unit there, but leaves full `b=0` source exclusion
+open. Its smallest next source-side artifact is a ranked pin-ablation receipt
+that records the surviving identity or first exact defect term and maximal
+licensed scope. The checked-in review receipt has graph effect `NONE`.

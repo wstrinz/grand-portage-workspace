@@ -72,8 +72,8 @@ move.
 ## 4. Adapters and read surfaces
 
 Own CAS execution, backend translation, artifact storage, MCP and hook
-enforcement, CLI presentation, native campaign adapters, projections, and
-visualization.
+enforcement, CLI presentation, native campaign adapters, proof-frontier and
+campaign projections, and visualization.
 
 Rules:
 
@@ -81,6 +81,9 @@ Rules:
 - may consume trusted layers, never define their mathematics;
 - projection output is marked `DERIVED_READ_MODEL_ONLY` and cannot overwrite
   an authoritative graph;
+- `frontier/v1` premise updates are exact-scope overlays over immutable
+  historical envelopes; they infer no geometric containment or assumption
+  weakening;
 - backend disagreements block promotion rather than selecting a winner;
 - a native campaign remains the source of its discovery artifacts.
 

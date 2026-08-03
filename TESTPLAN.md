@@ -62,7 +62,7 @@ minting a model, built-in certificate overwrite, strictness-witness-as-
 equivalence-documentation, taint stopping at the first generation, baseline
 acceptance surviving a change of meaning, and identity origin.
 
-**Suite: <!--checks-->1489<!--/checks--> checks, ~300--480 s on the current development machine.** Was 171 before the v0.2 pass.
+**Suite: <!--checks-->1504<!--/checks--> checks, ~300--480 s on the current development machine.** Was 171 before the v0.2 pass.
 
 ---
 
@@ -369,6 +369,22 @@ churning; `.portage/last-block` not going stale after a genuine fix; the hook's
 cost per tool call staying invisible.
 
 ---
+
+## T8 - FRONTIER PREMISE PROPAGATION
+
+Feed `frontier/v1` an immutable historical envelope whose final premise is
+open, then add an exact-scope discharge overlay. The historical status and
+premise must remain visible while the effective status changes. A downstream
+consumer may change only when its exact scope is listed in
+`exports_to_scopes`; a merely narrower-looking or wider-looking scope must not
+inherit anything.
+
+For the JC consumer, bind all five native receipt bytes without running the
+math-stuff release suite. H8 must discharge across depths 8--15, and only the
+declared operator-schedule and degree-34 depth-nine consumers may lose their
+H8 qualifier. The recorded `c7_9` family must be closed while pin ablation and
+full `b=0` source exclusion remain open. Mutate a fixture byte, scope id,
+receipt verdict, or exact `face(8,1)` value; the replay must refuse.
 
 ## What none of these test
 
