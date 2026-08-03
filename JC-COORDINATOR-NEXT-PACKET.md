@@ -1,133 +1,195 @@
 # Grand Portage -> JC coordinator: current request
 
 **Convention:** This is the stable path for GP's current request to the JC
-coordinator. Check this file before starting GP-directed work. When GP has no
-request, it says so explicitly here.
+coordinator. Check this file before starting GP-directed work.
 
 **Date:** 2026-08-03
 
-**GP reference:** `825a0c8` plus the current frontier-bundle update
+**GP reference:** `eeb7e81` (`master`)
 
-**JC references:** `6e692d2`, `8cdb4f1`, `e0377d8`, and handback `25e62b0`
+**Relevant JC references:** conditional seam `d4a18b4`; depth-six chain
+`cb3136c`; pin-ablation handback `25e62b0` over native results `6e692d2`,
+`8cdb4f1`, and `e0377d8`
 
-**Status:** HOLD - NO NEW JC REQUEST
+**Status:** ACTION REQUESTED - SOURCE SEAM, WITH BOUNDED TRANSPORT SCOUT
 
-## Do not repeat the previous request
+## Executive request
 
-The previous request for the depth-eight residual data and explicit
+Please run two deliberately unequal lanes:
 
-```text
-Psi8 = c2_3*r8_1 + 2*r8_3
-```
+1. **Primary:** materialize the exact coefficient-level map from the
+   source-derived target polynomial pair to the normalized Laurent-root
+   presentation already consumed by the depth-six seam.
+2. **Secondary, bounded scout:** determine whether the normalized
+   `a=c=1` joint-line result can be transported over a larger part of the
+   legal `(a,c)` chart despite the residual invariant `J=a*c^(-3)`.
 
-has been fulfilled. In particular, the landed JC sequence now supplies:
+The primary lane is the current strategic priority. The scout should have a
+small time or complexity budget and must not delay the source-seam deliverable.
+Do not run a math-stuff release merely to make GP's derived frontier green.
 
-- `6d639e1`: the pre-substitution depth-eight faces;
-- `b816405`: exact `r8_1`, `r8_3`, and the 709-term `Psi8`, with verdict
-  `DEPTH8_SCALAR_NONZERO_NONUNIT`;
-- `d3937ee`: the exact `Psi8` representative in the routine gate;
-- `9e19f5d`: the constrained pullback and frozen-witness exclusion;
-- `6bc03b7`: the constrained depth-eight obstruction in the suite gate;
-- `b7abb3c`: the positive `Omega8` witness verdict frozen in the certificate.
+## 1. Primary artifact
 
-`r8_2` was deliberately not built: the verified left syzygy `(c2_3,0,2)`
-makes `Psi8` independent of it. GP accepts that bounded construction and does
-not currently request the full residual vector.
-
-## GP replay completed
-
-GP has independently ingested and mutation-tested the landed objects:
-
-1. bound the two exact residual bodies and recomputed `Psi8`;
-2. composed `Psi8` with the verified depth-eight affine fiber block;
-3. replayed the exact constrained substitution and denominator ledger producing
-   the 4,123-term base polynomial `Omega8`;
-4. verified the degree-14 witness-algebra unit calculation;
-5. preserved the native scope: necessary depth-eight condition and exclusion
-   of the frozen finite witness only, with graph effect `NONE` unless an
-   existing graph-bound authority route separately earns more.
-
-The replay passed without exposing a smaller missing native receipt. It reused
-`affine_fiber_block_v1`, retained graph effect `NONE`, and added no relation,
-claim kind, graph field, or evidence schema. The coordinator status therefore
-remains HOLD.
-
-## Authority ceiling to retain
-
-The landed evidence does **not** establish:
-
-- the full residual vector or depth nine;
-- equivalence with the complete depth-eight or actual-source fiber;
-- component-wide emptiness of `Z(Phi) cap X_b`;
-- emptiness of `Z(Omega8) cap Z(Phi) cap X_b` away from the frozen slice;
-- source sufficiency, all-orders lifting, H3, or a `(75,125)` verdict; the
-  `Psi8`/`Omega8` replay itself does not prove H8, whose later independent
-  discharge is recorded below.
-
-## Premise update now consumed by GP
-
-The later H8 transfer work is now represented as a scoped premise update, not
-as a rewrite of the reports above. GP binds the schedule and the three P3/P4
-receipts at depths 8, 9, and 10--15. In the derived `frontier/v1` view, H8 is
-`DISCHARGED` over depths 8--15 under P1--P5 and the pin, retaining S2 wherever
-the consumer was already S2-scoped. This removes the H8 qualifier from the
-exact degree-34 depth-nine pairing and the five-regime operator schedule at
-their exact scopes only.
-
-It does not form or discharge additive residual bodies, actual-source
-membership, source sufficiency, H3, or `(75,125)`. Historical evidence remains
-unchanged and the projection has graph effect `NONE`.
-
-## Pin-ablation handoff fulfilled and consumed
-
-The exact identity
+Stable frontier ID:
 
 ```text
-face(8,1) = (5/4)t^2 - Abar/(p*U*det5),    U=(15/8)t
+JC.H3.SOURCE.TARGET_PAIR_TO_NORMALIZED_LAURENT_ROOT
 ```
 
-closes source incidence on the recorded codimension-five `c7_9` family. It
-does not close the surrounding S2 locus or the full `b=0` branch because the
-identity currently uses the recorded pins.
-
-The 2026-08-03 handback supplied every requested field and GP has consumed it.
-Uniform `c2_2` is source-excluded for all legal `a,c` at
-`c2_1=c7_10=0`. At `c2_1=0`, the joint `c2_2/c7_10` escape locus is confined
-to
+The downstream calculation is already exact and independently replayed:
 
 ```text
-c2_2 = (15/2)*a*t^2*(2*c7_10 + a^2*c).
+normalized Laurent-root data
+  -> five reduced E-system rows
+  -> 147-row finite template
+  -> 25 selected faces
+  -> 23-step depth-six chain
+  -> two boundary residuals
 ```
 
-At `a=c=1`, both intercepts and the generic point are source-excluded, with the
-at-most-130 roots of the exact degree-130 cofactor resultant retained as an
-open finite remainder. The residual torus invariant `J=a*c^(-3)` blocks
-automatic transport to the full `(a,c)` chart. The explicit failure point after
-freeing `c2_1` is confinement only, not source membership or sufficiency.
+JC commit `d4a18b4` correctly left the preceding transition explicit and open.
+The requested object is now only that missing transition:
 
-GP's derived receipt is `review/jc-h3-pin-ablation-frontier-v1.json`. It marks
-the ranked artifact request resolved to scoped results while leaving full
-`b=0`, `c2_1`, `b`, `R`, `Delta`, non-normalized transport, and the resultant
-roots open. Graph effect is `NONE`; there is still no H3 or `(75,125)` result.
+```text
+source-derived target polynomial pair
+  -> normalized Laurent-root coefficient data
+```
 
-The canonical cross-consumer view is now `review/frontier-current-v1.json`.
-It explicitly supersedes the older open pin-ablation artifact request and
-retains the shared full-`b=0` obligation as exact open agreement. This is a
-derived read model only and creates no new coordinator request.
+### Smallest acceptable deliverable
 
-## GP infrastructure update - no native action
+A compact native manifest plus replay wrapper is preferred over a new general
+framework or a repeated discovery computation. It must bind:
 
-The depth-six seam ledger now compiles through the same `frontier/v1` surface
-as the H8/c7_9 packet. Its five items remain open with stable semantic IDs and
-their native status vocabulary intact. This creates no new JC request and does
-not change the scoped pin-ablation conclusions above. GP also repaired exact
-`--graph` declaration targeting after the LSEM cold return; that is local tool
-infrastructure and requires no coordinator action.
+- the exact target pair used as input, including coefficient domain,
+  characteristic, variable order, grading, and finite-support assumptions;
+- the normalized Laurent-root variables and coefficient convention;
+- the explicit coefficient-level map in the direction actually proved;
+- every substitution, truncation, derivative, composition, coefficient
+  extraction, normalization, and denominator clearing on the load-bearing
+  path;
+- every localization guard or assumed unit;
+- the relation supported at each stage: literal equality, equality modulo a
+  named relation, localization equivalence, or one-way necessary consequence;
+- content digests for all load-bearing inputs and outputs; and
+- the five normalized rows or their existing stable digests, so the new output
+  welds to the already-landed conditional seam.
 
-## When the coordinator should act
+Large expressions need not be duplicated when stable native artifacts can be
+content-addressed. If the map is already distributed across source files, an
+honest ordered manifest that binds those files is sufficient.
 
-No action is requested now. Please continue the native JC program according to
-its own priorities. GP will replace this hold notice at the same path only if
-independent replay exposes a small, precise missing receipt. Likely future
-seams include depth nine, the corresponding pullbacks on `W_mu.w` and `W_M`,
-or a component-coverage object, but none is requested yet.
+### Replay and mutation requirements
+
+Provide one documented native command that reconstructs or validates the map
+and refuses at least these mutations:
+
+- one target-pair coefficient;
+- one support/truncation bound;
+- one normalization relation or sign;
+- one denominator or localization guard;
+- one coefficient-map entry; and
+- one normalized output coefficient or digest.
+
+Write any generated certificate atomically. Report approximate runtime and
+name every step that remains asserted rather than replayed.
+
+### Required semantic statement
+
+State the exact implication direction. In particular, distinguish among:
+
+- every source-derived target-pair solution yields the normalized data;
+- equivalence on a specified principal-open chart;
+- a bounded coefficient consequence under support assumptions; and
+- a weaker partial map.
+
+GP will not infer reverse lifting or chart coverage from matching expressions.
+
+### Authority ceiling
+
+Even a fully successful handback is capped at:
+
+```text
+CONDITIONAL_NORMALIZED_ROOT_TO_DEPTH6_BOUNDARY_ONLY
+```
+
+It does not by itself establish reverse lift, source sufficiency, component
+coverage, H3, or `(75,125)`.
+
+## 2. Secondary bounded scout: nonnormalized transport
+
+Stable frontier ID:
+
+```text
+JC.H3.C22_C710.NONNORMALIZED_TRANSPORT
+```
+
+The pin-ablation handback proves generic exclusion and both intercepts on the
+joint line after `a=c=1`, while retaining the exact degree-130 resultant roots.
+The torus audit correctly refuses treating `a=c=1` as a harmless normalization
+of the full chart because
+
+```text
+J = a*c^(-3)
+```
+
+has weight zero and the normalization orbit is only `a=c^3`, `c != 0`.
+
+### Scout question
+
+Can the normalized computation be organized over `K(a,c)`, or equivariantly
+over `K(J)`, so that its exact exclusion/resultant statements export to a
+specified nonnormalized locus? A useful negative answer is also acceptable:
+show precisely why distinct `J`-fibres require separate treatment.
+
+### Scout outputs
+
+Return one of:
+
+- an explicit equivariance/function-field transport law with guards and a
+  replayable coefficient check;
+- a sharply delimited subset of the `(a,c)` chart to which transport is valid;
+- a proof-quality obstruction showing that the normalized certificate cannot
+  determine other `J`-fibres; or
+- `INCONCLUSIVE`, with the first missing exact object named.
+
+Do not enumerate all resultant roots in this scout unless that unexpectedly
+becomes the smallest way to answer the transport question. The root dossier is
+the next bounded lane after this scout.
+
+### Scout authority ceiling
+
+No full-chart exclusion follows unless every legal `J`-fibre is actually
+covered. No source sufficiency, H3, or `(75,125)` follows.
+
+## Explicit non-goals
+
+- Do not add GP schemas or emit GP graph events from the JC tree.
+- Do not rerun long discovery merely to restate already bound data.
+- Do not put either request ahead of the JC lane's own more urgent mathematics.
+- Do not collapse generic-point exclusion into exceptional-root exclusion.
+- Do not promote a simultaneous zero of a certificate pair to a source witness.
+- Do not infer full `b=0`, off-`b`, off-`R`, or off-`Delta` conclusions.
+
+## Handback fields
+
+For each lane, report:
+
+- JC commit and artifact paths;
+- LF-normalized SHA-256 digests;
+- exact replay command, verdict, and runtime;
+- coefficient domain, variable order, scope, and guards;
+- supported relation and implication direction;
+- mutation/refusal results;
+- every asserted or unmaterialized stage; and
+- explicit claims not licensed.
+
+The GP lane will independently bind and replay the native objects, reuse
+existing authority vocabulary, and update `frontier/v1` only at exact scopes.
+
+## Next after this request
+
+If the scout does not export the normalized line, the next finite request is
+`JC.H3.C22_C710.NORMALIZED_LINE.RESULTANT_ROOTS`: an exact dossier for every
+legal root of the degree-130 cofactor resultant, including field extensions,
+chart legality, and actual-source incidence or exclusion. `JC.H3.C21.RELAXATION`
+comes after that unless a genuinely new source witness appears first.

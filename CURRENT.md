@@ -271,7 +271,8 @@ replay exposed no smaller precise native receipt to request.
 
 ## Active release discipline
 
-The next milestone is consolidation and composition:
+The consolidation milestone is complete. New work should consume or bind
+specific open authority objects under the same discipline:
 
 - no new edge types;
 - no new claim kinds;
@@ -325,12 +326,19 @@ open pin-ablation task with the scoped handback results. The manifest is
 `fixtures/frontier/current_v1.json`; the compact checked receipt is
 `review/frontier-current-v1.json`. Graph effect remains `NONE`.
 
+The current JC coordinator request is the coefficient-level
+`JC.H3.SOURCE.TARGET_PAIR_TO_NORMALIZED_LAURENT_ROOT` seam, with a bounded
+`JC.H3.C22_C710.NONNORMALIZED_TRANSPORT` scout that must not delay it. The
+stable packet is `JC-COORDINATOR-NEXT-PACKET.md`. If transport does not export
+the normalized line, the next finite request is the exact degree-130
+resultant-root dossier.
+
 Focused coverage for the generic frontier compiler, its independent native
 consumers, and declaration targeting passes. The optional native-
 binding replay matches all five exact sibling receipts without invoking a
-math-stuff release gate. The complete local GP suite passes 1,491 tests with 41
-expected environment-dependent skips in 691.29 seconds; total collection is
-1,532.
+math-stuff release gate. The complete local GP suite passes 1,497 tests with 41
+expected environment-dependent skips in 392.51 seconds; total collection is
+1,538.
 
 ## Experiments
 

@@ -1519,3 +1519,23 @@ lane passed 72 with one expected skip in 278.82 seconds; the exhaustive lane
 passed six in 48.16 seconds; and the marker-unfiltered full release gate passed
 1,497 with 41 expected environment-dependent skips in 392.51 seconds. The
 repository collects 1,538 tests.
+
+## 2026-08-03 - next source-seam request and LSEM retest packet
+
+`JC-COORDINATOR-NEXT-PACKET.md` is no longer on hold. Its primary request is
+the exact coefficient-level map from the source-derived target polynomial pair
+to the normalized Laurent-root presentation. Its ceiling remains
+`CONDITIONAL_NORMALIZED_ROOT_TO_DEPTH6_BOUNDARY_ONLY`: no reverse lift, source
+sufficiency, chart coverage, H3, or `(75,125)` is inferred. A secondary bounded
+scout asks whether the residual invariant `J=a*c^(-3)` permits any honest
+function-field or equivariant transport beyond `a=c=1`; it must not delay the
+source seam. The degree-130 root dossier remains next if transport does not
+export the normalized line.
+
+`review/LSEM-COLD-RETEST-PACKET-2026-08-03.md` preregisters a genuinely cold
+retry of the repaired declaration surface. It forbids the prior return and
+research sources, creates a named side-by-side epoch-1 graph through `migrate`,
+requires the first and only declaration attempt to use literal
+`portage_declare --graph`, and checks both exact-target mutation and original
+graph preservation. The retest must run in a fresh context; this GP session
+only authored the packet and did not contaminate or simulate the cold return.
