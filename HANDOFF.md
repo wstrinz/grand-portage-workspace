@@ -1271,3 +1271,56 @@ after earlier legal solves on `X_b`. Without it, `Psi8` is not an explicit
 polynomial and no complete-fiber/source equivalence or sufficiency follows.
 The final full non-live suite passes 1,434 checks with one skip and 40 live
 deselections in 370.01 seconds.
+
+---
+
+## 2026-08-02 - pending explicit `Psi8` and constrained `Omega8` replay
+
+The JC coordinator fulfilled the residual request after GP commit `20bd252`.
+The landed sequence ends at math-stuff commit `b7abb3c` and supplies two exact
+native handoff layers:
+
+1. `f2_h3_b0_depth8_psi8_certificate.json` exports `r8_1` and `r8_3` and the
+   709-term polynomial `Psi8 = c2_3*r8_1 + 2*r8_3`. It intentionally does not
+   construct `r8_2`, because the verified left syzygy `(c2_3,0,2)` makes that
+   coordinate irrelevant to the compatibility scalar. The fast checker passes
+   22/22 in under one second and reports `DEPTH8_SCALAR_NONZERO_NONUNIT`.
+2. `f2_h3_b0_psi8_constrained_pullback_certificate.json` substitutes the exact
+   landed depth-6/7 block solve and clears only the already legal factor
+   `5*c2_3^4*c3_5*t*det5^2`, producing a 4,123-term base polynomial `Omega8`.
+   Its fast checker passes 18/18 and proves `Omega8` is a unit in the frozen
+   degree-14 compatible witness algebra.
+
+Both native replays were rerun successfully from this GP session immediately
+before handoff. The current GP code does not yet ingest these certificates, so
+do not describe either native verdict as GP authority.
+
+### Exact next implementation loop
+
+Work in `experiments/jc_h3_b0_free_plane/` and preserve the native certificates
+as immutable external inputs:
+
+1. add a bounded adapter that binds the prior depth-eight block report, decodes
+   `r8_1` and `r8_3`, and independently recomputes the exact 709-term `Psi8`;
+2. verify the residual-to-block compatibility identity and mutation-test the
+   syzygy scalars, sparse bodies, ring order, field pin, source digests, and
+   missing-middle-coordinate rationale;
+3. replay the constrained fiber substitution and complete exceptional-factor
+   ledger to obtain `Omega8`, without silently cancelling unit factors;
+4. independently check the frozen quotient algebra and the coprimality/unit
+   witness, with a mutation control for the witness polynomial and slice;
+5. emit a review artifact with graph effect `NONE` unless an existing smaller
+   graph-bound authority route independently applies. Do not add a relation,
+   claim kind, graph field, or evidence schema merely to mirror the native
+   enum.
+
+The semantic ceiling is exact and important: this can exclude the frozen
+finite compatible witness and establish a necessary depth-eight scalar on the
+constrained fiber. It cannot exclude a whole component of `Z(Phi) cap X_b`,
+decide the off-slice zero locus of `Omega8`, prove complete source-fiber
+equivalence or sufficiency, reach depth nine, or change H8, H3, or `(75,125)`.
+
+`JC-COORDINATOR-NEXT-PACKET.md` is the stable coordinator rendezvous path. It
+currently says HOLD / NO NEW REQUEST so a reset coordinator does not repeat
+the fulfilled residual computation. Replace that file only when GP replay
+identifies a smaller precise missing receipt.

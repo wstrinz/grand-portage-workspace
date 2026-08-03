@@ -243,6 +243,22 @@ The key review trap is attempting to derive the invariant block from the six
 direct raw coefficients alone. The native chain-rule assembly also includes
 earlier solved-coordinate sensitivities; GP records that assembly and the
 affine-degree argument as consumed frozen semantics. The positive result is a
-constant-rank-two **necessary** extension block. `r8` is absent, `Psi8` is only
-a symbolic pairing, and no complete-fiber equivalence, source sufficiency,
-geometry of `Z(Psi8)`, H3, verdict, or graph authority follows.
+constant-rank-two **necessary** extension block. At GP commit `20bd252`, `r8`
+is absent and `Psi8` is only a symbolic pairing; no complete-fiber equivalence,
+source sufficiency, geometry of `Z(Psi8)`, H3, verdict, or graph authority
+follows.
+
+## 15. Pending explicit `Psi8` / constrained `Omega8` handoff
+
+JC commit `b7abb3c` now supplies exact native bodies for `r8_1`, `r8_3`, and
+the 709-term `Psi8`, followed by the 4,123-term constrained base polynomial
+`Omega8` and a degree-14 witness algebra in which `Omega8` is a unit. These
+objects have passed their native fast replays but are **not yet GP-verified**.
+
+The next review target is the adapter boundary: exact sparse custody, the zero
+middle entry of the syzygy, composition with `affine_fiber_block_v1`, ordered
+constrained substitution, exceptional-factor accounting, and independent
+finite-quotient arithmetic. Mutations must prevent body swaps, sign changes,
+missing factors, altered guards, cross-witness replay, and any widening from
+one frozen finite witness to a component. Until that adapter lands, the native
+verdict is input evidence only and changes no GP graph or authority ledger.

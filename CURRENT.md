@@ -227,13 +227,31 @@ unit on the declared localization, so the necessary depth-eight block has
 constant rank two. The left syzygy `(a,0,2)` leaves one symbolic compatibility
 `Psi8=a*r8_1+2*r8_3`.
 
-This closes the six-coefficient request without materializing the three
-boundary bodies. The native derivative-table chain-rule assembly is consumed
-as frozen semantics rather than falsely reconstructed from the six direct
-coefficients alone. The residual vector `r8` is not exported, so `Psi8` is not
-yet an explicit coordinate-ring polynomial, and the block is necessary rather
-than equivalent to the complete source fiber. The new general contract is
-`affine_fiber_block_v1`; graph effect remains `NONE`.
+This closed the six-coefficient request without materializing the boundary
+bodies. The native derivative-table chain-rule assembly is consumed as frozen
+semantics rather than falsely reconstructed from the six direct coefficients
+alone. At GP commit `20bd252`, `Psi8` is still only symbolic inside GP and the
+block remains necessary rather than equivalent to the complete source fiber.
+The general contract is `affine_fiber_block_v1`; graph effect remains `NONE`.
+
+The native JC tree has since landed the next bounded handoff through commit
+`b7abb3c`. It exports exact `r8_1` and `r8_3` bodies and the 709-term
+`Psi8 = c2_3*r8_1 + 2*r8_3`; `r8_2` is deliberately absent because the checked
+left syzygy has zero middle coordinate. Its fast native replay passes 22/22 and
+classifies `Psi8` as nonzero, nonunit, and affine in the seven surviving fiber
+coordinates. The subsequent exact constrained solve produces the 4,123-term
+base polynomial `Omega8`; its fast replay passes 18/18 and proves `Omega8` is a
+unit in one frozen degree-14 compatible witness algebra.
+
+Those are pending native inputs, not current GP authority. The next GP loop is
+to bind and independently recompute `Psi8`, compose it with the verified affine
+fiber block, replay the constrained substitution and denominator ledger, and
+check the finite-algebra unit witness. The authority ceiling remains a
+necessary depth-eight condition and exclusion of that frozen finite witness.
+It is not component-wide emptiness, complete-fiber or source equivalence,
+depth nine, H8, H3, or verdict authority. The stable coordinator request at
+`JC-COORDINATOR-NEXT-PACKET.md` is therefore on HOLD until that replay exposes
+a smaller missing receipt.
 
 ## Active release discipline
 
