@@ -40,7 +40,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.22.0. <!--checks-->1538<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.22.0. <!--checks-->1576<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -617,7 +617,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1538<!--/checks--> checks, ~300 s on the current development machine) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1576<!--/checks--> checks, ~300 s on the current development machine) |
 
 ---
 
@@ -724,7 +724,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1538<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1576<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -1540,3 +1540,23 @@ requires the first and only declaration attempt to use literal
 `portage_declare --graph`, and checks both exact-target mutation and original
 graph preservation. The retest must run in a fresh context; this GP session
 only authored the packet and did not contaminate or simulate the cold return.
+
+## 2026-08-04 - v0.23 public stable refresh
+
+The public mirror at `C:\Users\wstri\dev\grand-portage-public` is refreshed
+from a tracked-files-only archive rather than from the private working tree.
+The publish boundary now includes the package, tests, fixtures, docs, examples,
+exact experiment adapters, Lean contracts, and review packets, plus the public
+architecture/compatibility documents and portable root `.mcp.json`. It still
+excludes private campaign state, blind-trial runbooks, coordinator requests,
+workspace handoffs, local Codex/Claude configuration, and the unrelated
+untracked `uv.lock`.
+
+Public clones do not ship the sibling math-stuff research tree. A repository-
+level pytest boundary therefore keeps all JC pressure tests visible in the
+1,576-test collection but skips that integration group only when the sibling
+checkout is absent; workspace runs beside math-stuff remain unchanged. The
+isolated public snapshot passed 1,268 non-live tests with 268 explicit JC
+integration skips and 40 live deselections in 64.58 seconds. Its separately
+authorized WSL/Singular tier passed 38 tests with two environment-dependent
+skips in 447.40 seconds.

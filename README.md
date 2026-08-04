@@ -30,7 +30,7 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1538<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1576<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
@@ -84,7 +84,7 @@ Pointed at `d2_plane_72_108`'s live front — see
 ## The loop, end to end
 
 ```
-$ python -m grandportage.mcp          # registered in .claude/.mcp.json
+$ python -m grandportage.mcp          # registered by the portable root .mcp.json
 
   cas_ideal_is_unit(ring_vars=[...], generators=[...],
                     produces="RES_K", describes="the same support over K")
@@ -383,7 +383,7 @@ Three.js build by default; `--three-root` can point it at a local package.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1538<!--/checks--> checks
+python -m pytest        # <!--checks-->1576<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

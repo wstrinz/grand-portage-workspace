@@ -9,10 +9,13 @@ test suite or by a live session; nothing is aspirational.
 git clone <this repo> grand-portage
 cd grand-portage
 pip install -e .
-python -m pytest -q -m "not live"     # ~20s, no CAS needed
+python -m pytest -q -m "not live and not replay and not exhaustive"
+# measured at about 2m20s on the current development machine; no CAS needed
 ```
 
-Two commands are installed, `gp` and `gport`. They are the same program.
+Four command names are installed: `gp` and `gport` expose the full CLI, while
+`portage_declare` and `portage-declare` expose the same transactional graph
+writer directly. `gp` and `gport` are otherwise the same program.
 **In PowerShell use `gport`** — `gp` is a built-in alias for
 `Get-ItemProperty` and the alias wins, so `gp check` fails with
 *"Cannot find path '…\check'"*, which names neither the cause nor the cure.

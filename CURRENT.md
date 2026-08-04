@@ -6,10 +6,10 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 
 ## Release boundary
 
-- Package version: <!--version-->0.22.0<!--/version-->.
+- Package version: <!--version-->0.23.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1538<!--/checks--> checks.
+- Test collection: <!--checks-->1576<!--/checks--> checks.
 
 Plain `pytest` is the full release gate. The ordinary edit loop is
 `pytest -m "not live and not replay and not exhaustive"`; deterministic frozen
