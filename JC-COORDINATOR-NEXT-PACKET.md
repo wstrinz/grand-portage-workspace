@@ -1,5 +1,34 @@
 # Grand Portage -> JC coordinator: current request
 
+## Current override — 2026-08-04
+
+**GP reference:** `f21c8ed` (`master`). **Status:** HOLD FOR THE NEXT NATIVE
+COEFFICIENT HANDOFF.
+
+The 2026-08-03 request below has been answered and is retained only as history:
+
+- `16badbc` ingests the gauge-aware sigma-top ratios, `p != 0`, and the
+  gauge-free necessary zero `P_(3,0)=0`, while keeping
+  `JC.H3.SOURCE.REMAINING_COEFFICIENT_MAP` open;
+- `f21c8ed` ingests the invariant S2 guard peel, closes only
+  `JC.H3.B0.S2_LOWJET_WALL`, and leaves `JC.H3.B0.FULL` open;
+- the earlier support adapter records native unconditional R7-prime and the
+  premise-free five-row R6 consumer without promoting global R7 scalarity.
+
+The current native priority is the finite sigma descent through the covered
+`P` hull. When it lands, send GP exactly one digest-bound handoff that refines
+`JC.H3.SOURCE.REMAINING_COEFFICIENT_MAP` into either a P-side obstruction, a
+finite parametrization, or a named interface blocker. Until then GP should not
+invent a graph event, source witness, reverse lift, H3 promotion, full-`b=0`
+closure, or coefficient occurrence from support containment.
+
+The audited R7 consumer repair is output-preserving (`8 -> 5` consumed rows,
+covered residual degree `-9 -> -6`, explicit full-native-ladder fringe
+semantics). It requires a GP refresh only if a bound native digest changes; it
+does not by itself change any frontier item's effective mathematical status.
+
+---
+
 **Convention:** This is the stable path for GP's current request to the JC
 coordinator. Check this file before starting GP-directed work.
 
