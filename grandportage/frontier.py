@@ -61,7 +61,8 @@ def _fingerprint(value):
 
 
 def _is_open_status(value):
-    return (value.startswith("OPEN") or "CONDITIONAL" in value
+    return (value.startswith("OPEN")
+            or ("CONDITIONAL" in value and "UNCONDITIONAL" not in value)
             or value == "UNMATERIALIZED_OPEN")
 
 

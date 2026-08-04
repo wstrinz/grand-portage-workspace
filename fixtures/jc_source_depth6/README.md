@@ -27,3 +27,19 @@ Run the independent graded extraction with:
 The stronger mode rederives the five reduced rows from the defining E-system
 formula before extraction. This closes raw E-system-to-face translation
 validation but retains graph effect NONE and supplies no reverse point lift.
+
+`support_seam_handback_v1.json` is the smallest current handback for the newer
+support-and-grading result and the generic-`J` specialization result. It keeps
+the coefficient-value seam open, records native unconditional R7' and the
+premise-free R6 discharge while keeping R7 scalarity independently open, and keeps
+the explicit exceptional `J` fibres open. Replay its read-only projection with:
+
+    python experiments/jc_h3_source_depth6/support_seam_handback_adapter.py
+    python experiments/jc_h3_source_depth6/support_seam_handback_adapter.py --check-native-bindings
+    python experiments/jc_h3_source_depth6/support_seam_handback_adapter.py --check-native-bindings --emit
+
+The adapter creates no graph event and uses only `EvidenceEnvelope` and
+`frontier/v1`. Its focused adversarial tests exercise exact-scope premise
+propagation and refuse both generic-to-all-fibres and exceptional-zero-to-source-
+witness promotions. `--emit` atomically rewrites only the derived review receipt
+`review/jc-h3-support-seam-frontier-v1.json`.

@@ -20,14 +20,22 @@ def test_current_bundle_has_one_explicit_research_boundary():
     items = _items(report)
 
     assert report["counts"] == {
-        "receipts": 3, "items": 20, "open": 12,
-        "resolved": 8, "overlap_resolutions": 2}
+        "receipts": 4, "items": 23, "open": 11,
+        "resolved": 12, "overlap_resolutions": 6}
     assert items["JC.H3.B0.SOURCE.EXCLUSION"]["receipts"] == [
         "h8-c79", "pin-ablation"]
     assert items["JC.H3.C79.SOURCE.FACE81.PIN_ABLATION"][
         "status"] == "RESOLVED_TO_SCOPED_RESULTS"
     assert "JC.H3.SOURCE.TARGET_PAIR_TO_NORMALIZED_LAURENT_ROOT" in report[
         "open_items"]
+    assert items["JC.H3.D6.R6.NONMONOMIAL_FRAME"]["status"] == (
+        "DISCHARGED_PREMISE_FREE_AS_CONSUMED")
+    assert items["JC.H3.D6.R7_PRIME.SIGMA_BUDGET"]["status"] == (
+        "PROVED_NATIVE_UNCONDITIONAL")
+    assert items["JC.H3.C22_C710.NONNORMALIZED_TRANSPORT"]["status"] == (
+        "RESOLVED_TO_GENERIC_AND_FINITE_REMAINDER")
+    assert "JC.H3.C22_C710.EXCEPTIONAL_J_FIBERS" in report["open_items"]
+    assert "JC.H3.D6.R7.75_125_IDENTIFICATION" in report["open_items"]
     assert report["graph_effect"] == "NONE"
 
 
@@ -59,3 +67,15 @@ def test_current_checked_review_receipt_regenerates_exactly():
                                encoding="utf-8"))
 
     assert expected == B.review_receipt(B.build_path(MANIFEST))
+
+
+def test_support_seam_supersessions_preserve_the_named_remainders():
+    items = _items(B.build_path(MANIFEST))
+
+    r6 = items["JC.H3.D6.R6.NONMONOMIAL_FRAME"]
+    assert r6["replacements"] == ["JC.H3.D6.R7_PRIME.SIGMA_BUDGET"]
+    transport = items["JC.H3.C22_C710.NONNORMALIZED_TRANSPORT"]
+    assert transport["replacements"] == [
+        "JC.H3.C22_C710.EXCEPTIONAL_J_FIBERS",
+        "JC.H3.C22_C710.NONNORMALIZED_TRANSPORT.GENERIC_J",
+    ]
