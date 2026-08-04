@@ -117,6 +117,12 @@ ratios are fixed, `p=P_(2,1)` is nonzero, and the gauge-free coefficient
 `P_(3,0)` is zero.  The current frontier records this as a CLOSED partial map
 and retains a distinct OPEN remaining coefficient-map item.  It mints no pair
 existence, reverse lift, source sufficiency, R5/R7, H3, or graph event.
+
+The exact invariant-`J` Sigma guard peel now closes the declared
+`b=R=Delta=0` S2 low-jet cover as a separate GP scope.  Its fifteen residual
+fibres are all illegal `det5=0` guard roots.  The broad `JC.H3.B0.FULL`
+frontier item remains open: this receipt does not speak for S1, S3, S4, or
+global `b=0`.
 The v0.22 review packet freezes this complete extraction and graph-
 authority milestone under review/v0.22/.
 

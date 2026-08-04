@@ -37,6 +37,12 @@
       "path": "review/jc-h3-source-target-first-value-frontier-v1.json",
       "digest_algo": "sha256-lf-normalized",
       "sha256": "a56fcb17d9eff56e6ad7ce335889ad0f2d4e4e820d9e4e9c95e5194f0c22eae1"
+    },
+    {
+      "id": "s2-lowjet-guard-peel",
+      "path": "review/jc-h3-s2-lowjet-guard-peel-frontier-v1.json",
+      "digest_algo": "sha256-lf-normalized",
+      "sha256": "c29b4747b01cd46f2669dace5481cb7188b58aa5a5e1f84df20176e319062264"
     }
   ],
   "resolutions": [

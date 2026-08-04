@@ -1,16 +1,16 @@
 {
   "authority": "DERIVED_READ_MODEL_ONLY",
   "counts": {
-    "items": 26,
+    "items": 28,
     "open": 10,
     "overlap_resolutions": 7,
-    "receipts": 6,
-    "resolved": 16
+    "receipts": 7,
+    "resolved": 18
   },
   "graph_effect": "NONE",
   "history": {
     "immutable": true,
-    "input_fingerprint": "sha256:f77169d71d0a660f35444f1be1f8018d1cb1467a493bf8a95132e3e581818622"
+    "input_fingerprint": "sha256:a02166ff0a7dd7f98c64571190c0ddc34005f5759e18e2d6936fda403efbb73b"
   },
   "open_items": [
     "JC.H3.B.RELAXATION",
@@ -65,6 +65,16 @@
       "path": "review/jc-h3-pin-ablation-frontier-v1.json",
       "receipt_schema": "frontier/v1",
       "sha256": "sha256:90f755423aaa3f83e3fad0dbb3fcd06fc56ffc45a2d391488bd62664fc18e412"
+    },
+    {
+      "digest_algo": "sha256-lf-normalized",
+      "id": "s2-lowjet-guard-peel",
+      "input_fingerprint": "sha256:b1dfdac68b16513a6129f4392128240b93e69c23ecead7a04f9cba68d81d30d6",
+      "item_count": 2,
+      "open_count": 0,
+      "path": "review/jc-h3-s2-lowjet-guard-peel-frontier-v1.json",
+      "receipt_schema": "gp-jc-h3-s2-lowjet-guard-peel-frontier-review/v1",
+      "sha256": "sha256:c29b4747b01cd46f2669dace5481cb7188b58aa5a5e1f84df20176e319062264"
     },
     {
       "digest_algo": "sha256-lf-normalized",
@@ -199,6 +209,8 @@
     }
   ],
   "resolved_items": [
+    "JC.H3.B0.S2.LOWJET_COVER_COMPLETE",
+    "JC.H3.B0.S2.SIGMA_GUARD_EXCLUSION",
     "JC.H3.C22.UNIFORM_SOURCE_EXCLUSION",
     "JC.H3.C22_C710.ALL_J_SOURCE_FACE_EXCLUSION",
     "JC.H3.C22_C710.EXCEPTIONAL_J_FIBERS",

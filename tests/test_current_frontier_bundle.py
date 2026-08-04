@@ -20,8 +20,8 @@ def test_current_bundle_has_one_explicit_research_boundary():
     items = _items(report)
 
     assert report["counts"] == {
-        "receipts": 6, "items": 26, "open": 10,
-        "resolved": 16, "overlap_resolutions": 7}
+        "receipts": 7, "items": 28, "open": 10,
+        "resolved": 18, "overlap_resolutions": 7}
     assert items["JC.H3.B0.SOURCE.EXCLUSION"]["receipts"] == [
         "h8-c79", "pin-ablation"]
     assert items["JC.H3.C79.SOURCE.FACE81.PIN_ABLATION"][
@@ -47,6 +47,11 @@ def test_current_bundle_has_one_explicit_research_boundary():
     assert items["JC.H3.C22_C710.ALL_J_SOURCE_FACE_EXCLUSION"]["status"] == (
         "CLOSED")
     assert "JC.H3.D6.R7.75_125_IDENTIFICATION" in report["open_items"]
+    assert items["JC.H3.B0.S2.SIGMA_GUARD_EXCLUSION"]["status"] == (
+        "SIGMA_FULLY_SOURCE_EXCLUDED_INVARIANT_J")
+    assert items["JC.H3.B0.S2.LOWJET_COVER_COMPLETE"]["status"] == (
+        "LOWJET_COVER_COMPLETE")
+    assert "JC.H3.B0.SOURCE.EXCLUSION" in report["open_items"]
     assert report["graph_effect"] == "NONE"
 
 

@@ -62,3 +62,10 @@ existence, reverse lifting, source sufficiency, R5/R7, H3, or a graph event.
 Replay and emit its derived receipt with:
 
     python experiments/jc_h3_source_depth6/source_target_first_value_handback_adapter.py --check-native-bindings --emit
+
+`s2_lowjet_guard_peel_handback_v1.json` binds the 31-check exact invariant-J
+Sigma guard peel. It closes only the declared `b=R=Delta=0` S2 low-jet cover:
+all 15 residual fibres are illegal `det5=0` roots. It leaves global `b=0`,
+S1/S3/S4, source sufficiency, H3, and `(75,125)` open. Replay with:
+
+    python experiments/jc_h3_source_depth6/s2_lowjet_guard_peel_handback_adapter.py --check-native-bindings --emit
