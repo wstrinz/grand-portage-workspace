@@ -1,16 +1,16 @@
 {
   "authority": "DERIVED_READ_MODEL_ONLY",
   "counts": {
-    "items": 24,
+    "items": 26,
     "open": 10,
     "overlap_resolutions": 7,
-    "receipts": 5,
-    "resolved": 14
+    "receipts": 6,
+    "resolved": 16
   },
   "graph_effect": "NONE",
   "history": {
     "immutable": true,
-    "input_fingerprint": "sha256:59dbe98e94e4a1269dfa326b80f8ee34894e0620754ac5fa89d4dae63dcdb392"
+    "input_fingerprint": "sha256:f77169d71d0a660f35444f1be1f8018d1cb1467a493bf8a95132e3e581818622"
   },
   "open_items": [
     "JC.H3.B.RELAXATION",
@@ -22,7 +22,7 @@
     "JC.H3.D6.R7.75_125_IDENTIFICATION",
     "JC.H3.DELTA.RELAXATION",
     "JC.H3.R.RELAXATION",
-    "JC.H3.SOURCE.TARGET_PAIR_TO_NORMALIZED_LAURENT_ROOT"
+    "JC.H3.SOURCE.REMAINING_COEFFICIENT_MAP"
   ],
   "projection_schema": "frontier-bundle/v1",
   "receipts": [
@@ -65,6 +65,16 @@
       "path": "review/jc-h3-pin-ablation-frontier-v1.json",
       "receipt_schema": "frontier/v1",
       "sha256": "sha256:90f755423aaa3f83e3fad0dbb3fcd06fc56ffc45a2d391488bd62664fc18e412"
+    },
+    {
+      "digest_algo": "sha256-lf-normalized",
+      "id": "source-target-first-value",
+      "input_fingerprint": "sha256:aa0ac91cfcd3e78a5c14c021d68a76e3f03ac44cb01cb3525ae7fb35d0b22b8c",
+      "item_count": 3,
+      "open_count": 1,
+      "path": "review/jc-h3-source-target-first-value-frontier-v1.json",
+      "receipt_schema": "gp-jc-h3-source-target-first-value-frontier-review/v1",
+      "sha256": "sha256:a56fcb17d9eff56e6ad7ce335889ad0f2d4e4e820d9e4e9c95e5194f0c22eae1"
     },
     {
       "digest_algo": "sha256-lf-normalized",
@@ -171,13 +181,19 @@
       "scope_id": "JC.H3.C79.PIN_ABLATION"
     },
     {
-      "id": "JC.H3.FRONTIER.SOURCE.VALUE_SEAM.AGREE_OPEN",
+      "current_receipt": "source-target-first-value",
+      "current_status": "RESOLVED_TO_PARTIAL_VALUE_AND_REMAINDER",
+      "id": "JC.H3.FRONTIER.SOURCE.VALUE_SEAM.SUPERSEDE",
       "item_id": "JC.H3.SOURCE.TARGET_PAIR_TO_NORMALIZED_LAURENT_ROOT",
-      "mode": "AGREE_OPEN",
-      "reason": "Support-level progress does not supply the missing source-derived coefficient values, so both receipts retain the exact parent seam.",
-      "receipts": [
+      "mode": "SUPERSEDE",
+      "prior_receipts": [
         "depth6",
         "support-seam"
+      ],
+      "reason": "The native gauge-aware coefficient packet supplies the exact sigma-top partial map and gauge-free P_(3,0)=0, but explicitly retains the remaining source-to-root coefficient map open.",
+      "replacements": [
+        "JC.H3.SOURCE.REMAINING_COEFFICIENT_MAP",
+        "JC.H3.SOURCE.SIGMA_TOP_FACE_VALUES"
       ],
       "scope_id": "JC.H3.SOURCE.TARGET_PAIR.SEAM"
     }
@@ -196,7 +212,9 @@
     "JC.H3.D6.R7_PRIME.SIGMA_BUDGET",
     "JC.H3.D9.PAIRING.DEG34",
     "JC.H3.H8",
-    "JC.H3.OPERATOR_SCHEDULE.D8-15"
+    "JC.H3.OPERATOR_SCHEDULE.D8-15",
+    "JC.H3.SOURCE.SIGMA_TOP_FACE_VALUES",
+    "JC.H3.SOURCE.TARGET_PAIR_TO_NORMALIZED_LAURENT_ROOT"
   ],
   "schema": "gp-frontier-current-review/v1"
 }

@@ -31,6 +31,12 @@
       "path": "review/jc-h3-c710-all-j-closeout-frontier-v1.json",
       "digest_algo": "sha256-lf-normalized",
       "sha256": "9a8699101aadf5c0675f6c3e579ab70c6266502b89cf04e7bbb5c76fa8cc2101"
+    },
+    {
+      "id": "source-target-first-value",
+      "path": "review/jc-h3-source-target-first-value-frontier-v1.json",
+      "digest_algo": "sha256-lf-normalized",
+      "sha256": "a56fcb17d9eff56e6ad7ce335889ad0f2d4e4e820d9e4e9c95e5194f0c22eae1"
     }
   ],
   "resolutions": [
@@ -96,15 +102,21 @@
       "reason": "Both receipts keep scalarity and the source-owned (75,125) identification independently open."
     },
     {
-      "id": "JC.H3.FRONTIER.SOURCE.VALUE_SEAM.AGREE_OPEN",
+      "id": "JC.H3.FRONTIER.SOURCE.VALUE_SEAM.SUPERSEDE",
       "item_id": "JC.H3.SOURCE.TARGET_PAIR_TO_NORMALIZED_LAURENT_ROOT",
-      "mode": "AGREE_OPEN",
+      "mode": "SUPERSEDE",
       "scope_id": "JC.H3.SOURCE.TARGET_PAIR.SEAM",
-      "receipts": [
+      "prior_receipts": [
         "depth6",
         "support-seam"
       ],
-      "reason": "Support-level progress does not supply the missing source-derived coefficient values, so both receipts retain the exact parent seam."
+      "current_receipt": "source-target-first-value",
+      "current_status": "RESOLVED_TO_PARTIAL_VALUE_AND_REMAINDER",
+      "replacements": [
+        "JC.H3.SOURCE.REMAINING_COEFFICIENT_MAP",
+        "JC.H3.SOURCE.SIGMA_TOP_FACE_VALUES"
+      ],
+      "reason": "The native gauge-aware coefficient packet supplies the exact sigma-top partial map and gauge-free P_(3,0)=0, but explicitly retains the remaining source-to-root coefficient map open."
     },
     {
       "id": "JC.H3.FRONTIER.NONNORMALIZED_TRANSPORT.SUPERSEDE",

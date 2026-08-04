@@ -20,14 +20,19 @@ def test_current_bundle_has_one_explicit_research_boundary():
     items = _items(report)
 
     assert report["counts"] == {
-        "receipts": 5, "items": 24, "open": 10,
-        "resolved": 14, "overlap_resolutions": 7}
+        "receipts": 6, "items": 26, "open": 10,
+        "resolved": 16, "overlap_resolutions": 7}
     assert items["JC.H3.B0.SOURCE.EXCLUSION"]["receipts"] == [
         "h8-c79", "pin-ablation"]
     assert items["JC.H3.C79.SOURCE.FACE81.PIN_ABLATION"][
         "status"] == "RESOLVED_TO_SCOPED_RESULTS"
-    assert "JC.H3.SOURCE.TARGET_PAIR_TO_NORMALIZED_LAURENT_ROOT" in report[
+    assert "JC.H3.SOURCE.TARGET_PAIR_TO_NORMALIZED_LAURENT_ROOT" not in report[
         "open_items"]
+    assert items["JC.H3.SOURCE.TARGET_PAIR_TO_NORMALIZED_LAURENT_ROOT"]["status"] == (
+        "RESOLVED_TO_PARTIAL_VALUE_AND_REMAINDER")
+    assert items["JC.H3.SOURCE.SIGMA_TOP_FACE_VALUES"]["status"] == (
+        "SIGMA_TOP_FACE_PARTIALLY_MATERIALIZED")
+    assert "JC.H3.SOURCE.REMAINING_COEFFICIENT_MAP" in report["open_items"]
     assert items["JC.H3.D6.R6.NONMONOMIAL_FRAME"]["status"] == (
         "DISCHARGED_PREMISE_FREE_AS_CONSUMED")
     assert items["JC.H3.D6.R7_PRIME.SIGMA_BUDGET"]["status"] == (

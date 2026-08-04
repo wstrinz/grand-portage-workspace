@@ -110,6 +110,13 @@ The remaining seam is now named precisely: the coefficient-level map from the
 source-derived target pair to the normalized Laurent-root presentation is
 unmaterialized. Original-pair membership, reverse lifting, parent coverage, H3,
 and verdict promotion remain open.
+
+The first-value handback refines that statement without erasing it.  It binds
+an exact native covered-`psi2` sigma-top calculation: the three gauge-invariant
+ratios are fixed, `p=P_(2,1)` is nonzero, and the gauge-free coefficient
+`P_(3,0)` is zero.  The current frontier records this as a CLOSED partial map
+and retains a distinct OPEN remaining coefficient-map item.  It mints no pair
+existence, reverse lift, source sufficiency, R5/R7, H3, or graph event.
 The v0.22 review packet freezes this complete extraction and graph-
 authority milestone under review/v0.22/.
 

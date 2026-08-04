@@ -53,3 +53,12 @@ exceptional-`J` remainder on the declared guarded `c7_10` divisor with
 its derived receipt with:
 
     python experiments/jc_h3_source_depth6/c710_all_j_closeout_handback_adapter.py --check-native-bindings --emit
+
+`source_target_first_value_handback_v1.json` binds the 41-check native
+gauge-aware first-value packet.  It supersedes the old all-open source-target
+coefficient seam only by splitting it into a closed sigma-top partial map and
+an open remaining coefficient-map obligation.  It cannot license pair
+existence, reverse lifting, source sufficiency, R5/R7, H3, or a graph event.
+Replay and emit its derived receipt with:
+
+    python experiments/jc_h3_source_depth6/source_target_first_value_handback_adapter.py --check-native-bindings --emit
