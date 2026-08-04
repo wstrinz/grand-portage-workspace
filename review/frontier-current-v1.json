@@ -1,22 +1,21 @@
 {
   "authority": "DERIVED_READ_MODEL_ONLY",
   "counts": {
-    "items": 23,
-    "open": 11,
-    "overlap_resolutions": 6,
-    "receipts": 4,
-    "resolved": 12
+    "items": 24,
+    "open": 10,
+    "overlap_resolutions": 7,
+    "receipts": 5,
+    "resolved": 14
   },
   "graph_effect": "NONE",
   "history": {
     "immutable": true,
-    "input_fingerprint": "sha256:735331b056521755bf010f1c3e4c39f8221001b8d00ccdd37093220331ef32b5"
+    "input_fingerprint": "sha256:59dbe98e94e4a1269dfa326b80f8ee34894e0620754ac5fa89d4dae63dcdb392"
   },
   "open_items": [
     "JC.H3.B.RELAXATION",
     "JC.H3.B0.SOURCE.EXCLUSION",
     "JC.H3.C21.RELAXATION",
-    "JC.H3.C22_C710.EXCEPTIONAL_J_FIBERS",
     "JC.H3.C22_C710.NORMALIZED_LINE.RESULTANT_ROOTS",
     "JC.H3.D6.R5.CUBIC_FACE",
     "JC.H3.D6.R6.Q_SIDE_RELOCATION",
@@ -27,6 +26,16 @@
   ],
   "projection_schema": "frontier-bundle/v1",
   "receipts": [
+    {
+      "digest_algo": "sha256-lf-normalized",
+      "id": "c710-all-j-closeout",
+      "input_fingerprint": "sha256:1fbca348ab2bb5657ca9d3a72c2ffb241671a12f8c8fe57656bca7a74b547e42",
+      "item_count": 2,
+      "open_count": 0,
+      "path": "review/jc-h3-c710-all-j-closeout-frontier-v1.json",
+      "receipt_schema": "gp-jc-h3-c710-all-j-closeout-frontier-review/v1",
+      "sha256": "sha256:9a8699101aadf5c0675f6c3e579ab70c6266502b89cf04e7bbb5c76fa8cc2101"
+    },
     {
       "digest_algo": "sha256-lf-normalized",
       "id": "depth6",
@@ -79,6 +88,21 @@
         "pin-ablation"
       ],
       "scope_id": "JC.H3.B0.FULL"
+    },
+    {
+      "current_receipt": "c710-all-j-closeout",
+      "current_status": "RESOLVED_BY_ALL_J_CLOSEOUT",
+      "id": "JC.H3.FRONTIER.C710_EXCEPTIONAL_J.SUPERSEDE",
+      "item_id": "JC.H3.C22_C710.EXCEPTIONAL_J_FIBERS",
+      "mode": "SUPERSEDE",
+      "prior_receipts": [
+        "support-seam"
+      ],
+      "reason": "The exact unit-pivot closeout discharges the formerly finite exceptional-J remainder on the same guarded c7_10 divisor, without widening its scope.",
+      "replacements": [
+        "JC.H3.C22_C710.ALL_J_SOURCE_FACE_EXCLUSION"
+      ],
+      "scope_id": "JC.H3.C22_C710.FULL_CHART"
     },
     {
       "current_receipt": "support-seam",
@@ -160,6 +184,8 @@
   ],
   "resolved_items": [
     "JC.H3.C22.UNIFORM_SOURCE_EXCLUSION",
+    "JC.H3.C22_C710.ALL_J_SOURCE_FACE_EXCLUSION",
+    "JC.H3.C22_C710.EXCEPTIONAL_J_FIBERS",
     "JC.H3.C22_C710.JOINT_CONFINEMENT",
     "JC.H3.C22_C710.NONNORMALIZED_TRANSPORT",
     "JC.H3.C22_C710.NONNORMALIZED_TRANSPORT.GENERIC_J",

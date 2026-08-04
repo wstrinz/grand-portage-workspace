@@ -20,8 +20,8 @@ def test_current_bundle_has_one_explicit_research_boundary():
     items = _items(report)
 
     assert report["counts"] == {
-        "receipts": 4, "items": 23, "open": 11,
-        "resolved": 12, "overlap_resolutions": 6}
+        "receipts": 5, "items": 24, "open": 10,
+        "resolved": 14, "overlap_resolutions": 7}
     assert items["JC.H3.B0.SOURCE.EXCLUSION"]["receipts"] == [
         "h8-c79", "pin-ablation"]
     assert items["JC.H3.C79.SOURCE.FACE81.PIN_ABLATION"][
@@ -34,7 +34,13 @@ def test_current_bundle_has_one_explicit_research_boundary():
         "PROVED_NATIVE_UNCONDITIONAL")
     assert items["JC.H3.C22_C710.NONNORMALIZED_TRANSPORT"]["status"] == (
         "RESOLVED_TO_GENERIC_AND_FINITE_REMAINDER")
-    assert "JC.H3.C22_C710.EXCEPTIONAL_J_FIBERS" in report["open_items"]
+    assert "JC.H3.C22_C710.EXCEPTIONAL_J_FIBERS" not in report["open_items"]
+    assert items["JC.H3.C22_C710.EXCEPTIONAL_J_FIBERS"]["status"] == (
+        "RESOLVED_BY_ALL_J_CLOSEOUT")
+    assert items["JC.H3.C22_C710.EXCEPTIONAL_J_FIBERS"]["replacements"] == [
+        "JC.H3.C22_C710.ALL_J_SOURCE_FACE_EXCLUSION"]
+    assert items["JC.H3.C22_C710.ALL_J_SOURCE_FACE_EXCLUSION"]["status"] == (
+        "CLOSED")
     assert "JC.H3.D6.R7.75_125_IDENTIFICATION" in report["open_items"]
     assert report["graph_effect"] == "NONE"
 
@@ -79,3 +85,6 @@ def test_support_seam_supersessions_preserve_the_named_remainders():
         "JC.H3.C22_C710.EXCEPTIONAL_J_FIBERS",
         "JC.H3.C22_C710.NONNORMALIZED_TRANSPORT.GENERIC_J",
     ]
+    exceptional = items["JC.H3.C22_C710.EXCEPTIONAL_J_FIBERS"]
+    assert exceptional["replacements"] == [
+        "JC.H3.C22_C710.ALL_J_SOURCE_FACE_EXCLUSION"]

@@ -2138,8 +2138,14 @@ def cmd_frontier_bundle(args):
     except (OSError, FRONT_BUNDLE.FrontierBundleError) as exc:
         sys.stderr.write("frontier-bundle refused: %s\n" % exc)
         return 2
-    sys.stdout.write(FRONT_BUNDLE.canonical_json(
-        projection, pretty=not args.compact))
+    if args.emit_review:
+        digest = FRONT_BUNDLE.emit_review_receipt(projection, args.emit_review)
+        sys.stdout.write(json.dumps({"path": args.emit_review,
+                                     "sha256_lf_normalized": digest},
+                                    indent=2, sort_keys=True) + "\n")
+    else:
+        sys.stdout.write(FRONT_BUNDLE.canonical_json(
+            projection, pretty=not args.compact))
     return 0
 
 
@@ -2215,6 +2221,8 @@ def build_parser():
     fb.add_argument("input", help="frontier-bundle-input/v1 JSON manifest")
     fb.add_argument("--compact", action="store_true",
                     help="emit canonical compact JSON")
+    fb.add_argument("--emit-review",
+                    help="atomically write the compact current-bundle review receipt")
     fb.set_defaults(func=cmd_frontier_bundle)
 
     vz = sub.add_parser("visualize",

@@ -183,6 +183,22 @@ def test_bundle_is_deterministic_and_cli_exposes_same_surface(tmp_path, capsys):
     assert json.loads(capsys.readouterr().out) == first
 
 
+def test_atomic_review_emission_matches_derived_surface(tmp_path, capsys):
+    manifest = _write_bundle(
+        tmp_path, {"only": _receipt([_observation("A")])})
+    target = tmp_path / "review.json"
+
+    assert cli.main(["frontier-bundle", str(manifest), "--emit-review",
+                     str(target)]) == 0
+    result = json.loads(capsys.readouterr().out)
+    report = B.build_path(manifest)
+    expected = B.review_receipt(report)
+
+    assert json.loads(target.read_text(encoding="utf-8")) == expected
+    assert result["sha256_lf_normalized"] == hashlib.sha256(
+        target.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+
+
 def test_agreement_refuses_closed_observation_or_incomplete_receipts(tmp_path):
     receipts = {
         "old": _receipt([_observation("A")], consumer="old"),

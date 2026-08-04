@@ -9,8 +9,10 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
+import tempfile
 
 
 SCHEMA = "frontier-bundle/v1"
@@ -353,6 +355,28 @@ def review_receipt(report):
         "open_items": report["open_items"],
         "resolved_items": report["resolved_items"],
     }
+
+
+def emit_review_receipt(report, path):
+    """Atomically write a digest-bound derived current-bundle review."""
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = canonical_json(review_receipt(report)).encode("utf-8")
+    handle, temporary = tempfile.mkstemp(
+        prefix=path.name + ".", suffix=".tmp", dir=str(path.parent))
+    try:
+        with os.fdopen(handle, "wb") as stream:
+            stream.write(payload)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, path)
+    except BaseException:
+        try:
+            os.unlink(temporary)
+        except FileNotFoundError:
+            pass
+        raise
+    return hashlib.sha256(payload.replace(b"\r\n", b"\n")).hexdigest()
 
 
 def canonical_json(value, pretty=True):

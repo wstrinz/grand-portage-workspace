@@ -25,6 +25,12 @@
       "path": "review/jc-h3-support-seam-frontier-v1.json",
       "digest_algo": "sha256-lf-normalized",
       "sha256": "a114dad6c146f1a9022cc2d3424c20485f73428e1b9ccbc163116211e8027093"
+    },
+    {
+      "id": "c710-all-j-closeout",
+      "path": "review/jc-h3-c710-all-j-closeout-frontier-v1.json",
+      "digest_algo": "sha256-lf-normalized",
+      "sha256": "9a8699101aadf5c0675f6c3e579ab70c6266502b89cf04e7bbb5c76fa8cc2101"
     }
   ],
   "resolutions": [
@@ -115,6 +121,21 @@
         "JC.H3.C22_C710.NONNORMALIZED_TRANSPORT.GENERIC_J"
       ],
       "reason": "The function-field identities close the generic J stratum and replace the broad transport request by one explicit finite exceptional-fibre remainder."
+    },
+    {
+      "id": "JC.H3.FRONTIER.C710_EXCEPTIONAL_J.SUPERSEDE",
+      "item_id": "JC.H3.C22_C710.EXCEPTIONAL_J_FIBERS",
+      "mode": "SUPERSEDE",
+      "scope_id": "JC.H3.C22_C710.FULL_CHART",
+      "prior_receipts": [
+        "support-seam"
+      ],
+      "current_receipt": "c710-all-j-closeout",
+      "current_status": "RESOLVED_BY_ALL_J_CLOSEOUT",
+      "replacements": [
+        "JC.H3.C22_C710.ALL_J_SOURCE_FACE_EXCLUSION"
+      ],
+      "reason": "The exact unit-pivot closeout discharges the formerly finite exceptional-J remainder on the same guarded c7_10 divisor, without widening its scope."
     }
   ]
 }

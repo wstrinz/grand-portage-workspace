@@ -315,23 +315,25 @@ conditional depth-six argument. This consumer performs no premise update and
 retains the source authority ceiling
 `CONDITIONAL_NORMALIZED_ROOT_TO_DEPTH6_BOUNDARY_ONLY`.
 
-`frontier-bundle/v1` now consolidates those three receipts into one canonical
+`frontier-bundle/v1` now consolidates five receipts into one canonical
 current boundary. Each receipt supplies minimal item observations containing a
 stable semantic ID, exact scope, effective status, and open/closed state. A
 repeated ID is refused unless the manifest names either exact open agreement or
 an explicit supersession; file order and timestamps have no authority. The
-current bundle contains 20 items: 12 open and 8 resolved. Its two declared
-overlaps retain full `b=0` as one shared open obligation and replace the stale
-open pin-ablation task with the scoped handback results. The manifest is
+current bundle contains 24 items: 10 open and 14 resolved. Its seven declared
+overlaps retain full `b=0` as one shared open obligation, preserve the
+coefficient-value seam, and replace the finite exceptional-`J` remainder with
+the exact all-`J` closeout. The manifest is
 `fixtures/frontier/current_v1.json`; the compact checked receipt is
 `review/frontier-current-v1.json`. Graph effect remains `NONE`.
 
 The current JC coordinator request is the coefficient-level
-`JC.H3.SOURCE.TARGET_PAIR_TO_NORMALIZED_LAURENT_ROOT` seam, with a bounded
-`JC.H3.C22_C710.NONNORMALIZED_TRANSPORT` scout that must not delay it. The
-stable packet is `JC-COORDINATOR-NEXT-PACKET.md`. If transport does not export
-the normalized line, the next finite request is the exact degree-130
-resultant-root dossier.
+`JC.H3.SOURCE.TARGET_PAIR_TO_NORMALIZED_LAURENT_ROOT` seam. The former bounded
+`JC.H3.C22_C710.NONNORMALIZED_TRANSPORT` finite-remainder scout is closed on
+its declared divisor, without widening to source sufficiency or the remaining
+`sigma_kappa_nonzero` branch. The stable packet is
+`JC-COORDINATOR-NEXT-PACKET.md`; the next source-side request remains the
+ordered coefficient-value dictionary, not another generic transport replay.
 
 Focused coverage for the generic frontier compiler, its independent native
 consumers, and declaration targeting passes. The optional native-

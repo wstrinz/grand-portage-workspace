@@ -28,11 +28,12 @@ The stronger mode rederives the five reduced rows from the defining E-system
 formula before extraction. This closes raw E-system-to-face translation
 validation but retains graph effect NONE and supplies no reverse point lift.
 
-`support_seam_handback_v1.json` is the smallest current handback for the newer
+`support_seam_handback_v1.json` is the handback for the newer
 support-and-grading result and the generic-`J` specialization result. It keeps
 the coefficient-value seam open, records native unconditional R7' and the
-premise-free R6 discharge while keeping R7 scalarity independently open, and keeps
-the explicit exceptional `J` fibres open. Replay its read-only projection with:
+premise-free R6 discharge while keeping R7 scalarity independently open. The
+formerly explicit exceptional `J` fibres are closed only by the separate
+all-`J` closeout handback below. Replay its read-only projection with:
 
     python experiments/jc_h3_source_depth6/support_seam_handback_adapter.py
     python experiments/jc_h3_source_depth6/support_seam_handback_adapter.py --check-native-bindings
@@ -43,3 +44,12 @@ The adapter creates no graph event and uses only `EvidenceEnvelope` and
 propagation and refuse both generic-to-all-fibres and exceptional-zero-to-source-
 witness promotions. `--emit` atomically rewrites only the derived review receipt
 `review/jc-h3-support-seam-frontier-v1.json`.
+
+`c710_all_j_closeout_handback_v1.json` binds the 29-check native
+`C710_DIVISOR_FACE_IDEAL_UNIT_ALL_J` packet. It supersedes only the finite
+exceptional-`J` remainder on the declared guarded `c7_10` divisor with
+`c2_1=c2_2=0`; it does not promote source sufficiency, a source witness, the
+`sigma_kappa_nonzero` branch, or the coefficient-value seam. Replay and emit
+its derived receipt with:
+
+    python experiments/jc_h3_source_depth6/c710_all_j_closeout_handback_adapter.py --check-native-bindings --emit

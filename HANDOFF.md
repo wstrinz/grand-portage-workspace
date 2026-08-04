@@ -1474,11 +1474,12 @@ authority. Digest drift, missing observations, unexplained overlap, scope or
 status disagreement, false supersession, and absent replacements fail closed.
 
 The canonical manifest is `fixtures/frontier/current_v1.json`; its checked
-receipt is `review/frontier-current-v1.json`. It compiles three receipts into
-20 current items: 12 open and 8 resolved. Two explicit resolutions retain
-`JC.H3.B0.SOURCE.EXCLUSION` as shared open agreement and supersede the older
-open pin-ablation artifact request with its ten scoped handback results. The
-surface remains `DERIVED_READ_MODEL_ONLY` with graph effect `NONE`.
+receipt is `review/frontier-current-v1.json`. It compiles five receipts into
+24 current items: 10 open and 14 resolved. Seven explicit resolutions retain
+`JC.H3.B0.SOURCE.EXCLUSION` as shared open agreement, preserve the open
+coefficient-value seam, and supersede the former finite exceptional-`J`
+remainder with the exact all-`J` guarded-divisor closeout. The surface remains
+`DERIVED_READ_MODEL_ONLY` with graph effect `NONE`.
 
 Twelve new regressions cover the generic bundle and the exact current
 manifest. The repository now collects 1,532 tests; the complete local GP suite
