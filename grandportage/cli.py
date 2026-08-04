@@ -13,6 +13,7 @@ import sys
 
 from . import __version__
 from . import artifacts as A
+from . import campaign as CAMP
 from . import cas
 from . import check as C
 from . import coefficient_expansion as CE
@@ -2149,6 +2150,45 @@ def cmd_frontier_bundle(args):
     return 0
 
 
+def cmd_campaign_packet(args):
+    """Compile digest-bound research tasks from the current frontier."""
+    try:
+        packet_set = CAMP.build_packets_path(args.input, args.packet)
+        if args.format == "json":
+            content = CAMP.canonical_json(
+                packet_set, pretty=not args.compact)
+        else:
+            content = CAMP.render_packets(packet_set, audience=args.format)
+    except (OSError, CAMP.CampaignError) as exc:
+        sys.stderr.write("campaign-packet refused: %s\n" % exc)
+        return 2
+    sys.stdout.write(content)
+    return 0
+
+
+def cmd_campaign_ledger(args):
+    """Compile an append-only campaign attempt ledger or console overlay."""
+    try:
+        ledger = CAMP.build_ledger_path(args.input)
+        if args.overlay:
+            manifest_path = os.path.abspath(args.input)
+            with open(manifest_path, encoding="utf-8") as stream:
+                manifest = json.load(stream)
+            root = os.path.abspath(os.path.join(
+                os.path.dirname(manifest_path), manifest.get("root", ".")))
+            binding = manifest["packet_manifest"]
+            packet_path = os.path.join(root, binding["path"])
+            packet_set = CAMP.build_packets_path(packet_path)
+            output = CAMP.build_overlay(packet_set, ledger)
+        else:
+            output = ledger
+    except (OSError, json.JSONDecodeError, KeyError, CAMP.CampaignError) as exc:
+        sys.stderr.write("campaign-ledger refused: %s\n" % exc)
+        return 2
+    sys.stdout.write(CAMP.canonical_json(output, pretty=not args.compact))
+    return 0
+
+
 def cmd_visualize(args):
     """Generate a standalone Three.js explorer around a campaign projection."""
     projection = _read_projection(args)
@@ -2224,6 +2264,28 @@ def build_parser():
     fb.add_argument("--emit-review",
                     help="atomically write the compact current-bundle review receipt")
     fb.set_defaults(func=cmd_frontier_bundle)
+
+    cp = sub.add_parser(
+        "campaign-packet",
+        help="compile digest-bound research tasks from a proof frontier")
+    cp.add_argument("input", help="campaign-packet-input/v0 JSON manifest")
+    cp.add_argument("--packet", action="append",
+                    help="emit only this packet id; repeat for several")
+    cp.add_argument("--format", choices=("json", "human", "agent"),
+                    default="json", help="output surface (default: json)")
+    cp.add_argument("--compact", action="store_true",
+                    help="emit canonical compact JSON")
+    cp.set_defaults(func=cmd_campaign_packet)
+
+    cl = sub.add_parser(
+        "campaign-ledger",
+        help="compile an append-only attempt ledger or campaign overlay")
+    cl.add_argument("input", help="campaign-ledger-input/v0 JSON manifest")
+    cl.add_argument("--overlay", action="store_true",
+                    help="emit maturity, outcomes, and verification debt")
+    cl.add_argument("--compact", action="store_true",
+                    help="emit canonical compact JSON")
+    cl.set_defaults(func=cmd_campaign_ledger)
 
     vz = sub.add_parser("visualize",
                         help="generate a read-only Three.js campaign explorer")

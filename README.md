@@ -30,7 +30,7 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1576<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1591<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
@@ -41,8 +41,10 @@ for the first, written up in full.
 * [Foundations and prior art](docs/FOUNDATIONS-PRIOR-ART.md) - bounded research questions and deliberate deferrals
 * [JC `dm4` polynomial-lift audit](docs/JC-DM4-POLYNOMIAL-LIFT.md) - corrected valuation proof spine and remaining obligations
 * [Campaign projections and Three.js explorer](docs/VISUALIZATION.md) - read-only review artifacts and local visualization
+* [Portage Command v0](docs/PORTAGE-COMMAND-V0.md) - digest-bound research packets, attempt ledger, and verification-debt overlay
 * `gp frontier INPUT.json` - exact-scope proof-state linking over immutable evidence envelopes
 * `gp frontier-bundle MANIFEST.json` - fail-closed aggregation with explicit overlap resolution
+* `gp campaign-packet MANIFEST.json` / `gp campaign-ledger MANIFEST.json` - provisional research operations with graph effect `NONE`
 
 Five further documents live in the private workspace only — `HANDOFF.md` and
 `TESTPLAN.md` because they describe traps in blind trials not yet run, and
@@ -73,6 +75,7 @@ What they contain, since the summaries name no domain:
 | artifacts | `grandportage/artifacts.py` | immutable raw programs/transcripts addressed outside the semantic graph |
 | checker | `grandportage/check.py` | findings, derived severities, exit code |
 | projection | `grandportage/frontier.py`, `frontier_bundle.py`, `projection.py`, `visualization.py` | versioned proof frontier and bundle, campaign read model, and guided Three.js explorer |
+| campaign operations | `grandportage/campaign.py` | provisional task packets, immutable attempt ledger, and maturity/debt overlay; derived only |
 | evidence manifest | `grandportage/evidence.py` | shared affine context, envelope, compilation targets, and graph-effect boundaries |
 | discharge | `grandportage/discharge.py` | refusal → canonical next move |
 | CAS + MCP | `grandportage/cas.py`, `mcp.py` | **declare the transport or no process spawns** |
@@ -371,6 +374,8 @@ gp project --output campaign.json  # complete, derived read model
 gp visualize --output campaign.html # read-only Three.js explorer
 gp frontier frontier-input.json    # scoped premise updates and open research boundary
 gp frontier-bundle fixtures/frontier/current_v1.json  # current cross-consumer boundary
+gp campaign-packet fixtures/campaign/jc_sigma/packets.json --format human
+gp campaign-ledger fixtures/campaign/jc_sigma/ledger.json --overlay
 
 gp --graph fixtures/jc2/graph.jsonl check      # the JC(2) retrodiction
 gp --graph fixtures/matroid/graph.jsonl check  # the matroid retrodiction
@@ -383,7 +388,7 @@ Three.js build by default; `--three-root` can point it at a local package.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1576<!--/checks--> checks
+python -m pytest        # <!--checks-->1591<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

@@ -9,7 +9,7 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 - Package version: <!--version-->0.23.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1576<!--/checks--> checks.
+- Test collection: <!--checks-->1591<!--/checks--> checks.
 
 Plain `pytest` is the full release gate. The ordinary edit loop is
 `pytest -m "not live and not replay and not exhaustive"`; deterministic frozen
@@ -328,32 +328,53 @@ conditional depth-six argument. This consumer performs no premise update and
 retains the source authority ceiling
 `CONDITIONAL_NORMALIZED_ROOT_TO_DEPTH6_BOUNDARY_ONLY`.
 
-`frontier-bundle/v1` now consolidates five receipts into one canonical
+`frontier-bundle/v1` now consolidates seven receipts into one canonical
 current boundary. Each receipt supplies minimal item observations containing a
 stable semantic ID, exact scope, effective status, and open/closed state. A
 repeated ID is refused unless the manifest names either exact open agreement or
 an explicit supersession; file order and timestamps have no authority. The
-current bundle contains 24 items: 10 open and 14 resolved. Its seven declared
+current bundle contains 28 items: 10 open and 18 resolved. Its seven declared
 overlaps retain full `b=0` as one shared open obligation, preserve the
 coefficient-value seam, and replace the finite exceptional-`J` remainder with
 the exact all-`J` closeout. The manifest is
 `fixtures/frontier/current_v1.json`; the compact checked receipt is
 `review/frontier-current-v1.json`. Graph effect remains `NONE`.
 
-The current JC coordinator request is the coefficient-level
-`JC.H3.SOURCE.TARGET_PAIR_TO_NORMALIZED_LAURENT_ROOT` seam. The former bounded
-`JC.H3.C22_C710.NONNORMALIZED_TRANSPORT` finite-remainder scout is closed on
-its declared divisor, without widening to source sufficiency or the remaining
-`sigma_kappa_nonzero` branch. The stable packet is
-`JC-COORDINATOR-NEXT-PACKET.md`; the next source-side request remains the
-ordered coefficient-value dictionary, not another generic transport replay.
+The old source-to-normalized-root request is split into the closed sigma-top
+partial map and open `JC.H3.SOURCE.REMAINING_COEFFICIENT_MAP`. The invariant S2
+guard peel is also closed at its exact wall while full `b=0` remains open. The
+stable `JC-COORDINATOR-NEXT-PACKET.md` rendezvous is on HOLD for the next
+digest-bound native coefficient handoff; GP must not invent a graph event from
+the newer weighted-projective sigma work.
 
 Focused coverage for the generic frontier compiler, its independent native
-consumers, and declaration targeting passes. The optional native-
-binding replay matches all five exact sibling receipts without invoking a
-math-stuff release gate. The complete local GP suite passes 1,497 tests with 41
-expected environment-dependent skips in 392.51 seconds; total collection is
-1,538.
+consumers, and declaration targeting passes. The optional native-binding
+replay matches the exact sibling receipts without invoking a math-stuff release
+gate. Current release validation is recorded in the v0.23 handoff section.
+
+## Portage Command v0
+
+The first research-operations substrate is implemented in
+`grandportage/campaign.py`. `gp campaign-packet` binds one exact bundle
+observation, its source receipt and evidence-envelope ceiling, and a complete
+task-catalog entry. It emits deterministic JSON, human briefs, or agent prompts
+with one packet fingerprint. `gp campaign-ledger` validates checked outcomes,
+useful refutations, refusal categories, mutation coverage, prior-ledger
+extension, and verification debt; `--overlay` emits the future console layer.
+Every surface is `DERIVED_READ_MODEL_ONLY` with graph effect `NONE`.
+
+The JC pilot binds two completed map-redrawing attacks and one active mission to
+the still-open remaining coefficient-map frontier. The weighted-projective
+second-component discovery and the failed `D`-ansatz compression are recorded
+as `USEFUL_REFUTATION`, not false frontier closure. The active provisional task
+is the exact `Q_(5,1)=0` hyperplane classification or a bounded sparse rational
+certificate that names the residual strata. A matroid base-extension
+retrodiction compiles through the same schema as the second-domain control.
+
+The RTS projection, planner, distribution layer, and `v1` schema freeze remain
+deferred. The next gate is a genuinely cold agent run against the generated
+active packet, followed by failure-matrix classification and one template
+repair round.
 
 ## Experiments
 

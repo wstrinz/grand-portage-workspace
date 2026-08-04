@@ -24,7 +24,7 @@ AFFINE_EVIDENCE = {
     "laurent_coefficient_pipeline", "triangular",
 }
 DERIVED_READ_SURFACES = {
-    "frontier", "frontier_bundle", "projection", "visualization",
+    "campaign", "frontier", "frontier_bundle", "projection", "visualization",
 }
 
 

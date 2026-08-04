@@ -86,6 +86,10 @@ Rules:
   weakening;
 - `frontier-bundle/v1` never resolves repeated semantic IDs by input order;
   every overlap requires an exact-scope agreement or explicit supersession;
+- `campaign-packet/v0` binds an exact bundle observation, source receipt,
+  evidence-envelope authority ceiling, and task-catalog entry without minting
+  mathematical or graph authority; its ledger is append-only operational
+  history, not evidence;
 - backend disagreements block promotion rather than selecting a winner;
 - a native campaign remains the source of its discovery artifacts.
 

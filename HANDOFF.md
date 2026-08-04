@@ -40,7 +40,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.22.0. <!--checks-->1576<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.22.0. <!--checks-->1591<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -617,7 +617,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1576<!--/checks--> checks, ~300 s on the current development machine) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1591<!--/checks--> checks, ~300 s on the current development machine) |
 
 ---
 
@@ -724,7 +724,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1576<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1591<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -1560,3 +1560,37 @@ isolated public snapshot passed 1,268 non-live tests with 268 explicit JC
 integration skips and 40 live deselections in 64.58 seconds. Its separately
 authorized WSL/Singular tier passed 38 tests with two environment-dependent
 skips in 447.40 seconds.
+
+## 2026-08-04 - Portage Command v0 campaign substrate
+
+`grandportage/campaign.py` implements the deliberately provisional operational
+layer proposed in `docs/portagecommandconceptv2.md`. It does not freeze the
+concept's original `v1` sketch. A `campaign-packet/v0` instead binds one exact
+`frontier-bundle/v1` observation, the source receipt and its normalized digest,
+the receipt input fingerprint and evidence-envelope authority ceiling, and one
+entry from a separately digest-bound task catalog. This preserves the compact
+frontier protocol: propositions and operational instructions are not smuggled
+into bundle observations.
+
+`gp campaign-packet` emits deterministic JSON, human briefs, or cold-agent
+prompts with a shared packet fingerprint. `gp campaign-ledger` validates
+append-only attempts, exact replay commands, declared source artifacts, and
+required mutation refusals; `--overlay` projects maturity, outcomes, and
+verification debt. Useful refutations, correct refusals, worker defects,
+packet defects, accepted artifacts, unverifiable returns, and pending work
+remain distinct. Every output is `DERIVED_READ_MODEL_ONLY` with graph effect
+`NONE`.
+
+The JC pilot records the weighted-projective second-component discovery and
+the failed `D`-ansatz compression as `USEFUL_REFUTATION` against the open
+`JC.H3.SOURCE.REMAINING_COEFFICIENT_MAP` frontier. Its active cold mission is
+the exact `Q_(5,1)=0` hyperplane classification, or a bounded sparse rational
+certificate that identifies the residual strata without claiming H3 or
+`(75,125)`. A synthetic matroid base-extension packet compiles through the
+same path as the non-JC control.
+
+The next gate is empirical rather than architectural: render the active JC
+agent packet, give it to a genuinely cold worker, classify the return through
+the failure matrix, and make at most one template repair before deciding
+whether `campaign-packet/v1` is ready. The RTS interface, automated planner,
+and distribution layer remain deferred.
