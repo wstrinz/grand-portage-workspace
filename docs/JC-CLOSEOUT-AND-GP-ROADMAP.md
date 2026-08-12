@@ -252,17 +252,26 @@ consume them later.
 
 The release compiler now computes exact transitive coverage from evaluated
 profile references; validates public payload classes, provenance, licensing,
-and safe paths; requires replay lanes for load-bearing artifacts; and can
-atomically materialize a clean, digest-rechecked bundle with a manifest,
-checksums, and replay document. The publication projection now generates the
+and safe paths; requires replay lanes for load-bearing artifacts; binds their
+complete checker/input/certificate/receipt/environment resources; and can
+atomically materialize either a publication-ready bundle or an independently
+ready replay kit with a manifest, checksums, and replay document. The
+publication projection now generates the
 exact portrait dependency audit and manuscript-ready claim, leaf, retirement,
 replay, and blocker tables. The JC fixture is an honest draft: it provides the
 portrait-audit and release-manifest placeholders under explicit generator
 contracts while leaving the manuscript and all independent policy blockers
 intact.
 
-The remaining Phase 2 work is live clean-clone exercise and environment capture
-for JC, followed by a non-JC transfer assay before considering RO-Crate or v1.
+JC's six native computational replays and formal no-`sorry` build now pass, and
+the resulting receipts are embedded in a 152-resource replay lock. A clean
+detached checkout at the bound commit audits with zero replay blockers and
+materializes a 169-file kit with 167 matching checksum entries. Six of seven
+archive lanes replayed directly; the high-memory ENTRY lane's packaged process
+was host-terminated after its exact D2 reduction, while the byte-identical
+clean-checkout command completed all 19 checks and refused all six planted
+mutations. The remaining Phase 2 gate is a non-JC transfer assay before
+considering RO-Crate or v1.
 
 ## Immediate JC handback
 

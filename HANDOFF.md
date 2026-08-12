@@ -40,7 +40,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.22.0. <!--checks-->1625<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.22.0. <!--checks-->1629<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -617,7 +617,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1625<!--/checks--> checks, ~300 s on the current development machine) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1629<!--/checks--> checks, ~300 s on the current development machine) |
 
 ---
 
@@ -724,7 +724,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1625<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1629<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -1594,3 +1594,47 @@ agent packet, give it to a genuinely cold worker, classify the return through
 the failure matrix, and make at most one template repair before deciding
 whether `campaign-packet/v1` is ready. The RTS interface, automated planner,
 and distribution layer remain deferred.
+
+## 2026-08-12 - JC replay closure and publication-independent kit
+
+`campaign-release/v0` now treats replay instructions as an actual closure, not
+just command strings. Each lane binds a working directory, runtime, dependency
+and network policy, receipt resources, and exact checker/certificate/input/
+environment resources. Large closures can be supplied by a separately
+digest-bound `campaign-replay-resources/v0` manifest. Resource roles, portable
+paths, digest algorithms, archive containment, use by a lane, receipt typing,
+licensing, and post-plan bytes all fail closed.
+
+The materializer now distinguishes a full publication archive from a replay
+kit. `--output-dir` still requires every publication/profile gate. The new
+`--replay-kit-dir` requires clean source provenance, all selected and replay
+resource digests, clear licenses and dispositions, and zero replay debt, but
+does not let an absent manuscript masquerade as a reproducibility failure.
+The synthetic fixture runs its checker successfully from the resulting
+archive, and adversarial tests cover tampered resources, false receipt roles,
+path escape/collision, unused closure, post-plan mutation, and a replay-ready
+but publication-blocked profile.
+
+The JC adapter is pinned to clean detached commit `1bbdec4`. Fresh source runs
+pass all six native computational lanes: extraction 23/23, omega36 74/74,
+order-six 14/14 with seven refused mutations, LOCAL connecting 38/38, LOCAL
+integrability 19/19, and ENTRY 19/19 with six refused mutations. Its formal
+closure builds all 19 local modules and the five named consumers with zero
+`sorry` declarations. The generated lock contains 152 replay resources in
+seven sets.
+
+The clean audit reports 16/17 selected publication records, zero replay,
+license, disposition, or replay-kit blockers, and eight honest publication
+blockers: the missing manuscript coverage/writeup and six incomplete non-S2
+price cards. It materializes a 169-file replay kit with 167 verified checksum
+entries. Six archive lanes replay directly. The archive ENTRY process was
+host-terminated at its high-memory post-D2 phase on two attempts, without a
+Python error; the exact byte-identical command already passed completely from
+the clean checkout, so this is recorded as an archive-environment limit rather
+than silently promoted to a second pass.
+
+Validation after the tranche: 1,582 non-live tests passed, seven skipped, and
+40 live tests were deselected in 257.36 seconds. The marker-unfiltered release
+gate then passed 1,622 tests with seven skips in 773.70 seconds after granting
+the live WSL/Singular tier its required host access. The repository collects
+1,629 tests.

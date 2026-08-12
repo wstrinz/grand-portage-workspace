@@ -6,7 +6,7 @@
   "dossier": {
     "path": "fixtures/dossier/jc_publication/dossier.json",
     "digest_algo": "sha256-lf-normalized",
-    "sha256": "e5f1f03d0a6c326f32d064e8bf24f9c1b1d214b667a0e17a3a45fde8651f6820"
+    "sha256": "b0b570f02e786e7f9494fb1c8fe12a5c71cff43050b582b80cf86e060ec53a02"
   },
   "profile_id": "JC.PUBLICATION_FLAG",
   "package": {
@@ -28,6 +28,13 @@
       "release_path": "manifest.json",
       "license_status": "CLEAR",
       "provenance": "The materialized campaign-release/v0 manifest."
+    }
+  ],
+  "replay_resource_manifests": [
+    {
+      "path": "fixtures/release/jc_publication/replay-resources.json",
+      "digest_algo": "sha256-lf-normalized",
+      "sha256": "8ad01816e8d3a3735a8c9d724b31544964ab7b39d3d3945d914d64dce4156d8d"
     }
   ],
   "items": [
@@ -149,12 +156,20 @@
       "id": "JC.REPLAY.FORMAL",
       "class": "FORMAL",
       "title": "Lean formal-shadow publication lane",
+      "working_directory": "replay/jc/d2_plane_72_108/lean",
+      "environment": {
+        "runtime": "Lean 4.23.0 via elan and Git Bash",
+        "external_dependencies": ["mathlib and the packages named by build.sh at compatible revisions"],
+        "network": "FORBIDDEN",
+        "notes": ["build.sh consumes prebuilt external Lean packages through JC_LEAN_PKGS."]
+      },
       "commands": [
-        "cd d2_plane_72_108/lean && bash build.sh SigmaCurrentShadow",
-        "cd d2_plane_72_108/lean && bash build.sh SigmaEndgameComposition",
-        "cd d2_plane_72_108/lean && bash build.sh SigmaI4Endgame",
-        "cd d2_plane_72_108/lean && bash build.sh SigmaLocalAlgebraToS2",
-        "cd d2_plane_72_108/lean && bash build.sh SigmaLocalConnecting"
+        "bash build.sh SigmaCloseoutConsumers SigmaDerivativePascal SigmaDividedPowerPoincare SigmaEndgameComposition SigmaFiniteSqueeze SigmaLiveThetaCorner SigmaLocalCoboundary SigmaPascalHasse SigmaPascalHasseGeneral SigmaI4Endgame SigmaLocalAlgebraToS2 SigmaLocalConnecting SigmaOrderSixVertex SigmaRowDichotomy SigmaUpstreamS6Chain SigmaActualPivotCompression SigmaAtlasA2Enumeration SigmaRecipCarrierReduction SigmaCurrentShadow",
+        "bash build.sh SigmaCurrentShadow",
+        "bash build.sh SigmaEndgameComposition",
+        "bash build.sh SigmaI4Endgame",
+        "bash build.sh SigmaLocalAlgebraToS2",
+        "bash build.sh SigmaLocalConnecting"
       ],
       "artifact_ids": [
         "JC.ARTIFACT.CURRENT_SHADOW",
@@ -162,7 +177,112 @@
         "JC.ARTIFACT.I4_ENDGAME",
         "JC.ARTIFACT.LOCAL_ALGEBRA_CONSUMER",
         "JC.ARTIFACT.LOCAL_CONNECTING_FORMAL"
-      ]
+      ],
+      "resource_ids": ["JC.REPLAY.RECEIPT.FORMAL"],
+      "resource_set_ids": ["JC.REPLAY.SET.FORMAL"],
+      "receipt_ids": ["JC.REPLAY.RECEIPT.FORMAL"]
+    },
+    {
+      "id": "JC.REPLAY.ENTRY",
+      "class": "EXHAUSTIVE",
+      "title": "ENTRY exact z1 reduction and mutation replay",
+      "working_directory": "replay/jc/d2_plane_72_108",
+      "environment": {
+        "runtime": "CPython 3.10",
+        "external_dependencies": ["python-flint", "sympy"],
+        "network": "FORBIDDEN",
+        "notes": ["Measured clean-checkout runtime was 1113.5 seconds."]
+      },
+      "commands": ["python f2_h3_sigma_entry_t_five_colon_z1_reduction.py --self-test-mutations --emit"],
+      "artifact_ids": ["JC.ARTIFACT.ENTRY_Z1_REDUCTION"],
+      "resource_ids": ["JC.REPLAY.RECEIPT.ENTRY"],
+      "resource_set_ids": ["JC.REPLAY.SET.ENTRY"],
+      "receipt_ids": ["JC.REPLAY.RECEIPT.ENTRY"]
+    },
+    {
+      "id": "JC.REPLAY.EXTRACTION",
+      "class": "FAST",
+      "title": "Extraction-root bridge replay",
+      "working_directory": "replay/jc/d2_plane_72_108",
+      "environment": {
+        "runtime": "Python 3.10+",
+        "external_dependencies": [],
+        "network": "FORBIDDEN",
+        "notes": ["Uses only the Python standard library and pinned local inputs."]
+      },
+      "commands": ["python f2_roy_extraction_root_bridge.py --emit"],
+      "artifact_ids": ["JC.ARTIFACT.EXTRACTION_ROOT_BRIDGE"],
+      "resource_ids": ["JC.REPLAY.RECEIPT.EXTRACTION"],
+      "resource_set_ids": ["JC.REPLAY.SET.EXTRACTION"],
+      "receipt_ids": ["JC.REPLAY.RECEIPT.EXTRACTION"]
+    },
+    {
+      "id": "JC.REPLAY.OMEGA36",
+      "class": "FAST",
+      "title": "Actual-pair OMEGA-36 replay",
+      "working_directory": "replay/jc/d2_plane_72_108",
+      "environment": {
+        "runtime": "CPython 3.10",
+        "external_dependencies": ["sympy"],
+        "network": "FORBIDDEN",
+        "notes": ["The external research repository is provenance only and is not fetched at replay time."]
+      },
+      "commands": ["python f2_omega36_actual_pair.py --emit"],
+      "artifact_ids": ["JC.ARTIFACT.OMEGA36"],
+      "resource_ids": ["JC.REPLAY.RECEIPT.OMEGA36"],
+      "resource_set_ids": ["JC.REPLAY.SET.OMEGA36"],
+      "receipt_ids": ["JC.REPLAY.RECEIPT.OMEGA36"]
+    },
+    {
+      "id": "JC.REPLAY.ORDER6",
+      "class": "REPLAY",
+      "title": "Order-six source vertex and mutation replay",
+      "working_directory": "replay/jc/d2_plane_72_108",
+      "environment": {
+        "runtime": "Python 3.10+",
+        "external_dependencies": [],
+        "network": "FORBIDDEN",
+        "notes": ["Fresh replay passed 14 checks and refused 7 mutations."]
+      },
+      "commands": ["python -u f2_sigma_source_order6_vertex_realizability.py --emit --self-test-mutations"],
+      "artifact_ids": ["JC.ARTIFACT.ORDER6_VERTEX"],
+      "resource_ids": ["JC.REPLAY.RECEIPT.ORDER6"],
+      "resource_set_ids": ["JC.REPLAY.SET.ORDER6"],
+      "receipt_ids": ["JC.REPLAY.RECEIPT.ORDER6"]
+    },
+    {
+      "id": "JC.REPLAY.LOCAL_CONNECTING",
+      "class": "REPLAY",
+      "title": "LOCAL connecting-row rho-free replay",
+      "working_directory": "replay/jc/d2_plane_72_108/_local_finite_algebra",
+      "environment": {
+        "runtime": "CPython 3.10",
+        "external_dependencies": ["numpy"],
+        "network": "FORBIDDEN",
+        "notes": ["Fresh replay passed 38 checks without constructing rho."]
+      },
+      "commands": ["python z10_d9_connecting_map_replay.py"],
+      "artifact_ids": ["JC.ARTIFACT.LOCAL_CONNECTING_NOTE"],
+      "resource_ids": ["JC.REPLAY.RECEIPT.LOCAL_CONNECTING"],
+      "resource_set_ids": ["JC.REPLAY.SET.LOCAL_CONNECTING"],
+      "receipt_ids": ["JC.REPLAY.RECEIPT.LOCAL_CONNECTING"]
+    },
+    {
+      "id": "JC.REPLAY.LOCAL_INTEGRABILITY",
+      "class": "REPLAY",
+      "title": "LOCAL nine-row integrability replay",
+      "working_directory": "replay/jc/d2_plane_72_108/_local_finite_algebra",
+      "environment": {
+        "runtime": "CPython 3.10",
+        "external_dependencies": ["numpy"],
+        "network": "FORBIDDEN",
+        "notes": ["Fresh replay passed 19 checks including planted controls."]
+      },
+      "commands": ["python z10_d9_integrability9_replay.py"],
+      "artifact_ids": ["JC.ARTIFACT.LOCAL_RECURRENCE"],
+      "resource_ids": ["JC.REPLAY.RECEIPT.LOCAL_INTEGRABILITY"],
+      "resource_set_ids": ["JC.REPLAY.SET.LOCAL_INTEGRABILITY"],
+      "receipt_ids": ["JC.REPLAY.RECEIPT.LOCAL_INTEGRABILITY"]
     }
   ]
 }

@@ -9,7 +9,7 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 - Package version: <!--version-->0.23.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1625<!--/checks--> checks.
+- Test collection: <!--checks-->1629<!--/checks--> checks.
 
 Plain `pytest` is the full release gate. The ordinary edit loop is
 `pytest -m "not live and not replay and not exhaustive"`; deterministic frozen
@@ -19,6 +19,11 @@ The final validation for this state passed 1,419 fast tests in 140.95 seconds,
 72 replay tests with one expected skip in 278.82 seconds, six exhaustive tests
 in 48.16 seconds, and the full release gate at 1,497 passed with 41 expected
 environment-dependent skips in 392.51 seconds.
+
+The campaign replay-closure tranche separately passed 1,582 non-live tests
+with seven skips and 40 live deselections in 257.36 seconds, then passed the
+complete marker-unfiltered gate at 1,622 passed with seven skips in 773.70
+seconds. The repository now collects 1,629 tests.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
@@ -414,13 +419,23 @@ atomic rename. It refuses existing destinations, unsafe/case-colliding paths,
 unclear licenses, non-public artifacts, missing coverage, and load-bearing
 evidence without a passing exact replay lane.
 
-The synthetic fixture exercises successful archive construction under a clean
-source observation. The JC publication draft now generates its own release
-manifest and exact portrait audit under dossier-declared generator contracts.
-It therefore covers 16 of 17 required records without laundering any other
-readiness criterion. The manuscript remains the sole absent payload; six
-incomplete leaf prices, six unreplayed load-bearing notes, and source
-cleanliness remain ordinary policy blockers.
+The synthetic fixture exercises successful archive construction and then runs
+its packaged checker from inside the archive. Replay lanes now bind their exact
+working directory, runtime, external dependencies, network policy, receipts,
+and content-addressed checker/input/certificate/environment closure. A separate
+replay-kit gate can materialize reproducibility closure without pretending an
+unfinished publication profile is ready.
+
+The JC publication draft now generates its own release manifest and exact
+portrait audit under dossier-declared generator contracts. It covers 16 of 17
+required records without laundering any other readiness criterion. All six
+native computational replays pass, as does the complete 19-module formal
+preparation and its five named consumer builds with zero `sorry` declarations.
+A 152-resource lock packages those lanes; a clean detached checkout at
+`1bbdec4` audits `CURRENT_CLEAN` with zero replay blockers and materializes a
+169-file replay kit whose 167 checksum entries all match. Full publication
+still refuses exactly because the manuscript is absent and the six non-S2
+price cards remain partial or unpriced.
 
 ## Campaign publication v0
 
@@ -442,8 +457,10 @@ the newly landed preimage-free LOCAL connecting row, exact identification of
 the depth-one page with the 36-dimensional `W_10`, the formal
 `SigmaLocalConnecting` interface, and the negative 31-wide cohomology ceiling.
 A fresh local replay of `SigmaLocalConnecting` and `SigmaCurrentShadow`
-completed with zero sorry declarations. S2 remains open at the generic
-rank-nine obstruction bound and the independent upper relation bound.
+completed with zero sorry declarations. The broader archive replay also built
+all 19 closed local modules and each of the five dossier-named formal consumers
+with zero sorry declarations. S2 remains open at the generic rank-nine
+obstruction bound and the independent upper relation bound.
 
 Before either provisional schema freezes, one non-JC campaign must exercise
 the same claim grades, price cards, terminal profiles, and public-release path.

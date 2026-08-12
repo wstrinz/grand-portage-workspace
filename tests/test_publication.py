@@ -39,7 +39,7 @@ def test_portrait_audit_is_dependency_complete_and_not_authority():
     assert "JC.LOCAL.FINITE_ALGEBRA" in audit
     assert "matching finite-algebra bounds" in audit
     assert "JC.ARTIFACT.LOCAL_RECURRENCE" in audit
-    assert "NOT_RUN" in audit
+    assert "PASS" in audit
     assert audit.count("DERIVED_READ_MODEL_ONLY") == 1
 
 
@@ -52,7 +52,8 @@ def test_manuscript_tables_keep_residuals_retirements_and_blockers_distinct():
     assert "SIEGE" in tables
     assert "JC.S1_PRIME" in tables and "UNPRICED" in tables
     assert "JC.ARTIFACT.MANUSCRIPT" in tables
-    assert "REPLAY_DEBT" in tables
+    assert "REPLAY_RESOURCE_NOT_AUDITED" in tables
+    assert "REPLAY_DEBT" not in tables
     assert "## Replay and archival matrix" in tables
 
 

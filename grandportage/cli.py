@@ -2215,12 +2215,14 @@ def cmd_campaign_release(args):
     """Compile or materialize a content-addressed campaign release."""
     try:
         release = RELEASE.build_path(args.input, source_root=args.source_root)
-        if args.output_dir:
+        output_dir = args.output_dir or args.replay_kit_dir
+        if output_dir:
             if not args.source_root:
                 raise RELEASE.ReleaseError(
-                    "--output-dir requires --source-root for a fresh payload audit")
-            report = RELEASE.materialize(
-                release, args.source_root, args.output_dir)
+                    "materialization requires --source-root for a fresh payload audit")
+            materializer = (RELEASE.materialize_replay_kit
+                            if args.replay_kit_dir else RELEASE.materialize)
+            report = materializer(release, args.source_root, output_dir)
             output = RELEASE.canonical_json(report, pretty=not args.compact)
         elif args.format == "human":
             output = RELEASE.render(release)
@@ -2230,7 +2232,9 @@ def cmd_campaign_release(args):
         sys.stderr.write("campaign-release refused: %s\n" % exc)
         return 2
     sys.stdout.write(output)
-    if args.require_ready and not release["materializable"]:
+    readiness = (release["replay_materializable"] if args.replay_kit_dir
+                 else release["materializable"])
+    if args.require_ready and not readiness:
         return 1
     return 0
 
@@ -2377,8 +2381,13 @@ def build_parser():
     cr.add_argument("input", help="campaign-release-input/v0 JSON document")
     cr.add_argument("--source-root",
                     help="audit and copy bound source payloads from here")
-    cr.add_argument("--output-dir",
-                    help="materialize a ready release into this new directory")
+    cr_output = cr.add_mutually_exclusive_group()
+    cr_output.add_argument(
+        "--output-dir",
+        help="materialize a publication-ready release into this new directory")
+    cr_output.add_argument(
+        "--replay-kit-dir",
+        help="materialize replay closure without requiring publication readiness")
     cr.add_argument("--require-ready", action="store_true",
                     help="exit 1 when the release still has blockers")
     cr.add_argument("--format", choices=("json", "human"), default="json",

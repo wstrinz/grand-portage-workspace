@@ -30,7 +30,7 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1625<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1629<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
@@ -49,7 +49,7 @@ for the first, written up in full.
 * `gp frontier-bundle MANIFEST.json` - fail-closed aggregation with explicit overlap resolution
 * `gp campaign-packet MANIFEST.json` / `gp campaign-ledger MANIFEST.json` - provisional research operations with graph effect `NONE`
 * `gp campaign-dossier INPUT.json --source-root CHECKOUT` - publication/gold blockers with source freshness and no graph authority
-* `gp campaign-release RELEASE.json --source-root CHECKOUT [--output-dir NEW_DIR]` - compile or materialize a clean archival package
+* `gp campaign-release RELEASE.json --source-root CHECKOUT [--output-dir NEW_DIR|--replay-kit-dir NEW_DIR]` - compile a release, materialize a publication-ready archive, or materialize replay closure independently
 * `gp campaign-publication RELEASE.json [--document portrait-audit|manuscript-tables]` - generate author/reviewer closeout tables
 
 Five further documents live in the private workspace only — `HANDOFF.md` and
@@ -83,7 +83,7 @@ What they contain, since the summaries name no domain:
 | projection | `grandportage/frontier.py`, `frontier_bundle.py`, `projection.py`, `visualization.py` | versioned proof frontier and bundle, campaign read model, and guided Three.js explorer |
 | campaign operations | `grandportage/campaign.py` | provisional task packets, immutable attempt ledger, and maturity/debt overlay; derived only |
 | campaign closeout | `grandportage/dossier.py` | graded portrait, leaf-price ledger, source freshness, and closeout profile evaluation; derived only |
-| campaign release | `grandportage/release.py` | transitive archival coverage, replay and licensing debt, checksums, and safe materialization; derived only |
+| campaign release | `grandportage/release.py` | transitive archival coverage, self-contained replay resources, licensing debt, checksums, and safe full/replay-kit materialization; derived only |
 | campaign publication | `grandportage/publication.py` | exact-scope dependency cards and manuscript-ready residual/replay/blocker tables; derived only |
 | evidence manifest | `grandportage/evidence.py` | shared affine context, envelope, compilation targets, and graph-effect boundaries |
 | discharge | `grandportage/discharge.py` | refusal → canonical next move |
@@ -397,7 +397,7 @@ Three.js build by default; `--three-root` can point it at a local package.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1625<!--/checks--> checks
+python -m pytest        # <!--checks-->1629<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two
