@@ -9,7 +9,7 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 - Package version: <!--version-->0.23.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1591<!--/checks--> checks.
+- Test collection: <!--checks-->1625<!--/checks--> checks.
 
 Plain `pytest` is the full release gate. The ordinary edit loop is
 `pytest -m "not live and not replay and not exhaustive"`; deterministic frozen
@@ -375,6 +375,78 @@ The RTS projection, planner, distribution layer, and `v1` schema freeze remain
 deferred. The next gate is a genuinely cold agent run against the generated
 active packet, followed by failure-matrix classification and one template
 repair round.
+
+## Campaign dossier v0
+
+The first closeout/restart surface now lives in `grandportage/dossier.py`.
+`gp campaign-dossier` compiles a graded campaign portrait, theorem-facing leaf
+price cards, an artifact/replay inventory, and named closeout profiles. It is
+strictly `DERIVED_READ_MODEL_ONLY` with graph effect `NONE`.
+
+Source audit distinguishes an unchecked portable dossier, an unavailable
+checkout, commit or digest drift, a matching dirty tree, and a matching clean
+tree. Profiles can require a clean current source, exact claim grades, fully
+priced open leaves, closed leaves, present artifacts, and passing replays.
+Reconnaissance artifacts cannot be used as load-bearing support for proved,
+checked, conditional, or cited claims. Open leaves require a next accepted
+object and an explicit resume condition; retired representations require exact
+reasons.
+
+The self-contained synthetic fixture demonstrates a short-of-summit publication
+flag alongside a blocked gold flag. The first live fixture binds JC's current
+`(75,125)` portrait and separately evaluates its publication and gold flags. It
+currently exposes the intended blockers rather than manufacturing readiness:
+source freshness, the current-head portrait audit, six non-S2 price cards, the
+release manifest, the manuscript, and exact S2 closure for gold.
+
+## Campaign release v0
+
+The archival release layer now lives in `grandportage/release.py`.
+`gp campaign-release` binds an exact dossier input, chooses one closeout
+profile, computes its transitive canonical-source and evidence coverage, and
+reports replay, licensing, public-disposition, source, and profile debt. It is
+strictly `DERIVED_READ_MODEL_ONLY` with graph effect `NONE`.
+
+Only a projected-ready profile observed at a clean matching source can be
+materialized. The writer rechecks every selected digest, stages into a new
+directory, and emits `manifest.json`, `SHA256SUMS`, and `REPLAY.md` before an
+atomic rename. It refuses existing destinations, unsafe/case-colliding paths,
+unclear licenses, non-public artifacts, missing coverage, and load-bearing
+evidence without a passing exact replay lane.
+
+The synthetic fixture exercises successful archive construction under a clean
+source observation. The JC publication draft now generates its own release
+manifest and exact portrait audit under dossier-declared generator contracts.
+It therefore covers 16 of 17 required records without laundering any other
+readiness criterion. The manuscript remains the sole absent payload; six
+incomplete leaf prices, six unreplayed load-bearing notes, and source
+cleanliness remain ordinary policy blockers.
+
+## Campaign publication v0
+
+`grandportage/publication.py` projects the same release observation into exact
+portrait dependency cards and manuscript-ready portrait, residual-price,
+retired-representation, replay, and blocker tables. `gp campaign-publication`
+can emit the complete structured JSON or render a full report, portrait audit,
+or manuscript tables as deterministic Markdown.
+
+The projection preserves claim scopes, the proved/conditional distinction,
+assumptions, consumers, evidence grades and roles, replay lanes, archive paths,
+and license status. It repeatedly marks itself
+`DERIVED_READ_MODEL_ONLY`; editorial tables do not become a manuscript or
+mathematical authority. Output writes are atomic and protect both the release
+input and existing files by default.
+
+The current JC adapter is now pinned to committed head `1bbdec4`. It includes
+the newly landed preimage-free LOCAL connecting row, exact identification of
+the depth-one page with the 36-dimensional `W_10`, the formal
+`SigmaLocalConnecting` interface, and the negative 31-wide cohomology ceiling.
+A fresh local replay of `SigmaLocalConnecting` and `SigmaCurrentShadow`
+completed with zero sorry declarations. S2 remains open at the generic
+rank-nine obstruction bound and the independent upper relation bound.
+
+Before either provisional schema freezes, one non-JC campaign must exercise
+the same claim grades, price cards, terminal profiles, and public-release path.
 
 ## Experiments
 

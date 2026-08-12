@@ -30,7 +30,7 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1591<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1625<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
@@ -42,9 +42,15 @@ for the first, written up in full.
 * [JC `dm4` polynomial-lift audit](docs/JC-DM4-POLYNOMIAL-LIFT.md) - corrected valuation proof spine and remaining obligations
 * [Campaign projections and Three.js explorer](docs/VISUALIZATION.md) - read-only review artifacts and local visualization
 * [Portage Command v0](docs/PORTAGE-COMMAND-V0.md) - digest-bound research packets, attempt ledger, and verification-debt overlay
+* [Campaign dossier v0](docs/CAMPAIGN-DOSSIER-V0.md) - graded portraits, residual price cards, artifact replay inventory, and profile-based closeout readiness
+* [Campaign release v0](docs/CAMPAIGN-RELEASE-V0.md) - transitive profile coverage, replay/licensing debt, and fail-closed content-addressed archives
+* [Campaign publication v0](docs/CAMPAIGN-PUBLICATION-V0.md) - exact-scope portrait audit and manuscript-ready residual, replay, and blocker tables
 * `gp frontier INPUT.json` - exact-scope proof-state linking over immutable evidence envelopes
 * `gp frontier-bundle MANIFEST.json` - fail-closed aggregation with explicit overlap resolution
 * `gp campaign-packet MANIFEST.json` / `gp campaign-ledger MANIFEST.json` - provisional research operations with graph effect `NONE`
+* `gp campaign-dossier INPUT.json --source-root CHECKOUT` - publication/gold blockers with source freshness and no graph authority
+* `gp campaign-release RELEASE.json --source-root CHECKOUT [--output-dir NEW_DIR]` - compile or materialize a clean archival package
+* `gp campaign-publication RELEASE.json [--document portrait-audit|manuscript-tables]` - generate author/reviewer closeout tables
 
 Five further documents live in the private workspace only — `HANDOFF.md` and
 `TESTPLAN.md` because they describe traps in blind trials not yet run, and
@@ -76,6 +82,9 @@ What they contain, since the summaries name no domain:
 | checker | `grandportage/check.py` | findings, derived severities, exit code |
 | projection | `grandportage/frontier.py`, `frontier_bundle.py`, `projection.py`, `visualization.py` | versioned proof frontier and bundle, campaign read model, and guided Three.js explorer |
 | campaign operations | `grandportage/campaign.py` | provisional task packets, immutable attempt ledger, and maturity/debt overlay; derived only |
+| campaign closeout | `grandportage/dossier.py` | graded portrait, leaf-price ledger, source freshness, and closeout profile evaluation; derived only |
+| campaign release | `grandportage/release.py` | transitive archival coverage, replay and licensing debt, checksums, and safe materialization; derived only |
+| campaign publication | `grandportage/publication.py` | exact-scope dependency cards and manuscript-ready residual/replay/blocker tables; derived only |
 | evidence manifest | `grandportage/evidence.py` | shared affine context, envelope, compilation targets, and graph-effect boundaries |
 | discharge | `grandportage/discharge.py` | refusal → canonical next move |
 | CAS + MCP | `grandportage/cas.py`, `mcp.py` | **declare the transport or no process spawns** |
@@ -388,7 +397,7 @@ Three.js build by default; `--three-root` can point it at a local package.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1591<!--/checks--> checks
+python -m pytest        # <!--checks-->1625<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

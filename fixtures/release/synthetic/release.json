@@ -1,0 +1,45 @@
+{
+  "schema": "campaign-release-input/v0",
+  "authority": "DERIVED_READ_MODEL_ONLY",
+  "graph_effect": "NONE",
+  "root": "../../..",
+  "dossier": {
+    "path": "fixtures/dossier/synthetic/dossier.json",
+    "digest_algo": "sha256-lf-normalized",
+    "sha256": "4344e2439ccaccca39fb9e478e1e1a7aa43f546370dd9cf4178dd8ce463eb739"
+  },
+  "profile_id": "SYNTHETIC.PUBLICATION_FLAG",
+  "package": {
+    "id": "SYNTHETIC.RELEASE",
+    "title": "Synthetic publication release",
+    "version": "v0"
+  },
+  "generated_artifacts": [],
+  "items": [
+    {
+      "id": "SYNTHETIC.AUTHORITY",
+      "kind": "SOURCE",
+      "release_path": "authority/authority.md",
+      "payload_class": "SOURCE",
+      "license_status": "CLEAR",
+      "provenance": "Canonical authority source bound by the dossier."
+    },
+    {
+      "id": "SYNTHETIC.PROOF",
+      "kind": "ARTIFACT",
+      "release_path": "receipts/proof.txt",
+      "payload_class": "COMPACT_RECEIPT",
+      "license_status": "CLEAR",
+      "provenance": "Exact compact receipt supporting the portrait and leaf ledger."
+    }
+  ],
+  "replay_lanes": [
+    {
+      "id": "SYNTHETIC.REPLAY.FAST",
+      "class": "FAST",
+      "title": "Synthetic exact replay",
+      "commands": ["python verify_synthetic.py"],
+      "artifact_ids": ["SYNTHETIC.PROOF"]
+    }
+  ]
+}
