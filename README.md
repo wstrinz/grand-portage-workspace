@@ -30,12 +30,13 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1629<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1649<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
 * **[COMPATIBILITY.md](COMPATIBILITY.md) — graph format 4, kernel epoch 10, proof-carrying mapped equivalences, durable artifacts, and conservative migration**
 * **[QUICKSTART.md](QUICKSTART.md) — install, a campaign in ten minutes, and the three things worth knowing on day one**
+* **[v0.24 release packet](review/v0.24/README.md) — public boundary, validation, and review map**
 * [DESIGN.md](DESIGN.md) — architecture and the decisions behind it
 * [REVIEW.md](REVIEW.md) — **where I am least confident**, for a reviewer
 * [Foundations and prior art](docs/FOUNDATIONS-PRIOR-ART.md) - bounded research questions and deliberate deferrals
@@ -45,6 +46,7 @@ for the first, written up in full.
 * [Campaign dossier v0](docs/CAMPAIGN-DOSSIER-V0.md) - graded portraits, residual price cards, artifact replay inventory, and profile-based closeout readiness
 * [Campaign release v0](docs/CAMPAIGN-RELEASE-V0.md) - transitive profile coverage, replay/licensing debt, and fail-closed content-addressed archives
 * [Campaign publication v0](docs/CAMPAIGN-PUBLICATION-V0.md) - exact-scope portrait audit and manuscript-ready residual, replay, and blocker tables
+* [JC formalization transport ledger v0](experiments/jc_formalization_transport/README.md) - theorem-bound Lean/GP crossing assay with no graph authority
 * `gp frontier INPUT.json` - exact-scope proof-state linking over immutable evidence envelopes
 * `gp frontier-bundle MANIFEST.json` - fail-closed aggregation with explicit overlap resolution
 * `gp campaign-packet MANIFEST.json` / `gp campaign-ledger MANIFEST.json` - provisional research operations with graph effect `NONE`
@@ -385,6 +387,7 @@ gp frontier frontier-input.json    # scoped premise updates and open research bo
 gp frontier-bundle fixtures/frontier/current_v1.json  # current cross-consumer boundary
 gp campaign-packet fixtures/campaign/jc_sigma/packets.json --format human
 gp campaign-ledger fixtures/campaign/jc_sigma/ledger.json --overlay
+python scripts/public_snapshot.py  # audit the public/private release boundary
 
 gp --graph fixtures/jc2/graph.jsonl check      # the JC(2) retrodiction
 gp --graph fixtures/matroid/graph.jsonl check  # the matroid retrodiction
@@ -397,7 +400,7 @@ Three.js build by default; `--three-root` can point it at a local package.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1629<!--/checks--> checks
+python -m pytest        # <!--checks-->1649<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two
