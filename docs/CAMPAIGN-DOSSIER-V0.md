@@ -52,7 +52,7 @@ replay, and standalone formalization are present. The publication profile is
 still blocked by a dirty canonical source observation and absent independent
 human review, while every mathematical residual is already priced. The
 exclusion profile remains blocked because those residuals are genuinely open.
-This uses the existing v0 schema and leaves graph format 4 and kernel epoch 10
+This uses the existing v0 schema and leaves graph format 5 and kernel epoch 10
 untouched.
 
 The companion experimental audit compares that portrait with the literal

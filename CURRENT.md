@@ -6,23 +6,20 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 
 ## Release boundary
 
-- Package version: <!--version-->0.24.0<!--/version-->.
-- Graph format: <!--graph-format-->4<!--/graph-format-->.
+- Package version: <!--version-->0.25.0<!--/version-->.
+- Graph format: <!--graph-format-->5<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1658<!--/checks--> checks.
+- Test collection: <!--checks-->1682<!--/checks--> checks.
 
 Plain `pytest` is the conceptual full release gate. The ordinary edit loop is
 `pytest -m "not live and not replay and not exhaustive"`; deterministic frozen
 campaign replay and real-CAS checks have separate `replay` and `live` lanes,
 and the largest finite reconstructions are marked `exhaustive`.
 
-The v0.24 release partition covers all 1,649 collected tests. The ordinary
-deterministic lane passed 1,522 with eight expected skips in 43.03 seconds;
-replay passed 72 with one expected skip in 313.82 seconds; exhaustive passed
-six in 48.97 seconds; and the live WSL/Singular lane passed 40 in 542.11
-seconds. A marker-unfiltered single process exceeded its 1,200-second host
-wrapper without reporting a test failure; the four disjoint documented lanes
-then passed with 1,640 total passes and nine expected skips.
+The v0.25 release gate is recorded in `review/v0.25/README.md`. It separates
+ordinary deterministic, frozen replay, exhaustive reconstruction, and live
+WSL/Singular lanes so every collected test is accounted for without making
+backend availability implicit.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.

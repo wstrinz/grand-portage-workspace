@@ -40,13 +40,13 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.24.0. <!--checks-->1658<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.25.0. <!--checks-->1682<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
 structured operations dispatch through semantic `SingularBackend` methods and
 retain immutable execution artifacts. Backend protocol 2 / Singular
-implementation 3 gives every trace entry a content address for a complete
+implementation 4 gives every trace entry a content address for a complete
 canonical envelope: exact nonce-bearing program, argv, process status, stdout,
 stderr, parsed output, and certificate. Objects are published under
 `.portage/artifacts/sha256/` before a graph-affecting operation reference or
@@ -617,7 +617,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1658<!--/checks--> checks, ~300 s on the current development machine) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1682<!--/checks--> checks, ~300 s on the current development machine) |
 
 ---
 
@@ -724,7 +724,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1658<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1682<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -1695,3 +1695,34 @@ in 542.11 seconds. The marker-unfiltered one-process invocation hit its
 1,640 passes and nine expected skips. A focused 70-test release/architecture
 gate passed with two intentional moving-JC skips, and the 0.24.0 wheel built
 successfully.
+
+## 2026-08-22 - v0.25 ARR15 implementation wave
+
+ARR15 exposed three implementation defects without earning a new affine
+semantic primitive. The family checker prescribed `family.enumeration`, but
+the closed native/MCP schema refused that field. Format 5 now admits the
+reference and the checker requires a same-family PREDICATE count claim backed
+by current exact ENUMERATION evidence with `decides: BOTH`. The 173-member n14
+manifest passes through the public declaration surface; naked and mismatched
+counts remain refused.
+
+Singular version discovery now closes stdin and fails closed on timeouts,
+nonzero exits, and unidentifiable banners. Backend implementation 4 is compared
+on persisted graph reload, so an unchanged real backend can consume its
+verdict after a fresh process starts. The eight preserved E10 verdicts whose
+historical binary identity is `unavailable` remain stale by design.
+
+Format 5 adds a closed implementation identity to graph metadata. `gp
+--version`, MCP `serverInfo`, `gp doctor`, and new graph headers agree on the
+package, exact source revision and dirty state, graph/kernel versions, MCP
+protocol, and backend implementation/protocol. The kernel stays at epoch 10:
+no transport type, model claim kind, or transport cell changed.
+
+The agent-facing custody surface now includes root-pinned `gp init --mcp`,
+read-only `gp doctor`, generated `gp schema`, complete folded event state,
+fingerprinted `gp check --since` classification, and presentation-aware merge
+diagnostics. The immutable E10 replay tool validates both recorded source
+hashes, migrates copies only, and reproduces the four hard merge conflicts.
+Finite database filtering remains outside the affine edge kernel; structured
+algebraic witnesses and inert measurement/profile custody remain deferred
+semantic-regime work.

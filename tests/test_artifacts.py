@@ -7,6 +7,7 @@ import pytest
 
 from grandportage import artifacts as A
 from grandportage import backend as B
+from grandportage import cas
 from grandportage import cli
 from grandportage import kernel as K
 from grandportage import provenance as P
@@ -150,7 +151,7 @@ def test_persist_all_uses_content_addresses_in_execution_order(tmp_path):
 
 
 def test_cli_audits_referenced_objects_without_changing_graph_fold(
-        tmp_path, capsys):
+        tmp_path, capsys, monkeypatch):
     root = str(tmp_path)
     S.append([
         {"ev": "model", "id": "M", "what": "origin",
@@ -161,6 +162,9 @@ def test_cli_audits_referenced_objects_without_changing_graph_fold(
     ], root)
     graph = S.load(S.graph_path(root))
     artifact = _artifact()
+    monkeypatch.setitem(
+        cas._BINARY_VERSION_CACHE, tuple(cas._argv()),
+        artifact.backend.binary_version)
     A.persist(root, artifact)
     verdict = V._verdict_event(
         graph, "claim", "C", "VERIFIED_DERIVED", "test reduction",

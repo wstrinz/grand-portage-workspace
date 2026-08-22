@@ -28,13 +28,13 @@ def test_init_starts_with_epoch_metadata(tmp_path):
     path = S.graph_path(str(tmp_path))
     events = list(S.load_events(path))
     meta = events[0][0]
-    assert meta["created_with"] == "grandportage/0.24.0"
+    assert meta["created_with"] == "grandportage/0.25.0"
     assert meta["ev"] == "meta"
     assert meta["graph_format"] == F.GRAPH_FORMAT
     assert meta["kernel_epoch"] == F.KERNEL_EPOCH
     assert meta["implementation"]["graph_format"] == F.GRAPH_FORMAT
     assert meta["implementation"]["kernel_epoch"] == F.KERNEL_EPOCH
-    assert meta["implementation"]["package_version"] == "0.24.0"
+    assert meta["implementation"]["package_version"] == "0.25.0"
     assert set(meta) == {
         "created_with", "ev", "graph_format", "implementation",
         "kernel_epoch",

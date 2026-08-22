@@ -2747,6 +2747,9 @@ def test_verify_all_actually_writes_and_the_finding_goes_away(
     runner = _fake_run(stdout="@@GP_D:\ny2-x3\n@@GP_RED:\n0\n")
     backend = cas.SingularBackend(
         runner=runner, binary_version="Singular 4.2.1 test fixture")
+    monkeypatch.setitem(
+        cas._BINARY_VERSION_CACHE, tuple(cas._argv()),
+        backend.identity.binary_version)
     monkeypatch.setattr(
         cas.SingularBackend, "can_record_verdicts", property(lambda _self: True))
     results = V.verify_all(root=root, backend=backend, record=True)
@@ -4093,6 +4096,9 @@ def test_one_bad_object_does_not_cost_the_whole_run(tmp_path, monkeypatch):
 
     backend = cas.SingularBackend(
         runner=runner, binary_version="Singular 4.2.1 test fixture")
+    monkeypatch.setitem(
+        cas._BINARY_VERSION_CACHE, tuple(cas._argv()),
+        backend.identity.binary_version)
     monkeypatch.setattr(
         cas.SingularBackend, "can_record_verdicts", property(lambda _self: True))
     results = V.verify_all(root=root, backend=backend, record=True)

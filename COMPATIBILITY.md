@@ -312,6 +312,29 @@ interpretation. A syntax-only extension can bump `graph_format`; transport
 meaning or verifier trust bumps `kernel_epoch` or the narrower verifier/backend
 implementation version as appropriate.
 
+Version 0.25.0 advances to **graph format 5** and keeps **kernel epoch 10**.
+Format 5 makes the implementation identity in every native graph header exact
+and closed: package version, source commit, dirty state, graph format, kernel
+epoch, MCP protocol, and backend implementation/protocol versions travel
+together. Format-4 headers do not contain those fields and are not rewritten in
+place; `gp migrate --to-current-kernel` copies them into a format-5 graph and
+records the source digest in its audit receipt.
+
+This is a provenance syntax boundary, not a new mathematical licence. The six
+exact-affine transport types, four model claim kinds, transport cells, and
+kernel meaning are unchanged, so epoch 10 remains current. Singular backend
+implementation version 4 closes stdin during binary discovery and persisted
+verdict freshness now compares the executing binary identity after reload.
+Unknown, timed-out, failed, or historical `unavailable` identities remain
+stale. The narrower backend implementation version changes; the kernel does
+not.
+
+The same release closes the existing census-family completeness contract and
+adds agent-facing inspection, root diagnostics, schema introspection, immutable
+finding deltas, and presentation-safe merge guidance. These surfaces do not
+add a database-filter edge, census-to-affine transport, algebraic-witness field
+extension, or measurement authority.
+
 ## Epoch-0 graphs
 
 Unversioned graphs are epoch 0. Version 0.14 continues to read them through a conservative,

@@ -30,13 +30,13 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1658<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1682<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
-* **[COMPATIBILITY.md](COMPATIBILITY.md) — graph format 4, kernel epoch 10, proof-carrying mapped equivalences, durable artifacts, and conservative migration**
+* **[COMPATIBILITY.md](COMPATIBILITY.md) — graph format 5, kernel epoch 10, exact implementation provenance, durable artifacts, and conservative migration**
 * **[QUICKSTART.md](QUICKSTART.md) — install, a campaign in ten minutes, and the three things worth knowing on day one**
-* **[v0.24 release packet](review/v0.24/README.md) — public boundary, validation, and review map**
+* **[v0.25 release packet](review/v0.25/README.md) — ARR15 contract closure, immutable replay, validation, and review map**
 * [DESIGN.md](DESIGN.md) — architecture and the decisions behind it
 * [REVIEW.md](REVIEW.md) — **where I am least confident**, for a reviewer
 * [Foundations and prior art](docs/FOUNDATIONS-PRIOR-ART.md) - bounded research questions and deliberate deferrals
@@ -400,7 +400,7 @@ Three.js build by default; `--three-root` can point it at a local package.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1658<!--/checks--> checks
+python -m pytest        # <!--checks-->1682<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two
