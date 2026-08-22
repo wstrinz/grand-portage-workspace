@@ -13,6 +13,7 @@ import json
 import os
 from pathlib import Path
 import re
+import subprocess
 from typing import Iterable
 
 from grandportage import dossier as D
@@ -75,11 +76,24 @@ def _finding(item_id: str, status: str, title: str, detail: str, **data):
 
 def analyze(*, dossier, manifest, gate_b_rows,
             export_paths: Iterable[str], canonical_paths: Iterable[str] = (),
-            formalization=None):
+            formalization=None, source_observation=None):
     """Analyze already-loaded observations without reading or executing files."""
     export_paths = {Path(item).as_posix() for item in export_paths}
     canonical_paths = {Path(item).as_posix() for item in canonical_paths}
     findings = []
+
+    if source_observation:
+        findings.append(_finding(
+            "SOURCE.IMMUTABLE_REF", "PASS",
+            "Canonical source is observed at an immutable Git commit",
+            "The audit reads declared paths from Git objects, not the live worktree.",
+            **source_observation))
+    else:
+        findings.append(_finding(
+            "SOURCE.IMMUTABLE_REF", "NOTE",
+            "Canonical source observation is worktree-relative",
+            "Pass --source-ref to audit the immutable source commit named by "
+            "the publication instead of the live checkout."))
 
     profiles = {item["id"]: item for item in dossier["profiles"]}
     claims = {item["id"] for item in dossier["claims"]}
@@ -349,7 +363,18 @@ def analyze(*, dossier, manifest, gate_b_rows,
     }
 
 
-def audit_paths(dossier_path, source_root, export_root=None):
+def _git(repo: Path, *args: str) -> str:
+    result = subprocess.run(
+        ["git", "-c", "safe.directory=%s" % repo, "-C", str(repo), *args],
+        text=True, capture_output=True)
+    if result.returncode:
+        raise RuntimeError(
+            "git %s failed in %s: %s" %
+            (" ".join(args), repo, result.stderr.strip()))
+    return result.stdout.strip()
+
+
+def audit_paths(dossier_path, source_root, export_root=None, source_ref=None):
     """Load one live source observation and produce the derived audit.
 
     ``source_root`` remains the canonical campaign checkout used by the
@@ -359,13 +384,17 @@ def audit_paths(dossier_path, source_root, export_root=None):
     a source root that is itself the public repository.
     """
     source_root = Path(source_root).resolve()
+    resolved_commit = (_git(source_root, "rev-parse", "--verify",
+                            source_ref + "^{commit}")
+                       if source_ref is not None else None)
     if export_root is None:
         direct_manifest = source_root / "artifacts" / "release-manifest.json"
         export_root = (source_root if direct_manifest.is_file() else
                        source_root / "_public_export_75_125")
     else:
         export_root = Path(export_root).resolve()
-    dossier = D.build_path(dossier_path, source_root=source_root)
+    dossier = D.build_path(
+        dossier_path, source_root=source_root, source_ref=source_ref)
     manifest = json.loads(
         (export_root / "artifacts" / "release-manifest.json").read_text(
             encoding="utf-8"))
@@ -379,16 +408,27 @@ def audit_paths(dossier_path, source_root, export_root=None):
         export_paths.update(
             (root / name).relative_to(export_root).as_posix()
             for name in files)
+
+    def canonical_exists(relative):
+        if resolved_commit is None:
+            return (source_root / relative).is_file()
+        result = subprocess.run(
+            ["git", "-c", "safe.directory=%s" % source_root,
+             "-C", str(source_root), "cat-file", "-e",
+             "%s:%s" % (resolved_commit, Path(relative).as_posix())],
+            capture_output=True)
+        return result.returncode == 0
+
     canonical_candidates = set()
     for row in rows:
         for field in ("artifact", "checker"):
             for token in row.get(field, "").split(";"):
                 token = token.strip()
                 if (token.startswith("d2_plane_72_108/") and
-                        (source_root / token).is_file()):
+                        canonical_exists(token)):
                     canonical_candidates.add(Path(token).as_posix())
     for candidate in CANONICAL_CHECKER_CANDIDATES.values():
-        if (source_root / candidate).is_file():
+        if canonical_exists(candidate):
             canonical_candidates.add(Path(candidate).as_posix())
     formalization = None
     if FORMALIZATION_REQUIRED <= export_paths:
@@ -403,10 +443,13 @@ def audit_paths(dossier_path, source_root, export_root=None):
             "metadata": (export_root / "formalization/formalization.yaml").read_text(
                 encoding="utf-8"),
         }
-    return analyze(dossier=dossier, manifest=manifest, gate_b_rows=rows,
-                   export_paths=export_paths,
-                   canonical_paths=canonical_candidates,
-                   formalization=formalization)
+    source_observation = (
+        {"requested_ref": source_ref, "commit": resolved_commit}
+        if source_ref is not None else None)
+    return analyze(
+        dossier=dossier, manifest=manifest, gate_b_rows=rows,
+        export_paths=export_paths, canonical_paths=canonical_candidates,
+        formalization=formalization, source_observation=source_observation)
 
 
 def render_human(report):
@@ -434,6 +477,10 @@ def main(argv=None):
     parser.add_argument("dossier")
     parser.add_argument("--source-root", required=True)
     parser.add_argument(
+        "--source-ref",
+        help=("immutable Git ref/commit to export from --source-root; when "
+              "omitted the live worktree is observed for backward compatibility"))
+    parser.add_argument(
         "--export-root",
         help=("published export checkout; defaults to SOURCE_ROOT itself when "
               "it contains artifacts/release-manifest.json, otherwise to "
@@ -441,7 +488,8 @@ def main(argv=None):
     parser.add_argument("--format", choices=("human", "json"), default="human")
     parser.add_argument("--require-clear", action="store_true")
     args = parser.parse_args(argv)
-    report = audit_paths(args.dossier, args.source_root, args.export_root)
+    report = audit_paths(
+        args.dossier, args.source_root, args.export_root, args.source_ref)
     if args.format == "json":
         print(json.dumps(report, indent=2, sort_keys=True))
     else:

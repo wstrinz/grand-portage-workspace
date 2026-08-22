@@ -1,5 +1,7 @@
 from pathlib import Path
+import hashlib
 import os
+import subprocess
 
 from grandportage import dossier as D
 from experiments.f2_75_125_publication import adapter as A
@@ -211,3 +213,59 @@ def test_export_scan_prunes_build_and_vcs_trees(tmp_path, monkeypatch):
     assert "kept" in seen
     assert not any(part in A.EXPORT_SCAN_EXCLUDES
                    for directory in seen for part in Path(directory).parts)
+
+
+def test_git_object_source_audit_ignores_live_worktree_drift(tmp_path):
+    repo = tmp_path / "source"
+    repo.mkdir()
+
+    def git(*args):
+        subprocess.run(["git", "-C", str(repo), *args], check=True,
+                       capture_output=True, text=True)
+
+    git("init")
+    git("config", "user.email", "audit@example.test")
+    git("config", "user.name", "Audit Fixture")
+    tracked = repo / "claim.txt"
+    tracked.write_text("frozen\n", encoding="utf-8")
+    git("add", "claim.txt")
+    git("commit", "-m", "freeze")
+    commit = subprocess.run(
+        ["git", "-C", str(repo), "rev-parse", "HEAD"], check=True,
+        capture_output=True, text=True).stdout.strip()
+
+    tracked.write_text("dirty-live-value\n", encoding="utf-8")
+    (repo / "untracked.txt").write_text("not in release\n", encoding="utf-8")
+
+    source = {
+        "expected_commit": commit[:12],
+        "canonical_sources": [{
+            "id": "SOURCE.CLAIM",
+            "path": "claim.txt",
+            "sha256": "sha256:" + hashlib.sha256(b"frozen\n").hexdigest(),
+        }],
+    }
+    frozen = D._audit_source(source, [], repo, source_ref=commit)
+    live = D._audit_source(source, [], repo)
+
+    assert frozen["status"] == "CURRENT_CLEAN"
+    assert frozen["source_ref"] == commit
+    assert frozen["dirty"] is False
+    assert frozen["files"][0]["status"] == "MATCH"
+    assert live["status"] == "STALE"
+    assert live["dirty"] is True
+    assert tracked.read_text(encoding="utf-8") == "dirty-live-value\n"
+
+
+def test_source_observation_finding_distinguishes_ref_from_worktree():
+    dossier = D.build_path(DOSSIER)
+    common = dict(dossier=dossier, manifest=_manifest(True),
+                  gate_b_rows=_rows(), export_paths=set())
+    live = A.analyze(**common)
+    frozen = A.analyze(
+        **common, source_observation={"requested_ref": "freeze", "commit": "a" * 40})
+
+    assert _findings(live)["SOURCE.IMMUTABLE_REF"]["status"] == "NOTE"
+    finding = _findings(frozen)["SOURCE.IMMUTABLE_REF"]
+    assert finding["status"] == "PASS"
+    assert finding["commit"] == "a" * 40

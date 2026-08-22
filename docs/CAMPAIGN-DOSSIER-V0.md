@@ -65,6 +65,7 @@ closure. It reports both blockers and conservative-custody opportunities:
 python -m experiments.f2_75_125_publication.adapter \
   fixtures/dossier/f2_75_125_publication/dossier.json \
   --source-root ../math-stuff \
+  --source-ref 96da278f \
   --export-root ../plane-jacobian-75-125 --require-clear
 ```
 
@@ -76,6 +77,13 @@ checkout, the compiler checks:
 - every canonical coordination-source digest;
 - every present artifact digest;
 - working-tree dirt.
+
+Publication adapters may instead pass `source_ref` to `build`/`build_path`.
+In that mode the compiler resolves the full commit and hashes each declared
+source/artifact directly with `git show COMMIT:PATH`; worktree dirt is outside
+the observation by construction. This is the preferred mode for an immutable
+release audit. The command above exposes it as `--source-ref` in the Family-F2
+publication adapter.
 
 The resulting source status is one of:
 
