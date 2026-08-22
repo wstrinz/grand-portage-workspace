@@ -276,9 +276,18 @@ def analyze(*, dossier, manifest, gate_b_rows,
         deliberate_hole = re.search(r"\bby\s+sorry\b", challenge) is not None
         proved_solution = re.search(r"\bsorry\b", solution) is None
         metadata_lower = metadata.lower()
-        scope_closed = all(token in metadata_lower for token in (
-            "source/coordinate attachment", "six open gate-b",
-            "does not exclude or construct"))
+        metadata_words = " ".join(metadata_lower.split())
+        attachment_boundary = (
+            "attachment" in metadata_words
+            and ("source/coordinate" in metadata_words
+                 or "actual-source" in metadata_words
+                 or "source/carrier" in metadata_words)
+        )
+        scope_closed = (
+            attachment_boundary
+            and "six open gate-b" in metadata_words
+            and "does not exclude or construct" in metadata_words
+        )
         axioms_bound = all(
             axiom in metadata
             for axiom in comparator.get("permitted_axioms", []))
@@ -300,6 +309,7 @@ def analyze(*, dossier, manifest, gate_b_rows,
             deliberate_challenge_hole=deliberate_hole,
             solution_has_no_sorry=proved_solution,
             scope_nonclaims_present=scope_closed,
+            attachment_boundary_present=attachment_boundary,
             permitted_axioms_bound=axioms_bound))
 
         broad_tactic_import = bool(re.search(

@@ -144,7 +144,7 @@ def test_formalization_flags_broad_tactic_import_as_replay_debt():
         "solution": "import Mathlib.Tactic\n"
                     "def expected_definition := 0\n"
                     "theorem expected_theorem : True := by trivial\n",
-        "metadata": ("Classical.choice; source/coordinate attachment; "
+        "metadata": ("Classical.choice; substantive actual-source/carrier attachment; "
                      "six open Gate-B; does not exclude or construct"),
     }
     report = A.analyze(
