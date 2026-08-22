@@ -4,6 +4,14 @@ Grand Portage separates **file readability** from **mathematical authority**.
 An old graph may remain valuable history without retaining every licence that an
 older kernel inferred from it.
 
+Version 0.25 makes that separation executable for native formats 1--4. Their
+original headers and bytes remain readable by `check`, `show`, `doctor`, and
+artifact audit even though they predate the closed format-5 implementation
+identity. The missing identity remains explicitly unknown, every historical
+verdict remains inactive, and append refuses with the audited
+`migrate --to-current-kernel` route. Read compatibility never becomes write
+compatibility.
+
 ## The year-zero boundary and first semantic transition
 
 Version 0.5.0 established:

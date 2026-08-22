@@ -539,8 +539,10 @@ def _declare_epilog():
         "  \"inverse\": {\"x\": \"-x\", \"y\": \"y\"}\n"
         "`forward` is the point map from source to target; polynomial pullback\n"
         "is contravariant. Both maps are simultaneous substitutions with one\n"
-        "expression per ring variable. The current verifier requires the same\n"
-        "ring-variable names at both endpoints. `gp verify` checks both ideal\n"
+        "expression per ring variable. When endpoint variable names differ,\n"
+        "`forward` instead maps every source generator into target variables\n"
+        "and `inverse` maps every target generator back (for example x<->y).\n"
+        "`gp verify` checks both ideal\n"
         "pullbacks and both inverse compositions; structured maps license\n"
         "transport only after `VERIFIED`. This does NOT also assert literal\n"
         "containment in the written coordinates. Structured conditions also\n"
@@ -548,6 +550,8 @@ def _declare_epilog():
         "AGAINST uses forward before later operation contracts inspect them.\n"
         "Ordinary AGAINST pullback also preserves structured syntax through a\n"
         "matching exact identity map or a checked Eliminate projection.\n"
+        "At a PREDICATE's own model, `gp verify` checks structured ZERO atoms\n"
+        "by ideal membership and NONZERO atoms by an empty vanishing locus.\n"
         "The spellings `maps` and `inverse_maps` are refused as inert aliases.\n"
         "\n"
         "vocabularies:\n"
@@ -728,10 +732,17 @@ def cmd_verify(args):
     that was wrong here.
     """
     from . import verify as V
+    if args.graph and len(args.graph) != 1:
+        sys.stderr.write(
+            "verify writes verdicts and therefore needs exactly one "
+            "--graph target; repeated --graph is read/merge syntax.\n")
+        return 2
+    graph_path = args.graph[0] if args.graph else None
     try:
-        results = V.verify_all(root=args.root, timeout=args.timeout,
-                               record=not args.dry_run)
-    except (A.ArtifactError, OSError) as exc:
+        results = V.verify_all(
+            root=args.root, timeout=args.timeout, record=not args.dry_run,
+            graph_path=graph_path)
+    except (A.ArtifactError, OSError, ValueError, S.GraphError) as exc:
         sys.stderr.write(
             "ARTIFACT PERSISTENCE FAILED\n  %s\n\n"
             "  No verdict was appended. The graph is unchanged.\n" % exc)
@@ -2000,7 +2011,12 @@ def cmd_doctor(args):
     from . import mcp as MCP
 
     root = os.path.abspath(args.root)
-    graph_path = os.path.abspath(S.graph_path(root))
+    if args.graph and len(args.graph) != 1:
+        sys.stderr.write(
+            "doctor diagnoses one graph at a time; pass exactly one --graph.\n")
+        return 2
+    graph_path = os.path.abspath(
+        args.graph[0] if args.graph else S.graph_path(root))
     report = {
         "schema": "grand-portage-doctor/v1",
         "root": root,
@@ -2023,7 +2039,9 @@ def cmd_doctor(args):
         try:
             first = next(S._raw_events(graph_path))[0]
             report["graph"]["header"] = first
-        except (OSError, StopIteration, ValueError, S.GraphError) as exc:
+            S.load(graph_path)
+        except (OSError, StopIteration, ValueError, S.GraphError,
+                K.KernelRefusal) as exc:
             report["graph"]["error"] = str(exc)
 
     health = MCP.h_cas_health({}, root)

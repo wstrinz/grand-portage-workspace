@@ -55,6 +55,7 @@ R_PENDING_IDEAL = "PENDING-IDEAL"
 R_INEXPRESSIBLE = "INEXPRESSIBLE-CONCLUSION"
 R_REFUTED_EVIDENCE = "REFUTED-EVIDENCE"
 R_IDENTITY = "UNTESTED-IDENTITY"
+R_CONDITION = "UNTESTED-CONDITION"
 R_SIBLING = "SIBLING-EDGE"
 R_STALE_MODEL = "STALE-MODEL"
 R_STALE_REF = "STALE-REFERENCE"
@@ -1538,10 +1539,12 @@ def pullback_condition_across_edge(graph, condition, edge, direction):
 def rewrite_condition_across_equivalence(graph, condition, edge, direction):
     """Reindex one structured condition through a known coordinate change.
 
-    `forward` is the point map, so ALONG uses the polynomial `inverse` and
-    AGAINST uses `forward`. Only a current verified mapped ring isomorphism or
-    a literal identity-coordinate equivalence preserves machine-readable
-    expressibility. The predicate transport itself remains the kernel's job.
+    Shared-coordinate historical maps use the point-map convention, so ALONG
+    uses polynomial `inverse` and AGAINST uses `forward`.  Cross-ring maps use
+    direct generator images, so ALONG uses `forward` and AGAINST uses `inverse`.
+    Only a current verified mapped ring isomorphism or a literal identity-
+    coordinate equivalence preserves machine-readable expressibility. The
+    predicate transport itself remains the kernel's job.
     """
     if edge.get("type") != K.EQUIVALENCE:
         return None, "condition rewrite requires an EQUIVALENCE"
@@ -1553,12 +1556,12 @@ def rewrite_condition_across_equivalence(graph, condition, edge, direction):
     source_vars = source.get("ring_vars") or []
     target_vars = target.get("ring_vars") or []
     characteristic = target.get("characteristic")
-    if (not source_vars or set(source_vars) != set(target_vars)
+    if (not source_vars or not target_vars
             or type(characteristic) is not int
             or source.get("characteristic") != characteristic):
         return None, (
             "structured condition could not be rewritten: endpoint exact "
-            "polynomial rings do not agree")
+            "polynomial rings do not declare a common characteristic")
 
     mapped = K.is_mapped_equivalence(edge)
     if mapped:
@@ -1566,11 +1569,20 @@ def rewrite_condition_across_equivalence(graph, condition, edge, direction):
             return None, (
                 "structured condition could not be rewritten: the mapped "
                 "equivalence lacks current VERIFIED ring-isomorphism authority")
-        images = edge["inverse" if direction == K.ALONG else "forward"]
-        orientation = "inverse" if direction == K.ALONG else "forward"
+        cross_ring = set(source_vars) != set(target_vars)
+        if cross_ring:
+            images = edge["forward" if direction == K.ALONG else "inverse"]
+            orientation = (
+                "forward source-image" if direction == K.ALONG
+                else "inverse source-image")
+        else:
+            images = edge["inverse" if direction == K.ALONG else "forward"]
+            orientation = (
+                "inverse point-map" if direction == K.ALONG
+                else "forward point-map")
     elif edge.get("map_kind") == K.IDENTITY_MAP:
         images = dict((name, name) for name in target_vars)
-        orientation = "identity"
+        orientation = "identity point-map"
     else:
         return None, (
             "structured condition could not be rewritten: this equivalence "
@@ -1578,21 +1590,24 @@ def rewrite_condition_across_equivalence(graph, condition, edge, direction):
 
     payload = _condition_payload(condition) or {}
     try:
-        rewritten = {"all": [
-            {
-                "relation": atom["relation"],
-                "expression": G.substitute_polynomial(
-                    atom["expression"], target_vars, images, characteristic),
-            }
-            for atom in payload.get("all") or []
-        ]}
+        rewritten = {"all": []}
+        for atom in payload.get("all") or []:
+            expression = (
+                G.substitute_polynomial_between(
+                    atom["expression"], source_vars, target_vars, images,
+                    characteristic)
+                if mapped and set(source_vars) != set(target_vars)
+                else G.substitute_polynomial(
+                    atom["expression"], target_vars, images, characteristic))
+            rewritten["all"].append({
+                "relation": atom["relation"], "expression": expression})
     except (G.CertificateError, KeyError, TypeError, ValueError) as exc:
         return None, "structured condition rewrite failed exact checking: %s" % exc
     if not rewritten["all"]:
         return None, "structured condition rewrite produced no atoms"
     return rewritten, (
-        "rewrote %d structured condition atom(s) with the %s point-map "
-        "substitution" % (len(rewritten["all"]), orientation))
+        "rewrote %d structured condition atom(s) with the %s substitution"
+        % (len(rewritten["all"]), orientation))
 
 
 def effective_point_surjective(edge):
@@ -3339,6 +3354,51 @@ def check_identity(graph):
     return findings
 
 
+def check_predicate_conditions(graph):
+    """Keep accepted exact PREDICATE syntax from becoming write-only data."""
+    findings = []
+    for cid in sorted(graph.claims):
+        claim = graph.claims[cid]
+        if (claim.get("kind") != K.PREDICATE
+                or not claim.get("condition")
+                or claim.get("superseded_by")):
+            continue
+        verdict = claim.get("condition_verdict")
+        if verdict == "VERIFIED":
+            continue
+        if verdict == "REFUTED":
+            findings.append(Finding(
+                R_CONDITION, "%s:refuted:%s" % (R_CONDITION, cid),
+                UNSOUND_PREMISE, cid,
+                "structured PREDICATE %s was checked and REFUTED at %s: %s"
+                % (cid, claim.get("model"),
+                   claim.get("condition_why") or "(no detail)"),
+                "Correct or withdraw the predicate. Its exact condition is "
+                "false at the model where the claim originates, so transport "
+                "typing cannot repair it.", semantic_key=cid))
+            continue
+        if verdict == "UNVERIFIED":
+            detail = (
+                "structured PREDICATE %s received an inconclusive verifier "
+                "answer: %s" % (cid, claim.get("condition_why") or
+                                 "no diagnostic was recorded"))
+        else:
+            detail = (
+                "structured PREDICATE %s stores exact ZERO/NONZERO atoms, but "
+                "nothing has checked whether they hold at %s. Accepted exact "
+                "syntax may not disappear from both verification and checking."
+                % (cid, claim.get("model")))
+        findings.append(Finding(
+            R_CONDITION, "%s:%s:%s" % (
+                R_CONDITION, "unverified" if verdict else "untested", cid),
+            TRIAGE, cid, detail,
+            "Run `gp verify`. ZERO atoms are checked by certified ideal "
+            "membership; NONZERO atoms are checked by proving their vanishing "
+            "loci empty. An inconclusive sufficient test remains visible and "
+            "does not become a refutation.", semantic_key=cid))
+    return findings
+
+
 def run(graph, accepted=None):
     """All rules, in a stable order, most severe first.
 
@@ -3369,6 +3429,7 @@ def run(graph, accepted=None):
                 + check_pending_ideals(graph)
                 + check_containment(graph)
                 + check_identity(graph)
+                + check_predicate_conditions(graph)
                 + check_sibling_edges(graph)
                 + check_stale_models(graph)
                 + check_stale_references(graph)
@@ -3458,7 +3519,8 @@ def clean_inferences(graph, findings):
     # not an IDENTITY at that model at all. `verify.identity` REFUTES it. But
     # at the default floor `gp check` reported the inference CLEAN and exited
     # 0, with the only signal sitting below the failing floor.
-    flagged |= {f.subject for f in findings if f.rule == R_IDENTITY}
+    flagged |= {f.subject for f in findings
+                if f.rule in (R_IDENTITY, R_CONDITION)}
     return [i for i, _why in _partition_inferences(graph, flagged)[0]]
 
 
@@ -3510,7 +3572,8 @@ def disqualified_inferences(graph, findings):
     flagged = {f.subject for f in findings
                if SEVERITY_RANK[f.derived_severity]
                >= SEVERITY_RANK[UNSOUND_PREMISE]}
-    flagged |= {f.subject for f in findings if f.rule == R_IDENTITY}
+    flagged |= {f.subject for f in findings
+                if f.rule in (R_IDENTITY, R_CONDITION)}
     return _partition_inferences(graph, flagged)[1]
 
 

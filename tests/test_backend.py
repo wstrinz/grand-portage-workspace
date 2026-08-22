@@ -71,6 +71,7 @@ def test_version_probe_failure_is_not_a_backend_identity(monkeypatch):
             argv, 1, stdout="Access is denied", stderr="launcher failed"))
     cas._BINARY_VERSION_CACHE.clear()
     assert cas._singular_binary_version() == "unavailable: exit 1"
+    assert cas.SingularBackend().can_record_verdicts is False
 
 
 def test_version_probe_timeout_remains_fail_closed(monkeypatch):

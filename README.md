@@ -30,7 +30,7 @@ the edge is drawn.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1682<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1702<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
@@ -137,14 +137,25 @@ models through those maps; it does **not** also assert literal containment in
 the coordinates as written. `forward` is the point map from source to target,
 so polynomial pullback runs contravariantly. `gp verify` checks both ideal
 pullbacks and both inverse compositions with the `ring_iso` verifier, while the
-literal `containment` verifier skips that edge. Structured maps must cover every
-ring variable and currently require the endpoint models to use the same variable
-names. They fail closed until the verifier records `VERIFIED`. The exact field
+literal `containment` verifier skips that edge. Shared-coordinate maps retain
+that point-map convention. When endpoint variable names differ, `forward` maps
+every source generator to an expression in target variables and `inverse` maps
+every target generator back; `{"x":"y"}` therefore verifies an ordinary
+presentation rename. Polynomial maps are checked in both endpoint ideals;
+rational cross-ring maps stop at an explicit localization-certificate boundary.
+They fail closed until the verifier records `VERIFIED`. The exact field
 names are `forward` and `inverse`; the plausible aliases `maps` and
 `inverse_maps` are refused. Structured predicate conditions also compose through
 these verified maps: `ALONG` rewrites with `inverse`, `AGAINST` with `forward`,
 and a later section-certified elimination checks the rewritten condition in its
 retained ring. A bare flag or stale verdict never supplies this typing authority.
+
+A structured model-level `PREDICATE.condition` is also a direct verifier input,
+not write-only syntax. `gp verify` certifies each `ZERO` atom by exact ideal
+membership. It certifies `NONZERO` by proving the atom's vanishing locus empty
+with a replayable unit-ideal identity; an atom already zero modulo the model
+ideal is refuted. Failed sufficient tests remain visible as `UNVERIFIED`, and
+an unchecked condition is reported by `gp check` as `UNTESTED-CONDITION`.
 
 Ordinary predicate pullback is also executable in the sound `AGAINST` direction:
 a literal identity-coordinate edge preserves syntax only across matching exact
@@ -400,7 +411,7 @@ Three.js build by default; `--three-root` can point it at a local package.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1682<!--/checks--> checks
+python -m pytest        # <!--checks-->1702<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

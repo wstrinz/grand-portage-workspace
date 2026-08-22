@@ -571,11 +571,13 @@ def ring_iso(graph, eid, timeout=300, _runner=None, _backend=None):
 
     None is a search. All four are reductions or substitutions.
 
-    `forward` follows the Lean and user-facing convention: it sends SOURCE
-    points to TARGET points. Polynomial substitution is contravariant, hence
-    the target generators are the ones reduced in the source ideal. The
-    current executable surface requires both endpoints to use the same ring
-    variable names; Graph.validate reports that limitation before verification.
+    Historical maps whose endpoints share a coordinate ring keep the point-map
+    convention: `forward` sends source points to target points, so polynomial
+    substitution is contravariant.  When the endpoint variable sets differ,
+    the schema instead records generator images directly: `forward` maps each
+    source generator into the target ring and `inverse` maps each target
+    generator into the source ring.  The verifier checks both ideal directions
+    and both compositions under the convention selected by the endpoint rings.
     """
     e = graph.edges[eid]
     stale = _stale_endpoint(graph, eid)
@@ -598,6 +600,7 @@ def ring_iso(graph, eid, timeout=300, _runner=None, _backend=None):
     if src.get("generators") is None or dst.get("generators") is None:
         return UNVERIFIED, "one endpoint carries no ideal"
     ring = src.get("ring_vars") or []
+    dst_ring = dst.get("ring_vars") or []
     ch, missing = _declared_characteristic(e["src"], src)
     if missing:
         return UNVERIFIED, missing
@@ -609,10 +612,91 @@ def ring_iso(graph, eid, timeout=300, _runner=None, _backend=None):
             "the endpoints declare different characteristics (%s vs %s); a "
             "substitution between them is not a reduction in one ring"
             % (ch, dst_ch))
-    if not ring or set(dst.get("ring_vars") or []) != set(ring):
+    if not ring or not dst_ring:
         return UNVERIFIED, (
-            "the two models are written in different rings; a substitution "
-            "between them needs both variable lists to agree")
+            "both endpoints need explicit nonempty ring-variable lists before "
+            "a coordinate substitution can be checked")
+
+    cross_ring = set(dst_ring) != set(ring)
+    if cross_ring:
+        if e.get("map_kind") != K.POLYNOMIAL:
+            return UNVERIFIED, (
+                "the endpoints use different coordinate rings and the map is "
+                "%s. Polynomial cross-ring substitutions are checkable now; "
+                "this rational presentation needs an explicit localization "
+                "certificate before denominators can define a ring map. This "
+                "is a semantic limitation, not a variable-name shape refusal."
+                % e.get("map_kind"))
+        if e.get("ring_iso_certificate") is not None:
+            return UNVERIFIED, (
+                "mapped_ring_iso_v1 certificates use the historical shared-"
+                "ring convention. This cross-ring map must be checked by the "
+                "polynomial verifier; a certificate for differently named "
+                "rings needs a versioned schema.")
+        backend = _backend or cas.SingularBackend(runner=_runner)
+        try:
+            # Cross-ring maps use the source-generator convention advertised
+            # by the schema: forward maps source variables into target
+            # expressions; inverse maps target variables back into source.
+            for generator in src["generators"]:
+                mapped = G.substitute_polynomial_between(
+                    generator, ring, dst_ring, fwd, ch)
+                answer = backend.membership(
+                    dst_ring, mapped, list(dst["generators"]),
+                    characteristic=ch, timeout=timeout)
+                if not answer["is_member"]:
+                    return ISO_NOT_ISO, (
+                        "source generator %r maps to %r, which is not in %s's "
+                        "ideal. The declared forward substitution is not a "
+                        "coordinate-ring homomorphism."
+                        % (generator, mapped, e["dst"]))
+            for generator in dst["generators"]:
+                mapped = G.substitute_polynomial_between(
+                    generator, dst_ring, ring, inv, ch)
+                answer = backend.membership(
+                    ring, mapped, list(src["generators"]),
+                    characteristic=ch, timeout=timeout)
+                if not answer["is_member"]:
+                    return ISO_NOT_ISO, (
+                        "target generator %r maps to %r, which is not in %s's "
+                        "ideal. The declared inverse substitution is not a "
+                        "coordinate-ring homomorphism."
+                        % (generator, mapped, e["src"]))
+            for variable in ring:
+                there = G.substitute_polynomial_between(
+                    variable, ring, dst_ring, fwd, ch)
+                back = G.substitute_polynomial_between(
+                    there, dst_ring, ring, inv, ch)
+                difference = "(%s)-(%s)" % (back, variable)
+                answer = backend.membership(
+                    ring, difference, list(src["generators"]),
+                    characteristic=ch, timeout=timeout)
+                if not answer["is_member"]:
+                    return ISO_NOT_ISO, (
+                        "inverse(forward(%s)) is %s, not %s modulo %s's ideal"
+                        % (variable, back, variable, e["src"]))
+            for variable in dst_ring:
+                back = G.substitute_polynomial_between(
+                    variable, dst_ring, ring, inv, ch)
+                there = G.substitute_polynomial_between(
+                    back, ring, dst_ring, fwd, ch)
+                difference = "(%s)-(%s)" % (there, variable)
+                answer = backend.membership(
+                    dst_ring, difference, list(dst["generators"]),
+                    characteristic=ch, timeout=timeout)
+                if not answer["is_member"]:
+                    return ISO_NOT_ISO, (
+                        "forward(inverse(%s)) is %s, not %s modulo %s's ideal"
+                        % (variable, there, variable, e["dst"]))
+        except (G.CertificateError, KeyError, TypeError, ValueError) as exc:
+            return UNVERIFIED, (
+                "the cross-ring polynomial maps could not be checked: %s" % exc)
+        return ISO_VERIFIED, (
+            "the forward substitution maps %s's ideal into %s's, the inverse "
+            "maps the target ideal back, and both compositions equal the "
+            "identity modulo their respective endpoint ideals. This verifies "
+            "an isomorphism of the differently named coordinate rings."
+            % (e["src"], e["dst"]))
 
     certificate = e.get("ring_iso_certificate")
     if certificate is not None:
@@ -1569,6 +1653,128 @@ def partition_exhaustiveness(graph, pid, timeout=300, _runner=None, _backend=Non
            p.get("parent")))
 
 
+CONDITION_VERIFIED = "VERIFIED"
+CONDITION_REFUTED = "REFUTED"
+
+
+def predicate_condition(graph, cid, timeout=300, _runner=None, _backend=None):
+    """Check a structured exact-affine PREDICATE at its own model.
+
+    ZERO is established by certified ideal membership. NONZERO is established
+    when adjoining the expression makes the ideal unit, again with an exact
+    cofactor expansion. Failure of either sufficient test is inconclusive;
+    NONZERO is refuted only when the expression is identically zero modulo the
+    model ideal.
+    """
+    claim = graph.claims.get(cid)
+    if not claim:
+        return UNVERIFIED, "no such claim", None
+    if claim.get("kind") != K.PREDICATE or not claim.get("condition"):
+        return UNVERIFIED, (
+            "claim %s is not a structured PREDICATE condition" % cid), None
+    model = graph.models.get(claim.get("model")) or {}
+    pending = _pending_ideal(claim.get("model"), model)
+    if pending:
+        return UNVERIFIED, pending, None
+    ring = model.get("ring_vars") or []
+    generators = model.get("generators")
+    if not ring or generators is None:
+        return UNVERIFIED, (
+            "model %s needs an exact ring and ideal before its condition can "
+            "be checked" % claim.get("model")), None
+    ch, missing = _declared_characteristic(claim.get("model"), model)
+    if missing:
+        return UNVERIFIED, missing, None
+    backend = _backend or cas.SingularBackend(runner=_runner)
+    rows = []
+    inconclusive = []
+
+    def membership(expression, ideal):
+        if not ideal:
+            return (G.canonical_polynomial(expression, ring, ch) == "0", None)
+        answer = backend.membership(
+            ring, expression, list(ideal), characteristic=ch, timeout=timeout)
+        if not answer["is_member"]:
+            return False, answer
+        valid, expanded = backend.check_membership(
+            ring, expression, list(ideal), answer["cofactors"],
+            characteristic=ch, timeout=timeout)
+        if not valid:
+            raise cas.CASError(
+                "membership cofactors for %s expand to %s" %
+                (expression, expanded))
+        return True, answer
+
+    for atom in claim["condition"]["all"]:
+        relation = atom["relation"]
+        expression = atom["expression"]
+        zero_mod_ideal, membership_answer = membership(
+            expression, generators)
+        if relation == "ZERO":
+            if zero_mod_ideal:
+                rows.append({
+                    "relation": relation, "expression": expression,
+                    "status": "VERIFIED_IDEAL_MEMBERSHIP",
+                    "cofactors": (membership_answer or {}).get("cofactors"),
+                })
+            else:
+                inconclusive.append(
+                    "%s does not lie in the recorded ideal" % expression)
+                rows.append({
+                    "relation": relation, "expression": expression,
+                    "status": "NOT_BY_IDEAL", "cofactors": None,
+                })
+            continue
+
+        if zero_mod_ideal:
+            rows.append({
+                "relation": relation, "expression": expression,
+                "status": "REFUTED_ZERO_MOD_IDEAL",
+                "cofactors": (membership_answer or {}).get("cofactors"),
+            })
+            return CONDITION_REFUTED, (
+                "the condition requires %s to be NONZERO, but it is zero in "
+                "%s's coordinate ring. This refutes the predicate at its own "
+                "model." % (expression, claim.get("model"))), {"atoms": rows}
+
+        unit_generators = list(generators) + [expression]
+        unit = backend.unit_ideal(
+            ring, unit_generators, characteristic=ch, timeout=timeout)
+        if unit["is_unit"]:
+            valid, expanded = backend.check_unit_ideal(
+                ring, unit_generators, unit["cofactors"],
+                characteristic=ch, timeout=timeout)
+            if not valid:
+                raise cas.CASError(
+                    "unit-ideal cofactors for NONZERO %s expand to %s"
+                    % (expression, expanded))
+            rows.append({
+                "relation": relation, "expression": expression,
+                "status": "VERIFIED_NOWHERE_ZERO",
+                "cofactors": list(unit["cofactors"]),
+            })
+        else:
+            inconclusive.append(
+                "%s may vanish somewhere; adjoining it did not make the "
+                "ideal unit" % expression)
+            rows.append({
+                "relation": relation, "expression": expression,
+                "status": "NONVANISHING_UNESTABLISHED", "cofactors": None,
+            })
+
+    representation = {"atoms": rows}
+    if inconclusive:
+        return UNVERIFIED, (
+            "the structured condition was typed but not decided: %s. A failed "
+            "sufficient ideal test is not a mathematical refutation."
+            % "; ".join(inconclusive)), representation
+    return CONDITION_VERIFIED, (
+        "all %d structured condition atoms were certified at %s: every ZERO "
+        "is an exact ideal membership and every NONZERO has an exact unit-"
+        "ideal certificate for its vanishing locus."
+        % (len(rows), claim.get("model"))), representation
+
+
 WITNESS_VERIFIED = "VERIFIED"
 WITNESS_REFUTED = "NOT_A_POINT"
 
@@ -2187,7 +2393,8 @@ def materialize_elimination_groebner(
         "checked": produced["checked"],
         "events": append_events,
     }
-def verify_all(root=".", timeout=300, _runner=None, record=True, backend=None):
+def verify_all(root=".", timeout=300, _runner=None, record=True, backend=None,
+               graph_path=None):
     """Verify every checkable edge AND claim, and RECORD the answers.
 
     RECORDING WAS THE STATED POINT AND DID NOT HAPPEN.  This function's own
@@ -2208,7 +2415,13 @@ def verify_all(root=".", timeout=300, _runner=None, record=True, backend=None):
     is a verification nobody can act on next week, and this project's whole
     claim is that the graph is the state.
     """
-    path = S.graph_path(root)
+    path = os.fspath(graph_path) if graph_path is not None else S.graph_path(root)
+    path = os.path.abspath(path)
+    artifact_root = os.path.abspath(root)
+    if graph_path is not None:
+        parent = os.path.dirname(path)
+        artifact_root = (os.path.dirname(parent)
+                         if os.path.basename(parent) == S.GRAPH_DIR else parent)
     graph = S.load(path)
     results, events = [], []
     if backend is not None and _runner is not None:
@@ -2251,7 +2464,8 @@ def verify_all(root=".", timeout=300, _runner=None, record=True, backend=None):
             # OBJECT BEFORE LOG. A persistence failure leaves the append-only
             # graph byte-identical; a later append failure can leave only a
             # harmless, deduplicated orphan.
-            A.persist_all(root, backend.execution_artifacts(execution_start))
+            A.persist_all(
+                artifact_root, backend.execution_artifacts(execution_start))
         results.append((subject, oid, verdict, why))
         events.append(_verdict_event(
             graph, subject, oid, verdict, why, rep,
@@ -2305,6 +2519,10 @@ def verify_all(root=".", timeout=300, _runner=None, record=True, backend=None):
         c = graph.claims[cid]
         if c.get("superseded_by"):
             continue
+        if (c.get("kind") == K.PREDICATE and c.get("condition")
+                and not c.get("condition_verdict")):
+            run("condition", cid, lambda cid=cid: predicate_condition(
+                graph, cid, timeout=timeout, _backend=backend))
         if (c.get("kind") == K.IDENTITY and not c.get("identity_verdict")
                 and c.get("lhs") is not None and c.get("rhs") is not None):
             # Silent where the rewriting was never recorded.  An unstructured
@@ -2354,5 +2572,5 @@ def verify_all(root=".", timeout=300, _runner=None, record=True, backend=None):
         # `.portage/graph.jsonl/.portage` and crashed -- on the ONE line the
         # suite never reached, because every test called `verify_all` with
         # `record=False` or a fixture that produced no events.
-        S.append(events, root)
+        S.append(events, artifact_root, graph=path)
     return results

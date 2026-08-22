@@ -269,6 +269,50 @@ def validate_meta(ev, where, error):
         raise error("%s: implementation backend identity is malformed" % where)
 
 
+def validate_meta_for_read(ev, where, error):
+    """Validate a native header at the read boundary.
+
+    Current-format metadata remains strict.  Older native formats are archival
+    inputs: they may be inspected and migrated, but their missing implementation
+    identity is preserved as unknown rather than fabricated.  Writers enforce
+    the current boundary separately before appending anything.
+    """
+    if not isinstance(ev, dict):
+        raise error("%s: event is not an object" % where)
+    if ev.get("ev") != META_EVENT:
+        raise error("%s: native graph must begin with a `meta` event" % where)
+    graph_format = ev.get("graph_format")
+    kernel_epoch = ev.get("kernel_epoch")
+    for field, value in (("graph_format", graph_format),
+                         ("kernel_epoch", kernel_epoch)):
+        if not isinstance(value, int) or isinstance(value, bool):
+            raise error("%s: `%s` must be an integer, not %r"
+                        % (where, field, value))
+    if graph_format == GRAPH_FORMAT:
+        validate_meta(ev, where, error)
+        return
+    if graph_format < 1 or graph_format > GRAPH_FORMAT:
+        raise error(
+            "%s: graph_format %r is unsupported; this build reads historical "
+            "formats 1..%d and current format %d"
+            % (where, graph_format, GRAPH_FORMAT - 1, GRAPH_FORMAT))
+    if kernel_epoch < 1 or kernel_epoch > KERNEL_EPOCH:
+        raise error(
+            "%s: historical kernel_epoch %r cannot be read by this build's "
+            "epoch %d" % (where, kernel_epoch, KERNEL_EPOCH))
+    expected = {"ev", "graph_format", "kernel_epoch", "created_with"}
+    if set(ev) != expected:
+        missing = sorted(expected - set(ev))
+        extra = sorted(set(ev) - expected)
+        raise error(
+            "%s: historical meta event has the wrong fields; missing: %s; "
+            "extra: %s"
+            % (where, ", ".join(missing) or "(none)",
+               ", ".join(extra) or "(none)"))
+    if not isinstance(ev["created_with"], str) or not ev["created_with"].strip():
+        raise error("%s: `created_with` must be a non-empty string" % where)
+
+
 def import_epoch0_event(ev):
     """Conservatively adapt an unversioned event without minting a licence."""
     if not isinstance(ev, dict):

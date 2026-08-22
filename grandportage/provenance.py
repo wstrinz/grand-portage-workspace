@@ -28,9 +28,10 @@ BACKEND = "singular"
 # these independent avoids invalidating every verdict when one checker changes.
 VERIFIERS = {
     "claim": ("verify.identity", 2),
+    "condition": ("verify.predicate_condition", 1),
     "edge": ("verify.containment", 3),
     "certificate": ("verify.unit_ideal", 2),
-    "ring_iso": ("verify.ring_iso", 3),
+    "ring_iso": ("verify.ring_iso", 4),
     "witness": ("verify.point_witness", 2),
     "operation": ("verify.operation_output", 2),
     "elimination": ("verify.elimination_section", 2),
@@ -75,6 +76,7 @@ _FINGERPRINT_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
 # instant it was applied.
 _COMPUTED_FIELDS = {
     "identity_verdict", "identity_why",
+    "condition_verdict", "condition_why",
     "containment", "containment_why",
     "certificate_verdict", "certificate_why",
     "ring_iso_verdict", "ring_iso_why",
@@ -125,7 +127,7 @@ def input_payload(graph, subject, of):
             "src": _semantic(graph.models.get(edge.get("src"))) if edge else None,
             "dst": _semantic(graph.models.get(edge.get("dst"))) if edge else None,
         }
-    if subject in ("claim", "certificate", "witness"):
+    if subject in ("claim", "condition", "certificate", "witness"):
         claim = graph.claims.get(of)
         return {
             "subject": subject,

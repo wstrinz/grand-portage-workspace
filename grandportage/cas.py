@@ -993,9 +993,14 @@ class SingularBackend(B.Backend):
 
     @property
     def can_record_verdicts(self):
+        version = self.identity.binary_version
         return (type(self) is SingularBackend
                 and self._runner is None
-                and self._binary_version is None)
+                and self._binary_version is None
+                and isinstance(version, str)
+                and bool(version.strip())
+                and not version.startswith("unavailable:")
+                and version not in ("unreported", "test-double"))
 
     @property
     def execution_count(self):

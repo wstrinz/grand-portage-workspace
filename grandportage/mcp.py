@@ -130,11 +130,12 @@ EDGE_SCHEMA = {
             "type": "object",
             "additionalProperties": {"type": "string"},
             "description": (
-                "EQUIVALENCE only. The point-forward map from source to target, "
-                "written as a simultaneous polynomial substitution with one "
-                "expression for every ring variable. Polynomial pullback runs "
-                "contravariantly. The current verifier requires both endpoints "
-                "to use the same ring-variable names. Supplying forward and "
+                "EQUIVALENCE only. On a shared coordinate ring this is the "
+                "historical point-forward substitution and polynomial pullback "
+                "runs contravariantly. When endpoint variable names differ, "
+                "forward is keyed by every SOURCE generator and gives its "
+                "polynomial expression in TARGET variables (for example "
+                "{x: y}). Supplying forward and "
                 "inverse declares a MAPPED equivalence, not literal containment "
                 "of the two solution sets as written. Structured maps license "
                 "IDENTITY transport only after `VERIFIED`.")},
@@ -142,8 +143,9 @@ EDGE_SCHEMA = {
             "type": "object",
             "additionalProperties": {"type": "string"},
             "description": (
-                "EQUIVALENCE only. The point-inverse map from target to source, "
-                "paired with forward. `gp verify` checks both ideal pullbacks "
+                "EQUIVALENCE only. Paired with forward. For differently named "
+                "rings it is keyed by every TARGET generator and gives its "
+                "expression in SOURCE variables. `gp verify` checks both ideals "
                 "and both inverse compositions. The field names are exactly "
                 "`forward` and `inverse`, not `maps` or `inverse_maps`.")},
         "ring_iso": {
@@ -198,7 +200,9 @@ CONDITION_SCHEMA = {
         "parsed against the claim model's exact polynomial ring. Verified mapped "
         "equivalences rewrite it contravariantly. Matching identity-coordinate "
         "maps and checked Eliminate projections preserve it under AGAINST before "
-        "a polynomial-section elimination checks target expressibility."),
+        "a polynomial-section elimination checks target expressibility. `gp "
+        "verify` also checks the condition at its own model: ZERO by certified "
+        "ideal membership and NONZERO by a certified empty vanishing locus."),
     "properties": {
         "all": {
             "type": "array",
