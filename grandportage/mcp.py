@@ -237,12 +237,31 @@ def _event_schema(kind):
             "enum": list(S.POINT_UNIVERSES),
             "description": "BASE or algebraic closure of coefficient_domain",
         }
-    return {
+    schema = {
         "type": "object",
         "properties": properties,
         "required": sorted(F.REQUIRED_FIELDS.get(kind, {"ev"})),
         "additionalProperties": False,
     }
+    if kind == "claim":
+        schema["oneOf"] = [
+            {
+                "required": ["model"],
+                "not": {"required": ["family"]},
+                "properties": {
+                    "kind": {"enum": list(K.CLAIM_KINDS)},
+                },
+            },
+            {
+                "required": ["family"],
+                "not": {"required": ["model"]},
+                "properties": {
+                    "kind": {"enum": [K.EMPTY, K.NONEMPTY,
+                                      K.PREDICATE, K.COUNT]},
+                },
+            },
+        ]
+    return schema
 
 
 DECLARABLE_EVENT_SCHEMA = {

@@ -127,7 +127,7 @@ class Finding(object):
     def as_dict(self):
         d = {"rule": self.rule, "id": self.fid, "severity": self.severity,
              "subject": self.subject, "detail": self.detail,
-             "discharge": self.discharge}
+             "discharge": self.discharge, "fingerprint": self.fingerprint}
         if self.trace:
             d["trace"] = [{"edge": e, "direction": dr, "licensed": lic,
                            "reason": rsn} for e, dr, lic, rsn in self.trace]

@@ -70,18 +70,71 @@ def _load(args):
         raise SystemExit(2)
 
 
+def _finding_delta(findings, receipt_path):
+    """Compare current findings with an immutable JSON check/baseline receipt."""
+    try:
+        with open(receipt_path, "r", encoding="utf-8") as stream:
+            receipt = json.load(stream)
+    except (OSError, ValueError) as exc:
+        raise ValueError("cannot read finding receipt %s: %s"
+                         % (receipt_path, exc))
+    prior = {}
+    if isinstance(receipt.get("findings"), list):
+        for finding in receipt["findings"]:
+            if isinstance(finding, dict) and finding.get("id"):
+                prior[finding["id"]] = finding.get("fingerprint")
+    elif isinstance(receipt.get("accepted"), dict):
+        for fid, entry in receipt["accepted"].items():
+            prior[fid] = (entry or {}).get("fingerprint")
+    else:
+        raise ValueError(
+            "%s is neither `gp check --json` output nor a baseline receipt"
+            % receipt_path)
+    if any(not fingerprint for fingerprint in prior.values()):
+        raise ValueError(
+            "%s has fingerprintless findings and cannot establish unchanged "
+            "identity; make a fresh `gp check --json` receipt" % receipt_path)
+
+    current = {finding.fid: finding for finding in findings}
+    unchanged = sorted(
+        fid for fid in set(prior) & set(current)
+        if prior[fid] == current[fid].fingerprint)
+    changed = sorted(
+        fid for fid in set(prior) & set(current)
+        if prior[fid] != current[fid].fingerprint)
+    return {
+        "receipt": os.path.abspath(receipt_path),
+        "inherited_unchanged": unchanged,
+        "new": sorted(set(current) - set(prior)),
+        "changed_inherited": [{
+            "id": fid,
+            "before": prior[fid],
+            "after": current[fid].fingerprint,
+        } for fid in changed],
+        "resolved": sorted(set(prior) - set(current)),
+    }
 def cmd_check(args):
     g = _load(args)
     accepted = H.read_baseline(args.root)["accepted"]
     findings = C.run(g, accepted)
+    delta = None
+    if args.since:
+        try:
+            delta = _finding_delta(findings, args.since)
+        except ValueError as exc:
+            sys.stderr.write("CHECK RECEIPT ERROR\n  %s\n" % exc)
+            return 2
     if args.json:
-        print(json.dumps({
+        result = {
             "findings": [f.as_dict() for f in findings],
             "clean": C.clean_inferences(g, findings),
             "counts": {"models": len(g.models), "edges": len(g.edges),
                        "claims": len(g.claims),
                        "inferences": len(g.inference_order)},
-        }, indent=2))
+        }
+        if delta is not None:
+            result["since"] = delta
+        print(json.dumps(result, indent=2))
         return C.exit_code(findings, args.floor, accepted)
 
     if not args.quiet:
@@ -192,6 +245,17 @@ def cmd_check(args):
             print("Nothing live. Every finding at this floor was examined and "
                   "accepted deliberately -- this campaign is carrying debt in "
                   "the open, not failing.")
+        if delta is not None:
+            print("\nchanges since %s:" % delta["receipt"])
+            for label in ("inherited_unchanged", "new", "resolved"):
+                values = delta[label]
+                print("  %-21s %d%s" % (
+                    label.replace("_", " "), len(values),
+                    ": " + ", ".join(values) if values else ""))
+            changed = [item["id"] for item in delta["changed_inherited"]]
+            print("  %-21s %d%s" % (
+                "changed inherited", len(changed),
+                ": " + ", ".join(changed) if changed else ""))
     return C.exit_code(findings, args.floor, accepted)
 
 
@@ -1358,6 +1422,11 @@ def cmd_merge(args):
         return 0
 
     print("MERGE CONFLICTS: %d\n" % len(conflicts))
+    presentation_fields = {
+        "ring_vars", "generators", "coefficient_domain", "field",
+        "characteristic", "point_universe", "chart",
+    }
+    presentation_conflicts = []
     for c in conflicts:
         print("%s %r -- declared differently in two branches" % (c["kind"], c["id"]))
         print("  fields that differ: %s" % ", ".join(c["fields"]))
@@ -1366,7 +1435,19 @@ def cmd_merge(args):
             print("  %s  %s:%d" % (side.upper(), s["path"], s["line"]))
             for f in c["fields"]:
                 print("        %-10s %s" % (f, json.dumps(s["event"].get(f))))
+        if (c["kind"] == "model"
+                and presentation_fields.intersection(c["fields"])):
+            presentation_conflicts.append(c["id"])
         print()
+    if presentation_conflicts:
+        print("PRESENTATION CONFLICT: %s" % ", ".join(presentation_conflicts))
+        print("  A coordinate-bearing model ID identifies one presentation, "
+              "not an abstract mathematical object. Different coordinates, "
+              "rings, fields, or equations are not normalization candidates.")
+        print("  mint separate presentation IDs")
+        print("    -> declare a mapped EQUIVALENCE with forward/inverse maps")
+        print("    -> run `gp verify` before transporting identities")
+        print("  Do not use `same_as` to silently assert a coordinate change.\n")
     print("Neither version is preferred and the fold will not blend them. Two "
           "cases, with opposite resolutions:")
     print("  SAME OBJECT, described differently -- both branches are right. "
@@ -1878,7 +1959,36 @@ def cmd_schema(args):
         "placement_rules": {
             "meta": "first event only; generated by gp init or migration",
             "verdict": "verifier-authored only; never accepted by declare",
+            "claim": (
+                "exactly one of model or family; IDENTITY belongs only at a "
+                "model, while COUNT belongs only at a family"),
+            "condition": "only a PREDICATE claim at a model",
             "closed_objects": True,
+        },
+        "lifecycle": {
+            "fields": sorted(F.LIFECYCLE_FIELDS),
+            "replacement": (
+                "supersedes and discharge_kind identify an explicit successor; "
+                "RETRACT/WITHDRAW are sparse tombstones and require why"),
+        },
+        "mutual_exclusions": [{
+            "event": "claim",
+            "exactly_one_of": ["model", "family"],
+        }],
+        "examples": {
+            "family_completeness": [{
+                "ev": "family", "id": "F", "count": 2,
+                "enumeration": "C-F-COUNT",
+            }, {
+                "ev": "claim", "id": "C-F-COUNT", "family": "F",
+                "kind": "PREDICATE", "statement": "the census is complete",
+                "asserts_count": 2,
+            }, {
+                "ev": "evidence", "id": "EV-F-COUNT", "for": "C-F-COUNT",
+                "method": "ENUMERATION", "ran": "exact command or artifact",
+                "what": "enumerated the complete finite index",
+                "decides": "BOTH",
+            }],
         },
     }
     print(json.dumps(document, indent=2, sort_keys=True))
@@ -2182,10 +2292,32 @@ def cmd_events(args):
         return 0
     g = S.load(S.graph_path(args.root)) if not args.graph else _load(args)
     print(json.dumps({
+        "metadata": {
+            "graph_format": g.graph_format,
+            "kernel_epoch": g.kernel_epoch,
+            "created_with": g.created_with,
+            "implementation": g.implementation,
+            "compatibility_mode": g.compatibility_mode,
+        },
+        "certificates": {
+            "registry": g.certificates,
+            "sources": g.cert_source,
+            "records": g.cert_records,
+        },
         "models": g.models, "edges": g.edges, "claims": g.claims,
         "inferences": {i: g.inferences[i] for i in g.inference_order},
         "tombstones": [g.retractions[k] for k in sorted(g.retractions)],
         "partitions": g.partitions,
+        "families": g.families,
+        "groups": g.groups,
+        "same_as": g.aliases,
+        "built_by": g.built_by,
+        "citations": g.citations,
+        "evidence": g.evidence,
+        "doubts": g.doubts,
+        "notes": g.notes,
+        "named_notes": g.named_notes,
+        "verdicts": g.verdicts,
     }, indent=2, sort_keys=True, default=str))
     return 0
 
@@ -2414,6 +2546,10 @@ def build_parser():
 
     c = sub.add_parser("check", help="type-check the graph")
     c.add_argument("--json", action="store_true")
+    c.add_argument(
+        "--since", metavar="RECEIPT",
+        help="classify unchanged, new, changed, and resolved findings against "
+             "earlier `gp check --json` output or a fingerprinted baseline")
     c.add_argument("--quiet", action="store_true")
     c.add_argument("--full", action="store_true",
                    help="print the full detail of CARRIED findings too, not "

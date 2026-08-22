@@ -36,7 +36,8 @@ def meta_event():
     }
 
 
-_LIFECYCLE = {"supersedes", "discharge_kind", "why"}
+LIFECYCLE_FIELDS = frozenset({"supersedes", "discharge_kind", "why"})
+_LIFECYCLE = set(LIFECYCLE_FIELDS)
 
 # Closed schemas are intentionally data, not a forest of ad-hoc ``if key``
 # checks.  Adding an authored field now requires placing it in the vocabulary
