@@ -6,24 +6,23 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 
 ## Release boundary
 
-- Package version: <!--version-->0.23.0<!--/version-->.
+- Package version: <!--version-->0.24.0<!--/version-->.
 - Graph format: <!--graph-format-->4<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1638<!--/checks--> checks.
+- Test collection: <!--checks-->1658<!--/checks--> checks.
 
-Plain `pytest` is the full release gate. The ordinary edit loop is
+Plain `pytest` is the conceptual full release gate. The ordinary edit loop is
 `pytest -m "not live and not replay and not exhaustive"`; deterministic frozen
 campaign replay and real-CAS checks have separate `replay` and `live` lanes,
 and the largest finite reconstructions are marked `exhaustive`.
-The final validation for this state passed 1,419 fast tests in 140.95 seconds,
-72 replay tests with one expected skip in 278.82 seconds, six exhaustive tests
-in 48.16 seconds, and the full release gate at 1,497 passed with 41 expected
-environment-dependent skips in 392.51 seconds.
 
-The campaign replay-closure tranche separately passed 1,582 non-live tests
-with seven skips and 40 live deselections in 257.36 seconds, then passed the
-complete marker-unfiltered gate at 1,622 passed with seven skips in 773.70
-seconds. The repository now collects 1,629 tests.
+The v0.24 release partition covers all 1,649 collected tests. The ordinary
+deterministic lane passed 1,522 with eight expected skips in 43.03 seconds;
+replay passed 72 with one expected skip in 313.82 seconds; exhaustive passed
+six in 48.97 seconds; and the live WSL/Singular lane passed 40 in 542.11
+seconds. A marker-unfiltered single process exceeded its 1,200-second host
+wrapper without reporting a test failure; the four disjoint documented lanes
+then passed with 1,640 total passes and nine expected skips.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
@@ -60,6 +59,13 @@ Several newer exact checkers intentionally stop before graph authority:
 - derived projections and visualization.
 
 Their reports state their licenses and open obligations explicitly.
+
+The public source release is now compiled from an immutable Git commit through
+`public-snapshot-v1.json`. Every tracked path must be classified public,
+private, or generated; unclassified and multiply classified paths fail closed.
+The resulting `PUBLIC-SNAPSHOT-RECEIPT.json` binds every exported byte while
+workspace handoffs, coordinator packets, private planning, and local
+configuration remain outside the mirror.
 
 ## Live composition frontier
 
@@ -307,6 +313,20 @@ historical status immutable, fingerprints that input, and applies updates only
 to exact scope IDs; explicit `exports_to_scopes` links are required for
 downstream propagation. It is outside the kernel and always reports
 `DERIVED_READ_MODEL_ONLY` with graph effect `NONE`.
+
+The experimental `formalization-transport-ledger/v0` now binds the current JC
+formal summit architecture at commit
+`4d1b5296c49c22cfb82b99c0df7c8c9fe25ab931`. Seven exact source digests and six
+named Lean declarations anchor 18 semantic objects, 13 crossings, and every
+formal premise used by the landed edges. The A--H mutation matrix has one
+licensed forward forgetting, seven refusals, and one explicit expressibility
+gap: the current kernel has no dimension/rank-credit claim kind for the
+degree-five codomain step. Actual provenance cannot be recovered from the
+relational summit, finite jets do not silently lift to formal series, slice
+vanishing does not recover a full tower, and field-relative obstructions do not
+widen to scheme scope. The compiler is deterministic, checks the live sibling
+checkout on request, and remains `DERIVED_READ_MODEL_ONLY` with graph effect
+`NONE`; it adds no relation, claim kind, graph field, or evidence schema.
 
 Its first JC consumer binds the complete H8 transfer receipts. H8 is now
 effectively discharged over depths 8--15 under P1--P5 and the pin, retaining

@@ -40,7 +40,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about nine days. Version 0.22.0. <!--checks-->1638<!--/checks--> checks.** Treat
+**Age: about nine days. Version 0.24.0. <!--checks-->1658<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The backend evidence seam is now durable.** Production verifiers and
@@ -617,7 +617,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1638<!--/checks--> checks, ~300 s on the current development machine) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1658<!--/checks--> checks, ~300 s on the current development machine) |
 
 ---
 
@@ -724,7 +724,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1638<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1658<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -1638,3 +1638,60 @@ Validation after the tranche: 1,582 non-live tests passed, seven skipped, and
 gate then passed 1,622 tests with seven skips in 773.70 seconds after granting
 the live WSL/Singular tier its required host access. The repository collects
 1,629 tests.
+
+## 2026-08-14 - JC formalization transport ledger v0
+
+The first GP-side summit-support tranche is now executable. The experimental
+`formalization-transport-ledger/v0` fixture is pinned to JC commit
+`4d1b5296c49c22cfb82b99c0df7c8c9fe25ab931` and binds seven exact source files,
+six named Lean declarations, 18 semantic objects, 13 crossings, and the exact
+premise lists used by theorem-backed edges. The adapter validates every field,
+endpoint, premise, digest, and declaration substring before emitting a
+deterministic `DERIVED_READ_MODEL_ONLY` report with graph effect `NONE`.
+
+The A--H adversarial matrix reports one licensed forward forgetting, seven
+refusals, and one inexpressible request. In particular, actual provenance does
+not return from the relational summit; finite witnesses do not become formal
+power series; initial-form or slice facts do not recover actual/full objects;
+the retired local-seven-to-local-five projection records its coordinate losses;
+and field-relative obstruction credit does not widen to scheme scope. The
+degree-five codomain step is kept visible as the one real GP vocabulary gap:
+there is no current dimension/rank-credit claim kind, so no credit is minted.
+
+Fourteen focused tests cover the live JC bindings, all A--H controls, premise
+omission, endpoint rebinding, lossy-edge declarations, `UNTYPED` refusal,
+scope widening, digest/declaration drift, and deterministic projection under
+input reordering. No kernel relation, claim kind, graph field, graph event, or
+evidence schema changed. The repository now collects 1,649 tests.
+
+## 2026-08-14 - v0.24 public release preparation
+
+The public mirror is no longer refreshed by an undocumented tracked-file copy.
+`public-snapshot-v1.json` classifies every tracked file as public, private, or
+generated, and `scripts/public_snapshot.py` exports exact blobs from one Git
+commit. Unclassified paths, overlapping exact classifications, missing required
+files, unsafe paths, and an existing output target all fail closed. The
+generated receipt binds the source commit, boundary manifest, every public
+file digest, and the complete snapshot fingerprint.
+
+The old public mirror's Git objects were LF, but its Windows checkout expanded
+them to CRLF. Copying exact workspace blobs therefore looked like a whole-tree
+modification until Git applied its clean filter. v0.24 makes the checkout rule
+explicit through `.gitattributes` (`* text=auto eol=lf`). The staged public diff
+contains only 14 modified existing files and 41 additions; future refreshes
+cannot recreate the misleading working-tree churn silently.
+
+The workspace is version 0.24.0 with Apache-2.0 licensing metadata, repository
+URLs, and a public GitHub Actions fast lane. The release includes Portage
+Command, dossier/release/publication projections, replay-kit closure, and the JC
+formalization transport assay. It excludes private handoffs, coordinator
+packets, planning notes, local configuration, and the unrelated `uv.lock`.
+
+The 1,649-test collection passed as four disjoint release lanes: 1,522 ordinary
+tests with eight skips in 43.03 seconds, 72 replay tests with one skip in 313.82
+seconds, six exhaustive tests in 48.97 seconds, and 40 live WSL/Singular tests
+in 542.11 seconds. The marker-unfiltered one-process invocation hit its
+1,200-second wrapper without a failure report; the partition accounts for all
+1,640 passes and nine expected skips. A focused 70-test release/architecture
+gate passed with two intentional moving-JC skips, and the 0.24.0 wheel built
+successfully.
