@@ -158,7 +158,8 @@ class Graph(object):
     """The folded state.  Plain dicts throughout -- the checker walks this, the
     CLI prints it, and neither needs a class hierarchy to do so."""
 
-    def __init__(self):
+    def __init__(self, check_binary_version=False):
+        self._check_binary_version = bool(check_binary_version)
         self.certificates = dict(K.BUILTIN_CERTIFICATES)
         self.cert_source = {k: "builtin" for k in K.BUILTIN_CERTIFICATES}
         self.cert_records = {}     # id -> the declaring event, for supersession
@@ -632,7 +633,8 @@ class Graph(object):
         # records and answers produced by another verifier/kernel/backend (or
         # against different semantic inputs) remain readable history, but
         # they never populate the fields the checker treats as evidence.
-        current, stale_reason = P.current_verdict(self, ev)
+        current, stale_reason = P.current_verdict(
+            self, ev, check_binary_version=self._check_binary_version)
         stored = dict(ev)
         stored["current"] = current
         stored["stale_reason"] = None if current else stale_reason
@@ -2592,7 +2594,7 @@ def load(*paths):
              "cannot merge epoch-0 and epoch-1 logs directly. Import the "
              "epoch-0 source into a new epoch-1 artifact first; a mixed fold "
              "would validate legacy records as native declarations.")
-    g = Graph()
+    g = Graph(check_binary_version=True)
     batch = [(ev, p, n) for p in paths for ev, n in load_events(p)]
     return g.apply_all(batch).validate()
 

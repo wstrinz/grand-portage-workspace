@@ -939,17 +939,24 @@ def _singular_binary_version(timeout=30):
     try:
         proc = subprocess.run(
             list(argv) + ["--version"], capture_output=True, text=True,
-            timeout=timeout,
+            stdin=subprocess.DEVNULL, timeout=timeout,
         )
     except (OSError, subprocess.TimeoutExpired) as exc:
         version = "unavailable: %s" % type(exc).__name__
     else:
-        text = "\n".join(
+        lines = [
             line.strip()
             for line in (proc.stdout + "\n" + proc.stderr).splitlines()
             if line.strip()
-        )
-        version = text[:1000] if text else "unreported"
+        ]
+        if proc.returncode != 0:
+            version = "unavailable: exit %d" % proc.returncode
+        else:
+            banners = [line for line in lines if "Singular" in line]
+            # The rest of the banner includes build flags and a changing
+            # random seed. The first identifying line is stable across an
+            # unchanged binary and is the version identity we persist.
+            version = banners[0][:1000] if banners else "unreported"
     _BINARY_VERSION_CACHE[argv] = version
     return version
 

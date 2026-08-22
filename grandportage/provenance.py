@@ -435,7 +435,7 @@ def metadata(graph, subject, of, execution=None, representation=None,
             graph, subject, of, representation=representation),
     }
 
-def current_verdict(graph, event):
+def current_verdict(graph, event, check_binary_version=False):
     """Return ``(is_current, reason)`` for a stored verdict event.
 
     Missing metadata is the epoch-0 form.  It remains valid log history but is
@@ -478,6 +478,19 @@ def current_verdict(graph, event):
     manifest = backend_provenance(event.get("backend"))
     if manifest is None:
         return False, "backend execution provenance is absent or invalid"
+    if check_binary_version:
+        # Imported lazily because cas imports store and store imports this
+        # module. Freshness is evaluated only after initialization, while a
+        # persisted graph is being loaded.
+        from . import cas
+        current_version = cas.SingularBackend().identity.binary_version
+        if (not isinstance(current_version, str)
+                or not current_version.strip()
+                or current_version.startswith("unavailable:")
+                or current_version in ("unreported", "test-double")):
+            return False, "current backend binary identity is unavailable"
+        if manifest["binary_version"] != current_version:
+            return False, "backend binary version does not match current process"
     if (not manifest["executions"]
             and not _allows_empty_structural_trace(graph, event)):
         return False, (
