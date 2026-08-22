@@ -187,6 +187,7 @@ class Graph(object):
         self.graph_format = 0
         self.kernel_epoch = 0
         self.created_with = None
+        self.implementation = None
         self.compatibility_mode = True
 
     # -- fold ---------------------------------------------------------------
@@ -206,6 +207,7 @@ class Graph(object):
             self.graph_format = ev["graph_format"]
             self.kernel_epoch = ev["kernel_epoch"]
             self.created_with = ev["created_with"]
+            self.implementation = dict(ev["implementation"])
             self.compatibility_mode = False
             return
         if self.graph_format == F.GRAPH_FORMAT:
@@ -2233,6 +2235,7 @@ class Graph(object):
             self.graph_format = meta["graph_format"]
             self.kernel_epoch = meta["kernel_epoch"]
             self.created_with = meta["created_with"]
+            self.implementation = dict(meta["implementation"])
             self.compatibility_mode = False
             self._event_count = 1
             for ev, source, lineno in batch:

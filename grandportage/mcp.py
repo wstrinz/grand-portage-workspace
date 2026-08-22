@@ -31,10 +31,11 @@ from . import cas
 from . import check as C
 from . import format as F
 from . import hook as HK
+from . import identity as I
 from . import kernel as K
 from . import store as S
 
-PROTOCOL_VERSION = "2025-06-18"
+PROTOCOL_VERSION = I.MCP_PROTOCOL_VERSION
 SUPPORTED_PROTOCOLS = ("2024-11-05", "2025-03-26", "2025-06-18")
 
 ROOT = os.environ.get("GP_ROOT", ".")
@@ -1000,10 +1001,15 @@ def dispatch(request, root=ROOT):
     if method == "initialize":
         asked = params.get("protocolVersion")
         version = asked if asked in SUPPORTED_PROTOCOLS else PROTOCOL_VERSION
+        implementation = I.implementation_identity(
+            VERSION, F.GRAPH_FORMAT, F.KERNEL_EPOCH)
         return _ok(rid, {
             "protocolVersion": version,
             "capabilities": {"tools": {}},
-            "serverInfo": {"name": "grand-portage", "version": VERSION},
+            "serverInfo": {
+                "name": "grand-portage", "version": VERSION,
+                "grandPortage": implementation,
+            },
             "instructions": (
                 "Every computation that produces a model must declare how that "
                 "model relates to its source. Call portage_transport_table if "

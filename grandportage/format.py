@@ -11,7 +11,9 @@ JSON booleans rather than merely truthy values.
 
 import re
 
-GRAPH_FORMAT = 4
+from . import identity as I
+
+GRAPH_FORMAT = 5
 KERNEL_EPOCH = 10
 META_EVENT = "meta"
 
@@ -23,11 +25,14 @@ def created_with():
 
 
 def meta_event():
+    from . import __version__
     return {
         "ev": META_EVENT,
         "graph_format": GRAPH_FORMAT,
         "kernel_epoch": KERNEL_EPOCH,
         "created_with": created_with(),
+        "implementation": I.implementation_identity(
+            __version__, GRAPH_FORMAT, KERNEL_EPOCH),
     }
 
 
@@ -37,7 +42,10 @@ _LIFECYCLE = {"supersedes", "discharge_kind", "why"}
 # checks.  Adding an authored field now requires placing it in the vocabulary
 # of the event that owns it.
 EVENT_FIELDS = {
-    "meta": {"ev", "graph_format", "kernel_epoch", "created_with"},
+    "meta": {
+        "ev", "graph_format", "kernel_epoch", "created_with",
+        "implementation",
+    },
     "certificate": {
         "ev", "id", "base_changes", "why",
     } | _LIFECYCLE,
@@ -101,7 +109,10 @@ EVENT_FIELDS = {
 }
 
 REQUIRED_FIELDS = {
-    "meta": {"ev", "graph_format", "kernel_epoch", "created_with"},
+    "meta": {
+        "ev", "graph_format", "kernel_epoch", "created_with",
+        "implementation",
+    },
     "edge": {"ev", "id", "src", "dst", "type", "why", "map_kind"},
     "verdict": {
         "ev", "id", "subject", "of", "verdict", "why", "verifier",
@@ -214,6 +225,47 @@ def validate_meta(ev, where, error):
             % (where, ev["kernel_epoch"], KERNEL_EPOCH))
     if not isinstance(ev["created_with"], str) or not ev["created_with"].strip():
         raise error("%s: `created_with` must be a non-empty string" % where)
+    implementation = ev["implementation"]
+    required = {
+        "schema", "package_version", "source_commit", "source_dirty",
+        "graph_format", "kernel_epoch", "mcp_protocol", "backend",
+    }
+    if not isinstance(implementation, dict) or set(implementation) != required:
+        raise error("%s: `implementation` must be the closed %s identity"
+                    % (where, I.IDENTITY_SCHEMA))
+    if implementation["schema"] != I.IDENTITY_SCHEMA:
+        raise error("%s: unsupported implementation identity schema %r"
+                    % (where, implementation["schema"]))
+    if (not isinstance(implementation["package_version"], str)
+            or not implementation["package_version"].strip()):
+        raise error("%s: implementation package_version must be non-empty"
+                    % where)
+    commit = implementation["source_commit"]
+    if commit is not None and not re.match(r"^[0-9a-f]{40}$", commit):
+        raise error("%s: implementation source_commit must be 40 lowercase hex"
+                    % where)
+    if (implementation["source_dirty"] is not None
+            and type(implementation["source_dirty"]) is not bool):
+        raise error("%s: implementation source_dirty must be true, false, or null"
+                    % where)
+    if (implementation["graph_format"] != ev["graph_format"]
+            or implementation["kernel_epoch"] != ev["kernel_epoch"]):
+        raise error("%s: implementation identity disagrees with graph metadata"
+                    % where)
+    if (not isinstance(implementation["mcp_protocol"], str)
+            or not implementation["mcp_protocol"].strip()):
+        raise error("%s: implementation mcp_protocol must be non-empty" % where)
+    backend = implementation["backend"]
+    backend_fields = {
+        "contract", "implementation", "implementation_version",
+        "protocol_version",
+    }
+    if (not isinstance(backend, dict) or set(backend) != backend_fields
+            or not isinstance(backend["contract"], str)
+            or not isinstance(backend["implementation"], str)
+            or type(backend["implementation_version"]) is not int
+            or type(backend["protocol_version"]) is not int):
+        raise error("%s: implementation backend identity is malformed" % where)
 
 
 def import_epoch0_event(ev):
