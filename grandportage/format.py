@@ -75,7 +75,9 @@ EVENT_FIELDS = {
         "receipt_schema", "receipt_id", "receipt_fingerprint",
     } | _LIFECYCLE,
     "same_as": {"ev", "id", "models", "why"} | _LIFECYCLE,
-    "family": {"ev", "id", "count", "desc", "members"} | _LIFECYCLE,
+    "family": {
+        "ev", "id", "count", "desc", "members", "enumeration",
+    } | _LIFECYCLE,
     "evidence": {
         "ev", "id", "for", "method", "ran", "what", "decides",
         "agrees_with", "cite",

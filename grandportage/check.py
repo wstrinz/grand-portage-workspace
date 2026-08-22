@@ -2129,21 +2129,56 @@ def check_families(graph):
     for fid in sorted(graph.families):
         fam = graph.families[fid]
         enum = fam.get("enumeration")
-        if not enum or enum not in graph.claims:
+        claim = graph.claims.get(enum) if enum else None
+        problem = None
+        if not enum:
+            problem = "names no claim"
+        elif claim is None:
+            problem = "names %r, which is not a claim" % enum
+        elif claim.get("family") != fid:
+            problem = (
+                "names %s, but that claim is scoped to family %r"
+                % (enum, claim.get("family")))
+        elif claim.get("kind") != K.PREDICATE:
+            problem = (
+                "names %s, whose kind is %r rather than PREDICATE"
+                % (enum, claim.get("kind")))
+        elif type(claim.get("asserts_count")) is not int:
+            problem = (
+                "names %s, which does not carry an integer `asserts_count`"
+                % enum)
+        elif claim["asserts_count"] != fam["count"]:
+            problem = (
+                "names %s, which asserts count %d rather than %d"
+                % (enum, claim["asserts_count"], fam["count"]))
+        else:
+            exact = [
+                evidence for evidence in graph.evidence.values()
+                if not evidence.get("superseded_by")
+                and evidence.get("for") == enum
+                and evidence.get("method") == "ENUMERATION"
+                and evidence.get("decides") == "BOTH"
+            ]
+            if not exact:
+                problem = (
+                    "names %s, but no current ENUMERATION evidence for that "
+                    "claim declares `decides: BOTH`" % enum)
+        if problem is not None:
             findings.append(Finding(
                 R_FAMILY, "%s:%s" % (R_FAMILY, fid), UNSOUND_PREMISE, fid,
-                "family %s declares count %d and names %s as the claim "
+                "family %s declares count %d and %s as the exact claim "
                 "establishing it."
-                % (fid, fam["count"],
-                   "no claim" if not enum else "%r, which is not a claim" % enum)
+                % (fid, fam["count"], problem)
                 + "\n  Every 'k of N' result in this campaign divides by that "
                   "N. An uncounted family makes each of them a statement about "
                   "a number nobody vouched for.",
                 "Record the enumeration as a claim at this family and name it "
-                "in `enumeration` -- how the members were counted, and how you "
-                "know the count is complete. One census verified its own by "
-                "checking orbit sizes summed to the labelled total; that is "
-                "exactly the claim this field wants.",
+                "in `enumeration`. The claim must be a family PREDICATE with "
+                "`asserts_count` equal to the family's count, backed by current "
+                "ENUMERATION evidence with `decides: BOTH` -- how the members "
+                "were counted, and how you know the count is complete. One "
+                "census verified its own by checking orbit sizes summed to the "
+                "labelled total; that is exactly the claim this field wants.",
                 semantic_key=fid))
     for cid in sorted(graph.claims):
         c = graph.claims[cid]

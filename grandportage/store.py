@@ -1780,6 +1780,16 @@ class Graph(object):
                      "reduction can be run." % (where, ev["id"]))
         if ev.get("kind") == K.COUNT:
             self._apply_disposition(ev, where)
+        if at_family and ev.get("kind") == K.PREDICATE:
+            asserted_count = ev.get("asserts_count")
+            if asserted_count is not None:
+                _require(
+                    type(asserted_count) is int and asserted_count >= 0,
+                    "%s: family PREDICATE claim %r `asserts_count` must be "
+                    "a nonnegative integer, not %r. A completeness claim "
+                    "needs a machine-checkable count; do not make the "
+                    "checker parse it out of `statement`."
+                    % (where, ev["id"], asserted_count))
         c = dict(ev)
         # Scope derivation happens at fold time, not at check time: a claim
         # whose declared scope contradicts its certificate is a malformed
