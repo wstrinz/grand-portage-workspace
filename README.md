@@ -100,6 +100,15 @@ graph format, or kernel epoch.
 - [HISTORY/](HISTORY/) — superseded findings retained as evidence
 - [lean/README.md](lean/README.md) — non-authoritative semantic shadow
 
+After the companion is published, its optional external conformance lane is:
+
+```console
+git clone https://github.com/wstrinz/grandportage-jc-campaign
+cd grandportage-jc-campaign
+python -m pip install -e ".[test]"
+python -m pytest -m "not live"
+```
+
 The core checker and JSON read models are Python standard-library code. A CAS
 is used only for explicitly authorized live verification; the small checker
 replays retained certificates independently of the search that found them.
