@@ -85,7 +85,7 @@ ten-minute campaign and the recovery commands.
 Version <!--version-->0.28.0<!--/version-->, graph format
 <!--graph-format-->5<!--/graph-format-->, kernel epoch
 <!--kernel-epoch-->10<!--/kernel-epoch-->. The suite currently has
-<!--checks-->1445<!--/checks--> checks. v0.28 extracts the signed-off JC
+<!--checks-->1457<!--/checks--> checks. v0.28 extracts the signed-off JC
 campaign, hardens packet source binding, formalizes certificate stability, and
 dogfoods the compact review projection. It adds no transport type, claim kind,
 graph format, or kernel epoch.

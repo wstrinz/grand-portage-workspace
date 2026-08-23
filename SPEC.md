@@ -64,7 +64,7 @@ and read-only merge workflows. No transport type or core claim kind was added.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1445<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1457<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
@@ -444,7 +444,7 @@ Three.js build by default; `--three-root` can point it at a local package.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1445<!--/checks--> checks
+python -m pytest        # <!--checks-->1457<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two
