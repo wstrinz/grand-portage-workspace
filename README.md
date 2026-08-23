@@ -15,7 +15,7 @@ UNSOUND_CONCLUSION  TRANSPORT:INF-C08-HIST
   discharge: provide a base-changing certificate or keep the narrower scope
 ```
 
-That refusal came from a real published error: a nonsquare-class certificate
+That illustrative refusal came from a real published error: a nonsquare-class certificate
 over one field was consumed over every characteristic-zero field. GP turns the
 mistake into a type error at the transport boundary.
 
@@ -82,11 +82,13 @@ ten-minute campaign and the recovery commands.
 
 ## Status and documents
 
-Version <!--version-->0.27.0<!--/version-->, graph format
+Version <!--version-->0.28.0<!--/version-->, graph format
 <!--graph-format-->5<!--/graph-format-->, kernel epoch
 <!--kernel-epoch-->10<!--/kernel-epoch-->. The suite currently has
-<!--checks-->1752<!--/checks--> checks. v0.27 is a consolidation release: no
-new transport type, claim kind, graph format, or kernel epoch.
+<!--checks-->1445<!--/checks--> checks. v0.28 extracts the signed-off JC
+campaign, hardens packet source binding, formalizes certificate stability, and
+dogfoods the compact review projection. It adds no transport type, claim kind,
+graph format, or kernel epoch.
 
 - [QUICKSTART.md](QUICKSTART.md) — install and first campaign
 - [SPEC.md](SPEC.md) — complete transport and verifier behavior
@@ -94,6 +96,7 @@ new transport type, claim kind, graph format, or kernel epoch.
 - [COMPATIBILITY.md](COMPATIBILITY.md) — formats, epochs, and migration
 - [ARCHITECTURE.md](ARCHITECTURE.md) — trust zones and module boundaries
 - [REVIEW.md](REVIEW.md) — current general attack surface
+- [grandportage-jc-campaign](https://github.com/wstrinz/grandportage-jc-campaign) — optional extracted campaign fixtures, replay, and historical review brief
 - [HISTORY/](HISTORY/) — superseded findings retained as evidence
 - [lean/README.md](lean/README.md) — non-authoritative semantic shadow
 

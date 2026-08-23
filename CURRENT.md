@@ -6,17 +6,17 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 
 ## Release boundary
 
-- Package version: <!--version-->0.27.0<!--/version-->.
+- Package version: <!--version-->0.28.0<!--/version-->.
 - Graph format: <!--graph-format-->5<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1752<!--/checks--> checks.
+- Test collection: <!--checks-->1445<!--/checks--> checks.
 
 Plain `pytest` is the conceptual full release gate. The ordinary edit loop is
 `pytest -m "not live and not replay and not exhaustive"`; deterministic frozen
 campaign replay and real-CAS checks have separate `replay` and `live` lanes,
 and the largest finite reconstructions are marked `exhaustive`.
 
-The v0.27 release gate is recorded in `review/v0.27/README.md`. It separates
+The v0.28 release record is under `review/v0.28/`. The release gate separates
 ordinary deterministic, frozen replay, exhaustive reconstruction, and live
 WSL/Singular lanes so every collected test is accounted for without making
 backend availability implicit.
@@ -66,229 +66,12 @@ configuration remain outside the mirror.
 
 ## Live composition frontier
 
-The JC H3 `c9_11` p-axis stratum now completes the first native-receipt-to-
-graph-authority path. GP binds the frozen native digest, exact localized model,
-coefficient domain, point universe, generators, and guards; compiles the
-factor/affine contradiction to an ordinary cofactor certificate; replays that
-certificate; and mints only local `EMPTY`. The parent transport is refused.
-The review packet is under `review/v0.19/`.
-
-Both ordered five-step source ladders now have graph-bound mapped-equivalence
-authority. The top face algebraizes the `t` localization with an explicit
-inverse coordinate. The second face uses `15*t^3+1=0` to derive and exactly
-check the polynomial inverse `t^-1=-15*t^2`. Their producer composes explicit
-cofactor proofs for both ideal pullbacks; `verify.ring_iso` expands those proofs
-and checks both map round trips without Gröbner search. Mutated cofactors are
-`UNVERIFIED`, while the legacy top-face Singular path independently agrees and
-rejects a missing inverse equation. The review packet is under `review/v0.20/`.
-A follow-on isolated assay imports the frozen depth-6 residual pair: the
-3,262-term R2B and 6,124-term beta maps are independently decoded and
-native-digest-welded. Existing mapped_ring_iso_v1 evidence certifies the
-generic affine solve for c7_5 and the discriminant collapse to beta=0, both
-without CAS. JC commit cb3136c lands all 25 depth-2..6 face bodies and the
-23-step ordered chain. GP independently verifies every transition and welds
-both ends to its earlier fixtures.
-
-The graded face-extraction checker then expands five exact reduced E-system
-rows to all 25 selected faces in about one second. A stronger audit reconstructs
-those rows from the normalized root series, fourteen P-side triangular
-eliminations, and the defining E-system formula. Lean proves the one-way point
-semantics and supplies a countermodel to reverse transport.
-
-The complete finite-template assay now gives that proposition graph authority.
-It materializes 147 nonzero coefficient equations in 78 active variables,
-retains the selected 25 verbatim, and declares the existing
-NECESSARY_CONDITION relation. Containment verifier version 3 recognizes exact
-generator inclusion as a checked unit-cofactor proof, reparses every target,
-and earns VERIFIED with no backend process. The persisted assay has zero
-findings.
-
-This corrects the earlier diagnosis: 64 is a shared bound on specialized
-checkers and producers, not on graph models or the core sparse parser. No
-global bump is needed. The graph is about 39.5 MB. Projection schema v2 avoids
-duplicating its model records inside visualization nodes, cutting the measured
-compact read artifact from 68.8 MB to 34.4 MB without changing graph authority.
-Deep polynomial interning would save only another roughly 1 MB and is deferred.
-JC commit d4a18b4 now freezes the honest conditional upstream boundary. Its
-native verifier replays all five reduced rows from normalized Laurent-root data,
-runs five upstream checkers, rejects nine mutations, and deliberately refuses
-strict original-source mode. GP binds its manifest and verifier, welds the five
-row digests to the existing exact fixture, and retains graph effect NONE.
-The remaining seam is now named precisely: the coefficient-level map from the
-source-derived target pair to the normalized Laurent-root presentation is
-unmaterialized. Original-pair membership, reverse lifting, parent coverage, H3,
-and verdict promotion remain open.
-
-The first-value handback refines that statement without erasing it.  It binds
-an exact native covered-`psi2` sigma-top calculation: the three gauge-invariant
-ratios are fixed, `p=P_(2,1)` is nonzero, and the gauge-free coefficient
-`P_(3,0)` is zero.  The current frontier records this as a CLOSED partial map
-and retains a distinct OPEN remaining coefficient-map item.  It mints no pair
-existence, reverse lift, source sufficiency, R5/R7, H3, or graph event.
-
-The exact invariant-`J` Sigma guard peel now closes the declared
-`b=R=Delta=0` S2 low-jet cover as a separate GP scope.  Its fifteen residual
-fibres are all illegal `det5=0` guard roots.  The broad `JC.H3.B0.FULL`
-frontier item remains open: this receipt does not speak for S1, S3, S4, or
-global `b=0`.
-The v0.22 review packet freezes this complete extraction and graph-
-authority milestone under review/v0.22/.
-
-A bounded aggregate replay gate now composes these adapters in their semantic
-order and emits a machine-readable stage ledger. Routine fast mode checks all
-frozen welds in about five seconds while explicitly deferring the expensive
-graph-authority recomputations. Full mode rederives the rows, verifies the
-147-row inclusion, replays all 25 substitutions, and checks both boundary
-equivalences; it measured 160 seconds historically and 310.6 seconds under the
-latest machine load. A separately opt-in native mode runs the JC
-upstream checkers and nine mutation refusals. Every passing mode terminates at
-`VERIFIED_TO_EXPLICIT_OPEN_OBLIGATION`; the aggregate grants no new graph
-authority and keeps `target_pair_to_normalized_laurent_root` visibly open.
-
-The corrected R1--R7 source-frontier adapter now binds the three landed native
-manifests with LF-normalized digests. It keeps pair positive-j forcing distinct
-from the still-open Q-side relocation and from the landed-only `(1,2)` point.
-Aggregate replay schema v2 exposes R5, R6, R7, Q-side relocation, and the
-parent source seam as separate open frontier entries. A generated delimited
-status projection carries supported/not-supported authority into review without
-editing or parsing JC prose.
-
-The replay gate now has three authority tiers: roughly 1.2-second binding-only
-preflight, roughly 3.9--4.8-second exact seam replay, and a load-sensitive full
-recomputation most recently measured at 310.6 seconds. Preflight performs no
-sparse decoding and grants no mathematical verdict. Seam preserves the former fast verdict and licenses;
-full retains all face substitutions and graph checks. An fsynced per-stage
-diagnostic journal survives interrupted runs without replacing the atomic final
-ledger. A real full run spent 242.7 seconds in the chain stage, reproducing the
-reported 255-second signature while seam mode spent 2.7 seconds there. This
-supports full-mode invocation plus machine load, not a fast-tier regression;
-the original argv was not preserved.
-
-The first external coordinator consumer has now run the seam gate against the
-landed JC tree and persisted its final ledger and per-stage journal under
-`review/`. It independently reproduced
-`VERIFIED_TO_EXPLICIT_OPEN_OBLIGATION`, graph effect `NONE`, the conditional
-authority ceiling, and the five-part R1--R7/open-source frontier in 5.054
-seconds. Its Windows journal also exposed that RSS samples were `null` because
-the 64-bit process handle was being truncated by default `ctypes` signatures;
-the sampler now declares the Windows API types and its regression requires a
-positive numeric value.
-
-The S4 constructible-scope assay is the next bounded consumer. It freezes and
-independently decodes the native 952-term fitting condition, its exact 24-term
-leading coefficient `C2`, and a 12-term rank witness, then checks the exact
-`K = QQ[t]/(15*t^3+1)` point. The closed `C=C2=0` piece is verified nonempty,
-while the principal-open `C=0, C2!=0` piece remains explicitly `OPEN`. The 24
-failed search seeds are bounded provenance only. The zero/nonzero split is a
-structural cover with no union claim, and the whole adapter retains graph
-effect `NONE`; no kernel relation or claim kind was added.
-
-The corrected adjoint recurrence is now the first Lean-backed
-`parametric_recurrence_v1` assay. The runtime independently decodes the padded
-five-by-two operator matrices, reconstructs the four jumps at depths
-7, 9, 11, and 13, checks that the sequence is zero from depth 14, and checks
-that the depth-13 block is nonzero. Lean proves the reusable theorem: on a
-unilateral domain starting at `s`, a sequence with zero tail from `N` and a
-nonzero last block has exactly those constant-coefficient annihilators whose
-coefficients below `N-s` vanish. Here `N-s=8`, so the ideal over `QQ` is
-exactly `(S^8)`; `S^7` fails, and no reversible backward recurrence exists.
-Finite operators are explicitly padded to width at least eight and rational
-scalars act faithfully on the exact sparse matrix module. P1--P5, S2, the pin,
-and H8 remain named assumptions. The adapter also refuses a blanket
-minimal-`S-1` reading for the final zero regimes. Graph effect remains `NONE`.
-
-The depth-eight straggler/zero-block composition is now a second Lean-backed
-scope assay. The frozen native receipt solves `c7_4`, verifies a rank-four
-combined operator, and computes a nonzero rotated `Omega_comb` at one exact
-L-valued base witness. Because that necessary scalar is independent of the
-remaining `c8_5` coordinate, Lean licenses emptiness of the entire named
-first-order compatibility fiber. The other eleven base directions, the
-Galois conjugate, nonlinear lifting, component exclusion, source authority,
-H3, and verdict promotion remain explicitly open or refused. The report has
-graph effect `NONE`.
-
-The S2 on-wall `OB != 0` dead-row obstruction is the first recent JC assay to
-compile all the way into existing graph authority. GP freezes the exact
-502-term `value_24` and 499-term ambient `OB`, checks
-`OB = value_24 + 45*c2_3*t*c8_9*R`, and uses the existing localized-unit-ideal
-certificate to mint `LOCAL_EMPTY` on the exact `R=0, OB!=0` consequence model.
-The complete nine-body parent and its necessary-condition edge are deliberately
-absent, so this grants no component, source, H3, or verdict authority. The live
-WSL/Singular replay succeeded. This assay also exposed and fixed a general CAS
-boundary defect: exact sparse polynomials are now canonically compiled before
-membership and cofactor-representation programs are emitted.
-
-The `b=0` compatibility-class assay exercises a different proposition sort:
-one named element of a localized coordinate ring. It independently reconstructs
-the wall-wide `det5` Cramer solve, the forced-square pushforward to the frozen
-3,137-term `Phi_b0_compat`, the degree-26 subresultant chain, a quadratic
-quotient observation where the class is nonzero, and a legal degree-14 quotient
-observation where it is zero. Lean proves that these observations license
-exactly **nonzero and nonunit**. Nonzerodivisor status, `K`-rationality,
-component geometry, lifting, source, H8, H3, verdict, and graph authority remain
-open or refused. This is standalone `localized_ring_element_class_v1` evidence
-with graph effect `NONE`, not a new graph claim kind. The later exact
-`compatibility_module/1` rendezvous binds the same `Phi` digest and supplies
-the principal-compatibility-ideal and materialized-fiber semantics as explicit
-frozen native premises; GP keeps those separate from what it independently
-replays.
-
-The landed `b=0` free-plane receipt now has a second, much smaller GP assay.
-Its frozen ledger contains 35 loaded objects (31 distinct) and exactly four
-live free-plane coefficient rows. GP independently checks
-`coef(E321,c7_4)=(5/2)t Delta`, the two pure `15 b t^2` columns, the exact
-two-factor split of `coef(VD,c7_4)`, and the surviving
-`coef(c9_7-value,c7_4)=-(3/2)a`. Dropping `b=0` revives `c8_5`; dropping
-`Delta=0` revives `E321`.
-
-The survivor is a unit-pivot march value solving `c9_7`, not a ninth fiber
-equation. A reversible affine translation absorbs it, and the eight downstream
-equations omit `c9_7`. Lean now proves that translating a pivot-independent
-model leaves it unchanged. The assay therefore licenses an exact exceptional-
-factor ledger and coordinate normalization only, with graph effect `NONE`.
-The next open authority object is still just six coefficients: `c8_5` and
-`c9_7` in `E[2,19]`, `E[3,20]`, and `E[4,22]` on `X_b`.
-
-Those six coefficients have now landed, together with the invariant transported
-block. GP composes them with the earlier `c9_7` pivot and checks the exact
-anti-diagonal matrix
-`[[0,-5*a*t],[-(5/8)*a^4*c,0],[0,(5/2)*a^2*t]]`. Its nonzero 2-by-2 minor is a
-unit on the declared localization, so the necessary depth-eight block has
-constant rank two. The left syzygy `(a,0,2)` leaves one symbolic compatibility
-`Psi8=a*r8_1+2*r8_3`.
-
-This closed the six-coefficient request without materializing the boundary
-bodies. The native derivative-table chain-rule assembly is consumed as frozen
-semantics rather than falsely reconstructed from the six direct coefficients
-alone. At GP commit `20bd252`, `Psi8` is still only symbolic inside GP and the
-block remains necessary rather than equivalent to the complete source fiber.
-The general contract is `affine_fiber_block_v1`; graph effect remains `NONE`.
-
-The native JC tree then landed the next bounded handoff through commit
-`b7abb3c`. It exports exact `r8_1` and `r8_3` bodies and the 709-term
-`Psi8 = c2_3*r8_1 + 2*r8_3`; `r8_2` is deliberately absent because the checked
-left syzygy has zero middle coordinate. Its fast native replay passes 22/22 and
-classifies `Psi8` as nonzero, nonunit, and affine in the seven surviving fiber
-coordinates. The subsequent exact constrained solve produces the 4,123-term
-base polynomial `Omega8`; its fast replay passes 18/18 and proves `Omega8` is a
-unit in one frozen degree-14 compatible witness algebra.
-
-GP now binds those immutable inputs and independently recomputes all four
-load-bearing layers. The exact sparse replay reconstructs `Psi8` from the two
-exported residuals, instantiates the prior block's augmented determinant,
-rebuilds the five Cramer numerators and `Omega8`, retains the explicit
-`c2_3^26*c3_5^2` exceptional content, and recomputes the degree-zero gcd in
-the frozen quotient algebra. The positive GP report is
-`review/jc-h3-b0-depth8-psi8-omega8-v1.json`.
-
-This earns the necessary depth-eight condition and exclusion of that frozen
-finite compatible witness only. The pointwise Lean bridge explicitly refuses
-turning one quotient observation into component-wide authority. Complete-fiber
-or source equivalence, the off-slice zero locus, depth nine, H8, H3, verdict
-authority, and graph authority remain open. The adapter reuses
-`affine_fiber_block_v1`; no relation, claim kind, graph field, or evidence
-schema was added. `JC-COORDINATOR-NEXT-PACKET.md` remains on HOLD because the
-replay exposed no smaller precise native receipt to request.
+The signed-off JC composition frontier, native fixtures, exact adapters, and
+campaign review history moved to the optional
+[`grandportage-jc-campaign`](https://github.com/wstrinz/grandportage-jc-campaign)
+companion in v0.28. The core repository retains the generic graph, verifier,
+transport, frontier, packet, dossier, release, and publication machinery.
+Campaign mathematics does not become tool authority through that extraction.
 
 ## Active release discipline
 
@@ -304,75 +87,13 @@ specific open authority objects under the same discipline:
 
 ## Derived proof frontier
 
-The generic `frontier/v1` read surface now compiles evidence envelopes and
-premise-discharge overlays into one deterministic research boundary. It keeps
-historical status immutable, fingerprints that input, and applies updates only
-to exact scope IDs; explicit `exports_to_scopes` links are required for
-downstream propagation. It is outside the kernel and always reports
-`DERIVED_READ_MODEL_ONLY` with graph effect `NONE`.
-
-The experimental `formalization-transport-ledger/v0` now binds the current JC
-formal summit architecture at commit
-`4d1b5296c49c22cfb82b99c0df7c8c9fe25ab931`. Seven exact source digests and six
-named Lean declarations anchor 18 semantic objects, 13 crossings, and every
-formal premise used by the landed edges. The A--H mutation matrix has one
-licensed forward forgetting, seven refusals, and one explicit expressibility
-gap: the current kernel has no dimension/rank-credit claim kind for the
-degree-five codomain step. Actual provenance cannot be recovered from the
-relational summit, finite jets do not silently lift to formal series, slice
-vanishing does not recover a full tower, and field-relative obstructions do not
-widen to scheme scope. The compiler is deterministic, checks the live sibling
-checkout on request, and remains `DERIVED_READ_MODEL_ONLY` with graph effect
-`NONE`; it adds no relation, claim kind, graph field, or evidence schema.
-
-Its first JC consumer binds the complete H8 transfer receipts. H8 is now
-effectively discharged over depths 8--15 under P1--P5 and the pin, retaining
-S2 on S2-scoped consumers. The exact degree-34 depth-nine pairing and the
-operator schedule therefore lose their H8 qualifier without changing their
-chart or source scope. Additive residual bodies, source membership, source
-sufficiency, H3, and `(75,125)` remain open.
-
-The same projection records the exact `c7_9` family source exclusion as closed
-while keeping full `b=0` source exclusion open. The ranked pin-ablation
-handback has now been consumed by a third `frontier/v1` view. It closes uniform
-`c2_2` source incidence at `c2_1=c7_10=0`, confines the joint
-`c2_2/c7_10` lane to one exact hyperplane, and excludes both intercepts and the
-generic point after `a=c=1`. It does not close the at-most-130 resultant roots,
-transport off the residual-torus orbit, `c2_1`, full `b=0`, or the `b`, `R`,
-and `Delta` relaxations.
-
-The checked depth-six seam ledger is now the second independent
-`frontier/v1` consumer. Its five native statuses remain verbatim and explicitly
-open: R5, R6, R7, Q-side relocation, and the parent target-pair-to-normalized-
-root seam. Stable semantic IDs replace local labels, the three R6 premises are
-linked by stable source IDs, and the parent seam has a scope distinct from the
-conditional depth-six argument. This consumer performs no premise update and
-retains the source authority ceiling
-`CONDITIONAL_NORMALIZED_ROOT_TO_DEPTH6_BOUNDARY_ONLY`.
-
-`frontier-bundle/v1` now consolidates seven receipts into one canonical
-current boundary. Each receipt supplies minimal item observations containing a
-stable semantic ID, exact scope, effective status, and open/closed state. A
-repeated ID is refused unless the manifest names either exact open agreement or
-an explicit supersession; file order and timestamps have no authority. The
-current bundle contains 28 items: 10 open and 18 resolved. Its seven declared
-overlaps retain full `b=0` as one shared open obligation, preserve the
-coefficient-value seam, and replace the finite exceptional-`J` remainder with
-the exact all-`J` closeout. The manifest is
-`fixtures/frontier/current_v1.json`; the compact checked receipt is
-`review/frontier-current-v1.json`. Graph effect remains `NONE`.
-
-The old source-to-normalized-root request is split into the closed sigma-top
-partial map and open `JC.H3.SOURCE.REMAINING_COEFFICIENT_MAP`. The invariant S2
-guard peel is also closed at its exact wall while full `b=0` remains open. The
-stable `JC-COORDINATOR-NEXT-PACKET.md` rendezvous is on HOLD for the next
-digest-bound native coefficient handoff; GP must not invent a graph event from
-the newer weighted-projective sigma work.
-
-Focused coverage for the generic frontier compiler, its independent native
-consumers, and declaration targeting passes. The optional native-binding
-replay matches the exact sibling receipts without invoking a math-stuff release
-gate. Current release validation is recorded in the v0.23 handoff section.
+The generic `frontier/v1` and `frontier-bundle/v1` read surfaces compile exact
+receipt observations and explicit overlap resolutions into deterministic,
+content-addressed research boundaries. They remain
+`DERIVED_READ_MODEL_ONLY`, have graph effect `NONE`, and refuse implicit
+last-writer-wins behavior. Domain-neutral tests cover agreement, supersession,
+scope mismatch, digest drift, and missing-resolution controls. Historical JC
+consumers and their consolidated frontier moved to the companion repository.
 
 ## Portage Command v0
 
@@ -385,18 +106,13 @@ useful refutations, refusal categories, mutation coverage, prior-ledger
 extension, and verification debt; `--overlay` emits the future console layer.
 Every surface is `DERIVED_READ_MODEL_ONLY` with graph effect `NONE`.
 
-The JC pilot binds two completed map-redrawing attacks and one active mission to
-the still-open remaining coefficient-map frontier. The weighted-projective
-second-component discovery and the failed `D`-ansatz compression are recorded
-as `USEFUL_REFUTATION`, not false frontier closure. The active provisional task
-is the exact `Q_(5,1)=0` hyperplane classification or a bounded sparse rational
-certificate that names the residual strata. A matroid base-extension
-retrodiction compiles through the same schema as the second-domain control.
+The domain-neutral matroid base-extension retrodiction exercises the complete
+packet and ledger schema. The extracted companion retains the earlier JC pilot
+as runnable historical evidence.
 
 The RTS projection, planner, distribution layer, and `v1` schema freeze remain
-deferred. The next gate is a genuinely cold agent run against the generated
-active packet, followed by failure-matrix classification and one template
-repair round.
+deferred. The v0.28 cold trial is recorded under `review/v0.28/`; its packet
+digest defect led directly to pre-emission source-binding verification.
 
 ## Campaign dossier v0
 
@@ -415,11 +131,8 @@ object and an explicit resume condition; retired representations require exact
 reasons.
 
 The self-contained synthetic fixture demonstrates a short-of-summit publication
-flag alongside a blocked gold flag. The first live fixture binds JC's current
-`(75,125)` portrait and separately evaluates its publication and gold flags. It
-currently exposes the intended blockers rather than manufacturing readiness:
-source freshness, the current-head portrait audit, six non-S2 price cards, the
-release manifest, the manuscript, and exact S2 closure for gold.
+flag alongside a blocked gold flag. Campaign-specific portraits and terminal
+profiles now live in the companion repository.
 
 ## Campaign release v0
 
@@ -443,16 +156,10 @@ and content-addressed checker/input/certificate/environment closure. A separate
 replay-kit gate can materialize reproducibility closure without pretending an
 unfinished publication profile is ready.
 
-The JC publication draft now generates its own release manifest and exact
-portrait audit under dossier-declared generator contracts. It covers 16 of 17
-required records without laundering any other readiness criterion. All six
-native computational replays pass, as does the complete 19-module formal
-preparation and its five named consumer builds with zero `sorry` declarations.
-A 152-resource lock packages those lanes; a clean detached checkout at
-`1bbdec4` audits `CURRENT_CLEAN` with zero replay blockers and materializes a
-169-file replay kit whose 167 checksum entries all match. Full publication
-still refuses exactly because the manuscript is absent and the six non-S2
-price cards remain partial or unpriced.
+The extracted companion retains the signed-off publication draft, generated
+portrait audit, replay-resource lock, and archive pressure tests. The core
+synthetic fixture exercises successful archive construction and replay without
+embedding one campaign's payloads.
 
 ## Campaign publication v0
 
@@ -469,18 +176,10 @@ and license status. It repeatedly marks itself
 mathematical authority. Output writes are atomic and protect both the release
 input and existing files by default.
 
-The current JC adapter is now pinned to committed head `1bbdec4`. It includes
-the newly landed preimage-free LOCAL connecting row, exact identification of
-the depth-one page with the 36-dimensional `W_10`, the formal
-`SigmaLocalConnecting` interface, and the negative 31-wide cohomology ceiling.
-A fresh local replay of `SigmaLocalConnecting` and `SigmaCurrentShadow`
-completed with zero sorry declarations. The broader archive replay also built
-all 19 closed local modules and each of the five dossier-named formal consumers
-with zero sorry declarations. S2 remains open at the generic rank-nine
-obstruction bound and the independent upper relation bound.
-
-Before either provisional schema freezes, one non-JC campaign must exercise
-the same claim grades, price cards, terminal profiles, and public-release path.
+The companion retains the campaign-specific publication adapter and formal
+consumer checks. Before either provisional schema freezes, another independent
+campaign must exercise the same claim grades, price cards, terminal profiles,
+and public-release path.
 
 ## Experiments
 
