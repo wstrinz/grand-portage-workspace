@@ -2459,6 +2459,131 @@ class Graph(object):
                 _require(e[end] in self.models,
                          "edge %r has undeclared %s model %r"
                          % (eid, end, e[end]))
+            # A COORDINATE-RING ISOMORPHISM IS NOT A STATEMENT ABOUT POINTS,
+            # and every typed edge except UNTYPED licenses SOME point-kind
+            # transport (EMPTY, NONEMPTY or PREDICATE) in at least one
+            # direction. `point_universe` selects WHICH point functor a
+            # model's claims are read against -- k-points (`BASE`) or
+            # kbar-points (`ALGEBRAIC_CLOSURE`) -- and it is independent of
+            # the coordinate ring: `Q[x]/(x^2+1)` is one ring with zero
+            # points over `BASE` and two over `ALGEBRAIC_CLOSURE`.
+            #
+            # A live CFG23 replay declared an `EQUIVALENCE` between exactly
+            # that ring at both universes, with the identity map as its own
+            # converse. `ring_iso` verified TRUE -- correctly, the map really
+            # is a ring isomorphism -- and the kernel's point-transport row
+            # for EQUIVALENCE is unconditional in both directions, so a
+            # NONEMPTY witness at the closure endpoint transported AGAINST to
+            # the base endpoint and `gp check` reported the false descent
+            # clean. `ring_iso` cannot be the gate for this: the isomorphism
+            # is genuine, so refusing it there would be refusing a true
+            # fact. The endpoints are simply talking about different point
+            # sets, and no edge type's point row was ever meant to license
+            # transport between them -- RESTRICTION and NECESSARY_CONDITION
+            # reason from V(src) subset V(dst), IMAGE_CLOSURE from a
+            # contraction identity, BASE_EXTENSION from a tensor product:
+            # every one of those arguments silently assumes both sides name
+            # the same point functor, because nothing before this checked
+            # that they do.
+            #
+            # So this is checked STRUCTURALLY, at fold time, before any CAS
+            # call and before the kernel table is ever consulted -- refusing
+            # here means a mismatched EQUIVALENCE cannot even reach
+            # `verify.ring_iso`, let alone license a transport with it.
+            #
+            # OMISSION IS NOT A WEAKER DECLARATION, IT IS AN UNANSWERED
+            # QUESTION, and treating "one side declared, the other silent" as
+            # compatible would hand back exactly the bypass this closes: an
+            # author (or a generator) could dodge the mismatch by leaving one
+            # endpoint's `point_universe` unset. So once EITHER endpoint
+            # names a universe, BOTH must, and they must agree. Two models
+            # that both leave it unset are unchanged from every graph in the
+            # corpus before this field existed, and stay green.
+            # -----------------------------------------------------------------
+            # DESIGN NOTE (patch-author, GP feedback mode -- CFG23/DKC
+            # point-universe-equivalence-p0-handoff).
+            #
+            # WHICH LAYER OWNS THE INVARIANT, AND WHY.  `store.validate()`,
+            # not `verify.ring_iso` and not `kernel.transport`.  `ring_iso`
+            # answers a real and different question -- is the substitution a
+            # coordinate-ring isomorphism -- and on the retained assay it is:
+            # the identity map on `Q[x]/(x^2+1)` really is one.  Gating there
+            # would mean refusing a true fact to compensate for a mismatch it
+            # cannot see, since it is never handed a model, only ring data.
+            # `kernel.transport` is deliberately model-blind too -- it takes
+            # plain values so it stays callable from a test, a mutation
+            # harness or an MCP handler without adopting a `Graph`.  The one
+            # place already holding both endpoint MODELS at fold time, before
+            # any CAS call or kernel lookup, is here, in the same loop that
+            # already refuses a RESTRICTION whose endpoints disagree on
+            # ring_vars/characteristic. Point-universe agreement is that same
+            # kind of fact -- a precondition for the edge to mean what its
+            # type claims -- so it belongs beside it, not inside the
+            # isomorphism check or the transport table.
+            #
+            # WHAT OMISSION MEANS.  Not "BASE" and not "compatible with
+            # anything": UNSPECIFIED, on the same footing as every other
+            # optional structured field this store refuses to default
+            # (`declared_point_universe`'s own docstring: "legacy prose is
+            # intentionally untyped"). Two omitted endpoints make no
+            # point-functor claim at all, so every graph predating this field
+            # keeps folding. The moment EITHER endpoint commits to one,
+            # though, leaving the other silent cannot become the escape
+            # route from an explicit mismatch -- that is what "omission must
+            # not become a bypass" rules out -- so the two are required to
+            # agree once either speaks.
+            #
+            # DID THE CONTRACT/KERNEL SEPARATION MAKE THIS LOCAL, OR FORCE
+            # DUPLICATION.  Local, and cheaply so, but not for free. The
+            # bypass was never specific to EQUIVALENCE: `_POINT_RELATION_
+            # CAPABILITIES` in kernel.py grants every declarable type but
+            # UNTYPED some nonzero point-transport capability, and not one of
+            # their justifications (V(src) subset V(dst); a tensor product;
+            # an elimination contraction) mentions which point functor "V"
+            # ranges over. Because store.py already owns both endpoint MODELS
+            # in one place -- the kernel never does, by design -- one check
+            # ahead of the existing per-type block closes all six at once
+            # instead of six near-identical CAS-side gates. The audit (see
+            # `test_other_edge_types_refuse_the_same_point_universe_bypass`)
+            # is what earns the word "structural": the separation meant the
+            # fix could be ONE new fact checked in the one place that already
+            # had the data, not a change repeated at every kernel cell.
+            #
+            # FOLLOW-ON WORK THIS DELIBERATELY DOES NOT DO.  `point_universe`
+            # currently has exactly two values and no edge type is typed to
+            # move an object between them -- BASE_EXTENSION is a coefficient-
+            # field axis (Q into a number field), a different and separate
+            # obligation the handoff already carves out. A model genuinely
+            # changing point universe today has one honest spelling: UNTYPED
+            # with `debt_why`. The reduction in future misuse is a typed
+            # operation for exactly that step (name to be chosen with the
+            # eventual ordered/real-closed and number-field vocabulary, so it
+            # is not invented twice) -- out of scope here on purpose, per the
+            # instruction not to expand this patch into that vocabulary.
+            # -----------------------------------------------------------------
+            if e.get("type") != K.UNTYPED:
+                src_universe = declared_point_universe(self.models[e["src"]])
+                dst_universe = declared_point_universe(self.models[e["dst"]])
+                if src_universe is not None or dst_universe is not None:
+                    _require(
+                        src_universe is not None and dst_universe is not None
+                        and src_universe == dst_universe,
+                        "edge %r is %s from %r (point_universe=%r) to %r "
+                        "(point_universe=%r). A coordinate-ring identity or "
+                        "isomorphism says nothing about points if the two "
+                        "endpoints select different point functors: "
+                        "Q[x]/(x^2+1) has no point over BASE and a point "
+                        "over ALGEBRAIC_CLOSURE, so identifying those models "
+                        "would license the false inference that closure-"
+                        "nonemptiness descends to the base field. Once "
+                        "either endpoint declares `point_universe`, both "
+                        "must, and they must be equal; leaving one "
+                        "unstated is not a lesser claim, it is not a claim. "
+                        "If the two universes genuinely differ and no typed "
+                        "operation for that change exists yet, record the "
+                        "step UNTYPED with `debt_why` instead."
+                        % (eid, e.get("type"), e["src"], src_universe,
+                           e["dst"], dst_universe))
             if e.get("type") == K.RESTRICTION:
                 source_model = self.models[e["src"]]
                 target_model = self.models[e["dst"]]
