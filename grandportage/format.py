@@ -122,6 +122,49 @@ REQUIRED_FIELDS = {
     },
 }
 
+# Authoring requirements are data because the fold, CLI schema and MCP schema
+# must not teach three subtly different event languages.  ``REQUIRED_FIELDS``
+# above remains the wire-format minimum (notably for lifecycle tombstones);
+# these are the fields required for a live authored record of each kind.
+AUTHOR_REQUIRED_FIELDS = {
+    "certificate": {"ev", "id", "base_changes", "why"},
+    "model": {"ev", "id"},
+    "edge": {"ev", "id", "src", "dst", "type", "why", "map_kind"},
+    "claim": {"ev", "id", "kind", "statement"},
+    "inference": {"ev", "id", "asserted"},
+    "built_by": {"ev", "model", "inference"},
+    "partition": {"ev", "id", "parent", "branches", "exhaustive", "why"},
+    "same_as": {"ev", "id", "models", "why"},
+    "family": {"ev", "id", "count", "desc"},
+    "evidence": {"ev", "id", "for", "method", "ran", "what"},
+    "doubt": {"ev", "id", "about", "kind", "why"},
+    "citation": {"ev", "id", "cites", "resolves_to", "why"},
+    "erratum": {"ev", "id", "voids", "why"},
+    "note": {"ev", "text"},
+}
+
+EVIDENCE_METHODS = ("ENUMERATION", "REPLICATION")
+EVIDENCE_DECISIONS = ("BOTH", "EXCLUSIONS", "INCLUSIONS")
+
+# Machine-readable additions to JSON Schema.  They are intentionally small:
+# the fold remains the authority for mathematical validation, while these
+# rules make the common authoring mistakes discoverable without a rejected
+# write first.
+CONDITIONAL_REQUIREMENTS = {
+    "evidence": ({"if": {"method": "REPLICATION"},
+                  "required": ("agrees_with",)},),
+}
+
+TARGET_ENTITY_TYPES = {
+    "evidence.for": ("claim",),
+    "doubt.about": ("claim", "inference", "model", "edge"),
+    "built_by.model": ("model",),
+    "built_by.inference": ("inference",),
+    "partition.parent": ("model",),
+    "partition.branches": ("model",),
+    "partition.exhaustive": ("claim",),
+}
+
 LICENSING_BOOLEANS = {
     "certificate": {"base_changes"},
     "edge": {"refinement", "ring_iso"},
@@ -149,7 +192,13 @@ def validate_native_event(ev, where, error):
             "closed; fix the spelling or add the field to the format."
             % (where, kind, "s" if len(unknown) != 1 else "",
                ", ".join("`%s`" % x for x in unknown)))
-    missing = sorted(REQUIRED_FIELDS.get(kind, set()) - set(ev))
+    tombstone = (
+        isinstance(ev.get("supersedes"), str)
+        and ev.get("discharge_kind") in ("RETRACT", "WITHDRAW"))
+    required = REQUIRED_FIELDS.get(kind, {"ev"})
+    if not tombstone:
+        required = AUTHOR_REQUIRED_FIELDS.get(kind, required)
+    missing = sorted(required - set(ev))
     if missing:
         raise error(
             "%s: epoch-1 %s event needs %s"
@@ -159,6 +208,20 @@ def validate_native_event(ev, where, error):
             raise error(
                 "%s: epoch-1 %s %r `%s` must be true or false, not %r"
                 % (where, kind, ev.get("id"), field, ev[field]))
+    lifecycle_present = set(ev) & LIFECYCLE_FIELDS
+    for field in sorted(lifecycle_present):
+        if not isinstance(ev[field], str) or not ev[field].strip():
+            raise error(
+                "%s: epoch-1 %s `%s` must be a non-empty string"
+                % (where, kind, field))
+    if "supersedes" in ev and "discharge_kind" not in ev:
+        raise error(
+            "%s: epoch-1 %s with `supersedes` also needs `discharge_kind`"
+            % (where, kind))
+    if "discharge_kind" in ev and "supersedes" not in ev:
+        raise error(
+            "%s: epoch-1 %s with `discharge_kind` also needs `supersedes`"
+            % (where, kind))
     if (kind == "edge" and "ring_iso_certificate" in ev
             and not isinstance(ev["ring_iso_certificate"], dict)):
         raise error(

@@ -1780,7 +1780,7 @@ WITNESS_REFUTED = "NOT_A_POINT"
 
 
 def point_witness(graph, cid, timeout=300, _runner=None, _backend=None):
-    """Substitute a NONEMPTY claim's exhibited point into its model's equations.
+    """Substitute a NONEMPTY witness into its model's exact open locus.
 
     THE CHEAPEST CHECK IN THE SYSTEM, WITH NO SURFACE FOR THREE RELEASES.
     `cas.check_witness` has existed and worked the whole time; nothing called
@@ -1804,8 +1804,8 @@ def point_witness(graph, cid, timeout=300, _runner=None, _backend=None):
     transport typing anywhere downstream would ever have surfaced -- the same
     shape as a REFUTED identity, and the reason both verifiers exist.
 
-        VERIFIED     every generator vanishes at the point.
-        NOT_A_POINT  one does not, and it is named with its value.
+        VERIFIED     every generator vanishes and every open guard is nonzero.
+        NOT_A_POINT  an equation or guard fails, named with its exact value.
         UNVERIFIED   the question could not be put.
 
     STRUCTURED WITNESSES ONLY, via `witness_point`.  The prose `witness` field
@@ -1831,12 +1831,7 @@ def point_witness(graph, cid, timeout=300, _runner=None, _backend=None):
     if pending:
         return UNVERIFIED, pending
     gens = list(model.get("generators") or [])
-    if not gens:
-        return UNVERIFIED, (
-            "%s imposes no equations, so every point of the ambient space lies "
-            "on it and there is nothing to substitute into. The claim may well "
-            "be true; it is not this check that establishes it."
-            % c.get("model"))
+    guards = list(model.get("open_conditions") or [])
     ring = model.get("ring_vars") or c.get("ring_vars") or []
     if not ring:
         return UNVERIFIED, "neither %s nor claim %s declares ring variables" % (
@@ -1844,18 +1839,41 @@ def point_witness(graph, cid, timeout=300, _runner=None, _backend=None):
     ch, missing = _declared_characteristic(c.get("model"), model)
     if missing:
         return UNVERIFIED, missing
-    ok, evidence = (_backend or cas.SingularBackend(runner=_runner)).evaluate_point(
-        ring, gens, point, characteristic=ch,
+    # One evaluation keeps a 300-guard realization witness to one backend
+    # execution.  ``evaluate_point`` reports every exact value; its aggregate
+    # all-zero boolean is deliberately ignored because equations and guards
+    # have opposite predicates here.  A fully ambient model still evaluates a
+    # synthetic zero, both validating the coordinates and retaining ordinary
+    # execution provenance without inventing an equation on the model.
+    expressions = gens + guards
+    evaluated = expressions or ["0"]
+    _all_zero, evidence = (
+        _backend or cas.SingularBackend(runner=_runner)
+    ).evaluate_point(
+        ring, evaluated, point, characteristic=ch,
         timeout=timeout)
     shown = ", ".join("%s = %s" % (v, point[v]) for v in ring if v in point)
-    if ok:
+    rows = evidence["generators"][:len(expressions)]
+    failed_equations = [row for row in rows[:len(gens)]
+                        if not row["vanishes"]]
+    failed_guards = [row for row in rows[len(gens):]
+                     if row["vanishes"]]
+    if not failed_equations and not failed_guards:
         return WITNESS_VERIFIED, (
-            "every generator of %s's ideal vanishes at (%s), so the point is "
-            "on the variety and the claim HOLDS AT ITS OWN MODEL. What that "
-            "does not settle is where it may travel."
-            % (c.get("model"), shown))
-    failed = evidence["failed"]
-    values = {g["generator"]: g["value"] for g in evidence["generators"]}
+            "all %d equation%s of %s vanish and all %d open guard%s are "
+            "nonzero at (%s), so the point lies on the exact recorded open "
+            "model and the claim HOLDS AT ITS OWN MODEL. What that does not "
+            "settle is where it may travel."
+            % (len(gens), "" if len(gens) == 1 else "s", c.get("model"),
+               len(guards), "" if len(guards) == 1 else "s", shown))
+    if failed_equations:
+        failed = failed_equations[0]
+        failure = "equation %s evaluates to %s" % (
+            failed["generator"], failed["value"])
+    else:
+        failed = failed_guards[0]
+        failure = "open guard %r evaluates to %s and therefore vanishes" % (
+            failed["generator"], failed["value"])
     return WITNESS_REFUTED, (
         "the point (%s) does not lie on %s: %s.\n"
         "  THIS ONE IS A REFUTATION. The claim is that the variety has a "
@@ -1863,8 +1881,7 @@ def point_witness(graph, cid, timeout=300, _runner=None, _backend=None):
         "and it does not vanish. So the NONEMPTY is unsupported at the model "
         "it was claimed at, and every transport that carried it carried "
         "something that was never established."
-        % (shown, c.get("model"),
-           "; ".join("%s evaluates to %s" % (g, values[g]) for g in failed)))
+        % (shown, c.get("model"), failure))
 
 
 CERT_VERIFIED = "VERIFIED"
@@ -1973,7 +1990,7 @@ def unit_ideal(graph, cid, timeout=300, _runner=None, _backend=None):
 
 
 def localized_unit_ideal(graph, cid, timeout=300, _runner=None,
-                         _backend=None):
+                         _backend=None, supplied_certificate=None):
     """Certify that the exact recorded principal-open model is empty.
 
     A point of ``D(g_1)...D(g_n)`` would make every guard invertible. If a
@@ -2001,6 +2018,46 @@ def localized_unit_ideal(graph, cid, timeout=300, _runner=None,
     ch, missing = _declared_characteristic(c.get("model"), model)
     if missing:
         return UNVERIFIED, missing, None
+
+    if supplied_certificate is not None:
+        try:
+            checked = L.verify_guard_reduction_chain(supplied_certificate)
+            normalized = checked["normalized"]
+            expected_generators = [
+                G.canonical_polynomial_value(value, ring, ch)
+                for value in gens
+            ]
+            expected_guards = [
+                G.canonical_polynomial_value(value, ring, ch)
+                for value in guards
+            ]
+            if not (
+                    normalized["characteristic"] == ch
+                    and normalized["ring_vars"] == list(ring)
+                    and normalized["generators"] == expected_generators
+                    and normalized["guards"] == expected_guards):
+                raise L.LocalizationError(
+                    "the supplied chain does not match the claim's exact "
+                    "model, ordered generators, and ordered open guards")
+        except (G.CertificateError, L.LocalizationError, TypeError,
+                ValueError) as exc:
+            return UNVERIFIED, (
+                "the supplied localized guard-reduction certificate was "
+                "rejected without running a search: %s" % exc), None
+        rep = {
+            "method": L.CHAIN_SCHEMA,
+            "claim": cid,
+            "model": c.get("model"),
+            "proof": normalized,
+            "checked": checked["checked"],
+        }
+        return CERT_VERIFIED, (
+            "a supplied %d-step exact reduction chain proves a monomial in "
+            "the declared open guards belongs to the recorded ideal, so the "
+            "exact open model %s is empty. The expensive search happened "
+            "outside GP; every cofactor identity was checked inside GP. No "
+            "parent emptiness is implied."
+            % (len(normalized["certificate"]["steps"]), c.get("model"))), rep
 
     backend = _backend or cas.SingularBackend(runner=_runner)
     # First try pure guard monomials already visible in the generators. This is
@@ -2040,8 +2097,6 @@ def localized_unit_ideal(graph, cid, timeout=300, _runner=None,
     # Then small total degrees, deterministically. The cap is a producer
     # budget, not a theorem: failing to find a row proves nothing.
     product = tuple(1 for _ in guards)
-    if product not in candidates:
-        candidates.append(product)
     frontier = [tuple(0 for _ in guards)]
     seen = set(candidates + frontier)
     while frontier and len(candidates) < 32:
@@ -2059,11 +2114,21 @@ def localized_unit_ideal(graph, cid, timeout=300, _runner=None,
                 if len(candidates) >= 32:
                     break
 
+    # The full product is the historically useful fallback and the realistic
+    # ARR15 explosion. Try it last, only if the cheap frontier left room.
+    if len(candidates) < 32 and product not in candidates:
+        candidates.append(product)
+
+    budget_failures = []
     for powers in candidates:
-        target = "1"
-        for guard, power in zip(guards, powers):
-            target = G.multiply_polynomial_power(
-                target, guard, power, ring, ch)
+        try:
+            target = "1"
+            for guard, power in zip(guards, powers):
+                target = G.multiply_polynomial_power(
+                    target, guard, power, ring, ch)
+        except G.CertificateError as exc:
+            budget_failures.append(str(exc))
+            continue
         found = backend.membership(
             ring, target, list(gens), characteristic=ch, timeout=timeout)
         if not found["is_member"]:
@@ -2097,10 +2162,19 @@ def localized_unit_ideal(graph, cid, timeout=300, _runner=None,
             "exact cofactor expansion proves 1=0 in this localization, so "
             "the open model %s has no points. No parent emptiness is implied."
             % (list(powers), c.get("model"))), rep
+    suffix = ""
+    if budget_failures:
+        suffix = (
+            " %d candidate%s exceeded the exact sparse-polynomial budget "
+            "and were skipped (%s). Supply a %s certificate produced by the "
+            "research CAS to check this model without expanding the product."
+            % (len(budget_failures),
+               "" if len(budget_failures) == 1 else "s",
+               budget_failures[0], L.CHAIN_SCHEMA))
     return UNVERIFIED, (
         "no localized-unit witness was found in the bounded search of %d "
         "guard monomials. This is search exhaustion, not evidence that the "
-        "open model has a point." % len(candidates)), None
+        "open model has a point.%s" % (len(candidates), suffix)), None
 
 def _verdict_event(graph, subject, of, verdict, why, representation=None,
                    execution=None, verifier=None):
@@ -2394,7 +2468,7 @@ def materialize_elimination_groebner(
         "events": append_events,
     }
 def verify_all(root=".", timeout=300, _runner=None, record=True, backend=None,
-               graph_path=None):
+               graph_path=None, supplied_certificates=None):
     """Verify every checkable edge AND claim, and RECORD the answers.
 
     RECORDING WAS THE STATED POINT AND DID NOT HAPPEN.  This function's own
@@ -2446,9 +2520,9 @@ def verify_all(root=".", timeout=300, _runner=None, record=True, backend=None,
         execution_start = backend.execution_count
         try:
             out = fn()
-        except cas.CASError as exc:
+        except (cas.CASError, G.CertificateError, ValueError) as exc:
             verdict, why = UNVERIFIED, (
-                "the CAS could not answer for this object, and the rest of the "
+                "the verifier could not answer for this object, and the rest of the "
                 "run continued:\n  %s" % exc)
         else:
             verdict, why = out[0], out[1]
@@ -2550,7 +2624,8 @@ def verify_all(root=".", timeout=300, _runner=None, record=True, backend=None,
                 and not c.get("certificate_verdict")):
             run("certificate", cid,
                 lambda cid=cid: localized_unit_ideal(
-                    graph, cid, timeout=timeout, _backend=backend))
+                    graph, cid, timeout=timeout, _backend=backend,
+                    supplied_certificate=(supplied_certificates or {}).get(cid)))
         if (c.get("kind") == K.NONEMPTY and c.get("witness_point")
                 and not c.get("witness_verdict")):
             run("witness", cid, lambda cid=cid: point_witness(

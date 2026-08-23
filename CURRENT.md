@@ -6,17 +6,17 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 
 ## Release boundary
 
-- Package version: <!--version-->0.25.0<!--/version-->.
+- Package version: <!--version-->0.26.0<!--/version-->.
 - Graph format: <!--graph-format-->5<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1702<!--/checks--> checks.
+- Test collection: <!--checks-->1718<!--/checks--> checks.
 
 Plain `pytest` is the conceptual full release gate. The ordinary edit loop is
 `pytest -m "not live and not replay and not exhaustive"`; deterministic frozen
 campaign replay and real-CAS checks have separate `replay` and `live` lanes,
 and the largest finite reconstructions are marked `exhaustive`.
 
-The v0.25 release gate is recorded in `review/v0.25/README.md`. It separates
+The v0.26 release gate is recorded in `review/v0.26/README.md`. It separates
 ordinary deterministic, frozen replay, exhaustive reconstruction, and live
 WSL/Singular lanes so every collected test is accounted for without making
 backend availability implicit.

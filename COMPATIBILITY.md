@@ -343,6 +343,28 @@ finding deltas, and presentation-safe merge guidance. These surfaces do not
 add a database-filter edge, census-to-affine transport, algebraic-witness field
 extension, or measurement authority.
 
+Version 0.26.0 keeps **graph format 5** and **kernel epoch 10**. It repairs the
+existing exact-affine/open-locus implementation without adding a transport or
+claim kind. NONEMPTY point verification now checks both equations and every
+declared nonvanishing guard, including equation-free open charts. The witness
+verifier advances to version 3.
+
+Localized emptiness search is bounded and fail-closed. A verifier error on one
+claim no longer aborts the batch, and large campaigns can supply a
+`localized_guard_reduction_chain_v2` certificate: GP checks each exact
+factor/remainder cofactor identity without constructing the full guard
+product. The localized-unit verifier advances to version 2; old verdicts stay
+readable but stale.
+
+Finding presentation now distinguishes current debt, historical debt on a
+superseded generation, and live references into historical state. Baseline
+read/accept, native schema discovery, graph-prefix receipts, tail export, and
+read-only merge assay are available through MCP. These are custody and read
+semantics, not new mathematical licences. Structurally valid backend-v2
+manifests whose executable identity was historically unavailable are audited
+as legacy-readable/legacy-unverifiable; their immutable artifacts are checked
+without promoting their verdicts to current authority.
+
 ## Epoch-0 graphs
 
 Unversioned graphs are epoch 0. Version 0.14 continues to read them through a conservative,

@@ -31,6 +31,10 @@ DEBT = "DEBT"                              # a hole recorded as a hole
 SEVERITY_ORDER = [DEBT, TRIAGE, UNSOUND_PREMISE, UNSOUND_CONCLUSION]
 SEVERITY_RANK = {s: i for i, s in enumerate(SEVERITY_ORDER)}
 
+CURRENT = "CURRENT"
+HISTORICAL = "HISTORICAL_SUPERSEDED"
+STALE_HISTORICAL_REFERENCE = "STALE_REFERENCE_TO_HISTORICAL"
+
 # Rule codes.
 R_TRANSPORT = "TRANSPORT"
 R_TAINT = "TAINT"
@@ -71,7 +75,8 @@ EXISTENCE_OPPOSITE = {K.EMPTY: K.NONEMPTY, K.NONEMPTY: K.EMPTY}
 
 class Finding(object):
     __slots__ = ("rule", "fid", "severity", "subject", "detail", "discharge",
-                 "trace", "derived_severity", "severity_why", "semantic_key")
+                 "trace", "derived_severity", "severity_why", "semantic_key",
+                 "lifecycle")
 
     def __init__(self, rule, fid, severity, subject, detail, discharge,
                  trace=(), derived_severity=None, severity_why=None,
@@ -91,6 +96,7 @@ class Finding(object):
         # acceptance survived the inference concluding about a different model
         # across a different relaxation type.
         self.semantic_key = semantic_key
+        self.lifecycle = CURRENT
 
     @property
     def overridden(self):
@@ -121,14 +127,15 @@ class Finding(object):
         """
         payload = "\x1f".join([
             self.rule, self.subject, self.detail, self.derived_severity,
-            self.semantic_key,
+            self.semantic_key, self.lifecycle,
             "|".join("%s/%s/%s" % (e, d, lic) for e, d, lic, _ in self.trace)])
         return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:16]
 
     def as_dict(self):
         d = {"rule": self.rule, "id": self.fid, "severity": self.severity,
              "subject": self.subject, "detail": self.detail,
-             "discharge": self.discharge, "fingerprint": self.fingerprint}
+             "discharge": self.discharge, "fingerprint": self.fingerprint,
+             "lifecycle": self.lifecycle}
         if self.trace:
             d["trace"] = [{"edge": e, "direction": dr, "licensed": lic,
                            "reason": rsn} for e, dr, lic, rsn in self.trace]
@@ -3399,6 +3406,106 @@ def check_predicate_conditions(graph):
     return findings
 
 
+def _entity_registries(graph):
+    return (
+        graph.models, graph.edges, graph.claims, graph.inferences,
+        graph.partitions, graph.families, graph.evidence, graph.doubts,
+        graph.citations, graph.named_notes,
+    )
+
+
+def _entity(graph, identifier):
+    for registry in _entity_registries(graph):
+        if identifier in registry:
+            return registry[identifier]
+    return None
+
+
+def historical_entity_ids(graph):
+    """Objects retired directly, or owned by a retired model/family/claim."""
+    historical = set()
+    for registry in _entity_registries(graph):
+        historical.update(
+            identifier for identifier, value in registry.items()
+            if value.get("superseded_by") or value.get("retracted_by")
+            or value.get("withdrawn_by"))
+    changed = True
+    while changed:
+        changed = False
+        current_family_members = {
+            member for fid, family in graph.families.items()
+            if fid not in historical for member in (family.get("members") or [])
+        }
+        historical_family_members = {
+            member for fid, family in graph.families.items()
+            if fid in historical for member in (family.get("members") or [])
+        }
+        for member in historical_family_members - current_family_members:
+            if member not in historical:
+                historical.add(member)
+                changed = True
+        for cid, claim in graph.claims.items():
+            owner = claim.get("model") or claim.get("family")
+            if owner in historical and cid not in historical:
+                historical.add(cid)
+                changed = True
+        for eid, evidence in graph.evidence.items():
+            if evidence.get("for") in historical and eid not in historical:
+                historical.add(eid)
+                changed = True
+        for did, doubt in graph.doubts.items():
+            if doubt.get("about") in historical and did not in historical:
+                historical.add(did)
+                changed = True
+    return historical
+
+
+def _record_references(record):
+    refs = set()
+    if not isinstance(record, dict):
+        return refs
+    for field in ("model", "family", "for", "about", "src", "dst",
+                  "parent", "exhaustive", "enumeration", "component_of",
+                  ):
+        value = record.get(field)
+        if isinstance(value, str):
+            refs.add(value)
+    for field in ("members", "branches", "models"):
+        values = record.get(field) or []
+        if isinstance(values, list):
+            refs.update(value for value in values if isinstance(value, str))
+    for premise in record.get("premises") or []:
+        if not isinstance(premise, dict):
+            continue
+        if isinstance(premise.get("claim"), str):
+            refs.add(premise["claim"])
+        for step in premise.get("path") or []:
+            edge = step[0] if isinstance(step, (list, tuple)) else step
+            if isinstance(edge, str):
+                refs.add(edge)
+    return refs
+
+
+def classify_finding_lifecycle(graph, findings):
+    historical = historical_entity_ids(graph)
+    for finding in findings:
+        if finding.subject in historical:
+            finding.lifecycle = HISTORICAL
+            continue
+        references = _record_references(_entity(graph, finding.subject))
+        references.update(edge for edge, _direction, _ok, _reason
+                          in finding.trace)
+        finding.lifecycle = (
+            STALE_HISTORICAL_REFERENCE
+            if references & historical else CURRENT)
+    return findings
+
+
+def actionable_findings(findings):
+    return [finding for finding in findings
+            if finding.lifecycle != HISTORICAL]
+
+
 def run(graph, accepted=None):
     """All rules, in a stable order, most severe first.
 
@@ -3444,7 +3551,10 @@ def run(graph, accepted=None):
                 + check_parallel_edges(graph)
                 + check_vacuous_conclusions(graph)
                 + check_self_built(graph))
-    findings.sort(key=lambda f: (-SEVERITY_RANK[f.severity], f.rule, f.fid))
+    classify_finding_lifecycle(graph, findings)
+    findings.sort(key=lambda f: (
+        f.lifecycle == HISTORICAL,
+        -SEVERITY_RANK[f.severity], f.rule, f.fid))
     return findings
 
 
@@ -3501,6 +3611,7 @@ def clean_inferences(graph, findings):
     deliberately its author chose to carry it -- so the number a reader uses to
     judge false-positive rate must be computed from what the checker concluded.
     """
+    findings = actionable_findings(findings)
     flagged = {f.subject for f in findings
                if SEVERITY_RANK[f.derived_severity]
                >= SEVERITY_RANK[UNSOUND_PREMISE]}
@@ -3569,6 +3680,7 @@ def _partition_inferences(graph, flagged):
 
 def disqualified_inferences(graph, findings):
     """Inferences neither clean nor flagged, with what disqualified them."""
+    findings = actionable_findings(findings)
     flagged = {f.subject for f in findings
                if SEVERITY_RANK[f.derived_severity]
                >= SEVERITY_RANK[UNSOUND_PREMISE]}
@@ -3577,7 +3689,7 @@ def disqualified_inferences(graph, findings):
     return _partition_inferences(graph, flagged)[1]
 
 
-def render(findings, accepted=None, full=False):
+def render(findings, accepted=None, full=False, include_history=False):
     """Findings as text, with CARRIED ones marked as such.
 
     THIS IS THE T3 REPAIR.  A fresh agent handed the campaign reported "gate
@@ -3603,8 +3715,10 @@ def render(findings, accepted=None, full=False):
     if not findings:
         return ("no findings: every recorded conclusion is licensed by the "
                 "transport it rests on.")
-    live = [f for f in findings if f.fid not in accepted]
-    carried = [f for f in findings if f.fid in accepted]
+    historical = [f for f in findings if f.lifecycle == HISTORICAL]
+    current = actionable_findings(findings)
+    live = [f for f in current if f.fid not in accepted]
+    carried = [f for f in current if f.fid in accepted]
     out = []
     # A DISCHARGE REPEATED IS NOT A DISCHARGE TWICE.
     #
@@ -3624,7 +3738,9 @@ def render(findings, accepted=None, full=False):
     # back to it. Nothing is lost and nothing has to be asked for.
     seen_discharge = {}
     for f in live:
-        out.append("%s  %s" % (f.severity, f.fid))
+        lifecycle = ("  [STALE REFERENCE TO HISTORICAL]"
+                     if f.lifecycle == STALE_HISTORICAL_REFERENCE else "")
+        out.append("%s  %s%s" % (f.severity, f.fid, lifecycle))
         out.extend("    " + l for l in f.detail.splitlines())
         first = seen_discharge.get((f.rule, f.discharge))
         if first is None:
@@ -3648,6 +3764,19 @@ def render(findings, accepted=None, full=False):
         out.append("No LIVE findings. Everything above was accepted "
                    "deliberately; the campaign is carrying debt in the open, "
                    "not failing.")
+    if historical:
+        out.append("")
+        if include_history or full:
+            out.append("HISTORICAL -- retained on superseded generations (%d):"
+                       % len(historical))
+            for finding in historical:
+                out.append("  %s  %s" % (finding.severity, finding.fid))
+                if full:
+                    out.extend("      " + line
+                               for line in finding.detail.splitlines())
+        else:
+            out.append("%d historical finding(s) retained but omitted; request "
+                       "history/full to inspect them." % len(historical))
     return "\n".join(out)
 
 
@@ -3679,7 +3808,8 @@ def exit_code(findings, floor=UNSOUND_PREMISE, accepted=()):
     rank = SEVERITY_RANK[floor]
     accepted = set(accepted or ())
     return 1 if any(SEVERITY_RANK[f.severity] >= rank
-                    and f.fid not in accepted for f in findings) else 0
+                    and f.fid not in accepted
+                    for f in actionable_findings(findings)) else 0
 
 
 def collect_hints(graph, **objects):

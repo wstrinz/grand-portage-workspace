@@ -32,7 +32,7 @@ VERIFIERS = {
     "edge": ("verify.containment", 3),
     "certificate": ("verify.unit_ideal", 2),
     "ring_iso": ("verify.ring_iso", 4),
-    "witness": ("verify.point_witness", 2),
+    "witness": ("verify.point_witness", 3),
     "operation": ("verify.operation_output", 2),
     "elimination": ("verify.elimination_section", 2),
     "point_lift": ("verify.elimination_point_lift", 1),
@@ -46,7 +46,7 @@ VERIFIERS = {
 VERIFIER_ALTERNATIVES = {
     "certificate": {
         "verify.unit_ideal": 2,
-        "verify.localized_unit_ideal": 1,
+        "verify.localized_unit_ideal": 2,
     },
     "elimination": {
         "verify.elimination_section": 2,
@@ -346,8 +346,14 @@ def encode_backend_provenance(execution):
     )
 
 
-def backend_provenance(value, current_only=True):
-    """Decode and validate a v2 backend descriptor, or return ``None``."""
+def decode_backend_provenance(value, current_only=True):
+    """Decode a structurally valid v2 backend descriptor.
+
+    This deliberately does not require an identified executable.  Historical
+    manifests produced while binary-version discovery timed out remain
+    structurally readable and their content-addressed artifacts can still be
+    audited, even though they cannot be current verification authority.
+    """
     if not isinstance(value, str) or not value.startswith(_BACKEND_PREFIX):
         return None
     try:
@@ -382,9 +388,7 @@ def backend_provenance(value, current_only=True):
             or manifest["protocol_version"] != B.BACKEND_PROTOCOL_VERSION):
         return None
     version = manifest["binary_version"]
-    if (not isinstance(version, str) or not version.strip()
-            or version.startswith("unavailable:")
-            or version in ("unreported", "test-double")):
+    if not isinstance(version, str) or not version.strip():
         return None
     trace = manifest["executions"]
     if (not isinstance(trace, list)
@@ -393,6 +397,18 @@ def backend_provenance(value, current_only=True):
         return None
     expected = B.semantic_fingerprint("backend_execution_trace", trace)
     if manifest["trace_fingerprint"] != expected:
+        return None
+    return manifest
+
+
+def backend_provenance(value, current_only=True):
+    """Decode a v2 descriptor that is eligible to act as authority."""
+    manifest = decode_backend_provenance(value, current_only=current_only)
+    if manifest is None:
+        return None
+    version = manifest["binary_version"]
+    if (version.startswith("unavailable:")
+            or version in ("unreported", "test-double")):
         return None
     return manifest
 

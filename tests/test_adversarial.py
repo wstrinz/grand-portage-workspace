@@ -4277,6 +4277,68 @@ def test_a_fabricated_point_no_longer_types_like_a_real_one():
     assert "x^2+y^2-25 evaluates to 9" in why
 
 
+class _ExactPointBackend(object):
+    """Small exact-value seam for open-locus witness contract tests."""
+
+    def evaluate_point(self, ring, expressions, point, **_kw):
+        values = []
+        for expression in expressions:
+            if expression == "0":
+                value = "0"
+            elif expression == "x":
+                value = str(point["x"])
+            elif expression == "y":
+                value = str(point["y"])
+            else:
+                raise AssertionError("unexpected expression %r" % expression)
+            values.append({"generator": expression, "value": value,
+                           "vanishes": value == "0"})
+        return all(row["vanishes"] for row in values), {
+            "point": dict(point), "generators": values,
+            "failed": [row["generator"] for row in values
+                       if not row["vanishes"]],
+        }
+
+
+def _open_witness_graph(generators, point, cid="W"):
+    model = {"ev": "model", "id": "M", "desc": "an exact open locus",
+             "ring_vars": ["x", "y"] if "y" in generators else ["x"],
+             "generators": list(generators), "open_conditions": ["x"],
+             "characteristic": 0}
+    claim = _witness_claim(cid, point)
+    return _graph([model, claim])
+
+
+def test_open_locus_witness_checks_equations_and_nonvanishing_guards():
+    from grandportage import verify as V
+
+    bad = _open_witness_graph(["y"], {"x": "0", "y": "0"}, "BAD")
+    verdict, why = V.point_witness(
+        bad, "BAD", _backend=_ExactPointBackend())
+    assert verdict == V.WITNESS_REFUTED
+    assert "open guard 'x' evaluates to 0" in why
+
+    good = _open_witness_graph(["y"], {"x": "1", "y": "0"}, "GOOD")
+    verdict, why = V.point_witness(
+        good, "GOOD", _backend=_ExactPointBackend())
+    assert verdict == V.WITNESS_VERIFIED
+    assert "1 open guard" in why
+
+
+def test_equation_free_open_locus_still_checks_its_guard():
+    from grandportage import verify as V
+
+    good = _open_witness_graph([], {"x": "1"}, "GOOD")
+    assert V.point_witness(
+        good, "GOOD", _backend=_ExactPointBackend())[0] == V.WITNESS_VERIFIED
+
+    bad = _open_witness_graph([], {"x": "0"}, "BAD")
+    verdict, why = V.point_witness(
+        bad, "BAD", _backend=_ExactPointBackend())
+    assert verdict == V.WITNESS_REFUTED
+    assert "open guard 'x' evaluates to 0" in why
+
+
 def test_a_refuted_witness_is_unsound_at_its_own_model():
     """The same shape as a REFUTED identity: no transport typing anywhere
     downstream would ever have surfaced it."""

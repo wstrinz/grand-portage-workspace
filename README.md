@@ -28,15 +28,45 @@ That finding is a real error that shipped in a public artifact. It took an
 independent field-scope audit to find. Here it is a type error at the moment
 the edge is drawn.
 
+## What Grand Portage is for
+
+Grand Portage is research middleware for the seams between exact-affine
+computations. Use it to record models, typed changes of model, claims, checked
+witnesses and certificates, and the precise scope in which an inference is
+licensed. It is especially useful when several researchers or agents hand a
+campaign back and forth.
+
+It is not a general mathematical database and it is not the right home for
+every CAS transcript, Betti table, or one-row-per-object census. Keep bulk
+computation in ordinary content-addressed artifacts or Git; use GP for the
+compact conclusions, provenance, and transport obligations that future work
+must not misread.
+
+For a local checkout:
+
+```console
+python -m pip install -e .
+gp init --mcp
+gp schema                 # read the declaration contract before writing
+gp check                  # current actionable debt first
+gp check --history        # include superseded generations
+```
+
+Version 0.26 hardens that niche under ARR15 pressure: point witnesses now
+check every equation and nonvanishing guard; large localized-emptiness proofs
+can arrive as bounded, replayable factor chains; one over-budget claim cannot
+abort an unrelated verification; and MCP exposes schema, baseline, graph-tail,
+and read-only merge workflows. No transport type or core claim kind was added.
+
 ## Status
 
-All five layers are built and gated: <!--checks-->1702<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1718<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
 * **[COMPATIBILITY.md](COMPATIBILITY.md) — graph format 5, kernel epoch 10, exact implementation provenance, durable artifacts, and conservative migration**
 * **[QUICKSTART.md](QUICKSTART.md) — install, a campaign in ten minutes, and the three things worth knowing on day one**
-* **[v0.25 release packet](review/v0.25/README.md) — ARR15 contract closure, immutable replay, validation, and review map**
+* **[v0.26 release packet](review/v0.26/README.md) — ARR15 open-locus soundness, bounded localization, and MCP custody**
 * [DESIGN.md](DESIGN.md) — architecture and the decisions behind it
 * [REVIEW.md](REVIEW.md) — **where I am least confident**, for a reviewer
 * [Foundations and prior art](docs/FOUNDATIONS-PRIOR-ART.md) - bounded research questions and deliberate deferrals
@@ -411,7 +441,7 @@ Three.js build by default; `--three-root` can point it at a local package.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1702<!--/checks--> checks
+python -m pytest        # <!--checks-->1718<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

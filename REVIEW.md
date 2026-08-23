@@ -3,10 +3,10 @@
 This is the attack surface for the current release. The full historical review
 through v0.18 is preserved in `HISTORY/REVIEW-through-v0.18.md`.
 
-**Version <!--version-->0.25.0<!--/version-->, graph format
+**Version <!--version-->0.26.0<!--/version-->, graph format
 <!--graph-format-->5<!--/graph-format-->, kernel epoch
 <!--kernel-epoch-->10<!--/kernel-epoch-->, and
-<!--checks-->1702<!--/checks--> collected checks.**
+<!--checks-->1718<!--/checks--> collected checks.**
 
 ## Highest-risk claim
 

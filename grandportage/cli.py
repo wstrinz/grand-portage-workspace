@@ -117,16 +117,19 @@ def cmd_check(args):
     g = _load(args)
     accepted = H.read_baseline(args.root)["accepted"]
     findings = C.run(g, accepted)
+    historical = [f for f in findings if f.lifecycle == C.HISTORICAL]
+    visible = (findings if args.history or args.full
+               else C.actionable_findings(findings))
     delta = None
     if args.since:
         try:
-            delta = _finding_delta(findings, args.since)
+            delta = _finding_delta(C.actionable_findings(findings), args.since)
         except ValueError as exc:
             sys.stderr.write("CHECK RECEIPT ERROR\n  %s\n" % exc)
             return 2
     if args.json:
         result = {
-            "findings": [f.as_dict() for f in findings],
+            "findings": [f.as_dict() for f in visible],
             "clean": C.clean_inferences(g, findings),
             "counts": {"models": len(g.models), "edges": len(g.edges),
                        "claims": len(g.claims),
@@ -189,12 +192,16 @@ def cmd_check(args):
                   "a live gate must provoke a refusal before relying on it.")
         print()
     accepted = H.read_baseline(args.root)["accepted"]
-    for f in findings:
+    for f in visible:
         carried = f.fid in accepted
+        lifecycle = (
+            "HISTORICAL" if f.lifecycle == C.HISTORICAL else
+            "STALE-HISTORICAL-REFERENCE"
+            if f.lifecycle == C.STALE_HISTORICAL_REFERENCE else "live")
         if args.quiet:
             print("%-18s %-20s %-28s %s"
                   % (f.severity, f.rule, f.subject,
-                     "CARRIED" if carried else "live"))
+                     "CARRIED" if carried else lifecycle))
             continue
         if carried and not args.full:
             # Compact, but never silent.  Printing nothing about accepted
@@ -206,8 +213,16 @@ def cmd_check(args):
                      or "(no reason recorded)"))
             print()
             continue
-        print("%s  %s%s" % (f.severity, f.fid,
-                            "   [CARRIED]" if carried else ""))
+        marks = []
+        if carried:
+            marks.append("CARRIED")
+        if f.lifecycle == C.HISTORICAL:
+            marks.append("HISTORICAL / SUPERSEDED")
+        elif f.lifecycle == C.STALE_HISTORICAL_REFERENCE:
+            marks.append("STALE REFERENCE TO HISTORICAL")
+        print("%s  %s%s" % (
+            f.severity, f.fid,
+            "   [" + "; ".join(marks) + "]" if marks else ""))
         for line in f.detail.splitlines():
             print("    " + line)
         if f.overridden:
@@ -235,12 +250,16 @@ def cmd_check(args):
                 print("    %-24s rests on %s" % (iid, ", ".join(why)))
         print()
         rank = C.SEVERITY_RANK[args.floor]
-        at_floor = [f for f in findings
+        at_floor = [f for f in C.actionable_findings(findings)
                     if C.SEVERITY_RANK[f.severity] >= rank]
         live = [f for f in at_floor if f.fid not in accepted]
         print("%d finding(s) at or above %s: %d LIVE, %d carried"
               % (len(at_floor), args.floor, len(live),
                  len(at_floor) - len(live)))
+        if historical and not (args.history or args.full):
+            print("%d historical finding(s) retained on superseded "
+                  "generations; use --history to inspect them."
+                  % len(historical))
         if at_floor and not live:
             print("Nothing live. Every finding at this floor was examined and "
                   "accepted deliberately -- this campaign is carrying debt in "
@@ -739,9 +758,25 @@ def cmd_verify(args):
         return 2
     graph_path = args.graph[0] if args.graph else None
     try:
+        supplied = {}
+        for binding in args.localized_certificate or []:
+            if "=" not in binding:
+                raise ValueError(
+                    "--localized-certificate must be CLAIM=SPEC.json")
+            claim_id, spec_path = binding.split("=", 1)
+            if not claim_id or claim_id in supplied:
+                raise ValueError(
+                    "localized certificate claim ids must be non-empty and "
+                    "unique")
+            with open(spec_path, "r", encoding="utf-8") as handle:
+                spec = json.load(handle)
+            if not isinstance(spec, dict):
+                raise ValueError(
+                    "localized certificate %s is not a JSON object" % spec_path)
+            supplied[claim_id] = spec
         results = V.verify_all(
             root=args.root, timeout=args.timeout, record=not args.dry_run,
-            graph_path=graph_path)
+            graph_path=graph_path, supplied_certificates=supplied)
     except (A.ArtifactError, OSError, ValueError, S.GraphError) as exc:
         sys.stderr.write(
             "ARTIFACT PERSISTENCE FAILED\n  %s\n\n"
@@ -1085,10 +1120,15 @@ def cmd_artifacts_check(args):
     else:
         audits = [(S.graph_path(args.root), args.root, _load(args))]
     problems = []
+    legacy = []
     for path, artifact_root, graph in audits:
-        for problem in A.audit_graph(artifact_root, graph):
+        report = A.audit_graph_report(artifact_root, graph)
+        for problem in report["problems"]:
             problems.append(
                 "%s: %s" % (path, problem) if len(audits) > 1 else problem)
+        for item in report["legacy_unverifiable"]:
+            legacy.append(
+                "%s: %s" % (path, item) if len(audits) > 1 else item)
     if problems:
         sys.stderr.write(
             "ARTIFACT AUDIT FAILED (%d problem%s)\n"
@@ -1099,7 +1139,7 @@ def cmd_artifacts_check(args):
     references = 0
     for _path, _artifact_root, graph in audits:
         for event in graph.verdicts.values():
-            manifest = P.backend_provenance(
+            manifest = P.decode_backend_provenance(
                 event.get("backend"), current_only=False)
             if manifest is not None and manifest.get("schema") == 2:
                 references += len(manifest["executions"])
@@ -1111,6 +1151,10 @@ def cmd_artifacts_check(args):
                 pass
     print("artifact audit clean: %d execution reference%s checked."
           % (references, "" if references == 1 else "s"))
+    if legacy:
+        print("legacy-readable / legacy-unverifiable: %d verdict%s "
+              "(artifact integrity checked; not current authority)."
+              % (len(legacy), "" if len(legacy) == 1 else "s"))
     return 0
 
 
@@ -1666,6 +1710,20 @@ def cmd_show(args):
         print("EDGE  %-6s %-14s -> %-14s %s%s"
               % (eid, e["src"], e["dst"], e["type"], mark))
     print()
+    for fid in sorted(g.families):
+        family = g.families[fid]
+        mark = ("  [SUPERSEDED by %s]" % S.successors(family)
+                if family.get("superseded_by") else "")
+        print("FAMILY %-18s count=%d%s"
+              % (fid, family["count"], mark))
+        if family.get("desc"):
+            print("    %s" % family["desc"])
+        if family.get("enumeration"):
+            print("    enumeration: %s" % family["enumeration"])
+        if family.get("members") is not None:
+            print("    members: %d recorded" % len(family["members"]))
+    if g.families:
+        print()
     # CERTIFICATE and ORIGIN are printed, and INFERENCES are printed at all.
     #
     # `gp show` used to print models, edges and claims only -- no inferences,
@@ -1833,7 +1891,7 @@ def cmd_accept(args):
     # hand.  `hook.py`'s own comment calls a hook that blocks every tool call
     # "the day-one trap this module already warns about".
     accepted_now = H.read_baseline(args.root)["accepted"]
-    findings = C.run(g, accepted_now)
+    findings = C.actionable_findings(C.run(g, accepted_now))
     live = list(findings)          # before any --only filtering; see below
     before = H.load_baseline(args.root)
     if args.only:
@@ -1942,8 +2000,8 @@ class _ExactVersionAction(argparse.Action):
         parser.exit()
 
 
-def cmd_schema(args):
-    """Print the one closed native event schema used by MCP and the fold."""
+def native_schema_document():
+    """Return the one closed native event schema used by MCP and the fold."""
     from . import mcp as MCP
 
     events = {}
@@ -1952,7 +2010,7 @@ def cmd_schema(args):
             "authorable": kind not in (F.META_EVENT, "verdict"),
             "schema": MCP._event_schema(kind),
         }
-    document = {
+    return {
         "schema": "grand-portage-native-schema/v1",
         "graph_format": F.GRAPH_FORMAT,
         "kernel_epoch": F.KERNEL_EPOCH,
@@ -1976,6 +2034,10 @@ def cmd_schema(args):
             "condition": "only a PREDICATE claim at a model",
             "closed_objects": True,
         },
+        "target_entity_types": {
+            field: list(kinds)
+            for field, kinds in sorted(F.TARGET_ENTITY_TYPES.items())
+        },
         "lifecycle": {
             "fields": sorted(F.LIFECYCLE_FIELDS),
             "replacement": (
@@ -1987,6 +2049,18 @@ def cmd_schema(args):
             "exactly_one_of": ["model", "family"],
         }],
         "examples": {
+            "evidence_enumeration": {
+                "ev": "evidence", "id": "EV-ENUM", "for": "C-COUNT",
+                "method": "ENUMERATION", "ran": "python census.py",
+                "what": "exhaustively enumerated the bounded search space",
+                "decides": "BOTH",
+            },
+            "evidence_replication": {
+                "ev": "evidence", "id": "EV-REPL", "for": "C-COUNT",
+                "method": "REPLICATION", "ran": "sage recount.sage",
+                "what": "independently recomputed the class count",
+                "agrees_with": "python census.py",
+            },
             "family_completeness": [{
                 "ev": "family", "id": "F", "count": 2,
                 "enumeration": "C-F-COUNT",
@@ -2002,7 +2076,11 @@ def cmd_schema(args):
             }],
         },
     }
-    print(json.dumps(document, indent=2, sort_keys=True))
+
+
+def cmd_schema(args):
+    """Print the one closed native event schema used by MCP and the fold."""
+    print(json.dumps(native_schema_document(), indent=2, sort_keys=True))
     return 0
 
 
@@ -2572,6 +2650,8 @@ def build_parser():
     c.add_argument("--full", action="store_true",
                    help="print the full detail of CARRIED findings too, not "
                         "just their reason")
+    c.add_argument("--history", action="store_true",
+                   help="also print findings owned by superseded generations")
     c.add_argument("--floor", default=C.UNSOUND_PREMISE,
                    choices=C.SEVERITY_ORDER,
                    help="lowest severity that fails the run")
@@ -2805,6 +2885,11 @@ def build_parser():
     v.add_argument("--timeout", type=int, default=300)
     v.add_argument("--dry-run", action="store_true",
                    help="report the verdicts without recording them")
+    v.add_argument(
+        "--localized-certificate", action="append", default=[],
+        metavar="CLAIM=SPEC.json",
+        help="check a supplied localized_guard_reduction_chain_v2 for CLAIM; "
+             "repeat for multiple claims")
     v.set_defaults(func=cmd_verify)
 
     exact = sub.add_parser(

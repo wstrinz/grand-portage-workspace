@@ -17,6 +17,7 @@ agent branches either composes or fails loudly, which is the failure mode you
 want when the alternative is a silently blended graph.
 """
 
+import hashlib
 import json
 import os
 
@@ -397,7 +398,7 @@ class Graph(object):
     # transport anywhere; it is why you believe the proposition that does.
     # Making it a claim kind would have owed the ledger twelve transport cells
     # for something with no transport behaviour at all.
-    EVIDENCE_METHODS = ("ENUMERATION", "REPLICATION")
+    EVIDENCE_METHODS = F.EVIDENCE_METHODS
 
     # WHICH VERDICT AN ENUMERATION DECIDES, and this is the field a live
     # session called the single most important epistemic fact about its run.
@@ -1045,7 +1046,10 @@ class Graph(object):
                     "has no recorded generators."
                     % (where, ev.get("id")))
             elif (subject == "certificate"
-                  and rep.get("method") == "localized_unit_ideal_v1"):
+                  and rep.get("method") in {
+                      "localized_unit_ideal_v1",
+                      "localized_guard_reduction_chain_v2",
+                  }):
                 required = {
                     "method", "claim", "model", "proof", "checked",
                 }
@@ -1054,7 +1058,7 @@ class Graph(object):
                     and set(rep) == required
                     and rep.get("claim") == of
                     and isinstance(rep.get("proof"), dict)
-                    and isinstance(rep.get("checked"), dict),
+                    and isinstance(rep.get("checked"), (dict, list)),
                     "%s: localized-unit verdict %r carries a malformed "
                     "certificate envelope." % (where, ev.get("id")))
                 claim = target[of]
@@ -1067,7 +1071,11 @@ class Graph(object):
                     "claim and model it names." % (where, ev.get("id")))
                 try:
                     from . import localization as L
-                    replay = L.verify(rep["proof"])
+                    replay = (
+                        L.verify(rep["proof"])
+                        if rep.get("method") == "localized_unit_ideal_v1"
+                        else L.verify_guard_reduction_chain(rep["proof"])
+                    )
                     variables = model.get("ring_vars") or []
                     characteristic = model.get("characteristic")
                     expected_generators = [
@@ -1086,6 +1094,12 @@ class Graph(object):
                         "%s: localized-unit verdict %r fails exact replay: %s"
                         % (where, ev.get("id"), exc))
                 normalized = replay["normalized"]
+                v1_expression_ok = (
+                    rep.get("method") != "localized_unit_ideal_v1"
+                    or (normalized["expression"]["numerator"] == "1"
+                        and all(power == 0 for power in
+                                normalized["expression"][
+                                    "denominator_powers"])))
                 _require(
                     normalized["characteristic"]
                         == model.get("characteristic")
@@ -1093,9 +1107,7 @@ class Graph(object):
                         == (model.get("ring_vars") or [])
                     and normalized["generators"] == expected_generators
                     and normalized["guards"] == expected_guards
-                    and normalized["expression"]["numerator"] == "1"
-                    and all(power == 0 for power in
-                            normalized["expression"]["denominator_powers"])
+                    and v1_expression_ok
                     and replay["checked"] == rep["checked"],
                     "%s: localized-unit verdict %r's proof does not match "
                     "the exact open model, or does not prove localized 1=0."
@@ -2705,6 +2717,93 @@ def load_events(path):
         yield item
 
 
+GRAPH_PREFIX_SCHEMA = "grand-portage-graph-prefix/v1"
+GRAPH_TAIL_SCHEMA = "grand-portage-graph-tail/v1"
+
+
+def _events_digest(events):
+    payload = "".join(_canon(event) + "\n" for event in events)
+    return "sha256:" + hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+def _prefix_receipt(events, count):
+    prefix = events[:count]
+    return {
+        "schema": GRAPH_PREFIX_SCHEMA,
+        "event_count": count,
+        "prefix_sha256": _events_digest(prefix),
+        "graph_format": prefix[0].get("graph_format") if prefix else None,
+        "kernel_epoch": prefix[0].get("kernel_epoch") if prefix else None,
+    }
+
+
+def graph_prefix_receipt(path, event_count=None):
+    """Content-bind an exact semantic prefix of one append-only graph."""
+    events = [event for event, _line in load_events(path)]
+    count = len(events) if event_count is None else event_count
+    _require(type(count) is int and 0 <= count <= len(events),
+             "event_count must select a prefix of this graph")
+    return _prefix_receipt(events, count)
+
+
+def export_graph_tail(path, receipt):
+    """Export only events after a verified prefix receipt; never guess base."""
+    required = {"schema", "event_count", "prefix_sha256", "graph_format",
+                "kernel_epoch"}
+    _require(isinstance(receipt, dict) and set(receipt) == required,
+             "graph prefix receipt has the wrong fields")
+    _require(receipt.get("schema") == GRAPH_PREFIX_SCHEMA,
+             "graph prefix receipt schema must be %s" % GRAPH_PREFIX_SCHEMA)
+    actual = graph_prefix_receipt(path, receipt.get("event_count"))
+    _require(actual == receipt,
+             "graph prefix receipt does not match this graph; refusing to "
+             "export an unrelated tail")
+    events = [event for event, _line in load_events(path)]
+    tail = events[receipt["event_count"]:]
+    return {
+        "schema": GRAPH_TAIL_SCHEMA,
+        "base": receipt,
+        "events": tail,
+        "tail_sha256": _events_digest(tail),
+        "head": graph_prefix_receipt(path),
+    }
+
+
+def validate_graph_tail(value, base_events=None):
+    required = {"schema", "base", "events", "tail_sha256", "head"}
+    _require(isinstance(value, dict) and set(value) == required,
+             "graph tail envelope has the wrong fields")
+    _require(value.get("schema") == GRAPH_TAIL_SCHEMA,
+             "graph tail schema must be %s" % GRAPH_TAIL_SCHEMA)
+    events = value.get("events")
+    _require(isinstance(events, list)
+             and all(isinstance(event, dict) for event in events),
+             "graph tail events must be a list of event objects")
+    _require(value.get("tail_sha256") == _events_digest(events),
+             "graph tail digest does not match its events")
+    base = value.get("base")
+    head = value.get("head")
+    _require(isinstance(base, dict) and isinstance(head, dict)
+             and base.get("schema") == GRAPH_PREFIX_SCHEMA
+             and head.get("schema") == GRAPH_PREFIX_SCHEMA
+             and head.get("event_count")
+                 == base.get("event_count") + len(events),
+             "graph tail base/head receipts are inconsistent")
+    if base_events is not None:
+        _require(isinstance(base_events, list)
+                 and all(isinstance(event, dict) for event in base_events),
+                 "base events must be a list of event objects")
+        count = base.get("event_count")
+        _require(type(count) is int and 0 <= count <= len(base_events),
+                 "graph tail base count is not a prefix of the assay graph")
+        prefix = base_events[:count]
+        _require(base == _prefix_receipt(prefix, count),
+                 "graph tail base receipt does not match the assay graph")
+        _require(head == _prefix_receipt(prefix + events, count + len(events)),
+                 "graph tail head receipt does not match its base and events")
+    return events
+
+
 def load(*paths):
     """Fold one or more logs into a single validated Graph.
 
@@ -2719,6 +2818,44 @@ def load(*paths):
     g = Graph(check_binary_version=True)
     batch = [(ev, p, n) for p in paths for ev, n in load_events(p)]
     return g.apply_all(batch).validate()
+
+
+def merge_report_events(sources):
+    """Merge-assay named event sequences without filesystem materialization."""
+    seen, conflicts, events = {}, [], []
+    for label, source_events in sources:
+        for n, ev in enumerate(source_events, 1):
+            kind, eid = ev.get("ev"), ev.get("id")
+            if kind in (EV_NOTE, EV_BUILT_BY):
+                events.append((ev, label, n))
+                continue
+            # Native branch logs each carry the common format header. Treat it
+            # like the one named object it is: identical headers deduplicate;
+            # different implementation/kernel identities are a loud conflict.
+            key = ((kind, "__header__") if kind == EV_META
+                   else (kind, eid))
+            if not eid and kind != EV_META:
+                events.append((ev, label, n))
+                continue
+            canon = _canon(ev)
+            if key in seen and seen[key][0] != canon:
+                prior_ev, prior_label, prior_n = seen[key][1]
+                differing = sorted(
+                    field for field in set(prior_ev) | set(ev)
+                    if prior_ev.get(field) != ev.get(field))
+                conflicts.append({
+                    "kind": kind, "id": eid, "fields": differing,
+                    "a": {"path": prior_label, "line": prior_n,
+                          "event": prior_ev},
+                    "b": {"path": label, "line": n, "event": ev},
+                })
+                continue
+            if key not in seen:
+                seen[key] = (canon, (ev, label, n))
+                events.append((ev, label, n))
+    if conflicts:
+        return None, conflicts
+    return Graph().apply_all(events).validate(), []
 
 
 def merge_report(paths):
@@ -2753,30 +2890,10 @@ def merge_report(paths):
              "cannot merge epoch-0 and epoch-1 logs directly. Import the "
              "epoch-0 source into a new epoch-1 artifact first; a mixed fold "
              "would validate legacy records as native declarations.")
-    seen, conflicts, events = {}, [], []
-    for p in paths:
-        for ev, n in load_events(p):
-            kind, eid = ev.get("ev"), ev.get("id")
-            if kind in (EV_NOTE, EV_BUILT_BY) or not eid:
-                events.append((ev, p, n))
-                continue
-            key, canon = (kind, eid), _canon(ev)
-            if key in seen and seen[key][0] != canon:
-                prior_ev, prior_p, prior_n = seen[key][1]
-                differing = sorted(
-                    k for k in set(prior_ev) | set(ev)
-                    if prior_ev.get(k) != ev.get(k))
-                conflicts.append({
-                    "kind": kind, "id": eid, "fields": differing,
-                    "a": {"path": prior_p, "line": prior_n, "event": prior_ev},
-                    "b": {"path": p, "line": n, "event": ev}})
-                continue
-            if key not in seen:
-                seen[key] = (canon, (ev, p, n))
-                events.append((ev, p, n))
-    if conflicts:
-        return None, conflicts
-    return Graph().apply_all(events).validate(), []
+    return merge_report_events([
+        (path, [event for event, _line in load_events(path)])
+        for path in paths
+    ])
 
 
 def find_root(start="."):

@@ -48,7 +48,8 @@ def test_native_schema_is_generated_from_the_runtime_contract(capsys):
     for kind, entry in document["events"].items():
         schema = entry["schema"]
         assert set(schema["properties"]) == F.EVENT_FIELDS[kind]
-        assert set(schema["required"]) == F.REQUIRED_FIELDS.get(kind, {"ev"})
+        assert set(schema["required"]) == F.AUTHOR_REQUIRED_FIELDS.get(
+            kind, F.REQUIRED_FIELDS.get(kind, {"ev"}))
         assert schema["additionalProperties"] is False
     assert document["events"]["meta"]["authorable"] is False
     assert document["events"]["verdict"]["authorable"] is False

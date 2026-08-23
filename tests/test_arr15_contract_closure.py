@@ -99,6 +99,6 @@ def test_native_and_mcp_declaration_fields_are_identical():
         if kind in ("meta", "verdict"):
             continue
         assert set(schemas[kind]["properties"]) == fields
-        assert set(schemas[kind]["required"]) == F.REQUIRED_FIELDS.get(
-            kind, {"ev"})
+        assert set(schemas[kind]["required"]) == F.AUTHOR_REQUIRED_FIELDS.get(
+            kind, F.REQUIRED_FIELDS.get(kind, {"ev"}))
     assert "enumeration" in schemas["family"]["properties"]
