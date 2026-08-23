@@ -7,7 +7,7 @@ exact-affine transport types, and the four core claim kinds.
 ## Release boundary
 
 - GP base: `fb72a341916ad14cfa7982b4f48912c439310115` (`0.25.0`).
-- Implementation commit: recorded after the deterministic release gate.
+- Implementation commit: `d7ad881e1716716d66a415e62e7eaf830f66a6f1`.
 - Package: `0.26.0`.
 - ARR15 reference: `2fe83ac60c789da0bd2677d0d927e5decbd42b8e`.
 - Graph format / kernel epoch: 5 / 10, unchanged.
