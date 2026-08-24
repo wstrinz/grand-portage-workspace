@@ -3,10 +3,10 @@
 This is the attack surface for the current release. The full historical review
 through v0.18 is preserved in `HISTORY/REVIEW-through-v0.18.md`.
 
-**Version <!--version-->0.28.0<!--/version-->, graph format
-<!--graph-format-->5<!--/graph-format-->, kernel epoch
-<!--kernel-epoch-->10<!--/kernel-epoch-->, and
-<!--checks-->1457<!--/checks--> collected checks.**
+**Version <!--version-->0.29.0<!--/version-->, graph format
+<!--graph-format-->6<!--/graph-format-->, kernel epoch
+<!--kernel-epoch-->11<!--/kernel-epoch-->, and
+<!--checks-->1498<!--/checks--> collected checks.**
 
 ## Highest-risk claim
 
@@ -14,6 +14,13 @@ Grand Portage now has a small semantic kernel and a nontrivial certifying-
 checker trust base. Review both separately. A correct transport table does not
 repair a parser, canonicalizer, cofactor replay, fingerprint binding, or
 authority-projection defect.
+
+v0.29 adds a selected-embedding trust boundary. Attack `model.embedding`'s
+closed REAL/COMPLEX shapes, exact rational bounds, identity-map endpoint
+comparison, asymmetric-selection handling, semantic endpoint fingerprints,
+and the distinction between a genuine polynomial field automorphism and an
+identity of selected images. A required edge id must never substitute for the
+map payload or either endpoint definition.
 
 v0.25 makes implementation identity and distributed campaign custody a release
 boundary. Attack source commit/dirty reporting, format-5 graph provenance,

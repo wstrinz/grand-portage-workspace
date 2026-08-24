@@ -2894,7 +2894,8 @@ def test_the_operational_spec_transport_table_matches_the_kernel():
              "scheme_scope": "only with a certificate",
              "closed_condition": "if Zariski-closed",
              "exact_image_identity": "if exact contraction",
-             "closed_exact_image": "if closed + closure, or retained condition + point lift"}
+                 "closed_exact_image": "if closed + closure, or retained condition + point lift",
+                 "selected_embedding_identity": "if selected embeddings are identical"}
 
     documented = {}
     for line in text.splitlines():
@@ -3774,11 +3775,11 @@ def test_specialization_has_no_containment_to_verify():
     assert "not nested" in why and "Fano" in why
 
 
-def test_only_three_point_cells_override_the_relational_core():
+def test_only_five_point_cells_override_the_relational_core():
     """The old inclusion measurement is now an exact compiler invariant.
 
     Totality and surjectivity derive every ordinary point cell.  The only
-    differences are three evidence-sensitive refinements whose mathematical
+    differences are five evidence-sensitive refinements whose mathematical
     reasons are named by their rule values.
     """
     observed = set()
@@ -3794,6 +3795,8 @@ def test_only_three_point_cells_override_the_relational_core():
                     observed.add((etype, direction, kind))
 
     assert observed == {
+        (K.EQUIVALENCE, K.ALONG, K.PREDICATE),
+        (K.EQUIVALENCE, K.AGAINST, K.PREDICATE),
         (K.BASE_EXTENSION, K.ALONG, K.EMPTY),
         (K.IMAGE_CLOSURE, K.ALONG, K.PREDICATE),
         (K.IMAGE_CLOSURE, K.AGAINST, K.NONEMPTY),

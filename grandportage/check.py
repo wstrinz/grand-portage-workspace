@@ -148,6 +148,27 @@ class Finding(object):
         return "<%s %s %s>" % (self.rule, self.fid, self.severity)
 
 
+def effective_selected_embedding_identity(
+        graph, edge, etype=None, map_kind=None):
+    """Whether an edge identifies selected images, not merely their rings.
+
+    ``None`` preserves legacy behavior when neither endpoint selects an
+    embedding. Once either endpoint does, only a literal IDENTITY_MAP between
+    byte-identical selected-embedding payloads licenses copying a free
+    predicate unchanged. Polynomial automorphisms remain useful ring maps but
+    move the selected image rather than identifying it.
+    """
+    if (etype or edge.get("type")) != K.EQUIVALENCE:
+        return None
+    source = graph.models.get(edge.get("src")) or {}
+    target = graph.models.get(edge.get("dst")) or {}
+    if (S.declared_embedding(source) is None
+            and S.declared_embedding(target) is None):
+        return None
+    return ((map_kind or edge.get("map_kind")) == K.IDENTITY_MAP
+            and S.selected_embedding_identity(source, target) is True)
+
+
 def audit_inference(graph, iid):
     """Walk an inference's path through the kernel.
 
@@ -254,6 +275,8 @@ def audit_inference(graph, iid):
                 identity_origin=effective_origin(claim),
                 integral=claim.get("integral"),
                 ring_iso=effective_ring_iso(e),
+                selected_embedding_identity=(
+                    effective_selected_embedding_identity(graph, e)),
                 coefficients_in_base=claim.get("coefficients_in_base"),
                 zariski_dense=e.get("zariski_dense"),
                 existential=claim.get("existential"),
@@ -338,6 +361,8 @@ def probe(graph, claim_id, edge_id, direction, etype=None, map_kind=None,
         zariski_closed=effective_closed,
         identity_origin=effective_origin(claim),
         integral=claim.get("integral"), ring_iso=effective_ring_iso(edge),
+        selected_embedding_identity=effective_selected_embedding_identity(
+            graph, edge, etype=etype, map_kind=map_kind),
         coefficients_in_base=claim.get("coefficients_in_base"),
         zariski_dense=edge.get("zariski_dense"),
         existential=claim.get("existential"),

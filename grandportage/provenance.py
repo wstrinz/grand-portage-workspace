@@ -98,6 +98,55 @@ _LIFECYCLE_FIELDS = {
     "superseded_by", "retracted_by", "withdrawn_by",
 }
 
+_ENDPOINT_IDENTITY_FIELDS = (
+    "id", "coefficient_domain", "characteristic", "point_universe",
+    "ring_vars", "generators",
+)
+_EDGE_IDENTITY_FIELDS = (
+    "id", "src", "dst", "type", "map_kind", "forward", "inverse",
+)
+
+
+def _fingerprint_payload(payload):
+    encoded = json.dumps(
+        payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True
+    ).encode("utf-8")
+    return "sha256:" + hashlib.sha256(encoded).hexdigest()
+
+
+def model_semantic_payload(model):
+    """The exact endpoint object authenticated for selected-map custody."""
+    if model is None:
+        return None
+    payload = {field: model.get(field) for field in _ENDPOINT_IDENTITY_FIELDS}
+    # Omission and explicit null both mean abstract/no selected embedding.
+    payload["embedding"] = model.get("embedding")
+    return payload
+
+
+def endpoint_fingerprint(model):
+    """Stable identity for a model endpoint, including selected embedding."""
+    payload = model_semantic_payload(model)
+    return None if payload is None else _fingerprint_payload(payload)
+
+
+def edge_endpoint_payload(graph, edge_id):
+    """Bind a map's serialized identity to both live endpoint definitions."""
+    edge = graph.edges.get(edge_id)
+    if edge is None:
+        return None
+    return {
+        "edge": {field: edge.get(field) for field in _EDGE_IDENTITY_FIELDS},
+        "src_model": model_semantic_payload(graph.models.get(edge.get("src"))),
+        "dst_model": model_semantic_payload(graph.models.get(edge.get("dst"))),
+    }
+
+
+def edge_endpoint_fingerprint(graph, edge_id):
+    """Stable digest preventing edge-id or endpoint-payload substitution."""
+    payload = edge_endpoint_payload(graph, edge_id)
+    return None if payload is None else _fingerprint_payload(payload)
+
 
 def _semantic(record):
     """Return the declared, verifier-relevant form of one folded record."""
@@ -164,13 +213,7 @@ def input_fingerprint(graph, subject, of, representation=None):
     # answer. Binding it here makes any later certificate mutation stale.
     if representation is not None:
         payload["verifier_evidence"] = representation
-    encoded = json.dumps(
-        payload,
-        sort_keys=True,
-        separators=(",", ":"),
-        ensure_ascii=True,
-    ).encode("utf-8")
-    return "sha256:" + hashlib.sha256(encoded).hexdigest()
+    return _fingerprint_payload(payload)
 
 
 def event_fingerprint(value):

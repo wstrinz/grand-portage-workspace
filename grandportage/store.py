@@ -20,6 +20,7 @@ want when the alternative is a silently blended graph.
 import hashlib
 import json
 import os
+from fractions import Fraction
 
 from . import kernel as K
 from . import format as F
@@ -93,6 +94,109 @@ POINT_UNIVERSES = (
     BASE_POINT_UNIVERSE,
     ALGEBRAIC_CLOSURE_POINT_UNIVERSE,
 )
+
+EMBEDDING_KINDS = ("REAL", "COMPLEX")
+COMPLEX_BOX_VERIFICATIONS = ("EXACT", "STRUCTURAL_ONLY")
+
+
+def declared_embedding(model):
+    """Return a selected embedding, with omission and JSON null both abstract."""
+    value = model.get("embedding")
+    return value if isinstance(value, dict) else None
+
+
+def selected_embedding_identity(source, target):
+    """Whether endpoints select the same exact serialized embedding.
+
+    ``None`` means neither endpoint selects an embedding, preserving legacy
+    abstract-ring behavior. ``False`` includes asymmetric selection: forgetting
+    a selected image is not an assertion that the abstract endpoint denotes it.
+    """
+    src = declared_embedding(source)
+    dst = declared_embedding(target)
+    if src is None and dst is None:
+        return None
+    return src is not None and dst is not None and _canon(src) == _canon(dst)
+
+
+def _rational(value, label):
+    _require(isinstance(value, str) and value.strip(),
+             "%s must be a non-empty exact rational string" % label)
+    try:
+        return Fraction(value)
+    except (ValueError, ZeroDivisionError):
+        raise GraphError("%s must be an exact rational string, got %r"
+                         % (label, value))
+
+
+def _validate_embedding(model, where):
+    """Validate the bounded selected-number-field-embedding vocabulary."""
+    if "embedding" not in model or model.get("embedding") is None:
+        return
+    embedding = model["embedding"]
+    _require(isinstance(embedding, dict),
+             "%s: model %r `embedding` must be null or an object"
+             % (where, model["id"]))
+    allowed = {
+        "var", "kind", "isolating_interval", "isolating_box",
+        "conjugate_of", "box_verification", "caveat",
+    }
+    unknown = sorted(set(embedding) - allowed)
+    _require(not unknown,
+             "%s: model %r embedding has unknown field%s %s"
+             % (where, model["id"], "s" if len(unknown) != 1 else "",
+                ", ".join("`%s`" % key for key in unknown)))
+    var = embedding.get("var")
+    _require(isinstance(var, str) and var in (model.get("ring_vars") or []),
+             "%s: model %r embedding `var` must name one of ring_vars"
+             % (where, model["id"]))
+    kind = embedding.get("kind")
+    _require(kind in EMBEDDING_KINDS,
+             "%s: model %r embedding kind must be REAL or COMPLEX"
+             % (where, model["id"]))
+    if "caveat" in embedding:
+        _require(isinstance(embedding["caveat"], str)
+                 and embedding["caveat"].strip(),
+                 "%s: model %r embedding caveat must be a non-empty string"
+                 % (where, model["id"]))
+    if kind == "REAL":
+        _require(set(embedding) <= {"var", "kind", "isolating_interval"},
+                 "%s: REAL embedding on model %r may carry only var, kind, "
+                 "and isolating_interval" % (where, model["id"]))
+        interval = embedding.get("isolating_interval")
+        _require(isinstance(interval, dict) and set(interval) == {"lo", "hi"},
+                 "%s: REAL embedding on model %r needs the closed "
+                 "isolating_interval {lo, hi}" % (where, model["id"]))
+        lo = _rational(interval["lo"], "%s: embedding interval lo" % where)
+        hi = _rational(interval["hi"], "%s: embedding interval hi" % where)
+        _require(lo < hi,
+                 "%s: model %r embedding interval must satisfy lo < hi"
+                 % (where, model["id"]))
+        return
+    required = {"var", "kind", "isolating_box", "box_verification"}
+    _require(required <= set(embedding),
+             "%s: COMPLEX embedding on model %r needs isolating_box and "
+             "box_verification" % (where, model["id"]))
+    box = embedding["isolating_box"]
+    box_fields = {"re_lo", "re_hi", "im_lo", "im_hi"}
+    _require(isinstance(box, dict) and set(box) == box_fields,
+             "%s: COMPLEX embedding on model %r needs the closed "
+             "isolating_box {re_lo, re_hi, im_lo, im_hi}"
+             % (where, model["id"]))
+    values = {key: _rational(box[key], "%s: embedding box %s" % (where, key))
+              for key in box_fields}
+    _require(values["re_lo"] <= values["re_hi"]
+             and values["im_lo"] <= values["im_hi"],
+             "%s: model %r embedding box bounds are reversed"
+             % (where, model["id"]))
+    _require(embedding["box_verification"] in COMPLEX_BOX_VERIFICATIONS,
+             "%s: model %r box_verification must be EXACT or STRUCTURAL_ONLY"
+             % (where, model["id"]))
+    if "conjugate_of" in embedding:
+        _require(isinstance(embedding["conjugate_of"], str)
+                 and embedding["conjugate_of"].strip(),
+                 "%s: model %r conjugate_of must be a non-empty model id"
+                 % (where, model["id"]))
 
 
 def exact_coefficient_domain(characteristic):
@@ -1571,6 +1675,7 @@ class Graph(object):
                  "exact identity test -- would have to guess it. A check that "
                  "guesses its own ring is not a check."
                  % (where, ev["id"]))
+        _validate_embedding(ev, where)
         m = dict(ev)
         m["declares"] = {a: list(v) for a, v in declares.items()}
         m["touches"] = list(ev.get("touches") or [])
@@ -2584,6 +2689,30 @@ class Graph(object):
                         "step UNTYPED with `debt_why` instead."
                         % (eid, e.get("type"), e["src"], src_universe,
                            e["dst"], dst_universe))
+            # IDENTITY_MAP says the endpoint coordinates denote the same
+            # selected point.  A ring presentation cannot make that true for
+            # two different roots: Q[w]/(f) is the same abstract ring at both
+            # real embeddings, while w>0 and w<0 distinguish its images.
+            # Nontrivial POLYNOMIAL equivalences remain legal field
+            # automorphisms; the checker separately prevents them from
+            # transporting an embedding-sensitive free predicate unchanged.
+            if (e.get("type") == K.EQUIVALENCE
+                    and e.get("map_kind") == K.IDENTITY_MAP):
+                source_model = self.models[e["src"]]
+                target_model = self.models[e["dst"]]
+                source_embedding = declared_embedding(source_model)
+                target_embedding = declared_embedding(target_model)
+                if source_embedding is not None and target_embedding is not None:
+                    _require(
+                        selected_embedding_identity(
+                            source_model, target_model) is True,
+                        "edge %r is an IDENTITY_MAP between models %r and %r "
+                        "that select different serialized embeddings. The "
+                        "coordinate ring does not choose a root: use the "
+                        "actual POLYNOMIAL automorphism when one exists, or "
+                        "record the relation UNTYPED when selected-root "
+                        "compatibility has not been certified."
+                        % (eid, e["src"], e["dst"]))
             if e.get("type") == K.RESTRICTION:
                 source_model = self.models[e["src"]]
                 target_model = self.models[e["dst"]]

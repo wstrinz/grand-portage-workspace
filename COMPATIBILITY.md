@@ -365,6 +365,27 @@ manifests whose executable identity was historically unavailable are audited
 as legacy-readable/legacy-unverifiable; their immutable artifacts are checked
 without promoting their verdicts to current authority.
 
+Version 0.29.0 advances to **graph format 6** and **kernel epoch 11**. Format 6
+adds the optional closed `model.embedding` object. REAL selections carry an
+exact rational isolating interval; COMPLEX selections carry an exact rational
+box and an explicit `EXACT` or `STRUCTURAL_ONLY` verification grade. Omission
+and JSON null both retain the historical abstract-ring meaning.
+
+Endpoint identity now binds model id, coefficient domain, characteristic,
+point universe, ordered ring variables and generators, and the selected
+embedding payload. Map custody additionally binds edge id, endpoint ids, edge
+type, map kind, and exact forward/inverse substitutions. Conflicting same-kind
+ids remain rejected before overwrite, while byte-identical redeclarations stay
+idempotent for append-only branch merges.
+
+Epoch 11 changes transport meaning conservatively. An `IDENTITY_MAP` cannot
+identify two different selected embeddings. A genuine nontrivial polynomial
+automorphism remains an abstract ring isomorphism and may transport identities
+through substitution, but it cannot copy a free `PREDICATE` unchanged between
+selected images. If neither endpoint selects an embedding, epoch-10 behavior
+is retained. `REAL_CLOSURE`, ordered relations, real-locus semantics, and
+predicate-negation detection are deliberately not introduced by this epoch.
+
 ## Epoch-0 graphs
 
 Unversioned graphs are epoch 0. Version 0.14 continues to read them through a conservative,

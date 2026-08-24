@@ -241,6 +241,45 @@ def _event_schema(kind):
             "enum": list(S.POINT_UNIVERSES),
             "description": "BASE or algebraic closure of coefficient_domain",
         }
+        rational = {"type": "string", "pattern": r"^-?[0-9]+(?:/[1-9][0-9]*)?(?:\.[0-9]+)?$"}
+        properties["embedding"] = {
+            "oneOf": [
+                {"type": "null"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "var": {"type": "string"},
+                        "kind": {"type": "string", "enum": list(S.EMBEDDING_KINDS)},
+                        "isolating_interval": {
+                            "type": "object",
+                            "properties": {"lo": rational, "hi": rational},
+                            "required": ["lo", "hi"],
+                            "additionalProperties": False,
+                        },
+                        "isolating_box": {
+                            "type": "object",
+                            "properties": {
+                                key: rational for key in
+                                ("re_lo", "re_hi", "im_lo", "im_hi")
+                            },
+                            "required": ["re_lo", "re_hi", "im_lo", "im_hi"],
+                            "additionalProperties": False,
+                        },
+                        "conjugate_of": {"type": "string"},
+                        "box_verification": {
+                            "type": "string",
+                            "enum": list(S.COMPLEX_BOX_VERIFICATIONS),
+                        },
+                        "caveat": {"type": "string"},
+                    },
+                    "required": ["var", "kind"],
+                    "additionalProperties": False,
+                },
+            ],
+            "description": (
+                "optional exact selected number-field embedding; null or "
+                "omission remains abstract/embedding-agnostic"),
+        }
     if kind == "evidence":
         properties["method"] = {
             "type": "string", "enum": list(F.EVIDENCE_METHODS),

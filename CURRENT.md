@@ -6,17 +6,18 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 
 ## Release boundary
 
-- Package version: <!--version-->0.28.0<!--/version-->.
-- Graph format: <!--graph-format-->5<!--/graph-format-->.
-- Kernel epoch: <!--kernel-epoch-->10<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1457<!--/checks--> checks.
+- Package version: <!--version-->0.29.0<!--/version-->.
+- Graph format: <!--graph-format-->6<!--/graph-format-->.
+- Kernel epoch: <!--kernel-epoch-->11<!--/kernel-epoch-->.
+- Test collection: <!--checks-->1498<!--/checks--> checks.
 
 Plain `pytest` is the conceptual full release gate. The ordinary edit loop is
 `pytest -m "not live and not replay and not exhaustive"`; deterministic frozen
 campaign replay and real-CAS checks have separate `replay` and `live` lanes,
 and the largest finite reconstructions are marked `exhaustive`.
 
-The v0.28 release record is under `review/v0.28/`. The release gate separates
+The v0.29 development record is under `review/v0.29/`; the prior v0.28 release
+record remains under `review/v0.28/`. The release gate separates
 ordinary deterministic, frozen replay, exhaustive reconstruction, and live
 WSL/Singular lanes so every collected test is accounted for without making
 backend availability implicit.

@@ -82,13 +82,13 @@ ten-minute campaign and the recovery commands.
 
 ## Status and documents
 
-Version <!--version-->0.28.0<!--/version-->, graph format
-<!--graph-format-->5<!--/graph-format-->, kernel epoch
-<!--kernel-epoch-->10<!--/kernel-epoch-->. The suite currently has
-<!--checks-->1457<!--/checks--> checks. v0.28 extracts the signed-off JC
-campaign, hardens packet source binding, formalizes certificate stability, and
-dogfoods the compact review projection. It adds no transport type, claim kind,
-graph format, or kernel epoch.
+Version <!--version-->0.29.0<!--/version-->, graph format
+<!--graph-format-->6<!--/graph-format-->, kernel epoch
+<!--kernel-epoch-->11<!--/kernel-epoch-->. The suite currently has
+<!--checks-->1498<!--/checks--> checks. v0.29 adds selected number-field
+embedding identity, endpoint-bound map fingerprints, and fail-closed predicate
+transport across embedding-changing equivalences. Ordered-real point universes
+and sign/order relations remain a separate follow-up.
 
 - [QUICKSTART.md](QUICKSTART.md) — install and first campaign
 - [SPEC.md](SPEC.md) — complete transport and verifier behavior
@@ -96,6 +96,7 @@ graph format, or kernel epoch.
 - [COMPATIBILITY.md](COMPATIBILITY.md) — formats, epochs, and migration
 - [ARCHITECTURE.md](ARCHITECTURE.md) — trust zones and module boundaries
 - [REVIEW.md](REVIEW.md) — current general attack surface
+- [review/v0.29/README.md](review/v0.29/README.md) — selected-embedding implementation and CFG23 replay evidence
 - [grandportage-jc-campaign](https://github.com/wstrinz/grandportage-jc-campaign) — optional extracted campaign fixtures, replay, and historical review brief
 - [HISTORY/](HISTORY/) — superseded findings retained as evidence
 - [lean/README.md](lean/README.md) — non-authoritative semantic shadow
