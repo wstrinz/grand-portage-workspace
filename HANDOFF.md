@@ -43,7 +43,7 @@ nobody runs.
 **Age: about nine days. Version 0.29.0. <!--checks-->1515<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
-**The unreleased v0.29 boundary now includes selected ordered-real semantics.**
+**The v0.29 boundary includes selected ordered-real semantics.**
 `REAL_CLOSURE` is a third point universe over Q and is valid only with a
 selected REAL embedding. Structured conditions add `POSITIVE`, `NEGATIVE`,
 `NONNEGATIVE`, and `NONPOSITIVE`; comparisons are signs of a difference. The

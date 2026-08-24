@@ -97,7 +97,7 @@ root.
 - [COMPATIBILITY.md](COMPATIBILITY.md) — formats, epochs, and migration
 - [ARCHITECTURE.md](ARCHITECTURE.md) — trust zones and module boundaries
 - [REVIEW.md](REVIEW.md) — current general attack surface
-- [review/v0.29/README.md](review/v0.29/README.md) — selected-embedding implementation and CFG23 replay evidence
+- [review/v0.29/README.md](review/v0.29/README.md) — public release record, selected-embedding implementation, and CFG23 replay evidence
 - [grandportage-jc-campaign](https://github.com/wstrinz/grandportage-jc-campaign) — optional extracted campaign fixtures, replay, and historical review brief
 - [HISTORY/](HISTORY/) — superseded findings retained as evidence
 - [lean/README.md](lean/README.md) — non-authoritative semantic shadow

@@ -16,7 +16,7 @@ Plain `pytest` is the conceptual full release gate. The ordinary edit loop is
 campaign replay and real-CAS checks have separate `replay` and `live` lanes,
 and the largest finite reconstructions are marked `exhaustive`.
 
-The v0.29 development record is under `review/v0.29/`; the prior v0.28 release
+The v0.29 release record is under `review/v0.29/`; the prior v0.28 release
 record remains under `review/v0.28/`. The release gate separates
 ordinary deterministic, frozen replay, exhaustive reconstruction, and live
 WSL/Singular lanes so every collected test is accounted for without making

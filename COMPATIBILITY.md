@@ -385,7 +385,7 @@ through substitution, but it cannot copy a free `PREDICATE` unchanged between
 selected images. If neither endpoint selects an embedding, epoch-10 behavior
 is retained.
 
-Because v0.29 remained unreleased, the same format/epoch boundary also includes
+While v0.29 was still unreleased, the same format/epoch boundary also gained
 `REAL_CLOSURE` over Q, coupled structurally to a selected REAL embedding.
 Structured predicates add four sign relations at the selected root. Exact
 univariate Sturm isolation and rational interval refinement produce replayable
