@@ -2735,7 +2735,8 @@ def test_verify_all_actually_writes_and_the_finding_goes_away(
     root = str(tmp_path)
     S.append([
         {"ev": "model", "id": "X", "what": "a curve",
-         "ring_vars": ["x", "y"], "generators": ["y^2-x^3"]},
+         "characteristic": 0, "ring_vars": ["x", "y"],
+         "generators": ["y^2-x^3"]},
         {"ev": "claim", "id": "C", "model": "X", "kind": K.IDENTITY,
          "statement": "y^2 = x^3", "lhs": "y^2", "rhs": "x^3",
          "ring_vars": ["x", "y"], "identity_origin": K.DERIVED,
@@ -2746,7 +2747,17 @@ def test_verify_all_actually_writes_and_the_finding_goes_away(
         "a structured but unreduced identity must be reported")
 
     # Nonzero in the polynomial ring, zero modulo the ideal -> DERIVED.
-    runner = _fake_run(stdout="@@GP_D:\ny2-x3\n@@GP_RED:\n0\n")
+    def runner(program, _timeout):
+        if "GP_DIFF" in program.text:
+            output = "@@GP_DIFF:\n0\n"
+        elif "GP_M" in program.text:
+            output = "@@GP_M:\nGP_M[1,1]=1\n"
+        elif "GP_T" in program.text:
+            output = "@@GP_RED:\n0\n"
+        else:
+            output = "@@GP_D:\ny2-x3\n@@GP_RED:\n0\n"
+        return {"aborted": False, "returncode": 0, "stderr": "",
+                "stdout": _completed(program, output)}
     backend = cas.SingularBackend(
         runner=runner, binary_version="Singular 4.2.1 test fixture")
     monkeypatch.setitem(
@@ -3948,6 +3959,35 @@ def test_an_inference_on_an_unverified_identity_is_not_clean():
         "the claim is structured and unverified, so it must be reported")
     assert "I" not in C.clean_inferences(g, findings), (
         "and an inference resting on it must not be a positive control")
+
+    g.claims["C"]["identity_verdict"] = "UNVERIFIED"
+    g.claims["C"]["identity_why"] = "backend unavailable during reduction"
+    attempted = C.run(g)
+    unresolved = [f for f in attempted
+                  if f.rule == C.R_IDENTITY and f.subject == "C"]
+    assert unresolved
+    assert "backend unavailable" in unresolved[0].detail
+    assert "I" not in C.clean_inferences(g, attempted)
+
+
+def test_every_non_domain_specific_unverified_attempt_has_a_read_surface():
+    graph = _graph([
+        {"ev": "model", "id": "A", "what": "source",
+         "ring_vars": ["x"], "generators": ["x"]},
+        {"ev": "model", "id": "B", "what": "target",
+         "ring_vars": ["x"], "generators": ["x"]},
+        {"ev": "edge", "id": "E", "src": "A", "dst": "B",
+         "type": K.EQUIVALENCE, "map_kind": K.IDENTITY_MAP,
+         "why": "same coordinates", "ring_iso": True,
+         "forward": {"x": "x"}, "inverse": {"x": "x"}},
+    ])
+    graph.edges["E"]["ring_iso_verdict"] = "UNVERIFIED"
+    graph.edges["E"]["ring_iso_why"] = "exact map replay was unavailable"
+
+    findings = C.check_inconclusive_verdicts(graph)
+    assert len(findings) == 1
+    assert findings[0].rule == C.R_INCONCLUSIVE
+    assert "exact map replay was unavailable" in findings[0].detail
 
 
 def test_no_inference_disappears_from_both_lists():

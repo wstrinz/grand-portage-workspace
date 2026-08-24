@@ -396,6 +396,28 @@ reported as contradiction debt. General multivariate real algebraic geometry,
 quantifier elimination, and order-changing transport remain outside this
 bounded slice.
 
+Version 0.30.0 advances to **graph format 7** while retaining **kernel epoch
+11**. Format 7 adds the optional closed `claim.witness_field` object and permits
+structured extension coordinates with exact numerator/denominator
+polynomials. `simple_number_field_v1` is deliberately bounded to quadratic and
+cubic extensions of Q and to `ALGEBRAIC_CLOSURE` point witnesses. The witness
+field is certificate data; it does not mutate the model coefficient field or
+add general ordered-ambient semantics.
+
+Verifier execution provenance now distinguishes exact Singular runs from
+closed verifier-native decisions. A native decision can activate only for a
+subject whose proof representation has an explicit fold-time replay contract;
+an injected or unavailable CAS can produce retryable `UNVERIFIED` history but
+cannot mint authority. `UNVERIFIED` is no longer terminal and every batch may
+retry it.
+
+Selected-real receipts advance to `selected_real_interval_v2`. They retain the
+Sturm chain, endpoint variation counts, selected and refined intervals, and
+zero/endpoint evidence. A separately authored exact checker replays the receipt
+before a condition verdict activates. The condition verifier advances to
+version 3; earlier condition verdicts remain readable history but are stale.
+The runtime transport table is unchanged, so the kernel epoch remains 11.
+
 ## Epoch-0 graphs
 
 Unversioned graphs are epoch 0. Version 0.14 continues to read them through a conservative,

@@ -13,7 +13,7 @@ import re
 
 from . import identity as I
 
-GRAPH_FORMAT = 6
+GRAPH_FORMAT = 7
 KERNEL_EPOCH = 11
 META_EVENT = "meta"
 
@@ -68,7 +68,7 @@ EVENT_FIELDS = {
     "claim": {
         "ev", "id", "model", "family", "kind", "statement", "certificate",
         "scope", "identity_origin", "witness_kind", "witness",
-        "witness_point", "lhs", "rhs", "ring_vars", "integral",
+        "witness_point", "witness_field", "lhs", "rhs", "ring_vars", "integral",
         "coefficients_in_base", "zariski_closed", "existential",
         "condition", "established_by", "ladder", "cite", "citation", "caveat",
         "groups", "splits", "method", "proves", "rests_on",

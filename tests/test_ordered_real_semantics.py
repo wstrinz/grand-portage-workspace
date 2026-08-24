@@ -8,6 +8,7 @@ from grandportage import cas
 from grandportage import check as C
 from grandportage import format as F
 from grandportage import kernel as K
+from grandportage import ordered_receipt as ORC
 from grandportage import provenance as P
 from grandportage import store as S
 from grandportage import verify as V
@@ -84,7 +85,7 @@ def test_cfg23_22_26_and_exact_comparison_signs_verify(
     assert verdict == V.CONDITION_VERIFIED, why
     assert representation["atoms"][0]["status"] == "VERIFIED_ORDERED_SIGN"
     assert (representation["atoms"][0]["cofactors"]["method"]
-            == "selected_real_interval_v1")
+            == "selected_real_interval_v2")
 
 
 def test_false_ordered_relation_is_computationally_refuted():
@@ -144,6 +145,37 @@ def test_ordered_receipt_replays_and_tampering_is_rejected():
         representation=tampered["representation"]))
     with pytest.raises(S.GraphError, match="does not replay"):
         tampered_graph.apply(tampered, "ordered-v0.29", 99)
+
+
+@pytest.mark.parametrize("mutate", [
+    lambda receipt: receipt["sturm_chain"][0].__setitem__(0, "999"),
+    lambda receipt: receipt["variations"].__setitem__("lo", 99),
+    lambda receipt: receipt["root_interval"].__setitem__("hi", "100"),
+])
+def test_independent_ordered_checker_rejects_arithmetic_mutations(mutate):
+    graph = _graph([_model(), _claim()])
+    _verdict, _why, representation = V.predicate_condition(graph, "P")
+    receipt = deepcopy(representation["atoms"][0]["cofactors"])
+    mutate(receipt)
+    with pytest.raises(ORC.OrderedReceiptError, match="does not replay"):
+        ORC.verify(graph.models["M"], "w", receipt)
+
+
+def test_solver_free_ordered_verdict_records_without_singular(tmp_path):
+    S.append([_model(), _claim()], str(tmp_path))
+    unavailable = cas.SingularBackend(binary_version="unavailable:test")
+
+    results = V.verify_all(
+        root=str(tmp_path), backend=unavailable, record=True)
+
+    assert [(subject, oid, verdict)
+            for subject, oid, verdict, _why in results] == [
+                ("condition", "P", V.CONDITION_VERIFIED)]
+    graph = S.load(S.graph_path(str(tmp_path)))
+    event = next(iter(graph.verdicts.values()))
+    assert event["current"] is True
+    assert P.native_provenance(event["backend"]) is not None
+    assert graph.claims["P"]["condition_verdict"] == V.CONDITION_VERIFIED
 
 
 def test_incompatible_ordered_claims_create_visible_contradiction_debt():

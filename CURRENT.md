@@ -6,18 +6,18 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 
 ## Release boundary
 
-- Package version: <!--version-->0.29.0<!--/version-->.
-- Graph format: <!--graph-format-->6<!--/graph-format-->.
+- Package version: <!--version-->0.30.0<!--/version-->.
+- Graph format: <!--graph-format-->7<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->11<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1515<!--/checks--> checks.
+- Test collection: <!--checks-->1536<!--/checks--> checks.
 
 Plain `pytest` is the conceptual full release gate. The ordinary edit loop is
 `pytest -m "not live and not replay and not exhaustive"`; deterministic frozen
 campaign replay and real-CAS checks have separate `replay` and `live` lanes,
 and the largest finite reconstructions are marked `exhaustive`.
 
-The v0.29 release record is under `review/v0.29/`; the prior v0.28 release
-record remains under `review/v0.28/`. The release gate separates
+The v0.30 release record is under `review/v0.30/`; the prior v0.29 release
+record remains under `review/v0.29/`. The release gate separates
 ordinary deterministic, frozen replay, exhaustive reconstruction, and live
 WSL/Singular lanes so every collected test is accounted for without making
 backend availability implicit.
@@ -43,6 +43,12 @@ Standalone evidence reports do not mutate a graph and do not license claim
 transport merely because they say `VERIFIED`.
 
 The most important graph-bound authorities currently include:
+
+- verifier-native execution provenance for closed solver-free contracts,
+  without requiring or fabricating a Singular execution;
+- independently replayed `selected_real_interval_v2` Sturm receipts;
+- `simple_number_field_v1` quadratic/cubic extension-valued point witnesses;
+- visible, retryable `UNVERIFIED` attempt state across every verdict subject;
 
 - exact unit-ideal and localized-unit-ideal certificates;
 - verified image-contraction and point-lift evidence;
