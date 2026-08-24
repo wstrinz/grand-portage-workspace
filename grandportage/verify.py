@@ -1823,6 +1823,38 @@ def needs_verification(verdict):
     return verdict in (None, "", UNVERIFIED)
 
 
+def _inexecutable_model_reason(model):
+    """Why ``model``'s generators/open_conditions cannot be substituted into.
+
+    A model's closed native schema allows `generators`/`open_conditions` to be
+    almost any JSON -- authored descriptor objects (`{expr, id, why}` per
+    generator, kept for readability/provenance) or a prose inventory pointer
+    (a real one: 474 guards recorded as an artifact reference plus a summary,
+    not duplicated into the graph). Both are legitimate authoring choices and
+    neither is the flat list-of-polynomial-strings every CAS-backed verifier
+    below this point assumes.  Sending either into `evaluate_point` formats a
+    Python `dict`/`str` repr straight into a Singular session -- a real
+    campaign graph did exactly this and got back an indecipherable parser
+    dump ending in `I is not defined`, an UNVERIFIED verdict that answered
+    nothing and named nothing.  Catching the mismatch here, before any
+    backend call, keeps the refusal honest instead of cryptic.
+    """
+    generators = model.get("generators")
+    if generators is not None and not (
+            isinstance(generators, list)
+            and all(isinstance(item, str) for item in generators)):
+        return ("its `generators` are structured descriptor objects, not "
+                "the flat polynomial-string list this verifier substitutes")
+    guards = model.get("open_conditions")
+    if guards is not None and not (
+            isinstance(guards, list)
+            and all(isinstance(item, str) for item in guards)):
+        return ("its `open_conditions` is prose/inventory documentation "
+                "(likely pointing at an out-of-graph artifact), not an "
+                "executable list of polynomial guard expressions")
+    return None
+
+
 def point_witness(graph, cid, timeout=300, _runner=None, _backend=None):
     """Substitute a NONEMPTY witness into its model's exact open locus.
 
@@ -1871,6 +1903,14 @@ def point_witness(graph, cid, timeout=300, _runner=None, _backend=None):
             "value for each ring variable -- is what makes it an arithmetic "
             "question rather than a reading question." % cid)
     model = graph.models.get(c.get("model")) or {}
+    inexecutable = _inexecutable_model_reason(model)
+    if inexecutable:
+        return UNVERIFIED, (
+            "model %s cannot be substituted: %s. `gp verify` refuses to "
+            "guess a flat polynomial reading of a schema it was not given -- "
+            "it names nothing VERIFIED or NOT_A_POINT here, and it checked "
+            "none of whatever guard count the model's own prose claims."
+            % (c.get("model"), inexecutable))
     if c.get("witness_field") is not None:
         try:
             is_point, detail, representation = N.check_extension_witness(

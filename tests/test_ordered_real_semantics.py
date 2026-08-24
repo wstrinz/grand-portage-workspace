@@ -147,18 +147,92 @@ def test_ordered_receipt_replays_and_tampering_is_rejected():
         tampered_graph.apply(tampered, "ordered-v0.29", 99)
 
 
-@pytest.mark.parametrize("mutate", [
-    lambda receipt: receipt["sturm_chain"][0].__setitem__(0, "999"),
-    lambda receipt: receipt["variations"].__setitem__("lo", 99),
-    lambda receipt: receipt["root_interval"].__setitem__("hi", "100"),
+@pytest.mark.parametrize("dimension,mutate", [
+    ("value", lambda receipt: receipt["sturm_chain"][0].__setitem__(0, "999")),
+    ("value", lambda receipt: receipt["root_interval"].__setitem__("hi", "100")),
+    ("ordering", lambda receipt: receipt["variations"].__setitem__("lo", 99)),
+    ("embedding", lambda receipt: receipt["embedding"]["isolating_interval"]
+     .__setitem__("hi", "100")),
+    ("embedding", lambda receipt: receipt["embedding"].__setitem__(
+        "var", "not-the-model-variable")),
 ])
-def test_independent_ordered_checker_rejects_arithmetic_mutations(mutate):
+def test_independent_ordered_checker_rejects_arithmetic_mutations(
+        dimension, mutate):
     graph = _graph([_model(), _claim()])
     _verdict, _why, representation = V.predicate_condition(graph, "P")
     receipt = deepcopy(representation["atoms"][0]["cofactors"])
     mutate(receipt)
     with pytest.raises(ORC.OrderedReceiptError, match="does not replay"):
         ORC.verify(graph.models["M"], "w", receipt)
+
+
+def test_independent_ordered_checker_rejects_reordered_root_interval():
+    """A dedicated `ordering` mutation: swap `root_interval`'s lo/hi without
+    changing either value, on a model whose isolation genuinely refines to a
+    nontrivial [lo, hi] (unlike `_model()`'s default, which isolates its root
+    exactly at an endpoint and so has lo == hi -- a swap there is a no-op)."""
+    model = _model("F26", var="z", generator="z^3+3*z^2-z-7",
+                   interval=("1", "2"))
+    claim = _claim(model="F26", relation="POSITIVE", expression="z")
+    graph = _graph([model, claim])
+    _verdict, _why, representation = V.predicate_condition(graph, "P")
+    receipt = deepcopy(representation["atoms"][0]["cofactors"])
+    assert receipt["root_interval"]["lo"] != receipt["root_interval"]["hi"]
+    receipt["root_interval"].update(
+        lo=receipt["root_interval"]["hi"], hi=receipt["root_interval"]["lo"])
+    with pytest.raises(ORC.OrderedReceiptError, match="does not replay"):
+        ORC.verify(graph.models["F26"], "z", receipt)
+
+
+def test_ordered_receipt_survives_implementation_drift_check_when_unchanged(
+        tmp_path):
+    """Companion to the drift test below: an UNCHANGED native implementation
+    must keep its verdict current across a reload, so the drift test below is
+    known to be exercising drift and not merely "every reload goes stale"."""
+    S.append([_model(), _claim()], str(tmp_path))
+    V.verify_all(root=str(tmp_path),
+                 backend=cas.SingularBackend(binary_version="unavailable:test"),
+                 record=True)
+    graph = S.load(S.graph_path(str(tmp_path)))
+    event = next(iter(graph.verdicts.values()))
+    assert P.native_provenance(event["backend"]) is not None
+    current, reason = P.current_verdict(graph, event, check_binary_version=True)
+    assert current is True, reason
+
+
+def test_ordered_receipt_native_verdict_goes_stale_under_implementation_drift(
+        tmp_path, monkeypatch):
+    """A recorded selected_real_interval_v2 verdict's authority is bound to
+    the exact kernel implementation that decided it -- not merely to its
+    arithmetic content. Once the recorded `implementation_version` no longer
+    matches the reading build's, `native_provenance`/`current_verdict` must
+    stop treating it as current native authority, the same discipline that
+    keeps a Singular verdict from surviving an undisclosed backend upgrade.
+    This is drift in WHO decided it, distinct from every mutation above,
+    which is drift in WHAT was decided.
+    """
+    S.append([_model(), _claim()], str(tmp_path))
+    V.verify_all(root=str(tmp_path),
+                 backend=cas.SingularBackend(binary_version="unavailable:test"),
+                 record=True)
+    graph = S.load(S.graph_path(str(tmp_path)))
+    event = next(iter(graph.verdicts.values()))
+    assert P.native_provenance(event["backend"]) is not None
+
+    monkeypatch.setattr(P, "NATIVE_IMPLEMENTATION_VERSION",
+                        P.NATIVE_IMPLEMENTATION_VERSION + 1)
+    assert P.native_provenance(event["backend"]) is None, (
+        "a drifted implementation_version must stop decoding as current "
+        "native provenance")
+
+    drifted_graph = S.load(S.graph_path(str(tmp_path)))
+    drifted_event = next(iter(drifted_graph.verdicts.values()))
+    assert drifted_event["current"] is False
+    assert "execution provenance is absent or invalid" in (
+        drifted_event["stale_reason"])
+    # A stale verdict must not license the claim; drift revokes CURRENT
+    # AUTHORITY entirely rather than merely downgrading it.
+    assert drifted_graph.claims["P"].get("condition_verdict") != "VERIFIED"
 
 
 def test_solver_free_ordered_verdict_records_without_singular(tmp_path):

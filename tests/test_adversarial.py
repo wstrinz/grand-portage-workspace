@@ -4322,6 +4322,88 @@ def test_a_fabricated_point_no_longer_types_like_a_real_one():
     assert "x^2+y^2-25 evaluates to 9" in why
 
 
+class _ProductionLikeBackend(cas.SingularBackend):
+    """A real `SingularBackend` with a scripted runner, but reporting a
+    stable production identity instead of the ordinary "test-double" one.
+
+    A plain `SingularBackend(runner=...)` always reports `can_record_verdicts
+    = False` and a "test-double" binary version (it is a test double by
+    construction), so `verify_all` discards its answer to UNVERIFIED
+    regardless of what the runner returned -- exactly right for a test that
+    checks the DISCARD (below), wrong for one that wants to drive a realistic
+    unavailable-then-AVAILABLE transition through to a recorded VERIFIED
+    authority that also survives `S.load`'s binary-version currency check on
+    reload. This subclass changes only those two things, and pins the
+    identity to a fixed string (via the monkeypatched
+    `cas._singular_binary_version`) so the test does not depend on whether
+    this machine happens to have Singular installed.
+    """
+
+    @property
+    def can_record_verdicts(self):
+        return True
+
+    @property
+    def identity(self):
+        return B.BackendIdentity(
+            contract=B.SINGULAR_CONTRACT,
+            implementation=B.SINGULAR_IMPLEMENTATION,
+            implementation_version=self.IMPLEMENTATION_VERSION,
+            binary_version=cas._singular_binary_version(),
+        )
+
+
+def test_unavailable_then_available_backend_retries_a_genuinely_unverified_witness(
+        tmp_path, monkeypatch):
+    """`needs_verification` promises that UNVERIFIED is not a terminal
+    answer: "a later run may have ... an available execution capability".
+    This is that later run -- a transient backend OUTAGE, not the
+    permanently-UNVERIFIED structural mismatch of an inexecutable model
+    (that one stays UNVERIFIED forever regardless of backend availability;
+    see `verify._inexecutable_model_reason` and its M-CT1-CLOSED honesty
+    tests)."""
+    from grandportage import verify as V
+
+    # A fixed, environment-independent "current" Singular identity: the test
+    # must not depend on whether this machine happens to have Singular
+    # installed, only on the unavailable -> available TRANSITION.
+    monkeypatch.setattr(
+        cas, "_singular_binary_version",
+        lambda: "Singular for test-fixture version 9.9.9")
+
+    S.append(CIRCLE + [_witness_claim("REAL", {"x": "3", "y": "4"})],
+            str(tmp_path))
+
+    def unavailable_runner(prog, timeout):
+        return {"aborted": True, "returncode": 124, "stdout": "",
+                "stderr": "", "abort_reason": "backend unavailable"}
+
+    # An ordinary test-double SingularBackend: `verify_all` must discard its
+    # answer to UNVERIFIED rather than trust a non-production adapter.
+    unavailable = cas.SingularBackend(runner=unavailable_runner)
+    first = V.verify_all(root=str(tmp_path), backend=unavailable, record=True)
+    assert [(oid, verdict) for _subj, oid, verdict, _why in first] == [
+        ("REAL", V.UNVERIFIED)]
+    assert "install the exact production backend and retry" in first[0][3]
+
+    graph = S.load(S.graph_path(str(tmp_path)))
+    assert V.needs_verification(graph.claims["REAL"].get("witness_verdict"))
+
+    def available_runner(prog, timeout):
+        stdout = "@@GP_V0:\nGP_V0=0\n"
+        return {"aborted": False, "returncode": 0, "stderr": "",
+                "stdout": _completed(prog, stdout)}
+
+    available = _ProductionLikeBackend(runner=available_runner)
+    second = V.verify_all(root=str(tmp_path), backend=available, record=True)
+    assert [(oid, verdict) for _subj, oid, verdict, _why in second] == [
+        ("REAL", V.WITNESS_VERIFIED)]
+
+    graph = S.load(S.graph_path(str(tmp_path)))
+    assert graph.claims["REAL"]["witness_verdict"] == V.WITNESS_VERIFIED
+    assert not V.needs_verification(graph.claims["REAL"]["witness_verdict"])
+
+
 class _ExactPointBackend(object):
     """Small exact-value seam for open-locus witness contract tests."""
 

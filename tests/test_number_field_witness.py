@@ -4,6 +4,7 @@ from copy import deepcopy
 
 import pytest
 
+from grandportage import backend as B
 from grandportage import cas
 from grandportage import format as F
 from grandportage import kernel as K
@@ -112,6 +113,65 @@ def test_extension_witness_records_native_authority_without_singular(tmp_path):
     assert event["verifier"] == "verify.extension_point_witness"
     assert P.native_provenance(event["backend"]) is not None
     assert graph.claims["C"]["witness_verdict"] == V.WITNESS_VERIFIED
+
+
+def test_native_provenance_rejects_a_manifest_claiming_backend_executions():
+    """Non-empty `executions` disqualifies a manifest from the native,
+    trace-free provenance class -- an adversary cannot smuggle real (or
+    fabricated) CAS work through the native fast path to dodge the
+    binary-version staleness check that a Singular-labeled manifest must
+    still pass."""
+    manifest = dict(P.native_execution_provenance())
+    manifest["executions"] = [{"aborted": False, "returncode": 0,
+                               "stdout_fingerprint": B.text_fingerprint("x")}]
+    encoded = P.encode_execution_provenance(manifest)
+    assert P.native_provenance(encoded) is None
+
+
+def test_singular_labeled_empty_trace_still_pays_the_binary_version_toll(
+        tmp_path):
+    """A verdict can structurally qualify for the trace-free exemption (real
+    native math, e.g. a checked extension witness) while still being labeled
+    with the Singular backend contract instead of the native one. Unlike a
+    genuinely native manifest, that labeling is never exempt from
+    binary-version currency -- proving native-vs-Singular is a real
+    distinction with consequences, not an interchangeable presentation of
+    the same fact. Fabricating a Singular label for work that was never run
+    through Singular does not gain an adversary anything: it only trades an
+    exemption for a check the fabrication will fail."""
+    S.append([_model(), _claim()], str(tmp_path))
+    graph = S.load(S.graph_path(str(tmp_path)))
+    verdict, why, receipt = V.point_witness(graph, "C")
+    assert verdict == V.WITNESS_VERIFIED
+
+    fake_singular_manifest = {
+        "schema": 2, "contract": "singular",
+        "implementation": "grandportage.cas.SingularBackend",
+        "implementation_version": 4, "protocol_version": 2,
+        "binary_version": "Singular for x86_64 version 0.0.0 (fabricated)",
+        "executions": [],
+        "trace_fingerprint": B.semantic_fingerprint(
+            "backend_execution_trace", []),
+    }
+    encoded = P.encode_execution_provenance(fake_singular_manifest)
+    assert P.native_provenance(encoded) is None, (
+        "a Singular-schema manifest must never decode as native provenance, "
+        "empty trace or not")
+
+    event = V._verdict_event(
+        graph, "witness", "C", verdict, why, receipt,
+        execution=fake_singular_manifest)
+    graph.apply(event, "number-field-v1", 99)
+    # The graph was loaded with check_binary_version=True (S.load's default),
+    # so the fabricated Singular label is judged as soon as it folds -- no
+    # reload needed to see it lose currency.
+    stored = graph.verdicts[event["id"]]
+    assert stored["current"] is False
+    # Whether this environment has Singular installed or not, the fabricated
+    # binary_version cannot possibly match the live process's -- either it
+    # disagrees outright or no live identity is available to agree with.
+    assert "backend binary" in stored["stale_reason"], stored["stale_reason"]
+    assert graph.claims["C"].get("witness_verdict") != V.WITNESS_VERIFIED
 
 
 def test_extension_receipt_tampering_is_rejected_on_fold():

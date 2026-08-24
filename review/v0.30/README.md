@@ -74,3 +74,28 @@ This release does not add multivariate real geometry, general ordered ambient
 fields, topology/oriented-matroid semantics, normalized endpoint polynomial
 quotients, or a typed claim language. The campaign-side orientability pilot is
 an independent finite experiment and has no GP graph authority.
+
+The v0.30 compatibility assay lane (below) deliberately kept this boundary
+narrow a second time: matroid semantics and `GF(2)`/finite-field-of-order-2
+coefficient support are explicitly **not** implemented here, even though the
+CFG23 assay touches combinatorial/incidence structures that could invite them.
+`coefficient_domain` still accepts only `Q` or a prime field `F_p` (§SCOPE.md
+2/6); `GF(2)` needing distinct semantics from a generic `F_p` (characteristic-2
+arithmetic identities, e.g. `-1 = 1`) is a live open question, not a settled
+"add the case" job, and the ontology question of what a matroid model even
+denotes here (an ideal? a set-system claim kind? something outside the exact
+affine regime entirely, per `SCOPE.md` §1) has not been asked on a real
+campaign yet. Recorded as a boundary, not built: the same discipline
+`SCOPE.md` §7's `DEGENERATION` entry uses -- deferred until a live run forces
+the design, not guessed at here.
+
+## Compatibility repair and CFG23 assay
+
+A follow-on lane repaired a P0 historical-format regression and exercised the
+release against the real CFG23 campaign graph. See
+`review/v0.30/COMPATIBILITY-ASSAY.md` for the full receipt: the
+`validate_meta_for_read` fix (formats 5-6 require/preserve/validate a closed
+implementation identity that formats 1-4 never had), the copied-graph
+before/after authority ledger, the native `Q(i)` witness exercised on
+`M-CT1-SAT-5GUARDS` without Singular, and the honest `UNVERIFIED` fix for
+`M-CT1-CLOSED`'s non-executable descriptor-object/prose schema.
