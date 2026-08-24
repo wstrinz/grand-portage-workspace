@@ -28,7 +28,7 @@ BACKEND = "singular"
 # these independent avoids invalidating every verdict when one checker changes.
 VERIFIERS = {
     "claim": ("verify.identity", 2),
-    "condition": ("verify.predicate_condition", 1),
+    "condition": ("verify.predicate_condition", 2),
     "edge": ("verify.containment", 3),
     "certificate": ("verify.unit_ideal", 2),
     "ring_iso": ("verify.ring_iso", 4),
@@ -366,6 +366,29 @@ def _eligible_structural_ring_iso(graph, event):
         and certificate.get("schema") == "mapped_ring_iso_v1"
     )
 
+def _eligible_structural_ordered_condition(graph, event):
+    """Exact selected-real receipts need arithmetic, not a CAS subprocess."""
+    claim = graph.claims.get(event.get("of")) or {}
+    model = graph.models.get(claim.get("model")) or {}
+    atoms = (claim.get("condition") or {}).get("all") or []
+    rows = (event.get("representation") or {}).get("atoms") or []
+    ordered = {"POSITIVE", "NEGATIVE", "NONNEGATIVE", "NONPOSITIVE"}
+    return (
+        event.get("subject") == "condition"
+        and event.get("verdict") in ("VERIFIED", "REFUTED")
+        and model.get("point_universe") == "REAL_CLOSURE"
+        and len(rows) == len(atoms) and bool(rows)
+        and all(atom.get("relation") in ordered for atom in atoms)
+        and all(
+            row.get("status") in (
+                "VERIFIED_ORDERED_SIGN", "REFUTED_ORDERED_SIGN")
+            and isinstance(row.get("cofactors"), dict)
+            and row["cofactors"].get("method")
+                == "selected_real_interval_v1"
+            for row in rows)
+    )
+
+
 def _allows_empty_structural_trace(graph, event):
     """Recognize eligible verifier-native decisions with no backend run."""
     if event.get("verdict") == "UNVERIFIED":
@@ -374,6 +397,8 @@ def _allows_empty_structural_trace(graph, event):
         return _eligible_structural_containment(graph, event.get("of"))
     if event.get("subject") == "ring_iso":
         return _eligible_structural_ring_iso(graph, event)
+    if event.get("subject") == "condition":
+        return _eligible_structural_ordered_condition(graph, event)
     if event.get("subject") == "operation":
         return _eligible_structural_operation(graph, event)
     if event.get("subject") == "elimination":

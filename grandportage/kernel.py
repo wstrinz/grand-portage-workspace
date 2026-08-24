@@ -139,10 +139,13 @@ PREDICATE = "PREDICATE"  # a condition satisfied by every point of this model
 IDENTITY = "IDENTITY"    # a rewriting valid in this model's coordinate ring
 CLAIM_KINDS = (EMPTY, NONEMPTY, PREDICATE, IDENTITY)
 
-# Structured exact-affine PREDICATE atoms. A conjunction of ZERO and NONZERO
-# polynomial conditions is enough to type equations and algebraic open conditions
-# without pretending to be a general logic.
-CONDITION_RELATIONS = ("ZERO", "NONZERO")
+# Structured exact-affine PREDICATE atoms. Ordered relations mean the sign of
+# ``expression`` at a model's selected real algebraic embedding. Thus ``a < b``
+# is recorded as NEGATIVE on ``a-b`` without adding a second expression grammar.
+CONDITION_RELATIONS = (
+    "ZERO", "NONZERO",
+    "POSITIVE", "NEGATIVE", "NONNEGATIVE", "NONPOSITIVE",
+)
 
 # ---------------------------------------------------------------------------
 # COUNT -- the fifth kind, and it exists only AT A FAMILY.

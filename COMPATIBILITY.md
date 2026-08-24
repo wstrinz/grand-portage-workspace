@@ -383,8 +383,18 @@ identify two different selected embeddings. A genuine nontrivial polynomial
 automorphism remains an abstract ring isomorphism and may transport identities
 through substitution, but it cannot copy a free `PREDICATE` unchanged between
 selected images. If neither endpoint selects an embedding, epoch-10 behavior
-is retained. `REAL_CLOSURE`, ordered relations, real-locus semantics, and
-predicate-negation detection are deliberately not introduced by this epoch.
+is retained.
+
+Because v0.29 remained unreleased, the same format/epoch boundary also includes
+`REAL_CLOSURE` over Q, coupled structurally to a selected REAL embedding.
+Structured predicates add four sign relations at the selected root. Exact
+univariate Sturm isolation and rational interval refinement produce replayable
+sign receipts; inability to isolate or separate a sign remains `UNVERIFIED`.
+Typed edges still require equal point universes and selected-image predicate
+transport remains conservative. Direct incompatible sign assertions are
+reported as contradiction debt. General multivariate real algebraic geometry,
+quantifier elimination, and order-changing transport remain outside this
+bounded slice.
 
 ## Epoch-0 graphs
 

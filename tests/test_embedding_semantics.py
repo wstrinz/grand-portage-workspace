@@ -278,10 +278,11 @@ def test_qi_conjugation_remains_a_polynomial_equivalence_not_identity():
     assert graph.edges[conjugation["id"]]["forward"] == {"x": "-x"}
 
 
-def test_26_real_closure_remains_an_explicit_followup():
+def test_26_real_closure_is_now_a_supported_selected_real_universe():
     real_model = _find(_fixture_26()["models"], "FIELD26_REAL")
-    with pytest.raises(S.GraphError, match="supported values"):
-        _graph([real_model])
+    graph = _graph([real_model])
+    assert (graph.models["FIELD26_REAL"]["point_universe"]
+            == S.REAL_CLOSURE_POINT_UNIVERSE)
 
 
 def test_endpoint_and_edge_fingerprints_bind_selected_payloads():

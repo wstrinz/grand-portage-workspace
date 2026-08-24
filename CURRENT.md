@@ -9,7 +9,7 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 - Package version: <!--version-->0.29.0<!--/version-->.
 - Graph format: <!--graph-format-->6<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->11<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1498<!--/checks--> checks.
+- Test collection: <!--checks-->1515<!--/checks--> checks.
 
 Plain `pytest` is the conceptual full release gate. The ordinary edit loop is
 `pytest -m "not live and not replay and not exhaustive"`; deterministic frozen
@@ -49,6 +49,8 @@ The most important graph-bound authorities currently include:
 - verified mapped coordinate equivalences;
 - checked partitions and multi-premise inferences;
 - exact witnesses and scoped claim certificates.
+- selected REAL algebraic embeddings and replayable exact sign receipts on
+  `REAL_CLOSURE` models.
 
 Several newer exact checkers intentionally stop before graph authority:
 

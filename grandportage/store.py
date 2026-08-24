@@ -25,6 +25,7 @@ from fractions import Fraction
 from . import kernel as K
 from . import format as F
 from . import groebner as G
+from . import ordered as O
 from . import provenance as P
 from .discharge import DISCHARGE_KINDS as D_KINDS
 from .discharge import WITHDRAW
@@ -90,9 +91,11 @@ def valid_characteristic(value):
 
 BASE_POINT_UNIVERSE = "BASE"
 ALGEBRAIC_CLOSURE_POINT_UNIVERSE = "ALGEBRAIC_CLOSURE"
+REAL_CLOSURE_POINT_UNIVERSE = "REAL_CLOSURE"
 POINT_UNIVERSES = (
     BASE_POINT_UNIVERSE,
     ALGEBRAIC_CLOSURE_POINT_UNIVERSE,
+    REAL_CLOSURE_POINT_UNIVERSE,
 )
 
 EMBEDDING_KINDS = ("REAL", "COMPLEX")
@@ -1236,17 +1239,43 @@ class Graph(object):
                         "%s: condition verdict %r carries an atom row that "
                         "does not match the claim." % (where, ev.get("id")))
                     status = row["status"]
-                    allowed = ({"VERIFIED_IDEAL_MEMBERSHIP", "NOT_BY_IDEAL"}
-                               if atom["relation"] == "ZERO" else {
-                                   "REFUTED_ZERO_MOD_IDEAL",
-                                   "VERIFIED_NOWHERE_ZERO",
-                                   "NONVANISHING_UNESTABLISHED"})
+                    if atom["relation"] in O.ORDERED_RELATIONS:
+                        allowed = {
+                            "VERIFIED_ORDERED_SIGN",
+                            "REFUTED_ORDERED_SIGN",
+                            "ORDERED_SIGN_UNESTABLISHED",
+                        }
+                    else:
+                        allowed = (
+                            {"VERIFIED_IDEAL_MEMBERSHIP", "NOT_BY_IDEAL"}
+                            if atom["relation"] == "ZERO" else {
+                                "REFUTED_ZERO_MOD_IDEAL",
+                                "VERIFIED_NOWHERE_ZERO",
+                                "NONVANISHING_UNESTABLISHED"})
                     _require(status in allowed,
                              "%s: condition verdict %r has invalid %s status "
                              "%r." % (where, ev.get("id"), atom["relation"],
                                       status))
                     try:
-                        if status in ("VERIFIED_IDEAL_MEMBERSHIP",
+                        if status in ("VERIFIED_ORDERED_SIGN",
+                                      "REFUTED_ORDERED_SIGN"):
+                            sign, certificate = O.selected_real_sign(
+                                model, atom["expression"])
+                            _require(
+                                row["cofactors"] == certificate
+                                and ((status == "VERIFIED_ORDERED_SIGN")
+                                     == O.relation_holds(
+                                         atom["relation"], sign)),
+                                "%s: condition verdict %r's ordered-sign "
+                                "receipt does not replay against the selected "
+                                "real embedding." % (where, ev.get("id")))
+                        elif status == "ORDERED_SIGN_UNESTABLISHED":
+                            _require(
+                                row["cofactors"] is None,
+                                "%s: inconclusive ordered condition row in %r "
+                                "may not carry a licensing receipt."
+                                % (where, ev.get("id")))
+                        elif status in ("VERIFIED_IDEAL_MEMBERSHIP",
                                       "REFUTED_ZERO_MOD_IDEAL"):
                             if generators:
                                 G.check_membership_identity(
@@ -1271,7 +1300,8 @@ class Graph(object):
                                      "%s: inconclusive condition row in %r "
                                      "may not carry licensing cofactors."
                                      % (where, ev.get("id")))
-                    except (G.CertificateError, TypeError, ValueError) as exc:
+                    except (O.OrderedError, G.CertificateError,
+                            TypeError, ValueError) as exc:
                         raise GraphError(
                             "%s: condition verdict %r fails exact cofactor "
                             "replay: %s" % (where, ev.get("id"), exc))
@@ -1609,6 +1639,19 @@ class Graph(object):
                      "%s: model %r declares `point_universe` without the "
                      "structured `coefficient_domain` it is relative to"
                      % (where, ev["id"]))
+            if point_universe == REAL_CLOSURE_POINT_UNIVERSE:
+                _require(
+                    ev.get("characteristic") == 0
+                    and coefficient_domain == "Q",
+                    "%s: model %r REAL_CLOSURE is supported only over the "
+                    "exact coefficient domain Q in characteristic 0"
+                    % (where, ev["id"]))
+                embedding = declared_embedding(ev)
+                _require(
+                    embedding is not None and embedding.get("kind") == "REAL",
+                    "%s: model %r REAL_CLOSURE requires a selected REAL "
+                    "embedding; an abstract field selects no ordering"
+                    % (where, ev["id"]))
 
         # "I DO NOT KNOW THIS IDEAL YET" IS A STATE, AND IT WAS NOT SAYABLE.
         #
@@ -1924,7 +1967,8 @@ class Graph(object):
                      and isinstance(condition["all"], list)
                      and condition["all"],
                      "%s: claim %r `condition` must be "
-                     "{\"all\": [{\"relation\": \"ZERO|NONZERO\", "
+                    "{\"all\": [{\"relation\": \"ZERO|NONZERO|POSITIVE|"
+                    "NEGATIVE|NONNEGATIVE|NONPOSITIVE\", "
                      "\"expression\": \"polynomial\"}, ...]}. The list must "
                      "be non-empty; an unstructured predicate stays in `statement`."
                      % (where, ev["id"]))
@@ -2535,6 +2579,14 @@ class Graph(object):
                          "Without an exact coefficient domain its polynomial "
                          "expressions cannot be typed." % (cid, c["model"]))
                 for n, atom in enumerate(c["condition"]["all"], 1):
+                    _require(
+                        atom.get("relation") not in O.ORDERED_RELATIONS
+                        or model.get("point_universe")
+                            == REAL_CLOSURE_POINT_UNIVERSE,
+                        "claim %r condition atom %d uses ordered relation %s, "
+                        "which requires its model to select point_universe "
+                        "REAL_CLOSURE"
+                        % (cid, n, atom.get("relation")))
                     try:
                         G.parse_polynomial(atom["expression"], ring_vars,
                                            characteristic)

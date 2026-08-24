@@ -56,15 +56,16 @@ gp check                  # current actionable debt first
 gp check --history        # include superseded generations
 ```
 
-Version 0.29 adds exact selected-embedding identity without adding a transport
-type or claim kind. Models may select a REAL root by rational isolating interval
-or a COMPLEX image by rational box. Map custody fingerprints both endpoint
-definitions, and a ring automorphism no longer silently means that free
-predicates at two selected images are identical.
+Version 0.29 adds exact selected-embedding identity and a bounded ordered-real
+slice without adding a transport type or claim kind. Models may select a REAL
+root by rational isolating interval or a COMPLEX image by rational box. Map
+custody fingerprints both endpoint definitions, and a ring automorphism no
+longer silently means that predicates at two selected images are identical.
+`REAL_CLOSURE` models can state exact polynomial signs at their selected root.
 
 ## Status
 
-All five layers are built and gated: <!--checks-->1498<!--/checks--> checks, live against Singular 4.2.1,
+All five layers are built and gated: <!--checks-->1515<!--/checks--> checks, live against Singular 4.2.1,
 and it has had eleven live user sessions — see [docs/first-run/](docs/first-run/)
 for the first, written up in full.
 
@@ -202,6 +203,16 @@ membership. It certifies `NONZERO` by proving the atom's vanishing locus empty
 with a replayable unit-ideal identity; an atom already zero modulo the model
 ideal is refuted. Failed sufficient tests remain visible as `UNVERIFIED`, and
 an unchecked condition is reported by `gp check` as `UNTESTED-CONDITION`.
+
+On a `REAL_CLOSURE` model over Q with one variable, one generator, and a
+selected REAL interval, the same condition language accepts `POSITIVE`,
+`NEGATIVE`, `NONNEGATIVE`, and `NONPOSITIVE`. Each is the sign of `expression`
+at the selected root; write `a < b` as `NEGATIVE` on `a-b`. `gp verify` checks
+the interval isolates exactly one root using exact Sturm arithmetic, refines it
+with rational intervals until the sign separates, and records a deterministic
+receipt that the graph fold recomputes. A malformed isolator or bounded miss is
+`UNVERIFIED`, never authority. Incompatible sign assertions on the same
+canonical polynomial and selected model create visible contradiction debt.
 
 Ordinary predicate pullback is also executable in the sound `AGAINST` direction:
 a literal identity-coordinate edge preserves syntax only across matching exact
@@ -457,7 +468,7 @@ Three.js build by default; `--three-root` can point it at a local package.
 ## The retrodiction gate
 
 ```bash
-python -m pytest        # <!--checks-->1498<!--/checks--> checks
+python -m pytest        # <!--checks-->1515<!--/checks--> checks
 ```
 
 Grand Portage's credibility rests on reproducing, from **data**, what two

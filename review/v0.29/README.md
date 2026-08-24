@@ -6,7 +6,7 @@ Graph format: `6`
 
 Kernel epoch: `11`
 
-Collected checks: `1498`
+Collected checks: `1515`
 
 v0.29 introduces selected number-field embedding identity. A model may carry a
 closed REAL isolating interval or COMPLEX isolating box, while omission/null
@@ -19,6 +19,13 @@ longer copies a free predicate unchanged between selected images. Conflicting
 model and edge IDs remain fail-closed; byte-identical redeclarations remain
 idempotent for branch merges.
 
+The same unreleased boundary now also includes bounded ordered-real semantics.
+`REAL_CLOSURE` is supported over Q only when coupled to a selected REAL
+embedding. Structured predicates may assert exact signs of a univariate
+polynomial at that selected root. The verifier checks root isolation with
+Sturm arithmetic, refines exact rational intervals, and records a deterministic
+receipt that the graph fold replays before activating the verdict.
+
 ## CFG23 replay
 
 - `22_4`: the false plus/minus identity is refused; `w -> -7-w` remains a
@@ -26,21 +33,24 @@ idempotent for branch merges.
   transport.
 - `Q(i)`: the false identity of `i` and `-i` is refused; `x -> -x` remains a
   polynomial conjugation equivalence.
-- `26_4`: `REAL_CLOSURE` remains explicitly unsupported in this packet. Its
-  ordered-real meaning is not inferred from the selected REAL interval.
+- `26_4`: the selected real root in `(1,2)` is a valid `REAL_CLOSURE` model and
+  its positivity verifies exactly; a decoy interval with no root is
+  inconclusive and grants no authority.
 - All six RFC v1.4 fixture families and all 26 adversarial mutations are
   represented in native GP tests. Required-ID reassignment, endpoint drift,
   map drift, and duplicate model/edge IDs all change custody or fail closed.
 
 ## Validation
 
-- Full suite: `1448 passed, 50 skipped` in 40.60 seconds.
+- Full suite: `1465 passed, 50 skipped` in 53.32 seconds.
 - RFC v1.4 reference checker: six clean fixtures, 26/26 mutations detected,
   and 3/3 required maps visited, passing, and semantically verified.
 
-## Deliberate follow-up
+## Remaining boundary
 
-This release does not add `REAL_CLOSURE`, ordered relations such as positivity
-or comparison, real-locus transport, general polynomial-string normalization,
-or contradiction detection for free predicates. Those remain a separate
-ordered-real semantics packet.
+This bounded slice does not claim multivariate real-locus decision procedures,
+quantifier elimination, arbitrary semialgebraic transport, or ordering changes
+through field automorphisms. Comparisons reuse the one-expression condition
+grammar (`a < b` is `NEGATIVE(a-b)`). Nontrivial embedding-changing maps still
+refuse predicate transport, while incompatible exact sign assertions at one
+selected model create visible debt.

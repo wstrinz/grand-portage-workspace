@@ -85,10 +85,11 @@ ten-minute campaign and the recovery commands.
 Version <!--version-->0.29.0<!--/version-->, graph format
 <!--graph-format-->6<!--/graph-format-->, kernel epoch
 <!--kernel-epoch-->11<!--/kernel-epoch-->. The suite currently has
-<!--checks-->1498<!--/checks--> checks. v0.29 adds selected number-field
-embedding identity, endpoint-bound map fingerprints, and fail-closed predicate
-transport across embedding-changing equivalences. Ordered-real point universes
-and sign/order relations remain a separate follow-up.
+<!--checks-->1515<!--/checks--> checks. v0.29 adds selected number-field
+embedding identity, endpoint-bound map fingerprints, fail-closed predicate
+transport across embedding-changing equivalences, and a bounded ordered-real
+slice: `REAL_CLOSURE` plus replayable exact signs at a selected real algebraic
+root.
 
 - [QUICKSTART.md](QUICKSTART.md) — install and first campaign
 - [SPEC.md](SPEC.md) — complete transport and verifier behavior
