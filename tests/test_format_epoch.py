@@ -482,12 +482,13 @@ def test_older_epochs_migrate_non_destructively_to_current_format_and_epoch(tmp_
         MIG.migrate_kernel_epoch([str(future)])
 
 
-def _implementation_identity(graph_format, kernel_epoch,
-                              package_version="0.29.0"):
+def _implementation_identity(
+        graph_format, kernel_epoch, package_version="0.29.0",
+        source_commit="d798f6f7b9a800bc78cc045c54147c90ef38ca44"):
     return {
         "schema": "grand-portage-implementation/v1",
         "package_version": package_version,
-        "source_commit": "d798f6f7b9a800bc78cc045c54147c90ef38ca44",
+        "source_commit": source_commit,
         "source_dirty": False,
         "graph_format": graph_format,
         "kernel_epoch": kernel_epoch,
@@ -502,10 +503,16 @@ def _implementation_identity(graph_format, kernel_epoch,
 
 
 def _format5_meta():
+    # Historically faithful clean v0.25.0 header.  Commit fb72a34 is the
+    # tagged v0.25.0 release and actually wrote graph format 5 / kernel epoch
+    # 10; using the later d798f6f format-6 commit here would only manufacture
+    # the shape rather than pin a possible historical writer identity.
     return {
-        "ev": "meta", "graph_format": 5, "kernel_epoch": 11,
+        "ev": "meta", "graph_format": 5, "kernel_epoch": 10,
         "created_with": "grandportage/0.25.0",
-        "implementation": _implementation_identity(5, 11, "0.25.0"),
+        "implementation": _implementation_identity(
+            5, 10, "0.25.0",
+            "fb72a341916ad14cfa7982b4f48912c439310115"),
     }
 
 
@@ -646,6 +653,38 @@ def test_formats_5_and_6_reject_non_boolean_source_dirty(meta_factory):
         F.validate_meta_for_read(meta, "test:1", S.GraphError)
 
 
+@pytest.mark.parametrize("meta_factory", [_format5_meta, _format6_meta])
+def test_formats_5_and_6_migration_rejects_missing_implementation(
+        tmp_path, meta_factory):
+    meta = meta_factory()
+    del meta["implementation"]
+    source = _write(tmp_path / "missing-implementation.jsonl", [meta])
+    with pytest.raises(S.GraphError, match="missing: implementation"):
+        MIG.migrate_kernel_epoch([source], dry_run=True)
+
+
+@pytest.mark.parametrize("meta_factory", [_format5_meta, _format6_meta])
+def test_formats_5_and_6_migration_rejects_malformed_implementation(
+        tmp_path, meta_factory):
+    meta = meta_factory()
+    meta["implementation"] = dict(meta["implementation"])
+    meta["implementation"].pop("backend")
+    source = _write(tmp_path / "malformed-implementation.jsonl", [meta])
+    with pytest.raises(S.GraphError, match=r"closed .* identity"):
+        MIG.migrate_kernel_epoch([source], dry_run=True)
+
+
+@pytest.mark.parametrize("meta_factory", [_format5_meta, _format6_meta])
+def test_formats_5_and_6_migration_rejects_identity_disagreeing_with_meta(
+        tmp_path, meta_factory):
+    meta = meta_factory()
+    meta["implementation"] = dict(
+        meta["implementation"], kernel_epoch=999)
+    source = _write(tmp_path / "disagreeing-implementation.jsonl", [meta])
+    with pytest.raises(S.GraphError, match="disagrees with graph metadata"):
+        MIG.migrate_kernel_epoch([source], dry_run=True)
+
+
 def test_formats_5_and_6_do_not_require_identity_to_match_current_build():
     """The recorded identity describes the build that WROTE the graph; this
     build's own version/commit is never substituted, compared, or asserted
@@ -664,7 +703,7 @@ def test_formats_5_and_6_do_not_require_identity_to_match_current_build():
 
 def test_format5_and_format6_graphs_load_directly_via_store(tmp_path):
     for graph_format, kernel_epoch, factory in (
-            (5, 11, _format5_meta), (6, 11, _format6_meta)):
+            (5, 10, _format5_meta), (6, 11, _format6_meta)):
         events = [factory(), {"ev": "model", "id": "M", "desc": "m"}]
         path = _write(tmp_path / ("g%d.jsonl" % graph_format), events)
         graph = S.load(path)

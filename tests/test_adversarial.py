@@ -4404,6 +4404,57 @@ def test_unavailable_then_available_backend_retries_a_genuinely_unverified_witne
     assert not V.needs_verification(graph.claims["REAL"]["witness_verdict"])
 
 
+def test_structured_descriptor_model_is_visible_unverified_without_backend_or_authority(
+        tmp_path):
+    """Minimized M-CT1-CLOSED schema: refuse it before CAS substitution."""
+    from grandportage import provenance as P
+    from grandportage import verify as V
+
+    model = {
+        "ev": "model", "id": "M-CT1-CLOSED",
+        "desc": "minimized real CFG23 closed-model schema",
+        "coefficient_domain": "Q", "characteristic": 0,
+        "point_universe": "ALGEBRAIC_CLOSURE", "ring_vars": ["t1"],
+        "generators": [{
+            "id": "G1", "expr": "t1", "why": "descriptor provenance",
+        }],
+        "open_conditions": {
+            "summary": "474 guards are documented outside the graph",
+            "full_inventory": "artifact pointer",
+        },
+    }
+    claim = _witness_claim(
+        "C-CT1-QI-WITNESS", {"t1": "I"}, model="M-CT1-CLOSED")
+    S.append([model, claim], str(tmp_path))
+
+    def must_not_run(_program, _timeout):
+        raise AssertionError("an inexecutable model reached the CAS backend")
+
+    backend = cas.SingularBackend(runner=must_not_run)
+    first = V.verify_all(root=str(tmp_path), backend=backend, record=True)
+    assert [(subject, oid, verdict)
+            for subject, oid, verdict, _why in first] == [
+                ("witness", "C-CT1-QI-WITNESS", V.UNVERIFIED)]
+    assert "structured descriptor objects" in first[0][3]
+    assert "checked none" in first[0][3]
+    assert backend.execution_count == 0
+
+    graph = S.load(S.graph_path(str(tmp_path)))
+    event = next(iter(graph.verdicts.values()))
+    assert event["verdict"] == V.UNVERIFIED
+    assert event["current"] is True
+    assert P.native_provenance(event["backend"]) is not None
+    assert graph.claims["C-CT1-QI-WITNESS"]["witness_verdict"] == V.UNVERIFIED
+    assert graph.claims["C-CT1-QI-WITNESS"]["witness_verdict"] != (
+        V.WITNESS_VERIFIED)
+    assert V.needs_verification(
+        graph.claims["C-CT1-QI-WITNESS"]["witness_verdict"])
+
+    second = V.verify_all(root=str(tmp_path), backend=backend, record=False)
+    assert second[0][2] == V.UNVERIFIED
+    assert backend.execution_count == 0
+
+
 class _ExactPointBackend(object):
     """Small exact-value seam for open-locus witness contract tests."""
 
