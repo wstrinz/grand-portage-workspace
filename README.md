@@ -85,7 +85,7 @@ ten-minute campaign and the recovery commands.
 Version <!--version-->0.30.0<!--/version-->, graph format
 <!--graph-format-->7<!--/graph-format-->, kernel epoch
 <!--kernel-epoch-->11<!--/kernel-epoch-->. The suite currently has
-<!--checks-->1576<!--/checks--> checks. v0.30 makes inconclusive verification
+<!--checks-->1623<!--/checks--> checks. v0.30 makes inconclusive verification
 visible and retryable, records solver-free authority without pretending a CAS
 ran, adds bounded Q-valued quadratic/cubic extension point witnesses, and
 upgrades selected-real signs to independently replayed Sturm receipts. The
