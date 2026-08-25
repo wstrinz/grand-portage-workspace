@@ -85,7 +85,7 @@ ten-minute campaign and the recovery commands.
 Version <!--version-->0.31.0<!--/version-->, graph format
 <!--graph-format-->7<!--/graph-format-->, kernel epoch
 <!--kernel-epoch-->11<!--/kernel-epoch-->. The suite currently has
-<!--checks-->1627<!--/checks--> checks. v0.31 publishes the v0.30 native
+<!--checks-->1637<!--/checks--> checks. v0.31 publishes the v0.30 native
 verification, extension-witness, ordered-receipt, and Lean work together with
 historical-format migration repairs and a closed, bounded grammar for
 field-relative emptiness scope. The transport table remains at kernel epoch 11.
