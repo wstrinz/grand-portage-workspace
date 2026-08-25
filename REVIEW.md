@@ -3,10 +3,10 @@
 This is the attack surface for the current release. The full historical review
 through v0.18 is preserved in `HISTORY/REVIEW-through-v0.18.md`.
 
-**Version <!--version-->0.30.0<!--/version-->, graph format
+**Version <!--version-->0.31.0<!--/version-->, graph format
 <!--graph-format-->7<!--/graph-format-->, kernel epoch
 <!--kernel-epoch-->11<!--/kernel-epoch-->, and
-<!--checks-->1623<!--/checks--> collected checks.**
+<!--checks-->1627<!--/checks--> collected checks.**
 
 ## Highest-risk claim
 
@@ -32,6 +32,13 @@ or sign must fail before authority activates. An invalid isolator or undecided s
 `UNVERIFIED`; a nontrivial automorphism must not transport a sign predicate;
 and direct incompatible sign claims should create debt without guessing which
 claim is false.
+
+v0.31 adds a release-critical scope parser and historical-format read boundary.
+Attack field-relative `EMPTY` claims with missing, non-field, noncanonical,
+oversized, composite, and implementation-drifted scopes. Formats 1--4 must not
+acquire an implementation field they never carried; formats 5--6 must preserve
+and validate theirs without demanding equality to the current binary. Neither
+direct read nor migration may turn malformed history into current authority.
 
 The other new v0.30 authority is `simple_number_field_v1`. Attack the
 irreducibility check, quotient reduction, rational-function denominator

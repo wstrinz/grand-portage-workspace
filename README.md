@@ -82,14 +82,13 @@ ten-minute campaign and the recovery commands.
 
 ## Status and documents
 
-Version <!--version-->0.30.0<!--/version-->, graph format
+Version <!--version-->0.31.0<!--/version-->, graph format
 <!--graph-format-->7<!--/graph-format-->, kernel epoch
 <!--kernel-epoch-->11<!--/kernel-epoch-->. The suite currently has
-<!--checks-->1623<!--/checks--> checks. v0.30 makes inconclusive verification
-visible and retryable, records solver-free authority without pretending a CAS
-ran, adds bounded Q-valued quadratic/cubic extension point witnesses, and
-upgrades selected-real signs to independently replayed Sturm receipts. The
-transport table remains at kernel epoch 11.
+<!--checks-->1627<!--/checks--> checks. v0.31 publishes the v0.30 native
+verification, extension-witness, ordered-receipt, and Lean work together with
+historical-format migration repairs and a closed, bounded grammar for
+field-relative emptiness scope. The transport table remains at kernel epoch 11.
 
 - [QUICKSTART.md](QUICKSTART.md) — install and first campaign
 - [SPEC.md](SPEC.md) — complete transport and verifier behavior
@@ -99,6 +98,7 @@ transport table remains at kernel epoch 11.
 - [REVIEW.md](REVIEW.md) — current general attack surface
 - [review/v0.29/README.md](review/v0.29/README.md) — public release record, selected-embedding implementation, and CFG23 replay evidence
 - [review/v0.30/README.md](review/v0.30/README.md) — native verification, extension witnesses, ordered receipt independence, and Lean epoch-11 parity
+- [review/v0.31/README.md](review/v0.31/README.md) — public release record, compatibility repairs, and field-scope hardening
 - [grandportage-jc-campaign](https://github.com/wstrinz/grandportage-jc-campaign) — optional extracted campaign fixtures, replay, and historical review brief
 - [HISTORY/](HISTORY/) — superseded findings retained as evidence
 - [lean/README.md](lean/README.md) — non-authoritative semantic shadow

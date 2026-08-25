@@ -796,8 +796,10 @@ class ScopeError(KernelRefusal):
 # live claim demonstrates, which is exactly what this repair refuses to do.
 # ---------------------------------------------------------------------------
 ATOMIC_FIELD_SCOPES = ("Q", "R", "C")
-_FINITE_FIELD_SCOPE = re.compile(r"^F_(\d+)$")
+_FINITE_FIELD_SCOPE = re.compile(r"^F_([1-9]\d*)$")
 _EXTENSION_FIELD_SCOPE = re.compile(r"^[QR]\((.+)\)$")
+_MAX_FIELD_SCOPE_LENGTH = 256
+_MAX_FINITE_CHARACTERISTIC_BITS = 32
 
 
 def _is_prime(n):
@@ -824,13 +826,24 @@ def valid_field_scope(value):
     See the grammar note above `ATOMIC_FIELD_SCOPES` for what is and is not
     admitted, and why.
     """
-    if not isinstance(value, str) or not value.strip() or value != value.strip():
+    if (not isinstance(value, str) or not value.strip()
+            or value != value.strip()
+            or len(value) > _MAX_FIELD_SCOPE_LENGTH):
         return False
     if value in ATOMIC_FIELD_SCOPES:
         return True
     m = _FINITE_FIELD_SCOPE.match(value)
     if m:
-        return _is_prime(int(m.group(1)))
+        digits = m.group(1)
+        # Bound conversion and trial division before parsing an authored
+        # decimal. Exact polynomial checking already supports only 32-bit
+        # prime characteristics; a scope must not offer a larger, slower
+        # field vocabulary than the arithmetic it purports to scope.
+        if len(digits) > 10:
+            return False
+        characteristic = int(digits)
+        return (characteristic.bit_length() <= _MAX_FINITE_CHARACTERISTIC_BITS
+                and _is_prime(characteristic))
     m = _EXTENSION_FIELD_SCOPE.match(value)
     if m:
         return bool(m.group(1).strip())

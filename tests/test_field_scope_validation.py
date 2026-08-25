@@ -76,8 +76,10 @@ def test_full_fold_accepts_every_field_relative_scope_shape_in_live_fixtures():
 
 @pytest.mark.parametrize("scope", [
     "banana", "ALL_FIELDS", "over Q", "everywhere", "Qbar",
-    "F_4", "F_1", "F_0", "F_-2", "F_",
+    "F_4", "F_1", "F_0", "F_-2", "F_", "F_02", "F_4294967311",
+    "F_" + "9" * 5000,
     "Q()", "R( )", "Qsqrt17", "(Q)",
+    "Q(" + "x" * 256 + ")",
 ])
 def test_unrecognized_scope_string_is_refused(scope):
     with pytest.raises(K.ScopeError, match="does not recognize"):

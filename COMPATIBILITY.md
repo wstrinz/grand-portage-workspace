@@ -418,6 +418,23 @@ before a condition verdict activates. The condition verifier advances to
 version 3; earlier condition verdicts remain readable history but are stale.
 The runtime transport table is unchanged, so the kernel epoch remains 11.
 
+Version 0.31.0 retains **graph format 7** and **kernel epoch 11**. It is the
+first public release of the v0.30 evidence layer and adds two compatibility
+repairs found by replaying the real CFG23 graph. Historical formats 5 and 6
+carry a closed implementation identity that formats 1--4 never had; direct
+read and migration now preserve and structurally validate the correct header
+for each generation without asserting that a historical identity equals the
+current implementation.
+
+Field-relative `EMPTY` claims now require a recognized field scope: `Q`, `R`,
+`C`, canonical `F_p` for a prime 32-bit characteristic, or a bounded nonblank
+`Q(...)`/`R(...)` simple-extension label. The parenthesized presentation remains
+descriptive rather than parsed mathematics. Missing, generic, composite,
+noncanonical, oversized, and otherwise unrecognized values fail at the shared
+fold boundary, including legacy reads and migration. This removes authority
+from malformed input; it does not change a valid transport cell, graph schema,
+or verifier contract, so neither format nor kernel epoch advances.
+
 ## Epoch-0 graphs
 
 Unversioned graphs are epoch 0. Version 0.14 continues to read them through a conservative,
