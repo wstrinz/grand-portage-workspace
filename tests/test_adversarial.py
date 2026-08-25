@@ -4831,7 +4831,7 @@ def test_the_unit_verifier_refuses_a_certificate_it_does_not_decide():
          "ring_vars": ["t"], "generators": ["t^2-3"]},
         {"ev": "claim", "id": "CL", "model": "M", "kind": K.EMPTY,
          "statement": "no rational point", "certificate": "NONSQUARE_CLASS",
-         "scope": "over Q"},
+         "scope": "Q"},
     ])
     verdict, why = V.unit_ideal(g, "CL", _runner=never)[:2]
     assert verdict == V.UNVERIFIED
