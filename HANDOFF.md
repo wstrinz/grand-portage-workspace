@@ -40,8 +40,15 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about ten days. Version 0.31.0. <!--checks-->1637<!--/checks--> checks.** Treat
+**Age: about ten days. Version 0.31.1. <!--checks-->1637<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
+
+**The v0.31.1 patch closes the untyped-model half of field-relative emptiness
+scope.** A non-`SCHEME` `EMPTY` claim now produces actionable
+`FIELD-EMPTY-MODEL-SCOPE` debt unless its model declares both a structured
+coefficient domain and point universe. Historical logs remain readable and
+repairable. This does not introduce certificate-kind ontology or claim that a
+combinatorial obstruction establishes geometric emptiness.
 
 **The v0.31 boundary closes historical-read and field-scope seams before the
 first public release of the v0.30 feature set.** Formats 5 and 6 preserve and

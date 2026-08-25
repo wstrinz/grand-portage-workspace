@@ -6,7 +6,7 @@ record remains in `HANDOFF.md` and `HISTORY/`.
 
 ## Release boundary
 
-- Package version: <!--version-->0.31.0<!--/version-->.
+- Package version: <!--version-->0.31.1<!--/version-->.
 - Graph format: <!--graph-format-->7<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->11<!--/kernel-epoch-->.
 - Test collection: <!--checks-->1637<!--/checks--> checks.
@@ -16,8 +16,8 @@ Plain `pytest` is the conceptual full release gate. The ordinary edit loop is
 campaign replay and real-CAS checks have separate `replay` and `live` lanes,
 and the largest finite reconstructions are marked `exhaustive`.
 
-The v0.31 public release record is under `review/v0.31/`; the v0.30
-implementation checkpoint remains under `review/v0.30/`. The release gate separates
+The v0.31.1 patch release record is under `review/v0.31.1/`; the v0.31
+feature release record remains under `review/v0.31/`. The release gate separates
 ordinary deterministic, frozen replay, exhaustive reconstruction, and live
 WSL/Singular lanes so every collected test is accounted for without making
 backend availability implicit.
@@ -57,6 +57,11 @@ The most important graph-bound authorities currently include:
 - exact witnesses and scoped claim certificates.
 - selected REAL algebraic embeddings and replayable exact sign receipts on
   `REAL_CLOSURE` models.
+
+Field-relative `EMPTY` claims are actionable debt unless their model declares
+both a coefficient domain and a point universe. This is a structural scope
+anchor, not a claim that GP understands the geometric force of every
+certificate kind.
 
 Several newer exact checkers intentionally stop before graph authority:
 
