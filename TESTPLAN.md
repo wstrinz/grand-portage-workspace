@@ -7,6 +7,14 @@ currently **asserted but not demonstrated**.
 Each test declares its **pass condition before running**, because a test whose
 bar is set afterwards cannot fail. Ordered by value.
 
+The v0.32 acceptance gate is `tests/test_guard_release.py` plus
+`tests/test_work_accounting.py`. Run `scripts/replay_guard_fixtures.py --live
+--output guard-replay.json` to retain each command's complete stdout, stderr
+and exit code in fresh scratch roots. The frozen D2 pair runs three times;
+the live tests additionally falsify bad points at larger sizes. All collected
+tests and Lean remain the release gate; the dedicated CI lane pins the
+reproduced Singular package. See `review/v0.32/validation.txt` for outcomes.
+
 ---
 
 ## GATE 0 — every transport cell is argued for. **BUILT (v0.2).**
@@ -62,7 +70,7 @@ minting a model, built-in certificate overwrite, strictness-witness-as-
 equivalence-documentation, taint stopping at the first generation, baseline
 acceptance surviving a change of meaning, and identity origin.
 
-**Suite: <!--checks-->1643<!--/checks--> checks, ~300--720 s on the current development machine.** Was 171 before the v0.2 pass.
+**Suite: <!--checks-->1685<!--/checks--> checks, ~300--720 s on the current development machine.** Was 171 before the v0.2 pass.
 
 ### Test cadence
 

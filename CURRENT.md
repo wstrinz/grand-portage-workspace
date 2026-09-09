@@ -4,20 +4,26 @@ This is the cold-start page. It contains only current facts. The design rational
 lives in `DESIGN.md` and `ARCHITECTURE.md`; the chronological implementation
 record remains in `HANDOFF.md` and `HISTORY/`.
 
+Continuation handoff: `review/v0.32/SOL-HANDOFF.md` records the uncommitted
+Phase A and Lane Watch work, validation, release steps, and epoch-12 gates.
+
 ## Release boundary
 
-- Package version: <!--version-->0.31.2<!--/version-->.
+- Package version: <!--version-->0.32.0<!--/version-->.
 - Graph format: <!--graph-format-->7<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->11<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1643<!--/checks--> checks.
+- Test collection: <!--checks-->1685<!--/checks--> checks.
 
 Plain `pytest` is the conceptual full release gate. The ordinary edit loop is
 `pytest -m "not live and not replay and not exhaustive"`; deterministic frozen
 campaign replay and real-CAS checks have separate `replay` and `live` lanes,
 and the largest finite reconstructions are marked `exhaustive`.
 
-The v0.31.2 patch release record is under `review/v0.31.2/`; the v0.31
-feature release record remains under `review/v0.31/`. The release gate separates
+The v0.32 guard release preparation is under `review/v0.32/`; the v0.31.2
+patch record remains under `review/v0.31.2/`. Epoch-12 field reach and
+family/model composition remain gated on the Phase A release. Operational
+work records and accounting-only checks are described in `docs/WORK.md`.
+The release gate separates
 ordinary deterministic, frozen replay, exhaustive reconstruction, and live
 WSL/Singular lanes so every collected test is accounted for without making
 backend availability implicit.
