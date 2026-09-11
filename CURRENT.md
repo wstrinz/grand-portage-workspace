@@ -12,7 +12,7 @@ Phase A and Lane Watch work, validation, release steps, and epoch-12 gates.
 - Package version: <!--version-->0.32.0<!--/version-->.
 - Graph format: <!--graph-format-->7<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->11<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1685<!--/checks--> checks.
+- Test collection: <!--checks-->1687<!--/checks--> checks.
 
 Plain `pytest` is the conceptual full release gate. The ordinary edit loop is
 `pytest -m "not live and not replay and not exhaustive"`; deterministic frozen
