@@ -7,6 +7,14 @@ currently **asserted but not demonstrated**.
 Each test declares its **pass condition before running**, because a test whose
 bar is set afterwards cannot fail. Ordered by value.
 
+The v0.34 / epoch-12 gate is `tests/test_epoch12_contract.py` plus the frozen
+DK migration replay in `tests/test_guard_release.py`. It separates concrete
+field extension, universal reach instantiation, and witness transport; checks
+the replay-only rational SOS identity; exercises every otherwise-licensed
+point edge and `same_as`; and permutes the family/model bridge premises and
+their debt controls. `review/v0.34-preflight/SEAM.md` records only observed
+crossings. The release record and exact lane results are in `review/v0.34/`.
+
 The v0.33 authority-boundary gate is `tests/test_authority_binding.py` plus the
 authority import/source rules in `tests/test_architecture.py`. It characterizes
 all ten verdict subjects, the existing projection matrix, staleness, sealed

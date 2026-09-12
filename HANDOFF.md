@@ -8,13 +8,11 @@
 Written for a session with **no prior context**. Everything needed to pick this
 up is here or linked from here.
 
-2026-09-09: v0.32 Phase A source preparation is recorded in
-`review/v0.32/README.md`, with the accepted packet corrections in
-`review/v0.32-preflight/README.md`. Graph format 7 and epoch 11 remain.
-Read `docs/WORK.md` for operational attempts and unchecked checks. The
-independent Lane Watch directive event was implemented in the sibling
-agent-observer repository; no service was restarted. Phase B starts after
-the Phase A release and the corrected field-reach contract is frozen.
+2026-09-12: v0.34 implements the accepted Phase B field-reach and
+family/model composition boundary at graph format 8 and kernel epoch 12. The
+executable contract and observed seam replay are in `review/v0.34-preflight/`;
+the release record is in `review/v0.34/`. Read `CURRENT.md` for the compact
+current state and `docs/WORK.md` for operational attempts and unchecked checks.
 
 ---
 
@@ -48,7 +46,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Age: about ten days. Version 0.31.2. <!--checks-->1742<!--/checks--> checks.** Treat
+**Version 0.34.0. <!--checks-->1742<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The v0.31.2 patch makes exact derived-identity receipts portable.** A

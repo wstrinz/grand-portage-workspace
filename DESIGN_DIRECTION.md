@@ -9,7 +9,7 @@
 **Last reassessed:** 2026-09-12
 
 **Project state:** originally written against v0.3; reassessed through the
-v0.33.0 authority-boundary release
+v0.34.0 capability-bound composition release
 
 **Purpose:** preserve the architectural thread while the implementation settles.
 Nothing here is a commitment. Version numbers in the roadmap are candidate
@@ -69,11 +69,10 @@ The core should remain narrow. The initial target is **CAS-backed polynomial-sys
 
 The current release sequence is:
 
-1. v0.33 ships the Match4 `gp review`, witness-symbol refusal, and zero-ring
+1. v0.33 shipped the Match4 `gp review`, witness-symbol refusal, and zero-ring
    diagnostic together with the output-preserving authority-binding nucleus;
-   none changes mathematical authority;
-2. use v0.34 / kernel epoch 12 for the already-gated field-reach and
-   family-to-model composition work, compiling rules from checked capabilities;
+2. v0.34 / kernel epoch 12 ships the gated field-reach and family-to-model
+   composition work, with reach minted by checked, model-bound capabilities;
 3. add minimal proof slices and authority-aware diffing after the receipt boundary
    gives them one source of truth;
 4. introduce typed claim fragments and explicit regime boundaries only where the
@@ -1247,7 +1246,7 @@ not justify a version bump.
 evidence to current graph authority, and the extraction changes no existing
 licensed conclusion. Graph format 7 and kernel epoch 11 remain unchanged.
 
-### Candidate v0.34 / kernel epoch 12 - capability-bound composition
+### Completed v0.34 / kernel epoch 12 - capability-bound composition
 
 - implement the frozen field vocabulary and certificate-specific reach rules;
 - bind point universe, witness field, embeddings, coefficient maps, and semantic
@@ -1261,9 +1260,11 @@ licensed conclusion. Graph format 7 and kernel epoch 11 remain unchanged.
 - keep CLI, MCP, schema, migration, fingerprints, supersession, and Lean shadow in
   parity.
 
-**Exit condition:** the epoch-12 matrices and counterexamples in the v0.32
-preflight and handoff pass; old readable events do not retain authority merely
-because they deserialize.
+**Exit condition met:** the epoch-12 matrices and counterexamples in the v0.34
+executable contract pass; old certificate booleans cross a named conservative
+migration table, current declarations mint no reach, and the frozen DK E5 debt
+remains open. Checked observations are recorded in
+`review/v0.34-preflight/SEAM.md`.
 
 ### After the receipt boundary - explanation and authoring
 

@@ -5,13 +5,14 @@ lives in `DESIGN.md` and `ARCHITECTURE.md`; the chronological implementation
 record remains in `HANDOFF.md` and `HISTORY/`.
 
 The historical v0.32 continuation handoff remains at
-`review/v0.32/SOL-HANDOFF.md`; Phase A has shipped, and v0.33 implements the
-authority-binding checkpoint that followed it. `DESIGN_DIRECTION.md` holds the
-post-release prior-art reassessment and the still-gated epoch-12 sequence.
+`review/v0.32/SOL-HANDOFF.md`; Phase A and the v0.33 authority-binding
+checkpoint have shipped. v0.34 implements the accepted epoch-12 field-reach
+and family/model composition contract. `DESIGN_DIRECTION.md` holds the
+prior-art reassessment and the sequence beyond this boundary.
 
 ## Release boundary
 
-- Package version: <!--version-->0.33.0<!--/version-->.
+- Package version: <!--version-->0.34.0<!--/version-->.
 - Graph format: <!--graph-format-->8<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->12<!--/kernel-epoch-->.
 - Test collection: <!--checks-->1742<!--/checks--> checks.
@@ -21,9 +22,9 @@ Plain `pytest` is the conceptual full release gate. The ordinary edit loop is
 campaign replay and real-CAS checks have separate `replay` and `live` lanes,
 and the largest finite reconstructions are marked `exhaustive`.
 
-The v0.33 authority-boundary release record is under `review/v0.33/`; the
-v0.32 guard release record remains under `review/v0.32/`. Epoch-12 field reach
-and family/model composition remain deferred to a separate semantic release.
+The v0.34 semantic release record is under `review/v0.34/`; its executable
+contract and checked seam observations are under `review/v0.34-preflight/`.
+The v0.33 authority-boundary release record remains under `review/v0.33/`.
 Operational work records and accounting-only checks are described in
 `docs/WORK.md`. v0.33 also ships `gp review` as the cold-reader-safe full
 history surface, refuses free witness parameters before CAS execution, and
@@ -43,9 +44,10 @@ was included alongside the completed authority-boundary work in v0.33.
 - **v0.33:** extracts one internal authority-binding nucleus and routes every
   existing fold-time verdict projection through it. Characterization tests
   preserve graph bytes, current judgments, format 7, and kernel epoch 11.
-- **v0.34 / epoch 12 candidate:** implement the already-gated field-reach and
-  family-to-model composition contracts. Bind new context into fingerprints and
-  migration, and compile transport from checked capabilities where earned.
+- **v0.34 / epoch 12:** implements explicit field context, verifier-earned
+  structured certificate reach, replay-only rational SOS identities, and the
+  first exact family-to-model bridge. Historical certificate booleans migrate
+  through a named conservative table; unknown kinds become `NONE`.
 - **After that boundary:** build minimal proof slices and authority-aware diffing;
   introduce typed claim fragments and physical regime modules only when live
   cross-regime use fixes their contracts.
@@ -63,6 +65,14 @@ elimination and point-lift proof objects remain current history without erasing
 earlier authority. Receipts are retained only on the folded in-memory graph, so
 format 7 and epoch 11 remain unchanged. The release deliberately does not
 reclassify the pure checker's transport decisions as persisted receipts.
+
+The v0.34 release builds on that boundary. `model.about` separates the field
+whose points are discussed from the exact `compute_in` domain; EMPTY transport
+uses reach projected by a current verifier receipt, not a global certificate
+boolean. The point-context gate applies across every point-carrying edge and
+`same_as`. A `family_bridge` composes a family premise into one model only when
+exact enumeration, proved coverage, exhibited membership, and the inference's
+bridge mapping all agree.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
