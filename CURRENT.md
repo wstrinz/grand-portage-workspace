@@ -12,7 +12,7 @@ Phase A and Lane Watch work, validation, release steps, and epoch-12 gates.
 - Package version: <!--version-->0.32.0<!--/version-->.
 - Graph format: <!--graph-format-->7<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->11<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1687<!--/checks--> checks.
+- Test collection: <!--checks-->1692<!--/checks--> checks.
 
 Plain `pytest` is the conceptual full release gate. The ordinary edit loop is
 `pytest -m "not live and not replay and not exhaustive"`; deterministic frozen
@@ -23,6 +23,11 @@ The v0.32 guard release preparation is under `review/v0.32/`; the v0.31.2
 patch record remains under `review/v0.31.2/`. Epoch-12 field reach and
 family/model composition remain gated on the Phase A release. Operational
 work records and accounting-only checks are described in `docs/WORK.md`.
+Post-release v0.32 hardening adds `gp review` as the cold-reader-safe full
+history surface, refuses free witness parameters before CAS execution, and
+labels quotient identities as vacuous when a current verified unit-ideal
+anchor already proves the model is the zero ring. These are diagnostics only;
+they change no graph format, kernel epoch, transport cell, or authority rule.
 The release gate separates
 ordinary deterministic, frozen replay, exhaustive reconstruction, and live
 WSL/Singular lanes so every collected test is accounted for without making

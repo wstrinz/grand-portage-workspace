@@ -6,9 +6,15 @@ through v0.18 is preserved in `HISTORY/REVIEW-through-v0.18.md`.
 **Version <!--version-->0.32.0<!--/version-->, graph format
 <!--graph-format-->7<!--/graph-format-->, kernel epoch
 <!--kernel-epoch-->11<!--/kernel-epoch-->, and
-<!--checks-->1687<!--/checks--> collected checks.**
+<!--checks-->1692<!--/checks--> collected checks.**
 
 ## Highest-risk claim
+
+For a cold campaign read, run `gp review`. It is the checked-seam equivalent
+of `gp check --history --full`: current authority debt, full carried detail,
+and findings retained on superseded generations are all visible without
+requiring a returning agent to remember the safe flag combination. Plain
+`gp check` remains the concise enforcement-oriented surface.
 
 For v0.32, attack the simultaneous Singular point map with false points,
 coordinate references, guards and large rings; the live release controls

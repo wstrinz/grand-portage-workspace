@@ -17,6 +17,11 @@ verifier authority. Accounting-only receipts are explicitly marked unchecked
 and cannot serve as full-check baselines. Old readers do not display the
 sidecar, so operators should use v0.32 to review operational incompleteness.
 
+The post-release v0.32 review, degenerate-model, and witness-symbol diagnostics
+add no persisted field or verdict. Existing graphs and receipts are unchanged;
+the new messages make already-known authority and malformed point input more
+visible before a reader or CAS can misinterpret them.
+
 Version 0.25 makes that separation executable for native formats 1--4. Their
 original headers and bytes remain readable by `check`, `show`, `doctor`, and
 artifact audit even though they predate the closed format-5 implementation
