@@ -52,6 +52,21 @@ Owns the narrow transition
 checked evidence + exact graph/model binding -> current persisted authority
 ```
 
+The next behavior-preserving architecture milestone is to make that sentence an
+internal type boundary:
+
+```text
+bind(CheckedEvidence, ContextBinding) -> AuthorityReceipt | Refusal
+```
+
+`AuthorityReceipt` binds the proposition or licensed capability, subject and
+interpretation fingerprints, evidence contract and checker versions, checked
+premises, semantic scope, dependencies, artifact digests, and kernel epoch.
+Backends, certificate producers, CLI/MCP handlers, and administrative acceptance
+must not construct it directly. The extraction earns completion only if frozen
+characterization fixtures show that existing graph bytes and authority judgments
+are unchanged.
+
 Representative responsibilities currently live across `store`, `check`,
 `verify`, `operations`, and `provenance`. This is the seam to make smaller
 and more explicit; it is not a reason to move the graph fold into Lean.

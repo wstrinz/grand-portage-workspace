@@ -1,56 +1,83 @@
 # Grand Portage: Design Direction
 
-## Toward a typed semantic frontend, transport calculus, and campaign architecture for CAS-backed polynomial-system research
+## Toward a proof-carrying transport calculus and event-sourced authority system for computational mathematics
 
-**Status:** speculative design memo  
-**Date:** 2026-07-27  
-**Project state:** written against Grand Portage v0.3  
-**Purpose:** preserve the architectural thread while the immediate implementation settles. Nothing here is a commitment. The document should be revised after several more independent campaigns and after the current trust-boundary gaps have been exercised in live work.
+**Status:** living design and prior-art memo
+
+**Original date:** 2026-07-27
+
+**Last reassessed:** 2026-09-12
+
+**Project state:** originally written against v0.3; reassessed after v0.32.0 and
+the Match4 hardening pass
+
+**Purpose:** preserve the architectural thread while the implementation settles.
+Nothing here is a commitment. Version numbers in the roadmap are candidate
+release boundaries, not promises.
 
 ---
 
 ## Executive summary
 
-Grand Portage is becoming more than a checker wrapped around a computer algebra system. The strongest emerging interpretation is:
+Grand Portage is more than a checker wrapped around a computer algebra system.
+The strongest current interpretation is:
 
-> **Grand Portage is a typed semantic frontend and campaign state system for CAS-backed polynomial-system research. It records how models are related, what each transformation loses, which claims and evidence may cross those transformations, and which refinement would legitimately discharge a refusal.**
+> **Grand Portage is a proof-carrying transport calculus for computational
+> mathematics, coupled to an event-sourced authority system.**
+
+From the programming-languages side, this is nearly literal predicate-transformer
+language: model transformations play the role of programs, mathematical claims
+play the role of predicates, and checked evidence earns the capabilities needed
+to transport those claims. The implementation today remains deliberately narrower:
+its authority-bearing kernel is exact-affine, with adjacent family, selected-real,
+and operational surfaces kept at explicit boundaries.
 
 The operational loop is **CEGAR-shaped**: compute, type the transformation, localize a refusal, refine or re-derive, and replay. The relaxation fragment is partly **abstract-interpretation-shaped**. The implementation mechanism resembles an **effect-and-capability system**, where an operation's effect records what was lost and evidence capabilities determine what survives that loss. The certificate boundary aspires to **LCF-style discipline**, where strong conclusions can only be constructed from values minted by trusted verifiers. The graph is also beginning to behave like a **module system**, with models exposing interfaces, claims acting as exports, and derivations serving as implementations.
 
 None of those analogies is the whole identity. The useful synthesis is:
 
 - **Compiler architecture** explains the missing frontend: structured objects, semantic elaboration, a typed intermediate representation, backend emission, and good errors.
-- **Transport calculus** explains the mathematical kernel: claim variance across model morphisms, partitions, field changes, closure operations, and descent.
+- **Predicate transformers and transport calculus** explain the mathematical
+  kernel: forward and backward claim transformers, claim variance across model
+  changes, partitions, field changes, closure operations, and descent.
 - **CEGAR** explains the research loop: a refusal should identify the admissible refinement, and an unrelated retyping must not count as repair.
 - **Effect systems** explain enforcement: every transformation declares what it loses, and those effects compose through joins.
 - **LCF** explains the trust root: certificate scope should derive from verifier-produced capabilities, not caller-supplied labels.
+- **Truth maintenance** explains immutable alternatives, support environments,
+  staleness, supersession, and minimal proof slices; GP adds a semantic variance
+  law to each support edge.
 - **Provenance and workflow standards** explain interoperability and packaging, but not mathematical licensing.
 
-The highest-leverage direction is therefore not more checker rules. It is a **semantic frontend** with:
+The highest-leverage direction is therefore not more checker rules. It is an
+**authority-centered semantic frontend** with:
 
-1. structured coefficient domains, rings, models, maps, and operations;
-2. a small typed CAS IR compiled to Singular first;
-3. operation constructors that derive candidate transport declarations;
-4. verifier-produced evidence artifacts and certificate capabilities;
+1. one authority-binding boundary between checked evidence and current graph
+   authority;
+2. operation semantics compiled from capabilities rather than an expanding list
+   of nominal edge types;
+3. a tiny typed claim IR, followed only as needed by a typed CAS IR;
+4. structured coefficient domains, rings, models, maps, and operations;
 5. a separation between propositions and the evidence objects that support them;
-6. model interfaces distinct from private implementations;
-7. first-class external derivations instead of conclusions hidden in notes;
-8. positive user-facing features such as `gp status`, `gp why`, `gp explain`, and `gp probe`;
-9. standards adapters around the native graph rather than standards inside the kernel.
+6. explicit semantic regimes and explicit cross-regime conversions;
+7. model interfaces distinct from private implementations;
+8. first-class external derivations instead of conclusions hidden in notes;
+9. positive user-facing proof slices and authority diffs;
+10. standards adapters around the native graph rather than standards inside the
+    kernel.
 
 The core should remain narrow. The initial target is **CAS-backed polynomial-system campaigns centered in characteristic zero**, including controlled base change, elimination, saturation, case partitions, and finite-field reconnaissance. Grand Portage should not try to become a general theorem prover, a universal language for mathematics, or a replacement for Singular, Sage, or Macaulay2.
 
-The immediate build order should be:
+The current candidate release sequence is:
 
-1. repair read-surface drift and ship `gp status`;
-2. make rule explanations and probes first-class;
-3. add typed external derivations;
-4. build structured algebra objects and a typed Singular IR;
-5. bind computations to immutable artifacts and verifier-produced certificate capabilities;
-6. prototype claim/evidence separation;
-7. add model interfaces and alternative justifications;
-8. package campaigns with RO-Crate and export provenance through adapters;
-9. test transfer on independent campaigns before prescribing a universal campaign architecture.
+1. keep the Match4 `gp review`, witness-symbol refusal, and zero-ring diagnostic
+   as post-v0.32 hardening; they do not change mathematical authority;
+2. use v0.33 for an output-preserving extraction of the authority-binding nucleus;
+3. use v0.34 / kernel epoch 12 for the already-gated field-reach and
+   family-to-model composition work, compiling rules from checked capabilities;
+4. add minimal proof slices and authority-aware diffing after the receipt boundary
+   gives them one source of truth;
+5. introduce typed claim fragments and explicit regime boundaries only where the
+   family/model bridge and subsequent live campaigns force them.
 
 ---
 
@@ -301,11 +328,29 @@ AddEquations(source_model, equations)
 
 The key benefit is not convenience alone. The transport declaration and the emitted computation come from the same semantic value, so they cannot silently drift.
 
-### 3.6 Build an IR before a language
+### 3.6 Build small IRs before a language
 
-The typed statement AST should be framed as the seed of a frontend, not merely a patch for the next CAS bypass. But the project does not yet need custom surface syntax.
+The first IR should type the semantic fragments that Grand Portage transports,
+not reproduce a CAS AST or a miniature proof assistant:
 
-Build a typed intermediate representation and builder API first:
+```text
+RingContext
+FieldContext
+Expression[Context]
+Equation[Context]
+Predicate[Context]
+Point[Model]
+FamilyPredicate[Family]
+```
+
+This addresses a defect the Lean shadow exposed: some runtime gates ask whether
+an expression is defined over a coefficient field only because the string-based
+representation permits an ill-typed expression to be stated there. A small typed
+claim IR can make such errors unrepresentable while retaining opaque payload escape
+hatches.
+
+A separate execution IR and builder API can then cover only the backend operations
+that have earned support:
 
 ```text
 PolynomialExpr
@@ -319,7 +364,9 @@ Resultant
 OutputDecl
 ```
 
-Compile that subset to Singular. Later backends implement only the operations whose semantics they can faithfully support.
+Compile that subset to Singular. Later backends implement only the operations whose
+semantics they can faithfully support. The claim IR should not wait for, or grow
+to the size of, the execution IR.
 
 This avoids prematurely owning:
 
@@ -350,20 +397,58 @@ The right architecture has a semantic graph and an execution/artifact graph that
 
 ### 4.1 No single borrowed framework explains the whole system
 
-The most accurate account is layered:
+The stronger prior-art map is:
 
-| Lens | What it explains | What it does not explain |
+| Family | What it explains | What Grand Portage adds |
 |---|---|---|
-| Abstract interpretation | Over-approximations, refinement, precision loss | Base change, descent, partitions, proof evidence |
-| CEGAR | Refusal -> admissible refinement -> replay | The full mathematical semantics of each relation |
-| Effect systems | Required declarations, composition, join failures | Why a particular mathematical claim is preserved |
-| LCF | Trusted constructors for theorem-like evidence | Campaign state, provenance, abstraction precision |
-| Provenance systems | What ran, what used what, who was responsible | What the output licenses mathematically |
-| Module systems | Interfaces, private implementations, composition | Claim variance across arbitrary model morphisms |
+| Predicate transformers, refinement calculus, dynamic logic | Relations/programs induce forward and backward transformations of predicates | Mathematical model changes, multiple claim sorts, and evidence-conditioned capabilities |
+| Institutions and logical frameworks | Signatures, models, sentences, translations, satisfaction invariance | Deliberately lossy transformations and partial transport rather than invariance |
+| ATMS and truth-maintenance systems | Justifications, assumption environments, alternatives, inconsistency, dependency maintenance | A mathematical variance law and semantic scope on every support edge |
+| Certifying algorithms, skeptical checking, proof-carrying code | Untrusted producer plus independently checkable evidence | Binding evidence to the current model, inputs, interpretation, and transport law |
+| Translation validation | Validate each concrete transformation rather than the transformer implementation | Validate which capabilities a deliberately lossy transformation earns, not only equivalence |
+| Abstract interpretation and CEGAR | Approximation, precision loss, refusal, admissible refinement, replay | Base change, descent, partitions, evidence, and claim-specific variance |
+| Effect and capability systems | Declared loss, required capability, composition failure | The mathematical reason a capability licenses a particular claim transport |
+| LCF | Trusted constructors for theorem-like evidence | Event-sourced authority, computational artifacts, and model binding |
+| PROV, in-toto, and SLSA-style attestations | Lineage, artifact identity, execution metadata, integrity, policy | What a mathematical result is permitted to imply |
+| Assurance cases and SACM | Claims, evidence, arguments, defeaters | Executable rules for sound mathematical transport |
+| Provenance semirings | Compositional dependency provenance | Refusal, partiality, semantic variance, scope, and certificate applicability |
+| Module systems | Interfaces, private implementations, composition | Claim variance across model transformations |
 
-Grand Portage should use each where it fits and resist making any one the public definition.
+This is a composition claim, not an absence or novelty claim. Grand Portage should
+use each family where it fits and should not imply that a literature search proved
+that no equivalent system exists.
 
-### 4.2 The relaxation fragment is abstract-interpretation-shaped
+### 4.2 Predicate-transformer logic is direct prior art
+
+For a point relation `R` from a source model to a target model, the Lean shadow
+defines the relational image and universal preimage:
+
+```text
+exists_R(P)(y) = exists x. P(x) and R(x, y)
+forall_R(Q)(x) = forall y. R(x, y) implies Q(y)
+```
+
+and proves their adjunction. This is the strongest-postcondition /
+weakest-precondition shape from predicate-transformer semantics, even though a GP
+operation is a mathematical relaxation, closure, field change, restriction, or
+cover rather than an executing CAS command. The analogy is the relational logic of
+information flow, not a claim that model transformations are ordinary programs.
+
+### 4.3 Truth maintenance is direct lifecycle prior art
+
+An assumption-based truth-maintenance system preserves justifications under
+multiple assumption environments and retains inconsistent alternatives instead of
+destructively retracting them. Grand Portage's immutable history, supersession,
+stale dependencies, partitions, doubts, open premises, carried debt, and multiple
+derivations of one conclusion belong in that neighborhood.
+
+The difference is load-bearing: support alone does not license a GP conclusion.
+Each dependency has a semantic variance law, scope, and evidence contract. ATMS
+techniques are therefore candidates for minimal/current support environments,
+incremental invalidation, conflict sets, and proof slices—not a replacement for
+the transport kernel.
+
+### 4.4 The relaxation fragment is abstract-interpretation-shaped
 
 Some current relations are naturally read as precision relations:
 
@@ -376,7 +461,7 @@ This is strong prior art for reasoning about sound approximations and precision.
 
 It should not swallow the whole design. `BASE_EXTENSION` changes coefficient domains; `SPECIALIZATION` relates different fibers; partitions reason over alternatives; identities travel contravariantly through coordinate rings. These require a broader transport calculus.
 
-### 4.3 The operational loop is CEGAR-shaped
+### 4.5 The operational loop is CEGAR-shaped
 
 Grand Portage is not classical CEGAR because it does not yet synthesize abstract predicates or refinements automatically. The useful loop is nevertheless clear:
 
@@ -392,7 +477,7 @@ compute
 
 The important v0.3 advance is that the obligation now constrains what counts as repair. If an obligation admits only `DERIVE`, declaring a more permissive parallel edge must not clear it. That is the genuinely CEGAR-like step: refinement is not just new state; it is a response to a specific counterexample or insufficiency.
 
-### 4.4 Effects record loss; capabilities justify survival
+### 4.6 Effects record loss; capabilities justify survival
 
 The implementation analogy closest to the current mechanism is an effect-and-capability system.
 
@@ -422,9 +507,21 @@ RingIsomorphismWitness
 
 The transport rule asks whether the capability is sufficient for the effect and direction.
 
-This formulation may eventually allow the named five edge types to compile into smaller semantic properties rather than expanding into an ever-larger hand-written table.
+This is no longer only a future formulation. Point transport already compiles the
+surface edge types from relation totality and point-surjectivity plus a few
+operation-specific refinements, while identity transport remains separate because
+point semantics do not determine equality in coordinate rings. The Lean shadow
+independently derived the same split.
 
-### 4.5 Partitions are not transport edges
+The six current edge types should remain useful user-facing constructors, but new
+operations should be admitted by specifying their point relation, contravariant
+expression map, definedness, preserved extra structure, scope transformation, and
+coverage contract. Evidence then establishes capabilities such as totality,
+surjectivity, ideal carrying/reflection, predicate correspondence, or cover
+exhaustiveness. Do not add a seventh type merely because a new operation resembles
+an old one.
+
+### 4.7 Partitions are not transport edges
 
 The branch failure in the first live runs has already answered one important question: the next earned concept was not a sixth lossy edge type. It was a new inference form.
 
@@ -445,7 +542,7 @@ This distinction should guide future growth. When a new failure appears, first a
 
 Do not reflexively add edge types.
 
-### 4.6 Split propositions from evidence
+### 4.8 Split propositions from evidence
 
 The current `NONEMPTY` kind deliberately means an exhibited witness because existential nonemptiness and a particular witness transport differently through image closure. That is a sign that proposition and evidence are conflated.
 
@@ -484,9 +581,14 @@ evidence transport: what evidence objects can be transformed or reused?
 
 A claim/evidence split could remove known conservatisms while making certificate verification uniform. It is a major conceptual change and should be prototyped in a branch against existing fixtures before becoming the core representation.
 
-### 4.7 Make the LCF analogy real
+### 4.9 Make the LCF analogy real
 
-The current rule "scope is derived, never declared" is an excellent policy. It is not yet an LCF-style trust boundary because the caller can label a computation `UNIT_IDEAL_CERT` without the system proving that the ideal is the unit ideal.
+The rule "scope is derived, never declared" is an excellent policy. Since the
+original v0.3 memo, the built-in exact verifier paths have moved materially toward
+the LCF target: a declaration or standalone evidence report does not mint graph
+authority, and current verifier verdicts bind exact receipts to graph subjects.
+The remaining risk is that this binding responsibility is distributed rather than
+represented by one unforgeable internal value.
 
 The target is verifier-produced evidence values:
 
@@ -515,6 +617,74 @@ AssumedCertificate(authority, artifact, stated_kind)
 ```
 
 Downstream conclusions remain conditional on that assumption rather than silently acquiring scheme scope.
+
+Certifying algorithms and proof-carrying code sharpen this boundary. They justify
+trusting a checked output without trusting its producer, but acceptance of a
+certificate is still not the same as authority in Grand Portage. The evidence must
+also be bound to the exact model, current inputs, interpretation, scope, dependency
+generation, and applicable transport law. Translation validation supplies the
+matching backend posture: validate each concrete CAS-produced transformation or
+receipt, rather than attempting to verify Singular or the discovery procedure.
+
+### 4.10 Make authority binding an actual nucleus
+
+The transition from checked evidence to current persisted authority is the most
+important architectural seam and is currently distributed across storage,
+checking, verification, operations, and provenance code. Extract an internal,
+non-user-mintable receipt with at least:
+
+```text
+AuthorityReceipt
+    proposition or licensed capability
+    subject/model fingerprint
+    interpretation/context fingerprint
+    evidence contract and version
+    checker identity and version
+    checked premises and dependencies
+    semantic scope
+    source and artifact digests
+    kernel epoch
+```
+
+There should be one conceptual operation:
+
+```text
+bind(CheckedEvidence, Context) -> AuthorityReceipt | Refusal
+```
+
+Search backends, certificate producers, CLI code, and administrative acceptance
+must not construct this value directly. The v0.33 extraction should preserve
+current judgments and serialized graph behavior; its purpose is to turn the
+project's central trust-boundary sentence into a type boundary before epoch-12
+certificate reach and family/model composition increase the state space.
+
+### 4.11 The emerging formal object has five layers
+
+The implementation now points to a smaller meta-structure than its product
+surface suggests:
+
+1. **Contexts/models** fix point universes, coefficient domains, coordinate
+   algebras, guards, and selected structures. A chosen real embedding and a
+   field-relative certificate scope are distinct axes.
+2. **Model transformations** may carry a relation on points, a partial
+   contravariant map on expressions or rings, a definedness/localization
+   condition, and preservation of extra structure. Checked evidence establishes
+   capabilities of these components.
+3. **Claims indexed by contexts** already form multiple sorts: point existence,
+   emptiness, universal predicates, and coordinate-ring identities live over
+   models, while `COUNT` lives over a family.
+4. **Evidence as capability proof** establishes a narrow proposition—ideal
+   membership, point surjectivity on a locus, map equivalence, certificate
+   stability, or enumeration exhaustiveness—before binding derives authority.
+5. **Authority maintenance over time** records current, stale, superseded,
+   unverified, carried, and open states. These are states of authority records,
+   not truth values of mathematical propositions.
+
+In categorical language this suggests indexed predicates or a hyperdoctrine,
+relations with adjoint predicate transformers, contravariant algebra maps, and
+multi-arrow cover structure. Those are explanatory targets and possible
+compression theorems, not a reason to design a general "Grand Portage
+bicategory" ahead of runtime evidence.
 
 ---
 
@@ -783,7 +953,12 @@ Like a foreign-function boundary, external derivations should be:
 
 Grand Portage currently earns attention mainly by refusing. Tools that only refuse are adopted by mandate, not by individual researchers who are trying to move quickly. The type discipline must become the price of useful capabilities.
 
-### 8.1 `gp status` first
+### 8.1 One compact status surface
+
+v0.32 has useful pieces in `gp review`, `gp doctor`, `gp project`, `gp history`,
+and the campaign read models, but no single compact `gp status` command. Do not add
+another broad report merely for the name; first define the smallest resumption
+surface that is not already covered by `gp review`.
 
 The first carrot should be a campaign brief that answers the question a fresh agent or collaborator actually has:
 
@@ -1040,88 +1215,83 @@ The first standards-focused work should not require changes to `kernel.py`.
 
 ---
 
-## 11. Roadmap
+## 11. Roadmap from v0.32
 
-### Phase 0 - read surfaces and project hygiene
+The older phase list mixed already-delivered work, architectural prerequisites,
+and speculative product features. The dependency order is now clearer.
 
-- generate version/check-count snippets from one source;
-- update stale README, DESIGN, and REVIEW status sections;
-- ship `gp status`;
-- define session/batch/checkpoint identity;
-- make carried versus live findings impossible to confuse.
+### Post-v0.32 hardening - no semantic release required
 
-**Exit condition:** a fresh agent can accurately summarize a campaign without reading its transcript.
+- keep `gp review` as the checked, full, history-aware cold-reader preset;
+- refuse free witness parameters before invoking a CAS;
+- label quotient identities as vacuous on a currently verified zero-ring model;
+- update this prior-art and architecture record.
 
-### Phase 1 - explanations and honest boundaries
+These changes improve refusal quality and resumption but do not alter graph format,
+kernel epoch, transport cells, or mathematical authority. They may ride on `master`
+until a distribution artifact is otherwise needed; the feedback packet alone does
+not justify a version bump.
 
-- promote `probe()` to CLI and MCP;
-- add `gp why` and `gp explain`;
-- structure the cell ledger;
-- add the hyperbola/image-closure tutorial;
-- add first-class external derivations;
-- prohibit notes from serving as inference premises.
+### Candidate v0.33 - authority-binding nucleus
 
-**Exit condition:** every supported refusal explains the rule, counterexample, and legal next move; outside work enters through a visible port.
+- define internal `CheckedEvidence`, `ContextBinding`, `AuthorityReceipt`, and
+  explicit refusal values;
+- route every existing authority-producing path through one binder;
+- prevent backends, producers, CLI handlers, and administrative acceptance from
+  minting receipts;
+- retain byte-compatible graph events and current checker judgments;
+- add characterization tests comparing old and new authority frontiers on all
+  frozen fixtures and historical generations.
 
-### Phase 2 - semantic frontend
+**Exit condition:** there is one auditable code path from checked evidence to
+current authority, and the extraction changes no existing licensed conclusion.
+Keep kernel epoch 11 if persisted semantics and fingerprints truly remain unchanged.
 
-- structured coefficient domains;
-- structured rings, variables, term orders, and ideals;
-- typed polynomial expressions;
-- operation constructors;
-- typed Singular IR and emitter;
-- no arbitrary statement strings in supported solver paths;
-- generated edge declarations from operations.
+### Candidate v0.34 / kernel epoch 12 - capability-bound composition
 
-**Exit condition:** the supported polynomial-system subset has no raw-string path to Singular, and emitted computation and transport contract derive from the same value.
+- implement the frozen field vocabulary and certificate-specific reach rules;
+- bind point universe, witness field, embeddings, coefficient maps, and semantic
+  scope into authority fingerprints;
+- implement an explicit family-to-model composition contract as the first
+  cross-regime bridge;
+- preserve enumeration debt, evidence direction, stale premises, exclusions, and
+  open branches as load-bearing inputs;
+- derive operation transport from checked capabilities where the point fragment
+  already demonstrates the pattern;
+- keep CLI, MCP, schema, migration, fingerprints, supersession, and Lean shadow in
+  parity.
 
-### Phase 3 - evidence trust root
+**Exit condition:** the epoch-12 matrices and counterexamples in the v0.32
+preflight and handoff pass; old readable events do not retain authority merely
+because they deserialize.
 
-- immutable artifact identities and digests;
-- execution records linked to semantic objects;
-- verifier-produced certificate capabilities;
-- certificate scope derived from verified evidence values;
-- explicit assumed/unverified evidence forms;
-- in-toto Statements for load-bearing runs.
+### After the receipt boundary - explanation and authoring
 
-**Exit condition:** a caller cannot mint scheme-scoped emptiness by naming a certificate kind.
+- add `gp explain <claim|inference|finding>` as a minimal current proof slice or
+  exact first failed judgment;
+- add `gp diff --authority A B` for gained, lost, narrowed, widened, or stale
+  authority rather than raw event differences;
+- let truth-maintenance algorithms optimize support slicing and invalidation while
+  leaving semantic licensing in the kernel;
+- make campaign identity/root mandatory for authority-affecting mutations;
+- retain only high-level operation and claim constructors earned by live use.
 
-### Phase 4 - richer semantics and composition
+**Exit condition:** a cold reader can identify why one conclusion is licensed and
+what authority changed without reconstructing the full event history.
 
-- prototype claim/evidence separation;
-- first-class conclusions and alternative justifications;
-- model interfaces and private implementations;
-- module sealing;
-- independent-audit analysis;
-- optional campaign profiles;
-- real multi-agent merge trials.
+### Later - typed claims, regimes, and formal compression
 
-**Exit condition:** two implementations can satisfy the same interface, and a public campaign can expose verified exports without exposing every private derivation.
+- introduce the smallest typed claim fragments that remove demonstrated runtime
+  ambiguity;
+- expose exact-affine, ordered-real, finite-family, and any future certified-numeric
+  regime boundaries without prematurely freezing a plugin architecture;
+- test another independent cross-regime bridge before generalizing the common core;
+- continue Lean extraction around capability generation, healthiness conditions,
+  certificate stability, and selected composition laws;
+- formalize a paper-style nucleus only after those laws survive multiple regimes.
 
-### Phase 5 - transfer and ecosystem
-
-- second and third independent mathematical domains;
-- Lean-CAS bridge benchmark;
-- program-analysis or hardware-verification contrast campaign;
-- RO-Crate campaign packaging;
-- PROV export;
-- workflow and OpenLineage adapters where demanded;
-- measured conservatism and adoption costs.
-
-**Exit condition:** the system demonstrates value and acceptable false-refusal cost outside its originating campaign.
-
-### Later - formalize the stable nucleus
-
-Once the capability model survives several domains, formalize in Lean:
-
-- claim semantics;
-- model relations and operation capabilities;
-- transport theorems;
-- partition rules;
-- certificate-scope derivation;
-- selected composition laws.
-
-Do not formalize the evolving Python store, MCP surface, or backend plumbing prematurely.
+Do not rewrite Grand Portage in Lean, build a universal proof language, or design a
+general categorical architecture ahead of live failures.
 
 ---
 
@@ -1185,13 +1355,40 @@ This could reach certified numerics and physics, but it should not enter the cor
 
 Which recurring shapes survive independent use? Profiles should be extracted from campaigns, not imagined from the source project.
 
+### 13.8 Bounded research questions
+
+Several questions are now precise enough to record without turning the product
+into a theory project:
+
+1. **Representation of point transport.** Which `EMPTY`, `NONEMPTY`, and
+   `PREDICATE` tables are generated completely by relations with totality,
+   surjectivity, and predicate-correspondence capabilities?
+2. **Healthiness of operation semantics.** Which monotonicity, join/meet,
+   identity, and composition laws characterize admissible GP predicate
+   transformers and reject malformed operation contracts structurally?
+3. **Certificate-typed transportability.** Can each certificate family be
+   associated with the maximal class of model transformations under which its
+   validity is stable, with a theorem or counterexample establishing the class?
+4. **Authority-preserving translation validation.** Can validation return the
+   precise capabilities earned by one deliberately lossy mathematical
+   transformation rather than a single equivalent/not-equivalent verdict?
+5. **Truth maintenance with semantic edges.** Can support labels carry a support
+   environment, semantic scope, and authority contract while preserving efficient
+   incremental invalidation?
+6. **Semantic attestations for computational claims.** Can checked mathematical
+   receipts reuse attestation envelopes without pretending that supply-chain
+   integrity alone establishes semantic authority?
+
 ---
 
 ## 14. Recommended project language
 
 ### 14.1 One-sentence description
 
-> **Grand Portage is a typed semantic frontend for CAS-backed research pipelines: it records what each model transformation loses, checks what claims and evidence may cross it, and turns unsupported reuse into explicit refinement obligations.**
+> **Grand Portage is a proof-carrying transport calculus for computational
+> mathematics, coupled to an event-sourced authority system: it records what each
+> model transformation loses, checks what claims and evidence may cross it, and
+> turns unsupported reuse into explicit obligations.**
 
 ### 14.2 Longer description
 
@@ -1200,16 +1397,19 @@ Which recurring shapes survive independent use? Profiles should be extracted fro
 ### 14.3 Internal taxonomy
 
 - **Core semantic object:** typed transport and evidence calculus;
+- **Logical account:** indexed claims and relational predicate transformers;
 - **Execution architecture:** compiler frontend plus backend adapters;
 - **Operational loop:** verifier-guided, CEGAR-shaped refinement;
 - **Implementation mechanism:** effect-and-capability system;
+- **Authority lifecycle:** event-sourced truth maintenance with semantic edges;
 - **Composition architecture:** semantic module system;
 - **Interchange architecture:** PROV, RO-Crate, in-toto, and workflow adapters;
 - **Trust architecture:** LCF-like verified evidence constructors.
 
 ### 14.4 What is plausibly novel
 
-The novelty claim should remain narrow:
+The novelty claim should remain narrow and conditional. It is not supported by an
+absence search:
 
 > Existing systems describe workflows, provenance, proofs, abstractions, and certificates. Grand Portage treats the semantic permission to reuse a result across heterogeneous mathematical models as a first-class executable contract, enforces that contract at the computational boundary, preserves its obligations across autonomous-agent handoff and supersession, and compiles refusals into concrete research actions.
 
@@ -1336,7 +1536,8 @@ These sketches are illustrative, not schema commitments.
 7. Ask `gp why IMAGE_CLOSURE/AGAINST/PointWitness`.
 8. Ask `gp probe ExistsPoint` across the same edge and observe the proposition/evidence distinction in the experimental model.
 9. Discharge by adding the open condition `x != 0` or by exhibiting a preimage for a different target point.
-10. Pack the toy campaign and inspect `gp status`.
+10. Run `gp review` and `gp doctor`; identify what a future compact status surface
+    would still need to add.
 
 The tutorial should end with one sentence: **the CAS was right; the unsupported conclusion was at the seam.**
 
@@ -1356,11 +1557,25 @@ The tutorial should end with one sentence: **the CAS was right; the unsupported 
 10. RO-Crate Metadata Specification 1.3. https://www.researchobject.org/ro-crate/specification/1.3/
 11. in-toto Attestation Framework, Statement v1. https://github.com/in-toto/attestation/blob/main/spec/v1/statement.md
 12. The Elm Architecture and Elm ports. https://guide.elm-lang.org/architecture/ and https://guide.elm-lang.org/interop/ports
+13. Edsger W. Dijkstra, "Guarded Commands, Nondeterminacy and Formal Derivation of Programs," Communications of the ACM 18(8), 1975. https://doi.org/10.1145/360933.360975
+14. Johan de Kleer, "An Assumption-Based TMS," Artificial Intelligence 28(2), 1986. https://doi.org/10.1016/0004-3702(86)90080-9
+15. Ross M. McConnell, Kurt Mehlhorn, Stefan Näher, and Pascal Schweitzer, "Certifying Algorithms," Computer Science Review 5(2), 2011. https://doi.org/10.1016/j.cosrev.2010.09.009
+16. George C. Necula, "Proof-Carrying Code," POPL 1997. https://doi.org/10.1145/263699.263712
+17. Amir Pnueli, Michael Siegel, and Ofer Shtrichman, "Translation Validation for Synchronous Languages," ICALP 1998. https://cs.nyu.edu/home/people/in_memoriam/pnueli/transval-icalp98.html
+18. Object Management Group, Structured Assurance Case Metamodel 2.1, 2020. https://www.omg.org/spec/SACM/2.1
+19. Todd J. Green, Grigoris Karvounarakis, and Val Tannen, "Provenance Semirings," PODS 2007. https://doi.org/10.1145/1265530.1265535
+20. SLSA Provenance specification. https://slsa.dev/spec/v1.2/provenance
 
 ---
 
 ## Closing recommendation
 
-Keep the native graph small and exact. Build the missing semantic frontend before expanding the checker. Let operations construct relations, let verifiers construct evidence capabilities, let interfaces separate public claims from private derivations, and let standards handle packaging and interchange through explicit adapters. Use the LLM aggressively as the search and repair policy, but keep every licensing decision in deterministic code or an external trusted verifier.
+Keep the native graph small and exact. Extract the authority-binding nucleus before
+expanding certificate reach. Let operations construct semantic components, let
+checked evidence establish capabilities, and let the binder alone construct
+current authority. Build typed claim fragments only where they eliminate a
+demonstrated ambiguity; keep standards at the packaging and interchange boundary.
+Use the LLM aggressively as the search and repair policy, but keep every licensing
+decision in deterministic code or an external trusted verifier.
 
 The durable thesis is not that Grand Portage invents a new proof system. It is that autonomous computational research needs a typed, persistent account of the semantic seams between otherwise valid artifacts. That is the layer to build.

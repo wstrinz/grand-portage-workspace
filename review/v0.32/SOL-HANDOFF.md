@@ -1,21 +1,30 @@
 # Sol handoff: GP v0.32 release and epoch 12
 
-Prepared 2026-09-09 after the user approved the preflight and Phase A implementation.
-The user is switching to Sol for the remaining work. This handoff does not create
-another task, switch a model, publish a release, or start a campaign.
+Prepared 2026-09-09 after the user approved the preflight and Phase A
+implementation. Updated 2026-09-12 after the release and the next architecture
+review. This handoff does not create another task, switch a model, or start a
+campaign.
 
 ## Start here
 
-Phase A is implemented and locally validated as **v0.32.0, graph format 7,
-kernel epoch 11**. It is **uncommitted and unpublished**. The independent Lane
-Watch directive implementation is also uncommitted in its own repository and
-has not been deployed. Finish the Phase A release before implementing epoch 12.
+Phase A shipped as **v0.32.0, graph format 7, kernel epoch 11** from workspace
+commit `cca5b05`; the compiled public mirror and GitHub Release were published.
+The independent Lane Watch directive delivery remains a separate repository and
+deployment concern. Do not couple it to GP's semantic release sequence.
+
+Post-release Match4 hardening is preserved as commit `a475aeb`: `gp review`, a
+pre-CAS free-symbol refusal for witnesses, and a zero-ring/vacuous-identity
+diagnostic. Its deterministic suite passed 1,633 tests with 59 deselected, its
+focused gate passed 358 tests with 13 deselected, and its real WSL/Singular gate
+passed 9 tests with 20 deselected. It changes no graph format, epoch, transport
+cell, or authority rule.
 
 The broad direction for B was approved, but the original packet is not an
 executable specification. The preflight found mathematical counterexamples.
-Freeze the corrected concrete rules, migration table and answer keys before
-coding B. Do not silently revert to the packet's single-order/boolean-migration
-rules because the user says the plan is clear.
+The 2026-09-12 architecture review adds one dependency: extract the
+authority-binding nucleus before expanding certificate reach. Then freeze the
+corrected concrete rules, migration table and answer keys before coding epoch
+12. Do not silently revert to the packet's single-order/boolean-migration rules.
 
 Read in this order (paths relative to the GP repository unless absolute):
 
@@ -34,8 +43,9 @@ statements. Preserve the historical evidence files.
 ## Workspaces and source custody
 
 - GP: `C:/Users/wstri/dev/grand-portage`.
-  Branch `master`; HEAD `fa5644dd6f50cf904ad2c1be5f37e7371fe9bf0d` (v0.31.2).
-  All Phase A work is in the working tree, including untracked fixtures/docs/tests.
+  At handoff preparation: branch `master`, HEAD
+  `fa5644dd6f50cf904ad2c1be5f37e7371fe9bf0d` (v0.31.2), with Phase A in the
+  working tree. The release later froze that work at `cca5b05` (v0.32.0).
 - DK: `C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction`.
   Pinned commit `b876fe4ed5c8963a0e8c19e18c829821c0686654`.
   Its tracked worktree remained clean. Treat campaign inputs as immutable.
@@ -47,10 +57,11 @@ statements. Preserve the historical evidence files.
 - Original packet attachment:
   `C:/Users/wstri/.codex/attachments/b11bfb14-08d7-441f-8cb5-55968e552880/pasted-text.txt`.
 
-No cfg23 or configuration-23-4 files were edited. No coordinator message,
-live directive, math campaign action, service restart, commit, push, tag or
-remote publication was performed. Do not reset either dirty repository.
-Inspect fresh status before continuing; preserve any later user changes.
+At handoff preparation, no cfg23 or configuration-23-4 files were edited and no
+coordinator message, live directive, math campaign action, service restart,
+commit, push, tag, or remote publication had been performed. That sentence is a
+historical custody fact, not the current release state. Inspect fresh status
+before continuing and preserve later user changes.
 
 ## Implemented Phase A
 
@@ -167,25 +178,24 @@ Do not reapply their installer over already-applied changes.
 
 ## Next steps in order
 
-1. Reconcile fresh git status in both repositories with this handoff. Review the
-   actual diff, including untracked files. Keep the GP and Lane Watch changes
-   independently reviewable; do not accidentally omit fixtures or new modules.
-2. Complete Phase A release using the project's established release/public
-   snapshot workflow. Read `CURRENT.md` release discipline and
-   `scripts/public_snapshot.py` / `public-snapshot-v1.json`: publication is
-   compiled from an immutable Git commit with explicit path classification.
-   Do not publish a raw dirty tree or call the local version bump a shipped release.
-   Preserve the user's existing authorization; inspect the real remote/release
-   setup before deciding what publication action is appropriate.
-3. Independently finish Lane Watch delivery through its normal workflow. A
-   service restart and live smoke test have not happened; do not imply otherwise.
-4. After A ships, freeze epoch-12 rules and expected outputs before implementation.
-   Use the concrete corrections below plus the complete matrix in preflight.
-5. Implement B in bounded changes: vocabulary/closed validation and pure
-   judgments; authority binding across edges and paths; certificate reach and
-   migration; explicit family/model composition; CLI/MCP/schema/Lean parity;
-   DK replay and `SEAM.md` from actual checked examples. Final sequencing may
-   adapt to the dependency graph, but acceptance fixtures precede each change.
+1. Keep the Match4 hardening as its own validated, reviewable commit. The new
+   feedback packet does not retroactively widen it or by itself require a tag.
+2. Candidate v0.33: extract one internal `AuthorityReceipt` / `bind` nucleus and
+   route every existing authority-producing path through it. Require frozen
+   characterization fixtures to prove unchanged judgments and serialization;
+   keep epoch 11 if that is genuinely true.
+3. Candidate v0.34 / epoch 12: freeze rules and expected outputs before
+   implementation, using the concrete corrections below plus the complete
+   preflight matrix. Implement vocabulary/closed validation and pure judgments;
+   certificate reach and migration; explicit family/model composition;
+   CLI/MCP/schema/Lean parity; DK replay and `SEAM.md` from checked examples.
+   Acceptance fixtures precede each change.
+4. After the receipt boundary, add minimal proof slices and authority-aware diff
+   from that single source of truth. Treat truth-maintenance algorithms as an
+   implementation aid for support slicing and invalidation, never as a source of
+   mathematical licenses.
+5. Independently finish Lane Watch delivery through its normal workflow. A
+   service restart and live smoke test were not recorded here; do not imply one.
 6. T2 is a separate bounded customer exercise, not yet selected or launched:
    candidates are the 28_5 ceiling, E5 generative bridge, or 19_4 sector reproof.
    Measure changed decisions/open slots and custody commits per accepted claim
@@ -237,8 +247,9 @@ This is the next design work, not a reason to reopen settled Phase A choices.
 
 > Continue the approved Grand Portage work using
 > `C:/Users/wstri/dev/grand-portage/review/v0.32/SOL-HANDOFF.md` as your starting
-> point. Phase A v0.32.0 and the separate Lane Watch directive change are
-> implemented, tested and uncommitted; reconcile current status and finish the
-> release workflow before epoch 12. Preserve the accepted preflight corrections
-> and immutable DK fixtures. Freeze B's concrete rules and expectations before
-> coding; do not implement the original single-order or blanket boolean migration.
+> point and `DESIGN_DIRECTION.md` for the current sequencing rationale. Phase A
+> v0.32.0 is released and Match4 hardening is isolated in commit `a475aeb`.
+> Extract the output-preserving authority-binding nucleus before epoch 12, then
+> preserve the accepted preflight corrections and immutable DK fixtures while
+> freezing B's concrete rules and expectations. Do not implement the original
+> single-order or blanket boolean migration.

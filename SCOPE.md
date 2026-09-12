@@ -8,7 +8,8 @@ valid transport. Putting them under one transport table because they share
 syntax would be the semantic conflation this project exists to prevent.
 
 This document records the boundary. It does **not** reorganise the code, and
-§4 says why not.
+§4 distinguishes making regimes explicit from prematurely freezing their module
+architecture.
 
 ---
 
@@ -117,12 +118,29 @@ Stated so the supported core reads as larger, not smaller:
 - discovering missing equations. The discharge machinery *routes attention to
   where an equation is missing*; it does not find it.
 
-## 4. Why the code is not being reorganised yet
+## 4. Make regimes explicit; defer the package split
 
-The carve above is a boundary, not an architecture. Splitting `kernel.py` into
-a core plus profiles is a large refactor whose payoff is clarity, and nearly
-all of that clarity is available from this document today. Three specific
-reasons to wait:
+The repeated boundary failures now justify an explicit conceptual architecture:
+
+```text
+Grand Portage common core
+    context / claim / evidence / inference / authority / lifecycle
+        |
+        +-- ExactAffine
+        +-- OrderedReal
+        +-- FiniteFamily
+        +-- CertifiedNumeric      (only when earned)
+        +-- Combinatorial        (only when earned)
+```
+
+Each regime eventually owns its context types, claim constructors, primitive
+operation semantics, evidence contracts, and generic transport rules. A
+cross-regime conversion is an explicit checked operation, not an implicit reuse
+of similarly named fields.
+
+That conceptual commitment is not yet a mandate to split `kernel.py` into a core
+plus plugins. A package refactor would freeze seams for which the project still
+has thin evidence. Three specific reasons to wait:
 
 1. **The enumeration is already incomplete.** Bibliographic resolution appears
    on no prior-art list and turned up within one session of looking. A plugin
@@ -136,11 +154,18 @@ reasons to wait:
    been the transport table; it is what we have been absorbing *into* it by
    flattening.
 
-**What to do instead, and it costs nothing:** tag each campaign with the
-regimes it spans, and when something is recorded in affine vocabulary that is
-not affine, say so in the record. That is data collection for a split we are
-not yet ready to design, and it converts a refactor decision into a
-measurement.
+**What to do now:** tag each campaign with the regimes it spans, and when
+something is recorded in affine vocabulary that is not affine, say so in the
+record. That is data collection for a split whose seams are not yet ready to
+freeze, and it converts a refactor decision into a measurement.
+
+The first implementation test is already selected: **family-to-model
+composition**. v0.32 correctly refuses to consume a family claim as a model
+claim. Kernel epoch 12 should replace that refusal only with an explicit bridge
+whose contract keeps enumeration debt, evidence direction, stale premises,
+exclusions, and open branches load-bearing. If this bridge cannot be expressed
+without pretending that a family is an affine model, the common-core boundary
+needs revision before another regime is admitted.
 
 | campaign | regimes |
 |---|---|

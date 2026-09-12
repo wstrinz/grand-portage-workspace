@@ -4,8 +4,10 @@ This is the cold-start page. It contains only current facts. The design rational
 lives in `DESIGN.md` and `ARCHITECTURE.md`; the chronological implementation
 record remains in `HANDOFF.md` and `HISTORY/`.
 
-Continuation handoff: `review/v0.32/SOL-HANDOFF.md` records the uncommitted
-Phase A and Lane Watch work, validation, release steps, and epoch-12 gates.
+The historical v0.32 continuation handoff remains at
+`review/v0.32/SOL-HANDOFF.md`; Phase A has shipped, while its corrected epoch-12
+gates remain current. `DESIGN_DIRECTION.md` now holds the post-release prior-art
+reassessment and candidate release sequence.
 
 ## Release boundary
 
@@ -33,16 +35,40 @@ ordinary deterministic, frozen replay, exhaustive reconstruction, and live
 WSL/Singular lanes so every collected test is accounted for without making
 backend availability implicit.
 
+## Candidate release sequence
+
+The Match4 hardening is intentionally still a within-version diagnostic change;
+the feedback packet alone does not require a tag or epoch bump.
+
+- **v0.33 candidate:** extract one internal authority-binding nucleus and route
+  every existing authority-producing path through it. Preserve graph bytes,
+  current judgments, format 7, and kernel epoch 11 if the characterization suite
+  proves semantics unchanged.
+- **v0.34 / epoch 12 candidate:** implement the already-gated field-reach and
+  family-to-model composition contracts. Bind new context into fingerprints and
+  migration, and compile transport from checked capabilities where earned.
+- **After that boundary:** build minimal proof slices and authority-aware diffing;
+  introduce typed claim fragments and physical regime modules only when live
+  cross-regime use fixes their contracts.
+
+The authority nucleus precedes certificate expansion because it is the seam that
+must decide whether checked evidence is current, correctly bound, and licensed.
+Family-to-model composition is the first explicit cross-regime test. The full
+acceptance matrix and counterexamples remain in the v0.32 preflight and handoff.
+
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.
 
 ## Smallest true description
 
-Grand Portage is a certifying compiler and durable campaign graph for exact-
-affine computational arguments. Its semantic nucleus has six relation types and
-four model-claim kinds. It records model-changing operations, exact evidence,
-and the scope of conclusions earned by that evidence. It refuses transport that
-the declared loss does not support.
+Grand Portage is a proof-carrying transport calculus for computational
+mathematics, coupled to an event-sourced authority system. Today it is
+implemented as a certifying compiler and durable campaign graph for exact-affine
+computational arguments. Its semantic nucleus has six surface relation types and
+four model-claim kinds; point transport already compiles those surface types from
+smaller relation capabilities. It records model-changing operations, exact
+evidence, and the scope of conclusions earned by that evidence, and refuses
+transport that the declared loss does not support.
 
 The repository is larger than the nucleus. `ARCHITECTURE.md` names the four
 trust zones and the dependency rules between them.
