@@ -64,5 +64,18 @@ Documentation and source hygiene:
   gp --version reported 0.34.0, graph format 8, and kernel epoch 12.
   git diff --check passed; PowerShell reported only expected CRLF-to-LF notices.
 
-Public snapshot and remote release results are appended after the release
-commit is compiled into the separate public mirror.
+Public snapshot gate:
+  scripts/public_snapshot.py compiled release-prep commit
+  b21a98601de92c3b78d836136b0a9a883221d956 into 305 public files while
+  excluding 12 private files. The receipt/path comparison found no stale
+  tracked mirror paths and exactly seven expected new v0.34 paths.
+
+  python -m pytest -q -m "not live and not replay and not exhaustive"
+    (from the compiled public mirror)
+  1683 passed, 59 deselected in 107.86s.
+
+The final public receipt is compiled from the validation commit that contains
+this result; its content digest and source commit live in the public repository
+as PUBLIC-SNAPSHOT-RECEIPT.json. Remote push, tag, and release URLs are external
+state and are reported by the release operation rather than written recursively
+into this source record.
