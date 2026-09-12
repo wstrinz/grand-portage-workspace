@@ -14,7 +14,7 @@ reassessment and candidate release sequence.
 - Package version: <!--version-->0.32.0<!--/version-->.
 - Graph format: <!--graph-format-->7<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->11<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1692<!--/checks--> checks.
+- Test collection: <!--checks-->1716<!--/checks--> checks.
 
 Plain `pytest` is the conceptual full release gate. The ordinary edit loop is
 `pytest -m "not live and not replay and not exhaustive"`; deterministic frozen
@@ -55,6 +55,15 @@ The authority nucleus precedes certificate expansion because it is the seam that
 must decide whether checked evidence is current, correctly bound, and licensed.
 Family-to-model composition is the first explicit cross-regime test. The full
 acceptance matrix and counterexamples remain in the v0.32 preflight and handoff.
+
+The unreleased first v0.33 checkpoint now routes every fold-time verdict
+projection through sealed `CheckedEvidence` and `AuthorityReceipt` values in
+`grandportage.authority`. Subject-specific proof objects replay before the
+receipt is minted; stale and malformed evidence projects nothing; rejected
+elimination and point-lift proof objects remain current history without erasing
+earlier authority. Receipts are retained only on the folded in-memory graph, so
+format 7 and epoch 11 remain unchanged. The checkpoint deliberately does not
+reclassify the pure checker's transport decisions as persisted receipts.
 
 Graph syntax compatibility and mathematical authority are separate. A readable
 old event does not automatically retain a current verifier verdict.

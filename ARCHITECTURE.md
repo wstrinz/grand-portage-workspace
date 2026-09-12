@@ -52,20 +52,29 @@ Owns the narrow transition
 checked evidence + exact graph/model binding -> current persisted authority
 ```
 
-The next behavior-preserving architecture milestone is to make that sentence an
+The first post-v0.32 behavior-preserving checkpoint makes that sentence an
 internal type boundary:
 
 ```text
 bind(CheckedEvidence, ContextBinding) -> AuthorityReceipt | Refusal
 ```
 
-`AuthorityReceipt` binds the proposition or licensed capability, subject and
-interpretation fingerprints, evidence contract and checker versions, checked
-premises, semantic scope, dependencies, artifact digests, and kernel epoch.
-Backends, certificate producers, CLI/MCP handlers, and administrative acceptance
-must not construct it directly. The extraction earns completion only if frozen
-characterization fixtures show that existing graph bytes and authority judgments
-are unchanged.
+`grandportage.authority` now seals `CheckedEvidence` and `AuthorityReceipt`
+values so only the provenance check and binder can mint them. A receipt binds the
+verdict subject, input fingerprint, verifier identity/version, execution
+provenance, kernel epoch, and the exact computed projections earned after
+subject-specific proof replay. The folded graph retains these receipts only in
+memory; the append-only event format is unchanged. Backends, certificate
+producers, CLI/MCP handlers, and administrative acceptance cannot project
+verdict-derived authority directly.
+
+This checkpoint owns **verdict-derived persisted authority**. The pure checker
+still consumes those projections together with declared operations, premises,
+partitions, and kernel transport rules to decide whether an inference is
+licensed. That is authority *use*, not another persisted verifier receipt. A
+future proof-slice type may reify those check-time decisions, but it should not
+be folded into this boundary merely to make every use of the word “authority”
+share one class.
 
 Representative responsibilities currently live across `store`, `check`,
 `verify`, `operations`, and `provenance`. This is the seam to make smaller
