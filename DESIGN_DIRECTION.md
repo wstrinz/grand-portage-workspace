@@ -8,8 +8,8 @@
 
 **Last reassessed:** 2026-09-12
 
-**Project state:** originally written against v0.3; reassessed after v0.32.0 and
-the Match4 hardening pass
+**Project state:** originally written against v0.3; reassessed through the
+v0.33.0 authority-boundary release
 
 **Purpose:** preserve the architectural thread while the implementation settles.
 Nothing here is a commitment. Version numbers in the roadmap are candidate
@@ -67,16 +67,16 @@ The highest-leverage direction is therefore not more checker rules. It is an
 
 The core should remain narrow. The initial target is **CAS-backed polynomial-system campaigns centered in characteristic zero**, including controlled base change, elimination, saturation, case partitions, and finite-field reconnaissance. Grand Portage should not try to become a general theorem prover, a universal language for mathematics, or a replacement for Singular, Sage, or Macaulay2.
 
-The current candidate release sequence is:
+The current release sequence is:
 
-1. keep the Match4 `gp review`, witness-symbol refusal, and zero-ring diagnostic
-   as post-v0.32 hardening; they do not change mathematical authority;
-2. use v0.33 for an output-preserving extraction of the authority-binding nucleus;
-3. use v0.34 / kernel epoch 12 for the already-gated field-reach and
+1. v0.33 ships the Match4 `gp review`, witness-symbol refusal, and zero-ring
+   diagnostic together with the output-preserving authority-binding nucleus;
+   none changes mathematical authority;
+2. use v0.34 / kernel epoch 12 for the already-gated field-reach and
    family-to-model composition work, compiling rules from checked capabilities;
-4. add minimal proof slices and authority-aware diffing after the receipt boundary
+3. add minimal proof slices and authority-aware diffing after the receipt boundary
    gives them one source of truth;
-5. introduce typed claim fragments and explicit regime boundaries only where the
+4. introduce typed claim fragments and explicit regime boundaries only where the
    family/model bridge and subsequent live campaigns force them.
 
 ---
@@ -628,7 +628,7 @@ receipt, rather than attempting to verify Singular or the discovery procedure.
 
 ### 4.10 Make authority binding an actual nucleus
 
-The transition from checked evidence to current persisted authority is the most
+The transition from checked evidence to current event-backed authority is the most
 important architectural seam and is currently distributed across storage,
 checking, verification, operations, and provenance code. Extract an internal,
 non-user-mintable receipt with at least:
@@ -653,10 +653,10 @@ bind(CheckedEvidence, Context) -> AuthorityReceipt | Refusal
 ```
 
 Search backends, certificate producers, CLI code, and administrative acceptance
-must not construct this value directly. The v0.33 extraction should preserve
-current judgments and serialized graph behavior; its purpose is to turn the
-project's central trust-boundary sentence into a type boundary before epoch-12
-certificate reach and family/model composition increase the state space.
+must not construct this value directly. The v0.33 extraction preserves current
+judgments and serialized graph behavior; its purpose is to turn the project's
+central trust-boundary sentence into a type boundary before epoch-12 certificate
+reach and family/model composition increase the state space.
 
 ### 4.11 The emerging formal object has five layers
 
@@ -1232,20 +1232,20 @@ kernel epoch, transport cells, or mathematical authority. They may ride on `mast
 until a distribution artifact is otherwise needed; the feedback packet alone does
 not justify a version bump.
 
-### Candidate v0.33 - authority-binding nucleus
+### Completed v0.33 - authority-binding nucleus
 
-- define internal `CheckedEvidence`, `ContextBinding`, `AuthorityReceipt`, and
+- defines internal `CheckedEvidence`, `ContextBinding`, `AuthorityReceipt`, and
   explicit refusal values;
-- route every existing authority-producing path through one binder;
-- prevent backends, producers, CLI handlers, and administrative acceptance from
+- routes every existing fold-time verdict authority projection through one binder;
+- prevents backends, producers, CLI handlers, and administrative acceptance from
   minting receipts;
-- retain byte-compatible graph events and current checker judgments;
-- add characterization tests comparing old and new authority frontiers on all
-  frozen fixtures and historical generations.
+- retains byte-compatible graph events and current checker judgments;
+- adds characterization tests for all ten verdict subjects, stale evidence,
+  representation replay, rejected proof objects, and sealed construction.
 
-**Exit condition:** there is one auditable code path from checked evidence to
-current authority, and the extraction changes no existing licensed conclusion.
-Keep kernel epoch 11 if persisted semantics and fingerprints truly remain unchanged.
+**Exit condition met:** there is one auditable code path from checked verdict
+evidence to current graph authority, and the extraction changes no existing
+licensed conclusion. Graph format 7 and kernel epoch 11 remain unchanged.
 
 ### Candidate v0.34 / kernel epoch 12 - capability-bound composition
 
@@ -1570,7 +1570,7 @@ The tutorial should end with one sentence: **the CAS was right; the unsupported 
 
 ## Closing recommendation
 
-Keep the native graph small and exact. Extract the authority-binding nucleus before
+Keep the native graph small and exact. Use the authority-binding nucleus before
 expanding certificate reach. Let operations construct semantic components, let
 checked evidence establish capabilities, and let the binder alone construct
 current authority. Build typed claim fragments only where they eliminate a

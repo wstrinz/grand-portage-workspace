@@ -5,13 +5,13 @@ lives in `DESIGN.md` and `ARCHITECTURE.md`; the chronological implementation
 record remains in `HANDOFF.md` and `HISTORY/`.
 
 The historical v0.32 continuation handoff remains at
-`review/v0.32/SOL-HANDOFF.md`; Phase A has shipped, while its corrected epoch-12
-gates remain current. `DESIGN_DIRECTION.md` now holds the post-release prior-art
-reassessment and candidate release sequence.
+`review/v0.32/SOL-HANDOFF.md`; Phase A has shipped, and v0.33 implements the
+authority-binding checkpoint that followed it. `DESIGN_DIRECTION.md` holds the
+post-release prior-art reassessment and the still-gated epoch-12 sequence.
 
 ## Release boundary
 
-- Package version: <!--version-->0.32.0<!--/version-->.
+- Package version: <!--version-->0.33.0<!--/version-->.
 - Graph format: <!--graph-format-->7<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->11<!--/kernel-epoch-->.
 - Test collection: <!--checks-->1716<!--/checks--> checks.
@@ -21,11 +21,11 @@ Plain `pytest` is the conceptual full release gate. The ordinary edit loop is
 campaign replay and real-CAS checks have separate `replay` and `live` lanes,
 and the largest finite reconstructions are marked `exhaustive`.
 
-The v0.32 guard release preparation is under `review/v0.32/`; the v0.31.2
-patch record remains under `review/v0.31.2/`. Epoch-12 field reach and
-family/model composition remain gated on the Phase A release. Operational
-work records and accounting-only checks are described in `docs/WORK.md`.
-Post-release v0.32 hardening adds `gp review` as the cold-reader-safe full
+The v0.33 authority-boundary release record is under `review/v0.33/`; the
+v0.32 guard release record remains under `review/v0.32/`. Epoch-12 field reach
+and family/model composition remain deferred to a separate semantic release.
+Operational work records and accounting-only checks are described in
+`docs/WORK.md`. v0.33 also ships `gp review` as the cold-reader-safe full
 history surface, refuses free witness parameters before CAS execution, and
 labels quotient identities as vacuous when a current verified unit-ideal
 anchor already proves the model is the zero ring. These are diagnostics only;
@@ -35,15 +35,14 @@ ordinary deterministic, frozen replay, exhaustive reconstruction, and live
 WSL/Singular lanes so every collected test is accounted for without making
 backend availability implicit.
 
-## Candidate release sequence
+## Release sequence
 
-The Match4 hardening is intentionally still a within-version diagnostic change;
-the feedback packet alone does not require a tag or epoch bump.
+The Match4 hardening remained a within-version diagnostic checkpoint until it
+was included alongside the completed authority-boundary work in v0.33.
 
-- **v0.33 candidate:** extract one internal authority-binding nucleus and route
-  every existing authority-producing path through it. Preserve graph bytes,
-  current judgments, format 7, and kernel epoch 11 if the characterization suite
-  proves semantics unchanged.
+- **v0.33:** extracts one internal authority-binding nucleus and routes every
+  existing fold-time verdict projection through it. Characterization tests
+  preserve graph bytes, current judgments, format 7, and kernel epoch 11.
 - **v0.34 / epoch 12 candidate:** implement the already-gated field-reach and
   family-to-model composition contracts. Bind new context into fingerprints and
   migration, and compile transport from checked capabilities where earned.
@@ -56,13 +55,13 @@ must decide whether checked evidence is current, correctly bound, and licensed.
 Family-to-model composition is the first explicit cross-regime test. The full
 acceptance matrix and counterexamples remain in the v0.32 preflight and handoff.
 
-The unreleased first v0.33 checkpoint now routes every fold-time verdict
+The v0.33 release routes every fold-time verdict
 projection through sealed `CheckedEvidence` and `AuthorityReceipt` values in
 `grandportage.authority`. Subject-specific proof objects replay before the
 receipt is minted; stale and malformed evidence projects nothing; rejected
 elimination and point-lift proof objects remain current history without erasing
 earlier authority. Receipts are retained only on the folded in-memory graph, so
-format 7 and epoch 11 remain unchanged. The checkpoint deliberately does not
+format 7 and epoch 11 remain unchanged. The release deliberately does not
 reclassify the pure checker's transport decisions as persisted receipts.
 
 Graph syntax compatibility and mathematical authority are separate. A readable

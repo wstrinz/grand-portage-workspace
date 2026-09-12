@@ -19,12 +19,14 @@ focused gate passed 358 tests with 13 deselected, and its real WSL/Singular gate
 passed 9 tests with 20 deselected. It changes no graph format, epoch, transport
 cell, or authority rule.
 
-The broad direction for B was approved, but the original packet is not an
-executable specification. The preflight found mathematical counterexamples.
-The 2026-09-12 architecture review adds one dependency: extract the
-authority-binding nucleus before expanding certificate reach. Then freeze the
-corrected concrete rules, migration table and answer keys before coding epoch
-12. Do not silently revert to the packet's single-order/boolean-migration rules.
+The v0.33 authority boundary is implemented at commit `5698ebb` and released
+with the Match4 hardening. All ten fold-time verdict subjects pass through one
+sealed binder; graph format 7, kernel epoch 11, existing verdict judgments, and
+serialized graph behavior remain unchanged. The broad direction for B was
+approved, but the original packet is not an executable specification. The
+preflight found mathematical counterexamples. Freeze the corrected concrete
+rules, migration table and answer keys before coding epoch 12. Do not silently
+revert to the packet's single-order/boolean-migration rules.
 
 Read in this order (paths relative to the GP repository unless absolute):
 
@@ -178,25 +180,21 @@ Do not reapply their installer over already-applied changes.
 
 ## Next steps in order
 
-1. Keep the Match4 hardening as its own validated, reviewable commit. The new
-   feedback packet does not retroactively widen it or by itself require a tag.
-2. Candidate v0.33: extract one internal `AuthorityReceipt` / `bind` nucleus and
-   route every existing authority-producing path through it. Require frozen
-   characterization fixtures to prove unchanged judgments and serialization;
-   keep epoch 11 if that is genuinely true.
-3. Candidate v0.34 / epoch 12: freeze rules and expected outputs before
+1. Preserve the released v0.33 authority boundary and its characterization
+   fixtures; do not bypass it when adding new evidence reach.
+2. Candidate v0.34 / epoch 12: freeze rules and expected outputs before
    implementation, using the concrete corrections below plus the complete
    preflight matrix. Implement vocabulary/closed validation and pure judgments;
    certificate reach and migration; explicit family/model composition;
    CLI/MCP/schema/Lean parity; DK replay and `SEAM.md` from checked examples.
    Acceptance fixtures precede each change.
-4. After the receipt boundary, add minimal proof slices and authority-aware diff
+3. After the receipt boundary, add minimal proof slices and authority-aware diff
    from that single source of truth. Treat truth-maintenance algorithms as an
    implementation aid for support slicing and invalidation, never as a source of
    mathematical licenses.
-5. Independently finish Lane Watch delivery through its normal workflow. A
+4. Independently finish Lane Watch delivery through its normal workflow. A
    service restart and live smoke test were not recorded here; do not imply one.
-6. T2 is a separate bounded customer exercise, not yet selected or launched:
+5. T2 is a separate bounded customer exercise, not yet selected or launched:
    candidates are the 28_5 ceiling, E5 generative bridge, or 19_4 sector reproof.
    Measure changed decisions/open slots and custody commits per accepted claim
    against the pinned DK proxy of 189. ARR15 retrodiction follows B.
@@ -248,8 +246,8 @@ This is the next design work, not a reason to reopen settled Phase A choices.
 > Continue the approved Grand Portage work using
 > `C:/Users/wstri/dev/grand-portage/review/v0.32/SOL-HANDOFF.md` as your starting
 > point and `DESIGN_DIRECTION.md` for the current sequencing rationale. Phase A
-> v0.32.0 is released and Match4 hardening is isolated in commit `a475aeb`.
-> Extract the output-preserving authority-binding nucleus before epoch 12, then
-> preserve the accepted preflight corrections and immutable DK fixtures while
-> freezing B's concrete rules and expectations. Do not implement the original
-> single-order or blanket boolean migration.
+> v0.33.0 is released with Match4 hardening and the output-preserving
+> authority-binding nucleus. Preserve that boundary, the accepted preflight
+> corrections, and immutable DK fixtures while freezing B's concrete rules and
+> expectations. Do not implement the original single-order or blanket boolean
+> migration.

@@ -4,6 +4,21 @@ Grand Portage separates **file readability** from **mathematical authority**.
 An old graph may remain valuable history without retaining every licence that an
 older kernel inferred from it.
 
+Version 0.33.0 keeps **graph format 7** and **kernel epoch 11**. It extracts a
+single fold-time authority binder for all ten existing verdict subjects without
+changing verdict schemas, verifier versions, input fingerprints, projections,
+or transport-table cells. Subject-specific proof objects replay before a sealed
+in-memory receipt can project authority; stale or malformed evidence projects
+nothing. The receipts are not serialized and ordinary callers cannot construct
+them through the public API. Existing current verdicts therefore remain current
+solely according to their prior epoch, verifier, backend, and input bindings.
+
+The release also ships the post-v0.32 review diagnostics: `gp review` provides
+the cold-reader-safe full-history surface, free witness parameters refuse before
+CAS execution, and quotient identities are labelled vacuous when a current
+verified unit-ideal anchor already proves the zero ring. These changes add no
+persisted field or verdict and grant no new mathematical authority.
+
 Version 0.32.0 keeps **graph format 7** and **kernel epoch 11**. Live non-COUNT
 claims carrying COUNT-exclusive `splits`, `groups`, `method`, or `proves` now
 refuse; explicitly superseded malformed historical claims remain readable.
@@ -16,11 +31,6 @@ sidecar, described in `docs/WORK.md`; they never become graph claims or
 verifier authority. Accounting-only receipts are explicitly marked unchecked
 and cannot serve as full-check baselines. Old readers do not display the
 sidecar, so operators should use v0.32 to review operational incompleteness.
-
-The post-release v0.32 review, degenerate-model, and witness-symbol diagnostics
-add no persisted field or verdict. Existing graphs and receipts are unchanged;
-the new messages make already-known authority and malformed point input more
-visible before a reader or CAS can misinterpret them.
 
 Version 0.25 makes that separation executable for native formats 1--4. Their
 original headers and bytes remain readable by `check`, `show`, `doctor`, and

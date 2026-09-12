@@ -7,6 +7,13 @@ currently **asserted but not demonstrated**.
 Each test declares its **pass condition before running**, because a test whose
 bar is set afterwards cannot fail. Ordered by value.
 
+The v0.33 authority-boundary gate is `tests/test_authority_binding.py` plus the
+authority import/source rules in `tests/test_architecture.py`. It characterizes
+all ten verdict subjects, the existing projection matrix, staleness, sealed
+construction, representation replay order, and the non-erasure policy for
+rejected elimination and point-lift proof objects. The release record and exact
+lane results are in `review/v0.33/`.
+
 The v0.32 acceptance gate is `tests/test_guard_release.py` plus
 `tests/test_work_accounting.py`. Run `scripts/replay_guard_fixtures.py --live
 --output guard-replay.json` to retain each command's complete stdout, stderr
