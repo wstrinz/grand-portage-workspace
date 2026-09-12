@@ -75,5 +75,4 @@ def verify(model, certificate):
         "generators": normalized_generators,
         "squares": normalized_squares,
         "cofactors": normalized_cofactors,
-        "identity": "-1 = sum(squares^2) + sum(cofactors*generators)",
     }

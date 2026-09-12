@@ -12,9 +12,9 @@ post-release prior-art reassessment and the still-gated epoch-12 sequence.
 ## Release boundary
 
 - Package version: <!--version-->0.33.0<!--/version-->.
-- Graph format: <!--graph-format-->7<!--/graph-format-->.
-- Kernel epoch: <!--kernel-epoch-->11<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1716<!--/checks--> checks.
+- Graph format: <!--graph-format-->8<!--/graph-format-->.
+- Kernel epoch: <!--kernel-epoch-->12<!--/kernel-epoch-->.
+- Test collection: <!--checks-->1742<!--/checks--> checks.
 
 Plain `pytest` is the conceptual full release gate. The ordinary edit loop is
 `pytest -m "not live and not replay and not exhaustive"`; deterministic frozen
