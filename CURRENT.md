@@ -12,7 +12,7 @@ prior-art reassessment and the sequence beyond this boundary.
 
 ## Release boundary
 
-- Package version: <!--version-->0.34.0<!--/version-->.
+- Package version: <!--version-->0.35.0<!--/version-->.
 - Graph format: <!--graph-format-->8<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->12<!--/kernel-epoch-->.
 - Test collection: <!--checks-->1757<!--/checks--> checks.

@@ -1,8 +1,8 @@
 # A bounded preservation-atlas program
 
 This is the research continuation of [the v0 mapping](ATLAS-MAPPING-V0.md).
-The first implemented slice accompanies v0.34.0; it does not announce a release
-or claim a new general preservation theorem. Here “metamath” means the broader
+The first implemented slices ship in v0.35.0; they do not claim a new general
+preservation theorem. Here “metamath” means the broader
 study of mathematical transfer, not an implementation in the Metamath prover.
 
 The next slice is now implemented in
@@ -39,12 +39,11 @@ non-table gates. The new Lean module proves several small, independently stated
 laws; its scope is explicit rather than hidden in certificate names. The Python
 and Lean reach implementations agree on 139 canonical decisions. Mutation tests
 ensure the comparison rejects missing, duplicated, malformed, or changed output.
-CI now contains the build and parity commands; hosted execution remains to occur.
+Hosted CI passes the build, both parity commands, and the Python test lanes.
 
 The implementation deliberately leaves the graph format, epoch, certificate
 verifiers, and transport licences intact. The visible GP change corrects
-`gp table` and marks the old Boolean stability registry as legacy. This is a
-reasonable small next-release candidate once the release process is requested.
+`gp table` and marks the old Boolean stability registry as legacy. These changes form the v0.35.0 release; subsequent research remains incremental.
 
 ## The atlas has its own preservation correspondence
 
