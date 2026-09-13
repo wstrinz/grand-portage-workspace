@@ -1,4 +1,4 @@
-# HANDOFF.md â€” chronological implementation record
+# HANDOFF.md — chronological implementation record
 
 > **Current readers:** start with `CURRENT.md`, then `ARCHITECTURE.md` and
 > `REVIEW.md`. This file preserves the detailed development narrative and
@@ -22,7 +22,7 @@ current state and `docs/WORK.md` for operational attempts and unchecked checks.
 campaign *loses*, and refuses the conclusions that loss does not support.
 
 A computation produces an artifact. The artifact does not carry its own licence
-to conclude. A GrÃ¶bner basis reducing to `1` is *evidence* of emptiness; what
+to conclude. A Gröbner basis reducing to `1` is *evidence* of emptiness; what
 makes it a *kill* is the certificate attached and the scope that certificate
 derives. Conflating those is how the parent project shipped an erratum.
 
@@ -33,11 +33,11 @@ discipline exists as three single-file prototypes with their domains hardcoded.
 Five layers, enforcement in exactly one:
 
 ```
-agent â†’ MCP server (edge REQUIRED, no declaration â†’ no CAS process)
-      â†’ .portage/graph.jsonl  (append-only; the graph is the state)
-      â†’ kernel (6 edge types Ã— 2 directions Ã— 4 claim kinds)
-      â†’ checker â†’ findings â†’ discharge moves
-      â†’ hook (runs after each tool call, exit 2 = refuse)
+agent → MCP server (edge REQUIRED, no declaration → no CAS process)
+      → .portage/graph.jsonl  (append-only; the graph is the state)
+      → kernel (6 edge types × 2 directions × 4 claim kinds)
+      → checker → findings → discharge moves
+      → hook (runs after each tool call, exit 2 = refuse)
 ```
 The `exit 2` in that compact diagram is the Claude Code protocol. Codex uses an
 exit-0 structured `PostToolUse` block and requires the project hook to be
@@ -46,7 +46,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Version 0.34.0. <!--checks-->1780<!--/checks--> checks.** Treat
+**Version 0.34.0. <!--checks-->1788<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The v0.31.2 patch makes exact derived-identity receipts portable.** A
@@ -380,16 +380,16 @@ review. Worth knowing because it predicts where the next one comes from.
 
 | test | verdict | what it forced |
 |---|---|---|
-| **T3** resumability | **FAIL** | no read path showed which findings were knowingly accepted, so a fresh agent read a healthy campaign as a failing one â†’ `[CARRIED]` marking, `gp show` printing inferences and certificates, `portage_check`'s advertised-but-unread `full` flag |
-| **T1** blind run | **FAIL** | an agent superseded a refusal instead of satisfying it â†’ `PARALLEL-EDGE`, `VACUOUS-CONCLUSION`, `SELF-BUILT`, `partition`, `premises`, typed discharge |
+| **T3** resumability | **FAIL** | no read path showed which findings were knowingly accepted, so a fresh agent read a healthy campaign as a failing one → `[CARRIED]` marking, `gp show` printing inferences and certificates, `portage_check`'s advertised-but-unread `full` flag |
+| **T1** blind run | **FAIL** | an agent superseded a refusal instead of satisfying it → `PARALLEL-EDGE`, `VACUOUS-CONCLUSION`, `SELF-BUILT`, `partition`, `premises`, typed discharge |
 | **T2** external review | 8 defects | the CAS boundary was still bypassable **through the fix for it** |
 | **T4** merge fan-out | **PASS / FAIL** | kind laundering, existence on the honour system, `gp merge` |
 | **T5** foreign campaign | **PASS** | the `ladder` split, open premise slots, `CITED_PROOF`, `TYPE_MEANS` |
-| **L1** toric containment | **premise refuted** | the containment model held but had never been under load â†’ `verify.containment` |
-| **W5/L4** identity live-test | 13 defects | **the verifier had no surface at all** â†’ `gp verify`, `portage_verify`, the `verdict` event kind, GATE 3 |
+| **L1** toric containment | **premise refuted** | the containment model held but had never been under load → `verify.containment` |
+| **W5/L4** identity live-test | 13 defects | **the verifier had no surface at all** → `gp verify`, `portage_verify`, the `verdict` event kind, GATE 3 |
 | **GPT-2** prior-art review | 2 kernel errors | `SPECIALIZATION` ignored `identity_origin`; the `RESTRICTION` density gate was insufficient *and* mis-typed |
-| **W6** post-verifier-layer | **PASS**, 8 defects | `operations.py` had no surface at all â†’ `gp construct`; `ring_iso` silently skipped without its flag; a discharge its own verifier declines. **The hook was INERT the whole run and the run could not see it** |
-| **W7** enforcement live | **PASS**, 10 defects | **the tool caught a live flop at the moment of action** â€” the L1 class this file records as having "nothing that would have stopped me". Also: refusals at *verify* time arrive after the graph has folded, and the tool cannot recognise a repair |
+| **W6** post-verifier-layer | **PASS**, 8 defects | `operations.py` had no surface at all → `gp construct`; `ring_iso` silently skipped without its flag; a discharge its own verifier declines. **The hook was INERT the whole run and the run could not see it** |
+| **W7** enforcement live | **PASS**, 10 defects | **the tool caught a live flop at the moment of action** — the L1 class this file records as having "nothing that would have stopped me". Also: refusals at *verify* time arrive after the graph has folded, and the tool cannot recognise a repair |
 | **W8** repair follow-up | **FAIL**, 1 blocker | Singular printed `x^3-x*y` as compact `x3-xy`; the verifier changed its meaning and returned a mathematically wrong verdict. The Codex hook also ran but hid exit-2 feedback |
 | **W9** Codex enforcement | **PASS**, 0 blockers | structured PostToolUse refusal was model-visible and RETRACT-cleared; real saturation/elimination/decomposition and seven hand-checked verdicts passed with explicit round-trippable CAS output |
 | **W10** Claude Opus enforcement | **PASS**, 0 blockers | Claude received the automatic exit-2/stderr refusal, RETRACT-cleared it, completed the three real constructors, recorded 30 correct verdicts, and finished with no findings. It also exposed mapped `EQUIVALENCE` being conflated with literal containment; the Lean-backed repair now gives coordinate changes the exact `forward`/`inverse` surface W10 needed |
@@ -405,7 +405,7 @@ review. Worth knowing because it predicts where the next one comes from.
 
 Worth stating because it corrects a complacency this document used to carry.
 For five live runs the score was **nine interaction defects to zero kernel
-errors**, and I read that as the mathematics being settled. It was not â€” it was
+errors**, and I read that as the mathematics being settled. It was not — it was
 nobody attacking it. An external review doing actual mathematics against the
 table found two false licences in an afternoon (a nodal cubic and a
 `p`-torsion example), both confirmed.
@@ -422,7 +422,7 @@ Full results in `portage-depot/testing/`, each with its pass condition written
 checker escalated a finding to `UNSOUND_CONCLUSION` by noticing that a
 refereed bound recorded elsewhere in the graph contradicted what the inference
 would license. That reductio fell out of the fold. **The five edge types
-survived foreign mathematics** â€” contrary to both my prediction and the
+survived foreign mathematics** — contrary to both my prediction and the
 external review's, border rank did *not* break the ontology. Everything
 *around* the types is what didn't fit.
 
@@ -463,8 +463,8 @@ survives the generalisation; only the domain pointer is dropped.
 
 The scrub is done **in this repo, not in the mirror**, so a sync stays a plain
 copy. A sync that needs a manual scrub step is a step whose correctness depends
-on someone remembering, which is the exact defect class Â§7 of REVIEW.md
-tracks. If you write a new comment citing a campaign, write it generic here â€”
+on someone remembering, which is the exact defect class §7 of REVIEW.md
+tracks. If you write a new comment citing a campaign, write it generic here —
 do not write it specific and plan to strip it later.
 
 The public/private split is about DOMAIN, not about candour. Findings against
@@ -485,7 +485,7 @@ changes during the gap are expected and are part of the test.
 Historical status before W8 (retained to explain why W7 mattered):
 
 **Gate status after W6 and W7: one of the two, not two.** W6 passed its own
-clauses but ran with the **hook inert**, which it could not detect â€” so it
+clauses but ran with the **hook inert**, which it could not detect — so it
 tested the checker and the verifiers and left the enforcement layer untouched.
 It is recorded as *half*, and deliberately not counted. **W7 is the first
 genuinely clean session**: enforcement confirmed live before any work, ten
@@ -515,7 +515,7 @@ the sealed cold return remains.**
 
 ### The sustained run, now sealed
 
-`campaigns/lsem-census` â€” generic identifiability of linear structural equation
+`campaigns/lsem-census` — generic identifiability of linear structural equation
 models on small mixed graphs, via Macaulay2's `GraphicalModels`. A **census
 rather than a conjecture**, so sessions end when a case finishes instead of
 when someone gets stuck, and cases share models so the graph accumulates.
@@ -528,13 +528,13 @@ cases, let a week pass, return cold with no notes outside `.portage/` and no
 scrollback, and time how long until productive. If a returning *human* cannot
 resume from the graph, a returning agent certainly cannot.
 
-### `gp migrate` â€” read this before bumping a required field
+### `gp migrate` — read this before bumping a required field
 
 Required fields break existing graphs. That bill came due all at once:
 `witness_kind` and the `ladder` vocabulary stopped **three live campaign logs**
 from folding, including T1's own output.
 
-`gp migrate` fills them with the **ignorance value** â€” `UNKNOWN`, `ASSERTED`.
+`gp migrate` fills them with the **ignorance value** — `UNKNOWN`, `ASSERTED`.
 The no-silent-defaults principle survives because those are not guesses; they
 are true, the claim having been recorded before anyone was asked. Both report
 as debt, so migrating makes the graph *louder*.
@@ -551,7 +551,7 @@ that fills the ignorance value.**
 and is taken on the author's word. Certificates (pre-v0.2), `identity_origin`
 (pre-v0.3), `kind` (pre-v0.3.1), `ladder` (pre-v0.3.2, found by T5 when a
 foreign campaign filled it with seven values and no overlap with the five it
-declares), `established_by` (pre-v0.4), literal **`V(src) âŠ† V(dst)`** itself
+declares), `established_by` (pre-v0.4), literal **`V(src) ⊆ V(dst)`** itself
 (pre-v0.4.1), and the **mapped-vs-literal presentation of an EQUIVALENCE**
 (pre-v0.4.2). Each was found by someone using the field or exploiting the
 blind spot, never by review.
@@ -564,7 +564,7 @@ stopped me"*. `RESTRICTION` matches a flop on every clause except that one.
 
 That repair is complete: models carry their ideals, literal containment is
 checked by reducing `I(dst)` modulo `I(src)`, and the exact identity condition
-`LHS âˆ’ RHS âˆˆ I(dst)` is separately decided by the identity verifier. Computed
+`LHS − RHS ∈ I(dst)` is separately decided by the identity verifier. Computed
 verdicts beat declarations everywhere they disagree.
 
 **The seventh was the ontology overgeneralising its own repair.** W10 supplied
@@ -592,7 +592,7 @@ direct the author to verification, its recorded blocker, or replacement maps.
 
 **THE REPAIR RULE, and it is the best general principle in this corpus:** make
 it derivable, make it checkable, or make it compose with something already
-checked â€” never "try harder to fill it in correctly." This belongs in
+checked — never "try harder to fill it in correctly." This belongs in
 `DESIGN.md`'s design invariants and is currently only here.
 
 **The fifth instance is the one to learn from, because it is a mutation.** The
@@ -604,7 +604,7 @@ contradicts nothing. Optionality is not neutral when another rule keys on it.
 
 **AND THE REPAIR IS STILL INCOMPLETE, so this is where to look next.**
 `exact-checked` now forces you to say `RAN`, and `RAN` is the only value that
-survives against it â€” but nothing requires a run ARTIFACT. You can still write
+survives against it — but nothing requires a run ARTIFACT. You can still write
 `established_by: RAN, ladder: exact-checked` with no evidence anywhere. That is
 the honour system with one more word on it. The rule above says derivable *or*
 checkable; what shipped is checkable-against-a-neighbour, which is weaker.
@@ -615,37 +615,37 @@ T5 and still deferred.
 
 An external review (GPT) plus a working pass found **eight defects, seven of
 them inside the parts the project advertises as its guarantees** rather than in
-the mathematics. All are fixed; suite went 171 â†’ 251 checks.
+the mathematics. All are fixed; suite went 171 → 251 checks.
 
 | where | was |
 |---|---|
-| `kernel` IDENTITY row | licensed `x = 0` escaping `V(x)` to the whole line; and lifting `pÂ·x = 0` out of char `p` |
-| `kernel` EQUIVALENCE | licensed IDENTITY on the strength of a **point**-level converse; `V(xÂ²)` vs `V(x)` refutes it |
-| `cas` boundary | `body` and declaration expressions went to Singular unvalidated â€” **the exact `poly g0 = ...` defect was rebuildable through the module claiming "there is no string path to a solver"** |
+| `kernel` IDENTITY row | licensed `x = 0` escaping `V(x)` to the whole line; and lifting `p·x = 0` out of char `p` |
+| `kernel` EQUIVALENCE | licensed IDENTITY on the strength of a **point**-level converse; `V(x²)` vs `V(x)` refutes it |
+| `cas` boundary | `body` and declaration expressions went to Singular unvalidated — **the exact `poly g0 = ...` defect was rebuildable through the module claiming "there is no string path to a solver"** |
 | `cas` verdicts | nonzero exits outside three codes read as `OK`; `ABORTED` minted a model and a semantic edge |
 | `check` witness | `witness` was documented as evidence **against** an equivalence and accepted as documentation **for** one |
-| `check` taint | one pass, so second-generation taint was invisible â€” and that is the generation nobody inspects, because the step producing it is clean |
+| `check` taint | one pass, so second-generation taint was invisible — and that is the generation nobody inspects, because the step producing it is clean |
 | `store` certificates | a graph event could silently redefine a built-in, changing the field-scope of every emptiness citing it |
 | `hook` baseline | keyed by a finding id that is stable by construction, so an acceptance outlived the meaning it was given for |
 
 **The lesson worth carrying:** a green mutation suite tests *reachability*, not
 *truth*. It asks "does editing this field change a verdict?" and presupposes the
 verdicts are right. `test_identity_transport_turns_on_the_map_and_nothing_else`
-asserted an unsound cell as its oracle and 171 checks agreed with it â€” **the
+asserted an unsound cell as its oracle and 171 checks agreed with it — **the
 test's name was the false claim.** Gate 0 (`tests/test_cell_ledger.py`) is the
 missing half: one row per cell, each with a proof or a counterexample.
 
 **New concept: `identity_origin`.** An `IDENTITY` claim must say where its
-rewriting is valid â€” `AMBIENT` (holds before this model's equations, travels
+rewriting is valid — `AMBIENT` (holds before this model's equations, travels
 both ways), `DERIVED` (follows from them, restricts only), or `UNKNOWN`. Blank
 raises at fold time. `UNKNOWN` is the `UNTYPED` bargain one level down: the
 honest answer is always available, which is what makes the field requirable.
-Unlike `UNTYPED` it has a **mechanical** discharge â€” `cas_classify_identity`
-reduces `LHS âˆ’ RHS` and answers `AMBIENT` / `DERIVED` / `FALSE_AT_MODEL`, so the
+Unlike `UNTYPED` it has a **mechanical** discharge — `cas_classify_identity`
+reduces `LHS − RHS` and answers `AMBIENT` / `DERIVED` / `FALSE_AT_MODEL`, so the
 tool names the computation instead of asking the author to introspect.
 
-The retrodiction gates reproduce **identically** â€” same findings, same clean
-inferences â€” but every `IDENTITY` verdict now rests on a stated reason instead
+The retrodiction gates reproduce **identically** — same findings, same clean
+inferences — but every `IDENTITY` verdict now rests on a stated reason instead
 of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 `divisor_syzygy.py` (7/7, C3 residual 0 by symbolic expansion).
 
@@ -653,15 +653,15 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 
 ## 2. Where to start, by what you are doing
 
-| you want toâ€¦ | do this |
+| you want to… | do this |
 |---|---|
 | understand the design | `DESIGN.md`, then `REVIEW.md` (where it is weakest) |
-| review / critique it | `REVIEW.md` â€” written as an attack brief, not a tour |
-| know what to run next | `TESTPLAN.md` â€” 7 tests, pass conditions declared in advance |
-| see how it behaves in real use | `docs/first-run/` â€” the user's own report, the maths, the graph |
-| see what an audit found | `docs/first-run/T2-SYNTHESIS.md` â€” **start here if you only read one thing** |
-| run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` â€” see Â§6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1780<!--/checks--> checks, ~300 s on the current development machine) |
+| review / critique it | `REVIEW.md` — written as an attack brief, not a tour |
+| know what to run next | `TESTPLAN.md` — 7 tests, pass conditions declared in advance |
+| see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
+| see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
+| run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1788<!--/checks--> checks, ~300 s on the current development machine) |
 
 ---
 
@@ -744,10 +744,10 @@ C:\Users\wstri\dev\
 
   portage-depot\    Workspace where the FIRST RUN happened.  Local only, no remote.
                     HEAD 9d42f49, clean.  Has math-stuff as a pinned submodule.
-                    Contains BRIEF.md and FINDINGS.md â€” see the T1 warning in Â§6.
+                    Contains BRIEF.md and FINDINGS.md — see the T1 warning in §6.
 
   gamma-delta4\     STAGED AND UNTOUCHED: the blind run (T1).  Local only.
-                    HEAD 195d9c5, clean.  See Â§6.
+                    HEAD 195d9c5, clean.  See §6.
 
   math-stuff\       THE RESEARCH REPO.  READ-ONLY as far as this project is
                     concerned.  Nothing here has ever written to it and nothing
@@ -758,9 +758,9 @@ C:\Users\wstri\dev\
 **Submodule pins.** `portage-depot` and `gamma-delta4` both pin `math-stuff` at
 `86d8fb0`, deliberately: the campaign graph quotes that repo verbatim and those
 quotes are only true against one commit. `math-stuff` has since advanced twice
-(`0dd5f71 â†’ 86d8fb0 â†’ a83b19f`). The only cited file that changed is
-`F2_TOWER.md`, and the change is a typo fix (`(7,2)` â†’ `(7\5,2)`). **The
-citations still hold â€” this has been checked, do not re-derive it.** Advancing a
+(`0dd5f71 → 86d8fb0 → a83b19f`). The only cited file that changed is
+`F2_TOWER.md`, and the change is a typo fix (`(7,2)` → `(7\5,2)`). **The
+citations still hold — this has been checked, do not re-derive it.** Advancing a
 pin is a decision, not a sync.
 
 ---
@@ -768,7 +768,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1780<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1788<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -776,14 +776,14 @@ reproducing 4+6 flags with zero false positives and 15 clean positive controls.
 ### The verifier layer, as of 2026-07-29
 
 Three verifiers a week ago, **seven now**, and all four new ones were wired up
-over 27â€“28 July. `gp verify` runs every one that applies and records a `verdict`
+over 27–28 July. `gp verify` runs every one that applies and records a `verdict`
 event; `gp check` reads the verdicts and **the verdict beats the declaration**
 everywhere it disagrees.
 
 | verifier | decides | verdicts |
 |---|---|---|
-| `containment` | literal inclusion-style `V(src) âŠ† V(dst)`, by reduction; mapped equivalences are skipped | VERIFIED / NOT_BY_IDEAL |
-| `identity` | the rewriting â€” **and mints cofactors** for a DERIVED one | AMBIENT / DERIVED / REFUTED |
+| `containment` | literal inclusion-style `V(src) ⊆ V(dst)`, by reduction; mapped equivalences are skipped | VERIFIED / NOT_BY_IDEAL |
+| `identity` | the rewriting — **and mints cofactors** for a DERIVED one | AMBIENT / DERIVED / REFUTED |
 | `unit_ideal` | an EMPTY's certificate, by expansion | VERIFIED / NOT_UNIT |
 | `ring_iso` | a mapped EQUIVALENCE's two ideal pullbacks and two inverse compositions | VERIFIED / NOT_AN_ISOMORPHISM |
 | `point_witness` | a NONEMPTY's `witness_point`, by substitution | VERIFIED / NOT_A_POINT |
@@ -793,16 +793,16 @@ everywhere it disagrees.
 Two things a fresh session should know before trusting any of it:
 
 - **A certificate is now an artifact, not a word.** A verified membership hands
-  back the cofactors, so `g = Î£ báµ¢fáµ¢` can be re-expanded by a checker that
+  back the cofactors, so `g = Σ bᵢfᵢ` can be re-expanded by a checker that
   shares no code path with the search. That is the bridge to a proof assistant:
-  Lean checks a polynomial identity and should never run a GrÃ¶bner engine.
+  Lean checks a polynomial identity and should never run a Gröbner engine.
 - **`operation_output` checks one direction only**, and says so. "Nothing was
   invented" is cheap and is the direction that makes EMPTY unsound. "Nothing
   was missed" is as hard as recomputing the answer and is **not** checked. A
   bounded saturation witness search that finds no exponent now returns
   `UNVERIFIED`; the search bound is never presented as non-membership.
 
-`operations.py` has a fourth constructor, `decompose`, over `facstd` â€” the only
+`operations.py` has a fourth constructor, `decompose`, over `facstd` — the only
 decomposition reachable inside the CAS boundary, since `primdecGTZ`,
 `minAssGTZ` and `radical` all live in `primdec.lib`. It emits a partition whose
 branches were *minted* rather than typed, and whose completeness premise a
@@ -812,11 +812,11 @@ algebra": no requirement, no migration, and the checkable fraction of a
 campaign rises as it uses constructors.
 
 **Tested in anger repeatedly**, and that is where every structural change comes
-from â€” see the table in Â§1. `docs/first-run/` is the one to read: a real agent
+from — see the table in §1. `docs/first-run/` is the one to read: a real agent
 doing real open research, which produced genuine mathematics and a very good
 bug report. Five campaigns now exist in `portage-depot/campaigns/`.
 
-**Audited twice.** `docs/first-run/T2-SYNTHESIS.md` â€” four independent
+**Audited twice.** `docs/first-run/T2-SYNTHESIS.md` — four independent
 auditors, four lenses, and **the audit FAILED its declared pass condition on
 edge type.** Then an external prior-art review found two false licences in the
 transport table itself, both confirmed and both fixed.
@@ -837,15 +837,15 @@ every user-facing path. If you add a fourth gate, that is the gap.
 
 ---
 
-## 5. THE OPEN DECISIONS â€” these need a human
+## 5. THE OPEN DECISIONS — these need a human
 
-### D1. Gap B â€” how to express a case-split edge â€” **DECIDED AND BUILT (v0.3)**
+### D1. Gap B — how to express a case-split edge — **DECIDED AND BUILT (v0.3)**
 
 **Resolved by evidence rather than by choosing.** T1 produced the same defect a
-second time, independently: a blind agent typed a Î³=4 branch as a total
+second time, independently: a blind agent typed a γ=4 branch as a total
 containment, and its `EMPTY` result landed on the whole parent while its own
 prose said "branch". An auditor who had never seen this section picked option 2
-â€” branch models â€” on the merits and specified it.
+— branch models — on the merits and specified it.
 
 Built as a `partition` event naming a parent, its branches, and an
 **exhaustiveness claim that must exist in the graph** rather than in a note.
@@ -862,8 +862,8 @@ why it was left open.
 *(original, superseded)*
 
 Two independent auditors found that `GE7`/`GE8`/`GE9` are **case branches, not
-relaxations**. Î³ is a function of the counterexample, so `V(src) âŠ† V(dst)` is
-false as a total statement â€” only `V(REDUCED) âˆ© {Î³=k} âŠ† V(GCHART_Gk)` holds.
+relaxations**. γ is a function of the counterexample, so `V(src) ⊆ V(dst)` is
+false as a total statement — only `V(REDUCED) ∩ {γ=k} ⊆ V(GCHART_Gk)` holds.
 The type system has no vocabulary for that, so a branch gets typed as a total
 containment and licenses transports that are false off-branch.
 
@@ -871,14 +871,14 @@ containment and licenses transports that are false off-branch.
 designs, materially different:
 
 1. a `holds_on:` branch condition on the edge
-2. model each branch as its own source model (`REDUCED_G3`, `REDUCED_G2`, â€¦)
+2. model each branch as its own source model (`REDUCED_G3`, `REDUCED_G2`, …)
 3. a first-class case-partition construct
 
 Option 3 is closest to what the original whetstone notes pinned as
 `MISS-C0-PARTITION` and explicitly put out of scope. **Do not pick one
 unilaterally.**
 
-### D2. Should T1 run before or after fixing B? â€” **DECIDED: before.**
+### D2. Should T1 run before or after fixing B? — **DECIDED: before.**
 
 Argument for **before**: if a blind agent hits the same wall independently, that
 confirms the gap is systematic rather than one agent's slip. That is evidence
@@ -891,7 +891,7 @@ distinction that settled it: v0.2's fixes split into *what the tool licenses*
 taint, baseline). The second class is invisible to an agent doing honest
 modelling, so fixing it costs T1 nothing. The first class had to be fixed
 because T1 would otherwise audit against a broken oracle. **Gap B is in
-neither** â€” it is a missing expressive feature, and leaving it open is what
+neither** — it is a missing expressive feature, and leaving it open is what
 makes T1 informative about it.
 
 **So: T1 is now unblocked and is the next thing to run.**
@@ -899,28 +899,28 @@ makes T1 informative about it.
 ### D4. Should IDENTITY transport become edge-relative? *(new, not urgent)*
 
 `AMBIENT` is *sufficient* but not *necessary* for a rewriting to survive
-widening. The exact condition is `LHS âˆ’ RHS âˆˆ I(dst)` â€” edge-relative â€” and a
+widening. The exact condition is `LHS − RHS ∈ I(dst)` — edge-relative — and a
 `DERIVED` identity satisfies it whenever it follows from equations the target
 keeps. Verified: `x = 0` is `DERIVED` at `V(x,y)` and reduces to 0 at `V(x)`.
 
 **Registered as a deliberate conservatism**, not fixed, because the exact test
 needs the target's ideal and **a model in this system carries `desc`, `cite`,
-`chart`, `universe`, `declares`, `touches`, `reads` â€” it is a description, not
+`chart`, `universe`, `declares`, `touches`, `reads` — it is a description, not
 an object with equations.** Requiring machine-readable ideals on every model
 changes what a model *is*.
 
 Cost so far: **zero**. Two `IDENTITY` claims exist across the whole corpus, both
-`AMBIENT`, both licensed; none at all in the matroid domain, the Î³-window graph
+`AMBIENT`, both licensed; none at all in the matroid domain, the γ-window graph
 or the live first-run campaign.
 
 **The upgrade path, when a real false refusal appears:** put the evidence on the
-**inference**, not the model â€” an inference declares it checked the difference
+**inference**, not the model — an inference declares it checked the difference
 lies in the target's ideal, with the computation attached, and that unlocks the
 one cell. Same shape as `certificate` on an `EMPTY` claim. Do not reach for it
 before a campaign actually hits the refusal; the point of registering the
 conservatism is that it becomes visible when it starts to bite.
 
-### D3. `portage_suggest_edge` â€” build it or not
+### D3. `portage_suggest_edge` — build it or not
 
 The first run's cost split was ~2/3 genuine modelling, 1/3 transcription, and
 the transcription was always *"say again what you said for the neighbouring
@@ -928,8 +928,8 @@ edge, with one field changed."* So the fix is a **sibling-edge diff**, not
 type-guessing.
 
 **But it may destroy the tool's best property.** The single best finding of the
-first run â€” a determinant of âˆ’2 showing GGV3's "automorphism" is a 2-fold cover,
-and thence the congruence structure GGV3 leaves unexplained â€” came from having
+first run — a determinant of −2 showing GGV3's "automorphism" is a 2-fold cover,
+and thence the congruence structure GGV3 leaves unexplained — came from having
 to fill in `map_kind` *from scratch*. A diff that pre-fills it means that
 finding does not happen. `TESTPLAN.md` T6 says: measure both sides or do not
 build it.
@@ -938,19 +938,19 @@ build it.
 
 ## 6. What is staged and ready: T1, the blind run
 
-`C:\Users\wstri\dev\gamma-delta4\` â€” clean directory, own pinned submodule,
+`C:\Users\wstri\dev\gamma-delta4\` — clean directory, own pinned submodule,
 campaign graph and baseline carried forward, MCP + hook wired, `TASK.md` and
 nothing else.
 
 **To run it:** `cd C:\Users\wstri\dev\gamma-delta4` then `claude`. MCP servers
-register at session start, so this only works from that directory â€” starting
+register at session start, so this only works from that directory — starting
 anywhere else points `GP_ROOT` at the wrong campaign.
 
-**The task:** derive Î”â€²â‚„, the reduced polygon for the Î³=4 chart, turning the
-window cap Î± from an obligation into a number. Real, bounded, and the
+**The task:** derive Δ′₄, the reduced polygon for the γ=4 chart, turning the
+window cap α from an obligation into a number. Real, bounded, and the
 campaign's own named discharge for `GE10`.
 
-### Preserving blindness â€” this is the whole point of T1
+### Preserving blindness — this is the whole point of T1
 
 The first run's agent had read a brief naming mislabelling as the worst failure
 mode and blessing `UNTYPED`. It then avoided mislabelling and used `UNTYPED`
@@ -962,8 +962,8 @@ So:
   `REVIEW.md`, `HANDOFF.md` or `T2-*`. They live in `grand-portage\docs\` and
   `portage-depot\`. `gamma-delta4` is deliberately clean of all of them.
 - **Do not tell it anything is being tested.** Give it `TASK.md` and the tools.
-- **The Î± = 4^(3âˆ’Î³) trap is left in on purpose.** It fits both known values and
-  hands you Î³=4 for free. `TASK.md` does *not* warn against it â€” an earlier
+- **The α = 4^(3−γ) trap is left in on purpose.** It fits both known values and
+  hands you γ=4 for free. `TASK.md` does *not* warn against it — an earlier
   draft did and that was removed, because warning in prose tests only whether an
   agent can follow an instruction. The warning lives in the **graph**, as
   `GI-G4-CAP-EXTRAPOLATION` and its baseline reason, reachable through
@@ -974,7 +974,7 @@ it exists?**
 
 **Prediction, on the record before the run:** it will pick a
 defensible-but-wrong type at least once, most likely `NECESSARY_CONDITION` where
-the truth is `IMAGE_CLOSURE` â€” "this step drops conditions" is the easiest story
+the truth is `IMAGE_CLOSURE` — "this step drops conditions" is the easiest story
 to tell about almost any step.
 
 ---
@@ -985,15 +985,15 @@ Full detail in `docs/first-run/T2-SYNTHESIS.md`.
 
 | # | gap | status |
 |---|---|---|
-| **A** | **the certificate is never validated against the computation** | still open â€” but see below, v0.2 built the *pattern* for it |
+| **A** | **the certificate is never validated against the computation** | still open — but see below, v0.2 built the *pattern* for it |
 | **B** | **no vocabulary for a case-split edge** | needs D1 |
-| **C** | an inference can attach to a **proxy edge** â€” nothing checks the path is the step `asserted` describes | not built |
-| **D** | **no retraction mechanism** â€” a wrong edge cannot be corrected without hand-editing an append-only log | not built |
+| **C** | an inference can attach to a **proxy edge** — nothing checks the path is the step `asserted` describes | not built |
+| **D** | **no retraction mechanism** — a wrong edge cannot be corrected without hand-editing an append-only log | not built |
 | **E** | `ev: "note"` **bypasses the checker entirely** | not built |
 
 **A is a soundness hole and should probably be fixed before anything else.**
 The evidence for it is that *I* got it wrong: `GC-A2-KILL` in this repo's own
-fixture declares `UNIT_IDEAL_CERT` for an ideal where `1 âˆ‰ I` (verified: basis
+fixture declares `UNIT_IDEAL_CERT` for an ideal where `1 ∉ I` (verified: basis
 size 19, exhibited point satisfies every generator). `a2_certificate()` exhibits
 nilpotency, and its own docstring says it is "NOT a scalar syzygy". The
 certificate is the one field `derive_scope` trusts blindly to mint
@@ -1009,21 +1009,21 @@ behind it at all. That would have caught mine.
 asking for it, and the design generalises directly: a tool that *answers* the
 question, a field the author still has to *declare*, and a checker that can tell
 a declaration with a computation behind it from one without. Deliberately kept
-separate â€” a tool that both decides a field and writes it leaves nobody holding
+separate — a tool that both decides a field and writes it leaves nobody holding
 the claim.
 
 Certificates are the harder instance and that is the only reason they are not
 done: *"does this computation support this certificate kind?"* needs
 interpretation, whereas origin classification is a normal-form reduction with a
 three-way answer and no room to argue. **Do A next if T1 is blocked for any
-reason** â€” the shape is now proven.
+reason** — the shape is now proven.
 
 **Known campaign-level errors** (in `portage-depot`'s graph, not the tool):
 `GE10` drawn backwards; `E-G3_ELIM_KILL` should be `NECESSARY_CONDITION` not
 `IMAGE_CLOSURE`; `GE9`'s witness is wrong and a correct one is already in the
 graph unused; `GC-A5-DERIVED` graded `exact-checked` for a slope the producing
 code labels FITTED; 10 of the headline "30/30 published data points" are
-vacuous by construction. **None of these has been fixed** â€” see gap D for why
+vacuous by construction. **None of these has been fixed** — see gap D for why
 that is awkward.
 
 ---
@@ -1036,7 +1036,7 @@ that is awkward.
   three times. **Use the Write/Edit tools for code, not shell heredocs.**
 - **A POSIX path expanded inside a `python -c "..."` string is not MSYS-path-
   converted** (only standalone arguments are), so it reaches Windows Python
-  unresolvable. The hook then finds no graph and **correctly fails open** â€” a
+  unresolvable. The hook then finds no graph and **correctly fails open** — a
   false pass that looks like a fix. Use `cygpath -w`, or pass paths as argv.
 - **Seed the baseline before wiring the hook.** On a graph with existing
   findings the hook blocks *every* tool call. `gp accept -m "why"` first. The
@@ -1046,7 +1046,7 @@ that is awkward.
 - **`math-stuff` is read-only.** It is a live research repo with its own
   103-checker suite. Nothing here has ever written to it.
 - **Subagents inherit the parent session's MCP tools**, which is why T1 can be
-  orchestrated from a session started in `gamma-delta4` â€” and cannot from
+  orchestrated from a session started in `gamma-delta4` — and cannot from
   anywhere else.
 
 ---
@@ -1054,7 +1054,7 @@ that is awkward.
 ## 9. What not to do
 
 - Do not advance a submodule pin without re-checking the graph's citations.
-- Do not fix gap B unilaterally â€” see D1.
+- Do not fix gap B unilaterally — see D1.
 - Do not let the T1 agent see the meta-documents.
 - Do not treat `docs/first-run/FINDINGS.md` as neutral evidence; it argues for
   its own edges, which is why the T2 auditors were barred from it.
@@ -1066,7 +1066,7 @@ that is awkward.
 
 ---
 
-## 2026-08-01 â€” aggregate JC H3 depth-6 replay gate
+## 2026-08-01 — aggregate JC H3 depth-6 replay gate
 
 `experiments/jc_h3_source_depth6/replay_all.py` now composes the conditional
 source seam, graded face extraction, complete finite template, ordered chain,
@@ -1087,7 +1087,7 @@ usage packet and two real review ledgers live beside the assay and under
 
 ---
 
-## 2026-08-01 â€” corrected R1--R7 promotion firewall and replay tiers
+## 2026-08-01 — corrected R1--R7 promotion firewall and replay tiers
 
 The coordinator correction at math-stuff `fb18749` is now frozen in
 `r1_r7_seam_adapter.py`. Seven LF-normalized source bindings preserve the exact
@@ -1123,7 +1123,7 @@ projection are checked in under `review/`.
 
 ---
 
-## 2026-08-01 â€” coordinator consumer and S4 scope assay
+## 2026-08-01 — coordinator consumer and S4 scope assay
 
 The first independent coordinator invocation produced
 `review/jc-h3-depth6-fast-replay.json` and its diagnostic stage journal. It
@@ -1147,7 +1147,7 @@ epoch change.
 
 ---
 
-## 2026-08-01 â€” Lean-backed unilateral recurrence assay
+## 2026-08-01 — Lean-backed unilateral recurrence assay
 
 The corrected JC adjoint receipt now drives a bounded
 `parametric_recurrence_v1` experiment. GP independently decodes the frozen
@@ -1175,7 +1175,7 @@ format, kernel epoch, relation set, or claim kinds.
 
 ---
 
-## 2026-08-01 â€” scoped depth-eight first-order fiber assay
+## 2026-08-01 — scoped depth-eight first-order fiber assay
 
 The newer JC straggler/zero-block composition supersedes the earlier reading
 of the depth-eight obstruction as merely a fixed `c7_4`, `c8_5=0` witness.
@@ -1199,7 +1199,7 @@ checked report is `review/jc-h3-depth8-fiber-v1.json`; graph effect is `NONE`.
 
 ---
 
-## 2026-08-01 â€” graph-bound S2 wall obstruction
+## 2026-08-01 — graph-bound S2 wall obstruction
 
 The landed JC on-wall receipt proves the exact dead-row identity
 `value_24 = OB - 45*c2_3*t*R*c8_9`. GP freezes the 502-term dead row and
@@ -1224,7 +1224,7 @@ non-live suite passes 1,392 checks with one skip and 40 live deselections in
 
 ---
 
-## 2026-08-02 â€” localized `b=0` compatibility class
+## 2026-08-02 — localized `b=0` compatibility class
 
 The JC coordinator supplied a bounded rendezvous packet for the exact
 materialized-depth locus `X_b : b=R=A=OB=0`, localized at `c2_3`, `p`, and
@@ -1259,7 +1259,7 @@ The native module replay passes 32/32. The final full non-live GP suite passes
 
 ---
 
-## 2026-08-02 â€” `b=0` free-plane exceptional-factor ledger
+## 2026-08-02 — `b=0` free-plane exceptional-factor ledger
 
 The native free-plane receipt landed as a complete finite object, so GP did
 not need a new graph relation or claim. The new
@@ -1290,7 +1290,7 @@ deselections in 480.50 seconds on a contended development machine.
 
 ---
 
-## 2026-08-02 â€” transported depth-eight affine fiber block
+## 2026-08-02 — transported depth-eight affine fiber block
 
 JC commit `033f63a` fulfilled the six-coefficient request and supplied the
 invariant transported block. GP freezes all nine raw coefficient columns,
@@ -1771,6 +1771,14 @@ Finite database filtering remains outside the affine edge kernel; structured
 algebraic witnesses and inert measurement/profile custody remain deferred
 semantic-regime work.
 
+## v0.36 independent repairs
+
+Branch release/v0.36.0 starts at released f769705, not unmerged research.
+In-band Singular version identity, mixed-trace refusal, scope/architecture/loss
+wording repairs, predicate charter policy + gp lint, MCP legacy table repair.
+No format/kernel epoch/verifier/binder semantics change. Full non-live 1706 pass;
+focused native replay and Lean/parity pass. Full native CI is required before
+release; broad local WSL run was stopped without a complete result.
 
 ## 2026-09-13: released v0.35 and continued atlas research
 
@@ -1842,3 +1850,14 @@ Independent release/v0.36.0 worktree tmp/v036-repairs starts at f769705. Commit
 repairs, including the MCP legacy table overlooked by prior CLI correction.
 Private release PR #4 is open. Full native Linux CI gates release; local focused
 native test passed, broad WSL run was stopped without a complete result.
+
+## v0.36 shipped; research continued
+
+Public release https://github.com/wstrinz/grandportage/releases/tag/v0.36.0
+Public merge efd0972293af92da29d21f614337b07ff6130a5e; workspace merge
+0d871913547fd971bd18a24cbe86acb55c10a1ea. Both PR #4 release candidates passed
+all CI, including all 60 native tests (259 seconds in the private run), and
+1706 non-live tests. The fresh wheel import passed. Wheel SHA256:
+1096c28ba8e295a064e9480dbea2ec05721e7c707f31f1e64fa972111dff828b.
+Research PR #3 was brought forward onto that release; gp lint and gp explain
+coexist and full native CI includes the research interpreter composition tests.
