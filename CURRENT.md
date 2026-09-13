@@ -12,7 +12,7 @@ prior-art reassessment and the sequence beyond this boundary.
 
 ## Release boundary
 
-- Package version: <!--version-->0.36.0<!--/version-->.
+- Package version: <!--version-->0.37.0<!--/version-->.
 - Graph format: <!--graph-format-->8<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->12<!--/kernel-epoch-->.
 - Test collection: <!--checks-->1811<!--/checks--> checks.
@@ -36,13 +36,13 @@ ordinary deterministic, frozen replay, exhaustive reconstruction, and live
 WSL/Singular lanes so every collected test is accounted for without making
 backend availability implicit.
 
-## Unreleased correctness repair
+## v0.37.0 checkpoint
 
 Cloquet exposed raw nonconstant division being evaluated as Singular polynomial
 quotient. CAS construction now refuses it before execution; constant-denominator
 polynomials remain supported. Singular adapter version 5 requires replay of
 older CAS receipts. Native verifier receipts, graph format and epoch are unchanged.
-The read-model checkpoint is merged; this repair is subsequent unreleased work.
+This release includes the read-model checkpoint and the subsequent division repair.
 
 ## Release sequence
 
