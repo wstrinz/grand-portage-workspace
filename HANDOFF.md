@@ -46,7 +46,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Version 0.34.0. <!--checks-->1757<!--/checks--> checks.** Treat
+**Version 0.34.0. <!--checks-->1762<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The v0.31.2 patch makes exact derived-identity receipts portable.** A
@@ -661,7 +661,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1757<!--/checks--> checks, ~300 s on the current development machine) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1762<!--/checks--> checks, ~300 s on the current development machine) |
 
 ---
 
@@ -768,7 +768,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1757<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1762<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -1770,3 +1770,24 @@ hashes, migrates copies only, and reproduces the four hard merge conflicts.
 Finite database filtering remains outside the affine edge kernel; structured
 algebraic witnesses and inert measurement/profile custody remain deferred
 semantic-regime work.
+
+
+## 2026-09-13: released v0.35 and continued atlas research
+
+Public release: https://github.com/wstrinz/grandportage/releases/tag/v0.35.0
+Workspace release merge f7697056569f9763b99ed05739422d02ba0b8101; public merge
+eb26640d26d3a3e0bb82747540a9b911eabd4452. Both release PRs #2 merged with
+explicit authorization. Continuation is workspace PR #3, retargeted to master.
+
+The follow-up adds unit-cofactor interpretation, native composed graph routes,
+a bounded eight-cell requirement inventory, and cache-recovery review controls.
+The core stays Mathlib-free pending a separately pinned standard-field adapter.
+See docs/ATLAS-FOLLOWUP-V1.md for the conclusions and remaining proof boundaries.
+
+Foreign-domain selection: read match4/Cloquet README, AGENTS, receipt/verdict
+schemas, founding plan and packet in the sibling math-research checkout. Its
+operative objective is geometric closure, and a full census is explicitly
+outside the present campaign scope. It supplies a model/object custody example,
+not yet an independent non-polynomial census consumer. No campaign data, code,
+receipts or derived records were copied, modified or published. No campaign
+permissions were inferred from the authorization to release GP.

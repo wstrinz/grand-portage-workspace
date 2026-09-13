@@ -86,6 +86,6 @@ transport rule, certificate verifier, or backend implementation changed.
 
 Evaluation transport along explicit operation-preserving maps is now proved in
 [EXPRESSION-TRANSPORT-V0](EXPRESSION-TRANSPORT-V0.md). Rational-polynomial
-normalization remains an open proof boundary. The next composition boundary
-should use a second certificate interpretation, so reuse is tested across
-different algebraic requirements rather than inferred from one example.
+normalization remains an open proof boundary. The [unit-cofactor follow-up](ATLAS-FOLLOWUP-V1.md) now tests a second
+certificate interpretation across composed routes with different algebraic
+requirements. General rational normalization remains separate.

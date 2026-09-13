@@ -27,8 +27,8 @@ The generic pullback theorem does not authorize a new GP edge. Connecting it to
 GP requires a checked operation-map representation, compatible point universes,
 and binding the certificate generators to the current endpoints. The expression
 language still lacks rational constants and their denominator obligations.
-The next useful extension is a second certificate interpretation (unit-ideal
-cofactors), followed by characteristic-sensitive graph composition experiments.
+The [unit-cofactor follow-up](ATLAS-FOLLOWUP-V1.md) now supplies a second
+certificate interpretation and characteristic-sensitive graph composition.
 
 Validation: `lake build` passed all 31 jobs, with only the two existing linter
 warnings. The module is imported by the aggregate build, so hosted Lean CI checks
