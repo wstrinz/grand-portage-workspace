@@ -179,3 +179,11 @@ The next target is to extend B to rational normalization or explicit algebra
 homomorphisms, then test C with a second certificate interpretation. That tests
 reuse where GP can supply evidence and counterexamples, while leaving the larger
 theory open to being refined or rejected by the results.
+
+## Continuation beyond the release candidate
+
+[Expression transport](EXPRESSION-TRANSPORT-V0.md) now derives evaluation
+naturality, forward solution transport, and backward emptiness transport from
+explicit operation preservation. A concrete integer-to-Gaussian map proves
+that forward equality transport does not suffice for forward emptiness. This
+continuation is separate from the frozen v0.35.0 snapshot.
