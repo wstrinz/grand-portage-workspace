@@ -15,7 +15,7 @@ prior-art reassessment and the sequence beyond this boundary.
 - Package version: <!--version-->0.36.0<!--/version-->.
 - Graph format: <!--graph-format-->8<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->12<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1789<!--/checks--> checks.
+- Test collection: <!--checks-->1811<!--/checks--> checks.
 
 Plain `pytest` is the conceptual full release gate. The ordinary edit loop is
 `pytest -m "not live and not replay and not exhaustive"`; deterministic frozen
@@ -36,6 +36,14 @@ ordinary deterministic, frozen replay, exhaustive reconstruction, and live
 WSL/Singular lanes so every collected test is accounted for without making
 backend availability implicit.
 
+## Unreleased correctness repair
+
+Cloquet exposed raw nonconstant division being evaluated as Singular polynomial
+quotient. CAS construction now refuses it before execution; constant-denominator
+polynomials remain supported. Singular adapter version 5 requires replay of
+older CAS receipts. Native verifier receipts, graph format and epoch are unchanged.
+The read-model checkpoint is merged; this repair is subsequent unreleased work.
+
 ## Release sequence
 
 The post-v0.34 preservation-atlas work is recorded in
@@ -44,7 +52,7 @@ The post-v0.34 preservation-atlas work is recorded in
 [`research program`](docs/PRESERVATION-ATLAS-PROGRAM.md).
 It corrects the certificate summary in `gp table`, adds Lean semantic laws and
 a 139-decision reach comparison, and changes no transport licence or epoch.
-This work has not been cut as a new release.
+The preservation atlas and certificate interpreter shipped in v0.35.0.
 The [certificate-interpreter continuation](docs/CERTIFICATE-INTERPRETER-V0.md)
 adds a syntactic derivation/evaluation proof, a concrete integer interpretation,
 an unordered counterexample, and composed-path tests using the same SOS fixture.
