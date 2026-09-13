@@ -46,7 +46,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Version 0.34.0. <!--checks-->1771<!--/checks--> checks.** Treat
+**Version 0.34.0. <!--checks-->1780<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The v0.31.2 patch makes exact derived-identity receipts portable.** A
@@ -661,7 +661,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` â€” the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` â€” **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` â€” see Â§6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1771<!--/checks--> checks, ~300 s on the current development machine) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1780<!--/checks--> checks, ~300 s on the current development machine) |
 
 ---
 
@@ -768,7 +768,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1771<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1780<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -1817,3 +1817,28 @@ The local native cancellation test was not verified: backend identity discovery
 timed out, including a fresh-process warmup. Linux witness CI includes the test.
 Next measurement requires representative retained format-8 campaign receipts,
 without semantic backfilling; no migration should be inferred from this corpus.
+
+## Read-model packet continuation (2026-09-13)
+
+Research branch atlas/evaluation-transport adds corpus intake, nonlocal IR nodes,
+gp explain with nine obligation statuses, one exact-value semantic-loss theorem,
+and the conditional field-target/profile discharge table. Fixture reports are
+regenerated; their compact index pins source/report LF-normalized hashes. Full
+non-live validation passed 1719 tests; Lean 39 jobs. Final manifest-hash test is
+rerun after regenerating the final index.
+
+The local ignored corpus/ bundle holds 389 verbatim .portage files from arr15,
+cfg23, match4. No original bytes were changed. Format5/7/7 blocks raw intake.
+User explicitly authorized Terra subagent backfill: corpus/derived contains
+native migration candidates and corpus/derived/replayed/cfg23 contains two
+fresh verifier-native extension-witness receipts from real retained-data replay.
+The original/migration/replay stages and hashes are separate; see local
+corpus/BACKFILL-REPORT.md and corpus/derived/backfill-status.json. These are not
+substituted for the missing complete verbatim A3 corpus. No campaign data is
+staged or published.
+
+Independent release/v0.36.0 worktree tmp/v036-repairs starts at f769705. Commit
+40da2f9 contains in-band version identity, mixed-trace refusal and read-surface
+repairs, including the MCP legacy table overlooked by prior CLI correction.
+Private release PR #4 is open. Full native Linux CI gates release; local focused
+native test passed, broad WSL run was stopped without a complete result.
