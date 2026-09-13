@@ -15,7 +15,7 @@ prior-art reassessment and the sequence beyond this boundary.
 - Package version: <!--version-->0.34.0<!--/version-->.
 - Graph format: <!--graph-format-->8<!--/graph-format-->.
 - Kernel epoch: <!--kernel-epoch-->12<!--/kernel-epoch-->.
-- Test collection: <!--checks-->1742<!--/checks--> checks.
+- Test collection: <!--checks-->1757<!--/checks--> checks.
 
 Plain `pytest` is the conceptual full release gate. The ordinary edit loop is
 `pytest -m "not live and not replay and not exhaustive"`; deterministic frozen
@@ -37,6 +37,17 @@ WSL/Singular lanes so every collected test is accounted for without making
 backend availability implicit.
 
 ## Release sequence
+
+The post-v0.34 preservation-atlas work is recorded in
+[`docs/ATLAS-WORK.md`](docs/ATLAS-WORK.md), with a
+[`56-cell mapping`](docs/ATLAS-MAPPING-V0.md) and
+[`research program`](docs/PRESERVATION-ATLAS-PROGRAM.md).
+It corrects the certificate summary in `gp table`, adds Lean semantic laws and
+a 139-decision reach comparison, and changes no transport licence or epoch.
+This work has not been cut as a new release.
+The [certificate-interpreter continuation](docs/CERTIFICATE-INTERPRETER-V0.md)
+adds a syntactic derivation/evaluation proof, a concrete integer interpretation,
+an unordered counterexample, and composed-path tests using the same SOS fixture.
 
 The Match4 hardening remained a within-version diagnostic checkpoint until it
 was included alongside the completed authority-boundary work in v0.33.
