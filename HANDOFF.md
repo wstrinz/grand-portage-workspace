@@ -46,7 +46,7 @@ trusted and enabled; W9 proved that path in the actual author loop.
 Drop the hook and it is telemetry. Drop the MCP server and it is a linter
 nobody runs.
 
-**Version 0.34.0. <!--checks-->1766<!--/checks--> checks.** Treat
+**Version 0.34.0. <!--checks-->1789<!--/checks--> checks.** Treat
 every claim in the docs as provisional.
 
 **The v0.31.2 patch makes exact derived-identity receipts portable.** A
@@ -661,7 +661,7 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
 | run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1766<!--/checks--> checks, ~300 s on the current development machine) |
+| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1789<!--/checks--> checks, ~300 s on the current development machine) |
 
 ---
 
@@ -768,7 +768,7 @@ pin is a decision, not a sync.
 ## 4. State
 
 **Built and gated.** Kernel, store, checker, discharge, CAS boundary, MCP
-server, enforcement hook, verifier. <!--checks-->1766<!--/checks--> checks,
+server, enforcement hook, verifier. <!--checks-->1789<!--/checks--> checks,
 live against Singular 4.2.1 via WSL. Two domains of retrodiction (JC(2) and
 matroid realizability) against answer keys pinned before this code existed,
 reproducing 4+6 flags with zero false positives and 15 clean positive controls.
@@ -1779,3 +1779,85 @@ wording repairs, predicate charter policy + gp lint, MCP legacy table repair.
 No format/kernel epoch/verifier/binder semantics change. Full non-live 1706 pass;
 focused native replay and Lean/parity pass. Full native CI is required before
 release; broad local WSL run was stopped without a complete result.
+
+## 2026-09-13: released v0.35 and continued atlas research
+
+Public release: https://github.com/wstrinz/grandportage/releases/tag/v0.35.0
+Workspace release merge f7697056569f9763b99ed05739422d02ba0b8101; public merge
+eb26640d26d3a3e0bb82747540a9b911eabd4452. Both release PRs #2 merged with
+explicit authorization. Continuation is workspace PR #3, retargeted to master.
+
+The follow-up adds unit-cofactor interpretation, native composed graph routes,
+a bounded eight-cell requirement inventory, and cache-recovery review controls.
+The core stays Mathlib-free pending a separately pinned standard-field adapter.
+See docs/ATLAS-FOLLOWUP-V1.md for the conclusions and remaining proof boundaries.
+
+Foreign-domain selection: read match4/Cloquet README, AGENTS, receipt/verdict
+schemas, founding plan and packet in the sibling math-research checkout. Its
+operative objective is geometric closure, and a full census is explicitly
+outside the present campaign scope. It supplies a model/object custody example,
+not yet an independent non-polynomial census consumer. No campaign data, code,
+receipts or derived records were copied, modified or published. No campaign
+permissions were inferred from the authorization to release GP.
+
+## 2026-09-13: read-only four-judgment IR experiment
+
+Continued PR #3 under the supplied IR-v2 packet. D1 adds a cancellation
+interpreter and a Z/4 countermodel inside the same Laws class. Structural
+profiles form a poset: ordering implies nontriviality; no-zero-divisors is
+incomparable with both. The 48-cell inventory retains 3 proved, 24 refuted,
+and 21 unknown cells. D2 keeps observation vocabulary model-indexed.
+D3 supplies a small conditional Lean specification, with both name dictionaries
+checked in the aggregate. D4 projects every available repository graph fixture;
+see docs/IR-V2-PROJECTION-REPORT.md and review/ir-v2-projection/index.json.
+
+The packet stopping condition fires: 72/73 model contexts are incomplete.
+There is no epoch/format recommendation. The 21/21 PROFILE_FROM_TAG rows
+are declarations; the corpus retains no verdict receipts. Fifteen runtime-clean
+conclusions do not reconstruct complete proof trees. Source-data gaps and IR
+adapter gaps are separate. No new foreign campaign material was accessed.
+Version 0.35.0, format 8, epoch 12 and all runtime authority paths are unchanged.
+
+Validation: 1710 non-live tests passed, 61 live deselected; the focused new
+surface passed 10 tests. Lean build passed 36 jobs without sorry; both existing
+parity gates passed (139 reach rows and expression/receipt correspondence).
+The local native cancellation test was not verified: backend identity discovery
+timed out, including a fresh-process warmup. Linux witness CI includes the test.
+Next measurement requires representative retained format-8 campaign receipts,
+without semantic backfilling; no migration should be inferred from this corpus.
+
+## Read-model packet continuation (2026-09-13)
+
+Research branch atlas/evaluation-transport adds corpus intake, nonlocal IR nodes,
+gp explain with nine obligation statuses, one exact-value semantic-loss theorem,
+and the conditional field-target/profile discharge table. Fixture reports are
+regenerated; their compact index pins source/report LF-normalized hashes. Full
+non-live validation passed 1719 tests; Lean 39 jobs. Final manifest-hash test is
+rerun after regenerating the final index.
+
+The local ignored corpus/ bundle holds 389 verbatim .portage files from arr15,
+cfg23, match4. No original bytes were changed. Format5/7/7 blocks raw intake.
+User explicitly authorized Terra subagent backfill: corpus/derived contains
+native migration candidates and corpus/derived/replayed/cfg23 contains two
+fresh verifier-native extension-witness receipts from real retained-data replay.
+The original/migration/replay stages and hashes are separate; see local
+corpus/BACKFILL-REPORT.md and corpus/derived/backfill-status.json. These are not
+substituted for the missing complete verbatim A3 corpus. No campaign data is
+staged or published.
+
+Independent release/v0.36.0 worktree tmp/v036-repairs starts at f769705. Commit
+40da2f9 contains in-band version identity, mixed-trace refusal and read-surface
+repairs, including the MCP legacy table overlooked by prior CLI correction.
+Private release PR #4 is open. Full native Linux CI gates release; local focused
+native test passed, broad WSL run was stopped without a complete result.
+
+## v0.36 shipped; research continued
+
+Public release https://github.com/wstrinz/grandportage/releases/tag/v0.36.0
+Public merge efd0972293af92da29d21f614337b07ff6130a5e; workspace merge
+0d871913547fd971bd18a24cbe86acb55c10a1ea. Both PR #4 release candidates passed
+all CI, including all 60 native tests (259 seconds in the private run), and
+1706 non-live tests. The fresh wheel import passed. Wheel SHA256:
+1096c28ba8e295a064e9480dbea2ec05721e7c707f31f1e64fa972111dff828b.
+Research PR #3 was brought forward onto that release; gp lint and gp explain
+coexist and full native CI includes the research interpreter composition tests.
