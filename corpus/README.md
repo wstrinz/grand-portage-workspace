@@ -95,5 +95,17 @@ Historical coverage remains incomplete. [Review coverage](REVIEW-COVERAGE.json) 
 | [GP-X48](must/GP-X48.json) | REFUSE | AGREES | native_receipt_binding | A closure witness does not become a base-field witness |
 | [GP-X49](must/GP-X49.json) | REFUSE | AGREES | native_receipt_binding | Changing verifier version invalidates the receipt |
 | [GP-X50](must/GP-X50.json) | REFUSE | AGREES | native_receipt_binding | Rehashing a forged witness does not make it true |
+| [GP-X51](must/GP-X51.json) | ACCEPT | AGREES | conditional_rule | Provenance may be forgotten in the forward direction |
+| [GP-X52](must/GP-X52.json) | REFUSE | AGREES | conditional_rule | Forgetting provenance does not supply reverse realization |
+| [GP-X53](must/GP-X53.json) | REFUSE | UNSUPPORTED | legacy_expressiveness | Candidate codomain size is not lower-dimensional credit |
+| [GP-X54](must/GP-X54.json) | REFUSE | AGREES | historical_vocabulary_guard | A finite witness does not establish a formal arc |
+| [GP-X55](must/GP-X55.json) | REFUSE | AGREES | historical_vocabulary_guard | An initial-form solution does not establish an actual lift |
+| [GP-X56](must/GP-X56.json) | REFUSE | AGREES | conditional_rule | Rational-root exclusion does not cover characteristic-zero extensions |
+| [GP-X57](must/GP-X57.json) | REFUSE | AGREES | conditional_rule | Unit base values do not recover deleted displacements |
+| [GP-X58](must/GP-X58.json) | REFUSE | AGREES | conditional_rule | A truncated transfer slice is not the full tower |
+| [GP-X59](must/GP-X59.json) | REFUSE | AGREES | conditional_rule | A predicate on actual-source objects does not cover a relaxation |
+| [GP-X60](must/GP-X60.json) | ACCEPT | AGREES | historical_metadata_audit | Conditional theorem metadata retains all three premises |
+| [GP-X61](must/GP-X61.json) | REFUSE | AGREES | historical_metadata_audit | Dropping the remainder-bound premise is refused |
+| [GP-X62](must/GP-X62.json) | REFUSE | AGREES | historical_metadata_audit | A theorem receipt cannot be rebound to another target |
 
-Observations remain layer-specific. Conditional transport routes assume their preconditions. Historical metadata audits preserve report boundaries and are not mathematical theorem replay. Native receipt controls check both exact witness replay and current graph authority. Raw results and immutable runs are under reports/.
+Observations remain layer-specific. Conditional rules assume their prerequisites. Historical metadata audits are not mathematical theorem replay. UNSUPPORTED means the old vocabulary cannot express the claim; it is not counted as an observed mathematical refusal. Raw results and immutable runs are under reports/.

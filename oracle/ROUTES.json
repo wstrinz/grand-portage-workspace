@@ -660,6 +660,118 @@
       "action": "tamper_coordinate",
       "layer": "native_receipt_binding",
       "limitation": "Pinned native exact witness replay plus graph-fold currentness. No fabricated backend trace; these are minimal binding controls, not a replay of the deleted p-axis fixture."
+    },
+    "GP-X51": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "NECESSARY_CONDITION",
+        "direction": "ALONG",
+        "kind": "NONEMPTY",
+        "scope": "characteristic zero"
+      },
+      "limitation": "Direct pinned-kernel table observation with relation prerequisites assumed. The historical ledger expected-verdict comparison is not consulted; no declaration or theorem name is treated as a warrant."
+    },
+    "GP-X52": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "NECESSARY_CONDITION",
+        "direction": "AGAINST",
+        "kind": "NONEMPTY",
+        "scope": "characteristic zero"
+      },
+      "limitation": "Direct pinned-kernel table observation with relation prerequisites assumed. The historical ledger expected-verdict comparison is not consulted; no declaration or theorem name is treated as a warrant."
+    },
+    "GP-X53": {
+      "kind": "formalization_ledger",
+      "action": "assay",
+      "assay": "JC.ASSAY.B.CODOMAIN_CREDIT",
+      "layer": "legacy_expressiveness",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Historical ledger vocabulary outcome, not replay of a native theorem or a new held claim. An INEXPRESSIBLE result is recorded as UNSUPPORTED, not counted as a mathematical refusal."
+    },
+    "GP-X54": {
+      "kind": "formalization_ledger",
+      "action": "assay",
+      "assay": "JC.ASSAY.C.FINITE_TO_FORMAL",
+      "layer": "historical_vocabulary_guard",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Historical ledger vocabulary outcome, not replay of a native theorem or a new held claim. An INEXPRESSIBLE result is recorded as UNSUPPORTED, not counted as a mathematical refusal."
+    },
+    "GP-X55": {
+      "kind": "formalization_ledger",
+      "action": "assay",
+      "assay": "JC.ASSAY.D.INITIAL_TO_ACTUAL",
+      "layer": "historical_vocabulary_guard",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Historical ledger vocabulary outcome, not replay of a native theorem or a new held claim. An INEXPRESSIBLE result is recorded as UNSUPPORTED, not counted as a mathematical refusal."
+    },
+    "GP-X56": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "BASE_EXTENSION",
+        "direction": "ALONG",
+        "kind": "EMPTY",
+        "scope": "QQ"
+      },
+      "limitation": "Direct pinned-kernel table observation with relation prerequisites assumed. The historical ledger expected-verdict comparison is not consulted; no declaration or theorem name is treated as a warrant."
+    },
+    "GP-X57": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "IMAGE_CLOSURE",
+        "direction": "AGAINST",
+        "kind": "NONEMPTY",
+        "scope": "QQ",
+        "map_kind": "POLYNOMIAL"
+      },
+      "limitation": "Direct pinned-kernel table observation with relation prerequisites assumed. The historical ledger expected-verdict comparison is not consulted; no declaration or theorem name is treated as a warrant."
+    },
+    "GP-X58": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "NECESSARY_CONDITION",
+        "direction": "AGAINST",
+        "kind": "NONEMPTY",
+        "scope": "QQ"
+      },
+      "limitation": "Direct pinned-kernel table observation with relation prerequisites assumed. The historical ledger expected-verdict comparison is not consulted; no declaration or theorem name is treated as a warrant."
+    },
+    "GP-X59": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "NECESSARY_CONDITION",
+        "direction": "ALONG",
+        "kind": "PREDICATE",
+        "scope": "characteristic zero"
+      },
+      "limitation": "Direct pinned-kernel table observation with relation prerequisites assumed. The historical ledger expected-verdict comparison is not consulted; no declaration or theorem name is treated as a warrant."
+    },
+    "GP-X60": {
+      "kind": "formalization_ledger",
+      "action": "retain",
+      "layer": "historical_metadata_audit",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Calls only the historical endpoint/premise normalizer, before any expected-verdict comparison. Acceptance preserves conditional metadata; it does not discharge premises or mint mathematical authority."
+    },
+    "GP-X61": {
+      "kind": "formalization_ledger",
+      "action": "omit_premise",
+      "layer": "historical_metadata_audit",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Calls only the historical endpoint/premise normalizer, before any expected-verdict comparison. Acceptance preserves conditional metadata; it does not discharge premises or mint mathematical authority."
+    },
+    "GP-X62": {
+      "kind": "formalization_ledger",
+      "action": "rebind_target",
+      "layer": "historical_metadata_audit",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Calls only the historical endpoint/premise normalizer, before any expected-verdict comparison. Acceptance preserves conditional metadata; it does not discharge premises or mint mathematical authority."
     }
   }
 }

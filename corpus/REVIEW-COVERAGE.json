@@ -72,7 +72,7 @@
     },
     {
       "path": "tests/test_jc_formalization_transport.py",
-      "status": "read_extraction_partial",
+      "status": "bounded_extraction_with_expressiveness_and_external_binding_gaps",
       "review": "corpus/history/DELETED-TEST-REVIEW.json",
       "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
@@ -184,16 +184,23 @@
     }
   ],
   "next_pass": [
-    "Finish formalization-ledger and p-axis extraction, preserving conditional versus held authority distinctions.",
-    "Review the 26 unread deleted test paths and remaining current-tree tests, documentation, theory ledger and fixtures.",
-    "Two historical seam companion-binding checks remain unrun; no campaign source access is implied by the GP snapshot.",
-    "A24 remains pending an authorized source model; campaign harvesting awaits the completed source manifest."
+    "Finish the deleted p-axis fixture and source/chart binding cases; review the other 26 unread deleted test files.",
+    "Review remaining current-tree tests, documentation, theory ledger and fixtures; corpus coverage remains incomplete.",
+    "Resolve the recorded legacy dimension-credit expressiveness gap in profile planning without treating unsupported as refused.",
+    "Four companion-binding checks across the two recovered historical test files remain unrun.",
+    "A24 needs the actual collapsed-placement source model; campaign harvesting awaits the completed source manifest."
   ],
   "historical_replay": {
     "manifest": "oracle/history/PIN.json",
     "commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
-    "files": 4,
-    "bytes": 114467,
-    "authority": "Historical conditional metadata audit only; does not independently replay the native mathematical derivation."
-  }
+    "files": 7,
+    "bytes": 165158,
+    "authority": "Historical metadata/vocabulary observations, with direct conditional transport rules separated. Native mathematical theorems have not been replayed."
+  },
+  "unsupported_cases": [
+    {
+      "id": "GP-X53",
+      "reason": "current GP has no dimension/rank-credit claim kind"
+    }
+  ]
 }

@@ -3,7 +3,7 @@
   "pinned_descendant": "ac4155787207e2847d248cffed7be871d5dcd577",
   "deletion_commit": "2cac30114573f7b6923c43d86fb22679c4dbedfb",
   "reviewed_revision": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
-  "notice": "GP historical sources only. The original-pair seam adapter and its frozen GP fixtures were recovered verbatim and eight self-contained historical tests ran on the pinned v0.37 runtime. Companion-campaign checks remain unrun. Other historical test files remain read-only reviews; analogues do not imply fixture equivalence.",
+  "notice": "GP historical sources only. The seam and formalization-ledger adapters use verbatim frozen GP inputs on the pinned v0.37 runtime. Companion-campaign bindings remain unrun. Transport-rule, metadata, unsupported, and regression-label observations are distinguished; no native theorem replay or fixture equivalence is inferred.",
   "sources": [
     {
       "path": "tests/test_jc_original_pair_seam.py",
@@ -135,107 +135,167 @@
       "git_blob": "695f338aca8df43ab95646ec293d2f02217f0dd7",
       "sha256": "e3d40c450112b9eabbda61ec47a6e42b3152185605dafe85eb52c0783271d2f8",
       "read_status": "complete_text_read",
-      "extraction_status": "partial",
+      "extraction_status": "bounded_extraction_with_expressiveness_and_external_binding_gaps",
       "tests": [
         {
           "test": "test_current_ledger_is_derived_and_exercises_every_adversarial_case",
           "line": 30,
-          "status": "extraction_pending",
-          "existing_analogues": []
+          "status": "extracted_with_layer_limits",
+          "existing_analogues": [],
+          "cases": [
+            "GP-X51",
+            "GP-X52",
+            "GP-X53",
+            "GP-X54",
+            "GP-X55",
+            "GP-X56",
+            "GP-X57",
+            "GP-X58",
+            "GP-X59"
+          ],
+          "regression": "passed"
         },
         {
           "test": "test_actual_provenance_forgets_forward_but_cannot_be_recovered",
           "line": 52,
-          "status": "extraction_pending",
-          "existing_analogues": []
+          "status": "extracted_with_layer_limits",
+          "existing_analogues": [],
+          "cases": [
+            "GP-X51",
+            "GP-X52",
+            "GP-X59"
+          ],
+          "regression": "passed"
         },
         {
           "test": "test_degree_five_credit_is_visible_as_a_real_expressibility_gap",
           "line": 61,
-          "status": "extraction_pending",
-          "existing_analogues": []
+          "status": "extracted_oracle_unsupported",
+          "existing_analogues": [],
+          "cases": [
+            "GP-X53"
+          ],
+          "regression": "passed"
         },
         {
           "test": "test_non_affine_lifts_and_slice_reversal_fail_closed",
           "line": 70,
-          "status": "extraction_pending",
-          "existing_analogues": []
+          "status": "extracted_with_layer_limits",
+          "existing_analogues": [],
+          "cases": [
+            "GP-X54",
+            "GP-X55",
+            "GP-X57",
+            "GP-X58"
+          ],
+          "regression": "passed"
         },
         {
           "test": "test_untyped_edge_remains_an_honest_refusal_not_a_transport_license",
           "line": 83,
-          "status": "extraction_pending",
-          "existing_analogues": []
+          "status": "vocabulary_guard_variant_regression_only",
+          "existing_analogues": [
+            "GP-X54"
+          ],
+          "regression": "passed"
         },
         {
           "test": "test_block_one_binding_retains_every_formal_premise",
           "line": 96,
-          "status": "partial_analogue_only",
+          "status": "extracted_with_layer_limits",
           "existing_analogues": [
             "GP-A18",
             "GP-A25b"
-          ]
+          ],
+          "cases": [
+            "GP-X60"
+          ],
+          "regression": "passed"
         },
         {
           "test": "test_omitting_a_formal_premise_is_refused",
           "line": 111,
-          "status": "extraction_pending",
-          "existing_analogues": []
+          "status": "extracted_with_layer_limits",
+          "existing_analogues": [],
+          "cases": [
+            "GP-X61"
+          ],
+          "regression": "passed"
         },
         {
           "test": "test_authority_cannot_be_rebound_to_different_semantic_endpoints",
           "line": 121,
-          "status": "partial_analogue_only",
+          "status": "extracted_with_layer_limits",
           "existing_analogues": [
             "GP-A18",
             "GP-A25b"
-          ]
+          ],
+          "cases": [
+            "GP-X62"
+          ],
+          "regression": "passed"
         },
         {
           "test": "test_retyping_forgetting_as_equivalence_exposes_the_reverse_widening",
           "line": 131,
-          "status": "extraction_pending",
-          "existing_analogues": []
+          "status": "diagnostic_expected_answer_mismatch_only",
+          "existing_analogues": [],
+          "regression": "passed",
+          "audit": "reports/FORMALIZATION-LABEL-AUDIT.json"
         },
         {
           "test": "test_field_relative_obstruction_cannot_be_relabelled_scheme_scoped",
           "line": 141,
-          "status": "partial_analogue_only",
+          "status": "diagnostic_expected_answer_mismatch_only",
           "existing_analogues": [
             "GP-A01"
-          ]
+          ],
+          "regression": "passed",
+          "audit": "reports/FORMALIZATION-LABEL-AUDIT.json"
         },
         {
           "test": "test_lossy_edges_must_name_their_information_loss",
           "line": 151,
-          "status": "extraction_pending",
-          "existing_analogues": []
+          "status": "metadata_description_contract_not_mathematical_authority",
+          "existing_analogues": [],
+          "regression": "passed"
         },
         {
           "test": "test_live_jc_commit_sources_and_declarations_are_bound",
           "line": 161,
-          "status": "partial_analogue_only",
+          "status": "companion_binding_check_not_run",
           "existing_analogues": [
             "GP-A18",
             "GP-A25b"
-          ]
+          ],
+          "regression": "deselected"
         },
         {
           "test": "test_declaration_and_digest_drift_are_refused_before_use",
           "line": 172,
-          "status": "partial_analogue_only",
+          "status": "companion_binding_check_not_run",
           "existing_analogues": [
             "GP-A18",
             "GP-A25b"
-          ]
+          ],
+          "regression": "deselected"
         },
         {
           "test": "test_output_is_deterministic_and_input_order_independent",
           "line": 191,
-          "status": "extraction_pending",
-          "existing_analogues": []
+          "status": "derived_surface_consistency_not_kernel_fold_evidence",
+          "existing_analogues": [],
+          "regression": "passed"
         }
-      ]
+      ],
+      "execution": {
+        "runtime_commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+        "adapter_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+        "passed": 12,
+        "deselected_companion_checks": 2,
+        "report": "reports/oracle-batch5-tests.xml",
+        "label_audit": "reports/FORMALIZATION-LABEL-AUDIT.json"
+      }
     },
     {
       "path": "tests/test_jc_p_axis_authority.py",

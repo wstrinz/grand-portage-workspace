@@ -487,6 +487,44 @@ def probe(case, route):
         return decision(bool(raw["current"]) and active,raw.get("stale_reason","native receipt current"),
                         baseline_current=True,receipt_current=raw["current"],active_witness=active)
 
+    if kind == "formalization_ledger":
+        import copy, importlib.util
+        historical = json.loads((ROOT/"oracle/history/PIN.json").read_text(encoding="utf-8"))
+        if route["historical_commit"] != historical["commit"]:
+            raise ValueError("Wrong formalization-ledger revision")
+        path = ROOT/"oracle/history/checkout/experiments/jc_formalization_transport/adapter.py"
+        spec = importlib.util.spec_from_file_location("historical_formalization_probe",path)
+        adapter = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(adapter)
+        fixture = json.loads(adapter.DEFAULT_FIXTURE.read_text(encoding="utf-8"))
+        edges = {e["id"]:e for e in fixture["edges"]}
+        action = route["action"]
+        if action == "assay":
+            assay = next(a for a in fixture["assays"] if a["id"] == route["assay"])
+            actual = adapter._run_assay(assay,edges)
+            if actual["actual_verdict"] == adapter.INEXPRESSIBLE:
+                return {"observed_verdict":None,"status":"UNSUPPORTED",
+                        "reason":actual["reason"],"raw_verdict":actual["actual_verdict"]}
+            return decision(actual["actual_verdict"] == adapter.LICENSED,actual["reason"],
+                            raw_verdict=actual["actual_verdict"],graph_effect=adapter.GRAPH_EFFECT)
+        edge = copy.deepcopy(edges["JC.EDGE.SLICE_TO_BLOCK_ONE_ZERO"])
+        authorities = {a["id"]:copy.deepcopy(a) for a in fixture["authorities"]}
+        if action == "omit_premise":
+            edge["premise_ids"].remove("JC.PREM.ORDER_EIGHT_BOUNDED")
+        elif action == "rebind_target":
+            authorities[edge["authority_id"]]["target_object_id"] = "JC.SEM.RELAXED_SUMMIT_POINT"
+        elif action != "retain":
+            raise ValueError("Unknown formalization-ledger action")
+        try:
+            normalized = adapter._normalize_edge(edge,{o["id"] for o in fixture["objects"]},
+                authorities,{p["id"] for p in fixture["premises"]})
+        except adapter.FormalizationLedgerError as exc:
+            if not str(exc).startswith(("EDG6:","EDG7:")):
+                raise
+            return decision(False,exc,graph_effect=adapter.GRAPH_EFFECT)
+        return decision(True,"The theorem endpoints and all conditional premises remain bound.",
+                        premise_ids=normalized["premise_ids"],graph_effect=adapter.GRAPH_EFFECT)
+
     raise ValueError("Unknown oracle route: "+kind)
 
 def main():

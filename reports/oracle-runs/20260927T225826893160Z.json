@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "timestamp_utc": "20260927T230038467746Z",
+  "timestamp_utc": "20260927T225826893160Z",
   "oracle_commit": "ac4155787207e2847d248cffed7be871d5dcd577",
   "oracle_path": "F:\\repos\\grandportage-0.50\\oracle\\checkout",
   "runner_sha256": "82307b70bb489848b0c6f8434c72a754a5eb5b708b7c5a5fb127f8edc8d92987",
@@ -1871,7 +1871,7 @@
     },
     {
       "id": "GP-X51",
-      "case_sha256": "d4a55ba66e5804d91ffdac48b86a4e16782d8998a9daee657a8ca1c96d003f3f",
+      "case_sha256": "04d8ea13bf95d0f5877fb7d5613bb6c72eec4ec5274dc3a40fe905a184e7fbe1",
       "expected": "ACCEPT",
       "layer": "conditional_rule",
       "route": "transport",
@@ -1885,7 +1885,7 @@
     },
     {
       "id": "GP-X52",
-      "case_sha256": "3bc15113af291c4fbcb136c95fded4a212e92d3c3896e05da6bda23938b54d79",
+      "case_sha256": "51fe7fc0a3f9e471c8c263f0cb6be955a393d9e33f1297145e0d14c007c63793",
       "expected": "REFUSE",
       "layer": "conditional_rule",
       "route": "transport",
@@ -1899,7 +1899,7 @@
     },
     {
       "id": "GP-X53",
-      "case_sha256": "f30144b4b168bcb6125b7342cbb2284c9c5d59ec33be04165736d1607cedf57b",
+      "case_sha256": "d51361a13ee59a40101ce70e91fbcd2e9e3005ac876c223ab284b4bad591e755",
       "expected": "REFUSE",
       "layer": "legacy_expressiveness",
       "route": "formalization_ledger",
@@ -1912,7 +1912,7 @@
     },
     {
       "id": "GP-X54",
-      "case_sha256": "41cca97683b07c33d0bf31eaa9a2d83999adfa6a8c621b5d0c4e7a3c58428816",
+      "case_sha256": "3974106e15a91139a8d5191d262419a22fb16040dbb18f5cb7034aa41e003723",
       "expected": "REFUSE",
       "layer": "historical_vocabulary_guard",
       "route": "formalization_ledger",
@@ -1926,7 +1926,7 @@
     },
     {
       "id": "GP-X55",
-      "case_sha256": "4125c43a4262d73909a663f0a6930cf80ae64f42e41943d2cee056eeea3c55bd",
+      "case_sha256": "444cb588662aa42f334c46dbe2985995de24755a9164a3dcb9fb68db9ea3bf1a",
       "expected": "REFUSE",
       "layer": "historical_vocabulary_guard",
       "route": "formalization_ledger",
@@ -1940,7 +1940,7 @@
     },
     {
       "id": "GP-X56",
-      "case_sha256": "70759a834159d957bc2eb284c720aa28067b488ce83dd6ce8f2cc1349341f253",
+      "case_sha256": "e7fc94657174609a012795b2c5f5b6d05b0b3aff8e3579c72d6582fa02404ad4",
       "expected": "REFUSE",
       "layer": "conditional_rule",
       "route": "transport",
@@ -1954,7 +1954,7 @@
     },
     {
       "id": "GP-X57",
-      "case_sha256": "5e8e80be1171c0921058f1d9521fde509eecec170d59e76b7f95f730c579d258",
+      "case_sha256": "7bd2fc6d56f19a747c9d512c6f5e39697e0380d51341ae958681c97e69aff6f5",
       "expected": "REFUSE",
       "layer": "conditional_rule",
       "route": "transport",
@@ -1968,7 +1968,7 @@
     },
     {
       "id": "GP-X58",
-      "case_sha256": "f3e7db5e9a1d9a79a4abe1cb9fbfe045736fbcabf4aa04d2a318425a5ecc3d30",
+      "case_sha256": "04fd621e102f243b5236545f16f2d274892c385dd94e6d1c03ea8c8e996a5543",
       "expected": "REFUSE",
       "layer": "conditional_rule",
       "route": "transport",
@@ -1982,7 +1982,7 @@
     },
     {
       "id": "GP-X59",
-      "case_sha256": "867bdb80920f5c721659e5ca3228176ecbb35666c231799d3c2fcfacac321282",
+      "case_sha256": "e5211306524b95adcaeb052a475ad9110090b2bc915f14632dbb42d34bdc70da",
       "expected": "REFUSE",
       "layer": "conditional_rule",
       "route": "transport",

@@ -28,6 +28,24 @@
       "sha256": "c06f5e34f37bd662d14f6d6ca772c02cbaa61dc74153bafbde64f2af03ebcf43",
       "git_blob": "45ed631edb3f5a1bbbc834ee1e5e4837cbfb6710",
       "bytes": 5243
+    },
+    {
+      "path": "experiments/jc_formalization_transport/adapter.py",
+      "sha256": "e32881e924394172b5eb6de508cd504a44699a6fd57e55be6a96d8ea812cd057",
+      "git_blob": "c7e45ce7c58037a36b96ef49522650af26d3e23b",
+      "bytes": 19115
+    },
+    {
+      "path": "fixtures/jc_formalization_transport/v0.json",
+      "sha256": "1495bf7021c9a4199bd412ab20c1c5dfbe2bef27d239ef32611eacb0affe768e",
+      "git_blob": "b30b091757c2a230ade1222ccdaadc2540832e35",
+      "bytes": 24721
+    },
+    {
+      "path": "tests/test_jc_formalization_transport.py",
+      "sha256": "e3d40c450112b9eabbda61ec47a6e42b3152185605dafe85eb52c0783271d2f8",
+      "git_blob": "695f338aca8df43ab95646ec293d2f02217f0dd7",
+      "bytes": 6855
     }
   ]
 }
