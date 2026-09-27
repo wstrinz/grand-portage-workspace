@@ -3,7 +3,7 @@
   "pinned_descendant": "ac4155787207e2847d248cffed7be871d5dcd577",
   "deletion_commit": "2cac30114573f7b6923c43d86fb22679c4dbedfb",
   "reviewed_revision": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
-  "notice": "GP historical test sources only. No companion-campaign files were read, adapters imported, or historical tests executed. Analogues are partial coverage, not equivalence of mathematical fixtures. Every remaining extraction obligation stays explicit.",
+  "notice": "GP historical sources only. The original-pair seam adapter and its frozen GP fixtures were recovered verbatim and eight self-contained historical tests ran on the pinned v0.37 runtime. Companion-campaign checks remain unrun. Other historical test files remain read-only reviews; analogues do not imply fixture equivalence.",
   "sources": [
     {
       "path": "tests/test_jc_original_pair_seam.py",
@@ -11,80 +11,123 @@
       "git_blob": "45ed631edb3f5a1bbbc834ee1e5e4837cbfb6710",
       "sha256": "c06f5e34f37bd662d14f6d6ca772c02cbaa61dc74153bafbde64f2af03ebcf43",
       "read_status": "complete_text_read",
-      "extraction_status": "partial",
+      "extraction_status": "self_contained_metadata_checks_extracted_external_bindings_pending",
       "tests": [
         {
           "test": "test_conditional_seam_welds_native_rows_without_graph_authority",
           "line": 45,
-          "status": "extraction_pending",
-          "existing_analogues": []
+          "status": "extracted_historical_metadata_audit",
+          "existing_analogues": [],
+          "cases": [
+            "GP-X35",
+            "GP-X43"
+          ],
+          "regression": "passed"
         },
         {
           "test": "test_current_native_seam_files_and_all_transitive_bindings_match",
           "line": 62,
-          "status": "partial_analogue_only",
+          "status": "companion_binding_check_not_run",
           "existing_analogues": [
             "GP-A18",
             "GP-A25b"
-          ]
+          ],
+          "regression": "deselected"
         },
         {
           "test": "test_frozen_projection_rebuilds_from_the_landed_native_manifest",
           "line": 68,
-          "status": "extraction_pending",
-          "existing_analogues": []
+          "status": "companion_binding_check_not_run",
+          "existing_analogues": [],
+          "regression": "deselected"
         },
         {
           "test": "test_promoting_the_missing_source_map_is_rejected",
           "line": 73,
-          "status": "extraction_pending",
-          "existing_analogues": []
+          "status": "extracted_historical_metadata_audit",
+          "existing_analogues": [],
+          "cases": [
+            "GP-X37"
+          ],
+          "regression": "passed"
         },
         {
           "test": "test_claiming_an_exact_serialized_pair_is_rejected",
           "line": 85,
-          "status": "extraction_pending",
-          "existing_analogues": []
+          "status": "extracted_historical_metadata_audit",
+          "existing_analogues": [],
+          "cases": [
+            "GP-X38"
+          ],
+          "regression": "passed"
         },
         {
           "test": "test_promoting_strict_original_source_authority_is_rejected",
           "line": 96,
-          "status": "extraction_pending",
-          "existing_analogues": []
+          "status": "extracted_historical_metadata_audit",
+          "existing_analogues": [],
+          "cases": [
+            "GP-X36"
+          ],
+          "regression": "passed"
         },
         {
           "test": "test_changed_native_row_commitment_breaks_the_gp_weld",
           "line": 107,
-          "status": "partial_analogue_only",
+          "status": "extracted_historical_metadata_audit",
           "existing_analogues": [
             "GP-A18",
             "GP-A25b"
-          ]
+          ],
+          "cases": [
+            "GP-X40"
+          ],
+          "regression": "passed"
         },
         {
           "test": "test_moving_the_t_pin_into_row_derivation_is_rejected",
           "line": 118,
-          "status": "extraction_pending",
-          "existing_analogues": []
+          "status": "extracted_historical_metadata_audit",
+          "existing_analogues": [],
+          "cases": [
+            "GP-X39"
+          ],
+          "regression": "passed"
         },
         {
           "test": "test_dropping_an_authority_refusal_is_rejected",
           "line": 130,
-          "status": "partial_analogue_only",
+          "status": "extracted_historical_metadata_audit",
           "existing_analogues": [
             "GP-A26"
-          ]
+          ],
+          "cases": [
+            "GP-X41"
+          ],
+          "regression": "passed"
         },
         {
           "test": "test_changing_the_native_commit_binding_is_rejected",
           "line": 141,
-          "status": "partial_analogue_only",
+          "status": "extracted_historical_metadata_audit",
           "existing_analogues": [
             "GP-A18",
             "GP-A25b"
-          ]
+          ],
+          "cases": [
+            "GP-X42"
+          ],
+          "regression": "passed"
         }
-      ]
+      ],
+      "execution": {
+        "runtime_commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+        "adapter_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+        "passed": 8,
+        "deselected_companion_checks": 2,
+        "report": "reports/oracle-batch4-historical-tests.xml",
+        "snapshot_manifest": "oracle/history/PIN.json"
+      }
     },
     {
       "path": "tests/test_jc_formalization_transport.py",
@@ -244,7 +287,8 @@
           "line": 154,
           "status": "partial_analogue_only",
           "existing_analogues": [
-            "GP-X17"
+            "GP-X17",
+            "GP-A23"
           ]
         },
         {
@@ -261,7 +305,8 @@
           "status": "partial_analogue_only",
           "existing_analogues": [
             "GP-A18",
-            "GP-A25b"
+            "GP-X46",
+            "GP-X47"
           ]
         },
         {
@@ -269,9 +314,9 @@
           "line": 206,
           "status": "partial_analogue_only",
           "existing_analogues": [
-            "GP-A18",
-            "GP-A25b"
-          ]
+            "GP-X48"
+          ],
+          "remaining": "Point-universe freshness has a native witness projection. Source digest/chart mutations and the actual p-axis fixture remain to be extracted."
         },
         {
           "test": "test_verifier_input_fingerprint_contains_the_frozen_source_digest",

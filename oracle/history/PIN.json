@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+  "pinned_descendant": "ac4155787207e2847d248cffed7be871d5dcd577",
+  "source_repository": "C:/Users/wstri/dev/grand-portage",
+  "mode": "Verbatim historical GP oracle inputs only; not rework implementation or a companion-campaign harvest.",
+  "files": [
+    {
+      "path": "experiments/jc_h3_source_depth6/original_pair_seam_adapter.py",
+      "sha256": "362593290e6340f2318134e94d5ea021613527f74ffd0838c8541a57a48bb0e9",
+      "git_blob": "5bb5faed08062d97027cfa27fa288b5088b2bae0",
+      "bytes": 14694
+    },
+    {
+      "path": "fixtures/jc_source_depth6/original_pair_to_esystem_v1.json",
+      "sha256": "970515c9548833ee253a64302b8aa5950849ad8cd54fa0bc375d22770156934a",
+      "git_blob": "736ca7a55207f57b01f8ff66c67902d7e76d20c1",
+      "bytes": 9547
+    },
+    {
+      "path": "fixtures/jc_source_depth6/graded_face_extraction_v1.json",
+      "sha256": "6c8887034321884b6bb0aa7cd8cf04d90e472a36f4a6ba4035a53e7eda1aa8a1",
+      "git_blob": "a8e965d601e4d4546134f558387412cfc67ab906",
+      "bytes": 84983
+    },
+    {
+      "path": "tests/test_jc_original_pair_seam.py",
+      "sha256": "c06f5e34f37bd662d14f6d6ca772c02cbaa61dc74153bafbde64f2af03ebcf43",
+      "git_blob": "45ed631edb3f5a1bbbc834ee1e5e4837cbfb6710",
+      "bytes": 5243
+    }
+  ]
+}

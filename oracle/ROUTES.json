@@ -554,6 +554,112 @@
       "kind": "coefficient_expansion",
       "layer": "exact_replay",
       "limitation": "Translation validation only; no graph, elimination, point-surjectivity or original-source authority."
+    },
+    "GP-X35": {
+      "kind": "historical_seam",
+      "layer": "historical_metadata_audit",
+      "action": "conditional",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Verbatim pre-extraction GP adapter on the pinned v0.37 runtime. Checks frozen bindings and conditional-report boundaries, not the native mathematical derivation or a new held claim. Semantic mutations intentionally enter the inner validator so an outer file hash cannot mask the premise check; revision mutation mirrors the historical test by repinning only its outer fixture hash."
+    },
+    "GP-X36": {
+      "kind": "historical_seam",
+      "layer": "historical_metadata_audit",
+      "action": "strict_authority",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Verbatim pre-extraction GP adapter on the pinned v0.37 runtime. Checks frozen bindings and conditional-report boundaries, not the native mathematical derivation or a new held claim. Semantic mutations intentionally enter the inner validator so an outer file hash cannot mask the premise check; revision mutation mirrors the historical test by repinning only its outer fixture hash."
+    },
+    "GP-X37": {
+      "kind": "historical_seam",
+      "layer": "historical_metadata_audit",
+      "action": "source_map",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Verbatim pre-extraction GP adapter on the pinned v0.37 runtime. Checks frozen bindings and conditional-report boundaries, not the native mathematical derivation or a new held claim. Semantic mutations intentionally enter the inner validator so an outer file hash cannot mask the premise check; revision mutation mirrors the historical test by repinning only its outer fixture hash."
+    },
+    "GP-X38": {
+      "kind": "historical_seam",
+      "layer": "historical_metadata_audit",
+      "action": "serialized_pair",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Verbatim pre-extraction GP adapter on the pinned v0.37 runtime. Checks frozen bindings and conditional-report boundaries, not the native mathematical derivation or a new held claim. Semantic mutations intentionally enter the inner validator so an outer file hash cannot mask the premise check; revision mutation mirrors the historical test by repinning only its outer fixture hash."
+    },
+    "GP-X39": {
+      "kind": "historical_seam",
+      "layer": "historical_metadata_audit",
+      "action": "downstream_pin",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Verbatim pre-extraction GP adapter on the pinned v0.37 runtime. Checks frozen bindings and conditional-report boundaries, not the native mathematical derivation or a new held claim. Semantic mutations intentionally enter the inner validator so an outer file hash cannot mask the premise check; revision mutation mirrors the historical test by repinning only its outer fixture hash."
+    },
+    "GP-X40": {
+      "kind": "historical_seam",
+      "layer": "historical_metadata_audit",
+      "action": "row_digest",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Verbatim pre-extraction GP adapter on the pinned v0.37 runtime. Checks frozen bindings and conditional-report boundaries, not the native mathematical derivation or a new held claim. Semantic mutations intentionally enter the inner validator so an outer file hash cannot mask the premise check; revision mutation mirrors the historical test by repinning only its outer fixture hash."
+    },
+    "GP-X41": {
+      "kind": "historical_seam",
+      "layer": "historical_metadata_audit",
+      "action": "drop_refusal",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Verbatim pre-extraction GP adapter on the pinned v0.37 runtime. Checks frozen bindings and conditional-report boundaries, not the native mathematical derivation or a new held claim. Semantic mutations intentionally enter the inner validator so an outer file hash cannot mask the premise check; revision mutation mirrors the historical test by repinning only its outer fixture hash."
+    },
+    "GP-X42": {
+      "kind": "historical_seam",
+      "layer": "historical_metadata_audit",
+      "action": "native_commit",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Verbatim pre-extraction GP adapter on the pinned v0.37 runtime. Checks frozen bindings and conditional-report boundaries, not the native mathematical derivation or a new held claim. Semantic mutations intentionally enter the inner validator so an outer file hash cannot mask the premise check; revision mutation mirrors the historical test by repinning only its outer fixture hash."
+    },
+    "GP-X43": {
+      "kind": "historical_seam",
+      "layer": "historical_metadata_audit",
+      "action": "source_authority",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Verbatim pre-extraction GP adapter on the pinned v0.37 runtime. Checks frozen bindings and conditional-report boundaries, not the native mathematical derivation or a new held claim. Semantic mutations intentionally enter the inner validator so an outer file hash cannot mask the premise check; revision mutation mirrors the historical test by repinning only its outer fixture hash."
+    },
+    "GP-X44": {
+      "kind": "historical_seam",
+      "layer": "historical_metadata_audit",
+      "action": "outer_digest",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Verbatim pre-extraction GP adapter on the pinned v0.37 runtime. Checks frozen bindings and conditional-report boundaries, not the native mathematical derivation or a new held claim. Semantic mutations intentionally enter the inner validator so an outer file hash cannot mask the premise check; revision mutation mirrors the historical test by repinning only its outer fixture hash."
+    },
+    "GP-X45": {
+      "kind": "native_witness_binding",
+      "action": "unchanged",
+      "layer": "native_receipt_binding",
+      "limitation": "Pinned native exact witness replay plus graph-fold currentness. No fabricated backend trace; these are minimal binding controls, not a replay of the deleted p-axis fixture."
+    },
+    "GP-X46": {
+      "kind": "native_witness_binding",
+      "action": "model",
+      "layer": "native_receipt_binding",
+      "limitation": "Pinned native exact witness replay plus graph-fold currentness. No fabricated backend trace; these are minimal binding controls, not a replay of the deleted p-axis fixture."
+    },
+    "GP-X47": {
+      "kind": "native_witness_binding",
+      "action": "model",
+      "layer": "native_receipt_binding",
+      "limitation": "Pinned native exact witness replay plus graph-fold currentness. No fabricated backend trace; these are minimal binding controls, not a replay of the deleted p-axis fixture."
+    },
+    "GP-X48": {
+      "kind": "native_witness_binding",
+      "action": "model",
+      "layer": "native_receipt_binding",
+      "limitation": "Pinned native exact witness replay plus graph-fold currentness. No fabricated backend trace; these are minimal binding controls, not a replay of the deleted p-axis fixture."
+    },
+    "GP-X49": {
+      "kind": "native_witness_binding",
+      "action": "verifier_version",
+      "layer": "native_receipt_binding",
+      "limitation": "Pinned native exact witness replay plus graph-fold currentness. No fabricated backend trace; these are minimal binding controls, not a replay of the deleted p-axis fixture."
+    },
+    "GP-X50": {
+      "kind": "native_witness_binding",
+      "action": "tamper_coordinate",
+      "layer": "native_receipt_binding",
+      "limitation": "Pinned native exact witness replay plus graph-fold currentness. No fabricated backend trace; these are minimal binding controls, not a replay of the deleted p-axis fixture."
     }
   }
 }

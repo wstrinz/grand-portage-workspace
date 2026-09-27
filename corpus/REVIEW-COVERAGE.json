@@ -130,7 +130,7 @@
     },
     {
       "path": "tests/test_jc_original_pair_seam.py",
-      "status": "read_extraction_partial",
+      "status": "self_contained_checks_extracted_external_bindings_pending",
       "review": "corpus/history/DELETED-TEST-REVIEW.json",
       "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
@@ -184,8 +184,16 @@
     }
   ],
   "next_pass": [
-    "Finish extraction from the three read deleted test files; review the other 26 deleted test paths.",
-    "Review remaining current-tree tests, documentation, theory ledger and fixtures; do not count mechanical indexes as complete review.",
+    "Finish formalization-ledger and p-axis extraction, preserving conditional versus held authority distinctions.",
+    "Review the 26 unread deleted test paths and remaining current-tree tests, documentation, theory ledger and fixtures.",
+    "Two historical seam companion-binding checks remain unrun; no campaign source access is implied by the GP snapshot.",
     "A24 remains pending an authorized source model; campaign harvesting awaits the completed source manifest."
-  ]
+  ],
+  "historical_replay": {
+    "manifest": "oracle/history/PIN.json",
+    "commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+    "files": 4,
+    "bytes": 114467,
+    "authority": "Historical conditional metadata audit only; does not independently replay the native mathematical derivation."
+  }
 }

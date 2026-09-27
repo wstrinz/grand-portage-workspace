@@ -79,5 +79,21 @@ Historical coverage remains incomplete. [Review coverage](REVIEW-COVERAGE.json) 
 | [GP-X32](must/GP-X32.json) | REFUSE | AGREES | exact_replay | Degree cap requires enough scalar coordinates |
 | [GP-X33](must/GP-X33.json) | REFUSE | AGREES | exact_replay | Coefficient pack order is checked |
 | [GP-X34](must/GP-X34.json) | REFUSE | AGREES | exact_replay | Scalar coefficient rows cannot retain the parameter |
+| [GP-X35](must/GP-X35.json) | ACCEPT | AGREES | historical_metadata_audit | Conditional evidence remains usable with its obligations |
+| [GP-X36](must/GP-X36.json) | REFUSE | AGREES | historical_metadata_audit | An incomplete source map cannot support strict source authority |
+| [GP-X37](must/GP-X37.json) | REFUSE | AGREES | historical_metadata_audit | A completion label does not supply the missing map |
+| [GP-X38](must/GP-X38.json) | REFUSE | AGREES | historical_metadata_audit | A serialization assertion does not materialize a source pair |
+| [GP-X39](must/GP-X39.json) | REFUSE | AGREES | historical_metadata_audit | A downstream specialization cannot enter an upstream derivation |
+| [GP-X40](must/GP-X40.json) | REFUSE | AGREES | historical_metadata_audit | A changed row commitment cannot reuse the old binding |
+| [GP-X41](must/GP-X41.json) | REFUSE | AGREES | historical_metadata_audit | Deleting a refusal does not earn the excluded theorem |
+| [GP-X42](must/GP-X42.json) | REFUSE | AGREES | historical_metadata_audit | An altered source revision cannot reuse a frozen receipt |
+| [GP-X43](must/GP-X43.json) | REFUSE | AGREES | historical_metadata_audit | Conditional row evidence does not prove original-source membership |
+| [GP-X44](must/GP-X44.json) | REFUSE | AGREES | historical_metadata_audit | A changed frozen fixture must fail its outer digest check |
+| [GP-X45](must/GP-X45.json) | ACCEPT | AGREES | native_receipt_binding | An unchanged native witness receipt remains current |
+| [GP-X46](must/GP-X46.json) | REFUSE | AGREES | native_receipt_binding | Changing open guards invalidates the old witness receipt |
+| [GP-X47](must/GP-X47.json) | REFUSE | AGREES | native_receipt_binding | Changing equations invalidates the old witness receipt |
+| [GP-X48](must/GP-X48.json) | REFUSE | AGREES | native_receipt_binding | A closure witness does not become a base-field witness |
+| [GP-X49](must/GP-X49.json) | REFUSE | AGREES | native_receipt_binding | Changing verifier version invalidates the receipt |
+| [GP-X50](must/GP-X50.json) | REFUSE | AGREES | native_receipt_binding | Rehashing a forged witness does not make it true |
 
-Observations remain layer-specific. Conditional transport routes assume their preconditions; graph guards, receipt binding and exact arithmetic replay are labeled separately. Raw results and immutable runs are under reports/.
+Observations remain layer-specific. Conditional transport routes assume their preconditions. Historical metadata audits preserve report boundaries and are not mathematical theorem replay. Native receipt controls check both exact witness replay and current graph authority. Raw results and immutable runs are under reports/.

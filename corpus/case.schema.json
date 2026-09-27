@@ -88,11 +88,15 @@
           "repository": {
             "enum": [
               "gp-v037",
-              "rework-packet"
+              "rework-packet",
+              "gp-history"
             ]
           },
           "commit": {
-            "const": "ac4155787207e2847d248cffed7be871d5dcd577"
+            "enum": [
+              "ac4155787207e2847d248cffed7be871d5dcd577",
+              "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
+            ]
           },
           "path": {
             "type": "string",

@@ -24,6 +24,20 @@ def validate():
         raise ValueError("Wrong oracle revision")
     if git("status","--porcelain","--untracked-files=no"):
         raise ValueError("Pinned oracle tracked content is dirty")
+    history = json.loads((ROOT/"oracle/history/PIN.json").read_text(encoding="utf-8"))
+    if history["pinned_descendant"] != PIN:
+        raise ValueError("Historical inputs name the wrong pinned descendant")
+    historical_root = ROOT/"oracle/history/checkout"
+    historical_paths = set()
+    for item in history["files"]:
+        path = (historical_root/item["path"]).resolve()
+        if not path.is_relative_to(historical_root.resolve()):
+            raise ValueError("Historical file escapes its snapshot")
+        raw = path.read_bytes()
+        blob = hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()
+        if sha(path) != item["sha256"] or len(raw) != item["bytes"] or blob != item["git_blob"]:
+            raise ValueError("Historical oracle input changed: "+item["path"])
+        historical_paths.add(item["path"])
     schema = json.loads((ROOT/"corpus/case.schema.json").read_text(encoding="utf-8"))
     validator = jsonschema.Draft202012Validator(schema)
     routes = json.loads((ROOT/"oracle/ROUTES.json").read_text(encoding="utf-8"))
@@ -37,9 +51,14 @@ def validate():
             raise ValueError("Duplicate or mismatched case identifier")
         ids.add(case["id"])
         for source in case["sources"]:
-            base = ORACLE if source["repository"] == "gp-v037" else ROOT
-            if source["repository"] == "gp-v037" and source.get("commit") != PIN:
-                raise ValueError("Unpinned source")
+            if source["repository"] == "gp-history":
+                base = historical_root
+                if source.get("commit") != history["commit"] or source["path"] not in historical_paths:
+                    raise ValueError("Unbound historical source")
+            else:
+                base = ORACLE if source["repository"] == "gp-v037" else ROOT
+                if source["repository"] == "gp-v037" and source.get("commit") != PIN:
+                    raise ValueError("Unpinned source")
             source_path = (base/source["path"]).resolve()
             if not source_path.is_relative_to(base.resolve()):
                 raise ValueError("Source path escapes its repository")
@@ -374,6 +393,100 @@ def probe(case, route):
                         "Requested implication compared with the replayed license.",
                         receipt=report,counterexample=control)
 
+    if kind == "historical_seam":
+        import copy, importlib.util, tempfile
+        historical = json.loads((ROOT/"oracle/history/PIN.json").read_text(encoding="utf-8"))
+        if route["historical_commit"] != historical["commit"]:
+            raise ValueError("Wrong historical adapter revision")
+        path = ROOT/"oracle/history/checkout/experiments/jc_h3_source_depth6/original_pair_seam_adapter.py"
+        spec = importlib.util.spec_from_file_location("historical_seam_probe",path)
+        adapter = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(adapter)
+        action = route["action"]
+        report = adapter.verify_fixture(check_native_bindings=False)
+        if action in ("conditional", "source_authority"):
+            envelope = report["evidence_envelope"]
+            accepted = (report["strict_original_source_supported"] if action == "source_authority" else
+                        report["verdict"] == "VERIFIED_CONDITIONAL_ESYSTEM_SEAM" and
+                        envelope["graph_effect"] == "NONE" and bool(envelope["outstanding_premises"]))
+            return decision(accepted,"Historical conditional boundary inspected.",raw_report=report)
+        fixture = json.loads(adapter.DEFAULT_FIXTURE.read_text(encoding="utf-8"))
+        value = case["inputs"]["proposed_value"]
+        try:
+            if action in ("native_commit", "outer_digest"):
+                fixture["native_commit" if action == "native_commit" else "authority_boundary"] = value
+                raw = (json.dumps(fixture,indent=2,sort_keys=True,ensure_ascii=True)+"\n").encode()
+                # Mirrors the historical mutation test: reach the revision
+                # check independently of the separate immutable-byte guard.
+                if action == "native_commit":
+                    adapter.EXPECTED_FIXTURE_SHA256 = hashlib.sha256(raw).hexdigest()
+                with tempfile.TemporaryDirectory(prefix="history-seam-",dir=ROOT/"tmp") as scratch:
+                    target = Path(scratch)/"fixture.json"
+                    target.write_bytes(raw)
+                    adapter.verify_fixture(target,check_native_bindings=False)
+            else:
+                manifest = copy.deepcopy(fixture["manifest"])
+                if action == "strict_authority":
+                    manifest["authority"]["strict_original_source_supported"] = value
+                elif action == "source_map":
+                    next(s for s in manifest["stages"] if s["id"] == "target_pair_to_normalized_laurent_root").update(value)
+                elif action == "serialized_pair":
+                    manifest["source_problem"]["exact_pair_serialized"] = value
+                elif action == "downstream_pin":
+                    manifest["normalized_root_contract"]["pin_semantics"]["part_of_reduced_row_derivation"] = value
+                elif action == "row_digest":
+                    manifest["reduced_rows"][0]["sha256"] = value
+                elif action == "drop_refusal":
+                    manifest["authority"]["refusals"].remove(value)
+                else:
+                    raise ValueError("Unknown historical seam action")
+                face = json.loads(adapter.FACE_FIXTURE.read_text(encoding="utf-8"))
+                adapter._validate_manifest(manifest,face)
+        except adapter.SeamAdapterError as exc:
+            return decision(False,exc,baseline_verdict=report["verdict"],historical_commit=historical["commit"])
+        return decision(True,"Historical seam validator accepted the proposed change.",historical_commit=historical["commit"])
+
+    if kind == "native_witness_binding":
+        import copy
+        from grandportage import verify as V, provenance as P
+        from test_number_field_witness import _graph, _model, _claim, _field
+        d = case["inputs"]
+        model = _model(d["point_universe"],d["generators"][0])
+        model.update(ring_vars=d["variables"],open_conditions=d["guards"])
+        claim = _claim(d["coordinate"],_field(d["field_polynomial"]))
+        graph = _graph([model,claim])
+        verdict,why,receipt = V.point_witness(graph,"C",_runner=never_run)
+        if verdict != V.WITNESS_VERIFIED:
+            raise ValueError("Native binding positive baseline did not verify")
+        event = V._verdict_event(graph,"witness","C",verdict,why,receipt,
+                                 execution=P.native_execution_provenance())
+        graph.apply(event)
+        if not graph.verdicts[event["id"]]["current"]:
+            raise ValueError("Native baseline receipt did not become current")
+        action = route["action"]
+        changed_model = copy.deepcopy(model)
+        if action == "model":
+            changed_model.update(d["proposed_change"])
+        changed = _graph([changed_model,copy.deepcopy(claim)])
+        attacked = copy.deepcopy(event)
+        if action == "verifier_version":
+            attacked["verifier_version"] += 1
+        elif action == "tamper_coordinate":
+            attacked["representation"]["coordinates"]["x"] = d["proposed_change"]
+            attacked.update(P.metadata(changed,"witness","C",verdict=verdict,
+                verifier="verify.extension_point_witness",execution=P.native_execution_provenance(),
+                representation=attacked["representation"]))
+        elif action not in ("model","unchanged"):
+            raise ValueError("Unknown native binding action")
+        try:
+            changed.apply(attacked)
+        except S.GraphError as exc:
+            return decision(False,exc,baseline_current=True,refused_at="graph_fold")
+        raw = changed.verdicts[attacked["id"]]
+        active = changed.claims["C"].get("witness_verdict") == V.WITNESS_VERIFIED
+        return decision(bool(raw["current"]) and active,raw.get("stale_reason","native receipt current"),
+                        baseline_current=True,receipt_current=raw["current"],active_witness=active)
+
     raise ValueError("Unknown oracle route: "+kind)
 
 def main():
@@ -388,7 +501,7 @@ def main():
     for case,path in cases:
         route = routes[case["id"]]
         record = {"id":case["id"],"case_sha256":sha(path),"expected":case["expected"]["verdict"],
-                  "layer":route["layer"],"route":route["kind"],"limitation":route.get("limitation")}
+                  "layer":route["layer"],"route":route["kind"],"historical_commit":route.get("historical_commit"),"limitation":route.get("limitation")}
         try:
             record.update(probe(case,route))
             if record["observed_verdict"] is not None:
@@ -404,6 +517,7 @@ def main():
     report = {"schema_version":1,"timestamp_utc":stamp,"oracle_commit":PIN,
               "oracle_path":str(ORACLE),"runner_sha256":sha(Path(__file__)),
               "routes_sha256":sha(ROOT/"oracle/ROUTES.json"),
+              "historical_manifest_sha256":sha(ROOT/"oracle/history/PIN.json"),
               "schema_sha256":sha(ROOT/"corpus/case.schema.json"),
               "python":sys.version,"summary":dict(Counter(r["status"] for r in results)),
               "scope":"Layer-specific legacy observations, not GP 0.50 held claims or a completed G0 gate.",

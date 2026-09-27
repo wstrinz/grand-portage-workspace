@@ -839,7 +839,11 @@
       "category": "implementation",
       "review_status": "partial",
       "extracted_cases": [
-        "GP-A25b"
+        "GP-A25b",
+        "GP-X46",
+        "GP-X47",
+        "GP-X48",
+        "GP-X49"
       ]
     },
     {
@@ -2184,7 +2188,13 @@
       "extracted_cases": [
         "GP-X22",
         "GP-X23",
-        "GP-X24"
+        "GP-X24",
+        "GP-X45",
+        "GP-X46",
+        "GP-X47",
+        "GP-X48",
+        "GP-X49",
+        "GP-X50"
       ]
     },
     {
