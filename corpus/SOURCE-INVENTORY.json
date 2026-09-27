@@ -112,7 +112,12 @@
       "path": "OPERATION-CONTRACTS.md",
       "git_object": "d809915ddacd09365a70dc59c2f2c8d6c473c24e",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "extracted_cases": [
+        "GP-A22",
+        "GP-X25",
+        "GP-X26"
+      ]
     },
     {
       "path": "QUICKSTART.md",
@@ -1923,7 +1928,18 @@
       "path": "tests/test_coefficient_expansion.py",
       "git_object": "05d3458892c7349fbe5fdfa46c850b9968e7ec05",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "extracted_cases": [
+        "GP-A22",
+        "GP-X27",
+        "GP-X28",
+        "GP-X29",
+        "GP-X30",
+        "GP-X31",
+        "GP-X32",
+        "GP-X33",
+        "GP-X34"
+      ]
     },
     {
       "path": "tests/test_compact_review_projection.py",
@@ -2054,7 +2070,12 @@
       "path": "tests/test_groebner_producer.py",
       "git_object": "dcbfcca14dc18f6033f40031f4f98acf14fe7fe0",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "extracted_cases": [
+        "GP-A22",
+        "GP-X25",
+        "GP-X26"
+      ]
     },
     {
       "path": "tests/test_guard_release.py",

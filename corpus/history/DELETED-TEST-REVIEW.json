@@ -1,0 +1,300 @@
+{
+  "schema_version": 1,
+  "pinned_descendant": "ac4155787207e2847d248cffed7be871d5dcd577",
+  "deletion_commit": "2cac30114573f7b6923c43d86fb22679c4dbedfb",
+  "reviewed_revision": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+  "notice": "GP historical test sources only. No companion-campaign files were read, adapters imported, or historical tests executed. Analogues are partial coverage, not equivalence of mathematical fixtures. Every remaining extraction obligation stays explicit.",
+  "sources": [
+    {
+      "path": "tests/test_jc_original_pair_seam.py",
+      "commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "git_blob": "45ed631edb3f5a1bbbc834ee1e5e4837cbfb6710",
+      "sha256": "c06f5e34f37bd662d14f6d6ca772c02cbaa61dc74153bafbde64f2af03ebcf43",
+      "read_status": "complete_text_read",
+      "extraction_status": "partial",
+      "tests": [
+        {
+          "test": "test_conditional_seam_welds_native_rows_without_graph_authority",
+          "line": 45,
+          "status": "extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_current_native_seam_files_and_all_transitive_bindings_match",
+          "line": 62,
+          "status": "partial_analogue_only",
+          "existing_analogues": [
+            "GP-A18",
+            "GP-A25b"
+          ]
+        },
+        {
+          "test": "test_frozen_projection_rebuilds_from_the_landed_native_manifest",
+          "line": 68,
+          "status": "extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_promoting_the_missing_source_map_is_rejected",
+          "line": 73,
+          "status": "extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_claiming_an_exact_serialized_pair_is_rejected",
+          "line": 85,
+          "status": "extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_promoting_strict_original_source_authority_is_rejected",
+          "line": 96,
+          "status": "extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_changed_native_row_commitment_breaks_the_gp_weld",
+          "line": 107,
+          "status": "partial_analogue_only",
+          "existing_analogues": [
+            "GP-A18",
+            "GP-A25b"
+          ]
+        },
+        {
+          "test": "test_moving_the_t_pin_into_row_derivation_is_rejected",
+          "line": 118,
+          "status": "extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_dropping_an_authority_refusal_is_rejected",
+          "line": 130,
+          "status": "partial_analogue_only",
+          "existing_analogues": [
+            "GP-A26"
+          ]
+        },
+        {
+          "test": "test_changing_the_native_commit_binding_is_rejected",
+          "line": 141,
+          "status": "partial_analogue_only",
+          "existing_analogues": [
+            "GP-A18",
+            "GP-A25b"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tests/test_jc_formalization_transport.py",
+      "commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "git_blob": "695f338aca8df43ab95646ec293d2f02217f0dd7",
+      "sha256": "e3d40c450112b9eabbda61ec47a6e42b3152185605dafe85eb52c0783271d2f8",
+      "read_status": "complete_text_read",
+      "extraction_status": "partial",
+      "tests": [
+        {
+          "test": "test_current_ledger_is_derived_and_exercises_every_adversarial_case",
+          "line": 30,
+          "status": "extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_actual_provenance_forgets_forward_but_cannot_be_recovered",
+          "line": 52,
+          "status": "extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_degree_five_credit_is_visible_as_a_real_expressibility_gap",
+          "line": 61,
+          "status": "extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_non_affine_lifts_and_slice_reversal_fail_closed",
+          "line": 70,
+          "status": "extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_untyped_edge_remains_an_honest_refusal_not_a_transport_license",
+          "line": 83,
+          "status": "extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_block_one_binding_retains_every_formal_premise",
+          "line": 96,
+          "status": "partial_analogue_only",
+          "existing_analogues": [
+            "GP-A18",
+            "GP-A25b"
+          ]
+        },
+        {
+          "test": "test_omitting_a_formal_premise_is_refused",
+          "line": 111,
+          "status": "extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_authority_cannot_be_rebound_to_different_semantic_endpoints",
+          "line": 121,
+          "status": "partial_analogue_only",
+          "existing_analogues": [
+            "GP-A18",
+            "GP-A25b"
+          ]
+        },
+        {
+          "test": "test_retyping_forgetting_as_equivalence_exposes_the_reverse_widening",
+          "line": 131,
+          "status": "extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_field_relative_obstruction_cannot_be_relabelled_scheme_scoped",
+          "line": 141,
+          "status": "partial_analogue_only",
+          "existing_analogues": [
+            "GP-A01"
+          ]
+        },
+        {
+          "test": "test_lossy_edges_must_name_their_information_loss",
+          "line": 151,
+          "status": "extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_live_jc_commit_sources_and_declarations_are_bound",
+          "line": 161,
+          "status": "partial_analogue_only",
+          "existing_analogues": [
+            "GP-A18",
+            "GP-A25b"
+          ]
+        },
+        {
+          "test": "test_declaration_and_digest_drift_are_refused_before_use",
+          "line": 172,
+          "status": "partial_analogue_only",
+          "existing_analogues": [
+            "GP-A18",
+            "GP-A25b"
+          ]
+        },
+        {
+          "test": "test_output_is_deterministic_and_input_order_independent",
+          "line": 191,
+          "status": "extraction_pending",
+          "existing_analogues": []
+        }
+      ]
+    },
+    {
+      "path": "tests/test_jc_p_axis_authority.py",
+      "commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "git_blob": "f2be86e36cb062ddcdd25d1744c96c07fe0d77b6",
+      "sha256": "95a57f713b55424ed48bf6c539cff6dabde9ae909ec6af195f2494a768e07811",
+      "read_status": "complete_text_read",
+      "extraction_status": "partial",
+      "tests": [
+        {
+          "test": "test_show_renders_localized_proof_envelope",
+          "line": 99,
+          "status": "surface_only_no_mathematical_authority",
+          "existing_analogues": [
+            "GP-X17"
+          ]
+        },
+        {
+          "test": "test_frozen_native_slice_has_the_expected_parent_binding",
+          "line": 109,
+          "status": "partial_analogue_only",
+          "existing_analogues": [
+            "GP-A18",
+            "GP-A25b"
+          ]
+        },
+        {
+          "test": "test_checked_in_authority_fixture_is_exact_adapter_output",
+          "line": 119,
+          "status": "extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_factor_affine_receipt_and_authority_model_use_the_same_equations",
+          "line": 126,
+          "status": "extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_factor_proof_compiles_to_existing_localized_unit_certificate",
+          "line": 141,
+          "status": "partial_analogue_only",
+          "existing_analogues": [
+            "GP-X17"
+          ]
+        },
+        {
+          "test": "test_graph_verdict_mints_only_local_empty_authority",
+          "line": 154,
+          "status": "partial_analogue_only",
+          "existing_analogues": [
+            "GP-X17"
+          ]
+        },
+        {
+          "test": "test_certificate_name_without_verdict_grants_no_authority",
+          "line": 168,
+          "status": "partial_analogue_only",
+          "existing_analogues": [
+            "GP-A26"
+          ]
+        },
+        {
+          "test": "test_equation_or_guard_mutation_refuses_old_authority",
+          "line": 190,
+          "status": "partial_analogue_only",
+          "existing_analogues": [
+            "GP-A18",
+            "GP-A25b"
+          ]
+        },
+        {
+          "test": "test_scope_or_source_binding_mutation_stales_old_authority",
+          "line": 206,
+          "status": "partial_analogue_only",
+          "existing_analogues": [
+            "GP-A18",
+            "GP-A25b"
+          ]
+        },
+        {
+          "test": "test_verifier_input_fingerprint_contains_the_frozen_source_digest",
+          "line": 218,
+          "status": "partial_analogue_only",
+          "existing_analogues": [
+            "GP-A18",
+            "GP-A25b"
+          ]
+        },
+        {
+          "test": "test_adapter_refuses_any_change_to_the_native_parent_bytes",
+          "line": 228,
+          "status": "extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_frozen_model_does_not_claim_full_chart_source_or_h3_authority",
+          "line": 237,
+          "status": "extraction_pending",
+          "existing_analogues": []
+        }
+      ]
+    }
+  ]
+}

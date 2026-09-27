@@ -311,6 +311,69 @@ def probe(case, route):
         verdict,why,receipt = V.point_witness(graph,"C",_runner=never_run)
         return decision(verdict == V.WITNESS_VERIFIED,why,raw_verdict=verdict,receipt=receipt)
 
+    if kind in ("jc_cap_obstruction", "bounded_source_point"):
+        from grandportage import coefficient_expansion as CE
+        d = case["inputs"]
+        parameter = d["parameter"]
+        ring = d["source_variables"] + [parameter]
+        if kind == "jc_cap_obstruction":
+            point = {**d["other_retained_values"], **d["selected"], **d["forced"]}
+        else:
+            point = d["point"]
+        images = {**point, parameter:parameter}
+        residuals = [G.substitute_polynomial(eq,ring,images,0) for eq in d["source_equations"]]
+        if any(not G.parse_polynomial(value,ring,0).is_zero for value in residuals):
+            return decision(False,"The supplied source point fails an equation.",residuals=residuals)
+        if kind == "bounded_source_point":
+            degrees = {}
+            for name,value in point.items():
+                poly = G.parse_polynomial(value,[parameter],0)
+                degrees[name] = max((m[0] for m in poly.terms),default=-1)
+            fits = all(degrees[name] <= cap for name,cap in d["caps"].items())
+            return decision(fits,"Exact source substitution and polynomial degree caps checked.",
+                            residuals=residuals,degrees=degrees,caps=d["caps"])
+        if d["cap"] != {"dm4":0}:
+            raise ValueError("This source projection is specifically the cap-zero obstruction")
+        obstruction = d["coefficient_obstruction"]
+        coordinate = obstruction["variable"]
+        bounded_images = {**point,"dm4":coordinate}
+        equations = []
+        for i,expression in enumerate(d["source_equations"]):
+            equations.append({"id":["G1","G2","G3","G5"][i],"expression":expression,"degree":1,
+                              "coverage":CE.COMPLETE,
+                              "coefficients":obstruction["rows"] if i == 1 else {"0":"0","1":"0"}})
+        spec = {"schema":CE.SCHEMA,"characteristic":0,"parameter":parameter,
+                "coefficient_variables":[coordinate],"source_variables":d["source_variables"],
+                "images":bounded_images,"bounded_variables":{"dm4":{"cap":0,"coefficients":[coordinate]}},
+                "equations":equations}
+        expansion = CE.verify(spec)
+        rows = list(expansion["equations"][1]["checked_coefficients"].values())
+        unit = G.check_membership_identity("1",rows,obstruction["unit_cofactors"],[coordinate],0)
+        return decision(False,"The unrestricted source point verifies, but the complete cap-zero coefficient fiber contains 1.",
+                        unrestricted_residuals=residuals,coefficient_expansion=expansion,unit_receipt=unit)
+    if kind == "coefficient_expansion":
+        from grandportage import coefficient_expansion as CE
+        d = case["inputs"]
+        keys = ("parameter","source_variables","coefficient_variables","images","bounded_variables","equations")
+        spec = {"schema":CE.SCHEMA,"characteristic":0,**{key:d[key] for key in keys}}
+        try:
+            report = CE.verify(spec)
+        except CE.CoefficientExpansionError as exc:
+            return decision(False,exc)
+        control = None
+        if "counterexample_coefficients" in d:
+            names = d["coefficient_variables"]
+            values = d["counterexample_coefficients"]
+            selected = [G.substitute_polynomial(row,names,values,0)
+                        for row in report["equations"][0]["checked_coefficients"].values()]
+            omitted = G.substitute_polynomial("a1*b1",names,values,0)
+            if any(v != "0" for v in selected) or omitted != "1":
+                raise ValueError("Invalid selected-coefficients counterexample")
+            control = {"selected_rows":selected,"omitted_quadratic_row":omitted}
+        return decision(d["requested_license"] in report["licenses"],
+                        "Requested implication compared with the replayed license.",
+                        receipt=report,counterexample=control)
+
     raise ValueError("Unknown oracle route: "+kind)
 
 def main():

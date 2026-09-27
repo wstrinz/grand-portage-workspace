@@ -35,7 +35,7 @@ Historical coverage remains incomplete. [Review coverage](REVIEW-COVERAGE.json) 
 | [GP-A20a](must/GP-A20a.json) | REFUSE | AGREES | adapter_validation | Polynomial quotient cannot be read as rational division |
 | [GP-A20b](must/GP-A20b.json) | ACCEPT | AGREES | receipt_replay | Constant-denominator restatement is supported |
 | [GP-A21](must/GP-A21.json) | REFUSE | AGREES | receipt_replay | Symbolic Laurent terms cannot be dropped |
-| [GP-A22](must/GP-A22.json) | REFUSE | PENDING | none | A necessary scalar target does not prove a capped lift |
+| [GP-A22](must/GP-A22.json) | REFUSE | AGREES | exact_replay | A necessary scalar target does not prove a capped lift |
 | [GP-A23](must/GP-A23.json) | REFUSE | AGREES | conditional_rule | Open-locus emptiness does not establish parent emptiness |
 | [GP-A24](must/GP-A24.json) | REFUSE | PENDING | none | Collapsed solutions require nondegeneracy guards |
 | [GP-A25a](must/GP-A25a.json) | REFUSE | AGREES | graph_validation | Conflicting identifiers must not merge silently |
@@ -69,5 +69,15 @@ Historical coverage remains incomplete. [Review coverage](REVIEW-COVERAGE.json) 
 | [GP-X22](must/GP-X22.json) | ACCEPT | AGREES | exact_replay | Extension-valued witness 1 |
 | [GP-X23](must/GP-X23.json) | REFUSE | AGREES | exact_replay | Extension-valued witness 2 |
 | [GP-X24](must/GP-X24.json) | REFUSE | AGREES | exact_replay | Extension-valued witness 3 |
+| [GP-X25](must/GP-X25.json) | ACCEPT | AGREES | exact_replay | Bounded JC source witness with dm4 cap 0 |
+| [GP-X26](must/GP-X26.json) | ACCEPT | AGREES | exact_replay | Bounded JC source witness with dm4 cap 1 |
+| [GP-X27](must/GP-X27.json) | ACCEPT | AGREES | exact_replay | Complete coefficient expansion permits the converse |
+| [GP-X28](must/GP-X28.json) | REFUSE | AGREES | exact_replay | Selected coefficient rows do not permit the converse |
+| [GP-X29](must/GP-X29.json) | ACCEPT | AGREES | exact_replay | Selected coefficient rows retain their necessary direction |
+| [GP-X30](must/GP-X30.json) | REFUSE | AGREES | exact_replay | Complete expansion cannot omit overflow |
+| [GP-X31](must/GP-X31.json) | REFUSE | AGREES | exact_replay | Invented coefficient row is refused |
+| [GP-X32](must/GP-X32.json) | REFUSE | AGREES | exact_replay | Degree cap requires enough scalar coordinates |
+| [GP-X33](must/GP-X33.json) | REFUSE | AGREES | exact_replay | Coefficient pack order is checked |
+| [GP-X34](must/GP-X34.json) | REFUSE | AGREES | exact_replay | Scalar coefficient rows cannot retain the parameter |
 
 Observations remain layer-specific. Conditional transport routes assume their preconditions; graph guards, receipt binding and exact arithmetic replay are labeled separately. Raw results and immutable runs are under reports/.

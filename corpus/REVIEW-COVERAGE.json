@@ -5,8 +5,8 @@
   "current_tree": {
     "total_files": 368,
     "file_statuses": {
-      "unreviewed": 348,
-      "partial": 20
+      "unreviewed": 345,
+      "partial": 23
     },
     "full_review_count": 0
   },
@@ -44,9 +44,13 @@
       "commit": "af4f6a8f6872521f4f814ab8cdb22af32a11d52c",
       "title": "release: consolidate v0.27 trust surfaces",
       "status": "partial",
-      "cases": [],
+      "cases": [
+        "GP-A22",
+        "GP-X25",
+        "GP-X26"
+      ],
       "reviewed": "Located coefficient-cap counterexample in historical HANDOFF.md, OPERATION-CONTRACTS.md, SPEC.md and TESTPLAN.md; read the bounded-polynomial TESTPLAN section.",
-      "remaining": "A22 still lacks a complete executable projection with all source equations and retained target equations. This release commit has not been fully reviewed."
+      "remaining": "The release commit has not been fully reviewed. A22 now replays via a recovered source-point projection and coefficient obstruction; no historical 17-generator elimination run is claimed."
     }
   ],
   "historical_deleted_tests": [
@@ -68,7 +72,9 @@
     },
     {
       "path": "tests/test_jc_formalization_transport.py",
-      "status": "unreviewed"
+      "status": "read_extraction_partial",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_h3_adjoint_recurrence.py",
@@ -124,11 +130,15 @@
     },
     {
       "path": "tests/test_jc_original_pair_seam.py",
-      "status": "unreviewed"
+      "status": "read_extraction_partial",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_p_axis_authority.py",
-      "status": "unreviewed"
+      "status": "read_extraction_partial",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_r1_r7_seam_adapter.py",
@@ -169,18 +179,13 @@
   ],
   "pending_cases": [
     {
-      "id": "GP-A22",
-      "reason": "Requires an additional checked oracle projection; no verdict inferred from prose."
-    },
-    {
       "id": "GP-A24",
       "reason": "Requires an additional checked oracle projection; no verdict inferred from prose."
     }
   ],
   "next_pass": [
-    "Review deleted and superseded source history, including JC tests removed during v0.28 extraction.",
-    "Recover A22 complete bounded coefficient fixture from approved GP history before attempting replay.",
-    "Finish current-tree test, documentation, theory-ledger and fixture review; split remaining compound incidents.",
+    "Finish extraction from the three read deleted test files; review the other 26 deleted test paths.",
+    "Review remaining current-tree tests, documentation, theory ledger and fixtures; do not count mechanical indexes as complete review.",
     "A24 remains pending an authorized source model; campaign harvesting awaits the completed source manifest."
   ]
 }

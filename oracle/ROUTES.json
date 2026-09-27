@@ -276,9 +276,9 @@
       "limitation": "Pinned rows 7-8 receipt with the first equality replaced by zero; no kernel authority is inferred."
     },
     "GP-A22": {
-      "kind": "pending",
-      "layer": "none",
-      "reason": "Requires an additional checked oracle projection; no verdict inferred from prose."
+      "kind": "jc_cap_obstruction",
+      "layer": "exact_replay",
+      "limitation": "Recovery projection from the pinned four-equation fixture: exact unrestricted source substitution, complete bounded coefficient expansion and unit replay. The projected source point establishes all retained polynomial consequences by substitution; the historical 17-generator elimination run is not repeated."
     },
     "GP-A23": {
       "kind": "transport",
@@ -504,6 +504,56 @@
       "kind": "extension_witness",
       "layer": "exact_replay",
       "limitation": "Native bounded quadratic-extension replay; REFUSE means no accepted witness, not global emptiness."
+    },
+    "GP-X25": {
+      "kind": "bounded_source_point",
+      "layer": "exact_replay",
+      "limitation": "Exact substitution and degree checks only; no full JC realization or original-source lift is claimed."
+    },
+    "GP-X26": {
+      "kind": "bounded_source_point",
+      "layer": "exact_replay",
+      "limitation": "Exact substitution and degree checks only; no full JC realization or original-source lift is claimed."
+    },
+    "GP-X27": {
+      "kind": "coefficient_expansion",
+      "layer": "exact_replay",
+      "limitation": "Translation validation only; no graph, elimination, point-surjectivity or original-source authority."
+    },
+    "GP-X28": {
+      "kind": "coefficient_expansion",
+      "layer": "exact_replay",
+      "limitation": "Translation validation only; no graph, elimination, point-surjectivity or original-source authority."
+    },
+    "GP-X29": {
+      "kind": "coefficient_expansion",
+      "layer": "exact_replay",
+      "limitation": "Translation validation only; no graph, elimination, point-surjectivity or original-source authority."
+    },
+    "GP-X30": {
+      "kind": "coefficient_expansion",
+      "layer": "exact_replay",
+      "limitation": "Translation validation only; no graph, elimination, point-surjectivity or original-source authority."
+    },
+    "GP-X31": {
+      "kind": "coefficient_expansion",
+      "layer": "exact_replay",
+      "limitation": "Translation validation only; no graph, elimination, point-surjectivity or original-source authority."
+    },
+    "GP-X32": {
+      "kind": "coefficient_expansion",
+      "layer": "exact_replay",
+      "limitation": "Translation validation only; no graph, elimination, point-surjectivity or original-source authority."
+    },
+    "GP-X33": {
+      "kind": "coefficient_expansion",
+      "layer": "exact_replay",
+      "limitation": "Translation validation only; no graph, elimination, point-surjectivity or original-source authority."
+    },
+    "GP-X34": {
+      "kind": "coefficient_expansion",
+      "layer": "exact_replay",
+      "limitation": "Translation validation only; no graph, elimination, point-surjectivity or original-source authority."
     }
   }
 }
