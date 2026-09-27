@@ -1,4 +1,4 @@
-# Phase 0 status — 2026-09-27
+# Phase 0 status â€” 2026-09-27
 
 G0 is not yet evaluated; Phase 0 is in progress.
 
@@ -6,16 +6,16 @@ G0 is not yet evaluated; Phase 0 is in progress.
 
 - Approved backbrief and F: workspace; local repository has no remote.
 - Separate oracle copy on F:, pinned at ac4155787207e2847d248cffed7be871d5dcd577; original source checkout unchanged.
-- 50 source-pointed neutral cases (17 acceptance controls, 33 refusals), schema validator and reproducible layer-specific oracle adapter.
-- Latest replay: 42 agreements, four known conservative differences, one diagnostic observation, three pending projections.
-- 95 focused frozen regression tests passed; one additional live-CAS case excluded. This is not the full release suite.
-- Source and history indexes generated; semantic coverage remains incomplete.
+- 65 source-pointed neutral cases (21 acceptance controls, 44 refusals), schema validator and reproducible layer-specific oracle adapter.
+- Latest replay: 58 agreements, four known conservative differences, one diagnostic observation, two pending projections.
+- First-batch focused runs passed 95 tests with one live-CAS case excluded; the second batch passed 54 focused tests. These runs may overlap and are not the full release suite.
+- Source and history indexes plus a partial-review ledger generated; 29 deleted test paths are queued. Semantic coverage remains incomplete.
 - Freeze documentation patch prepared and git-apply checked, not applied or published.
 - Existing Lean 4.32.1/Lake executables inspected successfully; no kernel spike code.
 
 ## Next work and dependencies
 
-- 0a: resolve pending projections, review the remaining sources/history, split compound incidents into minimal cases and replay the additional routes. See PHASE-0A-BATCH-1.md.
+- 0a: resolve pending projections, review the remaining sources/history, split compound incidents into minimal cases and replay the additional routes. See PHASE-0A-BATCH-2.md and corpus/REVIEW-COVERAGE.json.
 - 0b: concrete JC/GP paths approved; other campaign directories discovered but not yet confirmed. Await remaining manifest paths, optional campaign scope and exclusions. No campaign harvesting has started.
 - 0c: corpus-first restriction remains; agree a measurable effort cap before the deferred spike. See ENVIRONMENT.md.
 - 0d: reviewable freeze patch and known-issues document ready under freeze-v0.37.1/. No public mutation or publication performed.

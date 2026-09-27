@@ -23,6 +23,20 @@
       "path": "docs/GP-0.50-REWORK-PACKET.md",
       "line": 565,
       "anchor": "| A25 |"
+    },
+    {
+      "repository": "gp-v037",
+      "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+      "path": "grandportage/provenance.py",
+      "line": 180,
+      "anchor": "def input_payload("
+    },
+    {
+      "repository": "gp-v037",
+      "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+      "path": "tests/test_merge_assay.py",
+      "line": 14,
+      "anchor": "def test_real_fanout_merge_assay("
     }
   ]
 }

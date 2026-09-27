@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "source_commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+  "definition": "A partial source has extracted slices; this ledger does not count citations, keyword hits or passing tests as full semantic review.",
+  "current_tree": {
+    "total_files": 368,
+    "file_statuses": {
+      "unreviewed": 348,
+      "partial": 20
+    },
+    "full_review_count": 0
+  },
+  "discovery_indexes": {
+    "test_functions": 1198,
+    "source_hits": 1856,
+    "commits": 244,
+    "notice": "Mechanical discovery only; keyword candidate titles are not an exhaustive incident list."
+  },
+  "history_reviews": [
+    {
+      "commit": "f2b7c49e59d382ba182e90aee057c3441911d183",
+      "title": "A false licence, in the code written to prevent false licences",
+      "status": "partial",
+      "cases": [
+        "GP-X15",
+        "GP-X16"
+      ],
+      "reviewed": "Commit message and changed-path inventory read; characteristic-two cofactor replay extracted from the retained regression.",
+      "remaining": "F23 false emptiness, constructor saturation and empty-ideal cases remain to be extracted; original live backend execution not reproduced."
+    },
+    {
+      "commit": "93770c6740c61e1adf809618cd798a0334daffc9",
+      "title": "fix(kernel): refuse point-universe-mismatched edges structurally (P0)",
+      "status": "partial",
+      "cases": [
+        "GP-X10",
+        "GP-X11",
+        "GP-X12"
+      ],
+      "reviewed": "Commit message and retained point-universe regression block read; mismatch directions and partial omission extracted.",
+      "remaining": "Other relation kinds, both-omitted legacy behavior and untyped debt still need corpus disposition. Same-universe positive fold passed as a regression, not a held-claim case."
+    },
+    {
+      "commit": "af4f6a8f6872521f4f814ab8cdb22af32a11d52c",
+      "title": "release: consolidate v0.27 trust surfaces",
+      "status": "partial",
+      "cases": [],
+      "reviewed": "Located coefficient-cap counterexample in historical HANDOFF.md, OPERATION-CONTRACTS.md, SPEC.md and TESTPLAN.md; read the bounded-polynomial TESTPLAN section.",
+      "remaining": "A22 still lacks a complete executable projection with all source equations and retained target equations. This release commit has not been fully reviewed."
+    }
+  ],
+  "historical_deleted_tests": [
+    {
+      "path": "tests/test_current_frontier_bundle.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_f2_75_125_publication_audit.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_f2_75_125_publication_dossier.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_c710_all_j_closeout_handback.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_formalization_transport.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_h3_adjoint_recurrence.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_h3_b0_compatibility.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_h3_b0_depth8_free_plane.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_h3_b0_depth8_residual.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_h3_b0_free_plane.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_h3_depth6_frontier.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_h3_depth6_replay_all.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_h3_depth8_fiber.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_h3_frontier.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_h3_pin_ablation_frontier.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_h3_s4_scope.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_h3_status_block.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_h3_wall_ob_open.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_original_pair_seam.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_p_axis_authority.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_r1_r7_seam_adapter.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_s2_lowjet_guard_peel_handback.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_source_depth6_authority.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_source_depth6_chain.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_source_depth6_face_extraction.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_source_depth6_full_template.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_source_ladder_authority.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_source_support_handback.py",
+      "status": "unreviewed"
+    },
+    {
+      "path": "tests/test_jc_source_target_first_value_handback.py",
+      "status": "unreviewed"
+    }
+  ],
+  "pending_cases": [
+    {
+      "id": "GP-A22",
+      "reason": "Requires an additional checked oracle projection; no verdict inferred from prose."
+    },
+    {
+      "id": "GP-A24",
+      "reason": "Requires an additional checked oracle projection; no verdict inferred from prose."
+    }
+  ],
+  "next_pass": [
+    "Review deleted and superseded source history, including JC tests removed during v0.28 extraction.",
+    "Recover A22 complete bounded coefficient fixture from approved GP history before attempting replay.",
+    "Finish current-tree test, documentation, theory-ledger and fixture review; split remaining compound incidents.",
+    "A24 remains pending an authorized source model; campaign harvesting awaits the completed source manifest."
+  ]
+}

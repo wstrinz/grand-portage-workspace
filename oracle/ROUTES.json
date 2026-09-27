@@ -301,9 +301,9 @@
       "conflict": true
     },
     "GP-A25b": {
-      "kind": "pending",
-      "layer": "none",
-      "reason": "Requires an additional checked oracle projection; no verdict inferred from prose."
+      "kind": "alias_binding",
+      "layer": "receipt_binding",
+      "limitation": "Uses the pinned test helper fabricated backend descriptor only to test receipt input binding. No backend execution or proof of x=0 is claimed."
     },
     "GP-A26": {
       "kind": "unknown_certificate",
@@ -429,6 +429,81 @@
     "GP-X09": {
       "kind": "kind_composition",
       "layer": "declaration_validation"
+    },
+    "GP-X10": {
+      "kind": "point_universe",
+      "layer": "graph_validation",
+      "limitation": "Checks the declared relation boundary; no ring-isomorphism or held-claim assertion."
+    },
+    "GP-X11": {
+      "kind": "point_universe",
+      "layer": "graph_validation",
+      "limitation": "Checks the declared relation boundary; no ring-isomorphism or held-claim assertion."
+    },
+    "GP-X12": {
+      "kind": "point_universe",
+      "layer": "graph_validation",
+      "limitation": "Checks the declared relation boundary; no ring-isomorphism or held-claim assertion."
+    },
+    "GP-X13": {
+      "kind": "empty_anchor",
+      "layer": "graph_diagnostic",
+      "limitation": "Audits the missing model anchor; does not run or admit the combinatorial checker."
+    },
+    "GP-X14": {
+      "kind": "empty_anchor",
+      "layer": "graph_diagnostic",
+      "limitation": "Audits the missing model anchor; does not run or admit the combinatorial checker."
+    },
+    "GP-X15": {
+      "kind": "membership",
+      "layer": "exact_replay",
+      "limitation": "Exact cofactor replay; no live CAS containment query is claimed."
+    },
+    "GP-X16": {
+      "kind": "membership",
+      "layer": "exact_replay",
+      "limitation": "Exact cofactor replay; no live CAS containment query is claimed."
+    },
+    "GP-X17": {
+      "kind": "localization",
+      "layer": "exact_replay",
+      "limitation": "Native exact replay with narrow localization authority; grants no identity or emptiness on the parent."
+    },
+    "GP-X18": {
+      "kind": "localization",
+      "layer": "exact_replay",
+      "limitation": "Native exact replay with narrow localization authority; grants no identity or emptiness on the parent."
+    },
+    "GP-X19": {
+      "kind": "localization",
+      "layer": "exact_replay",
+      "limitation": "Native exact replay with narrow localization authority; grants no identity or emptiness on the parent."
+    },
+    "GP-X20": {
+      "kind": "ring_iso",
+      "layer": "exact_replay",
+      "limitation": "Native exact coordinate-ring proof; does not grant a point-universe change or an arbitrary transported claim."
+    },
+    "GP-X21": {
+      "kind": "ring_iso",
+      "layer": "exact_replay",
+      "limitation": "Native exact coordinate-ring proof; does not grant a point-universe change or an arbitrary transported claim."
+    },
+    "GP-X22": {
+      "kind": "extension_witness",
+      "layer": "exact_replay",
+      "limitation": "Native bounded quadratic-extension replay; REFUSE means no accepted witness, not global emptiness."
+    },
+    "GP-X23": {
+      "kind": "extension_witness",
+      "layer": "exact_replay",
+      "limitation": "Native bounded quadratic-extension replay; REFUSE means no accepted witness, not global emptiness."
+    },
+    "GP-X24": {
+      "kind": "extension_witness",
+      "layer": "exact_replay",
+      "limitation": "Native bounded quadratic-extension replay; REFUSE means no accepted witness, not global emptiness."
     }
   }
 }

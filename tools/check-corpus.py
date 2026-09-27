@@ -208,6 +208,109 @@ def probe(case, route):
         return decision(True,"Laurent checker accepted",report=report)
 
 
+    if kind == "alias_binding":
+        from grandportage import format as F
+        from test_verdict_provenance import _verdict
+        def graph_for(mid):
+            graph = S.Graph()
+            graph.apply(F.meta_event())
+            for name in case["inputs"]["identifiers"]:
+                graph.apply({"ev":"model","id":name,"what":"same displayed equations",
+                             "characteristic":0,"ring_vars":["x"],"generators":["x"]})
+            graph.apply({"ev":"claim","id":"C","model":mid,"kind":K.IDENTITY,
+                         "statement":"x vanishes","lhs":"x","rhs":"0",
+                         "ring_vars":["x"],"identity_origin":K.DERIVED})
+            return graph
+        a,b = case["inputs"]["identifiers"]
+        original = graph_for(a)
+        event = _verdict(original)
+        original.apply(event)
+        changed = graph_for(b)
+        changed.apply(event)
+        raw = changed.verdicts[event["id"]]
+        return decision(bool(raw["current"]),raw.get("stale_reason","current"),
+                        original_current=original.verdicts[event["id"]]["current"],
+                        destination_has_active_identity="identity_verdict" in changed.claims["C"])
+    if kind == "point_universe":
+        from grandportage import format as F
+        d = case["inputs"]
+        graph = S.Graph()
+        graph.apply(F.meta_event())
+        try:
+            for mid,key in (("A","source_universe"),("B","target_universe")):
+                model = {"ev":"model","id":mid,"what":"same equations",
+                         "characteristic":0,"ring_vars":d["variables"],"generators":d["generators"]}
+                if d[key] is not None:
+                    model.update(coefficient_domain=d["coefficient_domain"],point_universe=d[key])
+                graph.apply(model)
+            graph.apply({"ev":"edge","id":"E","src":"A","dst":"B",
+                         "type":K.EQUIVALENCE,"map_kind":K.IDENTITY_MAP,
+                         "forward":{"x":"x"},"inverse":{"x":"x"},"ring_iso":True,
+                         "why":"identity on the coordinate ring"})
+            graph.validate()
+        except S.GraphError as exc:
+            return decision(False,exc)
+        return decision(True,"Relation declaration folded.")
+    if kind == "empty_anchor":
+        from grandportage import format as F, check as C
+        from test_empty_scope_anchor import _certificate, _claim
+        d = case["inputs"]
+        graph = S.Graph()
+        graph.apply(F.meta_event())
+        model = {"ev":"model","id":"M","desc":"combinatorial objects"}
+        if d["coefficient_domain"]:
+            model.update(characteristic=0,coefficient_domain=d["coefficient_domain"])
+        for event in (model,_certificate(False),_claim(d["claimed_field"])):
+            graph.apply(event)
+        findings = [f for f in C.run(graph) if f.rule == C.R_EMPTY_SCOPE]
+        return decision(not any(f.severity == C.UNSOUND_PREMISE for f in findings),
+                        "; ".join(f.detail for f in findings),
+                        findings=[{"rule":f.rule,"severity":f.severity} for f in findings])
+    if kind == "membership":
+        d = case["inputs"]
+        try:
+            receipt = G.check_membership_identity(d["target"],d["generators"],d["cofactors"],
+                                                   d["variables"],d["characteristic"])
+        except G.CertificateError as exc:
+            return decision(False,exc)
+        return decision(True,"Exact membership identity replayed.",receipt=receipt)
+    if kind == "localization":
+        from grandportage import localization as L
+        d = case["inputs"]
+        spec = {"schema":L.SCHEMA,"characteristic":0,"ring_vars":d["variables"],
+                "generators":d["generators"],"guards":d["guards"],
+                "expression":{"numerator":d["numerator"],"denominator_powers":d["denominator_powers"]},
+                "certificate":{key:d[key] for key in ("localization_powers","membership_target","cofactors")}}
+        try:
+            receipt = L.verify(spec)
+        except L.LocalizationError as exc:
+            return decision(False,exc)
+        return decision(receipt["verdict"] == L.VERIFIED,"Localization checker replayed.",receipt=receipt)
+    if kind == "ring_iso":
+        from grandportage import verify as V, format as F
+        d = case["inputs"]
+        graph = S.Graph()
+        graph.apply(F.meta_event())
+        for mid in ("A","B"):
+            graph.apply({"ev":"model","id":mid,"what":mid,"characteristic":0,
+                         "ring_vars":d["variables"],"generators":d["generators"]})
+        graph.apply({"ev":"edge","id":"E","src":"A","dst":"B","type":K.EQUIVALENCE,
+                     "map_kind":K.POLYNOMIAL,"why":"displayed maps","ring_iso":True,
+                     "forward":d["forward"],"inverse":d["inverse"],
+                     "ring_iso_certificate":{"schema":"mapped_ring_iso_v1",
+                         "forward_cofactors":d["forward_cofactors"],"inverse_cofactors":d["inverse_cofactors"]}})
+        verdict,why = V.ring_iso(graph,"E",_runner=never_run)
+        return decision(verdict == V.ISO_VERIFIED,why,raw_verdict=verdict)
+    if kind == "extension_witness":
+        from grandportage import verify as V
+        from test_number_field_witness import _graph, _model, _claim, _field
+        d = case["inputs"]
+        model = _model(d["point_universe"],d["generators"][0])
+        model.update(ring_vars=d["variables"],open_conditions=d["guards"])
+        graph = _graph([model,_claim(d["coordinate"],_field(d["field_polynomial"]))])
+        verdict,why,receipt = V.point_witness(graph,"C",_runner=never_run)
+        return decision(verdict == V.WITNESS_VERIFIED,why,raw_verdict=verdict,receipt=receipt)
+
     raise ValueError("Unknown oracle route: "+kind)
 
 def main():

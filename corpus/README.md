@@ -1,6 +1,6 @@
 # Corpus catalog
 
-Initial extraction; historical coverage remains incomplete.
+Historical coverage remains incomplete. [Review coverage](REVIEW-COVERAGE.json) records partial source review, history gaps and deleted tests. Passing the legacy probes does not evaluate G0.
 
 | Case | Expected | Oracle observation | Layer | Title |
 |---|---|---|---|---|
@@ -39,7 +39,7 @@ Initial extraction; historical coverage remains incomplete.
 | [GP-A23](must/GP-A23.json) | REFUSE | AGREES | conditional_rule | Open-locus emptiness does not establish parent emptiness |
 | [GP-A24](must/GP-A24.json) | REFUSE | PENDING | none | Collapsed solutions require nondegeneracy guards |
 | [GP-A25a](must/GP-A25a.json) | REFUSE | AGREES | graph_validation | Conflicting identifiers must not merge silently |
-| [GP-A25b](must/GP-A25b.json) | REFUSE | PENDING | none | Two identifiers do not establish an alias |
+| [GP-A25b](must/GP-A25b.json) | REFUSE | AGREES | receipt_binding | Two identifiers do not establish an alias |
 | [GP-A26](must/GP-A26.json) | REFUSE | AGREES | declaration_validation | Unknown certificate names grant no scope |
 | [GP-C01](must/GP-C01.json) | ACCEPT | AGREES | conditional_rule | Certificate-backed base extension |
 | [GP-C02](must/GP-C02.json) | ACCEPT | AGREES | conditional_rule | Emptiness pulls back along inclusion |
@@ -54,3 +54,20 @@ Initial extraction; historical coverage remains incomplete.
 | [GP-X07](must/GP-X07.json) | REFUSE | AGREES | conditional_rule | Exact contraction does not supply geometric closure |
 | [GP-X08](must/GP-X08.json) | ACCEPT | KNOWN_DIFFERENCE | conditional_rule | A derived identity survives a retained equation |
 | [GP-X09](must/GP-X09.json) | REFUSE | AGREES | declaration_validation | Relabeling a universal premise cannot manufacture existence |
+| [GP-X10](must/GP-X10.json) | REFUSE | AGREES | graph_validation | Coordinate rings do not identify different point universes |
+| [GP-X11](must/GP-X11.json) | REFUSE | AGREES | graph_validation | Coordinate rings do not identify different point universes |
+| [GP-X12](must/GP-X12.json) | REFUSE | AGREES | graph_validation | Coordinate rings do not identify different point universes |
+| [GP-X13](must/GP-X13.json) | REFUSE | AGREES | graph_diagnostic | Field-relative emptiness needs a typed point model |
+| [GP-X14](must/GP-X14.json) | REFUSE | AGREES | graph_diagnostic | Field-relative emptiness needs a typed point model |
+| [GP-X15](must/GP-X15.json) | ACCEPT | AGREES | exact_replay | Cofactor replay binds characteristic 2 |
+| [GP-X16](must/GP-X16.json) | REFUSE | AGREES | exact_replay | Cofactor replay binds characteristic 0 |
+| [GP-X17](must/GP-X17.json) | ACCEPT | AGREES | exact_replay | Localized identity with valid evidence |
+| [GP-X18](must/GP-X18.json) | REFUSE | AGREES | exact_replay | Localized identity with invalid evidence |
+| [GP-X19](must/GP-X19.json) | REFUSE | AGREES | exact_replay | Localized identity with invalid evidence |
+| [GP-X20](must/GP-X20.json) | ACCEPT | AGREES | exact_replay | Mapped ring isomorphism with valid pullback evidence |
+| [GP-X21](must/GP-X21.json) | REFUSE | AGREES | exact_replay | Mapped ring isomorphism with corrupted pullback evidence |
+| [GP-X22](must/GP-X22.json) | ACCEPT | AGREES | exact_replay | Extension-valued witness 1 |
+| [GP-X23](must/GP-X23.json) | REFUSE | AGREES | exact_replay | Extension-valued witness 2 |
+| [GP-X24](must/GP-X24.json) | REFUSE | AGREES | exact_replay | Extension-valued witness 3 |
+
+Observations remain layer-specific. Conditional transport routes assume their preconditions; graph guards, receipt binding and exact arithmetic replay are labeled separately. Raw results and immutable runs are under reports/.

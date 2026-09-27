@@ -4,7 +4,7 @@
   "source_repo": "C:\\Users\\wstri\\dev\\grand-portage",
   "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
   "generated_at_utc": "2026-09-27T19:08:51.0891845Z",
-  "coverage_note": "Pinned tree only. Historical deleted paths and prior revisions require a separate history pass.",
+  "coverage_note": "Pinned tree only. Partial means source-pointed slices have been extracted, not that the whole file or all regressions have been reviewed. See REVIEW-COVERAGE.json for history and deleted-path gaps.",
   "sources": [
     {
       "path": ".codex/config.toml",
@@ -142,7 +142,11 @@
       "path": "SPEC.md",
       "git_object": "e6d4fa1d813cf99f9af9e484485a214380eaff97",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "extracted_cases": [
+        "GP-A15",
+        "GP-A22"
+      ]
     },
     {
       "path": "TESTPLAN.md",
@@ -526,7 +530,10 @@
       "path": "fixtures/gamma_window/graph.jsonl",
       "git_object": "ec72e60854dad7007ae26e3dda67924a16462c93",
       "category": "fixtures_examples",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "extracted_cases": [
+        "GP-A15"
+      ]
     },
     {
       "path": "fixtures/jc2/expect.json",
@@ -610,7 +617,10 @@
       "path": "grandportage/check.py",
       "git_object": "e3b272e4c8562887c1f1e0d2fbb5fe401c68740e",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "extracted_cases": [
+        "GP-A03a"
+      ]
     },
     {
       "path": "grandportage/cli.py",
@@ -634,7 +644,11 @@
       "path": "grandportage/discharge.py",
       "git_object": "0145494e519913cfbd839495b966cc09fee7bd55",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "extracted_cases": [
+        "GP-X03",
+        "GP-X08"
+      ]
     },
     {
       "path": "grandportage/dossier.py",
@@ -694,7 +708,11 @@
       "path": "grandportage/groebner.py",
       "git_object": "d402fe57f3f911f3c111f4904e439e3de3afda37",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "extracted_cases": [
+        "GP-X15",
+        "GP-X16"
+      ]
     },
     {
       "path": "grandportage/groebner_producer.py",
@@ -718,7 +736,19 @@
       "path": "grandportage/kernel.py",
       "git_object": "2daf77644e3fa2576903cc4b8601e666a64a1cb3",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "extracted_cases": [
+        "GP-A02",
+        "GP-A04",
+        "GP-A07a",
+        "GP-A07b",
+        "GP-A16-covered",
+        "GP-A16-missing",
+        "GP-X04",
+        "GP-X05",
+        "GP-X06",
+        "GP-X09"
+      ]
     },
     {
       "path": "grandportage/laurent_coefficient_pipeline.py",
@@ -802,7 +832,10 @@
       "path": "grandportage/provenance.py",
       "git_object": "3602e25a65327414cf2e5e41e6ef6bc8e2a3def1",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "extracted_cases": [
+        "GP-A25b"
+      ]
     },
     {
       "path": "grandportage/publication.py",
@@ -838,7 +871,12 @@
       "path": "grandportage/verify.py",
       "git_object": "cecc60df2e629d009ca83cc030c3ee43af09ecd5",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "extracted_cases": [
+        "GP-A23",
+        "GP-X20",
+        "GP-X21"
+      ]
     },
     {
       "path": "grandportage/visualization.py",
@@ -1762,7 +1800,16 @@
       "path": "tests/test_adversarial.py",
       "git_object": "e9ab041bf75ba3f47d6c753d8e87dbc495266b8b",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "extracted_cases": [
+        "GP-A05",
+        "GP-A06",
+        "GP-A09",
+        "GP-A17",
+        "GP-X10",
+        "GP-X11",
+        "GP-X12"
+      ]
     },
     {
       "path": "tests/test_affine_coordinate.py",
@@ -1840,7 +1887,13 @@
       "path": "tests/test_boundary.py",
       "git_object": "17503596895930740013879ce857d2a278b43472",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "extracted_cases": [
+        "GP-A19",
+        "GP-C04",
+        "GP-X15",
+        "GP-X16"
+      ]
     },
     {
       "path": "tests/test_campaign.py",
@@ -1918,13 +1971,24 @@
       "path": "tests/test_empty_scope_anchor.py",
       "git_object": "148ca3ecb68d17dc37cb34561d36cc40a0f74bec",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "extracted_cases": [
+        "GP-X13",
+        "GP-X14"
+      ]
     },
     {
       "path": "tests/test_epoch12_contract.py",
       "git_object": "ab7c4894f038504418636f7a3285e7df57f048d8",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "extracted_cases": [
+        "GP-A10-C",
+        "GP-A10-Q",
+        "GP-A10-R",
+        "GP-X01",
+        "GP-X02"
+      ]
     },
     {
       "path": "tests/test_evidence.py",
@@ -2014,7 +2078,23 @@
       "path": "tests/test_kernel.py",
       "git_object": "7ab088ebad9c19724cc668b83f5a29c37ed22971",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "extracted_cases": [
+        "GP-A01",
+        "GP-A03b",
+        "GP-A08a",
+        "GP-A08b",
+        "GP-A08c",
+        "GP-A11a",
+        "GP-A11b",
+        "GP-A12",
+        "GP-A13-ambient",
+        "GP-A13-derived",
+        "GP-A26",
+        "GP-C01",
+        "GP-C02",
+        "GP-X07"
+      ]
     },
     {
       "path": "tests/test_large_model_containment.py",
@@ -2026,7 +2106,10 @@
       "path": "tests/test_laurent_lowering.py",
       "git_object": "dfa5600e8d6b9a8a378cc5a79bdca5f6c220e8e6",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "extracted_cases": [
+        "GP-A21"
+      ]
     },
     {
       "path": "tests/test_live_front.py",
@@ -2038,7 +2121,12 @@
       "path": "tests/test_localization.py",
       "git_object": "aeb53e3973e4cf700da3bf2fda4094652f57da11",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "extracted_cases": [
+        "GP-X17",
+        "GP-X18",
+        "GP-X19"
+      ]
     },
     {
       "path": "tests/test_match4_hardening.py",
@@ -2056,7 +2144,10 @@
       "path": "tests/test_merge_assay.py",
       "git_object": "5af368fd9fa036b3d72070e287f3242e31dd139b",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "extracted_cases": [
+        "GP-A25b"
+      ]
     },
     {
       "path": "tests/test_mutations.py",
@@ -2068,7 +2159,12 @@
       "path": "tests/test_number_field_witness.py",
       "git_object": "a35606be2a194141beecf0bf57f99a2506dcf38f",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "extracted_cases": [
+        "GP-X22",
+        "GP-X23",
+        "GP-X24"
+      ]
     },
     {
       "path": "tests/test_operations.py",
@@ -2152,7 +2248,11 @@
       "path": "tests/test_scalar_division.py",
       "git_object": "7b04a77dfec4799f3991fac6674346d215314fce",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "extracted_cases": [
+        "GP-A20a",
+        "GP-A20b"
+      ]
     },
     {
       "path": "tests/test_stacks_applicability_spike.py",
@@ -2164,7 +2264,12 @@
       "path": "tests/test_store.py",
       "git_object": "8465501b36d86a32d22bb846676301ad934dae5b",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "extracted_cases": [
+        "GP-A14",
+        "GP-A25a",
+        "GP-C03"
+      ]
     },
     {
       "path": "tests/test_supersession_noise.py",
@@ -2200,7 +2305,13 @@
       "path": "tests/test_verdict_provenance.py",
       "git_object": "02aeaef0dadc7c47b816057b9cb02eec5e201c3b",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "extracted_cases": [
+        "GP-A17",
+        "GP-A18",
+        "GP-X20",
+        "GP-X21"
+      ]
     },
     {
       "path": "tests/test_work_accounting.py",
