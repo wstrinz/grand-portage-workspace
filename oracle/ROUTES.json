@@ -1,0 +1,434 @@
+{
+  "schema_version": 1,
+  "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+  "routes": {
+    "GP-A01": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "BASE_EXTENSION",
+        "direction": "ALONG",
+        "kind": "EMPTY",
+        "scope": "Q(sqrt 17)",
+        "certificate": "NONSQUARE_CLASS"
+      },
+      "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+    },
+    "GP-A02": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "BASE_EXTENSION",
+        "direction": "AGAINST",
+        "kind": "IDENTITY",
+        "coefficients_in_base": false
+      },
+      "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+    },
+    "GP-A03a": {
+      "kind": "advice_audit",
+      "layer": "diagnostic",
+      "path": "grandportage/check.py",
+      "needles": [
+        "Every cell this edge licenses rests on that containment",
+        "a radical-membership"
+      ],
+      "limitation": "Records the problematic advice, not an executed false held claim."
+    },
+    "GP-A03b": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "NECESSARY_CONDITION",
+        "direction": "ALONG",
+        "kind": "NONEMPTY"
+      },
+      "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+    },
+    "GP-A04": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "SPECIALIZATION",
+        "direction": "ALONG",
+        "kind": "IDENTITY",
+        "integral": true,
+        "identity_origin": "DERIVED",
+        "map_kind": "POLYNOMIAL"
+      },
+      "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+    },
+    "GP-A05": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "SPECIALIZATION",
+        "direction": "ALONG",
+        "kind": "IDENTITY",
+        "integral": false,
+        "identity_origin": "AMBIENT",
+        "map_kind": "POLYNOMIAL"
+      },
+      "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+    },
+    "GP-A06": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "RESTRICTION",
+        "direction": "ALONG",
+        "kind": "PREDICATE",
+        "zariski_dense": true
+      },
+      "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+    },
+    "GP-A07a": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "IMAGE_CLOSURE",
+        "direction": "AGAINST",
+        "kind": "NONEMPTY",
+        "existential": false
+      },
+      "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+    },
+    "GP-A07b": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "IMAGE_CLOSURE",
+        "direction": "AGAINST",
+        "kind": "NONEMPTY",
+        "existential": true
+      },
+      "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+    },
+    "GP-A08a": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "SPECIALIZATION",
+        "direction": "ALONG",
+        "kind": "EMPTY"
+      },
+      "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+    },
+    "GP-A08b": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "SPECIALIZATION",
+        "direction": "ALONG",
+        "kind": "EMPTY",
+        "integral": true
+      },
+      "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant.",
+      "known_difference": "specialization_conservatism",
+      "control": "unit_mod_three"
+    },
+    "GP-A08c": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "SPECIALIZATION",
+        "direction": "ALONG",
+        "kind": "NONEMPTY",
+        "integral": true
+      },
+      "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant.",
+      "known_difference": "specialization_conservatism",
+      "control": "witness_mod_three"
+    },
+    "GP-A09": {
+      "layer": "graph_diagnostic",
+      "limitation": "Pinned regression graph explicitly records eliminated y; no CAS is run.",
+      "kind": "expressibility"
+    },
+    "GP-A10-Q": {
+      "kind": "sos",
+      "layer": "receipt_and_reach",
+      "target": "Q"
+    },
+    "GP-A10-R": {
+      "kind": "sos",
+      "layer": "receipt_and_reach",
+      "target": "R"
+    },
+    "GP-A10-C": {
+      "kind": "sos",
+      "layer": "receipt_and_reach",
+      "target": "C"
+    },
+    "GP-A11a": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "EQUIVALENCE",
+        "direction": "ALONG",
+        "kind": "PREDICATE",
+        "selected_embedding_identity": false
+      },
+      "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+    },
+    "GP-A11b": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "EQUIVALENCE",
+        "direction": "ALONG",
+        "kind": "IDENTITY",
+        "ring_iso": true
+      },
+      "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+    },
+    "GP-A12": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "EQUIVALENCE",
+        "direction": "ALONG",
+        "kind": "IDENTITY",
+        "ring_iso": false
+      },
+      "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+    },
+    "GP-A13-ambient": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "NECESSARY_CONDITION",
+        "direction": "ALONG",
+        "kind": "IDENTITY",
+        "map_kind": "POLYNOMIAL",
+        "identity_origin": "AMBIENT"
+      },
+      "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+    },
+    "GP-A13-derived": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "NECESSARY_CONDITION",
+        "direction": "ALONG",
+        "kind": "IDENTITY",
+        "map_kind": "POLYNOMIAL",
+        "identity_origin": "DERIVED"
+      },
+      "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+    },
+    "GP-A14": {
+      "kind": "disconnected",
+      "layer": "graph_validation"
+    },
+    "GP-A15": {
+      "kind": "join_fixture",
+      "layer": "graph_diagnostic",
+      "limitation": "Replays the pinned gamma-window historical fixture."
+    },
+    "GP-A16-missing": {
+      "kind": "partition",
+      "layer": "conditional_rule",
+      "arguments": {
+        "kind": "EMPTY",
+        "branches_covered": true,
+        "exhaustive": false
+      },
+      "limitation": "Tests the partition rule assuming checked prerequisites, not exhaustiveness replay."
+    },
+    "GP-A16-covered": {
+      "kind": "partition",
+      "layer": "conditional_rule",
+      "arguments": {
+        "kind": "EMPTY",
+        "branches_covered": true,
+        "exhaustive": true
+      },
+      "limitation": "Tests the partition rule assuming checked prerequisites, not exhaustiveness replay."
+    },
+    "GP-A17": {
+      "kind": "unverified_attempt",
+      "layer": "graph_authority",
+      "limitation": "Constructed UNVERIFIED event; no backend timeout is simulated. Receipt wrappers are not positive authority."
+    },
+    "GP-A18": {
+      "kind": "stale_input",
+      "layer": "graph_authority",
+      "limitation": "Uses the oracle's pinned regression helper to construct a receipt; tests binding, not backend execution."
+    },
+    "GP-A19": {
+      "kind": "identifier",
+      "layer": "adapter_validation",
+      "shadow": true
+    },
+    "GP-A20a": {
+      "kind": "division",
+      "layer": "adapter_validation",
+      "expression": "1/T"
+    },
+    "GP-A20b": {
+      "layer": "receipt_replay",
+      "kind": "exact_ambient"
+    },
+    "GP-A21": {
+      "kind": "laurent_zero",
+      "layer": "receipt_replay",
+      "limitation": "Pinned rows 7-8 receipt with the first equality replaced by zero; no kernel authority is inferred."
+    },
+    "GP-A22": {
+      "kind": "pending",
+      "layer": "none",
+      "reason": "Requires an additional checked oracle projection; no verdict inferred from prose."
+    },
+    "GP-A23": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "RESTRICTION",
+        "direction": "ALONG",
+        "kind": "EMPTY"
+      },
+      "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+    },
+    "GP-A24": {
+      "kind": "pending",
+      "layer": "none",
+      "reason": "Requires an additional checked oracle projection; no verdict inferred from prose."
+    },
+    "GP-A25a": {
+      "kind": "redeclaration",
+      "layer": "graph_validation",
+      "conflict": true
+    },
+    "GP-A25b": {
+      "kind": "pending",
+      "layer": "none",
+      "reason": "Requires an additional checked oracle projection; no verdict inferred from prose."
+    },
+    "GP-A26": {
+      "kind": "unknown_certificate",
+      "layer": "declaration_validation"
+    },
+    "GP-C01": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "BASE_EXTENSION",
+        "direction": "ALONG",
+        "kind": "EMPTY",
+        "scope": "SCHEME",
+        "certificate": "UNIT_IDEAL_CERT"
+      },
+      "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+    },
+    "GP-C02": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "NECESSARY_CONDITION",
+        "direction": "AGAINST",
+        "kind": "EMPTY"
+      },
+      "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+    },
+    "GP-C03": {
+      "kind": "redeclaration",
+      "layer": "graph_validation",
+      "conflict": false
+    },
+    "GP-C04": {
+      "kind": "identifier",
+      "layer": "adapter_validation",
+      "shadow": false
+    },
+    "GP-X01": {
+      "kind": "sos",
+      "layer": "receipt_and_reach",
+      "target": "Q",
+      "mutation": "false"
+    },
+    "GP-X02": {
+      "kind": "sos",
+      "layer": "receipt_and_reach",
+      "target": "Q",
+      "mutation": "detached"
+    },
+    "GP-X03": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "IMAGE_CLOSURE",
+        "direction": "ALONG",
+        "kind": "EMPTY"
+      },
+      "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant.",
+      "known_difference": "registered_conservatism"
+    },
+    "GP-X04": {
+      "kind": "partition",
+      "layer": "conditional_rule",
+      "arguments": {
+        "kind": "EMPTY",
+        "branches_covered": false,
+        "exhaustive": true
+      }
+    },
+    "GP-X05": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "IMAGE_CLOSURE",
+        "direction": "ALONG",
+        "kind": "PREDICATE",
+        "point_surjective": true,
+        "target_expressible": false,
+        "zariski_closed": false
+      },
+      "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+    },
+    "GP-X06": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "IMAGE_CLOSURE",
+        "direction": "ALONG",
+        "kind": "PREDICATE",
+        "point_surjective": true,
+        "target_expressible": true,
+        "zariski_closed": false
+      },
+      "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+    },
+    "GP-X07": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "IMAGE_CLOSURE",
+        "direction": "ALONG",
+        "kind": "PREDICATE",
+        "exact_contraction": true,
+        "geometric_closure": false,
+        "zariski_closed": true
+      },
+      "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+    },
+    "GP-X08": {
+      "kind": "transport",
+      "layer": "conditional_rule",
+      "arguments": {
+        "etype": "NECESSARY_CONDITION",
+        "direction": "ALONG",
+        "kind": "IDENTITY",
+        "map_kind": "POLYNOMIAL",
+        "identity_origin": "DERIVED"
+      },
+      "control": "target_membership",
+      "known_difference": "registered_conservatism",
+      "limitation": "The legacy table refuses despite independently replayed target membership; no claim about other verifier routes."
+    },
+    "GP-X09": {
+      "kind": "kind_composition",
+      "layer": "declaration_validation"
+    }
+  }
+}

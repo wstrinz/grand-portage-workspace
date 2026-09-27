@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "GP-A22",
+  "seed": "A22",
+  "title": "A necessary scalar target does not prove a capped lift",
+  "situation": "The selected coefficients solve the scalar target but force a forbidden coefficient.",
+  "inputs": {
+    "selected": {
+      "dm2": "1",
+      "d2": "y"
+    },
+    "forced": {
+      "dm4": "-y/2"
+    },
+    "cap": {
+      "dm4": 0
+    }
+  },
+  "attempted_conclusion": "Accept a lift satisfying cap(dm4)=0.",
+  "expected": {
+    "verdict": "REFUSE",
+    "reason": "The selected conditions are only necessary and the forced lift violates the cap."
+  },
+  "scope_or_region": "BOTH",
+  "sources": [
+    {
+      "repository": "rework-packet",
+      "path": "docs/GP-0.50-REWORK-PACKET.md",
+      "line": 562,
+      "anchor": "| A22 |"
+    },
+    {
+      "repository": "gp-v037",
+      "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+      "path": "SPEC.md",
+      "line": 284,
+      "anchor": "from scalar elimination:"
+    }
+  ]
+}

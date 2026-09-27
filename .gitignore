@@ -1,0 +1,12 @@
+# Local working data and private verbatim harvest
+corpus/harvest/
+tmp/
+.cache/
+.venv/
+.lake/
+**/.lake/
+__pycache__/
+*.py[cod]
+
+# Future oracle checkout; PIN.json remains tracked
+oracle/checkout/

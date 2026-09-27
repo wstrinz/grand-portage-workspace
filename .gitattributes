@@ -1,0 +1,4 @@
+# Preserve exact bytes: corpus and replay records are SHA-256 bound.
+* -text whitespace=trailing-space,space-before-tab,cr-at-eol
+# Leading context spaces on blank lines are required unified-diff syntax.
+*.patch -whitespace
