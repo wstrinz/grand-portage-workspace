@@ -701,7 +701,7 @@
       "path": "grandportage/format.py",
       "git_object": "a3f46a78ed24247e01cfe41d06b49c887a58cc00",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/frontier.py",
@@ -792,7 +792,7 @@
       "path": "grandportage/migration.py",
       "git_object": "03a3b6c370d1723b1b6c38cfc72faceebe085990",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/number_field.py",
@@ -2064,7 +2064,7 @@
       "path": "tests/test_format_epoch.py",
       "git_object": "d2c2a18b093e2218e4f821cc315623ea03411919",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_frontier.py",
