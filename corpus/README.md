@@ -301,3 +301,6 @@ Observations remain layer-specific. Conditional transport, premise-route and cov
 | [GP-X252](must/GP-X252.json) | REFUSE | AGREES | program_construction | Variable slot cannot close the ring declaration |
 | [GP-X253](must/GP-X253.json) | REFUSE | AGREES | program_construction | Ring-name slot cannot inject a statement sequence |
 | [GP-X254](must/GP-X254.json) | ACCEPT | AGREES | program_construction | Comment-free assignment remains constructible |
+| [GP-X255](must/GP-X255.json) | ACCEPT | AGREES | section_evidence_admission | Exact section identities support the supplied section receipt |
+| [GP-X256](must/GP-X256.json) | REFUSE | AGREES | section_evidence_admission | Altered section proof cannot retain its previous input binding |
+| [GP-X257](must/GP-X257.json) | REFUSE | KNOWN_DIFFERENCE | section_evidence_admission | Fresh producer metadata cannot repair a false section identity |

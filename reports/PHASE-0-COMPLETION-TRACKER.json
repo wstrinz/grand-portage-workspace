@@ -4,7 +4,7 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "295 cases unchanged; 287 agreements and eight classified exceptions; 57 partial / 311 unreviewed sources. Complete verdict-application method read; three section controls distinguish valid proof, stale tampering and invalid reissued producer evidence.",
+      "evidence": "298 cases (85 ACCEPT / 213 REFUSE); 289 agreements, six known differences and three other classified outcomes. Section evidence cases retain replay-only expectations and observed trusted-producer acceptance. 57 partial / 311 unreviewed sources.",
       "remaining": [
         "Exhaustive source/history disposition, including docs and theory",
         "Resolve or explicitly disposition A24 and X53 for G0",
@@ -37,7 +37,7 @@
   },
   "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
   "next_work": [
-    "Extract portable section replay controls and continue operation/ring/partition producer trust review",
+    "Continue operation/ring/partition producer trust and end-to-end binding review",
     "Continue release documents and earlier history",
     "Preserve conservative-refusal cost evidence for the campaign inventory"
   ],

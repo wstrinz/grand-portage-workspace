@@ -45,3 +45,5 @@ Batch 20 completes OPERATION-CONTRACTS text reading, reads runtime contract meta
 Batch 21 reads authority binder/registry and both test files: 31 tests pass. Four direct API controls document caller-owned target binding and shallow proof payloads without claiming a persisted bypass. Continue store subject-specific replay and real provenance controls. Coverage 57 partial / 311 unreviewed.
 
 Batch 22 completes _apply_verdict reading and diagnoses section proof custody with actual freshness: stale tampering refuses, but invalid cofactors with reissued producer metadata project VERIFIED_SECTION. Independent arithmetic rejects the altered row. Offline fabricated provenance only; no live backend failure or external attack claimed. Extract neutral controls next.
+
+Batch 23 extracts the three section controls with fixed expectations and hashes the new adapter in every replay. Continue other subject trust paths; do not classify all known differences as conservative refusals.

@@ -210,6 +210,12 @@
   "evidence": [
     "reports/AUTHORITY-BINDER-BOUNDARY.json",
     "reports/oracle-authority-review.xml",
-    "reports/SECTION-REPLAY-BOUNDARY.json"
+    "reports/SECTION-REPLAY-BOUNDARY.json",
+    "reports/PHASE-0A-BATCH-23.md"
+  ],
+  "cases": [
+    "GP-X255",
+    "GP-X256",
+    "GP-X257"
   ]
 }

@@ -2003,6 +2003,22 @@
       "kind": "compiler_slots",
       "layer": "program_construction",
       "limitation": "Exact historical slot-validation regressions only. No CAS execution, full language parser proof, or mathematical authority."
+    },
+    "GP-X255": {
+      "kind": "section_receipt",
+      "layer": "section_evidence_admission",
+      "limitation": "Actual native fold and freshness with fabricated producer execution metadata, no live CAS. Measures predecessor trusted-producer boundary, not an external attack or full transport."
+    },
+    "GP-X256": {
+      "kind": "section_receipt",
+      "layer": "section_evidence_admission",
+      "limitation": "Actual native fold and freshness with fabricated producer execution metadata, no live CAS. Measures predecessor trusted-producer boundary, not an external attack or full transport."
+    },
+    "GP-X257": {
+      "kind": "section_receipt",
+      "layer": "section_evidence_admission",
+      "limitation": "Actual native fold and freshness with fabricated producer execution metadata, no live CAS. Measures predecessor trusted-producer boundary, not an external attack or full transport.",
+      "known_difference": "section_cofactor_not_replayed_under_fresh_producer_binding"
     }
   }
 }
