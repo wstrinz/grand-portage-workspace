@@ -113,3 +113,5 @@ Batch 54 reviews implementation identity: twelve offline tests and three boundar
 Batch 55 reproduces schema/runtime shape mismatches and unexpected CAS health reported as healthy by doctor. Four bounded mocked controls pass; no false-proof admission claimed. Source coverage and 352-case corpus unchanged. See PHASE-0A-BATCH-55.md.
 
 Batch 56 verifies MCP request/commit boundaries: five diagnostics and six selected source tests pass. JSON array interrupts the request stream; injected post-append reporting failure returns an error after saving the model. No proof admission claim or corpus change. See PHASE-0A-BATCH-56.md.
+
+Batch 57 completes MCP test reading: all 42 tests pass, with injected backends/verifiers where specified. Mutation wrappers and structural COMPOSES/accounting boundaries dispositioned; full MCP source remains partial. Corpus unchanged; 84 partial / 284 unreviewed sources. See PHASE-0A-BATCH-57.md.

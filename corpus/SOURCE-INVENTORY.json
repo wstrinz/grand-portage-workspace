@@ -2178,7 +2178,7 @@
       "path": "tests/test_mcp.py",
       "git_object": "2e2db0b844c04fd9b23581d8207afe76727b55cd",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_merge_assay.py",

@@ -37,30 +37,76 @@
       "name": "main",
       "start": 1458,
       "end": 1464
+    },
+    {
+      "name": "h_portage_baseline_accept",
+      "start": 985,
+      "end": 1015
+    },
+    {
+      "name": "h_portage_graph_receipt",
+      "start": 1018,
+      "end": 1026
+    },
+    {
+      "name": "h_portage_export_tail",
+      "start": 1029,
+      "end": 1037
+    },
+    {
+      "name": "h_portage_merge_assay",
+      "start": 1040,
+      "end": 1074
+    },
+    {
+      "name": "h_portage_verify",
+      "start": 1077,
+      "end": 1104
+    },
+    {
+      "name": "h_portage_verify_elimination",
+      "start": 1107,
+      "end": 1125
+    },
+    {
+      "name": "h_portage_verify_elimination_point_lift",
+      "start": 1127,
+      "end": 1145
+    },
+    {
+      "name": "h_portage_verify_elimination_groebner",
+      "start": 1147,
+      "end": 1163
     }
   ],
   "test_read_range": {
     "path": "tests/test_mcp.py",
     "start": 1,
-    "end": 240,
-    "full_text_read": false
+    "end": 771,
+    "full_text_read": true,
+    "sha256": "44c7c558a23466411be991f6a17207d0beb38e0cfc6db26b09f66116a06cd37c"
   },
   "evidence": [
     "reports/MCP-REQUEST-COMMIT-BOUNDARY.json",
-    "reports/oracle-mcp-boundary-review.xml"
+    "reports/oracle-mcp-boundary-review.xml",
+    "reports/oracle-mcp-full-review.xml"
   ],
   "tests": {
-    "passed": 6,
-    "deselected": 36,
-    "selection": "initialize or notifications or unknown_method or malformed_lifecycle or tools_list"
+    "passed": 42,
+    "deselected": 0,
+    "scope": "Entire test_mcp.py; backend tests inject transcripts or verifier functions, no live backend."
   },
   "findings": [
     "Dispatch performs request/parameter lookups before handler exception containment; a JSON array aborts the stream in the bounded control.",
     "Declaration validation failure leaves graph unchanged; reporting exceptions after append do not undo committed records.",
-    "Per-call root overrides are explicit caller inputs; root isolation tests are not a filesystem capability or access-control proof."
+    "Per-call root overrides are explicit caller inputs; root isolation tests are not a filesystem capability or access-control proof.",
+    "Merge assay COMPOSES indicates structural graph composition; actionable findings are counted separately and may remain. No mutation or mathematical conjunction theorem is implied.",
+    "Baseline acceptance validates selected current finding IDs and records a rationale; it is debt accounting, not proof discharge.",
+    "Verifier handlers pass record=not dry_run and describe outcomes, while exact replay remains downstream. Their success text is not independent validation.",
+    "Source test comment claiming open-slot declaration crashes _first_refusal is stale relative to the currently read get-based helper; the show test only tests rendering."
   ],
   "remaining": [
-    "Read remaining MCP tool schemas/handlers and test file.",
+    "Read remaining MCP tool schemas, producing handlers and show/table rendering implementations; test file is now fully read.",
     "Review response commitment semantics across other mutation handlers and retry behavior.",
     "Keep protocol errors separate from proof REFUSE and held authority."
   ]
