@@ -152,6 +152,31 @@
         "reports/oracle-runs/20260928T224802105393Z.json"
       ],
       "review": "Parent read full probe, payloads and route/runner diff. Every displayed term vanishes on zero chart; 1/y is nonpolynomial,0 is polynomial. Reference arithmetic only; no full target or nonzero-chart theorem claim. Validated383 and independently preserved381 prior case bytes, expectations, verdicts, statuses, routes and layers."
+    },
+    {
+      "source_pin": "ac4155787207e2847d248cffed7be871d5dcd577",
+      "source_path": "lean/GrandPortage/OperationContract.lean",
+      "incident": "checked_does_not_imply_saturation_semantics",
+      "extraction_status": "partial_mapping_stronger_premises_not_covered",
+      "case_ids": [
+        "GP-X141"
+      ],
+      "review": "Parent inspected source lines596-682 and actual X141 payload/probe. Lean unchanged ideal(6) at2 passes source containment AND generator no-invention, but misses3. X141 empty output for a nonzero source lacks source containment. Shared completeness theme is insufficient for exact duplicate closure. Retain bounded stronger-premise counterexample extraction; no change to X141 expectation.",
+      "overrides": "PHASE-0A-OPERATION-COUNTERMODEL-MAPPINGS.json saturation_at_2 logically_equivalent proposal"
+    },
+    {
+      "source_pin": "ac4155787207e2847d248cffed7be871d5dcd577",
+      "source_path": "lean/GrandPortage/OperationContract.lean",
+      "incident": "point_surjectivity_needs_retained_expressibility",
+      "extraction_status": "covered_at_conditional_rule_layer",
+      "case_ids": [
+        "GP-X05",
+        "GP-X06"
+      ],
+      "positive_controls": [
+        "GP-X06"
+      ],
+      "review": "Parent read source799-829 and both full case payloads. Source True/target False with identity surjection witnesses missing retained expressibility. X05 refuses with checked surjection and expressibility false; X06 accepts when expressibility supplied, without closedness. Mapping covers the missing-premise transport rule, not an executed Lean theorem or native reconstruction of the abstract points."
     }
   ]
 }
