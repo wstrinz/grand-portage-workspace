@@ -59,3 +59,5 @@ Batch 27 extracts mapped-ring controls; continue partition and remaining source/
 Batch 28 reproduces omitted open branch guards: two D(x) branches miss zero in A1 but ideal-only partition verification returns VERIFIED. Exact zero-ideal backend stub, no CAS. Four point-universe tests pass; portable extraction remains next.
 
 Batch 29 closes portable open-guard counterexample extraction. Continue partition context and source/history review; valid matching-open and mixed covers must survive future repairs.
+
+Batch 30 reproduces a selected-embedding partition omission: negative-root branches of x^2-2 are reported as covering a positive-root parent. point_scope excludes embedding; exact identical-ideal backend answers cannot establish selected-locus coverage. Corpus extraction remains next.

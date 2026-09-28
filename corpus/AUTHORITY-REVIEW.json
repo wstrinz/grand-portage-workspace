@@ -218,7 +218,8 @@
     "reports/PHASE-0A-BATCH-27.md",
     "reports/PARTITION-OPEN-GUARD-BOUNDARY.json",
     "reports/oracle-partition-scope-review.xml",
-    "reports/PHASE-0A-BATCH-29.md"
+    "reports/PHASE-0A-BATCH-29.md",
+    "reports/PARTITION-EMBEDDING-BOUNDARY.json"
   ],
   "cases": [
     "GP-X255",
@@ -265,12 +266,31 @@
     ],
     "tests": "Four point-universe controls read and passed; live hole/unit-parent tests read but not run.",
     "finding": "Branch open_conditions are omitted from ideal-only coverage queries. Two D(x) branches in A1 miss zero but partition verifier returns VERIFIED on exact zero-ideal backend responses.",
-    "remaining": "Extract minimal positive/negative cases; review parent guards, selected embeddings and other partition context. No live Singular claim.",
+    "remaining": "Extract selected-root counterexample and matched-selection positive control; review further partition context and branch inclusion requirements.",
     "cases": [
       "GP-X269",
       "GP-X270",
       "GP-X271",
       "GP-X272"
-    ]
+    ],
+    "additional_finding": "Selected embedding is absent from point_scope. Positive-root parent and two negative-root branches of x^2-2 validate and receive VERIFIED coverage under exact identical-ideal backend answers.",
+    "additional_source_ranges": {
+      "grandportage/store.py": [
+        [
+          221,
+          247
+        ],
+        [
+          1689,
+          1813
+        ]
+      ],
+      "tests/test_embedding_semantics.py": [
+        [
+          1,
+          150
+        ]
+      ]
+    }
   }
 }

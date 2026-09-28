@@ -71,3 +71,5 @@ Batch 27 adds paired mapped-ring checks GP-X263-268. Real verifier refusals rema
 Batch 28 reproduces omitted open branch guards: two D(x) branches miss zero in A1 but ideal-only partition verification returns VERIFIED. Exact zero-ideal backend stub, no CAS. Four point-universe tests pass; portable extraction remains next.
 
 Batch 29 extracts GP-X269-272. Two punctured branches miss the origin, while three positive controls preserve valid closed/open covers. All 309 prior case files unchanged.
+
+Batch 30 reproduces a selected-embedding partition omission: negative-root branches of x^2-2 are reported as covering a positive-root parent. point_scope excludes embedding; exact identical-ideal backend answers cannot establish selected-locus coverage. Corpus extraction remains next.
