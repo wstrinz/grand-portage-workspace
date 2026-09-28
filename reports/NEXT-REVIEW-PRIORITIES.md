@@ -89,3 +89,5 @@ Batch 42 extracts GP-X292–301 bounded factor/composition controls. Continue re
 Batch 43: extract canonical pipeline binding controls next. Two valid individual passes do not suffice for composition. Coverage 70 partial / 298 unreviewed; coefficient/arithmetic dependency review still open.
 
 Batch 44 extracts GP-X302–307 canonical pipeline-binding controls. Continue coefficient-expansion/arithmetic and remaining source/history review; selected composition extraction does not close semantic coverage.
+
+Batch 45: retain coefficient malformed-input totality defect and repair candidate; continue arithmetic dependency and error/budget review. Coverage 71 partial / 297 unreviewed.

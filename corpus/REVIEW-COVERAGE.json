@@ -5,8 +5,8 @@
   "current_tree": {
     "total_files": 368,
     "file_statuses": {
-      "unreviewed": 298,
-      "partial": 70
+      "unreviewed": 297,
+      "partial": 71
     },
     "full_review_count": 0
   },
@@ -308,5 +308,6 @@
   "authority_review": "corpus/AUTHORITY-REVIEW.json",
   "product_split_review": "corpus/PRODUCT-SPLIT-REVIEW.json",
   "factor_review": "corpus/FACTOR-COMPOSITION-REVIEW.json",
-  "laurent_review": "corpus/LAURENT-PIPELINE-REVIEW.json"
+  "laurent_review": "corpus/LAURENT-PIPELINE-REVIEW.json",
+  "coefficient_review": "corpus/COEFFICIENT-REVIEW.json"
 }

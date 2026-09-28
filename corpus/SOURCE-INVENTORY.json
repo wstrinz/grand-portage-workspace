@@ -640,7 +640,8 @@
       "path": "grandportage/coefficient_expansion.py",
       "git_object": "073c939ff14bd58e8b21f6c1d931e9618e610fc7",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "coefficient_review": "corpus/COEFFICIENT-REVIEW.json"
     },
     {
       "path": "grandportage/contracts.py",
@@ -1952,7 +1953,8 @@
         "GP-X32",
         "GP-X33",
         "GP-X34"
-      ]
+      ],
+      "coefficient_review": "corpus/COEFFICIENT-REVIEW.json"
     },
     {
       "path": "tests/test_compact_review_projection.py",

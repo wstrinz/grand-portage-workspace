@@ -101,3 +101,5 @@ Batch 42: ten factor/composition cases agree; 342 total, 328 agreements and unch
 Batch 43: full Laurent/pipeline source and combined-test reading; 15 tests plus six neutral composition controls pass. Coverage 70 partial / 298 unreviewed; corpus unchanged.
 
 Batch 44: six pipeline controls agree after each pair of individual passes verifies. Full replay 20260928T142458952693Z has 348 cases, 334 agreements and unchanged exceptions; all earlier 342 case bytes/outcome classifications preserved.
+
+Batch 45: coefficient source/tests reviewed and four direct/CLI controls verified. Malformed coverage list escapes CLI as TypeError; no false acceptance. Coverage 71 partial / 297 unreviewed; corpus unchanged.
