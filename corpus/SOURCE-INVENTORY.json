@@ -163,7 +163,7 @@
       "path": "docs/ATLAS-FOLLOWUP-V1.md",
       "git_object": "395399a639edd76a2d6aed7125a5a5eab066da31",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "docs/ATLAS-MAPPING-V0.md",
@@ -199,13 +199,13 @@
       "path": "docs/CERTIFICATE-INTERPRETER-V0.md",
       "git_object": "9863a36f6e1724838aa792b6f1c28386b393bbbe",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "docs/EXPRESSION-TRANSPORT-V0.md",
       "git_object": "e1d1814e3a186d4f7051b6ff01a8463d06aabc33",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "docs/FOUNDATIONS-PRIOR-ART.md",
@@ -217,25 +217,25 @@
       "path": "docs/IR-V2-CORPUS-REPORT.md",
       "git_object": "d8d8d49980f447d3d1fa58f7fd3f9045299b5fda",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "docs/IR-V2-PROJECTION-REPORT.md",
       "git_object": "3b2309e32ce9f62467c288ebc86074bb2679e6ca",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "docs/IR-V2-TYPES.md",
       "git_object": "ef0fcc3d9fd13b1cbe76bb4cf672fb572d418217",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "docs/OBSERVATION-AXIS-V0.md",
       "git_object": "68e8081f23a1d89cf5b9db4e21d3eb3b7ddb9bd0",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "docs/PORTAGE-COMMAND-V0.md",
@@ -253,7 +253,7 @@
       "path": "docs/REQUIREMENT-PROFILES-V0.md",
       "git_object": "01ea09cc9512117a72657fef65a9bd98aeaf9dfc",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "docs/V0.27-JC-EXTRACTION-INVENTORY.md",
@@ -1202,7 +1202,7 @@
       "path": "review/ir-v2-projection/README.md",
       "git_object": "aa080dbd2d1def41ac5685f53672245bdd5d639c",
       "category": "release_review",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "review/ir-v2-projection/index.json",

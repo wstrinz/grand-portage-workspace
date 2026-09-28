@@ -10,7 +10,7 @@ The deleted-test reading milestone is complete. These are the remaining work que
 | 4 | Complete the campaign source manifest, then execute the near-miss sweep | All included campaigns accounted for, verbatim private harvest hashes, incident class and cost inventory, and the meaning-risk assessment |
 | 5 | Resolve A24 and X53's profile implications; run the deferred Lean spike after 0a/0b | Actual collapsed-placement model, explicit treatment of unsupported dimension credit, agreed measurable spike cap and written feasibility report |
 
-Current-tree ledger: 368 files, 57 partial, 311 unreviewed, zero claimed fully reviewed. Historical first pass: 29/29 deleted test files read, 226 functions dispositioned, 271 selected test instances passed. Twenty-seven companion-dependent functions and two live-CAS functions remain unrun.
+Current-tree ledger (Batch 79): 368 files, 144 partial, 224 unreviewed, zero claimed fully reviewed. Historical first pass: 29/29 deleted test files read, 226 functions dispositioned, 271 selected test instances passed. Twenty-seven companion-dependent functions and two live-CAS functions remain unrun.
 
 Source-manifest inputs still needed: confirmation of discovered DK/Cloquet/ARR15/Pigeon River locations, missing report/scouting/Highway 61 paths or explicit omissions, optional LSEM/SCOUT scope, and access notes/exclusions. The retained packet explicitly requires the completed manifest before the sweep. Independent GP source review can continue meanwhile.
 
@@ -157,3 +157,5 @@ Batch 76 completes CAS source text reading and verifies three program-custody co
 Batch 77 completes hook source text review and selected baseline tests. Seventeen tests and three controls verify malformed-shape exceptions and changed errors mislabeled unchanged while blocking persists. Corpus unchanged; 135 partial / 233 unreviewed. See PHASE-0A-BATCH-77.md.
 
 Batch 78 completes boundary-test text reading and passes the complementary 25 offline instances. Combined with Batch 77: 42 offline instances pass, 13 live unexecuted. Synthetic transport and mocked inverse tests explicitly scoped. Corpus and coverage unchanged (135 partial / 233 unreviewed). See PHASE-0A-BATCH-78.md.
+
+Batch 79 fully reads nine IR/interpreter/observation documents and dispositions historical denominators, conditional formal interfaces and unlicensed-versus-semantic loss. No historical builds rerun or new runtime authority claimed. Corpus unchanged; 144 partial / 224 unreviewed. See PHASE-0A-BATCH-79.md.

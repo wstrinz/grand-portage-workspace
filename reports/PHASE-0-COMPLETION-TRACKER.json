@@ -4,7 +4,7 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "352 cases (108 ACCEPT / 244 REFUSE); 337 agreements, twelve known differences and three other classified outcomes. Hook review: 17 tests pass; 135 partial / 233 unreviewed sources.",
+      "evidence": "352 cases (108 ACCEPT / 244 REFUSE); 337 agreements, twelve known differences and three other classified outcomes. Nine IR/interpreter documents dispositioned; 144 partial / 224 unreviewed sources.",
       "remaining": [
         "Exhaustive source/history disposition, including docs and theory",
         "Resolve or explicitly disposition A24 and X53 for G0",
@@ -37,7 +37,7 @@
   },
   "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
   "next_work": [
-    "Continue remaining source/history dispositions and map uncovered portable cases; boundary test text review is complete",
+    "Continue atlas/theory source and documentation dispositions; map uncovered neutral controls without promoting diagnostic projections to proof",
     "Continue release documents and earlier history",
     "Preserve conservative-refusal cost evidence for the campaign inventory"
   ],
