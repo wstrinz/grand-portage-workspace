@@ -2045,6 +2045,38 @@
       "kind": "output_membership",
       "layer": "output_evidence_admission",
       "limitation": "Actual native fold and freshness, simulated producer trace or native empty trace. No CAS or output-completeness claim."
+    },
+    "GP-X263": {
+      "kind": "mapped_ring",
+      "layer": "check_proof",
+      "limitation": "Exact native verifier versus synthetic positive native receipt. Shared-ring convention only; no live producer failure or CAS."
+    },
+    "GP-X264": {
+      "kind": "mapped_ring",
+      "layer": "admit_positive_receipt",
+      "limitation": "Exact native verifier versus synthetic positive native receipt. Shared-ring convention only; no live producer failure or CAS."
+    },
+    "GP-X265": {
+      "kind": "mapped_ring",
+      "layer": "check_proof",
+      "limitation": "Exact native verifier versus synthetic positive native receipt. Shared-ring convention only; no live producer failure or CAS."
+    },
+    "GP-X266": {
+      "kind": "mapped_ring",
+      "layer": "admit_positive_receipt",
+      "limitation": "Exact native verifier versus synthetic positive native receipt. Shared-ring convention only; no live producer failure or CAS.",
+      "known_difference": "mapped_ring_proof_not_replayed_at_native_admission"
+    },
+    "GP-X267": {
+      "kind": "mapped_ring",
+      "layer": "check_proof",
+      "limitation": "Exact native verifier versus synthetic positive native receipt. Shared-ring convention only; no live producer failure or CAS."
+    },
+    "GP-X268": {
+      "kind": "mapped_ring",
+      "layer": "admit_positive_receipt",
+      "limitation": "Exact native verifier versus synthetic positive native receipt. Shared-ring convention only; no live producer failure or CAS.",
+      "known_difference": "mapped_ring_proof_not_replayed_at_native_admission"
     }
   }
 }

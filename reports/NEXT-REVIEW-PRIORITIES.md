@@ -53,3 +53,5 @@ Batch 24 verifies five operation-output custody controls: valid producer, stale 
 Batch 25 completes neutral operation-output control extraction. Continue mapped-ring and partition validation review; do not conflate valid vacuous no-invention with output completeness.
 
 Batch 26 compares the exact mapped-ring verifier with native fold admission. Both invalid controls are refused by the real verifier but admitted when a positive native verdict is deliberately synthesized with current metadata. This diagnoses producer trust, not a real verifier false positive. Corpus unchanged.
+
+Batch 27 extracts mapped-ring controls; continue partition and remaining source/history review.

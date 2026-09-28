@@ -309,3 +309,9 @@ Observations remain layer-specific. Conditional transport, premise-route and cov
 | [GP-X260](must/GP-X260.json) | REFUSE | KNOWN_DIFFERENCE | output_evidence_admission | Fresh producer binding cannot repair false output membership |
 | [GP-X261](must/GP-X261.json) | REFUSE | AGREES | output_evidence_admission | Absent execution cannot authorize a false nonempty output proof |
 | [GP-X262](must/GP-X262.json) | ACCEPT | AGREES | output_evidence_admission | Empty output has vacuous no-invention evidence |
+| [GP-X263](must/GP-X263.json) | ACCEPT | AGREES | check_proof | Identity map with exact ideal rows / check_proof |
+| [GP-X264](must/GP-X264.json) | ACCEPT | AGREES | admit_positive_receipt | Identity map with exact ideal rows / admit_positive_receipt |
+| [GP-X265](must/GP-X265.json) | REFUSE | AGREES | check_proof | False pullback cofactor / check_proof |
+| [GP-X266](must/GP-X266.json) | REFUSE | KNOWN_DIFFERENCE | admit_positive_receipt | False pullback cofactor / admit_positive_receipt |
+| [GP-X267](must/GP-X267.json) | REFUSE | AGREES | check_proof | Polynomial map without an inverse / check_proof |
+| [GP-X268](must/GP-X268.json) | REFUSE | KNOWN_DIFFERENCE | admit_positive_receipt | Polynomial map without an inverse / admit_positive_receipt |

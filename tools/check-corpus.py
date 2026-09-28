@@ -578,6 +578,9 @@ def probe(case, route):
             receipt_current=stored["current"],effective_certificate=effective,
             baseline_current=True,execution_descriptor="fabricated_historical_test_trace")
 
+    if kind == "mapped_ring":
+        from mapped_ring_probes import probe as mapped_probe
+        return mapped_probe(case,route)
     if kind == "output_membership":
         from output_membership_probes import probe as output_probe
         return output_probe(case,route)
@@ -660,6 +663,7 @@ def main():
               "compiler_slot_probe_sha256":sha(ROOT/"tools/compiler_slot_probes.py"),
               "section_probe_sha256":sha(ROOT/"tools/section_probes.py"),
               "output_membership_probe_sha256":sha(ROOT/"tools/output_membership_probes.py"),
+              "mapped_ring_probe_sha256":sha(ROOT/"tools/mapped_ring_probes.py"),
               "artifact_fixture_sha256":sha(ORACLE/"tests/test_artifacts.py"),
               "lifecycle_input_adapter_sha256":sha(ROOT/"tools/lifecycle_inputs.py"),
               "lifecycle_baseline_sha256":sha(ROOT/"oracle/LIFECYCLE-INPUT-BASELINE.json"),

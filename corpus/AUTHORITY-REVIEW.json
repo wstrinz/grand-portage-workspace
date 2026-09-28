@@ -214,7 +214,8 @@
     "reports/PHASE-0A-BATCH-23.md",
     "reports/OPERATION-REPLAY-BOUNDARY.json",
     "reports/PHASE-0A-BATCH-25.md",
-    "reports/MAPPED-RING-REPLAY-BOUNDARY.json"
+    "reports/MAPPED-RING-REPLAY-BOUNDARY.json",
+    "reports/PHASE-0A-BATCH-27.md"
   ],
   "cases": [
     "GP-X255",
@@ -224,12 +225,18 @@
     "GP-X259",
     "GP-X260",
     "GP-X261",
-    "GP-X262"
+    "GP-X262",
+    "GP-X263",
+    "GP-X264",
+    "GP-X265",
+    "GP-X266",
+    "GP-X267",
+    "GP-X268"
   ],
   "producer_boundary_followups": [
     "Section controls extracted as GP-X255-257",
     "Operation-output controls extracted as GP-X258-262",
-    "Mapped-ring native verifier/fold distinction reproduced in three controls; portable extraction and partition review remain"
+    "Mapped-ring paired cases extracted as GP-X263-268; partition review remains"
   ],
   "mapped_ring_review": {
     "source": "grandportage/verify.py",
