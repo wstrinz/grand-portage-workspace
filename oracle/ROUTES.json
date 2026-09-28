@@ -1662,6 +1662,36 @@
       "kind": "joint_premises",
       "layer": "conditional_premise_routes",
       "limitation": "Legacy transport/coverage rule under declared premises; not logical entailment or GP 0.50 held authority. Partition verification is explicitly assumed for rule isolation. Whole checker and renderer also execute without an external CAS."
+    },
+    "GP-X187": {
+      "kind": "provenance_review",
+      "layer": "diagnostic_or_operational_policy",
+      "limitation": "No checked mathematical premise authority. Construction taint and operational warning acceptance are separate from valid theorem entailment."
+    },
+    "GP-X188": {
+      "kind": "provenance_review",
+      "layer": "diagnostic_or_operational_policy",
+      "limitation": "No checked mathematical premise authority. Construction taint and operational warning acceptance are separate from valid theorem entailment."
+    },
+    "GP-X189": {
+      "kind": "provenance_review",
+      "layer": "diagnostic_or_operational_policy",
+      "limitation": "No checked mathematical premise authority. Construction taint and operational warning acceptance are separate from valid theorem entailment."
+    },
+    "GP-X190": {
+      "kind": "provenance_review",
+      "layer": "diagnostic_or_operational_policy",
+      "limitation": "No checked mathematical premise authority. Construction taint and operational warning acceptance are separate from valid theorem entailment."
+    },
+    "GP-X191": {
+      "kind": "provenance_review",
+      "layer": "diagnostic_or_operational_policy",
+      "limitation": "No checked mathematical premise authority. Construction taint and operational warning acceptance are separate from valid theorem entailment."
+    },
+    "GP-X192": {
+      "kind": "provenance_review",
+      "layer": "diagnostic_or_operational_policy",
+      "limitation": "No checked mathematical premise authority. Construction taint and operational warning acceptance are separate from valid theorem entailment."
     }
   }
 }

@@ -557,6 +557,154 @@
           "remaining": "IR source premises and small SemanticLoss/TargetDischarge files inspected in this slice; remaining constructor/parity and target-adapter review is open."
         }
       ]
+    },
+    {
+      "path": "SPEC.md",
+      "sha256": "ff0811785ccb2bd3b60e000eecc3b5f794f1fb2871593f6d6a5d2dab76f3bfe9",
+      "lines": 619,
+      "full_text_read": true,
+      "semantic_status": "partial",
+      "sections": [
+        {
+          "start_line": 1,
+          "end_line": 34,
+          "anchor": "# Grand Portage operational specification",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Scope error motivating the tool is retained; the sample report is evidence of the documented incident, not a new run.",
+          "remaining": "Trace source-specific field scope through corpus and authorized sweep."
+        },
+        {
+          "start_line": 35,
+          "end_line": 64,
+          "anchor": "## What Grand Portage is for",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Version-0.30 usage framing describes bounded affine middleware, native provenance and selected-real/extension witnesses.",
+          "remaining": "Historical version prose is not a current feature completeness assertion."
+        },
+        {
+          "start_line": 65,
+          "end_line": 130,
+          "anchor": "## Status",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "1811 checks and eleven sessions are historical claims. The layer list includes derived campaign operations with no graph authority; private-document summaries preserve regime and modelling-cost caveats.",
+          "remaining": "Disposition compatibility/release/private records independently; no companion access is authorized by a link."
+        },
+        {
+          "start_line": 131,
+          "end_line": 160,
+          "anchor": "## The loop, end to end",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Declaration-before-spawn and hook protocols are operational boundaries; transcript is illustrative.",
+          "remaining": "Complete process-custody and hook protocol tests; mathematical refusal does not itself prove delivery/enforcement."
+        },
+        {
+          "start_line": 161,
+          "end_line": 436,
+          "anchor": "## The six relaxation types",
+          "cases": [
+            "GP-A08a",
+            "GP-A08b",
+            "GP-A08c"
+          ],
+          "disposition": "diagnostic_or_followup",
+          "review": "Read all mapped-coordinate, selected-embedding, predicate, witness, transport-table and compiler/operation sections. Standalone Laurent/factor/product/chain equality checks have narrower authority than bound graph claims. Exact contraction and point lifts are distinct. SPECIALIZATION prose overstates the counterexamples: they refute unconditional transport, not the certificate-backed instances in A08b/c. The table already admits conditional identity transport.",
+          "remaining": "Extract remaining operation-specific controls and review every table cell. Preserve point versus polynomial-map convention for renamed coordinates. Source claims about live CAS fixtures were not rerun."
+        },
+        {
+          "start_line": 437,
+          "end_line": 455,
+          "anchor": "## Scope is derived, never declared",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Epoch-12 reach is interpreter requirements at target field/universe; equality replay does not imply contradiction. SCHEME is compatibility vocabulary, not the current Boolean admission algorithm.",
+          "remaining": "Reconcile historical table/status prose with current reach tests without changing oracle code."
+        },
+        {
+          "start_line": 456,
+          "end_line": 463,
+          "anchor": "## Predicate policy for new campaign charters",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Machine-readable predicate conditions are a charter policy; prose remains legal and lint-only.",
+          "remaining": "Check inertness and lint separately; no formula can be inferred from prose."
+        },
+        {
+          "start_line": 464,
+          "end_line": 489,
+          "anchor": "## Quick start",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Commands span checking, projection and campaign read models. Stdlib/purity/runtime descriptions are claims about bounded surfaces.",
+          "remaining": "Do not infer all verifiers are solver-free; review CLI and visualization/external resource behavior separately."
+        },
+        {
+          "start_line": 490,
+          "end_line": 513,
+          "anchor": "## The retrodiction gate",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Retrodiction counts, zero false positives and derived severities refer to pinned fixtures. Mutations can refuse during fold.",
+          "remaining": "Do not generalize historical fixture performance to all claims or call declarations independently checked contradictions."
+        },
+        {
+          "start_line": 514,
+          "end_line": 537,
+          "anchor": "### Coverage on two axes",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Three gauge leaks are one incident; place and order axes have deletion controls but no demonstrated within-axis discrimination.",
+          "remaining": "Preserve deduplication and evidence limits in campaign incident/cost inventory."
+        },
+        {
+          "start_line": 538,
+          "end_line": 568,
+          "anchor": "## The live front",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Four live-front obligations were already known; the tool did not discover them. Disconnected computations and wrong transport direction are separate failures.",
+          "remaining": "Map GP-owned gamma fixture to exact minimal controls; current campaign state awaits authorized sources."
+        },
+        {
+          "start_line": 569,
+          "end_line": 570,
+          "anchor": "## What this does not do",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Limitations section introduction.",
+          "remaining": ""
+        },
+        {
+          "start_line": 571,
+          "end_line": 586,
+          "anchor": "### Explicit open-premise slots",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Open premise slots retain intent without asserting the claim; accounting checks do not establish field transport. Family/model bridge cannot be skipped.",
+          "remaining": "Joint open-slot cases cover a slice; disposition retained DK fixture and family-bridge tests without importing companion authority."
+        },
+        {
+          "start_line": 587,
+          "end_line": 605,
+          "anchor": "### Limits",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Missing edges and weak declared components escape checks; modelling cost dominates the cited small study.",
+          "remaining": "Report qualitative incident/cost limits and do not treat coverage as completeness or all weakness detection."
+        },
+        {
+          "start_line": 606,
+          "end_line": 619,
+          "anchor": "## Provenance",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Historical provenance and naming; semantic-information-loss reference is separate from lost transport permission.",
+          "remaining": "External historical prototype sources remain outside completed review."
+        }
+      ]
     }
   ]
 }

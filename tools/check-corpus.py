@@ -578,6 +578,9 @@ def probe(case, route):
             receipt_current=stored["current"],effective_certificate=effective,
             baseline_current=True,execution_descriptor="fabricated_historical_test_trace")
 
+    if kind == "provenance_review":
+        from provenance_probes import probe as provenance_probe
+        return provenance_probe(case,route)
     if kind == "joint_premises":
         from joint_probes import probe as joint_probe
         return joint_probe(case,route)
@@ -624,6 +627,7 @@ def main():
               "current_algebra_probe_sha256":sha(ROOT/"tools/current_algebra_probes.py"),
               "lifecycle_probe_sha256":sha(ROOT/"tools/lifecycle_probes.py"),
               "joint_probe_sha256":sha(ROOT/"tools/joint_probes.py"),
+              "provenance_probe_sha256":sha(ROOT/"tools/provenance_probes.py"),
               "lifecycle_input_adapter_sha256":sha(ROOT/"tools/lifecycle_inputs.py"),
               "lifecycle_baseline_sha256":sha(ROOT/"oracle/LIFECYCLE-INPUT-BASELINE.json"),
               "routes_sha256":sha(ROOT/"oracle/ROUTES.json"),

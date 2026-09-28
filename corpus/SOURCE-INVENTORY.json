@@ -729,7 +729,7 @@
       "path": "grandportage/hook.py",
       "git_object": "332e601f4cff8ac6eb86c2af6683cbf03f9ce232",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/identity.py",

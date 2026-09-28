@@ -233,3 +233,9 @@ Historical coverage remains incomplete. The first pass covers all 29 deleted tes
 | [GP-X99](must/GP-X99.json) | REFUSE | AGREES | derived_metadata_contract | Declare agreement between incompatible exact scopes |
 
 Observations remain layer-specific. Conditional transport, premise-route and cover rules assume their prerequisites. A clean legacy argument does not prove entailment or mint a 0.50 warrant. Lifecycle and frozen metadata contracts do not establish mathematical claims. Some binding probes use fabricated backend descriptors; exact replay is distinct. Producer/parser controls do not establish completeness. UNSUPPORTED is not mathematical refusal. The retry/merge design issue is recorded separately without changing fixed expectations.
+| [GP-X187](must/GP-X187.json) | REFUSE | AGREES | diagnostic_or_operational_policy | Second-generation construction provenance inherits a refused lift |
+| [GP-X188](must/GP-X188.json) | ACCEPT | AGREES | diagnostic_or_operational_policy | Second-generation construction provenance without the refused dependency |
+| [GP-X189](must/GP-X189.json) | ACCEPT | AGREES | diagnostic_or_operational_policy | Unchanged reviewed warning remains operationally accepted |
+| [GP-X190](must/GP-X190.json) | REFUSE | AGREES | diagnostic_or_operational_policy | Retyping a relation reopens its warning despite stable finding identity |
+| [GP-X191](must/GP-X191.json) | REFUSE | AGREES | diagnostic_or_operational_policy | A warning review without its meaning digest cannot suppress the warning |
+| [GP-X192](must/GP-X192.json) | REFUSE | AGREES | diagnostic_or_operational_policy | An unreviewed warning still blocks operational continuation |
