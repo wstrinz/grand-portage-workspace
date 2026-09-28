@@ -143,3 +143,5 @@ Batch 69 completes predecessor corpus runner/intake source and test reading. Fou
 Batch 70 completes number-field source/tests and extension verifier/fold slices. Nine offline tests pass, one live identity check excluded; four cubic/denominator controls verified. Exact soundness argument and resource limits recorded. Corpus unchanged; 126 partial / 242 unreviewed. See PHASE-0A-BATCH-70.md.
 
 Batch 71 completes ordered producer/receipt source and regression reading. Twenty-six tests and five controls pass; repeated roots verify, direct reversed-endpoint acceptance is blocked by native validation. Soundness/shared-TCB limits recorded. Corpus unchanged; 129 partial / 239 unreviewed. See PHASE-0A-BATCH-71.md.
+
+Batch 72 completes triangular checker/tests and both synthetic chain fixture text reviews. All 20 tests pass. Conditional normalization/unit assumptions and graph-map obligations explicitly dispositioned. Corpus unchanged; 133 partial / 235 unreviewed. See PHASE-0A-BATCH-72.md.

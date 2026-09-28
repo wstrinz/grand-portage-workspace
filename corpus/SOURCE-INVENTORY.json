@@ -435,13 +435,13 @@
       "path": "fixtures/algebraic_contracts/localized_triangular_solve_chain_v1.json",
       "git_object": "50a6a8496dbb945c7e23624599b6c5aedda8bc4b",
       "category": "fixtures_examples",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "fixtures/algebraic_contracts/localized_triangular_solve_chain_v2.json",
       "git_object": "869e9c5df03192b813dba9437d4fc1f9e6dfa467",
       "category": "fixtures_examples",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "fixtures/algebraic_contracts/product_split_v1.json",
@@ -885,7 +885,7 @@
       "path": "grandportage/triangular.py",
       "git_object": "53983d94636eb1391313f6e6b6c09ecc7b65e629",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/verify.py",
@@ -2341,7 +2341,7 @@
       "path": "tests/test_triangular.py",
       "git_object": "49ece2ed6848850868eb5463c9f092f40c271c8f",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_unit_certificate_composition.py",
