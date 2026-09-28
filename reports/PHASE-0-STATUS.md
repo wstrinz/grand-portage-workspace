@@ -93,3 +93,5 @@ Batch 38 completes full v0.27 diff reading: all 36 changed paths and hashes veri
 Batch 39: product checker/constructor review, 28 offline tests passed and neutral premise controls verified. Coverage now 62 partial / 306 unreviewed; corpus unchanged, portable extraction next.
 
 Batch 40: GP-X284–291 extract eight product identity/construction controls, all agree. All 324 prior case bytes and outcome classifications preserved. Full replay 20260928T141329008590Z; 332 total cases, 318 agreements and unchanged exceptions.
+
+Batch 41: factor-power and affine-composition review complete at text/selected-control level; 26 tests and ten neutral controls pass. Coverage 68 partial / 300 unreviewed; fixed-expectation extraction remains next.

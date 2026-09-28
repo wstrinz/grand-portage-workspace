@@ -421,13 +421,15 @@
       "path": "fixtures/algebraic_contracts/factor_power_affine_contradiction_v1.json",
       "git_object": "f3b071f3220f4e3119eda706915e3f1a328efa88",
       "category": "fixtures_examples",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "factor_review": "corpus/FACTOR-COMPOSITION-REVIEW.json"
     },
     {
       "path": "fixtures/algebraic_contracts/factor_power_v1.json",
       "git_object": "9d9873f10d1cf86052c55c79ad3af2baef006e05",
       "category": "fixtures_examples",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "factor_review": "corpus/FACTOR-COMPOSITION-REVIEW.json"
     },
     {
       "path": "fixtures/algebraic_contracts/localized_triangular_solve_chain_v1.json",
@@ -678,13 +680,15 @@
       "path": "grandportage/factor_power.py",
       "git_object": "5a5061db458b4d3f2620c3c7ff626d92d5773c55",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "factor_review": "corpus/FACTOR-COMPOSITION-REVIEW.json"
     },
     {
       "path": "grandportage/factor_power_contradiction.py",
       "git_object": "ebcfb7a9c91898b05d6df711316794a9e049db5f",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "factor_review": "corpus/FACTOR-COMPOSITION-REVIEW.json"
     },
     {
       "path": "grandportage/field.py",
@@ -2029,13 +2033,15 @@
       "path": "tests/test_factor_power.py",
       "git_object": "132b13f1880d8e4b519cda90e7d00e1ebac4cebe",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "factor_review": "corpus/FACTOR-COMPOSITION-REVIEW.json"
     },
     {
       "path": "tests/test_factor_power_contradiction.py",
       "git_object": "57a75416df65a022f4eaa0464bd11004bfbba911",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "factor_review": "corpus/FACTOR-COMPOSITION-REVIEW.json"
     },
     {
       "path": "tests/test_family_retrodiction.py",
