@@ -98,6 +98,26 @@
         ]
       },
       "qualification": "W3 jointly checks degree, squarefreeness, chain and slice equations; no isolated failed conjunct or nonunit conclusion."
+    },
+    {
+      "source_pin": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "source_path": "tests/test_jc_source_depth6_full_template.py",
+      "test": "test_mutated_selected_face_loses_structural_authority",
+      "extraction_status": "complete_for_recorded_dispatch_boundary",
+      "positive_controls": [
+        "GP-X337"
+      ],
+      "mutation_mappings": {
+        "selected_sparse_coefficient_999": [
+          "GP-X338"
+        ]
+      },
+      "evidence": [
+        "reports/PHASE-0A-STRUCTURAL-DISPATCH-EXTRACTION.md",
+        "reports/PHASE-0A-STRUCTURAL-DISPATCH-EVIDENCE.json",
+        "reports/oracle-runs/20260928T211311262604Z.json"
+      ],
+      "review": "Parent read full probe, both payloads, runner/route diff and pinned eligibility/dispatch branches. Independently validated379 and preserved all377 prior bytes/expectations/verdicts/status/routes/layers. Neutral one-variable branch projection; historical large template not executed. Both ACCEPT observations describe dispatch. Mutation has no native containment verdict; exact membership remains valid."
     }
   ]
 }

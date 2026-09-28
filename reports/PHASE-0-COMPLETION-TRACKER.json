@@ -4,7 +4,7 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "377 cases (114 ACCEPT / 263 REFUSE); 362 agreements, twelve known differences and three other classified outcomes. Depth-eight block and residual-contract tests parent-adjudicated in PHASE-0A-CLOSURE-DECISIONS.json. Source incident coverage remains incomplete.",
+      "evidence": "379 cases (116 ACCEPT / 263 REFUSE); 364 agreements, twelve known differences and three other classified outcomes. All four reopened test functions now have parent incident dispositions in PHASE-0A-CLOSURE-DECISIONS.json. Source incident coverage remains incomplete.",
       "remaining": [
         "Exhaustive source/history disposition, including docs and theory",
         "Resolve or explicitly disposition A24 and X53 for G0",
@@ -37,7 +37,7 @@
   },
   "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
   "next_work": [
-    "Extract structural eligibility/fallback boundary with intact structural positive; independently adjudicate six deleted notes after reference corrections",
+    "Extract confirmed zero-regime minimality incident; review Cramer power-one provenance before extracting exponent claim",
     "Adjudicate proposed case mappings at their actual validation layers",
     "Disposition unmatched deleted GP-owned sources; 77 of 156 deleted non-test blobs have exact retained matches, 79 do not",
     "Resolve A24 source dependency and preserve explicit oracle limits before proposing 0a closeout"
