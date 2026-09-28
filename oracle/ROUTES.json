@@ -2473,6 +2473,16 @@
       "layer": "exact_zero_regime_reference_arithmetic",
       "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
       "limitation": "Reference arithmetic refutes blanket S-1 shift-degree minimality on zero R5/R6. No native per-regime minimality verdict; global unilateral S8 remains separate."
+    },
+    "GP-X341": {
+      "kind": "dm4_zero_chart",
+      "layer": "exact_reference_rational_zero_chart",
+      "limitation": "Local SymPy arithmetic for deleted document's displayed G1-G3 only. No native rational-lift checker, full v13 target, nonzero-chart valuation theorem, or graph authority."
+    },
+    "GP-X342": {
+      "kind": "dm4_zero_chart",
+      "layer": "exact_reference_rational_zero_chart",
+      "limitation": "Local SymPy arithmetic proves polynomial q exists for the same retained zero chart and displayed G1-G3 only; no full v13 target-lift claim."
     }
   }
 }

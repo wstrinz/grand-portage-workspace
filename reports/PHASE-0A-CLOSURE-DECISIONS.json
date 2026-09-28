@@ -135,6 +135,23 @@
         "reports/oracle-runs/20260928T220044757918Z.json"
       ],
       "review": "Parent read full probe and both cases; independently inspected pinned padding branch for every d>=14. Unit degree0 refutes S-1 degree1 minimality on zero regimes; global S8 intact. Reference arithmetic, no native per-regime verdict. Validated381 and verified379 prior bytes and outcomes unchanged."
+    },
+    {
+      "incident": "deleted-dm4-universal-versus-existential",
+      "source_blob": "36e9e90cecee7209ef1098ca8f79118c02381bb6",
+      "extraction_status": "complete_for_displayed_equations_quantifier_overstatement",
+      "case_ids": [
+        "GP-X341",
+        "GP-X342"
+      ],
+      "positive_controls": [
+        "GP-X342"
+      ],
+      "evidence": [
+        "reports/PHASE-0A-DM4-POLYNOMIAL-LIFT-EXTRACTION.md",
+        "reports/oracle-runs/20260928T224802105393Z.json"
+      ],
+      "review": "Parent read full probe, payloads and route/runner diff. Every displayed term vanishes on zero chart; 1/y is nonpolynomial,0 is polynomial. Reference arithmetic only; no full target or nonzero-chart theorem claim. Validated383 and independently preserved381 prior case bytes, expectations, verdicts, statuses, routes and layers."
     }
   ]
 }

@@ -8,13 +8,13 @@ Work explicitly in F:/repos/grandportage-0.50. Read AGENTS/DECISIONS and closure
 
 ## Current integrated evidence
 
-381 cases:117 ACCEPT /264 REFUSE. Latest replay reports/oracle-runs/20260928T220044757918Z.json:366 AGREES,12 KNOWN_DIFFERENCE,1 DIAGNOSTIC_OBSERVED,1 PENDING,1 UNSUPPORTED. Parent read full zero-regime probe and payloads, inspected pinned padding branch, validated381 and independently preserved all379 earlier bytes, expectations, observed verdicts, status, route and layer. X339/X340 use explicit reference arithmetic, not a native minimality verdict; global S8 unchanged. CLOSURE-DECISIONS records this and all four reopened test functions.
+383 cases:118 ACCEPT /265 REFUSE. Latest replay reports/oracle-runs/20260928T224802105393Z.json:368 AGREES,12 KNOWN_DIFFERENCE,1 DIAGNOSTIC_OBSERVED,1 PENDING,1 UNSUPPORTED. Parent reviewed full dm4 probe and cases, validated383 and independently preserved381 prior bytes/outcomes. X341/X342 separate universal polynomiality from existence for displayed G1-G3 only; reference arithmetic, no full target claim.
 
-## Workers and ownership
+## Workers and next priority
 
-Sol thread01a0e90c-4cb4-7392-b246-590cce500642 host local is authorized for ongoing coordination. Next assignment: polynomial-lift universal-versus-existence incident from DELETED-DOCUMENT-REVIEW, with faithful neutral controls. Sole corpus/adapters/ROUTES/latest replay writer during slice; no commits. Parent owns integration and closure judgment.
+User asked for path reevaluation. Keep approved corpus-first closure criterion; change next work from serial tiny slices to finite consolidation. Sol thread01a0e90c-4cb4-7392-b246-590cce500642 host local now owns only CURRENT-REMAINING-QUEUE.json/.md: reconcile all258 finding obligations and separately source/history groups against later parent decisions, preserve proposed-vs-accepted mappings, expose user decisions and coherent larger batches. No new cases during consolidation. Parent selects batch after review; do not keep extracting from stale47candidate/13hold totals.
 
-Terra deleted_mappings completed CRAMER-PROVENANCE-REVIEW; parent checked generator and A6/A7 excerpts. Native validation checks supplied-pair nondivisibility, not reconstructed full-model specialization provenance. Keep gap explicit. Both Terra agents available for separate bounded tasks; check state before assigning.
+Terra OPERATION-COUNTERMODEL-MAPPINGS completed, uncommitted proposal pending parent adjudication. Cramer review integrated with provenance limits. Existing workers may be reused for bounded tasks; avoid duplicate reconciliation.
 
 ## Parent findings and remaining queue
 
@@ -30,4 +30,4 @@ Terra deleted_mappings completed CRAMER-PROVENANCE-REVIEW; parent checked genera
 
 A24 needs an authorized concrete realization source/projection; preserve expected REFUSE and PENDING observation, and check implication/guard direction. X53 remains unsupported dimension-credit vocabulary. A03a remains diagnostic advice evidence, not reproduced false-held authority. These cannot be silently relabeled. Campaign manifest and later Lean cap require user input. Continue independent GP work meanwhile; when these are the actual remaining barriers, report the smallest decision and pause heartbeat. 0d private preparation is verified, publication remains gated. Do not call all Phase 0 complete merely because 0a closes.
 
-Scheduled heartbeat 2026-09-28 22:40 UTC: integrated zero-regime pair and Cramer provenance evidence. Next polynomial-lift extraction is independent authorized work. Manifest/A24 and later spike gates remain; no global impasse.
+Scheduled heartbeat 2026-09-28 22:40 UTC: integrated zero-regime pair and Cramer provenance evidence. Polynomial-lift extraction now integrated; current queue consolidation is next. Manifest/A24 and later spike gates remain; no global impasse.
