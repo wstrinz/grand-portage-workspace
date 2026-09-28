@@ -37,7 +37,7 @@
   },
   "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
   "next_work": [
-    "Review diagnostic/schema surface implementations and continue unreviewed sources/history",
+    "Continue remaining MCP/CLI sources and earlier history; disposition schema/health interface findings separately from proof corpus",
     "Continue release documents and earlier history",
     "Preserve conservative-refusal cost evidence for the campaign inventory"
   ],
