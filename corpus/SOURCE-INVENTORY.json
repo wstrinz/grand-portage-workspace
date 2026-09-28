@@ -908,7 +908,7 @@
       "path": "grandportage/work.py",
       "git_object": "3e7715c26d22ad17a2aa9b961c5f97c0ff859b2f",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/.gitignore",
@@ -2365,7 +2365,7 @@
       "path": "tests/test_work_accounting.py",
       "git_object": "9a88cb33b6262b9bf74a0df32a7d67f28d2e57ec",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tools/replay_arr15_e10.py",
