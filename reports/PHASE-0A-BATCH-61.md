@@ -11,3 +11,5 @@ The retained synthetic replay script points to the old sibling authority/receipt
 Documentation correctly limits dossier authority, but blanket drift-as-readiness-blocker wording needs profile qualification; format 5/epoch 10 and companion preview statements are historical. No external companion claims were verified or campaign data harvested. Release/publication consumer review remains open.
 
 Corpus expectations, adapters, immutable replay and frozen source are unchanged. No live CAS, Lean work or publication. Phase 0 remains active.
+
+Correction from Batch 62: the synthetic verifier targets the intended materialized archive layout, not a stale layout. Archived replay passes. Withdraw the packaging-defect interpretation and path-change proposal above; retain the source-directory observation and CRLF finding. See DOSSIER-FIXTURE-INTERPRETATION-CORRECTION.json.

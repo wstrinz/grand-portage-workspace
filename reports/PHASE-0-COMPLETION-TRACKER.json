@@ -4,7 +4,7 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "352 cases (108 ACCEPT / 244 REFUSE); 337 agreements, twelve known differences and three other classified outcomes. Dossier: 15 tests and five diagnostics; source coverage 98 partial / 270 unreviewed.",
+      "evidence": "352 cases (108 ACCEPT / 244 REFUSE); 337 agreements, twelve known differences and three other classified outcomes. Release/publication: 20 tests pass; source coverage 105 partial / 263 unreviewed.",
       "remaining": [
         "Exhaustive source/history disposition, including docs and theory",
         "Resolve or explicitly disposition A24 and X53 for G0",
@@ -37,7 +37,7 @@
   },
   "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
   "next_work": [
-    "Trace dossier release/publication consumers, then remaining reporting/history sources",
+    "Review release materializer trust boundary and shared output writer; continue remaining source/history review",
     "Continue release documents and earlier history",
     "Preserve conservative-refusal cost evidence for the campaign inventory"
   ],

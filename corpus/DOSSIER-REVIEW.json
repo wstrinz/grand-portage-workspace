@@ -68,17 +68,17 @@
   "findings": [
     "READY evaluates authored criteria; replay PASS is metadata, not executed evidence. SOURCE_FRESH must be required explicitly by the profile. No theorem or graph mutation is admitted.",
     "Working-tree digest normalizes CRLF but pinned git-show digest hashes raw bytes despite the same declared algorithm. Synthetic real-Git controls give CURRENT_CLEAN versus STALE for identical committed CRLF content.",
-    "Retained verify_synthetic.py still targets sibling authority/receipts directories absent from the consolidated fixture. Actual execution raises FileNotFoundError. Existing tests do not execute that script.",
     "Source status can be STALE while a profile lacking SOURCE_FRESH is READY. Documentation blanket drift-as-blocker wording needs that qualification.",
-    "Documentation references graph format 5/kernel epoch 10 and companion preview status; these are historical statements, not current pinned format/epoch or externally verified campaign facts."
+    "Documentation references graph format 5/kernel epoch 10 and companion preview status; these are historical statements, not current pinned format/epoch or externally verified campaign facts.",
+    "The script is intended for the materialized archive layout declared by fixtures/release/synthetic/release.json. Actual archived replay passes in test_release.py. Source-directory FileNotFoundError does not establish a broken package."
   ],
   "proposed_repairs": [
     "Use one LF-normalized digest implementation for checkout and git blobs; retain CRLF and LF controls.",
-    "Resolve synthetic verifier files relative to its actual fixture directory and execute the fixture replay in its packaging regression.",
     "Label replay states as recorded assertions and readiness as profile-specific; require source freshness and replay binding in any later policy that needs them."
   ],
   "remaining": [
     "Trace release/publication consumers before assessing downstream admission or archival behavior.",
     "Extract portable cases where warranted; complete broader semantic/history review."
-  ]
+  ],
+  "correction": "reports/DOSSIER-FIXTURE-INTERPRETATION-CORRECTION.json"
 }

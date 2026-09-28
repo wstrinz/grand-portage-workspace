@@ -187,13 +187,13 @@
       "path": "docs/CAMPAIGN-PUBLICATION-V0.md",
       "git_object": "6c459cd30aad0169e4d862ad852838e7a93165dd",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "docs/CAMPAIGN-RELEASE-V0.md",
       "git_object": "58d2a6a9ab9ac38c0fbf621e41dcdb4a1c559a04",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "docs/CERTIFICATE-INTERPRETER-V0.md",
@@ -571,7 +571,7 @@
       "path": "fixtures/release/synthetic/release.json",
       "git_object": "7c2b9d743d5be3e0d5a790e767b62dc565d9f2f9",
       "category": "fixtures_examples",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/__init__.py",
@@ -861,7 +861,7 @@
       "path": "grandportage/publication.py",
       "git_object": "3c03b01c68dc7ae5efda467931f5bcba610d70e8",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/reference_oracle.py",
@@ -873,7 +873,7 @@
       "path": "grandportage/release.py",
       "git_object": "e4e892a8dfd1bca8607f6ef32d2ddb33a43b4106",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/store.py",
@@ -2272,7 +2272,7 @@
       "path": "tests/test_publication.py",
       "git_object": "dffae68e718fc3b8caf60f12a390d4dc838a7998",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_reference_oracle.py",
@@ -2284,7 +2284,7 @@
       "path": "tests/test_release.py",
       "git_object": "de43ae096219f07c60bfdfb90b2e23f008f833a7",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_retrodiction.py",

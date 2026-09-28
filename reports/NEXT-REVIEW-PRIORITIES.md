@@ -123,3 +123,5 @@ Batch 59 reviews the operational work ledger and CLI boundary; all thirteen test
 Batch 60 reviews descriptive evidence metadata (eight tests pass) and starts dossier lines 1–210. Corrects missing MCP/CLI partial inventory credit; prior prose claiming that credit already existed was wrong. Recorded transitions give 91 partial / 277 unreviewed. Corpus unchanged. See PHASE-0A-BATCH-60.md.
 
 Batch 61 completes dossier source, tests, documentation and synthetic fixture text review: 15 tests pass, five diagnostics verify metadata-only readiness, CRLF digest inconsistency and a broken fixture replay path. Corpus unchanged; 98 partial / 270 unreviewed sources. See PHASE-0A-BATCH-61.md.
+
+Batch 62 completes release/publication source, tests, docs and synthetic manifest text review. Twenty tests pass, including actual archived replay. Corrects Batch 61: source-directory verifier failure is not a packaging defect. Materialization remains packaging, not replay execution or theorem authority. Corpus unchanged; 105 partial / 263 unreviewed sources. See PHASE-0A-BATCH-62.md.
