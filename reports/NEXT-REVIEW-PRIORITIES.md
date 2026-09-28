@@ -63,3 +63,5 @@ Batch 29 closes portable open-guard counterexample extraction. Continue partitio
 Batch 30 reproduces a selected-embedding partition omission: negative-root branches of x^2-2 are reported as covering a positive-root parent. point_scope excludes embedding; exact identical-ideal backend answers cannot establish selected-locus coverage. Corpus extraction remains next.
 
 Batch 31 completes selected-root counterexample extraction. Continue remaining source/history review and semantic-neutrality checks.
+
+Batch 32 fully reads the eight-path point-universe fix 93770c6 and passes its broader 15-instance retained regression selection. Historical review remains semantically partial pending all relation/omission corpus controls. No campaign or historical executable run claimed.

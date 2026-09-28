@@ -75,3 +75,5 @@ Batch 29 extracts GP-X269-272. Two punctured branches miss the origin, while thr
 Batch 30 reproduces a selected-embedding partition omission: negative-root branches of x^2-2 are reported as covering a positive-root parent. point_scope excludes embedding; exact identical-ideal backend answers cannot establish selected-locus coverage. Corpus extraction remains next.
 
 Batch 31 extracts GP-X273-274 selected-root cover controls. All 313 prior case files unchanged; no replay errors or untriaged differences.
+
+Batch 32 fully reads the eight-path point-universe fix 93770c6 and passes its broader 15-instance retained regression selection. Historical review remains semantically partial pending all relation/omission corpus controls. No campaign or historical executable run claimed.

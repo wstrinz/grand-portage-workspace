@@ -43,8 +43,9 @@
         "GP-X11",
         "GP-X12"
       ],
-      "reviewed": "Commit message and retained point-universe regression block read; mismatch directions and partial omission extracted.",
-      "remaining": "Other relation kinds, both-omitted legacy behavior and untyped debt still need corpus disposition. Same-universe positive fold passed as a regression, not a held-claim case."
+      "reviewed": "Entire eight-path commit diff and message read; six document count updates, structural universe gate/design note, and all added tests dispositioned. Fifteen current pinned regression instances pass; evidence reports/POINT-UNIVERSE-HISTORY-REVIEW.json.",
+      "remaining": "Portable extraction of the other relation kinds, both-omitted readability and untyped debt remains. Current tests are not historical execution, full soundness proof, or complete campaign coverage.",
+      "full_diff_read": true
     },
     {
       "commit": "af4f6a8f6872521f4f814ab8cdb22af32a11d52c",
