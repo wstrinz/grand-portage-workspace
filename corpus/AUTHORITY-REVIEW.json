@@ -213,7 +213,8 @@
     "reports/SECTION-REPLAY-BOUNDARY.json",
     "reports/PHASE-0A-BATCH-23.md",
     "reports/OPERATION-REPLAY-BOUNDARY.json",
-    "reports/PHASE-0A-BATCH-25.md"
+    "reports/PHASE-0A-BATCH-25.md",
+    "reports/MAPPED-RING-REPLAY-BOUNDARY.json"
   ],
   "cases": [
     "GP-X255",
@@ -228,6 +229,15 @@
   "producer_boundary_followups": [
     "Section controls extracted as GP-X255-257",
     "Operation-output controls extracted as GP-X258-262",
-    "Trace mapped-ring and partition validation beyond descriptive registry and binder before drawing conclusions"
-  ]
+    "Mapped-ring native verifier/fold distinction reproduced in three controls; portable extraction and partition review remain"
+  ],
+  "mapped_ring_review": {
+    "source": "grandportage/verify.py",
+    "read_range": [
+      505,
+      754
+    ],
+    "review": "Exact shared-ring certificate verifier checks ideal pullbacks and polynomial inverse laws. Cross-ring path uses a distinct generator-image convention and backend membership; not tested in this diagnostic. Native provenance eligibility checks schema and map presence, not arithmetic.",
+    "remaining": "Remaining solver-backed map branch, cross-ring cases and complete producer/fold extraction."
+  }
 }

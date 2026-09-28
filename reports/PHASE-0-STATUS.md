@@ -63,3 +63,5 @@ Batch 23 adds GP-X255-257 section receipt controls. All 295 prior case files rem
 Batch 24 verifies five operation-output custody controls: valid producer, stale proof edit, invalid reissued producer, invalid nonempty native and valid empty native. Nonempty cofactor arithmetic remains trusted to producer in the legacy fold; empty native output earns no completeness. See OPERATION-REPLAY-BOUNDARY.json; corpus unchanged.
 
 Batch 25 extracts GP-X258-262 operation-output evidence controls. All 298 previous case files are byte-identical. Expected REFUSE for false fresh-bound membership is preserved; full replay has no errors or untriaged differences.
+
+Batch 26 compares the exact mapped-ring verifier with native fold admission. Both invalid controls are refused by the real verifier but admitted when a positive native verdict is deliberately synthesized with current metadata. This diagnoses producer trust, not a real verifier false positive. Corpus unchanged.
