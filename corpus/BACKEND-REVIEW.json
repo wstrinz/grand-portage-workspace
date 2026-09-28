@@ -180,10 +180,10 @@
     {
       "path": "grandportage/cas.py",
       "sha256": "b33ed86b25361eb9c6e8993b96f12ae5359fe12c20bf4d729cbc29374cdab453",
-      "full_text_read": false,
+      "full_text_read": true,
       "semantic_status": "partial",
       "functions": [],
-      "remaining": "Batch 75 reads all operation helpers from 1286 to end and output block parser. See CAS-OPERATIONS-REVIEW.json. Remaining CASProgram/transport/run_cas full-text closure and process races are open."
+      "remaining": "Complete source text read across Batches 74-76. CAS-PROGRAM-REVIEW.json, CAS-OPERATIONS-REVIEW.json and BACKEND-COMPLETE-TEXT-REVIEW.json record findings. Semantic extraction, remaining boundary tests and process races remain incomplete."
     },
     {
       "path": "grandportage/artifacts.py",

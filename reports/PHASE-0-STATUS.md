@@ -163,3 +163,5 @@ Batch 73 completes Groebner producer/test reading and the full materializer func
 Batch 74 completes backend interface and backend test text review plus CAS execution/identity slice. Twenty-eight offline tests pass, eight live excluded; four controls verify lossy decoded transcript custody, final-newline digest syntax and direct-API shallow immutability. Corpus unchanged; 135 partial / 233 unreviewed. See PHASE-0A-BATCH-74.md.
 
 Batch 75 reviews all CAS operation helper implementations and verifies three membership parsing controls. Missing/duplicate cofactor rows produce incorrect candidate certificates; exact arithmetic refuses both. Cover evidence and backend trust limits documented. Corpus and coverage unchanged (135 partial / 233 unreviewed). See PHASE-0A-BATCH-75.md.
+
+Batch 76 completes CAS source text reading and verifies three program-custody controls: constructor refusal, mutation after validation, and caller generator metadata differing from output. No mathematical verdict admission claimed. Corpus and coverage unchanged (135 partial / 233 unreviewed). See PHASE-0A-BATCH-76.md.
