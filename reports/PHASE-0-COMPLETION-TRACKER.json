@@ -4,7 +4,7 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "352 cases (108 ACCEPT / 244 REFUSE); 337 agreements, twelve known differences and three other classified outcomes. Identity/localization formal review; 171 partial / 197 unreviewed sources.",
+      "evidence": "358 cases (111 ACCEPT / 247 REFUSE); 343 agreements, twelve known differences and three other classified outcomes. Approved incident-focused closure reconciliation; source semantic labels remain 171 partial / 197 unreviewed, not completion percentages.",
       "remaining": [
         "Exhaustive source/history disposition, including docs and theory",
         "Resolve or explicitly disposition A24 and X53 for G0",
@@ -37,9 +37,10 @@
   },
   "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
   "next_work": [
-    "Finish OperationContract from line 226; continue remaining formal and historical sources",
-    "Continue release documents and earlier history",
-    "Preserve conservative-refusal cost evidence for the campaign inventory"
+    "Review Sol historical residual extraction and Terra nine-row mapping follow-up",
+    "Adjudicate proposed case mappings at their actual validation layers",
+    "Disposition unmatched deleted GP-owned sources; 77 of 156 deleted non-test blobs have exact retained matches, 79 do not",
+    "Resolve A24 source dependency and preserve explicit oracle limits before proposing 0a closeout"
   ],
   "new_findings": [
     "reports/RETRY-MERGE-AUDIT.json",
