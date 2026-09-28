@@ -5,8 +5,8 @@
   "current_tree": {
     "total_files": 368,
     "file_statuses": {
-      "unreviewed": 300,
-      "partial": 68
+      "unreviewed": 298,
+      "partial": 70
     },
     "full_review_count": 0
   },
@@ -307,5 +307,6 @@
   "operation_contract_review": "reports/PHASE-0A-BATCH-20.md",
   "authority_review": "corpus/AUTHORITY-REVIEW.json",
   "product_split_review": "corpus/PRODUCT-SPLIT-REVIEW.json",
-  "factor_review": "corpus/FACTOR-COMPOSITION-REVIEW.json"
+  "factor_review": "corpus/FACTOR-COMPOSITION-REVIEW.json",
+  "laurent_review": "corpus/LAURENT-PIPELINE-REVIEW.json"
 }

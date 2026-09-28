@@ -764,13 +764,15 @@
       "path": "grandportage/laurent_coefficient_pipeline.py",
       "git_object": "1fcd3d0bc01fa48ebcecfd5cf8a7ee3a7318d975",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "laurent_review": "corpus/LAURENT-PIPELINE-REVIEW.json"
     },
     {
       "path": "grandportage/laurent_lowering.py",
       "git_object": "fa6fe0737365707ae160845da8c29004c6431cb6",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "laurent_review": "corpus/LAURENT-PIPELINE-REVIEW.json"
     },
     {
       "path": "grandportage/localization.py",
@@ -2143,7 +2145,8 @@
       "review_status": "partial",
       "extracted_cases": [
         "GP-A21"
-      ]
+      ],
+      "laurent_review": "corpus/LAURENT-PIPELINE-REVIEW.json"
     },
     {
       "path": "tests/test_live_front.py",

@@ -4,7 +4,7 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "342 cases (104 ACCEPT / 238 REFUSE); 328 agreements, eleven known differences and three other classified outcomes. Factor/composition controls extracted; 68 partial / 300 unreviewed sources.",
+      "evidence": "342 cases (104 ACCEPT / 238 REFUSE); 328 agreements, eleven known differences and three other classified outcomes. Factor/composition controls extracted; 70 partial / 298 unreviewed sources.",
       "remaining": [
         "Exhaustive source/history disposition, including docs and theory",
         "Resolve or explicitly disposition A24 and X53 for G0",
@@ -37,7 +37,7 @@
   },
   "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
   "next_work": [
-    "Continue remaining compiler/checker validation and semantic premise coverage, and broader source/history review",
+    "Extract neutral Laurent/coefficient binding controls, then continue coefficient/arithmetic and remaining source/history review",
     "Continue release documents and earlier history",
     "Preserve conservative-refusal cost evidence for the campaign inventory"
   ],

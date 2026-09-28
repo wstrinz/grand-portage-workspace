@@ -97,3 +97,5 @@ Batch 40: GP-X284â€“291 extract eight product identity/construction control
 Batch 41: factor-power and affine-composition review complete at text/selected-control level; 26 tests and ten neutral controls pass. Coverage 68 partial / 300 unreviewed; fixed-expectation extraction remains next.
 
 Batch 42: ten factor/composition cases agree; 342 total, 328 agreements and unchanged exceptions. Earlier 332 case bytes and outcome classifications preserved. Replay 20260928T141913475576Z.
+
+Batch 43: full Laurent/pipeline source and combined-test reading; 15 tests plus six neutral composition controls pass. Coverage 70 partial / 298 unreviewed; corpus unchanged.

@@ -85,3 +85,5 @@ Batch 40 extracts GP-X284–291 product identity/construction controls. Continue
 Batch 41: extract factor-power/composition neutral controls next, preserving resource refusal versus mathematical invalidity and identity versus model authority. Coverage 68 partial / 300 unreviewed.
 
 Batch 42 extracts GP-X292–301 bounded factor/composition controls. Continue remaining compiler/checker and semantic-premise review; keep the nilpotent example diagnostic and resource refusal distinct from mathematical invalidity.
+
+Batch 43: extract canonical pipeline binding controls next. Two valid individual passes do not suffice for composition. Coverage 70 partial / 298 unreviewed; coefficient/arithmetic dependency review still open.
