@@ -173,3 +173,5 @@ Batch 78 completes boundary-test text reading and passes the complementary 25 of
 Batch 79 fully reads nine IR/interpreter/observation documents and dispositions historical denominators, conditional formal interfaces and unlicensed-versus-semantic loss. No historical builds rerun or new runtime authority claimed. Corpus unchanged; 144 partial / 224 unreviewed. See PHASE-0A-BATCH-79.md.
 
 Batch 80 completes atlas mapping/work/program and parity script/test reading. Seven offline tests pass; table inventory and parser controls do not claim newly executed Lean parity. Corpus unchanged; 149 partial / 219 unreviewed. See PHASE-0A-BATCH-80.md.
+
+Batch 81 reviews requirements classifier/tests and three Lean interface/proof files. Four offline tests pass; no Lean compilation. Supplied-catalog inference, name-dictionary limits and conditional unit/target proofs dispositioned. Corpus unchanged; 153 partial / 215 unreviewed. See PHASE-0A-BATCH-81.md.
