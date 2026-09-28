@@ -79,6 +79,17 @@
       "lines": 182,
       "full_text_read": true,
       "extraction_status": "candidate_existing_mappings_pending_payload_review"
+    },
+    {
+      "deletion_commit": "2cac30114573f7b6923c43d86fb22679c4dbedfb",
+      "path": "docs/JC-CLOSEOUT-AND-GP-ROADMAP.md",
+      "deleted_blob": "b882b1204501eedca7ef763c202f0f81fa81eec0",
+      "exact_retained_matches": [],
+      "disposition": "content_review_needed",
+      "sha256": "5bc380cb0fa1a02429b21edbbfb02e0ee146581b8b8257a92dce1569b8e8a162",
+      "lines": 298,
+      "full_text_read": true,
+      "extraction_status": "candidate_existing_mappings_pending_payload_review"
     }
   ],
   "findings": [
@@ -99,7 +110,15 @@
       },
       "calculation": "Every displayed G1/G2/G3 term contains a, b or c and is zero. q=1/y is not in Q[y]. Choosing q=0 supplies a polynomial solution with the same retained coordinates, but does not make the original arbitrary q polynomial.",
       "limit": "Refutes the literal opening universal statement for the displayed three equations. Does not refute existence of a polynomial lift, full v13 target lift claims, a nonzero-chart theorem, compiled Lean theorem or runtime admission. No Lean run or external campaign read.",
-      "next": "Compare existing degree/lift cases and inspect GP-owned JCDm4Valuation theorem interface before extraction. Preserve distinction between unique/arbitrary lift and existence."
+      "next": "Compare existing degree/lift cases and inspect GP-owned JCDm4Valuation theorem interface before extraction. Preserve distinction between unique/arbitrary lift and existence.",
+      "existing_case_screen": {
+        "cases": [
+          "GP-A22",
+          "GP-X25",
+          "GP-X26"
+        ],
+        "result": "Full payloads read. These compare degree caps and displayed polynomial witnesses; none tests an arbitrary rational solution on the all-zero retained chart. Universal polynomiality versus existence remains a distinct candidate."
+      }
     },
     {
       "id": "deleted-localization-local-versus-chain",
@@ -148,6 +167,20 @@
         "GP-X32"
       ],
       "limit": "Historical live/build and campaign assertions are source statements, not fresh execution. No onboarding/install/hook instruction followed."
+    },
+    {
+      "id": "deleted-closeout-evidence-grades",
+      "status": "existing_review_mapping_needed",
+      "source": "docs/JC-CLOSEOUT-AND-GP-ROADMAP.md",
+      "summary": "Planning dossier is explicitly derived with no graph authority. Readiness claims depend on authored profile/cards, unlike executed mathematical proof. The broad stale-source/readiness and atomic-materialization prose must retain B61/B63 qualifications. Historical six computational replays, Lean build and archival lane claims are not freshly verified. A terminated packaged lane and later clean-checkout success are distinct executions.",
+      "existing_review_candidates": [
+        "corpus/DOSSIER-REVIEW.json",
+        "corpus/RELEASE-PUBLICATION-REVIEW.json",
+        "reports/PHASE-0A-BATCH-61.md",
+        "reports/PHASE-0A-BATCH-62.md",
+        "reports/PHASE-0A-BATCH-63.md"
+      ],
+      "limit": "No external JC source read, publication executed, or historical instructions adopted."
     }
   ],
   "authority": "Source review and elementary symbolic counterexample only; no new corpus expectations or oracle outcomes.",
