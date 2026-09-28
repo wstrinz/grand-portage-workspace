@@ -49,3 +49,5 @@ Batch 22 completes _apply_verdict reading and diagnoses section proof custody wi
 Batch 23 extracts the three section controls with fixed expectations and hashes the new adapter in every replay. Continue other subject trust paths; do not classify all known differences as conservative refusals.
 
 Batch 24 verifies five operation-output custody controls: valid producer, stale proof edit, invalid reissued producer, invalid nonempty native and valid empty native. Nonempty cofactor arithmetic remains trusted to producer in the legacy fold; empty native output earns no completeness. See OPERATION-REPLAY-BOUNDARY.json; corpus unchanged.
+
+Batch 25 completes neutral operation-output control extraction. Continue mapped-ring and partition validation review; do not conflate valid vacuous no-invention with output completeness.

@@ -2019,6 +2019,32 @@
       "layer": "section_evidence_admission",
       "limitation": "Actual native fold and freshness with fabricated producer execution metadata, no live CAS. Measures predecessor trusted-producer boundary, not an external attack or full transport.",
       "known_difference": "section_cofactor_not_replayed_under_fresh_producer_binding"
+    },
+    "GP-X258": {
+      "kind": "output_membership",
+      "layer": "output_evidence_admission",
+      "limitation": "Actual native fold and freshness, simulated producer trace or native empty trace. No CAS or output-completeness claim."
+    },
+    "GP-X259": {
+      "kind": "output_membership",
+      "layer": "output_evidence_admission",
+      "limitation": "Actual native fold and freshness, simulated producer trace or native empty trace. No CAS or output-completeness claim."
+    },
+    "GP-X260": {
+      "kind": "output_membership",
+      "layer": "output_evidence_admission",
+      "limitation": "Actual native fold and freshness, simulated producer trace or native empty trace. No CAS or output-completeness claim.",
+      "known_difference": "output_membership_not_replayed_under_fresh_producer_binding"
+    },
+    "GP-X261": {
+      "kind": "output_membership",
+      "layer": "output_evidence_admission",
+      "limitation": "Actual native fold and freshness, simulated producer trace or native empty trace. No CAS or output-completeness claim."
+    },
+    "GP-X262": {
+      "kind": "output_membership",
+      "layer": "output_evidence_admission",
+      "limitation": "Actual native fold and freshness, simulated producer trace or native empty trace. No CAS or output-completeness claim."
     }
   }
 }

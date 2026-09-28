@@ -304,3 +304,8 @@ Observations remain layer-specific. Conditional transport, premise-route and cov
 | [GP-X255](must/GP-X255.json) | ACCEPT | AGREES | section_evidence_admission | Exact section identities support the supplied section receipt |
 | [GP-X256](must/GP-X256.json) | REFUSE | AGREES | section_evidence_admission | Altered section proof cannot retain its previous input binding |
 | [GP-X257](must/GP-X257.json) | REFUSE | KNOWN_DIFFERENCE | section_evidence_admission | Fresh producer metadata cannot repair a false section identity |
+| [GP-X258](must/GP-X258.json) | ACCEPT | AGREES | output_evidence_admission | Valid output membership receipt is admissible |
+| [GP-X259](must/GP-X259.json) | REFUSE | AGREES | output_evidence_admission | Edited output proof cannot retain its previous binding |
+| [GP-X260](must/GP-X260.json) | REFUSE | KNOWN_DIFFERENCE | output_evidence_admission | Fresh producer binding cannot repair false output membership |
+| [GP-X261](must/GP-X261.json) | REFUSE | AGREES | output_evidence_admission | Absent execution cannot authorize a false nonempty output proof |
+| [GP-X262](must/GP-X262.json) | ACCEPT | AGREES | output_evidence_admission | Empty output has vacuous no-invention evidence |

@@ -4,7 +4,7 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "298 cases (85 ACCEPT / 213 REFUSE); 289 agreements, six known differences and three other classified outcomes. Section evidence cases retain replay-only expectations and observed trusted-producer acceptance. 57 partial / 311 unreviewed sources.",
+      "evidence": "303 cases (87 ACCEPT / 216 REFUSE); 293 agreements, seven known differences and three other classified outcomes. Operation-output replay controls extracted; 57 partial / 311 unreviewed sources.",
       "remaining": [
         "Exhaustive source/history disposition, including docs and theory",
         "Resolve or explicitly disposition A24 and X53 for G0",
@@ -37,7 +37,7 @@
   },
   "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
   "next_work": [
-    "Extract operation-output admission controls; trace mapped-ring and partition validation paths",
+    "Trace mapped-ring and partition validation paths and remaining historical incidents",
     "Continue release documents and earlier history",
     "Preserve conservative-refusal cost evidence for the campaign inventory"
   ],
