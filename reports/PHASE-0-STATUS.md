@@ -157,3 +157,5 @@ Batch 70 completes number-field source/tests and extension verifier/fold slices.
 Batch 71 completes ordered producer/receipt source and regression reading. Twenty-six tests and five controls pass; repeated roots verify, direct reversed-endpoint acceptance is blocked by native validation. Soundness/shared-TCB limits recorded. Corpus unchanged; 129 partial / 239 unreviewed. See PHASE-0A-BATCH-71.md.
 
 Batch 72 completes triangular checker/tests and both synthetic chain fixture text reviews. All 20 tests pass. Conditional normalization/unit assumptions and graph-map obligations explicitly dispositioned. Corpus unchanged; 133 partial / 235 unreviewed. See PHASE-0A-BATCH-72.md.
+
+Batch 73 completes Groebner producer/test reading and the full materializer function. Twenty-eight offline tests pass, three live Singular tests excluded. Independent completeness/no-invention directions and recording limits documented. Corpus unchanged; 134 partial / 234 unreviewed. See PHASE-0A-BATCH-73.md.
