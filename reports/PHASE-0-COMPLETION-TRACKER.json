@@ -4,7 +4,7 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "352 cases (108 ACCEPT / 244 REFUSE); 337 agreements, twelve known differences and three other classified outcomes. Backend review: 28 offline tests pass, eight live excluded; 135 partial / 233 unreviewed sources.",
+      "evidence": "352 cases (108 ACCEPT / 244 REFUSE); 337 agreements, twelve known differences and three other classified outcomes. Hook review: 17 tests pass; 135 partial / 233 unreviewed sources.",
       "remaining": [
         "Exhaustive source/history disposition, including docs and theory",
         "Resolve or explicitly disposition A24 and X53 for G0",
