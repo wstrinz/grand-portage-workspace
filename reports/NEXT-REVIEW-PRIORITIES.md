@@ -67,3 +67,5 @@ Batch 31 completes selected-root counterexample extraction. Continue remaining s
 Batch 32 fully reads the eight-path point-universe fix 93770c6 and passes its broader 15-instance retained regression selection. Historical review remains semantically partial pending all relation/omission corpus controls. No campaign or historical executable run claimed.
 
 Batch 33 extracts the remaining named universe-boundary controls from the fully read historical fix. Continue other partial history diffs and source disposition.
+
+Batch 34 fully reads the eight-path characteristic fix f2b7c49. Eight isolated historical predicate controls expose intermediate 1/composite acceptance corrected in the pinned validator. Existing corpus and constructor-emission evidence reused; live historical tests remain unrun.

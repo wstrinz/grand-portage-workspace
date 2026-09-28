@@ -79,3 +79,5 @@ Batch 31 extracts GP-X273-274 selected-root cover controls. All 313 prior case f
 Batch 32 fully reads the eight-path point-universe fix 93770c6 and passes its broader 15-instance retained regression selection. Historical review remains semantically partial pending all relation/omission corpus controls. No campaign or historical executable run claimed.
 
 Batch 33 extracts GP-X275-283: other typed universe mismatches, same/both-omitted readability and untyped debt versus transport. All nine agree; 315 prior cases unchanged.
+
+Batch 34 fully reads the eight-path characteristic fix f2b7c49. Eight isolated historical predicate controls expose intermediate 1/composite acceptance corrected in the pinned validator. Existing corpus and constructor-emission evidence reused; live historical tests remain unrun.
