@@ -2343,6 +2343,24 @@
       "layer": "finite_quotient_exact_replay",
       "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
       "limitation": "Pinned historical exact finite-witness replay only; no native bindings, parent exclusion, graph authority or live CAS."
+    },
+    "GP-X321": {
+      "kind": "historical_residual",
+      "layer": "historical_jump_declaration_preflight",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned recurrence J2 declaration gate with intact finite sequence; no Lean compilation, source binding or graph authority."
+    },
+    "GP-X322": {
+      "kind": "historical_residual",
+      "layer": "named_first_order_fiber_witness_replay",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned exact L-valued nonzero premise on one named first-order fiber; no native binding, nonlinear or parent exclusion, or graph authority."
+    },
+    "GP-X323": {
+      "kind": "historical_residual",
+      "layer": "named_first_order_fiber_witness_replay",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned exact L-valued nonzero premise on one named first-order fiber; no native binding, nonlinear or parent exclusion, or graph authority."
     }
   }
 }

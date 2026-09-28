@@ -13,6 +13,9 @@ MODULE_PATHS = {
     "zero_endpoint": "jc_h3_adjoint_recurrence/adapter.py",
     "finite_unit": "jc_h3_b0_free_plane/depth8_residual_adapter.py",
     "false_gcd_claim": "jc_h3_b0_free_plane/depth8_residual_adapter.py",
+    "changed_jump_schedule": "jc_h3_adjoint_recurrence/adapter.py",
+    "omega_nonzero": "jc_h3_depth8_fiber/adapter.py",
+    "zero_omega_comb": "jc_h3_depth8_fiber/adapter.py",
 }
 
 
@@ -127,6 +130,84 @@ def _finite_unit(case, module, fixture):
     raise ValueError("False finite gcd claim unexpectedly validated")
 
 
+
+def _changed_jump_schedule(case, module, fixture):
+    d = case["inputs"]
+    _, baseline = module.validate_fixture_value(copy.deepcopy(fixture))
+    if (baseline["jump_depths"] != d["baseline_jump_depths"]
+            or baseline["domain_start"] != d["domain_start"]
+            or baseline["zero_from"] != d["zero_from"]
+            or baseline["endpoint_depth"] != d["endpoint_depth"]
+            or not baseline["endpoint_nonzero"]):
+        raise ValueError("Jump case differs from pinned baseline")
+    declared = fixture["native_certificate"]["operator_jumps"]["nonzero_at"]
+    if declared != d["baseline_jump_depths"]:
+        raise ValueError("Pinned declared jump set changed")
+    declared[:] = d["proposed_jump_depths"]
+    if declared == d["baseline_jump_depths"]:
+        raise ValueError("Jump mutation did not change the declaration")
+    try:
+        module.validate_fixture_value(fixture)
+    except module.RecurrenceEvidenceError as exc:
+        failure = str(exc)
+        if not failure.startswith("J2:"):
+            raise
+        return {
+            "observed_verdict": "REFUSE", "reason": failure,
+            "baseline_checked_jump_depths": baseline["jump_depths"],
+            "proposed_jump_depths": declared,
+            "endpoint_nonzero_unchanged": baseline["endpoint_nonzero"],
+            "zero_tail_unchanged": True,
+            "failure_gate": "J2",
+            "graph_effect": "NONE", "external_execution": False,
+        }
+    raise ValueError("Changed jump declaration unexpectedly validated")
+
+
+def _omega(case, module, fixture):
+    d = case["inputs"]
+    if (d["witness_value"] != "omega_comb"
+            or d["point_universe"] != "L = K[y]/(y^2-d)"):
+        raise ValueError("Unknown first-order witness interpretation")
+    _, baseline = module.validate_fixture_value(copy.deepcopy(fixture))
+    if not baseline["omega_comb_nonzero"] or baseline["point_universe"] != "L":
+        raise ValueError("Pinned omega witness does not satisfy the premise")
+    values = fixture["native_certificate"]["witness_values"]
+    if d["control"] == "omega_nonzero":
+        return {
+            "observed_verdict": "ACCEPT",
+            "reason": "Pinned exact witness replay verifies omega_comb is nonzero.",
+            "checked_premises": baseline,
+            "graph_effect": "NONE", "parent_exclusion": False,
+            "external_execution": False,
+        }
+    if d["control"] != "zero_omega_comb":
+        raise ValueError("Unknown omega control")
+    replacement = d["replacement"]
+    if replacement != [["0", "0", "0"], ["0", "0", "0"]]:
+        raise ValueError("Mutation is not the exact zero L-element")
+    values["omega_comb"] = copy.deepcopy(replacement)
+    arithmetic_nonzero = module._element_nonzero(values["omega_comb"], "Omega_comb")
+    if arithmetic_nonzero:
+        raise ValueError("Zero mutation remained nonzero")
+    try:
+        module.validate_fixture_value(fixture)
+    except module.FiberEvidenceError as exc:
+        failure = str(exc)
+        if not failure.startswith("N8:"):
+            raise
+        return {
+            "observed_verdict": "REFUSE", "reason": failure,
+            "baseline_omega_comb_nonzero": baseline["omega_comb_nonzero"],
+            "mutated_omega_comb_nonzero": arithmetic_nonzero,
+            "failure_gate": "N8",
+            "object_digest_gate_reached": False,
+            "outer_fixture_digest_rejection": False,
+            "graph_effect": "NONE", "parent_exclusion": False,
+            "external_execution": False,
+        }
+    raise ValueError("Zeroed omega witness unexpectedly validated")
+
 def probe(case, route):
     if route["historical_commit"] != PIN:
         raise ValueError("Wrong historical revision")
@@ -138,4 +219,8 @@ def probe(case, route):
     fixture = _fixture(module, d["fixture_sha256"])
     if control == "zero_endpoint":
         return _zero_endpoint(case, module, fixture)
+    if control == "changed_jump_schedule":
+        return _changed_jump_schedule(case, module, fixture)
+    if control in ("omega_nonzero", "zero_omega_comb"):
+        return _omega(case, module, fixture)
     return _finite_unit(case, module, fixture)
