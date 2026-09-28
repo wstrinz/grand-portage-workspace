@@ -520,19 +520,19 @@
       "path": "fixtures/frontier/synthetic/bundle.json",
       "git_object": "9cc9e55585451bcb1127972e1ab5e24374208467",
       "category": "fixtures_examples",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "fixtures/frontier/synthetic/execution.json",
       "git_object": "3a3dce8419dd1187a4f7679dcf5ab934a87e4824",
       "category": "fixtures_examples",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "fixtures/frontier/synthetic/planning.json",
       "git_object": "d50a63a6a1832cce68f6b5043d9116636cf703f3",
       "category": "fixtures_examples",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "fixtures/gamma_window/graph.jsonl",
@@ -713,7 +713,7 @@
       "path": "grandportage/frontier_bundle.py",
       "git_object": "30f090a6cc586b90b263e7b42a957e30c5f68483",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/groebner.py",
@@ -2076,7 +2076,7 @@
       "path": "tests/test_frontier_bundle.py",
       "git_object": "4c0c6c99c9ffbca50ff6c6557f2191d6003c6818",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_groebner.py",
@@ -2335,7 +2335,7 @@
       "path": "tests/test_synthetic_frontier_bundle.py",
       "git_object": "9742069e9dffd4fe9ce23e749322a1e1f2f88b0c",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_triangular.py",

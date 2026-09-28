@@ -4,7 +4,7 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "352 cases (108 ACCEPT / 244 REFUSE); 337 agreements, twelve known differences and three other classified outcomes. Campaign surfaces: 13 tests and three binding diagnostics; 108 partial / 260 unreviewed sources.",
+      "evidence": "352 cases (108 ACCEPT / 244 REFUSE); 337 agreements, twelve known differences and three other classified outcomes. Frontier bundle: 15 tests/five diagnostics; 114 partial / 254 unreviewed sources.",
       "remaining": [
         "Exhaustive source/history disposition, including docs and theory",
         "Resolve or explicitly disposition A24 and X53 for G0",
@@ -37,7 +37,7 @@
   },
   "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
   "next_work": [
-    "Complete frontier_bundle dependency review, then remaining source/history and unresolved semantic controls",
+    "Continue remaining frontier/projection sources and earlier history; preserve scope/overlap questions for corpus-led design",
     "Continue release documents and earlier history",
     "Preserve conservative-refusal cost evidence for the campaign inventory"
   ],
