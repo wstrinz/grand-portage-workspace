@@ -1,0 +1,18 @@
+{
+  "path": "grandportage/dossier.py",
+  "sha256": "6b81486e77377d76971059b2cb3789803152945af4e938de2013ee5f0f527e11",
+  "full_text_read": false,
+  "complete_read_range": [
+    1,
+    210
+  ],
+  "semantic_status": "partial",
+  "findings": [
+    "Module explicitly labels itself DERIVED_READ_MODEL_ONLY with graph effect NONE.",
+    "Replay PASS normalization requires authored command and receipt strings; this normalization alone does not execute or verify them.",
+    "LF-normalized source digest and relative path validation are defined, but their complete call chain remains unread."
+  ],
+  "remaining": [
+    "Read remaining normalization, source verification, profile evaluation and output code plus tests before assessing full dossier behavior."
+  ]
+}

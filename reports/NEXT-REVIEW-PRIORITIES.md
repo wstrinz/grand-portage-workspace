@@ -119,3 +119,5 @@ Batch 57 completes MCP test reading: all 42 tests pass, with injected backends/v
 Batch 58 completes MCP full text reading and verifies handoff context loss: distinct Q BASE/algebraic-closure models render identically while stored scopes remain distinct. Ignored floor argument and authority wording drift documented. Corpus and semantic coverage totals unchanged. See PHASE-0A-BATCH-58.md.
 
 Batch 59 reviews the operational work ledger and CLI boundary; all thirteen tests pass. Resolution/accounting stays separate from mathematical authority; graph-snapshot and cross-log limits recorded. Corpus unchanged; 86 partial / 282 unreviewed sources. See PHASE-0A-BATCH-59.md.
+
+Batch 60 reviews descriptive evidence metadata (eight tests pass) and starts dossier lines 1–210. Corrects missing MCP/CLI partial inventory credit; prior prose claiming that credit already existed was wrong. Recorded transitions give 91 partial / 277 unreviewed. Corpus unchanged. See PHASE-0A-BATCH-60.md.

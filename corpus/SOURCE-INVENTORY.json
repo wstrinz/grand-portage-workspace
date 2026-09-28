@@ -634,7 +634,7 @@
       "path": "grandportage/cli.py",
       "git_object": "bcf8c4759a9eea0cf85b6302ab84c2a0d9968fe1",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/coefficient_expansion.py",
@@ -663,13 +663,13 @@
       "path": "grandportage/dossier.py",
       "git_object": "6c74e12a67767013a38da0c9bf832c9fe9b240c6",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/evidence.py",
       "git_object": "73dc07a27b73d80734f317ebe24f7d5e475fe750",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/explain.py",
@@ -786,7 +786,7 @@
       "path": "grandportage/mcp.py",
       "git_object": "15ca03e704c92474df947db4015638ddb1b77439",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/migration.py",
@@ -2026,7 +2026,7 @@
       "path": "tests/test_evidence.py",
       "git_object": "dd4f933f42a7e0771802bee9dde3e1a9629309a2",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_explain.py",
