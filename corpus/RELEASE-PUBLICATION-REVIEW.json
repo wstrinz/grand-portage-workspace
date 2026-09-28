@@ -46,7 +46,9 @@
   ],
   "caller_slices": [
     "grandportage/cli.py:cmd_campaign_release",
-    "grandportage/cli.py:cmd_campaign_publication"
+    "grandportage/cli.py:cmd_campaign_publication",
+    "grandportage/cli.py:_write_named_derived_output (2558-2584)",
+    "grandportage/cli.py:_write_derived_output (2587-2588)"
   ],
   "tests": {
     "passed": 20,
@@ -62,11 +64,12 @@
     "Materializer takes an evaluated mutable dict, checks its readiness flag and source bytes/commit/dirt, but does not recompute its plan fingerprint or re-run full normalization. CLI builds the plan immediately; arbitrary direct API plans require a separate trust-boundary assessment.",
     "Source hashes are checked before copyfile; output is not rehashed after copying. Atomic directory rename is not a source snapshot guarantee. Concurrent source modification and hostile-plan controls remain untested.",
     "Publication uses shallow references for nested metadata; stored fingerprints are not continuously refreshed following caller mutation.",
-    "Synthetic verifier is intentionally relocated into archive/replay with sibling authority and receipts. Archived replay passes: prior source-directory failure is not an established packaging defect."
+    "Synthetic verifier is intentionally relocated into archive/replay with sibling authority and receipts. Archived replay passes: prior source-directory failure is not an established packaging defect.",
+    "Six synthetic controls verify a copy-time source change yields an archive digest mismatch, mutable direct-API plan licensing is not rechecked, ordinary writer refusals work, preexisting PID temporary files are deleted on exclusive-open failure, and case-alias protected paths overwrite on Windows. See exact scope qualifications in boundary audit."
   ],
   "remaining": [
-    "Adversarial mutable-plan, source-snapshot and archive path/resource controls; distinguish direct API assumptions from normal CLI routes.",
-    "Read shared output writer before accepting all documentation atomicity/overwrite claims.",
+    "Broader path/resource and concurrency controls remain; these bounded controls do not exhaust materializer semantics.",
     "Historical campaign paragraphs are retained claims, not independently verified live campaign evidence."
-  ]
+  ],
+  "boundary_audit": "reports/MATERIALIZATION-BOUNDARY-AUDIT.json"
 }

@@ -137,3 +137,5 @@ Batch 60 reviews descriptive evidence metadata (eight tests pass) and starts dos
 Batch 61 completes dossier source, tests, documentation and synthetic fixture text review: 15 tests pass, five diagnostics verify metadata-only readiness, CRLF digest inconsistency and a broken fixture replay path. Corpus unchanged; 98 partial / 270 unreviewed sources. See PHASE-0A-BATCH-61.md.
 
 Batch 62 completes release/publication source, tests, docs and synthetic manifest text review. Twenty tests pass, including actual archived replay. Corrects Batch 61: source-directory verifier failure is not a packaging defect. Materialization remains packaging, not replay execution or theorem authority. Corpus unchanged; 105 partial / 263 unreviewed sources. See PHASE-0A-BATCH-62.md.
+
+Batch 63 verifies six materialization/output custody controls and one retained regression. Windows case aliases bypass protected-input comparison; failed exclusive temp creation deletes the prior temp; injected copy-time changes produce mismatching archived bytes. Direct API plan trust is separately scoped. Corpus and coverage unchanged (105 partial / 263 unreviewed). See PHASE-0A-BATCH-63.md.
