@@ -276,3 +276,13 @@ Observations remain layer-specific. Conditional transport, premise-route and cov
 | [GP-X227](must/GP-X227.json) | REFUSE | AGREES | exact_replay_or_artifact_audit | Missing raw artifact fails its storage audit |
 | [GP-X228](must/GP-X228.json) | ACCEPT | AGREES | exact_replay_or_artifact_audit | Self-contained exact identity remains replayable without raw artifact |
 | [GP-X229](must/GP-X229.json) | REFUSE | AGREES | exact_replay_or_artifact_audit | Readable unidentified historical execution is not current authority |
+| [GP-X230](must/GP-X230.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: omitted, structured, success |
+| [GP-X231](must/GP-X231.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: unknown_relation, structured, success |
+| [GP-X232](must/GP-X232.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: untyped_without_reason, structured, success |
+| [GP-X233](must/GP-X233.json) | ACCEPT | AGREES | offline_launch_and_recording | Computation recording: untyped_with_reason, structured, success |
+| [GP-X234](must/GP-X234.json) | ACCEPT | AGREES | offline_launch_and_recording | Computation recording: typed, structured, success |
+| [GP-X235](must/GP-X235.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: typed, raw_text, success |
+| [GP-X236](must/GP-X236.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: typed, structured, reported_error |
+| [GP-X237](must/GP-X237.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: typed, structured, nonzero_exit |
+| [GP-X238](must/GP-X238.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: typed, structured, aborted |
+| [GP-X239](must/GP-X239.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: missing_source, structured, success |

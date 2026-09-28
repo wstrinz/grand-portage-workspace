@@ -6,8 +6,8 @@ G0 is not yet evaluated; Phase 0 is in progress.
 
 - Approved backbrief and F: workspace; local repository has no remote.
 - Separate oracle copy on F:, pinned at ac4155787207e2847d248cffed7be871d5dcd577; original source checkout unchanged.
-- 270 source-pointed neutral cases (79 acceptance controls, 191 refusals), schema validator and reproducible layer-specific oracle adapter.
-- Latest replay: 263 agreements, four known conservative differences, one diagnostic observation, one pending projection, one unsupported dimension-credit case.
+- 280 source-pointed neutral cases (81 acceptance controls, 199 refusals), schema validator and reproducible layer-specific oracle adapter.
+- Latest replay: 273 agreements, four known conservative differences, one diagnostic observation, one pending projection, one unsupported dimension-credit case.
 - First-batch focused runs passed 95 tests with one live-CAS case excluded; the second batch passed 54 focused tests; the third passed 75 plus three adapter controls; the fourth passed 19 with two companion checks deselected; the fifth passed 12 with two companion checks deselected and two diagnostic controls; the sixth passed all 15 p-axis tests. The seventh milestone passed 271 selected historical instances (including 24 corrected-harness retries). The eighth slice passed 30 offline current-tree tests with three live tests deselected, plus four constructor-emission controls. The ninth slice passed 93 lifecycle, merge and provenance regressions plus four retry/section order controls. These runs overlap and are not the full release suite.
 - Source and history indexes plus a partial-review ledger generated. All 29 deleted test files have been read and all 226 functions dispositioned. Of 197 selected functions, all 271 parametrized instances pass; 29 original functions remain unrun (27 companion-dependent, two live CAS). Semantic coverage remains incomplete.
 - Freeze documentation preparation fully audited: exact banner, 17 repairs, current status constants, three doc-only paths, isolated patch application and pinned existing release tag verified; not applied or published.
@@ -15,7 +15,7 @@ G0 is not yet evaluated; Phase 0 is in progress.
 
 ## Next work and dependencies
 
-- 0a: resolve pending projections, review the remaining sources/history, split compound incidents into minimal cases and replay the additional routes. See PHASE-0A-BATCH-15.md and NEXT-REVIEW-PRIORITIES.md and corpus/REVIEW-COVERAGE.json.
+- 0a: resolve pending projections, review the remaining sources/history, split compound incidents into minimal cases and replay the additional routes. See PHASE-0A-BATCH-16.md and NEXT-REVIEW-PRIORITIES.md and corpus/REVIEW-COVERAGE.json.
 - 0b: concrete JC/GP paths approved; other campaign directories discovered but not yet confirmed. Await remaining manifest paths, optional campaign scope and exclusions. No campaign harvesting has started.
 - 0c: corpus-first restriction remains; agree a measurable effort cap before the deferred spike. See ENVIRONMENT.md.
 - 0d: authorized private preparation verified under freeze-v0.37.1/AUDIT.json and RELEASE-HANDOFF.md. Public application and tag/release actions remain unperformed under the approved prepare-only scope.
@@ -43,3 +43,5 @@ Batch 13 adds ten offline backend identity/completion cases. Seventeen selected 
 Batch 14 adds eleven durable-artifact controls and three manifest-composition diagnostics; full replay agrees on all new cases. Current source coverage: 45 partial / 323 unreviewed. Earlier 251 cases remain byte-identical.
 
 Batch 15 adds eight exact-replay/availability cases, three structural conformance diagnostics and four passing adapter harness tests. Current source coverage: 48 partial / 320 unreviewed. All earlier 262 case files are unchanged.
+
+Batch 16 adds ten launch/recording controls and passes 17 source regression instances. Missing source references are rejected after execution and raw artifact persistence, while graph bytes remain unchanged; proposed preflight improvement recorded separately. Current source coverage: 48 partial / 320 unreviewed.

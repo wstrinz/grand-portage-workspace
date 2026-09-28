@@ -31,3 +31,5 @@ Batch 13 extracts GP-X201-210 and records backend/test source dispositions in co
 Batch 14 extracts GP-X211-221 (storage corruption, object addressing, canonical bytes, missing/swapped evidence, protocol, path and immutable publication). ARTIFACT-MANIFEST-BOUNDARY.json confirms the lower-level storage audit does not replace full descriptor admission. Continue graph-audit/authority and process-custody review.
 
 Batch 15 extracts GP-X222-229: exact cofactor replay survives local backend changes, bad proof refuses, missing raw objects remain audit debt and unidentified history is readable without authority. Structural adapter conformance is diagnostic only. Continue process custody and remaining artifact/authority source review.
+
+Batch 16 extracts GP-X230-239 and records late source-reference rejection in LAUNCH-RECORDING-BOUNDARY.json. Next: program-field validation and actual timeout/output custody test evidence; injected-runner controls do not verify process-tree containment.

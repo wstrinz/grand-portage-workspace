@@ -1877,6 +1877,56 @@
       "kind": "replay_boundary",
       "layer": "exact_replay_or_artifact_audit",
       "limitation": "Uses fabricated historical metadata and isolated graph files; exact cofactors are replayed by the frozen fold. Each case asks one boundary question. No backend process or GP 0.50 policy is established."
+    },
+    "GP-X230": {
+      "kind": "launch_boundary",
+      "layer": "offline_launch_and_recording",
+      "limitation": "Counted injected runner only. Valid recorded declaration is not verified operation semantics or theorem authority. Source existence may be rejected only at transactional graph append."
+    },
+    "GP-X231": {
+      "kind": "launch_boundary",
+      "layer": "offline_launch_and_recording",
+      "limitation": "Counted injected runner only. Valid recorded declaration is not verified operation semantics or theorem authority. Source existence may be rejected only at transactional graph append."
+    },
+    "GP-X232": {
+      "kind": "launch_boundary",
+      "layer": "offline_launch_and_recording",
+      "limitation": "Counted injected runner only. Valid recorded declaration is not verified operation semantics or theorem authority. Source existence may be rejected only at transactional graph append."
+    },
+    "GP-X233": {
+      "kind": "launch_boundary",
+      "layer": "offline_launch_and_recording",
+      "limitation": "Counted injected runner only. Valid recorded declaration is not verified operation semantics or theorem authority. Source existence may be rejected only at transactional graph append."
+    },
+    "GP-X234": {
+      "kind": "launch_boundary",
+      "layer": "offline_launch_and_recording",
+      "limitation": "Counted injected runner only. Valid recorded declaration is not verified operation semantics or theorem authority. Source existence may be rejected only at transactional graph append."
+    },
+    "GP-X235": {
+      "kind": "launch_boundary",
+      "layer": "offline_launch_and_recording",
+      "limitation": "Counted injected runner only. Valid recorded declaration is not verified operation semantics or theorem authority. Source existence may be rejected only at transactional graph append."
+    },
+    "GP-X236": {
+      "kind": "launch_boundary",
+      "layer": "offline_launch_and_recording",
+      "limitation": "Counted injected runner only. Valid recorded declaration is not verified operation semantics or theorem authority. Source existence may be rejected only at transactional graph append."
+    },
+    "GP-X237": {
+      "kind": "launch_boundary",
+      "layer": "offline_launch_and_recording",
+      "limitation": "Counted injected runner only. Valid recorded declaration is not verified operation semantics or theorem authority. Source existence may be rejected only at transactional graph append."
+    },
+    "GP-X238": {
+      "kind": "launch_boundary",
+      "layer": "offline_launch_and_recording",
+      "limitation": "Counted injected runner only. Valid recorded declaration is not verified operation semantics or theorem authority. Source existence may be rejected only at transactional graph append."
+    },
+    "GP-X239": {
+      "kind": "launch_boundary",
+      "layer": "offline_launch_and_recording",
+      "limitation": "Counted injected runner only. Valid recorded declaration is not verified operation semantics or theorem authority. Source existence may be rejected only at transactional graph append."
     }
   }
 }
