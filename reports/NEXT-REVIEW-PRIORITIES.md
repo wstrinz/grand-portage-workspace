@@ -10,7 +10,7 @@ The deleted-test reading milestone is complete. These are the remaining work que
 | 4 | Complete the campaign source manifest, then execute the near-miss sweep | All included campaigns accounted for, verbatim private harvest hashes, incident class and cost inventory, and the meaning-risk assessment |
 | 5 | Resolve A24 and X53's profile implications; run the deferred Lean spike after 0a/0b | Actual collapsed-placement model, explicit treatment of unsupported dimension credit, agreed measurable spike cap and written feasibility report |
 
-Current-tree ledger: 368 files, 45 partial, 323 unreviewed, zero claimed fully reviewed. Historical first pass: 29/29 deleted test files read, 226 functions dispositioned, 271 selected test instances passed. Twenty-seven companion-dependent functions and two live-CAS functions remain unrun.
+Current-tree ledger: 368 files, 48 partial, 320 unreviewed, zero claimed fully reviewed. Historical first pass: 29/29 deleted test files read, 226 functions dispositioned, 271 selected test instances passed. Twenty-seven companion-dependent functions and two live-CAS functions remain unrun.
 
 Source-manifest inputs still needed: confirmation of discovered DK/Cloquet/ARR15/Pigeon River locations, missing report/scouting/Highway 61 paths or explicit omissions, optional LSEM/SCOUT scope, and access notes/exclusions. The retained packet explicitly requires the completed manifest before the sweep. Independent GP source review can continue meanwhile.
 
@@ -29,3 +29,5 @@ Batch 12 covers the selected inventory/refinement follow-ups (GP-X193-200) and d
 Batch 13 extracts GP-X201-210 and records backend/test source dispositions in corpus/BACKEND-REVIEW.json. Prioritize remaining durable-artifact corruption, missing/swapped evidence and audit-versus-graph semantics, then process launch custody.
 
 Batch 14 extracts GP-X211-221 (storage corruption, object addressing, canonical bytes, missing/swapped evidence, protocol, path and immutable publication). ARTIFACT-MANIFEST-BOUNDARY.json confirms the lower-level storage audit does not replace full descriptor admission. Continue graph-audit/authority and process-custody review.
+
+Batch 15 extracts GP-X222-229: exact cofactor replay survives local backend changes, bad proof refuses, missing raw objects remain audit debt and unidentified history is readable without authority. Structural adapter conformance is diagnostic only. Continue process custody and remaining artifact/authority source review.

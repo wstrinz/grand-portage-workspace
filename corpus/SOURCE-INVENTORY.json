@@ -40,7 +40,7 @@
       "path": "ADAPTER-CONTRACT.md",
       "git_object": "59d1fdab364f580b5334fec88073d4202e87477c",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "ARCHITECTURE.md",
@@ -580,7 +580,7 @@
       "path": "grandportage/adapter_conformance.py",
       "git_object": "1e032af6756194303315263692d59f058ea08391",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/artifacts.py",
@@ -1803,7 +1803,7 @@
       "path": "tests/test_adapter_conformance.py",
       "git_object": "2911746efcabd91efb084fe100fca2ed456f0e7a",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_adversarial.py",

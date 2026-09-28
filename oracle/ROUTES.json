@@ -1837,6 +1837,46 @@
       "kind": "artifact_storage",
       "layer": "offline_artifact_integrity",
       "limitation": "Fabricated immutable execution records and isolated F scratch storage. No process execution, graph authority or proof validity is established."
+    },
+    "GP-X222": {
+      "kind": "replay_boundary",
+      "layer": "exact_replay_or_artifact_audit",
+      "limitation": "Uses fabricated historical metadata and isolated graph files; exact cofactors are replayed by the frozen fold. Each case asks one boundary question. No backend process or GP 0.50 policy is established."
+    },
+    "GP-X223": {
+      "kind": "replay_boundary",
+      "layer": "exact_replay_or_artifact_audit",
+      "limitation": "Uses fabricated historical metadata and isolated graph files; exact cofactors are replayed by the frozen fold. Each case asks one boundary question. No backend process or GP 0.50 policy is established."
+    },
+    "GP-X224": {
+      "kind": "replay_boundary",
+      "layer": "exact_replay_or_artifact_audit",
+      "limitation": "Uses fabricated historical metadata and isolated graph files; exact cofactors are replayed by the frozen fold. Each case asks one boundary question. No backend process or GP 0.50 policy is established."
+    },
+    "GP-X225": {
+      "kind": "replay_boundary",
+      "layer": "exact_replay_or_artifact_audit",
+      "limitation": "Uses fabricated historical metadata and isolated graph files; exact cofactors are replayed by the frozen fold. Each case asks one boundary question. No backend process or GP 0.50 policy is established."
+    },
+    "GP-X226": {
+      "kind": "replay_boundary",
+      "layer": "exact_replay_or_artifact_audit",
+      "limitation": "Uses fabricated historical metadata and isolated graph files; exact cofactors are replayed by the frozen fold. Each case asks one boundary question. No backend process or GP 0.50 policy is established."
+    },
+    "GP-X227": {
+      "kind": "replay_boundary",
+      "layer": "exact_replay_or_artifact_audit",
+      "limitation": "Uses fabricated historical metadata and isolated graph files; exact cofactors are replayed by the frozen fold. Each case asks one boundary question. No backend process or GP 0.50 policy is established."
+    },
+    "GP-X228": {
+      "kind": "replay_boundary",
+      "layer": "exact_replay_or_artifact_audit",
+      "limitation": "Uses fabricated historical metadata and isolated graph files; exact cofactors are replayed by the frozen fold. Each case asks one boundary question. No backend process or GP 0.50 policy is established."
+    },
+    "GP-X229": {
+      "kind": "replay_boundary",
+      "layer": "exact_replay_or_artifact_audit",
+      "limitation": "Uses fabricated historical metadata and isolated graph files; exact cofactors are replayed by the frozen fold. Each case asks one boundary question. No backend process or GP 0.50 policy is established."
     }
   }
 }

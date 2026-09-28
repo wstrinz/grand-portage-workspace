@@ -975,6 +975,24 @@
           "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
         }
       ]
+    },
+    {
+      "path": "ADAPTER-CONTRACT.md",
+      "sha256": "b9b6b2224169ade57a6a1a0a521ac45ee1dbc860f6534e4056661181e73f4709",
+      "lines": 36,
+      "full_text_read": true,
+      "semantic_status": "partial",
+      "sections": [
+        {
+          "start_line": 1,
+          "end_line": 36,
+          "anchor": "# Out-of-tree evidence adapter contract",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Structural conformance grants DESCRIPTIVE_ONLY authority; actual certificate replay and concrete mutation tests belong to the adapter. Harness trusts self-reported verified and graph-effect declarations, tested in ADAPTER-CONFORMANCE-BOUNDARY.json.",
+          "remaining": "Audit each actual adapter and graph-bound verifier separately; no checker admission follows from this harness."
+        }
+      ]
     }
   ]
 }

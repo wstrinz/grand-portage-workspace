@@ -268,3 +268,11 @@ Observations remain layer-specific. Conditional transport, premise-route and cov
 | [GP-X219](must/GP-X219.json) | REFUSE | AGREES | offline_artifact_integrity | A path-like reference cannot escape the artifact store |
 | [GP-X220](must/GP-X220.json) | REFUSE | AGREES | offline_artifact_integrity | Failed immutable publication leaves no target object |
 | [GP-X221](must/GP-X221.json) | ACCEPT | AGREES | offline_artifact_integrity | Distinct artifacts preserve execution order |
+| [GP-X222](must/GP-X222.json) | ACCEPT | AGREES | exact_replay_or_artifact_audit | Exact cofactor proof is current with matching local backend |
+| [GP-X223](must/GP-X223.json) | ACCEPT | AGREES | exact_replay_or_artifact_audit | Exact cofactor proof survives unavailable local backend |
+| [GP-X224](must/GP-X224.json) | ACCEPT | AGREES | exact_replay_or_artifact_audit | Exact cofactor proof survives a different local backend version |
+| [GP-X225](must/GP-X225.json) | REFUSE | AGREES | exact_replay_or_artifact_audit | Wrong cofactor cannot gain identity authority |
+| [GP-X226](must/GP-X226.json) | ACCEPT | AGREES | exact_replay_or_artifact_audit | Available raw artifact satisfies its storage audit |
+| [GP-X227](must/GP-X227.json) | REFUSE | AGREES | exact_replay_or_artifact_audit | Missing raw artifact fails its storage audit |
+| [GP-X228](must/GP-X228.json) | ACCEPT | AGREES | exact_replay_or_artifact_audit | Self-contained exact identity remains replayable without raw artifact |
+| [GP-X229](must/GP-X229.json) | REFUSE | AGREES | exact_replay_or_artifact_audit | Readable unidentified historical execution is not current authority |

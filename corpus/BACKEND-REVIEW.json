@@ -122,14 +122,25 @@
           "line": 154,
           "end_line": 185,
           "status": "source_read_and_regression_passed",
-          "remaining": "Neutral extraction complete only for listed cases; other distinct controls remain pending."
+          "remaining": "CLI formatting and exact original non-replayable trace variant remain source-test evidence; case questions deliberately separate mathematical authority and artifact audit.",
+          "cases": [
+            "GP-X226",
+            "GP-X227",
+            "GP-X228"
+          ]
         },
         {
           "name": "test_exact_identity_receipt_survives_local_backend_state",
           "line": 192,
           "end_line": 228,
           "status": "source_read_and_regression_passed",
-          "remaining": "Neutral extraction complete only for listed cases; other distinct controls remain pending."
+          "remaining": "CLI formatting and exact original non-replayable trace variant remain source-test evidence; case questions deliberately separate mathematical authority and artifact audit.",
+          "cases": [
+            "GP-X222",
+            "GP-X223",
+            "GP-X224",
+            "GP-X225"
+          ]
         },
         {
           "name": "test_malformed_v2_manifest_is_an_explicit_audit_failure",
@@ -143,7 +154,10 @@
           "line": 254,
           "end_line": 287,
           "status": "source_read_and_regression_passed",
-          "remaining": "Neutral extraction complete only for listed cases; other distinct controls remain pending."
+          "remaining": "CLI formatting and exact original non-replayable trace variant remain source-test evidence; case questions deliberately separate mathematical authority and artifact audit.",
+          "cases": [
+            "GP-X229"
+          ]
         },
         {
           "name": "test_cli_reports_artifact_publication_failure_without_traceback",
@@ -153,7 +167,7 @@
           "remaining": "Neutral extraction complete only for listed cases; other distinct controls remain pending."
         }
       ],
-      "remaining": "Graph audit versus folded authority, environment-independent replay and CLI error/readability cases still need neutral extraction; all storage controls mapped below."
+      "remaining": "Malformed graph-manifest and CLI error/readability cases still need neutral disposition; main storage, exact replay and historical metadata boundaries extracted."
     },
     {
       "path": "tests/test_backend.py",
@@ -186,6 +200,22 @@
       "semantic_status": "partial",
       "functions": [],
       "remaining": "Read decode_backend_provenance/backend_provenance lines 585-649; other receipt/fingerprint/authority paths remain partial."
+    },
+    {
+      "path": "grandportage/adapter_conformance.py",
+      "sha256": "8d865fdcff53a48698096a8a7ae26450026e242a4fa30d838331b5b66b919fba",
+      "full_text_read": true,
+      "semantic_status": "partial",
+      "functions": [],
+      "remaining": "All four source test instances pass. Diagnostic self-report controls expose structural scope; full structural rejection matrix and mutation replay by actual adapters remain separate obligations."
+    },
+    {
+      "path": "tests/test_adapter_conformance.py",
+      "sha256": "ae92f1f51eeba248248480d2f7b87d6e26806687fda7cf729324cd7e1d9abe1e",
+      "full_text_read": true,
+      "semantic_status": "partial",
+      "functions": [],
+      "remaining": "All four source test instances pass. Diagnostic self-report controls expose structural scope; full structural rejection matrix and mutation replay by actual adapters remain separate obligations."
     }
   ],
   "cases": [
@@ -209,7 +239,15 @@
     "GP-X218",
     "GP-X219",
     "GP-X220",
-    "GP-X221"
+    "GP-X221",
+    "GP-X222",
+    "GP-X223",
+    "GP-X224",
+    "GP-X225",
+    "GP-X226",
+    "GP-X227",
+    "GP-X228",
+    "GP-X229"
   ],
   "scope": "Offline execution-envelope observations and source-test evidence, not live process verification or held graph authority.",
   "results": [
@@ -224,8 +262,8 @@
     "Replayable exact arithmetic identity survives unavailable or changed local backend; unavailable historical non-replayable metadata remains legacy-readable without authority."
   ],
   "remaining": [
-    "Extract graph audit versus current authority and exact replay availability controls",
-    "Review concurrent persistence and note/Groebner receipt binding",
-    "Review process launch and direct backend authority"
+    "Review process launch custody and backend trusted decisions",
+    "Disposition artifact note/Groebner binding and CLI edge cases",
+    "Continue source/history extraction and checker-admission evidence"
   ]
 }

@@ -4,7 +4,7 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "262 cases; 255 agreements and seven classified exceptions; 45 partial / 323 unreviewed sources. Artifact source fully text-read with remaining semantic obligations.",
+      "evidence": "270 cases; 263 agreements and seven classified exceptions; 48 partial / 320 unreviewed sources. Exact replay, raw artifact audit and historical metadata eligibility separated.",
       "remaining": [
         "Exhaustive source/history disposition, including docs and theory",
         "Resolve or explicitly disposition A24 and X53 for G0",
@@ -37,8 +37,8 @@
   },
   "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
   "next_work": [
-    "Extract artifact-audit versus current authority and exact replay availability controls",
-    "Review process custody and direct backend authority",
+    "Review process launch custody and direct backend authority",
+    "Disposition remaining artifact note/Groebner binding and CLI cases",
     "Continue release documents and earlier history"
   ],
   "new_findings": [

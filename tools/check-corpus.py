@@ -578,6 +578,9 @@ def probe(case, route):
             receipt_current=stored["current"],effective_certificate=effective,
             baseline_current=True,execution_descriptor="fabricated_historical_test_trace")
 
+    if kind == "replay_boundary":
+        from replay_boundary_probes import probe as replay_boundary_probe
+        return replay_boundary_probe(case,route)
     if kind == "artifact_storage":
         from artifact_probes import probe as artifact_probe
         return artifact_probe(case,route)
@@ -640,6 +643,7 @@ def main():
               "inventory_probe_sha256":sha(ROOT/"tools/inventory_probes.py"),
               "execution_probe_sha256":sha(ROOT/"tools/execution_probes.py"),
               "artifact_probe_sha256":sha(ROOT/"tools/artifact_probes.py"),
+              "replay_boundary_probe_sha256":sha(ROOT/"tools/replay_boundary_probes.py"),
               "artifact_fixture_sha256":sha(ORACLE/"tests/test_artifacts.py"),
               "lifecycle_input_adapter_sha256":sha(ROOT/"tools/lifecycle_inputs.py"),
               "lifecycle_baseline_sha256":sha(ROOT/"oracle/LIFECYCLE-INPUT-BASELINE.json"),
