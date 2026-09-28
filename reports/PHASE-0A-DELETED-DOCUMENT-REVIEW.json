@@ -138,7 +138,18 @@
     {
       "id": "deleted-dm4-prior-proof-spine",
       "status": "recorded_confession_requires_disposition",
-      "summary": "The audit withdraws an informal gamma > 2*beta conclusion in favor of a unique-minimum valuation argument. This is a recorded proof correction; do not count it as a newly executed theorem or assume already extracted."
+      "summary": "The audit withdraws an informal gamma > 2*beta conclusion in favor of a unique-minimum valuation argument. This is a recorded proof correction; do not count it as a newly executed theorem or assume already extracted.",
+      "bounded_integer_control": {
+        "alpha": 2,
+        "beta": 1,
+        "gamma": 0,
+        "delta": -1,
+        "g1_balance": true,
+        "g2_balance": true,
+        "old_gamma_greater_than_twice_beta": false,
+        "corrected_unique_minimum_inequalities": true,
+        "limit": "Checks one integer instance of the supplied balances. Does not construct polynomial solutions to all G1-G3; not a counterexample to the corrected theorem or an assertion of its general proof."
+      }
     },
     {
       "id": "deleted-coordinator-normalization-and-seam",
