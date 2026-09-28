@@ -42,6 +42,62 @@
         "reports/oracle-runs/20260928T201826560097Z.json"
       ],
       "review": "Parent read adapter and each new payload, verified prior case preservation and validator success. A2/A4 are commitments, M1 projection-contract checks, A11 no-inversion ledger; no proof of mutated arithmetic invalidity."
+    },
+    {
+      "source_pin": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "source_path": "tests/test_jc_h3_b0_depth8_residual.py",
+      "positive_controls": [
+        "GP-X319"
+      ],
+      "evidence": [
+        "reports/PHASE-0A-RESIDUAL-CONTRACT-EXTRACTION.md",
+        "reports/PHASE-0A-RESIDUAL-CONTRACT-EVIDENCE.json",
+        "reports/oracle-runs/20260928T203130963441Z.json"
+      ],
+      "review": "Parent read complete adapter diff and five payloads, validated 377 cases, independently checked all 372 prior case bytes, expectations, outcomes, statuses, routes and layers unchanged. Named contract gates do not assert mathematical invalidity or parent exclusion.",
+      "test": "test_scope_pin_order_digest_middle_and_slice_mutations_refuse",
+      "extraction_status": "complete_for_all_six_parameterized_mutations",
+      "mutation_mappings": {
+        "LOCAL_EMPTY": [
+          "GP-X123"
+        ],
+        "coefficient_field": [
+          "GP-X332"
+        ],
+        "ring_variable_order": [
+          "GP-X333"
+        ],
+        "source_digest": [
+          "GP-X71"
+        ],
+        "middle_zero_rationale": [
+          "GP-X334"
+        ],
+        "witness_slice": [
+          "GP-X335"
+        ]
+      }
+    },
+    {
+      "source_pin": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "source_path": "tests/test_jc_h3_b0_depth8_residual.py",
+      "positive_controls": [
+        "GP-X319"
+      ],
+      "evidence": [
+        "reports/PHASE-0A-RESIDUAL-CONTRACT-EXTRACTION.md",
+        "reports/PHASE-0A-RESIDUAL-CONTRACT-EVIDENCE.json",
+        "reports/oracle-runs/20260928T203130963441Z.json"
+      ],
+      "review": "Parent read complete adapter diff and five payloads, validated 377 cases, independently checked all 372 prior case bytes, expectations, outcomes, statuses, routes and layers unchanged. Named contract gates do not assert mathematical invalidity or parent exclusion.",
+      "test": "test_changed_finite_algebra_modulus_refuses",
+      "extraction_status": "complete_for_recorded_mutation",
+      "mutation_mappings": {
+        "r_final_first_coefficient": [
+          "GP-X336"
+        ]
+      },
+      "qualification": "W3 jointly checks degree, squarefreeness, chain and slice equations; no isolated failed conjunct or nonunit conclusion."
     }
   ]
 }

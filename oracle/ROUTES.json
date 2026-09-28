@@ -2416,6 +2416,41 @@
       "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
       "limitation": "Pinned historical adapter contract gate only; commitment/projection/ledger refusal does not establish a new mathematical counterexample or graph authority.",
       "expected_gate": "A11"
+    },
+    "GP-X332": {
+      "kind": "historical_residual",
+      "layer": "coefficient_field_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "expected_gate": "N6",
+      "limitation": "Pinned historical contract preflight; no proof that changed underlying algebra is mathematically invalid or that parent/source authority follows."
+    },
+    "GP-X333": {
+      "kind": "historical_residual",
+      "layer": "ordered_ring_binding",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "expected_gate": "N7",
+      "limitation": "Pinned historical contract preflight; no proof that changed underlying algebra is mathematically invalid or that parent/source authority follows."
+    },
+    "GP-X334": {
+      "kind": "historical_residual",
+      "layer": "missing_middle_rationale",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "expected_gate": "A4",
+      "limitation": "Pinned historical contract preflight; no proof that changed underlying algebra is mathematically invalid or that parent/source authority follows."
+    },
+    "GP-X335": {
+      "kind": "historical_residual",
+      "layer": "finite_witness_slice_scope",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "expected_gate": "N8",
+      "limitation": "Pinned historical contract preflight; no proof that changed underlying algebra is mathematically invalid or that parent/source authority follows."
+    },
+    "GP-X336": {
+      "kind": "historical_residual",
+      "layer": "finite_witness_modulus",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "expected_gate": "W3",
+      "limitation": "Pinned joint W3 finite-witness check; the individual failed conjunct is not isolated, W5 is not reached, and no nonunit or parent claim follows."
     }
   }
 }

@@ -16,6 +16,11 @@ MODULE_PATHS = {
     "changed_jump_schedule": "jc_h3_adjoint_recurrence/adapter.py",
     "omega_nonzero": "jc_h3_depth8_fiber/adapter.py",
     "zero_omega_comb": "jc_h3_depth8_fiber/adapter.py",
+    "field": "jc_h3_b0_free_plane/depth8_residual_adapter.py",
+    "ring_order": "jc_h3_b0_free_plane/depth8_residual_adapter.py",
+    "middle_rationale": "jc_h3_b0_free_plane/depth8_residual_adapter.py",
+    "slice": "jc_h3_b0_free_plane/depth8_residual_adapter.py",
+    "modulus": "jc_h3_b0_free_plane/depth8_residual_adapter.py",
 }
 
 
@@ -208,6 +213,60 @@ def _omega(case, module, fixture):
         }
     raise ValueError("Zeroed omega witness unexpectedly validated")
 
+
+RESIDUAL_CONTRACT = {
+    "field": ("N6", "set", ("psi8_certificate", "field"),
+              "K = QQ[t]/(15*t**3 - 1)"),
+    "ring_order": ("N7", "reverse",
+                   ("pullback_certificate", "ring", "ring_variable_order"), None),
+    "middle_rationale": ("A4", "set", ("psi8_certificate", "r8_2"),
+                         "NOT BUILT -- unexplained"),
+    "slice": ("N8", "set",
+              ("pullback_certificate", "witness", "slice", "c2_1"), "1"),
+    "modulus": ("W3", "set",
+                ("pullback_certificate", "witness", "r_final", 0), "1"),
+}
+
+
+def _residual_contract(case, route, module, fixture):
+    d = case["inputs"]
+    gate, operation, path, value = RESIDUAL_CONTRACT[d["control"]]
+    mutation = d["mutation"]
+    if (route["expected_gate"] != gate or mutation["op"] != operation
+            or tuple(mutation["path"]) != path
+            or ("value" in mutation and mutation["value"] != value)):
+        raise ValueError("Residual contract mutation differs from pinned control")
+    target = fixture
+    for key in path[:-1]:
+        target = target[key]
+    key = path[-1]
+    if operation == "reverse":
+        if "value" in mutation or target[key] != fixture["psi8_certificate"]["ring_variable_order"]:
+            raise ValueError("Original ring order differs across certificates")
+        target[key].reverse()
+        if target[key] == fixture["psi8_certificate"]["ring_variable_order"]:
+            raise ValueError("Ring-order mutation had no effect")
+    else:
+        if target[key] == value:
+            raise ValueError("Residual contract mutation had no effect")
+        target[key] = value
+    try:
+        module.validate_fixture_value(fixture)
+    except module.Depth8ResidualEvidenceError as exc:
+        failure = str(exc)
+        if not failure.startswith(gate + ":"):
+            raise
+        return {
+            "observed_verdict": "REFUSE", "reason": failure,
+            "control": d["control"], "rejection_gate": gate,
+            "outer_fixture_digest_rejection": False,
+            "W5_reached": False if d["control"] == "modulus" else None,
+            "mathematical_invalidity_established": False,
+            "graph_effect": "NONE", "parent_exclusion": False,
+            "external_execution": False,
+        }
+    raise ValueError("Changed residual contract unexpectedly validated")
+
 def probe(case, route):
     if route["historical_commit"] != PIN:
         raise ValueError("Wrong historical revision")
@@ -223,4 +282,6 @@ def probe(case, route):
         return _changed_jump_schedule(case, module, fixture)
     if control in ("omega_nonzero", "zero_omega_comb"):
         return _omega(case, module, fixture)
+    if control in RESIDUAL_CONTRACT:
+        return _residual_contract(case, route, module, fixture)
     return _finite_unit(case, module, fixture)
