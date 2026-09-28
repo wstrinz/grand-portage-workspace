@@ -742,7 +742,7 @@
       "path": "grandportage/identity.py",
       "git_object": "aca19c349f9476a434ed97149178b921a29ee4ae",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/kernel.py",
@@ -2105,7 +2105,7 @@
       "path": "tests/test_identity_surface.py",
       "git_object": "3efa65c9a5c1c2a8e6beb520532bf5da20d4ea3c",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_inband_identity.py",

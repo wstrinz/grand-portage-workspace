@@ -107,3 +107,5 @@ Batch 51 verifies six ordered path graphs: typed R needs a current receipt, C re
 Batch 52 identifies a legacy partition consumer scope gap under an explicitly supplied true cover, while verifying that current epoch-1 schema rejects via_partition. Four legacy controls, one native schema refusal and twelve selected source tests pass. No native-log bypass claimed; corpus remains 352. See PHASE-0A-BATCH-52.md.
 
 Batch 53 completes format/migration text review: 78 tests pass, one backend-dependent constructor test deselected, four dry-run custody controls verified. Current-format/older-epoch migration accepts missing source implementation identity; legacy partition conversion refuses after dropping unsupported syntax. Corpus unchanged; 81 partial / 287 unreviewed sources. See PHASE-0A-BATCH-53.md.
+
+Batch 54 reviews implementation identity: twelve offline tests and three boundary controls pass; live backend test excluded. Cached Git metadata and raw malformed-commit TypeError documented without claiming executable attestation or false acceptance. Corpus unchanged; 83 partial / 285 unreviewed sources. See PHASE-0A-BATCH-54.md.
