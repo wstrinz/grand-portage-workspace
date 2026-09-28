@@ -29,11 +29,10 @@
       ]
     },
     "0d": {
-      "status": "prepared_not_published",
-      "evidence": "reports/freeze-v0.37.1",
-      "remaining": [
-        "Final completeness and applicability audit of prepared freeze patch and known-issues notes; no public mutation implied"
-      ]
+      "status": "private_preparation_verified",
+      "evidence": "reports/freeze-v0.37.1/AUDIT.json and RELEASE-HANDOFF.md: exact banner, 17 repairs, current status constants, doc-only patch application, private-link scope and pinned existing tag verified.",
+      "remaining": [],
+      "deferred_public_actions": "Application/publication and any freeze tag designation remain unperformed under DECISIONS.md item 5; no approval is requested while independent Phase 0 work remains. Existing v0.37.0 release tag is unchanged, with ordinary release annotation."
     }
   },
   "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
