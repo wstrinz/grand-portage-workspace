@@ -705,6 +705,276 @@
           "remaining": "External historical prototype sources remain outside completed review."
         }
       ]
+    },
+    {
+      "path": "KILL-CRITERIA.md",
+      "sha256": "14a53d59872e1139b3ade8e4beee2c52073290c47a6ee4eef6fd3d950ebaa83e",
+      "lines": 247,
+      "full_text_read": true,
+      "semantic_status": "partial",
+      "sections": [
+        {
+          "start_line": 1,
+          "end_line": 24,
+          "anchor": "# Kill criteria",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Predeclared falsification criteria distinguish useful thought from friction; historical measurements are not current project verdicts.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 25,
+          "end_line": 31,
+          "anchor": "## A. Narrow to an audit tool",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Audit-only narrowing is an explicit possible outcome, not failure by definition.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 32,
+          "end_line": 36,
+          "anchor": "### A1. Contributors choose `UNTYPED` and never refine it",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "A1 refers to a corrected measurement, not proof contributors never refine.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 37,
+          "end_line": 50,
+          "anchor": "### A2. Structured operations cover too little of the actual CAS work",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "A2 records mixed populations; 88% headline should retain uncertainty categories.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 51,
+          "end_line": 55,
+          "anchor": "### A3. Experts ignore the graph and reread the transcript",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Cold-return study marked untested and historically sealed; no outcome inferred from elapsed date.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 56,
+          "end_line": 61,
+          "anchor": "### A4. Cold resumption is not materially improved",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Cold-resumption evidence remains unverified here.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 62,
+          "end_line": 82,
+          "anchor": "### A5. False refusals cost more than the errors prevented",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Cost ledger includes false refusals and prevented errors; no measured ratio. Partition sibling transport and ideal-less ambient identities need exact source controls.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 83,
+          "end_line": 103,
+          "anchor": "### A6. Operation validators become as complex as the CAS code",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "A6 admits substantial validators and abandoned tiny-implementation trigger; stronger criteria concern unbounded search, canonicalization, duplication and durable composition. This is not a contemporary audit of every checker.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 104,
+          "end_line": 114,
+          "anchor": "### A7. The relation vocabulary does not transfer beyond polynomial systems",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Transfer claim is based on named historical campaigns; index restriction misuse is retained. Companion data not reread.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 115,
+          "end_line": 119,
+          "anchor": "## B. Reconsider the endeavour",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Stronger conditions question the central thesis.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 120,
+          "end_line": 130,
+          "anchor": "### B1. Run-specific validation cannot meaningfully constrain mislabelling",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Arithmetic checking is adjacent evidence, not proof operation labels are meaningfully constrained.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 131,
+          "end_line": 135,
+          "anchor": "### B2. RO-Crate + Lean blueprints + careful Markdown achieve the same result",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Excellent-Markdown competitor has not been measured in this document.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 136,
+          "end_line": 147,
+          "anchor": "### B3. The principal failures keep happening outside any boundary this can control",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Interaction defects versus kernel errors require separate denominators and provenance; no modern rate inferred.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 148,
+          "end_line": 161,
+          "anchor": "## C. The case gets stronger",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Positive criteria require measured reuse, resumption and adoption; they are not demonstrated just by listing them.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 162,
+          "end_line": 163,
+          "anchor": "## D. Measurements taken",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Historical measurement section.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 164,
+          "end_line": 213,
+          "anchor": "### D1. `UNTYPED` usage \u2014 the number fired and meant something else",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Same-id counting missed supersession back-pointers. Unknown relation and known missing support were conflated. Retained prose later says the edge was never refined despite the correction: treat as stale historical narrative, not a current fact.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 214,
+          "end_line": 222,
+          "anchor": "### D2. Doc-count drift \u2014 not firing",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Equal marked check counts detect drift but do not establish actual coverage or test execution.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 223,
+          "end_line": 224,
+          "anchor": "## The experiments",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Planned experiments are not performed comparisons.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 225,
+          "end_line": 233,
+          "anchor": "### Experiment A",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "False licences are the primary matched-comparison metric; manufacturing answer keys remains work.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 234,
+          "end_line": 247,
+          "anchor": "### Experiment B",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Planned paired constructor comparison is described as queued, while EXPERIMENT-B records a different retrospective audit; preserve the distinction.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        }
+      ]
+    },
+    {
+      "path": "EXPERIMENT-B.md",
+      "sha256": "099a4de9eded5b4893cce7ab803096d062a983f8accec0a646d7bade95366f6b",
+      "lines": 124,
+      "full_text_read": true,
+      "semantic_status": "partial",
+      "sections": [
+        {
+          "start_line": 1,
+          "end_line": 4,
+          "anchor": "# Experiment B: are hand-declared relation types mislabelled often enough to justify building constructors?",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Historical 57-edge retrospective audit; underlying campaign census not rerun.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 5,
+          "end_line": 22,
+          "anchor": "## Why this shape",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Original paired experiment replaced by auditing declared label against authored why text. Author/judge bias is acknowledged. A why description is not independently verified operation semantics.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 23,
+          "end_line": 31,
+          "anchor": "## Result",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Counts sum to 57: 44 clearly correct, 7 clear errors, 6 judgement calls. Do not equate 50 non-clear-errors with 50 established correct labels.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 32,
+          "end_line": 43,
+          "anchor": "### The seven clear mislabels",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Five missing-support edges, index restriction and absent restriction vocabulary are distinct causes; links are evidence pointers, not campaign read permission.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 44,
+          "end_line": 57,
+          "anchor": "### The six judgement calls",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Six judgement calls include localization, saturation, morphism and flattened composite semantics; no silent relabeling here.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 58,
+          "end_line": 76,
+          "anchor": "## What this actually says about constructors",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "6 of 13 includes uncertain cases; constructor coverage is an estimate, not measured causal improvement. A doubt records unsupported connection, not proof no mathematical relation can exist.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 77,
+          "end_line": 103,
+          "anchor": "### The decision rule, applied",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "88% is 50/57 after counting uncertain labels as non-errors; among clear calls alone 44/51 is about 86%. Retain counts/denominators and avoid treating retrospective coding as a paired efficacy trial. Historical narrow-constructor decision is not automatic 0.50 scope approval.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        },
+        {
+          "start_line": 104,
+          "end_line": 124,
+          "anchor": "## Correction: an earlier measurement was wrong",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Corrected supersession counting requires following replacement edges; typed successors refute same-id-only measurement. Existing lifecycle cases cover analogous behavior, not independent replication of this campaign census.",
+          "remaining": "Underlying measurements and source-specific regressions remain to be dispositioned; no current gate conclusion inferred."
+        }
+      ]
     }
   ]
 }

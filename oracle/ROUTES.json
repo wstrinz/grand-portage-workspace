@@ -1692,6 +1692,46 @@
       "kind": "provenance_review",
       "layer": "diagnostic_or_operational_policy",
       "limitation": "No checked mathematical premise authority. Construction taint and operational warning acceptance are separate from valid theorem entailment."
+    },
+    "GP-X193": {
+      "kind": "inventory_diagnostic",
+      "layer": "declared_inventory_or_type_consistency",
+      "limitation": "No proof of model adequacy, equation independence, or held mathematical claims. Coverage acceptance is relative to declared axes and recorded uses."
+    },
+    "GP-X194": {
+      "kind": "inventory_diagnostic",
+      "layer": "declared_inventory_or_type_consistency",
+      "limitation": "No proof of model adequacy, equation independence, or held mathematical claims. Coverage acceptance is relative to declared axes and recorded uses."
+    },
+    "GP-X195": {
+      "kind": "inventory_diagnostic",
+      "layer": "declared_inventory_or_type_consistency",
+      "limitation": "No proof of model adequacy, equation independence, or held mathematical claims. Coverage acceptance is relative to declared axes and recorded uses."
+    },
+    "GP-X196": {
+      "kind": "inventory_diagnostic",
+      "layer": "declared_inventory_or_type_consistency",
+      "limitation": "No proof of model adequacy, equation independence, or held mathematical claims. Coverage acceptance is relative to declared axes and recorded uses."
+    },
+    "GP-X197": {
+      "kind": "inventory_diagnostic",
+      "layer": "declared_inventory_or_type_consistency",
+      "limitation": "No proof of model adequacy, equation independence, or held mathematical claims. Coverage acceptance is relative to declared axes and recorded uses."
+    },
+    "GP-X198": {
+      "kind": "inventory_diagnostic",
+      "layer": "declared_inventory_or_type_consistency",
+      "limitation": "No proof of model adequacy, equation independence, or held mathematical claims. Coverage acceptance is relative to declared axes and recorded uses."
+    },
+    "GP-X199": {
+      "kind": "inventory_diagnostic",
+      "layer": "declared_inventory_or_type_consistency",
+      "limitation": "No proof of model adequacy, equation independence, or held mathematical claims. Coverage acceptance is relative to declared axes and recorded uses."
+    },
+    "GP-X200": {
+      "kind": "inventory_diagnostic",
+      "layer": "declared_inventory_or_type_consistency",
+      "limitation": "No proof of model adequacy, equation independence, or held mathematical claims. Coverage acceptance is relative to declared axes and recorded uses."
     }
   }
 }

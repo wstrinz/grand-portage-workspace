@@ -10,7 +10,7 @@ The deleted-test reading milestone is complete. These are the remaining work que
 | 4 | Complete the campaign source manifest, then execute the near-miss sweep | All included campaigns accounted for, verbatim private harvest hashes, incident class and cost inventory, and the meaning-risk assessment |
 | 5 | Resolve A24 and X53's profile implications; run the deferred Lean spike after 0a/0b | Actual collapsed-placement model, explicit treatment of unsupported dimension credit, agreed measurable spike cap and written feasibility report |
 
-Current-tree ledger: 368 files, 37 partial, 331 unreviewed, zero claimed fully reviewed. Historical first pass: 29/29 deleted test files read, 226 functions dispositioned, 271 selected test instances passed. Twenty-seven companion-dependent functions and two live-CAS functions remain unrun.
+Current-tree ledger: 368 files, 41 partial, 327 unreviewed, zero claimed fully reviewed. Historical first pass: 29/29 deleted test files read, 226 functions dispositioned, 271 selected test instances passed. Twenty-seven companion-dependent functions and two live-CAS functions remain unrun.
 
 Source-manifest inputs still needed: confirmation of discovered DK/Cloquet/ARR15/Pigeon River locations, missing report/scouting/Highway 61 paths or explicit omissions, optional LSEM/SCOUT scope, and access notes/exclusions. The retained packet explicitly requires the completed manifest before the sweep. Independent GP source review can continue meanwhile.
 
@@ -23,3 +23,5 @@ Batch 10 extracts common-context, every-required-leg, explicit-missing-premise a
 Lean documentation slice: lean/README.md (317 lines) and lean/THEORY.md (164 lines) fully text-read and dispositioned. Five source paths receive partial review credit; theorem premises remain distinct from runtime verification. See LEAN-AUTHORITY-BOUNDARIES.md. Corpus stays at 227 cases; no expected verdict or oracle code changed.
 
 Batch 11 closes the selected neutral transitive-taint and warning-meaning controls (GP-X187-192), not general independent-warrant semantics. SPEC is fully text-read. Continue coverage/refinement, hook custody, full authority tests and release/history dispositions; 37 partial / 331 unreviewed source files remain.
+
+Batch 12 covers the selected inventory/refinement follow-ups (GP-X193-200) and diagnoses opt-in axis deletion. No quiet diagnostic is a model-completeness proof. Historical kill criteria and constructor study retain explicit uncertainty and causal limits. Continue process/authority/source-binding and release/history review.

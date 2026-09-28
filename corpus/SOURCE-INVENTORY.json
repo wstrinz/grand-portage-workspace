@@ -76,7 +76,7 @@
       "path": "EXPERIMENT-B.md",
       "git_object": "2b9ee930028a8f4363c014c9363e489fbf6d24ed",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "HANDOFF.md",
@@ -100,7 +100,7 @@
       "path": "KILL-CRITERIA.md",
       "git_object": "3b2568c65a5768c1e429ac7c6bf82d5e0e9edf2f",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "LICENSE",
@@ -2178,7 +2178,7 @@
       "path": "tests/test_mutations.py",
       "git_object": "d671094a5036c4f22f3fc0d6010da807bd22e7b8",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_number_field_witness.py",
@@ -2273,7 +2273,7 @@
       "path": "tests/test_retrodiction.py",
       "git_object": "c2b4096b42d4be57a5839edd385ea99002778799",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_scalar_division.py",

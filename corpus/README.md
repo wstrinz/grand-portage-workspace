@@ -239,3 +239,11 @@ Observations remain layer-specific. Conditional transport, premise-route and cov
 | [GP-X190](must/GP-X190.json) | REFUSE | AGREES | diagnostic_or_operational_policy | Retyping a relation reopens its warning despite stable finding identity |
 | [GP-X191](must/GP-X191.json) | REFUSE | AGREES | diagnostic_or_operational_policy | A warning review without its meaning digest cannot suppress the warning |
 | [GP-X192](must/GP-X192.json) | REFUSE | AGREES | diagnostic_or_operational_policy | An unreviewed warning still blocks operational continuation |
+| [GP-X193](must/GP-X193.json) | REFUSE | AGREES | declared_inventory_or_type_consistency | Independent place and order omissions remain visible |
+| [GP-X194](must/GP-X194.json) | REFUSE | AGREES | declared_inventory_or_type_consistency | Repairing a place inventory does not repair order coverage |
+| [GP-X195](must/GP-X195.json) | REFUSE | AGREES | declared_inventory_or_type_consistency | Repairing order inventory does not repair place coverage |
+| [GP-X196](must/GP-X196.json) | ACCEPT | AGREES | declared_inventory_or_type_consistency | All recorded uses have components on both asserted dimensions |
+| [GP-X197](must/GP-X197.json) | ACCEPT | AGREES | declared_inventory_or_type_consistency | An inventory with no recorded uses has no detected gap |
+| [GP-X198](must/GP-X198.json) | REFUSE | AGREES | declared_inventory_or_type_consistency | A conclusion read alone requires its index component |
+| [GP-X199](must/GP-X199.json) | ACCEPT | AGREES | declared_inventory_or_type_consistency | Equation-refinement annotation with equations_forgotten |
+| [GP-X200](must/GP-X200.json) | REFUSE | AGREES | declared_inventory_or_type_consistency | Equation-refinement annotation with equivalent_presentations |
