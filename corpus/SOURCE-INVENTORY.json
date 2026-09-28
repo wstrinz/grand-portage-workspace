@@ -798,7 +798,7 @@
       "path": "grandportage/number_field.py",
       "git_object": "31656714a1d01699659f93992b5e366f6b5b0815",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/operations.py",
