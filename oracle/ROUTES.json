@@ -2325,6 +2325,24 @@
       "kind": "membership_contraction",
       "layer": "elimination_and_reverse_identity",
       "limitation": "Completeness certificate plus explicit reverse membership diagnostic; no materialization, backend execution or graph admission."
+    },
+    "GP-X318": {
+      "kind": "historical_residual",
+      "layer": "finite_recurrence_instance_mutation",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical in-memory mutation and exact recurrence replay; no Lean compilation, source binding check or graph authority."
+    },
+    "GP-X319": {
+      "kind": "historical_residual",
+      "layer": "finite_quotient_exact_replay",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical exact finite-witness replay only; no native bindings, parent exclusion, graph authority or live CAS."
+    },
+    "GP-X320": {
+      "kind": "historical_residual",
+      "layer": "finite_quotient_exact_replay",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical exact finite-witness replay only; no native bindings, parent exclusion, graph authority or live CAS."
     }
   }
 }

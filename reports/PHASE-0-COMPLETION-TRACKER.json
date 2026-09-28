@@ -4,7 +4,7 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "358 cases (111 ACCEPT / 247 REFUSE); 343 agreements, twelve known differences and three other classified outcomes. Approved incident-focused closure reconciliation; source semantic labels remain 171 partial / 197 unreviewed, not completion percentages.",
+      "evidence": "361 cases (112 ACCEPT / 249 REFUSE); 346 agreements, twelve known differences and three other classified outcomes. Nine new controls integrated with unchanged prior bytes/outcomes. Source semantic labels remain 171 partial / 197 unreviewed; separate closure overlays track current work.",
       "remaining": [
         "Exhaustive source/history disposition, including docs and theory",
         "Resolve or explicitly disposition A24 and X53 for G0",
