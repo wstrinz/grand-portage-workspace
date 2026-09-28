@@ -183,7 +183,7 @@
       "full_text_read": false,
       "semantic_status": "partial",
       "functions": [],
-      "remaining": "Read identity/provenance 1011-1146, run_cas 735-833 and process implementation 837-974. Actual process-group deadlines/output limits and remaining compiler/parser/operation paths are not fully verified."
+      "remaining": "Identifier/body/scalar-division guards read through 328, launch and process implementation plus identity/provenance slices reviewed. Harmless-comment conservative refusal reproduced; full language parsing, all operation paths and process races remain open."
     },
     {
       "path": "grandportage/artifacts.py",
@@ -224,6 +224,14 @@
       "semantic_status": "partial",
       "functions": [],
       "remaining": "Opening declaration/program/error/recording guards read through line 250; broader hook, migration, CLI and verifier tests remain to be dispositioned."
+    },
+    {
+      "path": "tests/test_groebner_producer.py",
+      "sha256": "ace224400c762dd754841c8937a3e619a00a3ce68dce0835a6c2050d5581f910",
+      "full_text_read": false,
+      "semantic_status": "partial",
+      "functions": [],
+      "remaining": "Three timeout/output controls read and passed in this slice. Producer proof, size/binding and live CAS families retain separate partial review obligations."
     }
   ],
   "cases": [
@@ -265,7 +273,22 @@
     "GP-X236",
     "GP-X237",
     "GP-X238",
-    "GP-X239"
+    "GP-X239",
+    "GP-X240",
+    "GP-X241",
+    "GP-X242",
+    "GP-X243",
+    "GP-X244",
+    "GP-X245",
+    "GP-X246",
+    "GP-X247",
+    "GP-X248",
+    "GP-X249",
+    "GP-X250",
+    "GP-X251",
+    "GP-X252",
+    "GP-X253",
+    "GP-X254"
   ],
   "scope": "Offline execution-envelope observations and source-test evidence, not live process verification or held graph authority.",
   "results": [
@@ -280,8 +303,8 @@
     "Replayable exact arithmetic identity survives unavailable or changed local backend; unavailable historical non-replayable metadata remains legacy-readable without authority."
   ],
   "remaining": [
-    "Extract compiler validation across body, expression and type fields",
-    "Review actual process timeout/output containment tests without treating injected-runner evidence as live validation",
-    "Continue artifact note/Groebner binding and broader authority review"
+    "Retain/comment-triage compiler conservative refusal without changing oracle",
+    "Review remaining process races, producer binding and actual backend custody",
+    "Continue artifact note/Groebner binding and authority families"
   ]
 }

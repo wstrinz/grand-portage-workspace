@@ -33,3 +33,5 @@ Batch 14 extracts GP-X211-221 (storage corruption, object addressing, canonical 
 Batch 15 extracts GP-X222-229: exact cofactor replay survives local backend changes, bad proof refuses, missing raw objects remain audit debt and unidentified history is readable without authority. Structural adapter conformance is diagnostic only. Continue process custody and remaining artifact/authority source review.
 
 Batch 16 extracts GP-X230-239 and records late source-reference rejection in LAUNCH-RECORDING-BOUNDARY.json. Next: program-field validation and actual timeout/output custody test evidence; injected-runner controls do not verify process-tree containment.
+
+Batch 17 extracts GP-X240-254 and reproduces a conservative harmless-comment refusal. Keep that cost evidence separate from false licences. Three actual-process/argv controls passed; full process-tree/WSL race coverage remains unclaimed. Continue producer binding, authority and release/history review.

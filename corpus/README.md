@@ -286,3 +286,18 @@ Observations remain layer-specific. Conditional transport, premise-route and cov
 | [GP-X237](must/GP-X237.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: typed, structured, nonzero_exit |
 | [GP-X238](must/GP-X238.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: typed, structured, aborted |
 | [GP-X239](must/GP-X239.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: missing_source, structured, success |
+| [GP-X240](must/GP-X240.json) | ACCEPT | AGREES | program_construction | Unshadowed g0 variable remains legal |
+| [GP-X241](must/GP-X241.json) | ACCEPT | KNOWN_DIFFERENCE | program_construction | Harmless comment and assignment retain a legal body |
+| [GP-X242](must/GP-X242.json) | REFUSE | AGREES | program_construction | Body declaration cannot shadow a ring variable |
+| [GP-X243](must/GP-X243.json) | REFUSE | AGREES | program_construction | Expression slot cannot carry a second declaration |
+| [GP-X244](must/GP-X244.json) | REFUSE | AGREES | program_construction | Type slot cannot carry a hidden declaration |
+| [GP-X245](must/GP-X245.json) | REFUSE | AGREES | program_construction | Body escape is refused: execute(str(1)); |
+| [GP-X246](must/GP-X246.json) | REFUSE | AGREES | program_construction | Body escape is refused: kill I; |
+| [GP-X247](must/GP-X247.json) | REFUSE | AGREES | program_construction | Body escape is refused: setring R2; |
+| [GP-X248](must/GP-X248.json) | REFUSE | AGREES | program_construction | Body escape is refused: LIB "poly.lib"; |
+| [GP-X249](must/GP-X249.json) | REFUSE | AGREES | program_construction | Comment prefix cannot hide poly g0 = 1; |
+| [GP-X250](must/GP-X250.json) | REFUSE | AGREES | program_construction | Comment prefix cannot hide execute("int Z=1"); |
+| [GP-X251](must/GP-X251.json) | REFUSE | AGREES | program_construction | Comment prefix cannot hide kill I; |
+| [GP-X252](must/GP-X252.json) | REFUSE | AGREES | program_construction | Variable slot cannot close the ring declaration |
+| [GP-X253](must/GP-X253.json) | REFUSE | AGREES | program_construction | Ring-name slot cannot inject a statement sequence |
+| [GP-X254](must/GP-X254.json) | ACCEPT | AGREES | program_construction | Comment-free assignment remains constructible |

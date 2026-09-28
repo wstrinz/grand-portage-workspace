@@ -1927,6 +1927,82 @@
       "kind": "launch_boundary",
       "layer": "offline_launch_and_recording",
       "limitation": "Counted injected runner only. Valid recorded declaration is not verified operation semantics or theorem authority. Source existence may be rejected only at transactional graph append."
+    },
+    "GP-X240": {
+      "kind": "compiler_slots",
+      "layer": "program_construction",
+      "limitation": "Exact historical slot-validation regressions only. No CAS execution, full language parser proof, or mathematical authority."
+    },
+    "GP-X241": {
+      "kind": "compiler_slots",
+      "layer": "program_construction",
+      "limitation": "Exact historical slot-validation regressions only. No CAS execution, full language parser proof, or mathematical authority.",
+      "known_difference": "conservative_refusal_comment_misparsed_as_division"
+    },
+    "GP-X242": {
+      "kind": "compiler_slots",
+      "layer": "program_construction",
+      "limitation": "Exact historical slot-validation regressions only. No CAS execution, full language parser proof, or mathematical authority."
+    },
+    "GP-X243": {
+      "kind": "compiler_slots",
+      "layer": "program_construction",
+      "limitation": "Exact historical slot-validation regressions only. No CAS execution, full language parser proof, or mathematical authority."
+    },
+    "GP-X244": {
+      "kind": "compiler_slots",
+      "layer": "program_construction",
+      "limitation": "Exact historical slot-validation regressions only. No CAS execution, full language parser proof, or mathematical authority."
+    },
+    "GP-X245": {
+      "kind": "compiler_slots",
+      "layer": "program_construction",
+      "limitation": "Exact historical slot-validation regressions only. No CAS execution, full language parser proof, or mathematical authority."
+    },
+    "GP-X246": {
+      "kind": "compiler_slots",
+      "layer": "program_construction",
+      "limitation": "Exact historical slot-validation regressions only. No CAS execution, full language parser proof, or mathematical authority."
+    },
+    "GP-X247": {
+      "kind": "compiler_slots",
+      "layer": "program_construction",
+      "limitation": "Exact historical slot-validation regressions only. No CAS execution, full language parser proof, or mathematical authority."
+    },
+    "GP-X248": {
+      "kind": "compiler_slots",
+      "layer": "program_construction",
+      "limitation": "Exact historical slot-validation regressions only. No CAS execution, full language parser proof, or mathematical authority."
+    },
+    "GP-X249": {
+      "kind": "compiler_slots",
+      "layer": "program_construction",
+      "limitation": "Exact historical slot-validation regressions only. No CAS execution, full language parser proof, or mathematical authority."
+    },
+    "GP-X250": {
+      "kind": "compiler_slots",
+      "layer": "program_construction",
+      "limitation": "Exact historical slot-validation regressions only. No CAS execution, full language parser proof, or mathematical authority."
+    },
+    "GP-X251": {
+      "kind": "compiler_slots",
+      "layer": "program_construction",
+      "limitation": "Exact historical slot-validation regressions only. No CAS execution, full language parser proof, or mathematical authority."
+    },
+    "GP-X252": {
+      "kind": "compiler_slots",
+      "layer": "program_construction",
+      "limitation": "Exact historical slot-validation regressions only. No CAS execution, full language parser proof, or mathematical authority."
+    },
+    "GP-X253": {
+      "kind": "compiler_slots",
+      "layer": "program_construction",
+      "limitation": "Exact historical slot-validation regressions only. No CAS execution, full language parser proof, or mathematical authority."
+    },
+    "GP-X254": {
+      "kind": "compiler_slots",
+      "layer": "program_construction",
+      "limitation": "Exact historical slot-validation regressions only. No CAS execution, full language parser proof, or mathematical authority."
     }
   }
 }

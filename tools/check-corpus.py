@@ -578,6 +578,9 @@ def probe(case, route):
             receipt_current=stored["current"],effective_certificate=effective,
             baseline_current=True,execution_descriptor="fabricated_historical_test_trace")
 
+    if kind == "compiler_slots":
+        from compiler_slot_probes import probe as compiler_slot_probe
+        return compiler_slot_probe(case,route)
     if kind == "launch_boundary":
         from launch_probes import probe as launch_probe
         return launch_probe(case,route)
@@ -648,6 +651,7 @@ def main():
               "artifact_probe_sha256":sha(ROOT/"tools/artifact_probes.py"),
               "replay_boundary_probe_sha256":sha(ROOT/"tools/replay_boundary_probes.py"),
               "launch_probe_sha256":sha(ROOT/"tools/launch_probes.py"),
+              "compiler_slot_probe_sha256":sha(ROOT/"tools/compiler_slot_probes.py"),
               "artifact_fixture_sha256":sha(ORACLE/"tests/test_artifacts.py"),
               "lifecycle_input_adapter_sha256":sha(ROOT/"tools/lifecycle_inputs.py"),
               "lifecycle_baseline_sha256":sha(ROOT/"oracle/LIFECYCLE-INPUT-BASELINE.json"),
