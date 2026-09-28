@@ -177,3 +177,5 @@ Batch 80 completes atlas mapping/work/program and parity script/test reading. Se
 Batch 81 reviews requirements classifier/tests and three Lean interface/proof files. Four offline tests pass; no Lean compilation. Supplied-catalog inference, name-dictionary limits and conditional unit/target proofs dispositioned. Corpus unchanged; 153 partial / 215 unreviewed. See PHASE-0A-BATCH-81.md.
 
 Batch 82 reviews formal certificate/expression/cancellation implementations and executable sample correspondence. Seven native offline composition tests pass; no Lean compilation or Singular. Corpus unchanged; 157 partial / 211 unreviewed. See PHASE-0A-BATCH-82.md.
+
+Batch 83 fully reads Atlas, relational/point semantics, historical CertificateScope and AtlasParity. Explicit premise and abstract-scope boundaries dispositioned; no Lean run. Corpus unchanged; 162 partial / 206 unreviewed. See PHASE-0A-BATCH-83.md.

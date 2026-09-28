@@ -920,7 +920,7 @@
       "path": "lean/AtlasParity.lean",
       "git_object": "53c0f05e3bf40cd73d482e1696dcf4b4f3efcd72",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/GrandPortage.lean",
@@ -944,7 +944,7 @@
       "path": "lean/GrandPortage/Atlas.lean",
       "git_object": "ab3d8b4c812cacbaa4d1be123a8dd486b1fe7028",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/GrandPortage/BackendTrust.lean",
@@ -968,7 +968,7 @@
       "path": "lean/GrandPortage/CertificateScope.lean",
       "git_object": "94306aaf29cbcd1eca23a0c34ed1af3c0cc0be83",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/GrandPortage/CoefficientExpansion.lean",
@@ -1088,7 +1088,7 @@
       "path": "lean/GrandPortage/Points.lean",
       "git_object": "30727aa1422009bf33c83b35e47da48233f7c754",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/GrandPortage/ProductSplit.lean",
@@ -1100,7 +1100,7 @@
       "path": "lean/GrandPortage/RelationalTransport.lean",
       "git_object": "dec61fa2820f6e8cd4a0911dc7a6b3c971a52c91",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/GrandPortage/RequirementChecks.lean",
