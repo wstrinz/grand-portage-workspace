@@ -842,6 +842,470 @@
       "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
       "layer": "source_digest_guard",
       "limitation": "Historical GP fixture and pinned runtime only. Binding probes use the historical fabricated Singular execution descriptor, not a real backend execution. Mutated contexts test receipt currency before structural graph validation; no new rework authority is minted."
+    },
+    "GP-X73": {
+      "kind": "historical_review",
+      "family": "ladder",
+      "action": "retain",
+      "layer": "exact_replay",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+    },
+    "GP-X74": {
+      "kind": "historical_review",
+      "family": "ladder",
+      "action": "retain",
+      "layer": "exact_replay",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+    },
+    "GP-X75": {
+      "kind": "historical_review",
+      "family": "ladder",
+      "action": "bad_solution",
+      "layer": "exact_replay",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+    },
+    "GP-X76": {
+      "kind": "historical_review",
+      "family": "ladder",
+      "action": "bad_cofactor",
+      "layer": "exact_replay",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+    },
+    "GP-X77": {
+      "kind": "historical_review",
+      "family": "ladder",
+      "action": "missing_inverse",
+      "layer": "exact_replay",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+    },
+    "GP-X78": {
+      "kind": "historical_review",
+      "family": "boundary",
+      "action": "generic",
+      "layer": "exact_replay",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+    },
+    "GP-X79": {
+      "kind": "historical_review",
+      "family": "boundary",
+      "action": "discriminant",
+      "layer": "exact_replay",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+    },
+    "GP-X80": {
+      "kind": "historical_review",
+      "family": "boundary",
+      "action": "missing_inverse",
+      "layer": "exact_replay",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+    },
+    "GP-X81": {
+      "kind": "historical_review",
+      "family": "boundary",
+      "action": "bad_cofactor",
+      "layer": "exact_replay",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+    },
+    "GP-X82": {
+      "kind": "historical_review",
+      "family": "boundary",
+      "action": "promote_digest",
+      "layer": "historical_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. This is a frozen scope/metadata contract, not theorem replay or new mathematical authority."
+    },
+    "GP-X83": {
+      "kind": "historical_review",
+      "family": "boundary",
+      "action": "source_edge",
+      "layer": "graph_binding",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+    },
+    "GP-X84": {
+      "kind": "historical_review",
+      "family": "chain",
+      "action": "retain",
+      "layer": "exact_replay_and_binding",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+    },
+    "GP-X85": {
+      "kind": "historical_review",
+      "family": "chain",
+      "action": "preflight",
+      "layer": "historical_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. This is a frozen scope/metadata contract, not theorem replay or new mathematical authority."
+    },
+    "GP-X86": {
+      "kind": "historical_review",
+      "family": "chain",
+      "action": "reorder",
+      "layer": "exact_replay_and_binding",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+    },
+    "GP-X87": {
+      "kind": "historical_review",
+      "family": "chain",
+      "action": "bad_unit",
+      "layer": "exact_replay_and_binding",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+    },
+    "GP-X88": {
+      "kind": "historical_review",
+      "family": "chain",
+      "action": "bad_value",
+      "layer": "exact_replay_and_binding",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+    },
+    "GP-X89": {
+      "kind": "historical_review",
+      "family": "chain",
+      "action": "drop_refusal",
+      "layer": "historical_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. This is a frozen scope/metadata contract, not theorem replay or new mathematical authority."
+    },
+    "GP-X90": {
+      "kind": "historical_review",
+      "family": "face",
+      "action": "retain",
+      "layer": "bounded_replay",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+    },
+    "GP-X91": {
+      "kind": "historical_review",
+      "family": "face",
+      "action": "row",
+      "layer": "bounded_replay",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+    },
+    "GP-X92": {
+      "kind": "historical_review",
+      "family": "face",
+      "action": "support",
+      "layer": "bounded_replay",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+    },
+    "GP-X93": {
+      "kind": "historical_review",
+      "family": "face",
+      "action": "series",
+      "layer": "bounded_replay",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+    },
+    "GP-X94": {
+      "kind": "historical_review",
+      "family": "face",
+      "action": "formula",
+      "layer": "bounded_replay",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+    },
+    "GP-X95": {
+      "kind": "historical_review",
+      "family": "face",
+      "action": "output",
+      "layer": "bounded_replay",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+    },
+    "GP-X96": {
+      "kind": "historical_review",
+      "family": "face",
+      "action": "budget",
+      "layer": "bounded_replay",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+    },
+    "GP-X97": {
+      "kind": "historical_review",
+      "family": "bundle",
+      "action": "retain",
+      "layer": "derived_metadata_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. This is a frozen scope/metadata contract, not theorem replay or new mathematical authority."
+    },
+    "GP-X98": {
+      "kind": "historical_review",
+      "family": "bundle",
+      "action": "omit_resolution",
+      "layer": "derived_metadata_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. This is a frozen scope/metadata contract, not theorem replay or new mathematical authority."
+    },
+    "GP-X99": {
+      "kind": "historical_review",
+      "family": "bundle",
+      "action": "wrong_scope",
+      "layer": "derived_metadata_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. This is a frozen scope/metadata contract, not theorem replay or new mathematical authority."
+    },
+    "GP-X100": {
+      "kind": "historical_review",
+      "family": "support",
+      "action": "all_fibers",
+      "layer": "historical_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. This is a frozen scope/metadata contract, not theorem replay or new mathematical authority.",
+      "failure_prefixes": [
+        "J6:"
+      ]
+    },
+    "GP-X101": {
+      "kind": "historical_review",
+      "family": "support",
+      "action": "witness",
+      "layer": "historical_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. This is a frozen scope/metadata contract, not theorem replay or new mathematical authority.",
+      "failure_prefixes": [
+        "J3:"
+      ]
+    },
+    "GP-X102": {
+      "kind": "historical_review",
+      "family": "closeout",
+      "action": "global",
+      "layer": "historical_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. This is a frozen scope/metadata contract, not theorem replay or new mathematical authority.",
+      "failure_prefixes": [
+        "C8:"
+      ]
+    },
+    "GP-X103": {
+      "kind": "historical_review",
+      "family": "first_value",
+      "action": "reverse",
+      "layer": "historical_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. This is a frozen scope/metadata contract, not theorem replay or new mathematical authority.",
+      "failure_prefixes": [
+        "S8:"
+      ]
+    },
+    "GP-X104": {
+      "kind": "historical_review",
+      "family": "first_value",
+      "action": "ratio",
+      "layer": "historical_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. This is a frozen scope/metadata contract, not theorem replay or new mathematical authority.",
+      "failure_prefixes": [
+        "S5:"
+      ]
+    },
+    "GP-X105": {
+      "kind": "historical_review",
+      "family": "s2",
+      "action": "other_pieces",
+      "layer": "historical_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. This is a frozen scope/metadata contract, not theorem replay or new mathematical authority.",
+      "failure_prefixes": [
+        "C"
+      ]
+    },
+    "GP-X106": {
+      "kind": "historical_review",
+      "family": "s4",
+      "action": "search_empty",
+      "layer": "historical_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. This is a frozen scope/metadata contract, not theorem replay or new mathematical authority.",
+      "failure_prefixes": [
+        "M6:"
+      ]
+    },
+    "GP-X107": {
+      "kind": "historical_review",
+      "family": "s4",
+      "action": "cover",
+      "layer": "historical_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. This is a frozen scope/metadata contract, not theorem replay or new mathematical authority.",
+      "failure_prefixes": [
+        "M7:"
+      ]
+    },
+    "GP-X108": {
+      "kind": "historical_review",
+      "family": "s4",
+      "action": "universe",
+      "layer": "historical_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. This is a frozen scope/metadata contract, not theorem replay or new mathematical authority.",
+      "failure_prefixes": [
+        "M1:"
+      ]
+    },
+    "GP-X109": {
+      "kind": "historical_review",
+      "family": "s4",
+      "action": "parent",
+      "layer": "historical_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. This is a frozen scope/metadata contract, not theorem replay or new mathematical authority.",
+      "failure_prefixes": [
+        "M3:"
+      ]
+    },
+    "GP-X110": {
+      "kind": "historical_review",
+      "family": "recurrence",
+      "action": "bilateral",
+      "layer": "historical_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. This is a frozen scope/metadata contract, not theorem replay or new mathematical authority.",
+      "failure_prefixes": [
+        "M1:"
+      ]
+    },
+    "GP-X111": {
+      "kind": "historical_review",
+      "family": "recurrence",
+      "action": "false_annihilator",
+      "layer": "historical_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. This is a frozen scope/metadata contract, not theorem replay or new mathematical authority.",
+      "failure_prefixes": [
+        "N7:"
+      ]
+    },
+    "GP-X112": {
+      "kind": "historical_review",
+      "family": "recurrence",
+      "action": "drop_h8",
+      "layer": "historical_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. This is a frozen scope/metadata contract, not theorem replay or new mathematical authority.",
+      "failure_prefixes": [
+        "M1:"
+      ]
+    },
+    "GP-X113": {
+      "kind": "historical_review",
+      "family": "fiber",
+      "action": "nonlinear",
+      "layer": "historical_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. This is a frozen scope/metadata contract, not theorem replay or new mathematical authority.",
+      "failure_prefixes": [
+        "M1:"
+      ]
+    },
+    "GP-X114": {
+      "kind": "historical_review",
+      "family": "fiber",
+      "action": "whole_base",
+      "layer": "historical_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. This is a frozen scope/metadata contract, not theorem replay or new mathematical authority.",
+      "failure_prefixes": [
+        "M1:"
+      ]
+    },
+    "GP-X115": {
+      "kind": "historical_review",
+      "family": "fiber",
+      "action": "rescue",
+      "layer": "historical_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. This is a frozen scope/metadata contract, not theorem replay or new mathematical authority.",
+      "failure_prefixes": [
+        "M1:"
+      ]
+    },
+    "GP-X116": {
+      "kind": "historical_review",
+      "family": "first_value",
+      "action": "retain",
+      "layer": "historical_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. This is a frozen scope/metadata contract, not theorem replay or new mathematical authority."
+    },
+    "GP-X117": {
+      "kind": "historical_review",
+      "family": "s4",
+      "action": "point",
+      "layer": "exact_replay",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+    },
+    "GP-X118": {
+      "kind": "historical_review",
+      "family": "recurrence",
+      "action": "tail",
+      "layer": "finite_instance_replay",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+    },
+    "GP-X119": {
+      "kind": "historical_review",
+      "family": "ring_observation",
+      "action": "nonzero_nonunit",
+      "layer": "exact_minimal_projection",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned polynomial identity and substitution routines replay a minimal mathematical example. This is not the historical campaign fixture or a new kernel admission."
+    },
+    "GP-X120": {
+      "kind": "historical_review",
+      "family": "ring_observation",
+      "action": "nonzerodivisor",
+      "layer": "exact_minimal_projection",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned polynomial identity and substitution routines replay a minimal mathematical example. This is not the historical campaign fixture or a new kernel admission."
+    },
+    "GP-X121": {
+      "kind": "historical_review",
+      "family": "affine_block",
+      "action": "incompatible",
+      "layer": "exact_minimal_projection",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned polynomial identity and substitution routines replay a minimal mathematical example. This is not the historical campaign fixture or a new kernel admission."
+    },
+    "GP-X122": {
+      "kind": "historical_review",
+      "family": "affine_block",
+      "action": "compatible",
+      "layer": "exact_minimal_projection",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned polynomial identity and substitution routines replay a minimal mathematical example. This is not the historical campaign fixture or a new kernel admission."
+    },
+    "GP-X123": {
+      "kind": "historical_review",
+      "family": "pointwise",
+      "action": "parent",
+      "layer": "exact_minimal_projection",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned polynomial identity and substitution routines replay a minimal mathematical example. This is not the historical campaign fixture or a new kernel admission."
+    },
+    "GP-X124": {
+      "kind": "historical_review",
+      "family": "cancellation",
+      "action": "cancel",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "layer": "exact_minimal_projection",
+      "limitation": "Pinned exact substitution on a minimal counterexample; no reconstruction of the campaign fixture."
     }
   }
 }

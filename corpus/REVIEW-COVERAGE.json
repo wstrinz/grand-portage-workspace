@@ -56,129 +56,177 @@
   "historical_deleted_tests": [
     {
       "path": "tests/test_current_frontier_bundle.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_f2_75_125_publication_audit.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_f2_75_125_publication_dossier.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_c710_all_j_closeout_handback.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_formalization_transport.py",
-      "status": "bounded_extraction_with_expressiveness_and_external_binding_gaps",
+      "status": "first_pass_disposition_complete",
       "review": "corpus/history/DELETED-TEST-REVIEW.json",
       "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_h3_adjoint_recurrence.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_h3_b0_compatibility.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_h3_b0_depth8_free_plane.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_h3_b0_depth8_residual.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_h3_b0_free_plane.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_h3_depth6_frontier.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_h3_depth6_replay_all.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_h3_depth8_fiber.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_h3_frontier.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_h3_pin_ablation_frontier.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_h3_s4_scope.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_h3_status_block.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_h3_wall_ob_open.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_original_pair_seam.py",
-      "status": "self_contained_metadata_checks_extracted_external_bindings_pending",
+      "status": "first_pass_disposition_complete",
       "review": "corpus/history/DELETED-TEST-REVIEW.json",
       "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_p_axis_authority.py",
-      "status": "bounded_extraction_exact_arithmetic_and_fabricated_trace_binding",
+      "status": "first_pass_disposition_complete",
       "review": "corpus/history/DELETED-TEST-REVIEW.json",
       "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_r1_r7_seam_adapter.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_s2_lowjet_guard_peel_handback.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_source_depth6_authority.py",
-      "status": "read_extraction_pending",
+      "status": "first_pass_disposition_complete",
       "review": "corpus/history/DELETED-TEST-REVIEW.json",
       "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_source_depth6_chain.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_source_depth6_face_extraction.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_source_depth6_full_template.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_source_ladder_authority.py",
-      "status": "read_extraction_pending",
+      "status": "first_pass_disposition_complete",
       "review": "corpus/history/DELETED-TEST-REVIEW.json",
       "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_source_support_handback.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_source_target_first_value_handback.py",
-      "status": "unreviewed"
+      "status": "first_pass_disposition_complete",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     }
   ],
   "pending_cases": [
@@ -188,23 +236,37 @@
     }
   ],
   "next_pass": [
-    "Extract self-contained source-ladder and depth-six cases from the two newly read deleted test files; distinguish backend-free replay, masked collision checks, source-unbound boundary claims and companion bindings.",
-    "Review the other 24 unread deleted test files and remaining current-tree sources.",
-    "Keep unsupported dimension credit separate from observed refusals.",
-    "Four previously recovered companion-binding checks remain unrun; newly read source-depth6 companion test is also unrun.",
-    "A24 needs the actual collapsed-placement model; campaign harvesting awaits the completed source manifest."
+    "Current-tree authority and algebraic regressions: finish characteristic-23 false emptiness, constructor saturation and empty-ideal incidents; review exact replay versus producer success.",
+    "Review log fold, merge, retraction, independent receipt survival and verifier-version semantics before proposing core rules.",
+    "Read remaining SPEC/DESIGN/release/theory material and resolve the named earlier history-review gaps; all 368 current-tree sources still require completed semantic dispositions.",
+    "Campaign sweep remains blocked on the complete source manifest. It is needed for A24, incident cost/class counts, meaning-risk analysis and companion bindings.",
+    "Keep X53 unsupported and the four known conservative differences explicit; agree a measurable Lean spike cap only after 0a/0b completion."
   ],
   "historical_replay": {
     "manifest": "oracle/history/PIN.json",
     "commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
-    "files": 12,
-    "bytes": 191134,
-    "authority": "Layer-specific exact arithmetic, conditional rules, metadata and receipt-binding observations. P-axis graph-binding uses a fabricated historical backend descriptor. No rework held claims."
+    "files": 112,
+    "bytes": 15874307,
+    "authority": "Exact arithmetic and finite-instance replay, source/receipt bindings, conditional rules and frozen metadata contracts are distinct. No companion campaign reads or live CAS; generic Lean theorems were not recompiled."
   },
   "unsupported_cases": [
     {
       "id": "GP-X53",
       "reason": "current GP has no dimension/rank-credit claim kind"
     }
-  ]
+  ],
+  "deleted_test_review_summary": {
+    "files_read": 29,
+    "total_files": 29,
+    "test_functions": 226,
+    "passed_instances": 271,
+    "unrun_functions": 29,
+    "dispositions": {
+      "extracted": 67,
+      "diagnostic_only": 83,
+      "blocked": 28,
+      "covered_by_existing_cases": 42,
+      "display_only": 6
+    }
+  }
 }

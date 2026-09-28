@@ -1,6 +1,6 @@
 # Corpus catalog
 
-Historical coverage remains incomplete. [Review coverage](REVIEW-COVERAGE.json) records partial source review, history gaps and deleted tests. Passing the legacy probes does not evaluate G0.
+Historical coverage remains incomplete. The first pass covers all 29 deleted test files; current-tree sources and earlier history still need review. [Review coverage](REVIEW-COVERAGE.json) distinguishes test reading, extraction and execution. G0 is not evaluated.
 
 | Case | Expected | Oracle observation | Layer | Title |
 |---|---|---|---|---|
@@ -55,8 +55,33 @@ Historical coverage remains incomplete. [Review coverage](REVIEW-COVERAGE.json) 
 | [GP-X08](must/GP-X08.json) | ACCEPT | KNOWN_DIFFERENCE | conditional_rule | A derived identity survives a retained equation |
 | [GP-X09](must/GP-X09.json) | REFUSE | AGREES | declaration_validation | Relabeling a universal premise cannot manufacture existence |
 | [GP-X10](must/GP-X10.json) | REFUSE | AGREES | graph_validation | Coordinate rings do not identify different point universes |
+| [GP-X100](must/GP-X100.json) | REFUSE | AGREES | historical_contract | Promote generic-J exclusion to every exceptional fiber |
+| [GP-X101](must/GP-X101.json) | REFUSE | AGREES | historical_contract | Promote an exceptional eliminant zero to a source witness |
+| [GP-X102](must/GP-X102.json) | REFUSE | AGREES | historical_contract | Promote guarded all-J closeout to global b0 exclusion |
+| [GP-X103](must/GP-X103.json) | REFUSE | AGREES | historical_contract | Recover an original pair from partial forward coefficient values |
+| [GP-X104](must/GP-X104.json) | REFUSE | AGREES | historical_contract | Accept an altered coefficient ratio in the source report |
+| [GP-X105](must/GP-X105.json) | REFUSE | AGREES | historical_contract | Use an S2 low-jet exclusion on S1 S3 and S4 |
+| [GP-X106](must/GP-X106.json) | REFUSE | AGREES | historical_contract | Promote an unsuccessful 24-seed search to refutation |
+| [GP-X107](must/GP-X107.json) | REFUSE | AGREES | historical_contract | Close the cover after dropping its unresolved branch |
+| [GP-X108](must/GP-X108.json) | REFUSE | AGREES | historical_contract | Relabel the K-point report as an algebraic-closure report |
+| [GP-X109](must/GP-X109.json) | REFUSE | AGREES | historical_contract | Declare the parent empty despite the exhibited point |
 | [GP-X11](must/GP-X11.json) | REFUSE | AGREES | graph_validation | Coordinate rings do not identify different point universes |
+| [GP-X110](must/GP-X110.json) | REFUSE | AGREES | historical_contract | Reuse a unilateral cutoff theorem for a bilateral sequence |
+| [GP-X111](must/GP-X111.json) | REFUSE | AGREES | historical_contract | Claim that the eventual-zero sequence has no nonzero constant annihilator |
+| [GP-X112](must/GP-X112.json) | REFUSE | AGREES | historical_contract | Drop H8 from the recurrence report premises |
+| [GP-X113](must/GP-X113.json) | REFUSE | AGREES | historical_contract | Turn first-order fiber exclusion into a nonlinear lift obstruction |
+| [GP-X114](must/GP-X114.json) | REFUSE | AGREES | historical_contract | Exclude every base point from one empty named fiber |
+| [GP-X115](must/GP-X115.json) | REFUSE | AGREES | historical_contract | Treat an affinely determined coordinate as a free rescue direction |
+| [GP-X116](must/GP-X116.json) | ACCEPT | AGREES | historical_contract | Retain the partial forward map with its remaining coefficient obligation |
+| [GP-X117](must/GP-X117.json) | ACCEPT | AGREES | exact_replay | Replay the exact K-point on the closed S4 branch |
+| [GP-X118](must/GP-X118.json) | ACCEPT | AGREES | finite_instance_replay | Check the finite zero tail and nonzero depth-13 endpoint |
+| [GP-X119](must/GP-X119.json) | ACCEPT | AGREES | exact_minimal_projection | An element may be both nonzero and nonunit |
 | [GP-X12](must/GP-X12.json) | REFUSE | AGREES | graph_validation | Coordinate rings do not identify different point universes |
+| [GP-X120](must/GP-X120.json) | REFUSE | AGREES | exact_minimal_projection | Infer nonzerodivisor from nonzero and nonunit observations |
+| [GP-X121](must/GP-X121.json) | REFUSE | AGREES | exact_minimal_projection | Infer existence from a rank-two affine coefficient block alone |
+| [GP-X122](must/GP-X122.json) | ACCEPT | AGREES | exact_minimal_projection | Accept a displayed solution after affine compatibility is satisfied |
+| [GP-X123](must/GP-X123.json) | REFUSE | AGREES | exact_minimal_projection | Promote one excluded fiber to exclusion of the whole parent |
+| [GP-X124](must/GP-X124.json) | REFUSE | AGREES | exact_minimal_projection | Cancel an exceptional factor without proving it invertible |
 | [GP-X13](must/GP-X13.json) | REFUSE | AGREES | graph_diagnostic | Field-relative emptiness needs a typed point model |
 | [GP-X14](must/GP-X14.json) | REFUSE | AGREES | graph_diagnostic | Field-relative emptiness needs a typed point model |
 | [GP-X15](must/GP-X15.json) | ACCEPT | AGREES | exact_replay | Cofactor replay binds characteristic 2 |
@@ -117,5 +142,32 @@ Historical coverage remains incomplete. [Review coverage](REVIEW-COVERAGE.json) 
 | [GP-X70](must/GP-X70.json) | REFUSE | AGREES | historical_receipt_binding | Changing the chart stales the receipt |
 | [GP-X71](must/GP-X71.json) | REFUSE | AGREES | historical_receipt_binding | Changing the source digest stales the receipt |
 | [GP-X72](must/GP-X72.json) | REFUSE | AGREES | source_digest_guard | Changed native parent bytes cannot reuse the frozen binding |
+| [GP-X73](must/GP-X73.json) | ACCEPT | AGREES | exact_replay | Ordered top-face affine translations preserve the localized model |
+| [GP-X74](must/GP-X74.json) | ACCEPT | AGREES | exact_replay | The normalization equation supplies an inverse for t |
+| [GP-X75](must/GP-X75.json) | REFUSE | AGREES | exact_replay | Replace a checked triangular solution by zero |
+| [GP-X76](must/GP-X76.json) | REFUSE | AGREES | exact_replay | Accept the second-face isomorphism with a changed cofactor |
+| [GP-X77](must/GP-X77.json) | REFUSE | AGREES | exact_replay | Reuse the top-face isomorphism after deleting the inverse equation |
+| [GP-X78](must/GP-X78.json) | ACCEPT | AGREES | exact_replay | Translate the affine boundary coordinate when alpha is invertible |
+| [GP-X79](must/GP-X79.json) | ACCEPT | AGREES | exact_replay | On the discriminant replace the affine row by beta equals zero |
+| [GP-X80](must/GP-X80.json) | REFUSE | AGREES | exact_replay | Reuse the generic boundary certificate without alpha inverse |
+| [GP-X81](must/GP-X81.json) | REFUSE | AGREES | exact_replay | Accept the generic boundary map with a corrupted cofactor |
+| [GP-X82](must/GP-X82.json) | REFUSE | AGREES | historical_contract | Treat intermediate digest commitments as a checked source derivation |
+| [GP-X83](must/GP-X83.json) | REFUSE | AGREES | graph_binding | Obtain an actual-source edge from the frozen boundary alone |
+| [GP-X84](must/GP-X84.json) | ACCEPT | AGREES | exact_replay_and_binding | Accept the ordered reduced chain with its exact unit witnesses |
+| [GP-X85](must/GP-X85.json) | REFUSE | AGREES | historical_contract | Treat input-binding preflight as chain identity authority |
+| [GP-X86](must/GP-X86.json) | REFUSE | AGREES | exact_replay_and_binding | Accept the chain after exchanging its first two steps |
+| [GP-X87](must/GP-X87.json) | REFUSE | AGREES | exact_replay_and_binding | Accept a doubled pivot inverse in the chain |
+| [GP-X88](must/GP-X88.json) | REFUSE | AGREES | exact_replay_and_binding | Accept a changed solved polynomial under its old commitment |
+| [GP-X89](must/GP-X89.json) | REFUSE | AGREES | historical_contract | Remove the chain report restriction against H3 promotion |
+| [GP-X90](must/GP-X90.json) | ACCEPT | AGREES | bounded_replay | Extract the 25 graded faces under the declared finite supports |
+| [GP-X91](must/GP-X91.json) | REFUSE | AGREES | bounded_replay | Accept a changed source row after recomputing its own digest |
+| [GP-X92](must/GP-X92.json) | REFUSE | AGREES | bounded_replay | Reuse face extraction after changing a root support |
+| [GP-X93](must/GP-X93.json) | REFUSE | AGREES | bounded_replay | Reuse face extraction after changing a coordinate series |
+| [GP-X94](must/GP-X94.json) | REFUSE | AGREES | bounded_replay | Reuse face extraction with a different source formula window |
+| [GP-X95](must/GP-X95.json) | REFUSE | AGREES | bounded_replay | Accept an extracted face under an unrelated output digest |
+| [GP-X96](must/GP-X96.json) | REFUSE | AGREES | bounded_replay | Grant an extraction result after exhausting its work budget |
+| [GP-X97](must/GP-X97.json) | ACCEPT | AGREES | derived_metadata_contract | Aggregate overlapping reports with explicit compatible resolutions |
+| [GP-X98](must/GP-X98.json) | REFUSE | AGREES | derived_metadata_contract | Resolve overlapping reports implicitly by last writer |
+| [GP-X99](must/GP-X99.json) | REFUSE | AGREES | derived_metadata_contract | Declare agreement between incompatible exact scopes |
 
-Observations remain layer-specific. Conditional rules assume their prerequisites. Historical metadata audits are not mathematical theorem replay. P-axis graph-binding probes use fabricated historical execution descriptors; their exact arithmetic replay is separate. UNSUPPORTED is not an observed mathematical refusal. Raw results and immutable runs are under reports/.
+Observations remain layer-specific. Conditional rules assume their prerequisites. Frozen metadata contracts do not establish their underlying mathematical claims. Historical binding tests may use fabricated backend descriptors; exact arithmetic replay is separate. Minimal projections are explicitly labeled and do not reproduce the entire campaign fixture. UNSUPPORTED is not an observed mathematical refusal.

@@ -575,6 +575,10 @@ def probe(case, route):
             receipt_current=stored["current"],effective_certificate=effective,
             baseline_current=True,execution_descriptor="fabricated_historical_test_trace")
 
+    if kind == "historical_review":
+        from historical_probes import probe as historical_probe
+        return historical_probe(case,route)
+
     raise ValueError("Unknown oracle route: "+kind)
 
 def main():
@@ -604,6 +608,7 @@ def main():
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
     report = {"schema_version":1,"timestamp_utc":stamp,"oracle_commit":PIN,
               "oracle_path":str(ORACLE),"runner_sha256":sha(Path(__file__)),
+              "historical_probe_sha256":sha(ROOT/"tools/historical_probes.py"),
               "routes_sha256":sha(ROOT/"oracle/ROUTES.json"),
               "historical_manifest_sha256":sha(ROOT/"oracle/history/PIN.json"),
               "schema_sha256":sha(ROOT/"corpus/case.schema.json"),
