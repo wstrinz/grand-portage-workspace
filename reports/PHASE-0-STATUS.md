@@ -149,3 +149,5 @@ Batch 66 completes frontier projection source/test reading. Eight tests and four
 Batch 67 completes explanation source/tests and Lean name dictionary reading. Five tests pass; native zero-step diagnostic has runtime_licensed/profile_covered true but complete false because the premise lacks authority. Corpus unchanged; 119 partial / 249 unreviewed. See PHASE-0A-BATCH-67.md.
 
 Batch 68 completes IR projection source/tests and Lean dictionary reading; six tests and four diagnostics pass. Loaded authority-map changes can alter currentness without changing the structural state fingerprint. Corpus unchanged; 123 partial / 245 unreviewed. See PHASE-0A-BATCH-68.md.
+
+Batch 69 completes predecessor corpus runner/intake source and test reading. Four tests and three synthetic controls verify retention-only READY, unreported native-load errors and reserved export-manifest collision. No campaign harvest. Corpus unchanged; 125 partial / 243 unreviewed. See PHASE-0A-BATCH-69.md.

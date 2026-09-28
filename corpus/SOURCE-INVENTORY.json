@@ -1646,7 +1646,7 @@
       "path": "scripts/corpus_check.py",
       "git_object": "ea6280ce686773dc0df6e31086a6a5482c144f43",
       "category": "other",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "scripts/project_ir_corpus.py",
@@ -1973,7 +1973,7 @@
       "path": "tests/test_corpus_check.py",
       "git_object": "2d506794d5f9fb4113abd5d56a48cd0baeee1b27",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_declare_target.py",
