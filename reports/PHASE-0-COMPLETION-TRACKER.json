@@ -4,7 +4,7 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "227 cases; 220 agreements and seven classified exceptions; 31 partial / 337 unreviewed source files. DESIGN and REVIEW fully text-read with outstanding semantic dispositions.",
+      "evidence": "227 cases; 220 agreements and seven classified exceptions; 36 partial / 332 unreviewed source files. DESIGN, REVIEW, lean/README and lean/THEORY fully text-read with outstanding semantic dispositions.",
       "remaining": [
         "Exhaustive source/history disposition, including docs and theory",
         "Resolve or explicitly disposition A24 and X53 for G0",
@@ -38,9 +38,9 @@
   },
   "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
   "next_work": [
-    "Close current join/premise review with neutral cases",
-    "Disposition SPEC/DESIGN/review/theory and earlier-history sources systematically",
-    "Keep legacy bugs separate from documented limits and proposed fixes"
+    "Extract transitive taint and baseline meaning-change controls",
+    "Disposition SPEC, remaining documentation and earlier history systematically",
+    "Audit Lean countermodels and runtime premise discharge without promoting shadow proofs to runtime authority"
   ],
   "new_findings": [
     "reports/RETRY-MERGE-AUDIT.json",

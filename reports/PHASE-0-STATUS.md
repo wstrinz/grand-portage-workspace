@@ -28,4 +28,6 @@ Current lifecycle finding: two current identity receipts can produce different a
 
 Neutral lifecycle migration: GP-X142-163 now use a portable object/history vocabulary. All 22 reconstruct the original oracle inputs exactly, all 217 expected verdicts are unchanged, four adapter mutations pass, and the full replay retains the same outcomes. See NEUTRAL-LIFECYCLE-AUDIT.json. Earlier case bytes remain recoverable through Git and immutable replay digests; the current cases supersede their old input encoding.
 
-Batch 10 adds ten conditional joint-premise/cover cases and passes 16 selected reporting, taint and mutation regressions. DESIGN.md and REVIEW.md are fully text-read with section dispositions; both remain semantically partial. Current source coverage is 31 partial / 337 unreviewed, not a completed 0a gate.
+Batch 10 adds ten conditional joint-premise/cover cases and passes 16 selected reporting, taint and mutation regressions. DESIGN.md and REVIEW.md are fully text-read with section dispositions; both remain semantically partial. Current source coverage is 36 partial / 332 unreviewed, not a completed 0a gate.
+
+Lean documentation slice: lean/README.md (317 lines) and lean/THEORY.md (164 lines) fully text-read and dispositioned. Five source paths receive partial review credit; theorem premises remain distinct from runtime verification. See LEAN-AUTHORITY-BOUNDARIES.md. Corpus stays at 227 cases; no expected verdict or oracle code changed.

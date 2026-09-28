@@ -386,6 +386,177 @@
           "remaining": "Extract in-band identity/immutability controls from test_inband_identity.py; no live Singular run claimed."
         }
       ]
+    },
+    {
+      "path": "lean/README.md",
+      "sha256": "e04e94d28ec869e15970dbe21ab610cfb8b8d6698eb13ae903378a938f9b7d08",
+      "lines": 317,
+      "full_text_read": true,
+      "semantic_status": "partial",
+      "sections": [
+        {
+          "start_line": 1,
+          "end_line": 160,
+          "anchor": "# grand-portage-lean",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Historical counts become 42 point and 14 identity cells; conditional predicate correspondence is distinct from existence transport. Listed shadow modules separate semantic contracts from runtime parser, arithmetic, provenance and binding obligations.",
+          "remaining": "Individually disposition each module and its runtime tests. No full-table or end-to-end soundness claim follows from this overview."
+        },
+        {
+          "start_line": 161,
+          "end_line": 193,
+          "anchor": "## The first thing this found",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Four identity gates do not compress to Carries: smaller-ideal origin, expressibility, carries/reflects and partiality differ. Typing f and g in the base ring hides the expressibility premise.",
+          "remaining": "Tie every gate to minimal neutral positive and premise-deletion controls; do not replace the Python declaration by an assumed theorem premise."
+        },
+        {
+          "start_line": 194,
+          "end_line": 206,
+          "anchor": "## Factor-power bridge",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Factor-power needs positive exponent, an interpreted unit and no zero divisors; it does not prove the quotient is a domain.",
+          "remaining": "Review exact certificate/model binding and no-zero-divisors countermodels."
+        },
+        {
+          "start_line": 207,
+          "end_line": 216,
+          "anchor": "## Product-split bridge",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Product disjunction and parent-relative n-ary cover are semantic contracts; runtime binding and recombination remain outside these proofs.",
+          "remaining": "Disposition product-split runtime tests and missing-branch controls beyond the legacy cover slice."
+        },
+        {
+          "start_line": 217,
+          "end_line": 226,
+          "anchor": "## Affine coordinate normalization",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Affine translation requires both inverse laws and equation equivalence; Python construction alone does not earn identity authority.",
+          "remaining": "Review the actual ideal/map checker and non-involutive direction controls."
+        },
+        {
+          "start_line": 227,
+          "end_line": 246,
+          "anchor": "## Ordered triangular composition",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Ordered chains retain intermediate types and interpreted normalization equations; substitution success alone is insufficient for point equivalence.",
+          "remaining": "Review normalization, interpreted units, boundary strata and coverage separately."
+        },
+        {
+          "start_line": 247,
+          "end_line": 257,
+          "anchor": "## Unilateral recurrence boundary",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Recurrence theorem does not establish start/cutoff/nonzero-tail instance premises or discharge H8.",
+          "remaining": "Campaign instance review awaits the authorized sweep; GP-owned source can still be reviewed."
+        },
+        {
+          "start_line": 258,
+          "end_line": 266,
+          "anchor": "## Scoped first-order fibers",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Named-fiber obstruction and nonlinear exclusion are distinct steps; nonlinear exclusion needs a sound linearization map.",
+          "remaining": "Extract GP-owned premise-deletion controls without inferring campaign theorem completion."
+        },
+        {
+          "start_line": 267,
+          "end_line": 288,
+          "anchor": "## Trust",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "README reports no sorry and an axiom inventory. This turn did not rebuild Lean or independently audit transitive axioms; the load-bearing classification remains a source claim.",
+          "remaining": "Run a bounded reproducible existing-shadow build/axiom audit if needed; this is separate from the deferred new-kernel feasibility spike."
+        },
+        {
+          "start_line": 289,
+          "end_line": 317,
+          "anchor": "## Build",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Atlas parity covers 139 canonical reach decisions, not all primes, parsing or binding. One serialized interpreter example is not general Python verification.",
+          "remaining": "Disposition parity harness and source-level coverage; preserve explicit interpreter assumptions."
+        }
+      ]
+    },
+    {
+      "path": "lean/THEORY.md",
+      "sha256": "9780c3451e5d99cd7944e8f69a747f491a798b5622587129ecb386c69a5e3856",
+      "lines": 164,
+      "full_text_read": true,
+      "semantic_status": "partial",
+      "sections": [
+        {
+          "start_line": 1,
+          "end_line": 6,
+          "anchor": "# Theory ledger",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Non-authoritative append-only theory ledger; runtime disagreement is a finding.",
+          "remaining": "Do not treat ledger prose as replayed theorem evidence."
+        },
+        {
+          "start_line": 7,
+          "end_line": 41,
+          "anchor": "## Identifications",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Selected structure and certificate scope are separate axes. Exact field scopes are incomparable atoms below SCHEME. Citation countermodel concerns missing transported justification, not intrinsic field-relativity of the cited theorem.",
+          "remaining": "Review selected-embedding and scope registry controls against their actual runtime implementation."
+        },
+        {
+          "start_line": 42,
+          "end_line": 55,
+          "anchor": "## Refutations and compressions",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Carries alone cannot license descent; totality cannot type unrelated predicates; adding witnesses can invalidate negative evidence.",
+          "remaining": "Map all refutations to minimal neutral controls and current source declarations."
+        },
+        {
+          "start_line": 56,
+          "end_line": 74,
+          "anchor": "## Open questions",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Deferred root custody, isolation, ordering and fingerprints remain explicit. REAL_CLOSURE support is bounded, and typed claims remain a study question.",
+          "remaining": "Do not adopt a seventh edge type, general transfer or claim-language redesign by implication."
+        },
+        {
+          "start_line": 75,
+          "end_line": 116,
+          "anchor": "## Atlas audit after v0.34.0",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Atlas transfer has explicit relatedness and interpretation premises. Scheme-point observations omit nilpotents. Empty image closure is conservative refusal. Certificate equality requires contradiction interpretation; Gaussian equality does not establish ordering.",
+          "remaining": "Review each retained countermodel, interpreter parity and external mapping separately; no false runtime licence established here."
+        },
+        {
+          "start_line": 117,
+          "end_line": 139,
+          "anchor": "## 2026-09-13: three interfaces and read-only IR v2",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "U/O/Z profiles differ; O is a small SOS interface. IR.sound assumes leaf/step semantics, replay and binding. Read-only projection stopped at missing context for 72/73 models.",
+          "remaining": "Read projection corpus and stopping-rule evidence; no format or epoch recommendation from this result."
+        },
+        {
+          "start_line": 140,
+          "end_line": 164,
+          "anchor": "## Licence read model and concrete observer kernel",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Partition/family soundness also assumes coverage/family interpretation. IR.lost means missing admitted transport; SemanticLoss means collapsed distinguishable states. Integer-to-Gaussian exact-value observation is injective. TargetDischarge proves interface implications, not canonical Q/R/C adapters.",
+          "remaining": "IR source premises and small SemanticLoss/TargetDischarge files inspected in this slice; remaining constructor/parity and target-adapter review is open."
+        }
+      ]
     }
   ]
 }

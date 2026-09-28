@@ -1011,7 +1011,7 @@
       "path": "lean/GrandPortage/IR.lean",
       "git_object": "748c8681b666af77747ef4940df96826bc4d5989",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/GrandPortage/IRChecks.lean",
@@ -1113,13 +1113,13 @@
       "path": "lean/GrandPortage/SemanticLoss.lean",
       "git_object": "5cab0eb52e287cf0cd574bd861ef5e3437bf0fb3",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/GrandPortage/TargetDischarge.lean",
       "git_object": "aaedfb583799b73feba09a7a0604df67f2422dce",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/GrandPortage/TriangularChain.lean",
@@ -1143,13 +1143,13 @@
       "path": "lean/README.md",
       "git_object": "a138434af20dba2b101d13e595416c7f3e79b625",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/THEORY.md",
       "git_object": "71b10aa5273bf625ba912f107f7b2f5238aa96e0",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/lake-manifest.json",
