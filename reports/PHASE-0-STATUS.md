@@ -181,3 +181,5 @@ Batch 82 reviews formal certificate/expression/cancellation implementations and 
 Batch 83 fully reads Atlas, relational/point semantics, historical CertificateScope and AtlasParity. Explicit premise and abstract-scope boundaries dispositioned; no Lean run. Corpus unchanged; 162 partial / 206 unreviewed. See PHASE-0A-BATCH-83.md.
 
 Batch 84 reviews IR licences, selected structure, backend trust and partition formal sources. Abstract semantic/freshness hypotheses and overbroad historical coverage prose dispositioned against prior counterexamples. No Lean run. Corpus unchanged; 166 partial / 202 unreviewed. See PHASE-0A-BATCH-84.md.
+
+Batch 85 reviews identity/image/localization/mapped-equivalence formal sources and starts OperationContract lines 1-225. Historical gate prose and global-inverse versus quotient-inverse limits documented. No Lean run. Corpus unchanged; 171 partial / 197 unreviewed. See PHASE-0A-BATCH-85.md.

@@ -1034,13 +1034,13 @@
       "path": "lean/GrandPortage/Identity.lean",
       "git_object": "4a1d3b749f0389a908742e52a440b359027ae613",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/GrandPortage/ImageClosure.lean",
       "git_object": "36d1128af078f83fb69dbca4521003422fc1187f",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/GrandPortage/JCDm4Valuation.lean",
@@ -1058,19 +1058,19 @@
       "path": "lean/GrandPortage/Localization.lean",
       "git_object": "50e836ca634ba5f64cb2ee494661e619c5ead4ca",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/GrandPortage/MappedEquivalence.lean",
       "git_object": "39aab61cdf3414edb2ad68c1da5a56a8d754e616",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/GrandPortage/OperationContract.lean",
       "git_object": "c805f85ff1288553f855daf072695578afebde2d",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/GrandPortage/ParametricRecurrence.lean",
