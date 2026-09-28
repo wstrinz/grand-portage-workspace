@@ -10,7 +10,7 @@ The deleted-test reading milestone is complete. These are the remaining work que
 | 4 | Complete the campaign source manifest, then execute the near-miss sweep | All included campaigns accounted for, verbatim private harvest hashes, incident class and cost inventory, and the meaning-risk assessment |
 | 5 | Resolve A24 and X53's profile implications; run the deferred Lean spike after 0a/0b | Actual collapsed-placement model, explicit treatment of unsupported dimension credit, agreed measurable spike cap and written feasibility report |
 
-Current-tree ledger: 368 files, 51 partial, 317 unreviewed, zero claimed fully reviewed. Historical first pass: 29/29 deleted test files read, 226 functions dispositioned, 271 selected test instances passed. Twenty-seven companion-dependent functions and two live-CAS functions remain unrun.
+Current-tree ledger: 368 files, 52 partial, 316 unreviewed, zero claimed fully reviewed. Historical first pass: 29/29 deleted test files read, 226 functions dispositioned, 271 selected test instances passed. Twenty-seven companion-dependent functions and two live-CAS functions remain unrun.
 
 Source-manifest inputs still needed: confirmation of discovered DK/Cloquet/ARR15/Pigeon River locations, missing report/scouting/Highway 61 paths or explicit omissions, optional LSEM/SCOUT scope, and access notes/exclusions. The retained packet explicitly requires the completed manifest before the sweep. Independent GP source review can continue meanwhile.
 
@@ -37,3 +37,5 @@ Batch 16 extracts GP-X230-239 and records late source-reference rejection in LAU
 Batch 17 extracts GP-X240-254 and reproduces a conservative harmless-comment refusal. Keep that cost evidence separate from false licences. Three actual-process/argv controls passed; full process-tree/WSL race coverage remains unclaimed. Continue producer binding, authority and release/history review.
 
 Batch 18 dispositions SCOPE/ARCHITECTURE and their historical overstatements. Continue remaining checker/authority sources and release/history review. Architecture green tests are bounded relative-import/text-pattern checks, not global trust proofs.
+
+Batch 19 fully text-reads COMPATIBILITY.md and separates historical semantics, evidence extensions, migration custody and current replay-only requirements. Source coverage 52 partial / 316 unreviewed. No corpus or runtime edits, and no new test execution claimed. OPERATION-CONTRACTS reading is incomplete and receives no new full-read credit.

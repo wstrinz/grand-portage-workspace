@@ -1218,6 +1218,78 @@
           "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
         }
       ]
+    },
+    {
+      "path": "COMPATIBILITY.md",
+      "sha256": "84bef0b0417c6fb442095e25f543971aeca83783cd3ec6ebad140a4f598edbb9",
+      "lines": 655,
+      "full_text_read": true,
+      "semantic_status": "partial",
+      "sections": [
+        {
+          "start_line": 1,
+          "end_line": 78,
+          "anchor": "# Compatibility epochs",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Readability is separated from authority. Format 8 / epoch 12 uses explicit context and verifier-earned reach, not authored policy alone. Sealed receipts and native proof replay are implementation claims requiring source checks. Historical 0.31.2 exact-cofactor independence is covered by GP-X222-229; context and reach migrations remain partial.",
+          "remaining": "Complete corresponding implementation/history extraction; document reading alone does not close Phase 0a."
+        },
+        {
+          "start_line": 79,
+          "end_line": 501,
+          "anchor": "## The year-zero boundary and first semantic transition",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Chronology records over-crediting one-sided elimination (epoch 2), separating ideal completeness (epoch 3), and under-crediting polynomial sections (epoch 4). Later epochs add retained predicate typing, contravariant composition, point-map pullback, finite covers and explicit point universes. Standalone evidence is not graph authority. Search exhaustion is UNVERIFIED, not refutation. Historical blanket base-change wording must be interpreted through current characteristic/reach bindings. Embedding and witness-field schema histories distinguish abstract rings, selected images and certificate fields. Campaign examples here are pointers only, not independently verified campaign results.",
+          "remaining": "Complete corresponding implementation/history extraction; document reading alone does not close Phase 0a."
+        },
+        {
+          "start_line": 502,
+          "end_line": 520,
+          "anchor": "## Epoch-0 graphs",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Epoch-0 normalization promises non-increasing authority and read-only import; malformed booleans, missing maps, old verdicts and fingerprintless baselines receive conservative treatment. Complete importer/migration regression extraction remains open.",
+          "remaining": "Complete corresponding implementation/history extraction; document reading alone does not close Phase 0a."
+        },
+        {
+          "start_line": 521,
+          "end_line": 543,
+          "anchor": "## Migration",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Migration writes a separate strict-loaded destination plus source-digest audit and refuses overwrite. Old epoch-specific CLI examples are historical, not current automation guidance. Two outputs are not thereby a proven crash-atomic transaction; implementation and failure-path review remains open.",
+          "remaining": "Complete corresponding implementation/history extraction; document reading alone does not close Phase 0a."
+        },
+        {
+          "start_line": 544,
+          "end_line": 578,
+          "anchor": "## Verifier verdicts",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Verdict freshness binds semantic input and implementation identity; raw artifact availability is separately audited and does not control fold replay. GP-X211-229 cover selected storage and exact-replay boundaries. Earlier blanket backend-identity wording has the explicitly recorded exact-proof exception.",
+          "remaining": "Complete corresponding implementation/history extraction; document reading alone does not close Phase 0a."
+        },
+        {
+          "start_line": 579,
+          "end_line": 642,
+          "anchor": "## Current milestone: narrow backend seam and M2",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Historical M2 milestone text is not current feature status. Its named direct-normal-form Singular TCB is incompatible with the approved 0.50 replay-only default unless a separately authorized exception exists. Cross-checking producers is not a soundness proof. Program/completion and compiler controls exist in GP-X201-210 and GP-X240-254; full binder/process coverage remains partial.",
+          "remaining": "Complete corresponding implementation/history extraction; document reading alone does not close Phase 0a."
+        },
+        {
+          "start_line": 643,
+          "end_line": 655,
+          "anchor": "## Sealed campaigns",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Sealed experiment history must remain pinned. Migration creates a new artifact, not retroactive reinterpretation. Read/merge selection and transactional declarations are implementation claims still requiring complete source/test disposition.",
+          "remaining": "Complete corresponding implementation/history extraction; document reading alone does not close Phase 0a."
+        }
+      ]
     }
   ]
 }

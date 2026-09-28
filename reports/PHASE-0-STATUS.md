@@ -49,3 +49,5 @@ Batch 16 adds ten launch/recording controls and passes 17 source regression inst
 Batch 17 adds fifteen compiler-slot cases and passes fifteen source test instances, including three process controls. GP-X241 retains expected ACCEPT but the frozen scalar-division guard rejects harmless comments; COMMENT-DIVISION-AUDIT.json isolates the defect. Current coverage: 48 partial / 320 unreviewed. No expected verdict changed.
 
 Batch 18 fully text-reads SCOPE and ARCHITECTURE, passes all 16 architecture tests, and calibrates relative-import-only checking. The private freeze README was corrected from 161 to the tested 160-line limit; patch reapplication and the actual frozen test now pass. Corpus/replay unchanged; source coverage 51 partial / 317 unreviewed.
+
+Batch 19 fully text-reads COMPATIBILITY.md and separates historical semantics, evidence extensions, migration custody and current replay-only requirements. Source coverage 52 partial / 316 unreviewed. No corpus or runtime edits, and no new test execution claimed. OPERATION-CONTRACTS reading is incomplete and receives no new full-read credit.
