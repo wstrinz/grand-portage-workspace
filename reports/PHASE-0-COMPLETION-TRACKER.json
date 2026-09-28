@@ -4,7 +4,7 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "295 cases unchanged; 287 agreements and eight classified exceptions; 57 partial / 311 unreviewed sources. Binder/registry review: 31 tests and four diagnostic API-boundary controls passed; persisted subject replay review remains partial.",
+      "evidence": "295 cases unchanged; 287 agreements and eight classified exceptions; 57 partial / 311 unreviewed sources. Complete verdict-application method read; three section controls distinguish valid proof, stale tampering and invalid reissued producer evidence.",
       "remaining": [
         "Exhaustive source/history disposition, including docs and theory",
         "Resolve or explicitly disposition A24 and X53 for G0",
@@ -37,7 +37,7 @@
   },
   "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
   "next_work": [
-    "Complete store subject replay branches and end-to-end authority controls",
+    "Extract portable section replay controls and continue operation/ring/partition producer trust review",
     "Continue release documents and earlier history",
     "Preserve conservative-refusal cost evidence for the campaign inventory"
   ],

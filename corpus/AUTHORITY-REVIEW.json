@@ -200,19 +200,16 @@
       "reviewed_ranges": [
         [
           707,
-          936
-        ],
-        [
-          1386,
           1435
         ]
       ],
-      "review": "Target collection/of and verdict vocabulary checked before freshness. Stale history projects nothing; positive proof branches precede bind/project. Groebner branch binds endpoint/order/domain and recomputes exact summary. Middle subject replay branches remain for further review.",
-      "remaining": "Read and disposition the remaining subject-specific replay branches; include real freshness and malformed-evidence controls."
+      "review": "Complete _apply_verdict text read. Groebner, point lift, derived identity, unit/localized/SOS certificates, extension witnesses and condition branches have subject-specific arithmetic replay. Section branch checks shape and exact input binding but not row arithmetic; operation branch checks field/list shape. Other trust may reside in provenance/verifier paths and must be traced separately. Stale history projects nothing; negative elimination/lift results preserve earlier authority.",
+      "remaining": "Complete subject-by-subject producer/provenance trust analysis and portable corpus extraction. Full store file remains partially read. Section diagnostic demonstrates trusted-producer reliance, not all subjects."
     }
   ],
   "evidence": [
     "reports/AUTHORITY-BINDER-BOUNDARY.json",
-    "reports/oracle-authority-review.xml"
+    "reports/oracle-authority-review.xml",
+    "reports/SECTION-REPLAY-BOUNDARY.json"
   ]
 }

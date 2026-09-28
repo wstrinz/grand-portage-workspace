@@ -55,3 +55,5 @@ Batch 19 fully text-reads COMPATIBILITY.md and separates historical semantics, e
 Batch 20 completes OPERATION-CONTRACTS text reading, reads runtime contract metadata and correspondence tests, and passes 30 tests. Direct effective-verdict mutation tests do not verify persisted authority binding. Header version drift documented; 54 partial / 314 unreviewed.
 
 Batch 21 reads authority binder/registry and both test files: 31 tests pass. Four direct API controls document caller-owned target binding and shallow proof payloads without claiming a persisted bypass. Continue store subject-specific replay and real provenance controls. Coverage 57 partial / 311 unreviewed.
+
+Batch 22 completes _apply_verdict reading and diagnoses section proof custody with actual freshness: stale tampering refuses, but invalid cofactors with reissued producer metadata project VERIFIED_SECTION. Independent arithmetic rejects the altered row. Offline fabricated provenance only; no live backend failure or external attack claimed. Extract neutral controls next.
