@@ -49,49 +49,73 @@
           "line": 62,
           "end_line": 75,
           "status": "source_read_and_regression_passed",
-          "remaining": "Neutral extraction complete only for listed cases; other distinct controls remain pending."
+          "remaining": "Extracted storage slice only; no general proof of persistence or concurrency behavior.",
+          "cases": [
+            "GP-X211"
+          ]
         },
         {
           "name": "test_corrupt_existing_object_is_refused_and_not_healed",
           "line": 78,
           "end_line": 89,
           "status": "source_read_and_regression_passed",
-          "remaining": "Neutral extraction complete only for listed cases; other distinct controls remain pending."
+          "remaining": "Extracted storage slice only; no general proof of persistence or concurrency behavior.",
+          "cases": [
+            "GP-X212"
+          ]
         },
         {
           "name": "test_publication_fails_closed_without_atomic_immutable_link",
           "line": 92,
           "end_line": 103,
           "status": "source_read_and_regression_passed",
-          "remaining": "Neutral extraction complete only for listed cases; other distinct controls remain pending."
+          "remaining": "Extracted storage slice only; no general proof of persistence or concurrency behavior.",
+          "cases": [
+            "GP-X220"
+          ]
         },
         {
           "name": "test_inner_hash_and_content_address_are_both_checked",
           "line": 106,
           "end_line": 116,
           "status": "source_read_and_regression_passed",
-          "remaining": "Neutral extraction complete only for listed cases; other distinct controls remain pending."
+          "remaining": "Extracted storage slice only; no general proof of persistence or concurrency behavior.",
+          "cases": [
+            "GP-X213",
+            "GP-X214"
+          ]
         },
         {
           "name": "test_manifest_audit_reports_missing_and_swapped_artifacts",
           "line": 119,
           "end_line": 138,
           "status": "source_read_and_regression_passed",
-          "remaining": "Neutral extraction complete only for listed cases; other distinct controls remain pending."
+          "remaining": "Extracted storage slice only; no general proof of persistence or concurrency behavior.",
+          "cases": [
+            "GP-X216",
+            "GP-X217",
+            "GP-X218"
+          ]
         },
         {
           "name": "test_malformed_fingerprint_cannot_escape_artifact_store",
           "line": 141,
           "end_line": 143,
           "status": "source_read_and_regression_passed",
-          "remaining": "Neutral extraction complete only for listed cases; other distinct controls remain pending."
+          "remaining": "Extracted storage slice only; no general proof of persistence or concurrency behavior.",
+          "cases": [
+            "GP-X219"
+          ]
         },
         {
           "name": "test_persist_all_uses_content_addresses_in_execution_order",
           "line": 146,
           "end_line": 151,
           "status": "source_read_and_regression_passed",
-          "remaining": "Neutral extraction complete only for listed cases; other distinct controls remain pending."
+          "remaining": "Extracted storage slice only; no general proof of persistence or concurrency behavior.",
+          "cases": [
+            "GP-X221"
+          ]
         },
         {
           "name": "test_cli_audits_referenced_objects_without_changing_graph_fold",
@@ -129,7 +153,7 @@
           "remaining": "Neutral extraction complete only for listed cases; other distinct controls remain pending."
         }
       ],
-      "remaining": "Extract neutral persistence corruption, missing/swapped object, protocol, path escape and graph-versus-artifact-audit cases; passing tests do not complete extraction."
+      "remaining": "Graph audit versus folded authority, environment-independent replay and CLI error/readability cases still need neutral extraction; all storage controls mapped below."
     },
     {
       "path": "tests/test_backend.py",
@@ -146,6 +170,22 @@
       "semantic_status": "partial",
       "functions": [],
       "remaining": "Read lines 1011-1146 identity/execution/provenance boundary; parser, runner, executable custody and other operation code still need complete disposition."
+    },
+    {
+      "path": "grandportage/artifacts.py",
+      "sha256": "1d3da9853c59899b29a522c4646f488712f80b1efbcc93fa843f1243ee098864",
+      "full_text_read": true,
+      "semantic_status": "partial",
+      "functions": [],
+      "remaining": "Complete closed-envelope type matrix, concurrency races, note references, Groebner final-artifact binding and graph-audit consumer behavior still need disposition."
+    },
+    {
+      "path": "grandportage/provenance.py",
+      "sha256": "79440d816d0217e6cd9297a0b81d742ed83984007355c21013839df8c3a7828a",
+      "full_text_read": false,
+      "semantic_status": "partial",
+      "functions": [],
+      "remaining": "Read decode_backend_provenance/backend_provenance lines 585-649; other receipt/fingerprint/authority paths remain partial."
     }
   ],
   "cases": [
@@ -158,7 +198,18 @@
     "GP-X207",
     "GP-X208",
     "GP-X209",
-    "GP-X210"
+    "GP-X210",
+    "GP-X211",
+    "GP-X212",
+    "GP-X213",
+    "GP-X214",
+    "GP-X215",
+    "GP-X216",
+    "GP-X217",
+    "GP-X218",
+    "GP-X219",
+    "GP-X220",
+    "GP-X221"
   ],
   "scope": "Offline execution-envelope observations and source-test evidence, not live process verification or held graph authority.",
   "results": [
@@ -173,8 +224,8 @@
     "Replayable exact arithmetic identity survives unavailable or changed local backend; unavailable historical non-replayable metadata remains legacy-readable without authority."
   ],
   "remaining": [
-    "Extract artifact persistence/audit controls neutrally",
-    "Review direct versus replayable backend authority and process launch custody",
-    "Review retained raw process fields, parser and output budgets completely"
+    "Extract graph audit versus current authority and exact replay availability controls",
+    "Review concurrent persistence and note/Groebner receipt binding",
+    "Review process launch and direct backend authority"
   ]
 }

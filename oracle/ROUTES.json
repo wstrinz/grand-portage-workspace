@@ -1782,6 +1782,61 @@
       "kind": "execution_envelope",
       "layer": "offline_execution_envelope",
       "limitation": "Fabricated process/version responses exercise envelope control flow only. No live Singular, executable digest, graph receipt or mathematical authority is established."
+    },
+    "GP-X211": {
+      "kind": "artifact_storage",
+      "layer": "offline_artifact_integrity",
+      "limitation": "Fabricated immutable execution records and isolated F scratch storage. No process execution, graph authority or proof validity is established."
+    },
+    "GP-X212": {
+      "kind": "artifact_storage",
+      "layer": "offline_artifact_integrity",
+      "limitation": "Fabricated immutable execution records and isolated F scratch storage. No process execution, graph authority or proof validity is established."
+    },
+    "GP-X213": {
+      "kind": "artifact_storage",
+      "layer": "offline_artifact_integrity",
+      "limitation": "Fabricated immutable execution records and isolated F scratch storage. No process execution, graph authority or proof validity is established."
+    },
+    "GP-X214": {
+      "kind": "artifact_storage",
+      "layer": "offline_artifact_integrity",
+      "limitation": "Fabricated immutable execution records and isolated F scratch storage. No process execution, graph authority or proof validity is established."
+    },
+    "GP-X215": {
+      "kind": "artifact_storage",
+      "layer": "offline_artifact_integrity",
+      "limitation": "Fabricated immutable execution records and isolated F scratch storage. No process execution, graph authority or proof validity is established."
+    },
+    "GP-X216": {
+      "kind": "artifact_storage",
+      "layer": "offline_artifact_integrity",
+      "limitation": "Fabricated immutable execution records and isolated F scratch storage. No process execution, graph authority or proof validity is established."
+    },
+    "GP-X217": {
+      "kind": "artifact_storage",
+      "layer": "offline_artifact_integrity",
+      "limitation": "Fabricated immutable execution records and isolated F scratch storage. No process execution, graph authority or proof validity is established."
+    },
+    "GP-X218": {
+      "kind": "artifact_storage",
+      "layer": "offline_artifact_integrity",
+      "limitation": "Fabricated immutable execution records and isolated F scratch storage. No process execution, graph authority or proof validity is established."
+    },
+    "GP-X219": {
+      "kind": "artifact_storage",
+      "layer": "offline_artifact_integrity",
+      "limitation": "Fabricated immutable execution records and isolated F scratch storage. No process execution, graph authority or proof validity is established."
+    },
+    "GP-X220": {
+      "kind": "artifact_storage",
+      "layer": "offline_artifact_integrity",
+      "limitation": "Fabricated immutable execution records and isolated F scratch storage. No process execution, graph authority or proof validity is established."
+    },
+    "GP-X221": {
+      "kind": "artifact_storage",
+      "layer": "offline_artifact_integrity",
+      "limitation": "Fabricated immutable execution records and isolated F scratch storage. No process execution, graph authority or proof validity is established."
     }
   }
 }

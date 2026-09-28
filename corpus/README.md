@@ -257,3 +257,14 @@ Observations remain layer-specific. Conditional transport, premise-route and cov
 | [GP-X208](must/GP-X208.json) | REFUSE | AGREES | offline_execution_envelope | completion envelope: foreign invocation |
 | [GP-X209](must/GP-X209.json) | REFUSE | AGREES | offline_execution_envelope | completion envelope: repeated completion |
 | [GP-X210](must/GP-X210.json) | REFUSE | AGREES | offline_execution_envelope | completion envelope: trailing output |
+| [GP-X211](must/GP-X211.json) | ACCEPT | AGREES | offline_artifact_integrity | Identical execution records roundtrip and deduplicate |
+| [GP-X212](must/GP-X212.json) | REFUSE | AGREES | offline_artifact_integrity | Existing corrupt evidence is refused without being healed |
+| [GP-X213](must/GP-X213.json) | REFUSE | AGREES | offline_artifact_integrity | Changed output fails its retained inner hash |
+| [GP-X214](must/GP-X214.json) | REFUSE | AGREES | offline_artifact_integrity | Rehashed output still fails the retained object address |
+| [GP-X215](must/GP-X215.json) | REFUSE | AGREES | offline_artifact_integrity | Equivalent JSON formatting does not match canonical stored bytes |
+| [GP-X216](must/GP-X216.json) | REFUSE | AGREES | offline_artifact_integrity | Referenced execution object is absent |
+| [GP-X217](must/GP-X217.json) | REFUSE | AGREES | offline_artifact_integrity | A valid but different artifact cannot satisfy the trace |
+| [GP-X218](must/GP-X218.json) | REFUSE | AGREES | offline_artifact_integrity | Stored backend protocol disagrees with the manifest |
+| [GP-X219](must/GP-X219.json) | REFUSE | AGREES | offline_artifact_integrity | A path-like reference cannot escape the artifact store |
+| [GP-X220](must/GP-X220.json) | REFUSE | AGREES | offline_artifact_integrity | Failed immutable publication leaves no target object |
+| [GP-X221](must/GP-X221.json) | ACCEPT | AGREES | offline_artifact_integrity | Distinct artifacts preserve execution order |

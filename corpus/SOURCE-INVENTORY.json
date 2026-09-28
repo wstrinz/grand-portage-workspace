@@ -586,7 +586,7 @@
       "path": "grandportage/artifacts.py",
       "git_object": "ffad97a1c98a5c0b62b78538884eb5080b019f4c",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/authority.py",
