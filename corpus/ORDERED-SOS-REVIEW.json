@@ -53,8 +53,13 @@
     "Family bridge tests establish structural prerequisites and premise-order behavior, not logical entailment of arbitrary assertion prose."
   ],
   "remaining": [
-    "Extract distinct neutral producer/fold representation mismatch with fixed expectation.",
     "Review entirely legacy edges and direct/zero-length inference scopes; typed-route evidence is not a global scope proof.",
     "General implementation soundness and complete semantic disposition remain open."
+  ],
+  "extracted_cases": [
+    "GP-X308",
+    "GP-X309",
+    "GP-X310",
+    "GP-X311"
   ]
 }

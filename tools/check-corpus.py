@@ -578,6 +578,9 @@ def probe(case, route):
             receipt_current=stored["current"],effective_certificate=effective,
             baseline_current=True,execution_descriptor="fabricated_historical_test_trace")
 
+    if kind == "ordered_recording":
+        from ordered_recording_probes import probe as ordered_probe
+        return ordered_probe(case, route)
     if kind == "laurent_pipeline":
         from laurent_pipeline_probes import probe as pipeline_probe
         return pipeline_probe(case,route)
@@ -684,6 +687,7 @@ def main():
               "mapped_ring_probe_sha256":sha(ROOT/"tools/mapped_ring_probes.py"),
               "partition_guard_probe_sha256":sha(ROOT/"tools/partition_guard_probes.py"),
               "partition_embedding_probe_sha256":sha(ROOT/"tools/partition_embedding_probes.py"),
+              "ordered_recording_probe_sha256":sha(ROOT/"tools/ordered_recording_probes.py"),
               "laurent_pipeline_probe_sha256":sha(ROOT/"tools/laurent_pipeline_probes.py"),
               "factor_composition_probe_sha256":sha(ROOT/"tools/factor_composition_probes.py"),
               "product_split_probe_sha256":sha(ROOT/"tools/product_split_probes.py"),

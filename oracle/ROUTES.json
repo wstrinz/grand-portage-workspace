@@ -2274,6 +2274,27 @@
       "kind": "laurent_pipeline",
       "layer": "canonical_pass_composition",
       "limitation": "Both pinned passes execute independently before exact object binding. Representation refusal is not a false polynomial identity; no graph, chart or source authority."
+    },
+    "GP-X308": {
+      "kind": "ordered_recording",
+      "layer": "native_ordered_receipt_replay",
+      "limitation": "Native exact checker plus current-metadata log fold; ordered reach only. No backend or broader field interpretation."
+    },
+    "GP-X309": {
+      "kind": "ordered_recording",
+      "layer": "native_ordered_receipt_replay",
+      "limitation": "Native exact checker plus current-metadata log fold; ordered reach only. No backend or broader field interpretation.",
+      "known_difference": "ordered_receipt_canonicalization_rejects_equivalent_model_text"
+    },
+    "GP-X310": {
+      "kind": "ordered_recording",
+      "layer": "native_ordered_receipt_replay",
+      "limitation": "Native exact checker plus current-metadata log fold; ordered reach only. No backend or broader field interpretation."
+    },
+    "GP-X311": {
+      "kind": "ordered_recording",
+      "layer": "native_ordered_receipt_replay",
+      "limitation": "Native exact checker plus current-metadata log fold; ordered reach only. No backend or broader field interpretation."
     }
   }
 }

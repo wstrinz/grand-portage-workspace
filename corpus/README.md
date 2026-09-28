@@ -354,3 +354,7 @@ Observations remain layer-specific. Conditional transport, premise-route and cov
 | [GP-X305](must/GP-X305.json) | REFUSE | AGREES | canonical_pass_composition | Missing intermediate binding refuses composition |
 | [GP-X306](must/GP-X306.json) | REFUSE | AGREES | canonical_pass_composition | Duplicate export binding refuses composition |
 | [GP-X307](must/GP-X307.json) | ACCEPT | AGREES | canonical_pass_composition | Unused verified export does not invalidate complete image binding |
+| [GP-X308](must/GP-X308.json) | ACCEPT | AGREES | native_ordered_receipt_replay | Canonical ordered proof records |
+| [GP-X309](must/GP-X309.json) | ACCEPT | KNOWN_DIFFERENCE | native_ordered_receipt_replay | Equivalent noncanonical ordered proof records |
+| [GP-X310](must/GP-X310.json) | REFUSE | AGREES | native_ordered_receipt_replay | False ordered cofactor refuses |
+| [GP-X311](must/GP-X311.json) | REFUSE | AGREES | native_ordered_receipt_replay | Detached ordered evidence refuses |

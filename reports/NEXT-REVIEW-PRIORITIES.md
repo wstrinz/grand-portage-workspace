@@ -99,3 +99,5 @@ Batch 47 completes polynomial checker and test text reading: 43 offline tests pa
 Batch 48 reviews localization callers: 29 source tests and six representation controls pass. Sparse guards crash default CLI rendering after verification; mixed infix/sparse duplicates bypass the stated uniqueness contract without falsifying the identity. Fix proposals and narrow soundness arguments recorded. Corpus unchanged; 74 partial / 294 unreviewed sources. See PHASE-0A-BATCH-48.md.
 
 Batch 49 reviews ordered SOS recording and typed routes: 31 tests pass; two native controls reproduce noncanonical model text verifying but failing receipt replay. Canonical input records successfully. Corpus unchanged; 78 partial / 290 unreviewed sources. See PHASE-0A-BATCH-49.md.
+
+Batch 50 extracts GP-X308–311: full replay has 352 cases, 337 agreements and twelve known differences. Valid noncanonical SOS recording remains an ACCEPT expectation despite conservative legacy rejection. All prior 348 hashes and outcomes are unchanged. See ORDERED-CORPUS-EXTRACTION.json and PHASE-0A-BATCH-50.md.
