@@ -39,7 +39,8 @@
   ],
   "evidence": [
     "reports/oracle-ordered-review.xml",
-    "reports/ORDERED-SOS-RECORDING-BOUNDARY.json"
+    "reports/ORDERED-SOS-RECORDING-BOUNDARY.json",
+    "reports/ORDERED-PATH-BOUNDARY.json"
   ],
   "tests": {
     "passed": 31,
@@ -50,10 +51,12 @@
     "Native eligibility alone does not mint proof authority: fold admission replays SOS and requires canonical representation.",
     "Verifier normalization of x*x+1 to x^2+1 prevents recording against the original model text; positive canonical control records.",
     "Parity compare binds one concrete fixture and rejects a different valid certificate. This is not general Python/Lean interpreter equivalence; no Lean executable was run.",
-    "Family bridge tests establish structural prerequisites and premise-order behavior, not logical entailment of arbitrary assertion prose."
+    "Family bridge tests establish structural prerequisites and premise-order behavior, not logical entailment of arbitrary assertion prose.",
+    "Six real graph controls compare zero and one-step audits before/after native replay: zero routes return true with empty trace independently of receipt; typed R requires current reach, typed C refuses, untyped-about BASE_EXTENSION refuses at R scope.",
+    "Typed R success trace uses generic base-change wording even though the field gate grants only ordered interpretation. Clarify explanations to preserve this distinction."
   ],
   "remaining": [
-    "Review entirely legacy edges and direct/zero-length inference scopes; typed-route evidence is not a global scope proof.",
+    "Review other legacy edge kinds and partition scope composition; selected BASE_EXTENSION controls are not exhaustive.",
     "General implementation soundness and complete semantic disposition remain open."
   ],
   "extracted_cases": [

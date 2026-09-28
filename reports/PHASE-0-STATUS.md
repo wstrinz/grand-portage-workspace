@@ -113,3 +113,5 @@ Batch 48 reviews localization callers: 29 source tests and six representation co
 Batch 49 reviews ordered SOS recording and typed routes: 31 tests pass; two native controls reproduce noncanonical model text verifying but failing receipt replay. Canonical input records successfully. Corpus unchanged; 78 partial / 290 unreviewed sources. See PHASE-0A-BATCH-49.md.
 
 Batch 50 extracts GP-X308–311: full replay has 352 cases, 337 agreements and twelve known differences. Valid noncanonical SOS recording remains an ACCEPT expectation despite conservative legacy rejection. All prior 348 hashes and outcomes are unchanged. See ORDERED-CORPUS-EXTRACTION.json and PHASE-0A-BATCH-50.md.
+
+Batch 51 verifies six ordered path graphs: typed R needs a current receipt, C refuses, and legacy-about-absent base extension stays refused. Zero-step success is transport-only and independent of earned authority. All checker findings retained; no new false-proof admission or corpus difference claimed. See PHASE-0A-BATCH-51.md.
