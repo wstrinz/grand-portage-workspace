@@ -83,3 +83,5 @@ Batch 33 extracts GP-X275-283: other typed universe mismatches, same/both-omitte
 Batch 34 fully reads the eight-path characteristic fix f2b7c49. Eight isolated historical predicate controls expose intermediate 1/composite acceptance corrected in the pinned validator. Existing corpus and constructor-emission evidence reused; live historical tests remain unrun.
 
 Batch 35: reference-checker release slice and six exact sparse-input controls recorded. Four standalone reference validation gaps are blocked by production validation; no new production false licence. Corpus and latest replay unchanged; Phase 0 active.
+
+Batch 36: eight more release path diffs reviewed; twelve of thirty-six now dispositioned. Actual projection CLI output exceeds its 1 MB compact-size check; three retained tests pass and proposed repair recorded. No publication or authority change.
