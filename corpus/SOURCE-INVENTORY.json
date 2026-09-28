@@ -780,7 +780,7 @@
       "path": "grandportage/localization.py",
       "git_object": "79b29fb2edcea7122dc3e1566ad54c7b7b0c9b4b",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/mcp.py",
@@ -823,7 +823,7 @@
       "path": "grandportage/ordered_sos.py",
       "git_object": "a6045b68fe8121eab509355d0377ea8c99a332ad",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/product_split.py",
