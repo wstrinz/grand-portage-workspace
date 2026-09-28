@@ -211,11 +211,17 @@
     "reports/AUTHORITY-BINDER-BOUNDARY.json",
     "reports/oracle-authority-review.xml",
     "reports/SECTION-REPLAY-BOUNDARY.json",
-    "reports/PHASE-0A-BATCH-23.md"
+    "reports/PHASE-0A-BATCH-23.md",
+    "reports/OPERATION-REPLAY-BOUNDARY.json"
   ],
   "cases": [
     "GP-X255",
     "GP-X256",
     "GP-X257"
+  ],
+  "producer_boundary_followups": [
+    "Section controls extracted as GP-X255-257",
+    "Operation-output five-control diagnostic complete; neutral extraction remains",
+    "Trace mapped-ring and partition validation beyond descriptive registry and binder before drawing conclusions"
   ]
 }

@@ -59,3 +59,5 @@ Batch 21 reads authority binder/registry and both test files: 31 tests pass. Fou
 Batch 22 completes _apply_verdict reading and diagnoses section proof custody with actual freshness: stale tampering refuses, but invalid cofactors with reissued producer metadata project VERIFIED_SECTION. Independent arithmetic rejects the altered row. Offline fabricated provenance only; no live backend failure or external attack claimed. Extract neutral controls next.
 
 Batch 23 adds GP-X255-257 section receipt controls. All 295 prior case files remain byte-identical. Fresh producer metadata can activate invalid section cofactors in the predecessor; expected REFUSE remains fixed under replay-only policy. Full replay has no ERROR or REVIEW_REQUIRED.
+
+Batch 24 verifies five operation-output custody controls: valid producer, stale proof edit, invalid reissued producer, invalid nonempty native and valid empty native. Nonempty cofactor arithmetic remains trusted to producer in the legacy fold; empty native output earns no completeness. See OPERATION-REPLAY-BOUNDARY.json; corpus unchanged.
