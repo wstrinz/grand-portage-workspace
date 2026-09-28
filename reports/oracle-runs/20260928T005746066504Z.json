@@ -1,20 +1,21 @@
 {
   "schema_version": 1,
-  "timestamp_utc": "20260928T010106460983Z",
+  "timestamp_utc": "20260928T005746066504Z",
   "oracle_commit": "ac4155787207e2847d248cffed7be871d5dcd577",
   "oracle_path": "F:\\repos\\grandportage-0.50\\oracle\\checkout",
-  "runner_sha256": "a86cdb355f3c84f80f5416fd924c3f3df4ec1ca75dfe4bfdf448a6fca43c6fbf",
+  "runner_sha256": "7eae2dfd0da689719b7edbb0dd9f26113d3cbfd64fbea5f15ec737fcc1998ab6",
   "historical_probe_sha256": "b85c9cffda5964c36f7ff81d32e334ed43a2c69ef84bc6c55db58194bd33c38d",
-  "current_algebra_probe_sha256": "d76af36869c5da824adf54cb8ef1f1883bb68d9231d23be3d0b4a3d6f7fc1ed3",
+  "current_algebra_probe_sha256": "c3577e7050b23a977d09b660501026fcc5171c6b13c1354eaed56a90f8278c05",
   "routes_sha256": "e2573f416fce77ba51534bb867713b28a3d44b48bd6c870e6efa3ecc628e62f7",
   "historical_manifest_sha256": "4f1c64b8aaa28da4032f9e407dac929083b5436aedf122fba2d98a37c296633a",
   "schema_sha256": "76029f1faf4265c01e711e32ea255d5ca6e16811fa2e174fc7ba62454a9c782b",
   "python": "3.12.9 (main, Feb 12 2025, 14:52:31) [MSC v.1942 64 bit (AMD64)]",
   "summary": {
-    "AGREES": 175,
+    "AGREES": 172,
     "DIAGNOSTIC_OBSERVED": 1,
     "KNOWN_DIFFERENCE": 4,
     "PENDING": 1,
+    "ERROR": 3,
     "UNSUPPORTED": 1
   },
   "scope": "Layer-specific legacy observations, not GP 0.50 held claims or a completed G0 gate.",
@@ -1326,14 +1327,10 @@
       "route": "current_algebra",
       "historical_commit": null,
       "limitation": "Pinned v0.37 offline replay. No live Singular execution or GP 0.50 held claim. Producer and one-sided checks do not establish completeness.",
-      "observed_verdict": "ACCEPT",
-      "reason": "Exact point substitution in the declared characteristic.",
-      "substituted": [
-        "0",
-        "0",
-        "0"
-      ],
-      "status": "AGREES"
+      "status": "ERROR",
+      "observed_verdict": null,
+      "reason": "'bool' object is not callable",
+      "traceback": "Traceback (most recent call last):\n  File \"F:\\repos\\grandportage-0.50\\tools\\check-corpus.py\", line 601, in main\n    record.update(probe(case,route))\n                  ^^^^^^^^^^^^^^^^^\n  File \"F:\\repos\\grandportage-0.50\\tools\\check-corpus.py\", line 580, in probe\n    return current_probe(case,route)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\repos\\grandportage-0.50\\tools\\current_algebra_probes.py\", line 14, in probe\n    point_ok = all(G.parse_polynomial(v,d[\"variables\"],d[\"characteristic\"]).is_zero() for v in values)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\repos\\grandportage-0.50\\tools\\current_algebra_probes.py\", line 14, in <genexpr>\n    point_ok = all(G.parse_polynomial(v,d[\"variables\"],d[\"characteristic\"]).is_zero() for v in values)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: 'bool' object is not callable\n"
     },
     {
       "id": "GP-X128",
@@ -1343,14 +1340,10 @@
       "route": "current_algebra",
       "historical_commit": null,
       "limitation": "Pinned v0.37 offline replay. No live Singular execution or GP 0.50 held claim. Producer and one-sided checks do not establish completeness.",
-      "observed_verdict": "REFUSE",
-      "reason": "Exact point substitution in the declared characteristic.",
-      "substituted": [
-        "0",
-        "0",
-        "0"
-      ],
-      "status": "AGREES"
+      "status": "ERROR",
+      "observed_verdict": null,
+      "reason": "'bool' object is not callable",
+      "traceback": "Traceback (most recent call last):\n  File \"F:\\repos\\grandportage-0.50\\tools\\check-corpus.py\", line 601, in main\n    record.update(probe(case,route))\n                  ^^^^^^^^^^^^^^^^^\n  File \"F:\\repos\\grandportage-0.50\\tools\\check-corpus.py\", line 580, in probe\n    return current_probe(case,route)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\repos\\grandportage-0.50\\tools\\current_algebra_probes.py\", line 14, in probe\n    point_ok = all(G.parse_polynomial(v,d[\"variables\"],d[\"characteristic\"]).is_zero() for v in values)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\repos\\grandportage-0.50\\tools\\current_algebra_probes.py\", line 14, in <genexpr>\n    point_ok = all(G.parse_polynomial(v,d[\"variables\"],d[\"characteristic\"]).is_zero() for v in values)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: 'bool' object is not callable\n"
     },
     {
       "id": "GP-X129",
@@ -1601,15 +1594,10 @@
       "route": "current_algebra",
       "historical_commit": null,
       "limitation": "Pinned v0.37 offline replay. No live Singular execution or GP 0.50 held claim. Producer and one-sided checks do not establish completeness.",
-      "observed_verdict": "ACCEPT",
-      "reason": "Complete producer output parsed; no mathematical authority inferred.",
-      "pieces": [
-        [
-          "0"
-        ]
-      ],
-      "external_execution": false,
-      "status": "AGREES"
+      "status": "ERROR",
+      "observed_verdict": null,
+      "reason": "list indices must be integers or slices, not str",
+      "traceback": "Traceback (most recent call last):\n  File \"F:\\repos\\grandportage-0.50\\tools\\check-corpus.py\", line 601, in main\n    record.update(probe(case,route))\n                  ^^^^^^^^^^^^^^^^^\n  File \"F:\\repos\\grandportage-0.50\\tools\\check-corpus.py\", line 580, in probe\n    return current_probe(case,route)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\repos\\grandportage-0.50\\tools\\current_algebra_probes.py\", line 63, in probe\n    return decision(True,\"Complete producer output parsed; no mathematical authority inferred.\",pieces=result[\"pieces\"],external_execution=False)\n                                                                                                       ~~~~~~^^^^^^^^^^\nTypeError: list indices must be integers or slices, not str\n"
     },
     {
       "id": "GP-X141",

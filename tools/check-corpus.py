@@ -575,6 +575,9 @@ def probe(case, route):
             receipt_current=stored["current"],effective_certificate=effective,
             baseline_current=True,execution_descriptor="fabricated_historical_test_trace")
 
+    if kind == "current_algebra":
+        from current_algebra_probes import probe as current_probe
+        return current_probe(case,route)
     if kind == "historical_review":
         from historical_probes import probe as historical_probe
         return historical_probe(case,route)
@@ -609,6 +612,7 @@ def main():
     report = {"schema_version":1,"timestamp_utc":stamp,"oracle_commit":PIN,
               "oracle_path":str(ORACLE),"runner_sha256":sha(Path(__file__)),
               "historical_probe_sha256":sha(ROOT/"tools/historical_probes.py"),
+              "current_algebra_probe_sha256":sha(ROOT/"tools/current_algebra_probes.py"),
               "routes_sha256":sha(ROOT/"oracle/ROUTES.json"),
               "historical_manifest_sha256":sha(ROOT/"oracle/history/PIN.json"),
               "schema_sha256":sha(ROOT/"corpus/case.schema.json"),

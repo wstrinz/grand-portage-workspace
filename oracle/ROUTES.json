@@ -1306,6 +1306,102 @@
       "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
       "layer": "exact_minimal_projection",
       "limitation": "Pinned exact substitution on a minimal counterexample; no reconstruction of the campaign fixture."
+    },
+    "GP-X125": {
+      "kind": "membership",
+      "layer": "exact_replay",
+      "limitation": "Pinned v0.37 offline replay. No live Singular execution or GP 0.50 held claim. Producer and one-sided checks do not establish completeness."
+    },
+    "GP-X126": {
+      "kind": "membership",
+      "layer": "exact_replay",
+      "limitation": "Pinned v0.37 offline replay. No live Singular execution or GP 0.50 held claim. Producer and one-sided checks do not establish completeness."
+    },
+    "GP-X127": {
+      "kind": "current_algebra",
+      "layer": "exact_replay",
+      "limitation": "Pinned v0.37 offline replay. No live Singular execution or GP 0.50 held claim. Producer and one-sided checks do not establish completeness.",
+      "action": "point"
+    },
+    "GP-X128": {
+      "kind": "current_algebra",
+      "layer": "exact_replay",
+      "limitation": "Pinned v0.37 offline replay. No live Singular execution or GP 0.50 held claim. Producer and one-sided checks do not establish completeness.",
+      "action": "point"
+    },
+    "GP-X129": {
+      "kind": "localization",
+      "layer": "exact_replay",
+      "limitation": "Pinned v0.37 offline replay. No live Singular execution or GP 0.50 held claim. Producer and one-sided checks do not establish completeness."
+    },
+    "GP-X130": {
+      "kind": "membership",
+      "layer": "exact_replay",
+      "limitation": "Pinned v0.37 offline replay. No live Singular execution or GP 0.50 held claim. Producer and one-sided checks do not establish completeness."
+    },
+    "GP-X131": {
+      "kind": "current_algebra",
+      "layer": "authority_boundary",
+      "limitation": "Pinned v0.37 offline replay. No live Singular execution or GP 0.50 held claim. Producer and one-sided checks do not establish completeness.",
+      "action": "pending"
+    },
+    "GP-X132": {
+      "kind": "membership",
+      "layer": "exact_replay",
+      "limitation": "Pinned v0.37 offline replay. No live Singular execution or GP 0.50 held claim. Producer and one-sided checks do not establish completeness."
+    },
+    "GP-X133": {
+      "kind": "membership",
+      "layer": "exact_replay",
+      "limitation": "Pinned v0.37 offline replay. No live Singular execution or GP 0.50 held claim. Producer and one-sided checks do not establish completeness."
+    },
+    "GP-X134": {
+      "kind": "current_algebra",
+      "layer": "exact_replay",
+      "limitation": "Pinned v0.37 offline replay. No live Singular execution or GP 0.50 held claim. Producer and one-sided checks do not establish completeness.",
+      "action": "substitution"
+    },
+    "GP-X135": {
+      "kind": "current_algebra",
+      "layer": "exact_replay",
+      "limitation": "Pinned v0.37 offline replay. No live Singular execution or GP 0.50 held claim. Producer and one-sided checks do not establish completeness.",
+      "action": "substitution"
+    },
+    "GP-X136": {
+      "kind": "current_algebra",
+      "layer": "exact_replay",
+      "limitation": "Pinned v0.37 offline replay. No live Singular execution or GP 0.50 held claim. Producer and one-sided checks do not establish completeness.",
+      "action": "substitution"
+    },
+    "GP-X137": {
+      "kind": "current_algebra",
+      "layer": "operation_boundary",
+      "limitation": "Pinned v0.37 offline replay. No live Singular execution or GP 0.50 held claim. Producer and one-sided checks do not establish completeness.",
+      "action": "removed"
+    },
+    "GP-X138": {
+      "kind": "current_algebra",
+      "layer": "producer_boundary",
+      "limitation": "Pinned v0.37 offline replay. No live Singular execution or GP 0.50 held claim. Producer and one-sided checks do not establish completeness.",
+      "action": "bounded"
+    },
+    "GP-X139": {
+      "kind": "current_algebra",
+      "layer": "producer_parser",
+      "limitation": "Pinned v0.37 offline replay. No live Singular execution or GP 0.50 held claim. Producer and one-sided checks do not establish completeness.",
+      "action": "parse"
+    },
+    "GP-X140": {
+      "kind": "current_algebra",
+      "layer": "producer_parser",
+      "limitation": "Pinned v0.37 offline replay. No live Singular execution or GP 0.50 held claim. Producer and one-sided checks do not establish completeness.",
+      "action": "parse"
+    },
+    "GP-X141": {
+      "kind": "current_algebra",
+      "layer": "exact_replay_and_operation_boundary",
+      "limitation": "Pinned v0.37 offline replay. No live Singular execution or GP 0.50 held claim. Producer and one-sided checks do not establish completeness.",
+      "action": "completeness"
     }
   }
 }

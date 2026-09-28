@@ -82,8 +82,25 @@ Historical coverage remains incomplete. The first pass covers all 29 deleted tes
 | [GP-X122](must/GP-X122.json) | ACCEPT | AGREES | exact_minimal_projection | Accept a displayed solution after affine compatibility is satisfied |
 | [GP-X123](must/GP-X123.json) | REFUSE | AGREES | exact_minimal_projection | Promote one excluded fiber to exclusion of the whole parent |
 | [GP-X124](must/GP-X124.json) | REFUSE | AGREES | exact_minimal_projection | Cancel an exceptional factor without proving it invertible |
+| [GP-X125](must/GP-X125.json) | ACCEPT | AGREES | exact_replay | Unit certificate in characteristic 0 |
+| [GP-X126](must/GP-X126.json) | REFUSE | AGREES | exact_replay | Unit certificate in characteristic 23 |
+| [GP-X127](must/GP-X127.json) | ACCEPT | AGREES | exact_replay | F23 point witness |
+| [GP-X128](must/GP-X128.json) | REFUSE | AGREES | exact_replay | Reject false emptiness over F23 |
+| [GP-X129](must/GP-X129.json) | ACCEPT | AGREES | exact_replay | Explicit exponent-nine saturation witness |
 | [GP-X13](must/GP-X13.json) | REFUSE | AGREES | graph_diagnostic | Field-relative emptiness needs a typed point model |
+| [GP-X130](must/GP-X130.json) | REFUSE | AGREES | exact_replay | Insufficient saturation exponent |
+| [GP-X131](must/GP-X131.json) | REFUSE | AGREES | authority_boundary | Pending ideal cannot license an ambient identity |
+| [GP-X132](must/GP-X132.json) | ACCEPT | AGREES | exact_replay | Zero ideal identity control |
+| [GP-X133](must/GP-X133.json) | REFUSE | AGREES | exact_replay | Zero ideal is not the unit ideal |
+| [GP-X134](must/GP-X134.json) | REFUSE | AGREES | exact_replay | Simultaneous substitution control 134 |
+| [GP-X135](must/GP-X135.json) | ACCEPT | AGREES | exact_replay | Simultaneous substitution control 135 |
+| [GP-X136](must/GP-X136.json) | REFUSE | AGREES | exact_replay | Simultaneous substitution control 136 |
+| [GP-X137](must/GP-X137.json) | REFUSE | AGREES | operation_boundary | Elimination output retains a removed coordinate |
+| [GP-X138](must/GP-X138.json) | REFUSE | AGREES | producer_boundary | Bounded saturation failure cannot prove nonmembership |
+| [GP-X139](must/GP-X139.json) | REFUSE | AGREES | producer_parser | Truncated component is not a zero ideal |
 | [GP-X14](must/GP-X14.json) | REFUSE | AGREES | graph_diagnostic | Field-relative emptiness needs a typed point model |
+| [GP-X140](must/GP-X140.json) | ACCEPT | AGREES | producer_parser | Explicit zero component parses |
+| [GP-X141](must/GP-X141.json) | REFUSE | AGREES | exact_replay_and_operation_boundary | One-sided saturation soundness cannot establish completeness |
 | [GP-X15](must/GP-X15.json) | ACCEPT | AGREES | exact_replay | Cofactor replay binds characteristic 2 |
 | [GP-X16](must/GP-X16.json) | REFUSE | AGREES | exact_replay | Cofactor replay binds characteristic 0 |
 | [GP-X17](must/GP-X17.json) | ACCEPT | AGREES | exact_replay | Localized identity with valid evidence |
@@ -170,4 +187,4 @@ Historical coverage remains incomplete. The first pass covers all 29 deleted tes
 | [GP-X98](must/GP-X98.json) | REFUSE | AGREES | derived_metadata_contract | Resolve overlapping reports implicitly by last writer |
 | [GP-X99](must/GP-X99.json) | REFUSE | AGREES | derived_metadata_contract | Declare agreement between incompatible exact scopes |
 
-Observations remain layer-specific. Conditional rules assume their prerequisites. Frozen metadata contracts do not establish their underlying mathematical claims. Historical binding tests may use fabricated backend descriptors; exact arithmetic replay is separate. Minimal projections are explicitly labeled and do not reproduce the entire campaign fixture. UNSUPPORTED is not an observed mathematical refusal.
+Observations remain layer-specific. Conditional rules assume their prerequisites. Frozen metadata contracts do not establish their underlying mathematical claims. Historical binding tests may use fabricated backend descriptors; exact arithmetic replay is separate. Minimal projections are explicitly labeled and do not reproduce the entire campaign fixture. Producer/parser controls do not establish mathematical completeness. UNSUPPORTED is not an observed mathematical refusal.

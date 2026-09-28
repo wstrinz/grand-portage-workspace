@@ -5,8 +5,8 @@
   "current_tree": {
     "total_files": 368,
     "file_statuses": {
-      "unreviewed": 345,
-      "partial": 23
+      "unreviewed": 343,
+      "partial": 25
     },
     "full_review_count": 0
   },
@@ -23,10 +23,16 @@
       "status": "partial",
       "cases": [
         "GP-X15",
-        "GP-X16"
+        "GP-X16",
+        "GP-X125",
+        "GP-X126",
+        "GP-X127",
+        "GP-X128",
+        "GP-X132",
+        "GP-X133"
       ],
-      "reviewed": "Commit message and changed-path inventory read; characteristic-two cofactor replay extracted from the retained regression.",
-      "remaining": "F23 false emptiness, constructor saturation and empty-ideal cases remain to be extracted; original live backend execution not reproduced."
+      "reviewed": "Commit message and changed-path inventory read; characteristic-two cofactor replay extracted from the retained regression. F23 rational-certificate rejection and exact point counterexample extracted; zero-ideal semantic controls and constructor-emission audit added.",
+      "remaining": "Original live backend execution and full historical diff review remain unperformed. Constructor audit checks emitted text only."
     },
     {
       "commit": "93770c6740c61e1adf809618cd798a0334daffc9",
@@ -236,7 +242,7 @@
     }
   ],
   "next_pass": [
-    "Current-tree authority and algebraic regressions: finish characteristic-23 false emptiness, constructor saturation and empty-ideal incidents; review exact replay versus producer success.",
+    "Continue current-tree authority review beyond the extracted F23, saturation-bound, pending/zero-ideal, substitution and producer-parser cases; live constructor verification remains unrun.",
     "Review log fold, merge, retraction, independent receipt survival and verifier-version semantics before proposing core rules.",
     "Read remaining SPEC/DESIGN/release/theory material and resolve the named earlier history-review gaps; all 368 current-tree sources still require completed semantic dispositions.",
     "Campaign sweep remains blocked on the complete source manifest. It is needed for A24, incident cost/class counts, meaning-risk analysis and companion bindings.",
@@ -268,5 +274,6 @@
       "covered_by_existing_cases": 42,
       "display_only": 6
     }
-  }
+  },
+  "current_algebra_review": "corpus/CURRENT-ALGEBRA-REVIEW.json"
 }
