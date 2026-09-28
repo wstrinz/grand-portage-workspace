@@ -319,3 +319,5 @@ Observations remain layer-specific. Conditional transport, premise-route and cov
 | [GP-X270](must/GP-X270.json) | REFUSE | KNOWN_DIFFERENCE | partition_verification | Two punctured branches miss the origin |
 | [GP-X271](must/GP-X271.json) | ACCEPT | AGREES | partition_verification | Punctured branches cover a matching punctured parent |
 | [GP-X272](must/GP-X272.json) | ACCEPT | AGREES | partition_verification | An unrestricted branch fills the missing origin |
+| [GP-X273](must/GP-X273.json) | ACCEPT | AGREES | partition_verification | Matching selected roots cover their parent |
+| [GP-X274](must/GP-X274.json) | REFUSE | KNOWN_DIFFERENCE | partition_verification | Negative selected roots do not cover the positive root |

@@ -4,7 +4,7 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "313 cases (92 ACCEPT / 221 REFUSE); 300 agreements, ten known differences and three other classified outcomes. Open-guard partition counterexample and three valid covers extracted; 57 partial / 311 unreviewed sources.",
+      "evidence": "315 cases (93 ACCEPT / 222 REFUSE); 301 agreements, eleven known differences and three other classified outcomes. Selected-root cover counterexample extracted; 57 partial / 311 unreviewed sources.",
       "remaining": [
         "Exhaustive source/history disposition, including docs and theory",
         "Resolve or explicitly disposition A24 and X53 for G0",
@@ -37,7 +37,7 @@
   },
   "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
   "next_work": [
-    "Extract selected-root partition controls; continue remaining source/history review",
+    "Continue remaining source/history disposition and corpus neutrality review",
     "Continue release documents and earlier history",
     "Preserve conservative-refusal cost evidence for the campaign inventory"
   ],

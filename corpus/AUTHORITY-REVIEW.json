@@ -219,7 +219,8 @@
     "reports/PARTITION-OPEN-GUARD-BOUNDARY.json",
     "reports/oracle-partition-scope-review.xml",
     "reports/PHASE-0A-BATCH-29.md",
-    "reports/PARTITION-EMBEDDING-BOUNDARY.json"
+    "reports/PARTITION-EMBEDDING-BOUNDARY.json",
+    "reports/PHASE-0A-BATCH-31.md"
   ],
   "cases": [
     "GP-X255",
@@ -239,7 +240,9 @@
     "GP-X269",
     "GP-X270",
     "GP-X271",
-    "GP-X272"
+    "GP-X272",
+    "GP-X273",
+    "GP-X274"
   ],
   "producer_boundary_followups": [
     "Section controls extracted as GP-X255-257",
@@ -271,7 +274,9 @@
       "GP-X269",
       "GP-X270",
       "GP-X271",
-      "GP-X272"
+      "GP-X272",
+      "GP-X273",
+      "GP-X274"
     ],
     "additional_finding": "Selected embedding is absent from point_scope. Positive-root parent and two negative-root branches of x^2-2 validate and receive VERIFIED coverage under exact identical-ideal backend answers.",
     "additional_source_ranges": {

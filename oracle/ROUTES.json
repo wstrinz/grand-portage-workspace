@@ -2098,6 +2098,17 @@
       "kind": "partition_guards",
       "layer": "partition_verification",
       "limitation": "Actual verifier with exact answers to bounded zero-ideal backend questions. No Singular process or persisted verdict."
+    },
+    "GP-X273": {
+      "kind": "partition_embeddings",
+      "layer": "partition_verification",
+      "limitation": "Actual native verifier with exact bounded identical-ideal responses; no live CAS or persisted verdict."
+    },
+    "GP-X274": {
+      "kind": "partition_embeddings",
+      "layer": "partition_verification",
+      "limitation": "Actual native verifier with exact bounded identical-ideal responses; no live CAS or persisted verdict.",
+      "known_difference": "partition_selected_embedding_omitted"
     }
   }
 }

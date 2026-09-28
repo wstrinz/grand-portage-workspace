@@ -6,8 +6,8 @@ G0 is not yet evaluated; Phase 0 is in progress.
 
 - Approved backbrief and F: workspace; local repository has no remote.
 - Separate oracle copy on F:, pinned at ac4155787207e2847d248cffed7be871d5dcd577; original source checkout unchanged.
-- 313 source-pointed neutral cases (92 acceptance controls, 221 refusals), schema validator and reproducible layer-specific oracle adapter.
-- Latest replay: 300 agreements, ten known differences (five conservative refusals, four producer-trust/replay-policy mismatches and one partition guard omission), one diagnostic observation, one pending projection, one unsupported dimension-credit case.
+- 315 source-pointed neutral cases (93 acceptance controls, 222 refusals), schema validator and reproducible layer-specific oracle adapter.
+- Latest replay: 301 agreements, eleven known differences (five conservative refusals, four producer-trust/replay-policy mismatches and two partition context omissions), one diagnostic observation, one pending projection, one unsupported dimension-credit case.
 - First-batch focused runs passed 95 tests with one live-CAS case excluded; the second batch passed 54 focused tests; the third passed 75 plus three adapter controls; the fourth passed 19 with two companion checks deselected; the fifth passed 12 with two companion checks deselected and two diagnostic controls; the sixth passed all 15 p-axis tests. The seventh milestone passed 271 selected historical instances (including 24 corrected-harness retries). The eighth slice passed 30 offline current-tree tests with three live tests deselected, plus four constructor-emission controls. The ninth slice passed 93 lifecycle, merge and provenance regressions plus four retry/section order controls. These runs overlap and are not the full release suite.
 - Source and history indexes plus a partial-review ledger generated. All 29 deleted test files have been read and all 226 functions dispositioned. Of 197 selected functions, all 271 parametrized instances pass; 29 original functions remain unrun (27 companion-dependent, two live CAS). Semantic coverage remains incomplete.
 - Freeze documentation preparation fully audited: exact banner, 17 repairs, current status constants, three doc-only paths, isolated patch application and pinned existing release tag verified; not applied or published.
@@ -73,3 +73,5 @@ Batch 28 reproduces omitted open branch guards: two D(x) branches miss zero in A
 Batch 29 extracts GP-X269-272. Two punctured branches miss the origin, while three positive controls preserve valid closed/open covers. All 309 prior case files unchanged.
 
 Batch 30 reproduces a selected-embedding partition omission: negative-root branches of x^2-2 are reported as covering a positive-root parent. point_scope excludes embedding; exact identical-ideal backend answers cannot establish selected-locus coverage. Corpus extraction remains next.
+
+Batch 31 extracts GP-X273-274 selected-root cover controls. All 313 prior case files unchanged; no replay errors or untriaged differences.
