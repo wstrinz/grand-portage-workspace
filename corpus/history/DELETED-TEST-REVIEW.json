@@ -3,7 +3,7 @@
   "pinned_descendant": "ac4155787207e2847d248cffed7be871d5dcd577",
   "deletion_commit": "2cac30114573f7b6923c43d86fb22679c4dbedfb",
   "reviewed_revision": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
-  "notice": "GP historical sources only. The seam and formalization-ledger adapters use verbatim frozen GP inputs on the pinned v0.37 runtime. Companion-campaign bindings remain unrun. Transport-rule, metadata, unsupported, and regression-label observations are distinguished; no native theorem replay or fixture equivalence is inferred.",
+  "notice": "GP historical sources only. Snapshots replay on the pinned v0.37 runtime. P-axis arithmetic replay is separate from graph-binding tests using fabricated historical backend descriptors. Companion-campaign bindings remain unrun; no new rework authority is minted.",
   "sources": [
     {
       "path": "tests/test_jc_original_pair_seam.py",
@@ -303,100 +303,269 @@
       "git_blob": "f2be86e36cb062ddcdd25d1744c96c07fe0d77b6",
       "sha256": "95a57f713b55424ed48bf6c539cff6dabde9ae909ec6af195f2494a768e07811",
       "read_status": "complete_text_read",
-      "extraction_status": "partial",
+      "extraction_status": "bounded_extraction_exact_arithmetic_and_fabricated_trace_binding",
       "tests": [
         {
           "test": "test_show_renders_localized_proof_envelope",
           "line": 99,
-          "status": "surface_only_no_mathematical_authority",
+          "status": "regression_only_not_independent_neutral_case",
           "existing_analogues": [
             "GP-X17"
-          ]
+          ],
+          "regression": "passed"
         },
         {
           "test": "test_frozen_native_slice_has_the_expected_parent_binding",
           "line": 109,
-          "status": "partial_analogue_only",
+          "status": "regression_only_not_independent_neutral_case",
           "existing_analogues": [
             "GP-A18",
             "GP-A25b"
-          ]
+          ],
+          "regression": "passed"
         },
         {
           "test": "test_checked_in_authority_fixture_is_exact_adapter_output",
           "line": 119,
-          "status": "extraction_pending",
-          "existing_analogues": []
+          "status": "regression_only_not_independent_neutral_case",
+          "existing_analogues": [],
+          "regression": "passed"
         },
         {
           "test": "test_factor_affine_receipt_and_authority_model_use_the_same_equations",
           "line": 126,
-          "status": "extraction_pending",
-          "existing_analogues": []
+          "status": "regression_only_not_independent_neutral_case",
+          "existing_analogues": [],
+          "regression": "passed"
         },
         {
           "test": "test_factor_proof_compiles_to_existing_localized_unit_certificate",
           "line": 141,
-          "status": "partial_analogue_only",
+          "status": "extracted_with_layer_limits",
           "existing_analogues": [
             "GP-X17"
+          ],
+          "regression": "passed",
+          "cases": [
+            "GP-X63"
           ]
         },
         {
           "test": "test_graph_verdict_mints_only_local_empty_authority",
           "line": 154,
-          "status": "partial_analogue_only",
+          "status": "extracted_with_layer_limits",
           "existing_analogues": [
             "GP-X17",
             "GP-A23"
+          ],
+          "regression": "passed",
+          "cases": [
+            "GP-X64",
+            "GP-X66"
           ]
         },
         {
           "test": "test_certificate_name_without_verdict_grants_no_authority",
           "line": 168,
-          "status": "partial_analogue_only",
+          "status": "extracted_with_layer_limits",
           "existing_analogues": [
             "GP-A26"
+          ],
+          "regression": "passed",
+          "cases": [
+            "GP-X65"
           ]
         },
         {
           "test": "test_equation_or_guard_mutation_refuses_old_authority",
           "line": 190,
-          "status": "partial_analogue_only",
+          "status": "extracted_with_layer_limits",
           "existing_analogues": [
             "GP-A18",
             "GP-X46",
             "GP-X47"
+          ],
+          "regression": "passed",
+          "cases": [
+            "GP-X67",
+            "GP-X68"
           ]
         },
         {
           "test": "test_scope_or_source_binding_mutation_stales_old_authority",
           "line": 206,
-          "status": "partial_analogue_only",
+          "status": "extracted_with_layer_limits",
           "existing_analogues": [
             "GP-X48"
           ],
-          "remaining": "Point-universe freshness has a native witness projection. Source digest/chart mutations and the actual p-axis fixture remain to be extracted."
+          "remaining": "Point-universe freshness has a native witness projection. Source digest/chart mutations and the actual p-axis fixture remain to be extracted.",
+          "regression": "passed",
+          "cases": [
+            "GP-X69",
+            "GP-X70",
+            "GP-X71"
+          ]
         },
         {
           "test": "test_verifier_input_fingerprint_contains_the_frozen_source_digest",
           "line": 218,
-          "status": "partial_analogue_only",
+          "status": "regression_only_not_independent_neutral_case",
           "existing_analogues": [
             "GP-A18",
             "GP-A25b"
-          ]
+          ],
+          "regression": "passed"
         },
         {
           "test": "test_adapter_refuses_any_change_to_the_native_parent_bytes",
           "line": 228,
-          "status": "extraction_pending",
-          "existing_analogues": []
+          "status": "extracted_with_layer_limits",
+          "existing_analogues": [],
+          "regression": "passed",
+          "cases": [
+            "GP-X72"
+          ]
         },
         {
           "test": "test_frozen_model_does_not_claim_full_chart_source_or_h3_authority",
           "line": 237,
-          "status": "extraction_pending",
+          "status": "regression_only_not_independent_neutral_case",
+          "existing_analogues": [],
+          "regression": "passed"
+        }
+      ],
+      "execution": {
+        "passed": 15,
+        "report": "reports/oracle-batch6-tests.xml",
+        "runtime_commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+        "adapter_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+        "backend_executed": false
+      }
+    },
+    {
+      "path": "tests/test_jc_source_ladder_authority.py",
+      "commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "git_blob": "111443ee9d1e572dd6651e8a8d764195124e46df",
+      "sha256": "2095bee47208ca7cce224dc7f954ffc5812ca04fad2d6381391d42c332653543",
+      "read_status": "complete_text_read",
+      "extraction_status": "read_extraction_pending",
+      "tests": [
+        {
+          "test": "test_chain_compiles_to_exact_algebraized_localization_models",
+          "line": 37,
+          "status": "read_extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_compiler_replays_chain_before_emitting_graph_events",
+          "line": 59,
+          "status": "read_extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_inverse_coordinate_collision_fails_closed",
+          "line": 67,
+          "status": "read_extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_normalization_bearing_second_face_compiles_with_exact_context",
+          "line": 78,
+          "status": "read_extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_exact_certificate_verifies_normalization_bearing_second_face",
+          "line": 96,
+          "status": "read_extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_mutated_exact_certificate_is_unverified_not_a_refutation",
+          "line": 104,
+          "status": "read_extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_real_singular_verifies_compiled_chain_ring_isomorphism",
+          "line": 116,
+          "status": "live_backend_not_run",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_real_singular_refuses_chain_when_inverse_equation_is_removed",
+          "line": 125,
+          "status": "live_backend_not_run",
+          "existing_analogues": []
+        }
+      ]
+    },
+    {
+      "path": "tests/test_jc_source_depth6_authority.py",
+      "commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "git_blob": "96e936e5c51b691091f7b3fdfb8c4f0ce640db9b",
+      "sha256": "ceb621c769a0048828f08d38b0049394d32bf1acc886484ce82c22a6c836f655",
+      "read_status": "complete_text_read",
+      "extraction_status": "read_extraction_pending",
+      "tests": [
+        {
+          "test": "test_checked_in_boundary_projection_is_canonical_and_scope_honest",
+          "line": 45,
+          "status": "read_extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_native_sparse_coefficient_mutation_breaks_roundtrip_digest",
+          "line": 63,
+          "status": "read_extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_intermediate_rung_commitment_is_not_promoted_to_polynomial_proof",
+          "line": 73,
+          "status": "read_extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_exact_generic_and_discriminant_equivalences_verify_without_cas",
+          "line": 86,
+          "status": "read_extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_show_summarizes_sparse_ideal_generators",
+          "line": 94,
+          "status": "read_extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_boundary_model_has_no_silent_actual_source_or_cover_edge",
+          "line": 103,
+          "status": "read_extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_generic_certificate_needs_the_alpha_inverse_equation",
+          "line": 116,
+          "status": "read_extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_mutated_generic_cofactor_is_unverified_not_refuted",
+          "line": 128,
+          "status": "read_extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_discriminant_target_keeps_beta_relation_and_free_c7_5",
+          "line": 141,
+          "status": "read_extraction_pending",
+          "existing_analogues": []
+        },
+        {
+          "test": "test_current_native_receipt_reproduces_checked_in_projection",
+          "line": 150,
+          "status": "companion_binding_check_not_run",
           "existing_analogues": []
         }
       ]

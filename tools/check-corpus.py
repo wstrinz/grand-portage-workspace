@@ -525,6 +525,56 @@ def probe(case, route):
         return decision(True,"The theorem endpoints and all conditional premises remain bound.",
                         premise_ids=normalized["premise_ids"],graph_effect=adapter.GRAPH_EFFECT)
 
+    if kind == "historical_paxis":
+        import copy, importlib.util
+        from grandportage import check as C, verify as V
+        historical = json.loads((ROOT/"oracle/history/PIN.json").read_text(encoding="utf-8"))
+        if route["historical_commit"] != historical["commit"]:
+            raise ValueError("Wrong p-axis historical revision")
+        path = ROOT/"oracle/history/checkout/tests/test_jc_p_axis_authority.py"
+        spec = importlib.util.spec_from_file_location("historical_paxis_probe",path)
+        helper = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(helper)
+        adapter = helper.ADAPTER
+        frozen, raw = helper._frozen()
+        bound = adapter.authority_spec(frozen)
+        data = case["inputs"]
+        expected_inputs = {"variables":bound["ring_vars"],"generators":bound["generators"],
+            "guards":bound["guards"],**bound["expression"],**bound["certificate"]}
+        if any(data[key] != value for key,value in expected_inputs.items()):
+            raise ValueError("Neutral p-axis inputs differ from the historical proof")
+        action = route["action"]
+        if action == "bytes":
+            try:
+                adapter.freeze_native({"schema":adapter.NATIVE_SCHEMA,"chart":"p"},
+                    case["inputs"]["proposed_parent_bytes_utf8"].encode())
+            except ValueError as exc:
+                if "native p-window receipt changed" not in str(exc):
+                    raise
+                return decision(False,exc,backend_executed=False)
+            return decision(True,"Native parent bytes accepted.",backend_executed=False)
+        if action == "name":
+            graph = adapter.graph_from_frozen(frozen,raw)
+            cert = C.effective_certificate(graph.claims[adapter.EMPTY_CLAIM])
+            return decision(cert is not None,"Effective certificate: "+str(cert),backend_executed=False)
+        graph, event = helper._verified_graph()
+        if not graph.verdicts[event["id"]]["current"]:
+            raise ValueError("Historical p-axis binding baseline is not current")
+        if action == "parent":
+            licensed, trace = adapter.parent_refusal(graph)
+            return decision(licensed,"Parent transport audited.",trace=trace,
+                baseline_current=True,execution_descriptor="fabricated_historical_test_trace")
+        if action not in ("unchanged","equation","guard","universe","chart","source"):
+            raise ValueError("Unknown p-axis action")
+        changed = helper._graph_with_axis_updates(case["inputs"].get("proposed_change",{}))
+        changed.apply(copy.deepcopy(event))
+        stored = changed.verdicts[event["id"]]
+        effective = C.effective_certificate(changed.claims[adapter.EMPTY_CLAIM])
+        return decision(bool(stored["current"]) and effective is not None,
+            stored.get("stale_reason","Historical receipt remains current."),
+            receipt_current=stored["current"],effective_certificate=effective,
+            baseline_current=True,execution_descriptor="fabricated_historical_test_trace")
+
     raise ValueError("Unknown oracle route: "+kind)
 
 def main():

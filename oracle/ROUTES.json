@@ -772,6 +772,76 @@
       "layer": "historical_metadata_audit",
       "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
       "limitation": "Calls only the historical endpoint/premise normalizer, before any expected-verdict comparison. Acceptance preserves conditional metadata; it does not discharge premises or mint mathematical authority."
+    },
+    "GP-X63": {
+      "kind": "localization",
+      "action": "exact",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "layer": "exact_replay",
+      "limitation": "Exact cofactor replay on the declared localization; no parent-wide conclusion."
+    },
+    "GP-X64": {
+      "kind": "historical_paxis",
+      "action": "parent",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "layer": "historical_receipt_binding",
+      "limitation": "Historical GP fixture and pinned runtime only. Binding probes use the historical fabricated Singular execution descriptor, not a real backend execution. Mutated contexts test receipt currency before structural graph validation; no new rework authority is minted."
+    },
+    "GP-X65": {
+      "kind": "historical_paxis",
+      "action": "name",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "layer": "historical_receipt_binding",
+      "limitation": "Historical GP fixture and pinned runtime only. Binding probes use the historical fabricated Singular execution descriptor, not a real backend execution. Mutated contexts test receipt currency before structural graph validation; no new rework authority is minted."
+    },
+    "GP-X66": {
+      "kind": "historical_paxis",
+      "action": "unchanged",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "layer": "historical_receipt_binding",
+      "limitation": "Historical GP fixture and pinned runtime only. Binding probes use the historical fabricated Singular execution descriptor, not a real backend execution. Mutated contexts test receipt currency before structural graph validation; no new rework authority is minted."
+    },
+    "GP-X67": {
+      "kind": "historical_paxis",
+      "action": "equation",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "layer": "historical_receipt_binding",
+      "limitation": "Historical GP fixture and pinned runtime only. Binding probes use the historical fabricated Singular execution descriptor, not a real backend execution. Mutated contexts test receipt currency before structural graph validation; no new rework authority is minted."
+    },
+    "GP-X68": {
+      "kind": "historical_paxis",
+      "action": "guard",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "layer": "historical_receipt_binding",
+      "limitation": "Historical GP fixture and pinned runtime only. Binding probes use the historical fabricated Singular execution descriptor, not a real backend execution. Mutated contexts test receipt currency before structural graph validation; no new rework authority is minted."
+    },
+    "GP-X69": {
+      "kind": "historical_paxis",
+      "action": "universe",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "layer": "historical_receipt_binding",
+      "limitation": "Historical GP fixture and pinned runtime only. Binding probes use the historical fabricated Singular execution descriptor, not a real backend execution. Mutated contexts test receipt currency before structural graph validation; no new rework authority is minted."
+    },
+    "GP-X70": {
+      "kind": "historical_paxis",
+      "action": "chart",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "layer": "historical_receipt_binding",
+      "limitation": "Historical GP fixture and pinned runtime only. Binding probes use the historical fabricated Singular execution descriptor, not a real backend execution. Mutated contexts test receipt currency before structural graph validation; no new rework authority is minted."
+    },
+    "GP-X71": {
+      "kind": "historical_paxis",
+      "action": "source",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "layer": "historical_receipt_binding",
+      "limitation": "Historical GP fixture and pinned runtime only. Binding probes use the historical fabricated Singular execution descriptor, not a real backend execution. Mutated contexts test receipt currency before structural graph validation; no new rework authority is minted."
+    },
+    "GP-X72": {
+      "kind": "historical_paxis",
+      "action": "bytes",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "layer": "source_digest_guard",
+      "limitation": "Historical GP fixture and pinned runtime only. Binding probes use the historical fabricated Singular execution descriptor, not a real backend execution. Mutated contexts test receipt currency before structural graph validation; no new rework authority is minted."
     }
   }
 }

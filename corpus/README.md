@@ -107,5 +107,15 @@ Historical coverage remains incomplete. [Review coverage](REVIEW-COVERAGE.json) 
 | [GP-X60](must/GP-X60.json) | ACCEPT | AGREES | historical_metadata_audit | Conditional theorem metadata retains all three premises |
 | [GP-X61](must/GP-X61.json) | REFUSE | AGREES | historical_metadata_audit | Dropping the remainder-bound premise is refused |
 | [GP-X62](must/GP-X62.json) | REFUSE | AGREES | historical_metadata_audit | A theorem receipt cannot be rebound to another target |
+| [GP-X63](must/GP-X63.json) | ACCEPT | AGREES | exact_replay | The p-axis localized ideal contains one |
+| [GP-X64](must/GP-X64.json) | REFUSE | AGREES | historical_receipt_binding | Local emptiness cannot be promoted to the ambient model |
+| [GP-X65](must/GP-X65.json) | REFUSE | AGREES | historical_receipt_binding | A certificate name alone grants no emptiness authority |
+| [GP-X66](must/GP-X66.json) | ACCEPT | AGREES | historical_receipt_binding | An unchanged local receipt retains its binding |
+| [GP-X67](must/GP-X67.json) | REFUSE | AGREES | historical_receipt_binding | Changing a p-axis equation stales the receipt |
+| [GP-X68](must/GP-X68.json) | REFUSE | AGREES | historical_receipt_binding | Removing the t guard stales the receipt |
+| [GP-X69](must/GP-X69.json) | REFUSE | AGREES | historical_receipt_binding | Changing the point universe stales the receipt |
+| [GP-X70](must/GP-X70.json) | REFUSE | AGREES | historical_receipt_binding | Changing the chart stales the receipt |
+| [GP-X71](must/GP-X71.json) | REFUSE | AGREES | historical_receipt_binding | Changing the source digest stales the receipt |
+| [GP-X72](must/GP-X72.json) | REFUSE | AGREES | source_digest_guard | Changed native parent bytes cannot reuse the frozen binding |
 
-Observations remain layer-specific. Conditional rules assume their prerequisites. Historical metadata audits are not mathematical theorem replay. UNSUPPORTED means the old vocabulary cannot express the claim; it is not counted as an observed mathematical refusal. Raw results and immutable runs are under reports/.
+Observations remain layer-specific. Conditional rules assume their prerequisites. Historical metadata audits are not mathematical theorem replay. P-axis graph-binding probes use fabricated historical execution descriptors; their exact arithmetic replay is separate. UNSUPPORTED is not an observed mathematical refusal. Raw results and immutable runs are under reports/.

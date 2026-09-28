@@ -46,6 +46,36 @@
       "sha256": "e3d40c450112b9eabbda61ec47a6e42b3152185605dafe85eb52c0783271d2f8",
       "git_blob": "695f338aca8df43ab95646ec293d2f02217f0dd7",
       "bytes": 6855
+    },
+    {
+      "path": "experiments/jc_h3_p_axis/adapter.py",
+      "sha256": "ba6bd4551ca819878ee84799bdcba36183d5afde5c80a0a6eb86151693857cb7",
+      "git_blob": "4c7d9499b0f111e07f1d9f60e4ca0266a57b2304",
+      "bytes": 13885
+    },
+    {
+      "path": "fixtures/jc_p_axis/factor_power_affine_contradiction_v1.json",
+      "sha256": "ca723ee3221d73eb8ee11388372534878265a681847166b1e23a48c7ef8e5227",
+      "git_blob": "f3b071f3220f4e3119eda706915e3f1a328efa88",
+      "bytes": 835
+    },
+    {
+      "path": "fixtures/jc_p_axis/localized_unit_ideal_v1.json",
+      "sha256": "d92d6252821dedea98aa625e61075754982c4b02651454b70def6c3885750f98",
+      "git_blob": "4da141b31f075eea49ece2e192457b7895ba536c",
+      "bytes": 574
+    },
+    {
+      "path": "fixtures/jc_p_axis/native_axis_slice_v1.json",
+      "sha256": "5c682ad0b2f5212fd21aba723d094793a212a1f59654a27b60969a9fa2bf0850",
+      "git_blob": "9ff3c284d1fade9cd352ea7cde2d9d40e2664f7c",
+      "bytes": 2469
+    },
+    {
+      "path": "tests/test_jc_p_axis_authority.py",
+      "sha256": "95a57f713b55424ed48bf6c539cff6dabde9ae909ec6af195f2494a768e07811",
+      "git_blob": "f2be86e36cb062ddcdd25d1744c96c07fe0d77b6",
+      "bytes": 8213
     }
   ]
 }

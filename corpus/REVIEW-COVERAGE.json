@@ -130,13 +130,13 @@
     },
     {
       "path": "tests/test_jc_original_pair_seam.py",
-      "status": "self_contained_checks_extracted_external_bindings_pending",
+      "status": "self_contained_metadata_checks_extracted_external_bindings_pending",
       "review": "corpus/history/DELETED-TEST-REVIEW.json",
       "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_p_axis_authority.py",
-      "status": "read_extraction_partial",
+      "status": "bounded_extraction_exact_arithmetic_and_fabricated_trace_binding",
       "review": "corpus/history/DELETED-TEST-REVIEW.json",
       "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
@@ -150,7 +150,9 @@
     },
     {
       "path": "tests/test_jc_source_depth6_authority.py",
-      "status": "unreviewed"
+      "status": "read_extraction_pending",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_source_depth6_chain.py",
@@ -166,7 +168,9 @@
     },
     {
       "path": "tests/test_jc_source_ladder_authority.py",
-      "status": "unreviewed"
+      "status": "read_extraction_pending",
+      "review": "corpus/history/DELETED-TEST-REVIEW.json",
+      "reviewed_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     },
     {
       "path": "tests/test_jc_source_support_handback.py",
@@ -184,18 +188,18 @@
     }
   ],
   "next_pass": [
-    "Finish the deleted p-axis fixture and source/chart binding cases; review the other 26 unread deleted test files.",
-    "Review remaining current-tree tests, documentation, theory ledger and fixtures; corpus coverage remains incomplete.",
-    "Resolve the recorded legacy dimension-credit expressiveness gap in profile planning without treating unsupported as refused.",
-    "Four companion-binding checks across the two recovered historical test files remain unrun.",
-    "A24 needs the actual collapsed-placement source model; campaign harvesting awaits the completed source manifest."
+    "Extract self-contained source-ladder and depth-six cases from the two newly read deleted test files; distinguish backend-free replay, masked collision checks, source-unbound boundary claims and companion bindings.",
+    "Review the other 24 unread deleted test files and remaining current-tree sources.",
+    "Keep unsupported dimension credit separate from observed refusals.",
+    "Four previously recovered companion-binding checks remain unrun; newly read source-depth6 companion test is also unrun.",
+    "A24 needs the actual collapsed-placement model; campaign harvesting awaits the completed source manifest."
   ],
   "historical_replay": {
     "manifest": "oracle/history/PIN.json",
     "commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
-    "files": 7,
-    "bytes": 165158,
-    "authority": "Historical metadata/vocabulary observations, with direct conditional transport rules separated. Native mathematical theorems have not been replayed."
+    "files": 12,
+    "bytes": 191134,
+    "authority": "Layer-specific exact arithmetic, conditional rules, metadata and receipt-binding observations. P-axis graph-binding uses a fabricated historical backend descriptor. No rework held claims."
   },
   "unsupported_cases": [
     {
