@@ -64,7 +64,7 @@
       "path": "DESIGN.md",
       "git_object": "6ec47e6db00497d2b24472c7218b4e0be73084a6",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "DESIGN_DIRECTION.md",
@@ -135,7 +135,7 @@
       "path": "REVIEW.md",
       "git_object": "1b4f490dcbe861aa68547c320f843bb92704f177",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "SCOPE.md",

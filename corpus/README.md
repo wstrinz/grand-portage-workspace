@@ -139,7 +139,17 @@ Historical coverage remains incomplete. The first pass covers all 29 deleted tes
 | [GP-X174](must/GP-X174.json) | REFUSE | AGREES | exact_section_and_provenance | Promote a rejected section proposal to authority |
 | [GP-X175](must/GP-X175.json) | REFUSE | AGREES | exact_section_and_provenance | Use a mutated stored section certificate |
 | [GP-X176](must/GP-X176.json) | REFUSE | AGREES | exact_section_and_provenance | Use a section verdict with no proof object |
+| [GP-X177](must/GP-X177.json) | ACCEPT | AGREES | conditional_premise_routes | Two universal premises restrict to their common context |
+| [GP-X178](must/GP-X178.json) | REFUSE | AGREES | conditional_premise_routes | Join premises that end in different contexts |
+| [GP-X179](must/GP-X179.json) | REFUSE | AGREES | conditional_premise_routes | A refused point-lifting leg defeats the joint route second |
 | [GP-X18](must/GP-X18.json) | REFUSE | AGREES | exact_replay | Localized identity with invalid evidence |
+| [GP-X180](must/GP-X180.json) | REFUSE | AGREES | conditional_premise_routes | A refused point-lifting leg defeats the joint route first |
+| [GP-X181](must/GP-X181.json) | REFUSE | AGREES | conditional_premise_routes | Missing required premise remains visible first |
+| [GP-X182](must/GP-X182.json) | REFUSE | AGREES | conditional_premise_routes | Missing required premise remains visible last |
+| [GP-X183](must/GP-X183.json) | REFUSE | AGREES | conditional_premise_routes | Do not close a parent with an uncovered branch |
+| [GP-X184](must/GP-X184.json) | ACCEPT | AGREES | conditional_premise_routes | Recombine all empty branches with explicit exhaustiveness |
+| [GP-X185](must/GP-X185.json) | REFUSE | AGREES | conditional_premise_routes | An open branch slot contributes no cover support |
+| [GP-X186](must/GP-X186.json) | REFUSE | AGREES | conditional_premise_routes | Branch emptiness without the required exhaustive premise |
 | [GP-X19](must/GP-X19.json) | REFUSE | AGREES | exact_replay | Localized identity with invalid evidence |
 | [GP-X20](must/GP-X20.json) | ACCEPT | AGREES | exact_replay | Mapped ring isomorphism with valid pullback evidence |
 | [GP-X21](must/GP-X21.json) | REFUSE | AGREES | exact_replay | Mapped ring isomorphism with corrupted pullback evidence |
@@ -222,4 +232,4 @@ Historical coverage remains incomplete. The first pass covers all 29 deleted tes
 | [GP-X98](must/GP-X98.json) | REFUSE | AGREES | derived_metadata_contract | Resolve overlapping reports implicitly by last writer |
 | [GP-X99](must/GP-X99.json) | REFUSE | AGREES | derived_metadata_contract | Declare agreement between incompatible exact scopes |
 
-Observations remain layer-specific. Conditional rules assume their prerequisites. Frozen metadata and lifecycle contracts do not establish mathematical claims. Historical binding probes may use fabricated backend descriptors; exact arithmetic replay is separate. Minimal projections do not reproduce entire campaign fixtures. Producer/parser controls do not establish completeness. UNSUPPORTED is not an observed mathematical refusal. The unresolved retry/merge policy is recorded separately in reports/RETRY-MERGE-AUDIT.json; its observations do not change fixed corpus expectations.
+Observations remain layer-specific. Conditional transport, premise-route and cover rules assume their prerequisites. A clean legacy argument does not prove entailment or mint a 0.50 warrant. Lifecycle and frozen metadata contracts do not establish mathematical claims. Some binding probes use fabricated backend descriptors; exact replay is distinct. Producer/parser controls do not establish completeness. UNSUPPORTED is not mathematical refusal. The retry/merge design issue is recorded separately without changing fixed expectations.

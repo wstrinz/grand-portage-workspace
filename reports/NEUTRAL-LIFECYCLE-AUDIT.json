@@ -177,9 +177,9 @@
       "reason": "History references an unknown object"
     }
   ],
-  "case_count_scanned": 217,
+  "case_count_scanned": 227,
   "embedded_gp_event_objects": 0,
-  "script_sha256": "6bd029949a37fb22e10a56aab13d6e834849904ffd5afef8c7ce859b6cceb763",
+  "script_sha256": "620114fff0db20a3ca27124d14c0ae15ae3b58c8eb40c70c4acccfd7fec9e5be",
   "adapter_sha256": "8b242271dd66f2ddf2df7280101956096dc46000500a0df0cd0ee01dc1fa7857",
   "baseline_sha256": "b949659741c193c4b632304c10a767cb13a3913a9b8d88a99fe8f649795ded1e",
   "limitation": "Exact translation and structural scan do not prove complete semantic neutrality of every corpus family. Mutation controls are temporary and never rewrite case expectations."

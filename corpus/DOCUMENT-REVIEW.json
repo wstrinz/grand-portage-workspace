@@ -1,0 +1,391 @@
+{
+  "oracle_commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+  "definition": "Section-by-section reading/disposition ledger. Full text read is separate from exhaustive extraction or verified implementation.",
+  "files": [
+    {
+      "path": "DESIGN.md",
+      "sha256": "a0063a05014838d6f414888f6507afa0bcb698817400429efaf03481642ea2aa",
+      "lines": 322,
+      "full_text_read": true,
+      "semantic_status": "partial",
+      "sections": [
+        {
+          "start_line": 1,
+          "end_line": 2,
+          "anchor": "# DESIGN.md \u2014 Grand Portage",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Title and historical design framing.",
+          "remaining": ""
+        },
+        {
+          "start_line": 3,
+          "end_line": 20,
+          "anchor": "## 0. What this is, at the smallest size that is still true",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Motivation and literature novelty claims; not treated as checked mathematical facts or new authority.",
+          "remaining": "No literature novelty verification performed; outside the corpus proof claim."
+        },
+        {
+          "start_line": 21,
+          "end_line": 43,
+          "anchor": "## 1. Architecture",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Architecture calls the fold deterministic and total; legacy malformed inputs raise GraphError, and current result projection can depend on merge order.",
+          "remaining": "Specify total result type and conflict handling for 0.50; see RETRY-MERGE-AUDIT.json."
+        },
+        {
+          "start_line": 44,
+          "end_line": 54,
+          "anchor": "### 1.0 kernel \u2014 `grandportage/kernel.py`",
+          "cases": [
+            "GP-A01",
+            "GP-A02",
+            "GP-A07a",
+            "GP-A07b",
+            "GP-A13-ambient"
+          ],
+          "disposition": "covered_slice",
+          "review": "Pure conditional transport boundary. Six relation types and four claim kinds confirmed in pinned runtime.",
+          "remaining": "Full transport-table source disposition remains open."
+        },
+        {
+          "start_line": 55,
+          "end_line": 76,
+          "anchor": "### 1.1 store \u2014 `grandportage/store.py`",
+          "cases": [
+            "GP-X142",
+            "GP-X143",
+            "GP-X144",
+            "GP-X145",
+            "GP-X146",
+            "GP-X178"
+          ],
+          "disposition": "covered_slice",
+          "review": "Shared prefixes and conflict refusal covered; supersession order tested. Successful fold is not enough to establish order-independent current authority.",
+          "remaining": "Broader merge cases and all malformed declaration classes need disposition."
+        },
+        {
+          "start_line": 77,
+          "end_line": 91,
+          "anchor": "### 1.2 checker \u2014 `grandportage/check.py`",
+          "cases": [
+            "GP-X156",
+            "GP-X157",
+            "GP-X177",
+            "GP-X179"
+          ],
+          "disposition": "covered_slice",
+          "review": "Rule summary is historically narrow; route audit and untyped debt extracted. Second-generation taint regression passed separately.",
+          "remaining": "Extract neutral taint, coverage and refinement cases; passing the taint test is not a generic closure proof."
+        },
+        {
+          "start_line": 92,
+          "end_line": 108,
+          "anchor": "### 1.3 discharge \u2014 `grandportage/discharge.py`",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Discharge is a suggested next move, explicitly not an equation finder or proof producer.",
+          "remaining": "Review discharge wording and executability beyond already recorded radical-membership advice."
+        },
+        {
+          "start_line": 109,
+          "end_line": 142,
+          "anchor": "### 1.4 MCP server \u2014 `grandportage/mcp.py` + `cas.py`",
+          "cases": [
+            "GP-A19",
+            "GP-C04"
+          ],
+          "disposition": "covered_slice",
+          "review": "Identifier-shadowing incident and positive variable-name control are extracted.",
+          "remaining": "Declaration-before-spawn enforcement and identifier grammar still need complete source disposition."
+        },
+        {
+          "start_line": 143,
+          "end_line": 159,
+          "anchor": "### 1.5 hook \u2014 `grandportage/hook.py`",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Hook policy: malformed graph blocks, missing graph does not; accepted baseline is operational.",
+          "remaining": "Extract baseline freshness and missing-versus-malformed controls from the authorized GP tests."
+        },
+        {
+          "start_line": 160,
+          "end_line": 184,
+          "anchor": "## 2. Data model",
+          "cases": [
+            "GP-X20",
+            "GP-X21"
+          ],
+          "disposition": "covered_slice",
+          "review": "Mapped equivalence differs from literal inclusion; two ideal pullbacks and inverse maps matter. Seven-event description is historical: later verdict and lifecycle records exist.",
+          "remaining": "Complete maps/renamed-coordinate coverage and audit all historical presentation conventions."
+        },
+        {
+          "start_line": 185,
+          "end_line": 208,
+          "anchor": "### Derived severity",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Derived severity uses opposite existence declarations and model identity. This is a graph diagnostic, not independently checked inconsistency.",
+          "remaining": "Extract overlapping/disjoint scope controls and reasoned severity overrides without conflating declarations with held claims."
+        },
+        {
+          "start_line": 209,
+          "end_line": 224,
+          "anchor": "## 3. Why probes exist",
+          "cases": [
+            "GP-A01",
+            "GP-C01"
+          ],
+          "disposition": "covered_slice",
+          "review": "Contrast and non-vacuity explain why changing one semantic input matters; shared-edge contrast regression passed.",
+          "remaining": "Complete fixture-specific control dispositions, including historical annotation corrections."
+        },
+        {
+          "start_line": 225,
+          "end_line": 231,
+          "anchor": "## 4. The two registers",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Registers separate conservative refusal from known false licensing; labels alone are not proofs.",
+          "remaining": ""
+        },
+        {
+          "start_line": 232,
+          "end_line": 252,
+          "anchor": "### `discharge.KNOWN_CONSERVATISM` \u2014 refused more strictly than the truth",
+          "cases": [
+            "GP-X03",
+            "GP-X08",
+            "GP-A07a",
+            "GP-A07b"
+          ],
+          "disposition": "covered_slice",
+          "review": "Empty closure and retained target identities match known conservative differences. Existential versus exhibited nonemptiness is now split in the corpus; old prose is not current vocabulary authority.",
+          "remaining": ""
+        },
+        {
+          "start_line": 253,
+          "end_line": 271,
+          "anchor": "### `discharge.KNOWN_UNSOUND` \u2014 licensed more loosely than the truth",
+          "cases": [
+            "GP-A02"
+          ],
+          "disposition": "covered_slice",
+          "review": "Coefficient descent can produce an inexpressible formula; an empty KNOWN_UNSOUND register is a declaration to audit, not evidence of total soundness.",
+          "remaining": ""
+        },
+        {
+          "start_line": 272,
+          "end_line": 295,
+          "anchor": "## 5. What the port found in the prototypes",
+          "cases": [
+            "GP-A14",
+            "GP-A01"
+          ],
+          "disposition": "covered_slice",
+          "review": "Disconnected Fano route, syzygy annotation and implicit non-Fano existence are historical incidents. Syzygy and contrast mutation tests passed.",
+          "remaining": "Precise non-Fano realization and historical syzygy annotations still need dedicated disposition; do not equate a successful transport mutation with theorem replay."
+        },
+        {
+          "start_line": 296,
+          "end_line": 322,
+          "anchor": "## 6. Build order from here",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Historical build order and frontier counts are not the current work plan. Three gauge witnesses may be one incident, so incident counts must deduplicate by cause.",
+          "remaining": "Campaign-independent-axis evidence, incident deduplication and operational cost await the authorized sweep."
+        }
+      ]
+    },
+    {
+      "path": "REVIEW.md",
+      "sha256": "d168f081e3d943d99b77883f0f8dbe607badfc4f616355ee22d66d5f955abf6e",
+      "lines": 260,
+      "full_text_read": true,
+      "semantic_status": "partial",
+      "sections": [
+        {
+          "start_line": 1,
+          "end_line": 10,
+          "anchor": "# Current review brief",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Versioned current attack brief points to earlier private history. Reading this file does not read that history.",
+          "remaining": ""
+        },
+        {
+          "start_line": 11,
+          "end_line": 130,
+          "anchor": "## Highest-risk claim",
+          "cases": [
+            "GP-A20a",
+            "GP-X10",
+            "GP-X11",
+            "GP-X12",
+            "GP-X13",
+            "GP-X14",
+            "GP-X17",
+            "GP-X18",
+            "GP-X19",
+            "GP-X45",
+            "GP-X46",
+            "GP-X47",
+            "GP-X48",
+            "GP-X49",
+            "GP-X50",
+            "GP-X164",
+            "GP-X165",
+            "GP-X166",
+            "GP-X167",
+            "GP-X168",
+            "GP-X173",
+            "GP-X175",
+            "GP-X176"
+          ],
+          "disposition": "covered_slice",
+          "review": "Read all release-specific attack paragraphs: division, scope/reach, family bridge, sealed authority, point maps, work logs, embedding/ordered roots, migration, native cofactors, number fields, retry lifecycle, custody and publication. Existing cases cover slices only.",
+          "remaining": "Still disposition full scalar-division grammar, family-bridge prerequisites, authority all-subject matrix, wide point maps, work logs, Sturm/sign mutations, scope grammar migrations, environment-independent cofactor replay, process custody and snapshot classification. No blanket closure from this list."
+        },
+        {
+          "start_line": 131,
+          "end_line": 140,
+          "anchor": "## Read-only IR-v2 experiment",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Read-only IR projection has graph effect NONE. PROJECTABLE and Lean names do not create runtime authority.",
+          "remaining": "Review IR projection/meaning-loss/countermodel sources and stopping criterion."
+        },
+        {
+          "start_line": 141,
+          "end_line": 156,
+          "anchor": "## 1. Authority binding",
+          "cases": [
+            "GP-A18",
+            "GP-X45",
+            "GP-X46",
+            "GP-X47",
+            "GP-X48",
+            "GP-X49",
+            "GP-X50",
+            "GP-X171",
+            "GP-X172"
+          ],
+          "disposition": "covered_slice",
+          "review": "Authority binds model and checker context; stale/current merge differs from the two-current retry case.",
+          "remaining": "Complete all reordered-input and cross-chart bindings across verifier subjects."
+        },
+        {
+          "start_line": 157,
+          "end_line": 170,
+          "anchor": "## 2. Exact checker",
+          "cases": [
+            "GP-X15",
+            "GP-X16",
+            "GP-X125",
+            "GP-X126",
+            "GP-X129",
+            "GP-X130",
+            "GP-X134",
+            "GP-X135",
+            "GP-X136",
+            "GP-X138"
+          ],
+          "disposition": "covered_slice",
+          "review": "Exact arithmetic is a separate trusted surface; search miss is not refutation.",
+          "remaining": "Full parser, sparse arithmetic, coefficient/term/exponent budgets and round-trip mutation review remains."
+        },
+        {
+          "start_line": 171,
+          "end_line": 182,
+          "anchor": "## 3. Transport semantics",
+          "cases": [
+            "GP-A07a",
+            "GP-A07b",
+            "GP-A12",
+            "GP-X20",
+            "GP-X21",
+            "GP-X22",
+            "GP-X23",
+            "GP-X177",
+            "GP-X178",
+            "GP-X179",
+            "GP-X180",
+            "GP-X183",
+            "GP-X184",
+            "GP-X185",
+            "GP-X186"
+          ],
+          "disposition": "covered_slice",
+          "review": "Transport, map evidence and cover composition need explicit hypotheses.",
+          "remaining": "All conditional cells and mapped-predicate pullbacks remain to be dispositioned."
+        },
+        {
+          "start_line": 183,
+          "end_line": 195,
+          "anchor": "## 4. Merge and identity",
+          "cases": [
+            "GP-A25a",
+            "GP-A25b",
+            "GP-X142",
+            "GP-X143",
+            "GP-X160",
+            "GP-X171",
+            "GP-X172"
+          ],
+          "disposition": "covered_slice",
+          "review": "Legacy fan-out assay preserves stale/current separation and refuses conflicting normalizations; identical objects under different ids need explicit alias audit.",
+          "remaining": "Two-current receipt order dependency is recorded separately; selective warrant withdrawal unresolved."
+        },
+        {
+          "start_line": 196,
+          "end_line": 209,
+          "anchor": "## 5. Read surfaces",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Read surfaces must agree with folded data and preserve current versus historical debt.",
+          "remaining": "Complete display/read-model comparisons; no mathematical cases inferred from prose questions."
+        },
+        {
+          "start_line": 210,
+          "end_line": 217,
+          "anchor": "## 6. Extracted campaign review",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Companion extraction is a source-location pointer, not proof of reviewed coverage.",
+          "remaining": "Campaign companion reading remains subject to the complete manifest; historical GP-owned deleted tests were separately reviewed."
+        },
+        {
+          "start_line": 218,
+          "end_line": 225,
+          "anchor": "## 7. Project-level falsification",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Project falsification asks whether bounded checkers justify their cost.",
+          "remaining": "KILL-CRITERIA and checker-admission cost analysis remain open."
+        },
+        {
+          "start_line": 226,
+          "end_line": 243,
+          "anchor": "## Licence explanation and corpus intake",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Explain/intake must not turn projection tags, manifest replacement or recovery into authority. Export digests are not signatures.",
+          "remaining": "Review intake tamper, path, baseline and recovery controls; private corpus harvest remains pending."
+        },
+        {
+          "start_line": 244,
+          "end_line": 260,
+          "anchor": "## Backend identification and execution custody (v0.36)",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Nonce-bound in-band identity agrees with probe; mixed traces and failed identity cannot be rehabilitated. Banner identity is not an executable digest.",
+          "remaining": "Extract in-band identity/immutability controls from test_inband_identity.py; no live Singular run claimed."
+        }
+      ]
+    }
+  ]
+}

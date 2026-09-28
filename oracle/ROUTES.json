@@ -1612,6 +1612,56 @@
       "action": "section",
       "layer": "exact_section_and_provenance",
       "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X177": {
+      "kind": "joint_premises",
+      "layer": "conditional_premise_routes",
+      "limitation": "Legacy transport/coverage rule under declared premises; not logical entailment or GP 0.50 held authority. Partition verification is explicitly assumed for rule isolation. Whole checker and renderer also execute without an external CAS."
+    },
+    "GP-X178": {
+      "kind": "joint_premises",
+      "layer": "conditional_premise_routes",
+      "limitation": "Legacy transport/coverage rule under declared premises; not logical entailment or GP 0.50 held authority. Partition verification is explicitly assumed for rule isolation. Whole checker and renderer also execute without an external CAS."
+    },
+    "GP-X179": {
+      "kind": "joint_premises",
+      "layer": "conditional_premise_routes",
+      "limitation": "Legacy transport/coverage rule under declared premises; not logical entailment or GP 0.50 held authority. Partition verification is explicitly assumed for rule isolation. Whole checker and renderer also execute without an external CAS."
+    },
+    "GP-X180": {
+      "kind": "joint_premises",
+      "layer": "conditional_premise_routes",
+      "limitation": "Legacy transport/coverage rule under declared premises; not logical entailment or GP 0.50 held authority. Partition verification is explicitly assumed for rule isolation. Whole checker and renderer also execute without an external CAS."
+    },
+    "GP-X181": {
+      "kind": "joint_premises",
+      "layer": "conditional_premise_routes",
+      "limitation": "Legacy transport/coverage rule under declared premises; not logical entailment or GP 0.50 held authority. Partition verification is explicitly assumed for rule isolation. Whole checker and renderer also execute without an external CAS."
+    },
+    "GP-X182": {
+      "kind": "joint_premises",
+      "layer": "conditional_premise_routes",
+      "limitation": "Legacy transport/coverage rule under declared premises; not logical entailment or GP 0.50 held authority. Partition verification is explicitly assumed for rule isolation. Whole checker and renderer also execute without an external CAS."
+    },
+    "GP-X183": {
+      "kind": "joint_premises",
+      "layer": "conditional_premise_routes",
+      "limitation": "Legacy transport/coverage rule under declared premises; not logical entailment or GP 0.50 held authority. Partition verification is explicitly assumed for rule isolation. Whole checker and renderer also execute without an external CAS."
+    },
+    "GP-X184": {
+      "kind": "joint_premises",
+      "layer": "conditional_premise_routes",
+      "limitation": "Legacy transport/coverage rule under declared premises; not logical entailment or GP 0.50 held authority. Partition verification is explicitly assumed for rule isolation. Whole checker and renderer also execute without an external CAS."
+    },
+    "GP-X185": {
+      "kind": "joint_premises",
+      "layer": "conditional_premise_routes",
+      "limitation": "Legacy transport/coverage rule under declared premises; not logical entailment or GP 0.50 held authority. Partition verification is explicitly assumed for rule isolation. Whole checker and renderer also execute without an external CAS."
+    },
+    "GP-X186": {
+      "kind": "joint_premises",
+      "layer": "conditional_premise_routes",
+      "limitation": "Legacy transport/coverage rule under declared premises; not logical entailment or GP 0.50 held authority. Partition verification is explicitly assumed for rule isolation. Whole checker and renderer also execute without an external CAS."
     }
   }
 }

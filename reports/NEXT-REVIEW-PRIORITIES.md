@@ -10,10 +10,12 @@ The deleted-test reading milestone is complete. These are the remaining work que
 | 4 | Complete the campaign source manifest, then execute the near-miss sweep | All included campaigns accounted for, verbatim private harvest hashes, incident class and cost inventory, and the meaning-risk assessment |
 | 5 | Resolve A24 and X53's profile implications; run the deferred Lean spike after 0a/0b | Actual collapsed-placement model, explicit treatment of unsupported dimension credit, agreed measurable spike cap and written feasibility report |
 
-Current-tree ledger: 368 files, 29 partial, 339 unreviewed, zero claimed fully reviewed. Historical first pass: 29/29 deleted test files read, 226 functions dispositioned, 271 selected test instances passed. Twenty-seven companion-dependent functions and two live-CAS functions remain unrun.
+Current-tree ledger: 368 files, 31 partial, 337 unreviewed, zero claimed fully reviewed. Historical first pass: 29/29 deleted test files read, 226 functions dispositioned, 271 selected test instances passed. Twenty-seven companion-dependent functions and two live-CAS functions remain unrun.
 
 Source-manifest inputs still needed: confirmation of discovered DK/Cloquet/ARR15/Pigeon River locations, missing report/scouting/Highway 61 paths or explicit omissions, optional LSEM/SCOUT scope, and access notes/exclusions. The retained packet explicitly requires the completed manifest before the sweep. Independent GP source review can continue meanwhile.
 
 Batch 8 extracts GP-X125-141 and records the specific current-tree dispositions in corpus/CURRENT-ALGEBRA-REVIEW.json. The F23 and exponent-nine saturation controls replay offline; constructor execution against a real Singular process remains unverified. Batch 9 follows with 35 lifecycle/provenance cases and a retry/merge diagnostic.
 
 The next substantial slice should cover transitive joint versus alternative support, contradictory current evidence, and documentation/theory requirements for a total fold. Selective warrant retraction and failed-retry survival remain explicit design questions. Do not read the old active-field projection as the chosen 0.50 semantics.
+
+Batch 10 extracts common-context, every-required-leg, explicit-missing-premise and cover-premise controls (GP-X177-186). DOCUMENT-REVIEW.json covers all lines of DESIGN.md and REVIEW.md with explicit remaining work. Prioritize the named follow-ups, SPEC/theory and earlier history; source reading is not equivalent to full extraction.

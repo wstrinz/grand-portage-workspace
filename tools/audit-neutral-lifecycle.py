@@ -35,5 +35,5 @@ def main():
     assert not any(graph_records(json.loads(p.read_text(encoding='utf-8'))['inputs']) for p in cases)
     report=dict(authority='ADAPTER_MIGRATION_AUDIT',cases=results,controls=controls,case_count_scanned=len(cases),embedded_gp_event_objects=0,script_sha256=sha('tools/audit-neutral-lifecycle.py'),adapter_sha256=sha('tools/lifecycle_inputs.py'),baseline_sha256=sha('oracle/LIFECYCLE-INPUT-BASELINE.json'),limitation='Exact translation and structural scan do not prove complete semantic neutrality of every corpus family. Mutation controls are temporary and never rewrite case expectations.')
     (ROOT/'reports/NEUTRAL-LIFECYCLE-AUDIT.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
-    print('22 exact translations; 4 mutation controls; 217 inputs scanned with no embedded GP event objects.')
+    print(f'{len(results)} exact translations; {len(controls)} mutation controls; {len(cases)} inputs scanned with no embedded GP event objects.')
 if __name__=='__main__':main()

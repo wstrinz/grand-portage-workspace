@@ -4,12 +4,12 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "217 cases; 210 agreements and seven explicitly classified exceptions; current tree 29 partial / 339 unreviewed; historical deleted-test first pass complete.",
+      "evidence": "227 cases; 220 agreements and seven classified exceptions; 31 partial / 337 unreviewed source files. DESIGN and REVIEW fully text-read with outstanding semantic dispositions.",
       "remaining": [
         "Exhaustive source/history disposition, including docs and theory",
         "Resolve or explicitly disposition A24 and X53 for G0",
         "Complete semantic-neutrality review across corpus families; the 22 embedded lifecycle event inputs are now migrated and audited",
-        "Extract joint/alternative support cases and distinguish transport checking from proof entailment"
+        "Joint-route and cover cases extracted; general alternative support, transitive warrant semantics and admitted entailment remain unresolved"
       ]
     },
     "0b": {
