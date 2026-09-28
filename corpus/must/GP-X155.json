@@ -5,45 +5,74 @@
   "title": "Clear untyped debt with a closed supersession cycle",
   "situation": "A closed cycle has no live successor and retires neither defect.",
   "inputs": {
-    "records": [
+    "vocabulary": "lifecycle-scenario/v1",
+    "objects": {
+      "object-1": {
+        "category": "context",
+        "name": "IV",
+        "properties": {
+          "description": "the interval-valued system"
+        }
+      },
+      "object-2": {
+        "category": "context",
+        "name": "PD",
+        "properties": {
+          "description": "the positive-definite locus"
+        }
+      },
+      "object-3": {
+        "category": "relation",
+        "name": "EA",
+        "properties": {
+          "source_context": "IV",
+          "target_context": "PD",
+          "relation_class": "unspecified",
+          "justification": "the step is not yet characterised",
+          "coordinate_action": "unchanged",
+          "unresolved_reason": "nobody has derived what this inclusion loses"
+        }
+      },
+      "object-4": {
+        "category": "relation",
+        "name": "EB",
+        "properties": {
+          "source_context": "IV",
+          "target_context": "PD",
+          "relation_class": "unspecified",
+          "justification": "the step is not yet characterised",
+          "coordinate_action": "unchanged",
+          "unresolved_reason": "nobody has derived what this inclusion loses"
+        }
+      }
+    },
+    "history": [
       {
-        "ev": "model",
-        "id": "IV",
-        "desc": "the interval-valued system"
+        "object": "object-1"
       },
       {
-        "ev": "model",
-        "id": "PD",
-        "desc": "the positive-definite locus"
+        "object": "object-2"
       },
       {
-        "ev": "edge",
-        "id": "EA",
-        "src": "IV",
-        "dst": "PD",
-        "type": "UNTYPED",
-        "why": "the step is not yet characterised",
-        "map_kind": "IDENTITY_MAP",
-        "debt_why": "nobody has derived what this inclusion loses",
-        "supersedes": "EB",
-        "discharge_kind": "RETYPE"
+        "object": "object-3",
+        "replacement": {
+          "prior": "EB",
+          "change": "relation_reclassification"
+        }
       },
       {
-        "ev": "edge",
-        "id": "EB",
-        "src": "IV",
-        "dst": "PD",
-        "type": "UNTYPED",
-        "why": "the step is not yet characterised",
-        "map_kind": "IDENTITY_MAP",
-        "debt_why": "nobody has derived what this inclusion loses",
-        "supersedes": "EA",
-        "discharge_kind": "RETYPE"
+        "object": "object-4",
+        "replacement": {
+          "prior": "EA",
+          "change": "relation_reclassification"
+        }
       }
     ],
-    "rules": [
-      "UNTYPED-EDGE"
-    ]
+    "question": {
+      "concerns": [
+        "unresolved_relation"
+      ]
+    }
   },
   "attempted_conclusion": "Clear untyped debt with a closed supersession cycle.",
   "expected": {

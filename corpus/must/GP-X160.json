@@ -5,35 +5,62 @@
   "title": "Treat a claim at a superseded model as current without repointing",
   "situation": "Model replacement does not automatically repoint consumers.",
   "inputs": {
-    "records": [
+    "vocabulary": "lifecycle-scenario/v1",
+    "objects": {
+      "object-1": {
+        "category": "context",
+        "name": "M",
+        "properties": {
+          "description": "m"
+        }
+      },
+      "object-2": {
+        "category": "context",
+        "name": "N",
+        "properties": {
+          "description": "n"
+        }
+      },
+      "object-3": {
+        "category": "assertion",
+        "name": "C",
+        "properties": {
+          "context": "M",
+          "statement_class": "universal_property",
+          "statement": "P"
+        }
+      },
+      "object-4": {
+        "category": "context",
+        "name": "M2",
+        "properties": {
+          "description": "m"
+        }
+      }
+    },
+    "history": [
       {
-        "ev": "model",
-        "id": "M",
-        "desc": "m"
+        "object": "object-1"
       },
       {
-        "ev": "model",
-        "id": "N",
-        "desc": "n"
+        "object": "object-2"
       },
       {
-        "ev": "claim",
-        "id": "C",
-        "model": "M",
-        "kind": "PREDICATE",
-        "statement": "P"
+        "object": "object-3"
       },
       {
-        "ev": "model",
-        "id": "M2",
-        "desc": "m",
-        "supersedes": "M",
-        "discharge_kind": "RESTATE"
+        "object": "object-4",
+        "replacement": {
+          "prior": "M",
+          "change": "restatement"
+        }
       }
     ],
-    "rules": [
-      "STALE-MODEL"
-    ]
+    "question": {
+      "concerns": [
+        "retired_context_dependency"
+      ]
+    }
   },
   "attempted_conclusion": "Treat a claim at a superseded model as current without repointing.",
   "expected": {

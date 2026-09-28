@@ -5,68 +5,85 @@
   "title": "Fold claim supersession in either branch order",
   "situation": "Supersession is resolved after the full fold, so both orders retain the same records and successor links.",
   "inputs": {
-    "records": [
+    "vocabulary": "lifecycle-scenario/v1",
+    "objects": {
+      "object-1": {
+        "category": "context",
+        "name": "M",
+        "properties": {
+          "description": "m"
+        }
+      },
+      "object-2": {
+        "category": "context",
+        "name": "N",
+        "properties": {
+          "description": "n"
+        }
+      },
+      "object-3": {
+        "category": "assertion",
+        "name": "C",
+        "properties": {
+          "context": "M",
+          "statement_class": "universal_property",
+          "statement": "P"
+        }
+      },
+      "object-4": {
+        "category": "assertion",
+        "name": "C2",
+        "properties": {
+          "context": "M",
+          "statement_class": "universal_property",
+          "statement": "P",
+          "citation": "better citation"
+        }
+      }
+    },
+    "history": [
       {
-        "ev": "model",
-        "id": "M",
-        "desc": "m"
+        "object": "object-1"
       },
       {
-        "ev": "model",
-        "id": "N",
-        "desc": "n"
+        "object": "object-2"
       },
       {
-        "ev": "claim",
-        "id": "C",
-        "model": "M",
-        "kind": "PREDICATE",
-        "statement": "P"
+        "object": "object-3"
       },
       {
-        "ev": "claim",
-        "id": "C2",
-        "model": "M",
-        "kind": "PREDICATE",
-        "statement": "P",
-        "cite": "better citation",
-        "supersedes": "C",
-        "discharge_kind": "AMEND"
+        "object": "object-4",
+        "replacement": {
+          "prior": "C",
+          "change": "annotation_only"
+        }
       }
     ],
-    "prefix": [
-      {
-        "ev": "model",
-        "id": "M",
-        "desc": "m"
-      },
-      {
-        "ev": "model",
-        "id": "N",
-        "desc": "n"
-      }
-    ],
-    "old": [
-      {
-        "ev": "claim",
-        "id": "C",
-        "model": "M",
-        "kind": "PREDICATE",
-        "statement": "P"
-      }
-    ],
-    "new": [
-      {
-        "ev": "claim",
-        "id": "C2",
-        "model": "M",
-        "kind": "PREDICATE",
-        "statement": "P",
-        "cite": "better citation",
-        "supersedes": "C",
-        "discharge_kind": "AMEND"
-      }
-    ]
+    "question": {},
+    "branch_comparison": {
+      "common": [
+        {
+          "object": "object-1"
+        },
+        {
+          "object": "object-2"
+        }
+      ],
+      "first_branch": [
+        {
+          "object": "object-3"
+        }
+      ],
+      "second_branch": [
+        {
+          "object": "object-4",
+          "replacement": {
+            "prior": "C",
+            "change": "annotation_only"
+          }
+        }
+      ]
+    }
   },
   "attempted_conclusion": "Fold claim supersession in either branch order.",
   "expected": {

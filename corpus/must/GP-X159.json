@@ -5,53 +5,87 @@
   "title": "Clear parallel edge debt while an unrelated live edge remains",
   "situation": "Replacing one edge does not resolve another independent parallel declaration.",
   "inputs": {
-    "records": [
+    "vocabulary": "lifecycle-scenario/v1",
+    "objects": {
+      "object-1": {
+        "category": "context",
+        "name": "IV",
+        "properties": {
+          "description": "the interval-valued system"
+        }
+      },
+      "object-2": {
+        "category": "context",
+        "name": "PD",
+        "properties": {
+          "description": "the positive-definite locus"
+        }
+      },
+      "object-3": {
+        "category": "relation",
+        "name": "E-IV-PD",
+        "properties": {
+          "source_context": "IV",
+          "target_context": "PD",
+          "relation_class": "unspecified",
+          "justification": "the step is not yet characterised",
+          "coordinate_action": "unchanged",
+          "unresolved_reason": "nobody has derived what this inclusion loses"
+        }
+      },
+      "object-4": {
+        "category": "relation",
+        "name": "E-IV-PD-RESTRICT",
+        "properties": {
+          "source_context": "IV",
+          "target_context": "PD",
+          "relation_class": "subset_restriction",
+          "justification": "the cut-out subset, same coordinates",
+          "coordinate_action": "unchanged"
+        }
+      },
+      "object-5": {
+        "category": "relation",
+        "name": "EXTRA",
+        "properties": {
+          "source_context": "IV",
+          "target_context": "PD",
+          "relation_class": "subset_restriction",
+          "justification": "the cut-out subset, same coordinates",
+          "coordinate_action": "unchanged"
+        }
+      }
+    },
+    "history": [
       {
-        "ev": "model",
-        "id": "IV",
-        "desc": "the interval-valued system"
+        "object": "object-1"
       },
       {
-        "ev": "model",
-        "id": "PD",
-        "desc": "the positive-definite locus"
+        "object": "object-2"
       },
       {
-        "ev": "edge",
-        "id": "E-IV-PD",
-        "src": "IV",
-        "dst": "PD",
-        "type": "UNTYPED",
-        "why": "the step is not yet characterised",
-        "map_kind": "IDENTITY_MAP",
-        "debt_why": "nobody has derived what this inclusion loses"
+        "object": "object-3"
       },
       {
-        "ev": "edge",
-        "id": "E-IV-PD-RESTRICT",
-        "src": "IV",
-        "dst": "PD",
-        "type": "RESTRICTION",
-        "why": "the cut-out subset, same coordinates",
-        "map_kind": "IDENTITY_MAP",
-        "supersedes": "E-IV-PD",
-        "discharge_kind": "RETYPE"
+        "object": "object-4",
+        "replacement": {
+          "prior": "E-IV-PD",
+          "change": "relation_reclassification"
+        }
       },
       {
-        "ev": "edge",
-        "id": "EXTRA",
-        "src": "IV",
-        "dst": "PD",
-        "type": "RESTRICTION",
-        "why": "the cut-out subset, same coordinates",
-        "map_kind": "IDENTITY_MAP",
-        "supersedes": null,
-        "discharge_kind": "RETYPE"
+        "object": "object-5",
+        "replacement": {
+          "prior": null,
+          "change": "relation_reclassification"
+        }
       }
     ],
-    "rules": [
-      "PARALLEL-EDGE"
-    ]
+    "question": {
+      "concerns": [
+        "competing_relations"
+      ]
+    }
   },
   "attempted_conclusion": "Clear parallel edge debt while an unrelated live edge remains.",
   "expected": {

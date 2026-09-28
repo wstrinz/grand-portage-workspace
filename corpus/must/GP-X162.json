@@ -5,37 +5,63 @@
   "title": "Hide a licensing change inside AMEND",
   "situation": "Adding coefficients_in_base changes licensing and requires relicense review.",
   "inputs": {
-    "records": [
-      {
-        "ev": "model",
-        "id": "M",
-        "desc": "m"
+    "vocabulary": "lifecycle-scenario/v1",
+    "objects": {
+      "object-1": {
+        "category": "context",
+        "name": "M",
+        "properties": {
+          "description": "m"
+        }
       },
-      {
-        "ev": "model",
-        "id": "N",
-        "desc": "n"
+      "object-2": {
+        "category": "context",
+        "name": "N",
+        "properties": {
+          "description": "n"
+        }
       },
-      {
-        "ev": "claim",
-        "id": "C",
-        "model": "M",
-        "kind": "IDENTITY",
-        "statement": "x=y",
-        "identity_origin": "DERIVED"
+      "object-3": {
+        "category": "assertion",
+        "name": "C",
+        "properties": {
+          "context": "M",
+          "statement_class": "polynomial_identity",
+          "statement": "x=y",
+          "identity_basis": "context_equations"
+        }
       },
-      {
-        "ev": "claim",
-        "id": "C2",
-        "model": "M",
-        "kind": "IDENTITY",
-        "statement": "x=y",
-        "identity_origin": "DERIVED",
-        "coefficients_in_base": true,
-        "supersedes": "C",
-        "discharge_kind": "AMEND"
+      "object-4": {
+        "category": "assertion",
+        "name": "C2",
+        "properties": {
+          "context": "M",
+          "statement_class": "polynomial_identity",
+          "statement": "x=y",
+          "identity_basis": "context_equations",
+          "coefficients_from_base": true
+        }
       }
-    ]
+    },
+    "history": [
+      {
+        "object": "object-1"
+      },
+      {
+        "object": "object-2"
+      },
+      {
+        "object": "object-3"
+      },
+      {
+        "object": "object-4",
+        "replacement": {
+          "prior": "C",
+          "change": "annotation_only"
+        }
+      }
+    ],
+    "question": {}
   },
   "attempted_conclusion": "Hide a licensing change inside AMEND.",
   "expected": {

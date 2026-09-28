@@ -5,29 +5,50 @@
   "title": "Allow an edge to supersede itself",
   "situation": "A record cannot be its own successor.",
   "inputs": {
-    "records": [
-      {
-        "ev": "model",
-        "id": "IV",
-        "desc": "the interval-valued system"
+    "vocabulary": "lifecycle-scenario/v1",
+    "objects": {
+      "object-1": {
+        "category": "context",
+        "name": "IV",
+        "properties": {
+          "description": "the interval-valued system"
+        }
       },
-      {
-        "ev": "model",
-        "id": "PD",
-        "desc": "the positive-definite locus"
+      "object-2": {
+        "category": "context",
+        "name": "PD",
+        "properties": {
+          "description": "the positive-definite locus"
+        }
       },
-      {
-        "ev": "edge",
-        "id": "E-IV-PD-RESTRICT",
-        "src": "IV",
-        "dst": "PD",
-        "type": "RESTRICTION",
-        "why": "the cut-out subset, same coordinates",
-        "map_kind": "IDENTITY_MAP",
-        "supersedes": "E-IV-PD-RESTRICT",
-        "discharge_kind": "RETYPE"
+      "object-3": {
+        "category": "relation",
+        "name": "E-IV-PD-RESTRICT",
+        "properties": {
+          "source_context": "IV",
+          "target_context": "PD",
+          "relation_class": "subset_restriction",
+          "justification": "the cut-out subset, same coordinates",
+          "coordinate_action": "unchanged"
+        }
       }
-    ]
+    },
+    "history": [
+      {
+        "object": "object-1"
+      },
+      {
+        "object": "object-2"
+      },
+      {
+        "object": "object-3",
+        "replacement": {
+          "prior": "E-IV-PD-RESTRICT",
+          "change": "relation_reclassification"
+        }
+      }
+    ],
+    "question": {}
   },
   "attempted_conclusion": "Allow an edge to supersede itself.",
   "expected": {

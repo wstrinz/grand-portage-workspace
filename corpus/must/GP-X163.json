@@ -5,35 +5,61 @@
   "title": "Amend a citation without changing licensing",
   "situation": "A citation-only amendment changes no transport-determining field.",
   "inputs": {
-    "records": [
-      {
-        "ev": "model",
-        "id": "M",
-        "desc": "m"
+    "vocabulary": "lifecycle-scenario/v1",
+    "objects": {
+      "object-1": {
+        "category": "context",
+        "name": "M",
+        "properties": {
+          "description": "m"
+        }
       },
-      {
-        "ev": "model",
-        "id": "N",
-        "desc": "n"
+      "object-2": {
+        "category": "context",
+        "name": "N",
+        "properties": {
+          "description": "n"
+        }
       },
-      {
-        "ev": "claim",
-        "id": "C",
-        "model": "M",
-        "kind": "PREDICATE",
-        "statement": "P"
+      "object-3": {
+        "category": "assertion",
+        "name": "C",
+        "properties": {
+          "context": "M",
+          "statement_class": "universal_property",
+          "statement": "P"
+        }
       },
-      {
-        "ev": "claim",
-        "id": "C2",
-        "model": "M",
-        "kind": "PREDICATE",
-        "statement": "P",
-        "cite": "better citation",
-        "supersedes": "C",
-        "discharge_kind": "AMEND"
+      "object-4": {
+        "category": "assertion",
+        "name": "C2",
+        "properties": {
+          "context": "M",
+          "statement_class": "universal_property",
+          "statement": "P",
+          "citation": "better citation"
+        }
       }
-    ]
+    },
+    "history": [
+      {
+        "object": "object-1"
+      },
+      {
+        "object": "object-2"
+      },
+      {
+        "object": "object-3"
+      },
+      {
+        "object": "object-4",
+        "replacement": {
+          "prior": "C",
+          "change": "annotation_only"
+        }
+      }
+    ],
+    "question": {}
   },
   "attempted_conclusion": "Amend a citation without changing licensing.",
   "expected": {

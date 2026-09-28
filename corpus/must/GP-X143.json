@@ -5,18 +5,32 @@
   "title": "Merge conflicting descriptions under one identifier",
   "situation": "A shared identifier cannot silently blend conflicting declarations.",
   "inputs": {
-    "records": [
+    "vocabulary": "lifecycle-scenario/v1",
+    "objects": {
+      "object-1": {
+        "category": "context",
+        "name": "M",
+        "properties": {
+          "description": "model"
+        }
+      },
+      "object-2": {
+        "category": "context",
+        "name": "M",
+        "properties": {
+          "description": "different"
+        }
+      }
+    },
+    "history": [
       {
-        "ev": "model",
-        "id": "M",
-        "desc": "model"
+        "object": "object-1"
       },
       {
-        "ev": "model",
-        "id": "M",
-        "desc": "different"
+        "object": "object-2"
       }
-    ]
+    ],
+    "question": {}
   },
   "attempted_conclusion": "Merge conflicting descriptions under one identifier.",
   "expected": {

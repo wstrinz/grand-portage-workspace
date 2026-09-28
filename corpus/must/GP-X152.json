@@ -5,46 +5,79 @@
   "title": "Combine withdrawal with a live replacement",
   "situation": "Nothing-replaces-it and live replacement cannot both describe one target.",
   "inputs": {
-    "records": [
-      {
-        "ev": "model",
-        "id": "IV",
-        "desc": "the interval-valued system"
+    "vocabulary": "lifecycle-scenario/v1",
+    "objects": {
+      "object-1": {
+        "category": "context",
+        "name": "IV",
+        "properties": {
+          "description": "the interval-valued system"
+        }
       },
-      {
-        "ev": "model",
-        "id": "PD",
-        "desc": "the positive-definite locus"
+      "object-2": {
+        "category": "context",
+        "name": "PD",
+        "properties": {
+          "description": "the positive-definite locus"
+        }
       },
-      {
-        "ev": "edge",
-        "id": "E-IV-PD",
-        "src": "IV",
-        "dst": "PD",
-        "type": "UNTYPED",
-        "why": "the step is not yet characterised",
-        "map_kind": "IDENTITY_MAP",
-        "debt_why": "nobody has derived what this inclusion loses"
+      "object-3": {
+        "category": "relation",
+        "name": "E-IV-PD",
+        "properties": {
+          "source_context": "IV",
+          "target_context": "PD",
+          "relation_class": "unspecified",
+          "justification": "the step is not yet characterised",
+          "coordinate_action": "unchanged",
+          "unresolved_reason": "nobody has derived what this inclusion loses"
+        }
       },
-      {
-        "ev": "edge",
-        "id": "E-IV-PD-RESTRICT",
-        "src": "IV",
-        "dst": "PD",
-        "type": "RESTRICTION",
-        "why": "the cut-out subset, same coordinates",
-        "map_kind": "IDENTITY_MAP",
-        "supersedes": "E-IV-PD",
-        "discharge_kind": "RETYPE"
+      "object-4": {
+        "category": "relation",
+        "name": "E-IV-PD-RESTRICT",
+        "properties": {
+          "source_context": "IV",
+          "target_context": "PD",
+          "relation_class": "subset_restriction",
+          "justification": "the cut-out subset, same coordinates",
+          "coordinate_action": "unchanged"
+        }
       },
-      {
-        "ev": "edge",
-        "id": "W-E",
-        "supersedes": "E-IV-PD",
-        "discharge_kind": "WITHDRAW",
-        "why": "not an edge"
+      "object-5": {
+        "category": "relation",
+        "name": "W-E",
+        "properties": {
+          "justification": "not an edge"
+        }
       }
-    ]
+    },
+    "history": [
+      {
+        "object": "object-1"
+      },
+      {
+        "object": "object-2"
+      },
+      {
+        "object": "object-3"
+      },
+      {
+        "object": "object-4",
+        "replacement": {
+          "prior": "E-IV-PD",
+          "change": "relation_reclassification"
+        }
+      },
+      {
+        "object": "object-5",
+        "replacement": {
+          "prior": "E-IV-PD",
+          "change": "relation_withdrawal"
+        }
+      }
+    ],
+    "question": {}
   },
   "attempted_conclusion": "Combine withdrawal with a live replacement.",
   "expected": {

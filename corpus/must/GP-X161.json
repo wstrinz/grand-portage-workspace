@@ -5,48 +5,82 @@
   "title": "Retain both successors when a claim is split",
   "situation": "One old claim may have several successors; none may be silently overwritten.",
   "inputs": {
-    "records": [
+    "vocabulary": "lifecycle-scenario/v1",
+    "objects": {
+      "object-1": {
+        "category": "context",
+        "name": "M",
+        "properties": {
+          "description": "m"
+        }
+      },
+      "object-2": {
+        "category": "context",
+        "name": "N",
+        "properties": {
+          "description": "n"
+        }
+      },
+      "object-3": {
+        "category": "assertion",
+        "name": "C",
+        "properties": {
+          "context": "M",
+          "statement_class": "universal_property",
+          "statement": "P"
+        }
+      },
+      "object-4": {
+        "category": "assertion",
+        "name": "C2",
+        "properties": {
+          "context": "M",
+          "statement_class": "universal_property",
+          "statement": "P"
+        }
+      },
+      "object-5": {
+        "category": "assertion",
+        "name": "C3",
+        "properties": {
+          "context": "M",
+          "statement_class": "universal_property",
+          "statement": "P"
+        }
+      }
+    },
+    "history": [
       {
-        "ev": "model",
-        "id": "M",
-        "desc": "m"
+        "object": "object-1"
       },
       {
-        "ev": "model",
-        "id": "N",
-        "desc": "n"
+        "object": "object-2"
       },
       {
-        "ev": "claim",
-        "id": "C",
-        "model": "M",
-        "kind": "PREDICATE",
-        "statement": "P"
+        "object": "object-3"
       },
       {
-        "ev": "claim",
-        "id": "C2",
-        "model": "M",
-        "kind": "PREDICATE",
-        "statement": "P",
-        "supersedes": "C",
-        "discharge_kind": "RESTATE"
+        "object": "object-4",
+        "replacement": {
+          "prior": "C",
+          "change": "restatement"
+        }
       },
       {
-        "ev": "claim",
-        "id": "C3",
-        "model": "M",
-        "kind": "PREDICATE",
-        "statement": "P",
-        "supersedes": "C",
-        "discharge_kind": "RESTATE"
+        "object": "object-5",
+        "replacement": {
+          "prior": "C",
+          "change": "restatement"
+        }
       }
     ],
-    "query_id": "C",
-    "successors": [
-      "C2",
-      "C3"
-    ]
+    "question": {
+      "object": "C",
+      "successors": [
+        "C2",
+        "C3"
+      ]
+    }
   },
   "attempted_conclusion": "Retain both successors when a claim is split.",
   "expected": {

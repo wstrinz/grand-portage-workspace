@@ -5,49 +5,86 @@
   "title": "Retain a separate inference after retracting its neighbor",
   "situation": "The separate inference has no dependency on I. This tests lifecycle isolation, not independent checked warrants.",
   "inputs": {
-    "records": [
+    "vocabulary": "lifecycle-scenario/v1",
+    "objects": {
+      "object-1": {
+        "category": "context",
+        "name": "M",
+        "properties": {
+          "description": "m"
+        }
+      },
+      "object-2": {
+        "category": "context",
+        "name": "N",
+        "properties": {
+          "description": "n"
+        }
+      },
+      "object-3": {
+        "category": "assertion",
+        "name": "C",
+        "properties": {
+          "context": "M",
+          "statement_class": "universal_property",
+          "statement": "P"
+        }
+      },
+      "object-4": {
+        "category": "argument",
+        "name": "I",
+        "properties": {
+          "premise": "C",
+          "transport_route": [],
+          "conclusion_class": "universal_property",
+          "conclusion": "P at M"
+        }
+      },
+      "object-5": {
+        "category": "argument",
+        "name": "I2",
+        "properties": {
+          "premise": "C",
+          "transport_route": [],
+          "conclusion_class": "universal_property",
+          "conclusion": "P at M"
+        }
+      },
+      "object-6": {
+        "category": "argument",
+        "name": "R-I",
+        "properties": {
+          "justification": "argument withdrawn"
+        }
+      }
+    },
+    "history": [
       {
-        "ev": "model",
-        "id": "M",
-        "desc": "m"
+        "object": "object-1"
       },
       {
-        "ev": "model",
-        "id": "N",
-        "desc": "n"
+        "object": "object-2"
       },
       {
-        "ev": "claim",
-        "id": "C",
-        "model": "M",
-        "kind": "PREDICATE",
-        "statement": "P"
+        "object": "object-3"
       },
       {
-        "ev": "inference",
-        "id": "I",
-        "claim": "C",
-        "path": [],
-        "concludes_kind": "PREDICATE",
-        "asserted": "P at M"
+        "object": "object-4"
       },
       {
-        "ev": "inference",
-        "id": "I2",
-        "claim": "C",
-        "path": [],
-        "concludes_kind": "PREDICATE",
-        "asserted": "P at M"
+        "object": "object-5"
       },
       {
-        "ev": "inference",
-        "id": "R-I",
-        "supersedes": "I",
-        "discharge_kind": "RETRACT",
-        "why": "argument withdrawn"
+        "object": "object-6",
+        "replacement": {
+          "prior": "I",
+          "change": "argument_retraction"
+        }
       }
     ],
-    "query_id": "I2"
+    "question": {
+      "object": "I2"
+    }
   },
   "attempted_conclusion": "Retain a separate inference after retracting its neighbor.",
   "expected": {

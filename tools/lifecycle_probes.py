@@ -14,6 +14,9 @@ def snapshot(g):
 
 def probe(case,route):
     d=case['inputs'];action=route['action']
+    if d.get('vocabulary') == 'lifecycle-scenario/v1':
+        from lifecycle_inputs import decode
+        d=decode(d)
     if action in ('fold','no_rule','clean','absent','successors','order'):
         try:
             g=fold(d['records'])

@@ -5,70 +5,86 @@
   "title": "Fold edge supersession in either branch order",
   "situation": "Supersession is resolved after the full fold, so both orders retain the same records and successor links.",
   "inputs": {
-    "records": [
+    "vocabulary": "lifecycle-scenario/v1",
+    "objects": {
+      "object-1": {
+        "category": "context",
+        "name": "M",
+        "properties": {
+          "description": "m"
+        }
+      },
+      "object-2": {
+        "category": "context",
+        "name": "N",
+        "properties": {
+          "description": "n"
+        }
+      },
+      "object-3": {
+        "category": "relation",
+        "name": "E",
+        "properties": {
+          "source_context": "M",
+          "target_context": "N",
+          "relation_class": "equations_forgotten",
+          "justification": "drops equations"
+        }
+      },
+      "object-4": {
+        "category": "relation",
+        "name": "E2",
+        "properties": {
+          "source_context": "M",
+          "target_context": "N",
+          "relation_class": "equations_forgotten",
+          "justification": "drops equations"
+        }
+      }
+    },
+    "history": [
       {
-        "ev": "model",
-        "id": "M",
-        "desc": "m"
+        "object": "object-1"
       },
       {
-        "ev": "model",
-        "id": "N",
-        "desc": "n"
+        "object": "object-2"
       },
       {
-        "ev": "edge",
-        "id": "E",
-        "src": "M",
-        "dst": "N",
-        "type": "NECESSARY_CONDITION",
-        "why": "drops equations"
+        "object": "object-3"
       },
       {
-        "ev": "edge",
-        "id": "E2",
-        "src": "M",
-        "dst": "N",
-        "type": "NECESSARY_CONDITION",
-        "why": "drops equations",
-        "supersedes": "E",
-        "discharge_kind": "RETYPE"
+        "object": "object-4",
+        "replacement": {
+          "prior": "E",
+          "change": "relation_reclassification"
+        }
       }
     ],
-    "prefix": [
-      {
-        "ev": "model",
-        "id": "M",
-        "desc": "m"
-      },
-      {
-        "ev": "model",
-        "id": "N",
-        "desc": "n"
-      }
-    ],
-    "old": [
-      {
-        "ev": "edge",
-        "id": "E",
-        "src": "M",
-        "dst": "N",
-        "type": "NECESSARY_CONDITION",
-        "why": "drops equations"
-      }
-    ],
-    "new": [
-      {
-        "ev": "edge",
-        "id": "E2",
-        "src": "M",
-        "dst": "N",
-        "type": "NECESSARY_CONDITION",
-        "why": "drops equations",
-        "supersedes": "E",
-        "discharge_kind": "RETYPE"
-      }
-    ]
+    "question": {},
+    "branch_comparison": {
+      "common": [
+        {
+          "object": "object-1"
+        },
+        {
+          "object": "object-2"
+        }
+      ],
+      "first_branch": [
+        {
+          "object": "object-3"
+        }
+      ],
+      "second_branch": [
+        {
+          "object": "object-4",
+          "replacement": {
+            "prior": "E",
+            "change": "relation_reclassification"
+          }
+        }
+      ]
+    }
   },
   "attempted_conclusion": "Fold edge supersession in either branch order.",
   "expected": {

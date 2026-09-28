@@ -8,7 +8,7 @@
       "remaining": [
         "Exhaustive source/history disposition, including docs and theory",
         "Resolve or explicitly disposition A24 and X53 for G0",
-        "Audit neutral-schema compliance: recent lifecycle inputs embed legacy event records, which need a separate neutral projection without changing expected verdicts",
+        "Complete semantic-neutrality review across corpus families; the 22 embedded lifecycle event inputs are now migrated and audited",
         "Extract joint/alternative support cases and distinguish transport checking from proof entailment"
       ]
     },
@@ -45,5 +45,10 @@
   "new_findings": [
     "reports/RETRY-MERGE-AUDIT.json",
     "reports/JOIN-AUTHORITY-AUDIT.json"
-  ]
+  ],
+  "neutral_lifecycle_migration": {
+    "cases": 22,
+    "expected_verdicts_changed": 0,
+    "report": "reports/NEUTRAL-LIFECYCLE-AUDIT.json"
+  }
 }

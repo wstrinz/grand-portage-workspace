@@ -5,58 +5,95 @@
   "title": "Clear stale path debt while a live inference uses a withdrawn edge",
   "situation": "Withdrawal does not hide live traffic over the withdrawn relation.",
   "inputs": {
-    "records": [
+    "vocabulary": "lifecycle-scenario/v1",
+    "objects": {
+      "object-1": {
+        "category": "context",
+        "name": "IV",
+        "properties": {
+          "description": "the interval-valued system"
+        }
+      },
+      "object-2": {
+        "category": "context",
+        "name": "PD",
+        "properties": {
+          "description": "the positive-definite locus"
+        }
+      },
+      "object-3": {
+        "category": "relation",
+        "name": "E-IV-PD",
+        "properties": {
+          "source_context": "IV",
+          "target_context": "PD",
+          "relation_class": "unspecified",
+          "justification": "the step is not yet characterised",
+          "coordinate_action": "unchanged",
+          "unresolved_reason": "nobody has derived what this inclusion loses"
+        }
+      },
+      "object-4": {
+        "category": "assertion",
+        "name": "C-PD",
+        "properties": {
+          "context": "PD",
+          "statement_class": "universal_property",
+          "statement": "the bound holds on PD"
+        }
+      },
+      "object-5": {
+        "category": "argument",
+        "name": "I",
+        "properties": {
+          "premise": "C-PD",
+          "transport_route": [
+            {
+              "relation": "E-IV-PD",
+              "direction": "reverse"
+            }
+          ],
+          "conclusion_class": "universal_property",
+          "conclusion": "so the bound holds on IV as well"
+        }
+      },
+      "object-6": {
+        "category": "relation",
+        "name": "W-E",
+        "properties": {
+          "justification": "not an edge"
+        }
+      }
+    },
+    "history": [
       {
-        "ev": "model",
-        "id": "IV",
-        "desc": "the interval-valued system"
+        "object": "object-1"
       },
       {
-        "ev": "model",
-        "id": "PD",
-        "desc": "the positive-definite locus"
+        "object": "object-2"
       },
       {
-        "ev": "edge",
-        "id": "E-IV-PD",
-        "src": "IV",
-        "dst": "PD",
-        "type": "UNTYPED",
-        "why": "the step is not yet characterised",
-        "map_kind": "IDENTITY_MAP",
-        "debt_why": "nobody has derived what this inclusion loses"
+        "object": "object-3"
       },
       {
-        "ev": "claim",
-        "id": "C-PD",
-        "model": "PD",
-        "kind": "PREDICATE",
-        "statement": "the bound holds on PD"
+        "object": "object-4"
       },
       {
-        "ev": "inference",
-        "id": "I",
-        "claim": "C-PD",
-        "path": [
-          [
-            "E-IV-PD",
-            "AGAINST"
-          ]
-        ],
-        "concludes_kind": "PREDICATE",
-        "asserted": "so the bound holds on IV as well"
+        "object": "object-5"
       },
       {
-        "ev": "edge",
-        "id": "W-E",
-        "supersedes": "E-IV-PD",
-        "discharge_kind": "WITHDRAW",
-        "why": "not an edge"
+        "object": "object-6",
+        "replacement": {
+          "prior": "E-IV-PD",
+          "change": "relation_withdrawal"
+        }
       }
     ],
-    "rules": [
-      "STALE-PATH"
-    ]
+    "question": {
+      "concerns": [
+        "retired_route_dependency"
+      ]
+    }
   },
   "attempted_conclusion": "Clear stale path debt while a live inference uses a withdrawn edge.",
   "expected": {

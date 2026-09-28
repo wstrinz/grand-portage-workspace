@@ -5,37 +5,64 @@
   "title": "Use an edge withdrawal tombstone as an edge",
   "situation": "A tombstone records withdrawal without minting an edge.",
   "inputs": {
-    "records": [
+    "vocabulary": "lifecycle-scenario/v1",
+    "objects": {
+      "object-1": {
+        "category": "context",
+        "name": "IV",
+        "properties": {
+          "description": "the interval-valued system"
+        }
+      },
+      "object-2": {
+        "category": "context",
+        "name": "PD",
+        "properties": {
+          "description": "the positive-definite locus"
+        }
+      },
+      "object-3": {
+        "category": "relation",
+        "name": "E-IV-PD",
+        "properties": {
+          "source_context": "IV",
+          "target_context": "PD",
+          "relation_class": "unspecified",
+          "justification": "the step is not yet characterised",
+          "coordinate_action": "unchanged",
+          "unresolved_reason": "nobody has derived what this inclusion loses"
+        }
+      },
+      "object-4": {
+        "category": "relation",
+        "name": "W-E",
+        "properties": {
+          "justification": "not an edge"
+        }
+      }
+    },
+    "history": [
       {
-        "ev": "model",
-        "id": "IV",
-        "desc": "the interval-valued system"
+        "object": "object-1"
       },
       {
-        "ev": "model",
-        "id": "PD",
-        "desc": "the positive-definite locus"
+        "object": "object-2"
       },
       {
-        "ev": "edge",
-        "id": "E-IV-PD",
-        "src": "IV",
-        "dst": "PD",
-        "type": "UNTYPED",
-        "why": "the step is not yet characterised",
-        "map_kind": "IDENTITY_MAP",
-        "debt_why": "nobody has derived what this inclusion loses"
+        "object": "object-3"
       },
       {
-        "ev": "edge",
-        "id": "W-E",
-        "supersedes": "E-IV-PD",
-        "discharge_kind": "WITHDRAW",
-        "why": "not an edge"
+        "object": "object-4",
+        "replacement": {
+          "prior": "E-IV-PD",
+          "change": "relation_withdrawal"
+        }
       }
     ],
-    "query_id": "W-E",
-    "registry": "edges"
+    "question": {
+      "object": "W-E",
+      "collection": "relations"
+    }
   },
   "attempted_conclusion": "Use an edge withdrawal tombstone as an edge.",
   "expected": {

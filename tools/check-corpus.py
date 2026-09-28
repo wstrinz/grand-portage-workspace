@@ -47,6 +47,9 @@ def validate():
     for path in sorted((ROOT/"corpus/must").glob("*.json")):
         case = json.loads(path.read_text(encoding="utf-8"))
         validator.validate(case)
+        if case["inputs"].get("vocabulary") == "lifecycle-scenario/v1":
+            from lifecycle_inputs import decode
+            decode(case["inputs"])
         if path.stem != case["id"] or case["id"] in ids:
             raise ValueError("Duplicate or mismatched case identifier")
         ids.add(case["id"])
@@ -617,6 +620,8 @@ def main():
               "historical_probe_sha256":sha(ROOT/"tools/historical_probes.py"),
               "current_algebra_probe_sha256":sha(ROOT/"tools/current_algebra_probes.py"),
               "lifecycle_probe_sha256":sha(ROOT/"tools/lifecycle_probes.py"),
+              "lifecycle_input_adapter_sha256":sha(ROOT/"tools/lifecycle_inputs.py"),
+              "lifecycle_baseline_sha256":sha(ROOT/"oracle/LIFECYCLE-INPUT-BASELINE.json"),
               "routes_sha256":sha(ROOT/"oracle/ROUTES.json"),
               "historical_manifest_sha256":sha(ROOT/"oracle/history/PIN.json"),
               "schema_sha256":sha(ROOT/"corpus/case.schema.json"),
