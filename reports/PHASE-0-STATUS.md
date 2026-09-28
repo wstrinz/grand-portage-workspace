@@ -127,3 +127,5 @@ Batch 55 reproduces schema/runtime shape mismatches and unexpected CAS health re
 Batch 56 verifies MCP request/commit boundaries: five diagnostics and six selected source tests pass. JSON array interrupts the request stream; injected post-append reporting failure returns an error after saving the model. No proof admission claim or corpus change. See PHASE-0A-BATCH-56.md.
 
 Batch 57 completes MCP test reading: all 42 tests pass, with injected backends/verifiers where specified. Mutation wrappers and structural COMPOSES/accounting boundaries dispositioned; full MCP source remains partial. Corpus unchanged; 84 partial / 284 unreviewed sources. See PHASE-0A-BATCH-57.md.
+
+Batch 58 completes MCP full text reading and verifies handoff context loss: distinct Q BASE/algebraic-closure models render identically while stored scopes remain distinct. Ignored floor argument and authority wording drift documented. Corpus and semantic coverage totals unchanged. See PHASE-0A-BATCH-58.md.
