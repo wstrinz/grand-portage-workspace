@@ -85,3 +85,5 @@ Batch 34 fully reads the eight-path characteristic fix f2b7c49. Eight isolated h
 Batch 35: reference-checker release slice and six exact sparse-input controls recorded. Four standalone reference validation gaps are blocked by production validation; no new production false licence. Corpus and latest replay unchanged; Phase 0 active.
 
 Batch 36: eight more release path diffs reviewed; twelve of thirty-six now dispositioned. Actual projection CLI output exceeds its 1 MB compact-size check; three retained tests pass and proposed repair recorded. No publication or authority change.
+
+Batch 37: 22 additional release diffs dispositioned; 34/36 complete path diffs read. Registry consistency and conditional Lean scope proof limits recorded; no new runtime authority or Lean execution.

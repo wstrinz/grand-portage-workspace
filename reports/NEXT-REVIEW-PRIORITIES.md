@@ -73,3 +73,5 @@ Batch 34 fully reads the eight-path characteristic fix f2b7c49. Eight isolated h
 Batch 35 reviews four reference-checker release paths and verifies six sparse-boundary controls. Production rejects the four reference-only malformed representations. Continue the other 32 release paths; no full-release credit.
 
 Batch 36 covers eight read-model/publication/extraction release paths and records an actual output-size defect. Continue the remaining 24 release path diffs and semantic extraction; campaign manifest remains pending.
+
+Batch 37 leaves only README.md and SPEC.md for complete v0.27 release path-diff reading. Semantic extraction and wider source/history coverage remain open; reuse prior relevant evidence without broadening its claims.
