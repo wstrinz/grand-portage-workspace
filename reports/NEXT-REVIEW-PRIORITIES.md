@@ -93,3 +93,5 @@ Batch 44 extracts GP-X302–307 canonical pipeline-binding controls. Continue co
 Batch 45: retain coefficient malformed-input totality defect and repair candidate; continue arithmetic dependency and error/budget review. Coverage 71 partial / 297 unreviewed.
 
 Batch 46: continue groebner.py at substitute_polynomial through membership and elimination checks. Preserve generated-output bounds versus input bounds and native-object assumptions as distinct review questions.
+
+Batch 47 completes polynomial checker and test text reading: 43 offline tests pass, one live test deselected; seven inclusion/preflight controls verified. Completeness-only acceptance remains distinct from exact contraction; shared native lists are conservatively rejected as cycles. Corpus unchanged. Source coverage 72 partial / 296 unreviewed; semantic review remains incomplete. See PHASE-0A-BATCH-47.md.
