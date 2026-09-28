@@ -172,10 +172,10 @@
     {
       "path": "tests/test_backend.py",
       "sha256": "99faee8eb7f47e3a39a5fda6e94c553bcf988744d2a7eceb8080291b57cc9650",
-      "full_text_read": false,
+      "full_text_read": true,
       "semantic_status": "partial",
       "functions": [],
-      "remaining": "Only the opening envelope/version tests and final identity-recovery test were read in this slice; algebra/authority/section families retain earlier partial dispositions."
+      "remaining": "Full text review completed in Batch 74; 28 offline tests pass, eight live excluded. See BACKEND-COMPLETE-TEXT-REVIEW.json for scopes and remaining semantic/extraction work."
     },
     {
       "path": "grandportage/cas.py",

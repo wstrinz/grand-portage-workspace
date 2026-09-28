@@ -607,7 +607,7 @@
       "path": "grandportage/backend.py",
       "git_object": "f3f0979d111b4c530767aa173962699435479a07",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/campaign.py",

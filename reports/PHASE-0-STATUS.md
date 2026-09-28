@@ -159,3 +159,5 @@ Batch 71 completes ordered producer/receipt source and regression reading. Twent
 Batch 72 completes triangular checker/tests and both synthetic chain fixture text reviews. All 20 tests pass. Conditional normalization/unit assumptions and graph-map obligations explicitly dispositioned. Corpus unchanged; 133 partial / 235 unreviewed. See PHASE-0A-BATCH-72.md.
 
 Batch 73 completes Groebner producer/test reading and the full materializer function. Twenty-eight offline tests pass, three live Singular tests excluded. Independent completeness/no-invention directions and recording limits documented. Corpus unchanged; 134 partial / 234 unreviewed. See PHASE-0A-BATCH-73.md.
+
+Batch 74 completes backend interface and backend test text review plus CAS execution/identity slice. Twenty-eight offline tests pass, eight live excluded; four controls verify lossy decoded transcript custody, final-newline digest syntax and direct-API shallow immutability. Corpus unchanged; 135 partial / 233 unreviewed. See PHASE-0A-BATCH-74.md.
