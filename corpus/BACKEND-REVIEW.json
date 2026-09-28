@@ -220,10 +220,10 @@
     {
       "path": "tests/test_boundary.py",
       "sha256": "64ab66da2ae7e9c2be5c4dd8fda370953ef55bc8fe4acc258aaa8150f0898dcf",
-      "full_text_read": false,
+      "full_text_read": true,
       "semantic_status": "partial",
       "functions": [],
-      "remaining": "Opening declaration/program/error/recording guards read through line 250; broader hook, migration, CLI and verifier tests remain to be dispositioned."
+      "remaining": "Full text reading complete in Batch 78; 42 offline instances pass across complementary Batches 77-78, 13 live unexecuted. See BOUNDARY-TEST-REVIEW.json for per-function dispositions and remaining extraction limits."
     },
     {
       "path": "tests/test_groebner_producer.py",

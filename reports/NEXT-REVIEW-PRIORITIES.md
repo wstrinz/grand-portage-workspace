@@ -155,3 +155,5 @@ Batch 75 reviews all CAS operation helper implementations and verifies three mem
 Batch 76 completes CAS source text reading and verifies three program-custody controls: constructor refusal, mutation after validation, and caller generator metadata differing from output. No mathematical verdict admission claimed. Corpus and coverage unchanged (135 partial / 233 unreviewed). See PHASE-0A-BATCH-76.md.
 
 Batch 77 completes hook source text review and selected baseline tests. Seventeen tests and three controls verify malformed-shape exceptions and changed errors mislabeled unchanged while blocking persists. Corpus unchanged; 135 partial / 233 unreviewed. See PHASE-0A-BATCH-77.md.
+
+Batch 78 completes boundary-test text reading and passes the complementary 25 offline instances. Combined with Batch 77: 42 offline instances pass, 13 live unexecuted. Synthetic transport and mocked inverse tests explicitly scoped. Corpus and coverage unchanged (135 partial / 233 unreviewed). See PHASE-0A-BATCH-78.md.
