@@ -183,7 +183,7 @@
       "full_text_read": false,
       "semantic_status": "partial",
       "functions": [],
-      "remaining": "Identifier/body/scalar-division guards read through 328, launch and process implementation plus identity/provenance slices reviewed. Harmless-comment conservative refusal reproduced; full language parsing, all operation paths and process races remain open."
+      "remaining": "Batch 75 reads all operation helpers from 1286 to end and output block parser. See CAS-OPERATIONS-REVIEW.json. Remaining CASProgram/transport/run_cas full-text closure and process races are open."
     },
     {
       "path": "grandportage/artifacts.py",
