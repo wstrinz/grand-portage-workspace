@@ -644,6 +644,9 @@ def probe(case, route):
     if kind == "structural_dispatch":
         from structural_dispatch_probes import probe as structural_dispatch_probe
         return structural_dispatch_probe(case,route)
+    if kind == "zero_regime_arithmetic":
+        from zero_regime_probes import probe as zero_regime_probe
+        return zero_regime_probe(case,route)
     if kind == "historical_depth8_block":
         from historical_depth8_block_probes import probe as historical_depth8_block_probe
         return historical_depth8_block_probe(case,route)
@@ -687,6 +690,7 @@ def main():
                "historical_residual_probe_sha256":sha(ROOT/"tools/historical_residual_probes.py"),
                "historical_depth8_block_probe_sha256":sha(ROOT/"tools/historical_depth8_block_probes.py"),
                "structural_dispatch_probe_sha256":sha(ROOT/"tools/structural_dispatch_probes.py"),
+               "zero_regime_probe_sha256":sha(ROOT/"tools/zero_regime_probes.py"),
               "current_algebra_probe_sha256":sha(ROOT/"tools/current_algebra_probes.py"),
               "lifecycle_probe_sha256":sha(ROOT/"tools/lifecycle_probes.py"),
               "joint_probe_sha256":sha(ROOT/"tools/joint_probes.py"),

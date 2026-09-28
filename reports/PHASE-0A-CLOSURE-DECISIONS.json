@@ -118,6 +118,23 @@
         "reports/oracle-runs/20260928T211311262604Z.json"
       ],
       "review": "Parent read full probe, both payloads, runner/route diff and pinned eligibility/dispatch branches. Independently validated379 and preserved all377 prior bytes/expectations/verdicts/status/routes/layers. Neutral one-variable branch projection; historical large template not executed. Both ACCEPT observations describe dispatch. Mutation has no native containment verdict; exact membership remains valid."
+    },
+    {
+      "source_blob": "9715cf9f6353e5ba528ffc88f1e84fb8d9e6622d",
+      "source_path": "experiments/jc_h3_adjoint_recurrence/JC-COORDINATOR-DELTA.md",
+      "incident": "ADJOINT-ZERO-PADDED-REGIME-MINIMALITY",
+      "extraction_status": "complete_for_recorded_prose_overstatement",
+      "positive_controls": [
+        "GP-X339"
+      ],
+      "case_ids": [
+        "GP-X340"
+      ],
+      "evidence": [
+        "reports/PHASE-0A-ZERO-REGIME-MINIMALITY-EXTRACTION.md",
+        "reports/oracle-runs/20260928T220044757918Z.json"
+      ],
+      "review": "Parent read full probe and both cases; independently inspected pinned padding branch for every d>=14. Unit degree0 refutes S-1 degree1 minimality on zero regimes; global S8 intact. Reference arithmetic, no native per-regime verdict. Validated381 and verified379 prior bytes and outcomes unchanged."
     }
   ]
 }
