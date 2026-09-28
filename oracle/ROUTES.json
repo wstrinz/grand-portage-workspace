@@ -2295,6 +2295,36 @@
       "kind": "ordered_recording",
       "layer": "native_ordered_receipt_replay",
       "limitation": "Native exact checker plus current-metadata log fold; ordered reach only. No backend or broader field interpretation."
+    },
+    "GP-X312": {
+      "kind": "membership_contraction",
+      "layer": "injected_candidate_exact_replay",
+      "limitation": "Injected producer transcript and independent exact identity replay only; no live CAS or native graph admission."
+    },
+    "GP-X313": {
+      "kind": "membership_contraction",
+      "layer": "injected_candidate_exact_replay",
+      "limitation": "Injected producer transcript and independent exact identity replay only; no live CAS or native graph admission."
+    },
+    "GP-X314": {
+      "kind": "membership_contraction",
+      "layer": "injected_candidate_exact_replay",
+      "limitation": "Injected producer transcript and independent exact identity replay only; no live CAS or native graph admission."
+    },
+    "GP-X315": {
+      "kind": "membership_contraction",
+      "layer": "elimination_and_reverse_identity",
+      "limitation": "Completeness certificate plus explicit reverse membership diagnostic; no materialization, backend execution or graph admission."
+    },
+    "GP-X316": {
+      "kind": "membership_contraction",
+      "layer": "elimination_and_reverse_identity",
+      "limitation": "Completeness certificate plus explicit reverse membership diagnostic; no materialization, backend execution or graph admission."
+    },
+    "GP-X317": {
+      "kind": "membership_contraction",
+      "layer": "elimination_and_reverse_identity",
+      "limitation": "Completeness certificate plus explicit reverse membership diagnostic; no materialization, backend execution or graph admission."
     }
   }
 }
