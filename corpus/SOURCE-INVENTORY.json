@@ -695,7 +695,7 @@
       "path": "grandportage/field.py",
       "git_object": "ecf9990495d337f3c491491bc78938898cb9b763",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/format.py",
@@ -1634,7 +1634,7 @@
       "path": "scripts/check_interpreter_parity.py",
       "git_object": "b45d4368a8bbd506d6fed283c2cff8f24218ca49",
       "category": "other",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "scripts/compact_review_projection.py",
@@ -1694,7 +1694,7 @@
       "path": "tests/fixtures/atlas/ordered_certificate.json",
       "git_object": "a8b12ad7dbfc15dc3704bd3a17b981001486a3f1",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/fixtures/dk_retrodiction/README.md",
@@ -1937,7 +1937,7 @@
       "path": "tests/test_certificate_composition.py",
       "git_object": "5e99131b7f64141c2b9262f129bff4b7b9e49610",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_coefficient_expansion.py",

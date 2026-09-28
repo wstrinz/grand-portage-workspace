@@ -109,3 +109,5 @@ Batch 46: exact polynomial parser/arithmetic/encoding slice read; five controls 
 Batch 47 completes polynomial checker and test text reading: 43 offline tests pass, one live test deselected; seven inclusion/preflight controls verified. Completeness-only acceptance remains distinct from exact contraction; shared native lists are conservatively rejected as cycles. Corpus unchanged. Source coverage 72 partial / 296 unreviewed; semantic review remains incomplete. See PHASE-0A-BATCH-47.md.
 
 Batch 48 reviews localization callers: 29 source tests and six representation controls pass. Sparse guards crash default CLI rendering after verification; mixed infix/sparse duplicates bypass the stated uniqueness contract without falsifying the identity. Fix proposals and narrow soundness arguments recorded. Corpus unchanged; 74 partial / 294 unreviewed sources. See PHASE-0A-BATCH-48.md.
+
+Batch 49 reviews ordered SOS recording and typed routes: 31 tests pass; two native controls reproduce noncanonical model text verifying but failing receipt replay. Canonical input records successfully. Corpus unchanged; 78 partial / 290 unreviewed sources. See PHASE-0A-BATCH-49.md.
