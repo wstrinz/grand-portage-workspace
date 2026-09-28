@@ -1,0 +1,67 @@
+{
+  "path": "grandportage/mcp.py",
+  "sha256": "238e678e9655d59e1607a14150c2fb12c9ceaaca0b485ebd7103fb8723d024fb",
+  "full_text_read": false,
+  "complete_definitions": [
+    {
+      "name": "h_portage_declare",
+      "start": 866,
+      "end": 920
+    },
+    {
+      "name": "h_portage_check",
+      "start": 923,
+      "end": 952
+    },
+    {
+      "name": "dispatch",
+      "start": 1359,
+      "end": 1426
+    },
+    {
+      "name": "_ok",
+      "start": 1429,
+      "end": 1430
+    },
+    {
+      "name": "_fail",
+      "start": 1433,
+      "end": 1435
+    },
+    {
+      "name": "serve",
+      "start": 1438,
+      "end": 1455
+    },
+    {
+      "name": "main",
+      "start": 1458,
+      "end": 1464
+    }
+  ],
+  "test_read_range": {
+    "path": "tests/test_mcp.py",
+    "start": 1,
+    "end": 240,
+    "full_text_read": false
+  },
+  "evidence": [
+    "reports/MCP-REQUEST-COMMIT-BOUNDARY.json",
+    "reports/oracle-mcp-boundary-review.xml"
+  ],
+  "tests": {
+    "passed": 6,
+    "deselected": 36,
+    "selection": "initialize or notifications or unknown_method or malformed_lifecycle or tools_list"
+  },
+  "findings": [
+    "Dispatch performs request/parameter lookups before handler exception containment; a JSON array aborts the stream in the bounded control.",
+    "Declaration validation failure leaves graph unchanged; reporting exceptions after append do not undo committed records.",
+    "Per-call root overrides are explicit caller inputs; root isolation tests are not a filesystem capability or access-control proof."
+  ],
+  "remaining": [
+    "Read remaining MCP tool schemas/handlers and test file.",
+    "Review response commitment semantics across other mutation handlers and retry behavior.",
+    "Keep protocol errors separate from proof REFUSE and held authority."
+  ]
+}

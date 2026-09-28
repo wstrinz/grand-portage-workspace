@@ -111,3 +111,5 @@ Batch 53 completes format/migration text review: 78 tests pass, one backend-depe
 Batch 54 reviews implementation identity: twelve offline tests and three boundary controls pass; live backend test excluded. Cached Git metadata and raw malformed-commit TypeError documented without claiming executable attestation or false acceptance. Corpus unchanged; 83 partial / 285 unreviewed sources. See PHASE-0A-BATCH-54.md.
 
 Batch 55 reproduces schema/runtime shape mismatches and unexpected CAS health reported as healthy by doctor. Four bounded mocked controls pass; no false-proof admission claimed. Source coverage and 352-case corpus unchanged. See PHASE-0A-BATCH-55.md.
+
+Batch 56 verifies MCP request/commit boundaries: five diagnostics and six selected source tests pass. JSON array interrupts the request stream; injected post-append reporting failure returns an error after saving the model. No proof admission claim or corpus change. See PHASE-0A-BATCH-56.md.
