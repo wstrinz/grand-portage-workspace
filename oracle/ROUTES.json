@@ -2077,6 +2077,27 @@
       "layer": "admit_positive_receipt",
       "limitation": "Exact native verifier versus synthetic positive native receipt. Shared-ring convention only; no live producer failure or CAS.",
       "known_difference": "mapped_ring_proof_not_replayed_at_native_admission"
+    },
+    "GP-X269": {
+      "kind": "partition_guards",
+      "layer": "partition_verification",
+      "limitation": "Actual verifier with exact answers to bounded zero-ideal backend questions. No Singular process or persisted verdict."
+    },
+    "GP-X270": {
+      "kind": "partition_guards",
+      "layer": "partition_verification",
+      "limitation": "Actual verifier with exact answers to bounded zero-ideal backend questions. No Singular process or persisted verdict.",
+      "known_difference": "partition_branch_open_guards_omitted"
+    },
+    "GP-X271": {
+      "kind": "partition_guards",
+      "layer": "partition_verification",
+      "limitation": "Actual verifier with exact answers to bounded zero-ideal backend questions. No Singular process or persisted verdict."
+    },
+    "GP-X272": {
+      "kind": "partition_guards",
+      "layer": "partition_verification",
+      "limitation": "Actual verifier with exact answers to bounded zero-ideal backend questions. No Singular process or persisted verdict."
     }
   }
 }

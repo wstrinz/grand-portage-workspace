@@ -57,3 +57,5 @@ Batch 26 compares the exact mapped-ring verifier with native fold admission. Bot
 Batch 27 extracts mapped-ring controls; continue partition and remaining source/history review.
 
 Batch 28 reproduces omitted open branch guards: two D(x) branches miss zero in A1 but ideal-only partition verification returns VERIFIED. Exact zero-ideal backend stub, no CAS. Four point-universe tests pass; portable extraction remains next.
+
+Batch 29 closes portable open-guard counterexample extraction. Continue partition context and source/history review; valid matching-open and mixed covers must survive future repairs.

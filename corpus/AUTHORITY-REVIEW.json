@@ -217,7 +217,8 @@
     "reports/MAPPED-RING-REPLAY-BOUNDARY.json",
     "reports/PHASE-0A-BATCH-27.md",
     "reports/PARTITION-OPEN-GUARD-BOUNDARY.json",
-    "reports/oracle-partition-scope-review.xml"
+    "reports/oracle-partition-scope-review.xml",
+    "reports/PHASE-0A-BATCH-29.md"
   ],
   "cases": [
     "GP-X255",
@@ -233,7 +234,11 @@
     "GP-X265",
     "GP-X266",
     "GP-X267",
-    "GP-X268"
+    "GP-X268",
+    "GP-X269",
+    "GP-X270",
+    "GP-X271",
+    "GP-X272"
   ],
   "producer_boundary_followups": [
     "Section controls extracted as GP-X255-257",
@@ -260,6 +265,12 @@
     ],
     "tests": "Four point-universe controls read and passed; live hole/unit-parent tests read but not run.",
     "finding": "Branch open_conditions are omitted from ideal-only coverage queries. Two D(x) branches in A1 miss zero but partition verifier returns VERIFIED on exact zero-ideal backend responses.",
-    "remaining": "Extract minimal positive/negative cases; review parent guards, selected embeddings and other partition context. No live Singular claim."
+    "remaining": "Extract minimal positive/negative cases; review parent guards, selected embeddings and other partition context. No live Singular claim.",
+    "cases": [
+      "GP-X269",
+      "GP-X270",
+      "GP-X271",
+      "GP-X272"
+    ]
   }
 }

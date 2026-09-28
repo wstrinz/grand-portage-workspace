@@ -315,3 +315,7 @@ Observations remain layer-specific. Conditional transport, premise-route and cov
 | [GP-X266](must/GP-X266.json) | REFUSE | KNOWN_DIFFERENCE | admit_positive_receipt | False pullback cofactor / admit_positive_receipt |
 | [GP-X267](must/GP-X267.json) | REFUSE | AGREES | check_proof | Polynomial map without an inverse / check_proof |
 | [GP-X268](must/GP-X268.json) | REFUSE | KNOWN_DIFFERENCE | admit_positive_receipt | Polynomial map without an inverse / admit_positive_receipt |
+| [GP-X269](must/GP-X269.json) | ACCEPT | AGREES | partition_verification | Closed branches cover the affine line |
+| [GP-X270](must/GP-X270.json) | REFUSE | KNOWN_DIFFERENCE | partition_verification | Two punctured branches miss the origin |
+| [GP-X271](must/GP-X271.json) | ACCEPT | AGREES | partition_verification | Punctured branches cover a matching punctured parent |
+| [GP-X272](must/GP-X272.json) | ACCEPT | AGREES | partition_verification | An unrestricted branch fills the missing origin |
