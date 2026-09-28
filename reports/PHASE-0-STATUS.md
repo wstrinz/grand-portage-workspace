@@ -67,3 +67,5 @@ Batch 25 extracts GP-X258-262 operation-output evidence controls. All 298 previo
 Batch 26 compares the exact mapped-ring verifier with native fold admission. Both invalid controls are refused by the real verifier but admitted when a positive native verdict is deliberately synthesized with current metadata. This diagnoses producer trust, not a real verifier false positive. Corpus unchanged.
 
 Batch 27 adds paired mapped-ring checks GP-X263-268. Real verifier refusals remain distinct from synthetic positive receipt admission. All 303 prior cases unchanged.
+
+Batch 28 reproduces omitted open branch guards: two D(x) branches miss zero in A1 but ideal-only partition verification returns VERIFIED. Exact zero-ideal backend stub, no CAS. Four point-universe tests pass; portable extraction remains next.

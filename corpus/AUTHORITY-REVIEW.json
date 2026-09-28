@@ -215,7 +215,9 @@
     "reports/OPERATION-REPLAY-BOUNDARY.json",
     "reports/PHASE-0A-BATCH-25.md",
     "reports/MAPPED-RING-REPLAY-BOUNDARY.json",
-    "reports/PHASE-0A-BATCH-27.md"
+    "reports/PHASE-0A-BATCH-27.md",
+    "reports/PARTITION-OPEN-GUARD-BOUNDARY.json",
+    "reports/oracle-partition-scope-review.xml"
   ],
   "cases": [
     "GP-X255",
@@ -246,5 +248,18 @@
     ],
     "review": "Exact shared-ring certificate verifier checks ideal pullbacks and polynomial inverse laws. Cross-ring path uses a distinct generator-image convention and backend membership; not tested in this diagnostic. Native provenance eligibility checks schema and map presence, not arithmetic.",
     "remaining": "Remaining solver-backed map branch, cross-ring cases and complete producer/fold extraction."
+  },
+  "partition_review": {
+    "verifier_range": [
+      1516,
+      1684
+    ],
+    "backend_range": [
+      2012,
+      2106
+    ],
+    "tests": "Four point-universe controls read and passed; live hole/unit-parent tests read but not run.",
+    "finding": "Branch open_conditions are omitted from ideal-only coverage queries. Two D(x) branches in A1 miss zero but partition verifier returns VERIFIED on exact zero-ideal backend responses.",
+    "remaining": "Extract minimal positive/negative cases; review parent guards, selected embeddings and other partition context. No live Singular claim."
   }
 }
