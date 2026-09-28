@@ -2244,6 +2244,36 @@
       "kind": "factor_composition",
       "layer": "check_affine_contradiction_pattern",
       "limitation": "Pinned exact checker with explicit exponent-limit profile; refusal may be resource or syntax policy, not a false identity. No graph authority, CAS or model binding."
+    },
+    "GP-X302": {
+      "kind": "laurent_pipeline",
+      "layer": "canonical_pass_composition",
+      "limitation": "Both pinned passes execute independently before exact object binding. Representation refusal is not a false polynomial identity; no graph, chart or source authority."
+    },
+    "GP-X303": {
+      "kind": "laurent_pipeline",
+      "layer": "canonical_pass_composition",
+      "limitation": "Both pinned passes execute independently before exact object binding. Representation refusal is not a false polynomial identity; no graph, chart or source authority."
+    },
+    "GP-X304": {
+      "kind": "laurent_pipeline",
+      "layer": "canonical_pass_composition",
+      "limitation": "Both pinned passes execute independently before exact object binding. Representation refusal is not a false polynomial identity; no graph, chart or source authority."
+    },
+    "GP-X305": {
+      "kind": "laurent_pipeline",
+      "layer": "canonical_pass_composition",
+      "limitation": "Both pinned passes execute independently before exact object binding. Representation refusal is not a false polynomial identity; no graph, chart or source authority."
+    },
+    "GP-X306": {
+      "kind": "laurent_pipeline",
+      "layer": "canonical_pass_composition",
+      "limitation": "Both pinned passes execute independently before exact object binding. Representation refusal is not a false polynomial identity; no graph, chart or source authority."
+    },
+    "GP-X307": {
+      "kind": "laurent_pipeline",
+      "layer": "canonical_pass_composition",
+      "limitation": "Both pinned passes execute independently before exact object binding. Representation refusal is not a false polynomial identity; no graph, chart or source authority."
     }
   }
 }

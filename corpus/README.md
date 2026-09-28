@@ -348,3 +348,9 @@ Observations remain layer-specific. Conditional transport, premise-route and cov
 | [GP-X299](must/GP-X299.json) | REFUSE | AGREES | check_affine_contradiction_pattern | Self-referential affine solution refuses |
 | [GP-X300](must/GP-X300.json) | REFUSE | AGREES | check_affine_contradiction_pattern | Incorrect substituted residual refuses |
 | [GP-X301](must/GP-X301.json) | REFUSE | AGREES | check_affine_contradiction_pattern | Zero residual cannot supply a unit contradiction |
+| [GP-X302](must/GP-X302.json) | ACCEPT | AGREES | canonical_pass_composition | Exact canonical export binds two valid passes |
+| [GP-X303](must/GP-X303.json) | REFUSE | AGREES | canonical_pass_composition | Self-consistent edited intermediate fails export binding |
+| [GP-X304](must/GP-X304.json) | REFUSE | AGREES | canonical_pass_composition | Equivalent infix expression fails canonical-object binding |
+| [GP-X305](must/GP-X305.json) | REFUSE | AGREES | canonical_pass_composition | Missing intermediate binding refuses composition |
+| [GP-X306](must/GP-X306.json) | REFUSE | AGREES | canonical_pass_composition | Duplicate export binding refuses composition |
+| [GP-X307](must/GP-X307.json) | ACCEPT | AGREES | canonical_pass_composition | Unused verified export does not invalidate complete image binding |

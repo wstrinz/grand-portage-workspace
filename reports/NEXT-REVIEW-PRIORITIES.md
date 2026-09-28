@@ -87,3 +87,5 @@ Batch 41: extract factor-power/composition neutral controls next, preserving res
 Batch 42 extracts GP-X292–301 bounded factor/composition controls. Continue remaining compiler/checker and semantic-premise review; keep the nilpotent example diagnostic and resource refusal distinct from mathematical invalidity.
 
 Batch 43: extract canonical pipeline binding controls next. Two valid individual passes do not suffice for composition. Coverage 70 partial / 298 unreviewed; coefficient/arithmetic dependency review still open.
+
+Batch 44 extracts GP-X302–307 canonical pipeline-binding controls. Continue coefficient-expansion/arithmetic and remaining source/history review; selected composition extraction does not close semantic coverage.

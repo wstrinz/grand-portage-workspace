@@ -47,8 +47,16 @@
     "Limits constrain inputs/nodes/support/exponents and polynomial arithmetic; exhaustive resource/error-shape analysis remains open."
   ],
   "remaining": [
-    "Extract neutral composition cases, keeping exact-representation contract explicit.",
+    "Selected canonical-binding controls extracted in GP-X302\u2013307; complete validation/budget/dependency and interpretation coverage still open.",
     "Complete coefficient-expansion and arithmetic dependency review and validation/budget dispositions.",
     "Retain semantic premises and narrow export license; reflexive equality alone is not source validation."
+  ],
+  "corpus_cases": [
+    "GP-X302",
+    "GP-X303",
+    "GP-X304",
+    "GP-X305",
+    "GP-X306",
+    "GP-X307"
   ]
 }
