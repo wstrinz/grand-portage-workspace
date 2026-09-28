@@ -41,10 +41,19 @@
       "cases": [
         "GP-X10",
         "GP-X11",
-        "GP-X12"
+        "GP-X12",
+        "GP-X275",
+        "GP-X276",
+        "GP-X277",
+        "GP-X278",
+        "GP-X279",
+        "GP-X280",
+        "GP-X281",
+        "GP-X282",
+        "GP-X283"
       ],
-      "reviewed": "Entire eight-path commit diff and message read; six document count updates, structural universe gate/design note, and all added tests dispositioned. Fifteen current pinned regression instances pass; evidence reports/POINT-UNIVERSE-HISTORY-REVIEW.json.",
-      "remaining": "Portable extraction of the other relation kinds, both-omitted readability and untyped debt remains. Current tests are not historical execution, full soundness proof, or complete campaign coverage.",
+      "reviewed": "Entire eight-path commit diff and message read; six document count updates, structural universe gate/design note, and all added tests dispositioned. Fifteen current pinned regression instances pass; evidence reports/POINT-UNIVERSE-HISTORY-REVIEW.json. Batch 33 extracts other typed relations, matching/both-omitted readability and untyped debt versus transport controls.",
+      "remaining": "Historical executable and campaign assay not rerun. Broader common-context semantics and all typed relation hypotheses remain outside this incident slice; no global soundness claim.",
       "full_diff_read": true
     },
     {

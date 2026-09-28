@@ -4,7 +4,7 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "315 cases (93 ACCEPT / 222 REFUSE); 301 agreements, eleven known differences and three other classified outcomes. Selected-root cover counterexample extracted; 57 partial / 311 unreviewed sources.",
+      "evidence": "324 cases (96 ACCEPT / 228 REFUSE); 310 agreements, eleven known differences and three other classified outcomes. Nine remaining universe-boundary controls extracted; 57 partial / 311 unreviewed sources.",
       "remaining": [
         "Exhaustive source/history disposition, including docs and theory",
         "Resolve or explicitly disposition A24 and X53 for G0",
@@ -37,7 +37,7 @@
   },
   "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
   "next_work": [
-    "Finish portable relation/omission controls for the fully read point-universe history fix; continue other partial history diffs",
+    "Continue remaining partial history diffs and source disposition",
     "Continue release documents and earlier history",
     "Preserve conservative-refusal cost evidence for the campaign inventory"
   ],

@@ -578,6 +578,9 @@ def probe(case, route):
             receipt_current=stored["current"],effective_certificate=effective,
             baseline_current=True,execution_descriptor="fabricated_historical_test_trace")
 
+    if kind == "universe_boundary":
+        from universe_boundary_probes import probe as universe_probe
+        return universe_probe(case,route)
     if kind == "partition_embeddings":
         from partition_embedding_probes import probe as embedding_probe
         return embedding_probe(case,route)
@@ -672,6 +675,7 @@ def main():
               "mapped_ring_probe_sha256":sha(ROOT/"tools/mapped_ring_probes.py"),
               "partition_guard_probe_sha256":sha(ROOT/"tools/partition_guard_probes.py"),
               "partition_embedding_probe_sha256":sha(ROOT/"tools/partition_embedding_probes.py"),
+              "universe_boundary_probe_sha256":sha(ROOT/"tools/universe_boundary_probes.py"),
               "artifact_fixture_sha256":sha(ORACLE/"tests/test_artifacts.py"),
               "lifecycle_input_adapter_sha256":sha(ROOT/"tools/lifecycle_inputs.py"),
               "lifecycle_baseline_sha256":sha(ROOT/"oracle/LIFECYCLE-INPUT-BASELINE.json"),

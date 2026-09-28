@@ -2109,6 +2109,51 @@
       "layer": "partition_verification",
       "limitation": "Actual native verifier with exact bounded identical-ideal responses; no live CAS or persisted verdict.",
       "known_difference": "partition_selected_embedding_omitted"
+    },
+    "GP-X275": {
+      "kind": "universe_boundary",
+      "layer": "record_step",
+      "limitation": "Actual native fold and conditional untyped transport; readability is not a proof of point existence. No CAS."
+    },
+    "GP-X276": {
+      "kind": "universe_boundary",
+      "layer": "record_step",
+      "limitation": "Actual native fold and conditional untyped transport; readability is not a proof of point existence. No CAS."
+    },
+    "GP-X277": {
+      "kind": "universe_boundary",
+      "layer": "record_step",
+      "limitation": "Actual native fold and conditional untyped transport; readability is not a proof of point existence. No CAS."
+    },
+    "GP-X278": {
+      "kind": "universe_boundary",
+      "layer": "record_step",
+      "limitation": "Actual native fold and conditional untyped transport; readability is not a proof of point existence. No CAS."
+    },
+    "GP-X279": {
+      "kind": "universe_boundary",
+      "layer": "record_step",
+      "limitation": "Actual native fold and conditional untyped transport; readability is not a proof of point existence. No CAS."
+    },
+    "GP-X280": {
+      "kind": "universe_boundary",
+      "layer": "record_step",
+      "limitation": "Actual native fold and conditional untyped transport; readability is not a proof of point existence. No CAS."
+    },
+    "GP-X281": {
+      "kind": "universe_boundary",
+      "layer": "record_step",
+      "limitation": "Actual native fold and conditional untyped transport; readability is not a proof of point existence. No CAS."
+    },
+    "GP-X282": {
+      "kind": "universe_boundary",
+      "layer": "record_step",
+      "limitation": "Actual native fold and conditional untyped transport; readability is not a proof of point existence. No CAS."
+    },
+    "GP-X283": {
+      "kind": "universe_boundary",
+      "layer": "license_nonempty_along",
+      "limitation": "Actual native fold and conditional untyped transport; readability is not a proof of point existence. No CAS."
     }
   }
 }

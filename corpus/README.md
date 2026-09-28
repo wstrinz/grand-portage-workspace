@@ -321,3 +321,12 @@ Observations remain layer-specific. Conditional transport, premise-route and cov
 | [GP-X272](must/GP-X272.json) | ACCEPT | AGREES | partition_verification | An unrestricted branch fills the missing origin |
 | [GP-X273](must/GP-X273.json) | ACCEPT | AGREES | partition_verification | Matching selected roots cover their parent |
 | [GP-X274](must/GP-X274.json) | REFUSE | KNOWN_DIFFERENCE | partition_verification | Negative selected roots do not cover the positive root |
+| [GP-X275](must/GP-X275.json) | REFUSE | AGREES | record_step | NECESSARY_CONDITION refuses incompatible point universes |
+| [GP-X276](must/GP-X276.json) | REFUSE | AGREES | record_step | BASE_EXTENSION refuses incompatible point universes |
+| [GP-X277](must/GP-X277.json) | REFUSE | AGREES | record_step | IMAGE_CLOSURE refuses incompatible point universes |
+| [GP-X278](must/GP-X278.json) | REFUSE | AGREES | record_step | RESTRICTION refuses incompatible point universes |
+| [GP-X279](must/GP-X279.json) | REFUSE | AGREES | record_step | SPECIALIZATION refuses incompatible point universes |
+| [GP-X280](must/GP-X280.json) | ACCEPT | AGREES | record_step | Matching explicit universes remain recordable |
+| [GP-X281](must/GP-X281.json) | ACCEPT | AGREES | record_step | Both-omitted legacy context remains readable |
+| [GP-X282](must/GP-X282.json) | ACCEPT | AGREES | record_step | Untyped context change records explicit debt |
+| [GP-X283](must/GP-X283.json) | REFUSE | AGREES | license_nonempty_along | Untyped context change grants no nonemptiness transport |

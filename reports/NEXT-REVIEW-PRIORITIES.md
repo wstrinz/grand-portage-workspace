@@ -65,3 +65,5 @@ Batch 30 reproduces a selected-embedding partition omission: negative-root branc
 Batch 31 completes selected-root counterexample extraction. Continue remaining source/history review and semantic-neutrality checks.
 
 Batch 32 fully reads the eight-path point-universe fix 93770c6 and passes its broader 15-instance retained regression selection. Historical review remains semantically partial pending all relation/omission corpus controls. No campaign or historical executable run claimed.
+
+Batch 33 extracts the remaining named universe-boundary controls from the fully read historical fix. Continue other partial history diffs and source disposition.
