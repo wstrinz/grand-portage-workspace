@@ -51,3 +51,5 @@ Batch 17 adds fifteen compiler-slot cases and passes fifteen source test instanc
 Batch 18 fully text-reads SCOPE and ARCHITECTURE, passes all 16 architecture tests, and calibrates relative-import-only checking. The private freeze README was corrected from 161 to the tested 160-line limit; patch reapplication and the actual frozen test now pass. Corpus/replay unchanged; source coverage 51 partial / 317 unreviewed.
 
 Batch 19 fully text-reads COMPATIBILITY.md and separates historical semantics, evidence extensions, migration custody and current replay-only requirements. Source coverage 52 partial / 316 unreviewed. No corpus or runtime edits, and no new test execution claimed. OPERATION-CONTRACTS reading is incomplete and receives no new full-read credit.
+
+Batch 20 completes OPERATION-CONTRACTS text reading, reads runtime contract metadata and correspondence tests, and passes 30 tests. Direct effective-verdict mutation tests do not verify persisted authority binding. Header version drift documented; 54 partial / 314 unreviewed.

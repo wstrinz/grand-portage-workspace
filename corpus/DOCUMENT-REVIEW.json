@@ -1290,6 +1290,150 @@
           "remaining": "Complete corresponding implementation/history extraction; document reading alone does not close Phase 0a."
         }
       ]
+    },
+    {
+      "path": "OPERATION-CONTRACTS.md",
+      "sha256": "504532a554b7419c7be734c4c1cd7cc75ded4a8099334731a217741c26177091",
+      "lines": 642,
+      "full_text_read": true,
+      "semantic_status": "partial",
+      "sections": [
+        {
+          "start_line": 1,
+          "end_line": 26,
+          "anchor": "# Operation contracts",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Intended semantics, checked guarantee and licensed consequence are distinct. Header format 3/epoch 10 is stale against pinned format.py constants 8/12; proposed documentation fix is explicit historical scope plus current-version reference.",
+          "remaining": "Complete source-specific extraction and authority binding review; historical campaign claims await authorized sweep."
+        },
+        {
+          "start_line": 27,
+          "end_line": 46,
+          "anchor": "## Contract shape",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Runtime immutable contract values are audit metadata, not proof objects. Exact semantics implies a checked guarantee; the converse is not automatic.",
+          "remaining": "Complete source-specific extraction and authority binding review; historical campaign claims await authorized sweep."
+        },
+        {
+          "start_line": 47,
+          "end_line": 72,
+          "anchor": "## Relational point semantics",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Totality and surjectivity govern different point transports; predicate correspondence, ring identity and freshness remain separate obligations.",
+          "remaining": "Complete source-specific extraction and authority binding review; historical campaign claims await authorized sweep."
+        },
+        {
+          "start_line": 73,
+          "end_line": 97,
+          "anchor": "## Saturation pilot",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Generator saturation witnesses and source containment do not establish completeness. The integer countermodel is a formal illustration, not a Q-polynomial fixture. Runtime tests use incomplete (xy) saturated at x instead.",
+          "remaining": "Complete source-specific extraction and authority binding review; historical campaign claims await authorized sweep."
+        },
+        {
+          "start_line": 98,
+          "end_line": 165,
+          "anchor": "## Elimination pilot",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "No-invention, contraction completeness and point-surjectivity are separate. Sections and finite lift covers have additional point authority; Groebner completeness alone does not. Producer publication may leave orphan artifacts after append failure.",
+          "remaining": "Complete source-specific extraction and authority binding review; historical campaign claims await authorized sweep."
+        },
+        {
+          "start_line": 166,
+          "end_line": 206,
+          "anchor": "## Coefficient-expansion pilot",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Selected coefficient rows give necessity only; complete bounded rows require overflow and exact coordinate binding. Bounded lifts do not inherit unrestricted scalar surjectivity or uniqueness. Campaign examples remain historical pointers.",
+          "remaining": "Complete source-specific extraction and authority binding review; historical campaign claims await authorized sweep."
+        },
+        {
+          "start_line": 207,
+          "end_line": 255,
+          "anchor": "## Principal-open localization certificate pilot",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Localization identity is scoped to declared guards, not ambient equality. Hyperbola exact contraction does not lift the origin; section and predicate factorization require separate premises. Live pressure-test results not newly replayed.",
+          "remaining": "Complete source-specific extraction and authority binding review; historical campaign claims await authorized sweep."
+        },
+        {
+          "start_line": 256,
+          "end_line": 338,
+          "anchor": "## Authority and kernel epoch 8",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Contravariant substitutions and retained-coordinate expressibility are required; flags do not repair ill-typed conditions. Finite charts need joint coverage. Epoch narrative is historical, not current version status.",
+          "remaining": "Complete source-specific extraction and authority binding review; historical campaign claims await authorized sweep."
+        },
+        {
+          "start_line": 339,
+          "end_line": 410,
+          "anchor": "## Implemented contract exposed by rows 7--8: localized unit ideal",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Localized unit ideal earns local EMPTY only. Laurent lowering and coefficient expansion require exact intermediate binding; arithmetic alone does not bind source geometry, antiderivatives, invertibility or whole-campaign conclusions.",
+          "remaining": "Complete source-specific extraction and authority binding review; historical campaign claims await authorized sweep."
+        },
+        {
+          "start_line": 411,
+          "end_line": 454,
+          "anchor": "### Exact factor-power receipt",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Factor-power and affine contradiction receipts require domain/unit/model premises for semantic conclusions. Specialized producer compilation into a smaller independently replayed certificate is distinct from admitting a new authority language.",
+          "remaining": "Complete source-specific extraction and authority binding review; historical campaign claims await authorized sweep."
+        },
+        {
+          "start_line": 455,
+          "end_line": 485,
+          "anchor": "### Exact binary product split",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Product split requires parent-equation binding and constant unit scalar; a parameter scalar can restrict the cover to an open locus. Constructor output still needs exhaustiveness verification and every branch conclusion.",
+          "remaining": "Complete source-specific extraction and authority binding review; historical campaign claims await authorized sweep."
+        },
+        {
+          "start_line": 486,
+          "end_line": 526,
+          "anchor": "### Affine coordinate normalization",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Affine translation retains coordinates and requires inverse-map replay. Exceptional columns and affine-fiber rank do not establish source sufficiency; residual compatibility and completeness remain explicit.",
+          "remaining": "Complete source-specific extraction and authority binding review; historical campaign claims await authorized sweep."
+        },
+        {
+          "start_line": 527,
+          "end_line": 575,
+          "anchor": "### Ordered localized triangular solves",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Ordered triangular solves bind intermediate states and normalization cofactors. Mapped proof envelopes establish exact endpoint-ring authority, not source extraction, chart coverage or parent claims.",
+          "remaining": "Complete source-specific extraction and authority binding review; historical campaign claims await authorized sweep."
+        },
+        {
+          "start_line": 576,
+          "end_line": 619,
+          "anchor": "### Depth-6 graded face extraction",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Selected-face extraction is necessary-only. Literal generator subsets can establish containment with unit cofactors after exact parsing. Upstream original-source membership and reverse lifting remain open; campaign sizes/results are historical reports.",
+          "remaining": "Complete source-specific extraction and authority binding review; historical campaign claims await authorized sweep."
+        },
+        {
+          "start_line": 620,
+          "end_line": 642,
+          "anchor": "## Trust boundary",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Authority manifest is descriptive static metadata, not checker admission. Contract strings and successful local tests are not soundness proofs. Future maps/coverage need evidence, not speculative IR expansion.",
+          "remaining": "Complete source-specific extraction and authority binding review; historical campaign claims await authorized sweep."
+        }
+      ]
     }
   ]
 }

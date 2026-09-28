@@ -643,7 +643,7 @@
       "path": "grandportage/contracts.py",
       "git_object": "bb0fed16061ac973777055698728ecb8b60de964",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/discharge.py",
@@ -1955,7 +1955,7 @@
       "path": "tests/test_contracts.py",
       "git_object": "33ca0201746582b601d7f9e2f3b3d14b4782a3cc",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_corpus_check.py",

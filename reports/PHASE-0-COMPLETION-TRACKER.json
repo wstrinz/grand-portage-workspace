@@ -4,7 +4,7 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "295 cases; 287 agreements and eight classified exceptions; 52 partial / 316 unreviewed sources. Eleven documents fully text-read with explicit remaining semantic work; compatibility history now dispositioned.",
+      "evidence": "295 cases unchanged; 287 agreements and eight classified exceptions; 54 partial / 314 unreviewed sources. Twelve documents fully text-read; 30 contract tests passed with conditional-test limitations recorded.",
       "remaining": [
         "Exhaustive source/history disposition, including docs and theory",
         "Resolve or explicitly disposition A24 and X53 for G0",
