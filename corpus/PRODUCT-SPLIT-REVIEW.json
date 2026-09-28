@@ -77,8 +77,18 @@
     "Injected backend in retained test asserts emitted ideals and returns cover; it does not prove a live backend or all guarded/selected-locus covers."
   ],
   "remaining": [
-    "Extract neutral identity, constructor binding and premise-deletion controls into fixed-expectation corpus.",
+    "Premise-deletion countermodels remain diagnostic pending a suitable fixed-expectation claim route; identity and matching-generator construction controls extracted in GP-X284\u2013291.",
     "Disposition complete validation/budget boundary matrix and dependencies before marking semantic review complete.",
     "Live product-partition regression remains unrun."
+  ],
+  "corpus_cases": [
+    "GP-X284",
+    "GP-X285",
+    "GP-X286",
+    "GP-X287",
+    "GP-X288",
+    "GP-X289",
+    "GP-X290",
+    "GP-X291"
   ]
 }

@@ -2154,6 +2154,46 @@
       "kind": "universe_boundary",
       "layer": "license_nonempty_along",
       "limitation": "Actual native fold and conditional untyped transport; readability is not a proof of point existence. No CAS."
+    },
+    "GP-X284": {
+      "kind": "product_split",
+      "layer": "construct_from_matching_generator",
+      "limitation": "Actual pinned identity checker/constructor; no graph append, coverage verdict, CAS or interpretation theorem. Matching-generator refusal is not a claim that the ideals differ."
+    },
+    "GP-X285": {
+      "kind": "product_split",
+      "layer": "construct_from_matching_generator",
+      "limitation": "Actual pinned identity checker/constructor; no graph append, coverage verdict, CAS or interpretation theorem. Matching-generator refusal is not a claim that the ideals differ."
+    },
+    "GP-X286": {
+      "kind": "product_split",
+      "layer": "construct_from_matching_generator",
+      "limitation": "Actual pinned identity checker/constructor; no graph append, coverage verdict, CAS or interpretation theorem. Matching-generator refusal is not a claim that the ideals differ."
+    },
+    "GP-X287": {
+      "kind": "product_split",
+      "layer": "construct_from_matching_generator",
+      "limitation": "Actual pinned identity checker/constructor; no graph append, coverage verdict, CAS or interpretation theorem. Matching-generator refusal is not a claim that the ideals differ."
+    },
+    "GP-X288": {
+      "kind": "product_split",
+      "layer": "construct_from_matching_generator",
+      "limitation": "Actual pinned identity checker/constructor; no graph append, coverage verdict, CAS or interpretation theorem. Matching-generator refusal is not a claim that the ideals differ."
+    },
+    "GP-X289": {
+      "kind": "product_split",
+      "layer": "check_identity",
+      "limitation": "Actual pinned identity checker/constructor; no graph append, coverage verdict, CAS or interpretation theorem. Matching-generator refusal is not a claim that the ideals differ."
+    },
+    "GP-X290": {
+      "kind": "product_split",
+      "layer": "check_identity",
+      "limitation": "Actual pinned identity checker/constructor; no graph append, coverage verdict, CAS or interpretation theorem. Matching-generator refusal is not a claim that the ideals differ."
+    },
+    "GP-X291": {
+      "kind": "product_split",
+      "layer": "check_identity",
+      "limitation": "Actual pinned identity checker/constructor; no graph append, coverage verdict, CAS or interpretation theorem. Matching-generator refusal is not a claim that the ideals differ."
     }
   }
 }

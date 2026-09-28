@@ -330,3 +330,11 @@ Observations remain layer-specific. Conditional transport, premise-route and cov
 | [GP-X281](must/GP-X281.json) | ACCEPT | AGREES | record_step | Both-omitted legacy context remains readable |
 | [GP-X282](must/GP-X282.json) | ACCEPT | AGREES | record_step | Untyped context change records explicit debt |
 | [GP-X283](must/GP-X283.json) | REFUSE | AGREES | license_nonempty_along | Untyped context change grants no nonemptiness transport |
+| [GP-X284](must/GP-X284.json) | ACCEPT | AGREES | construct_from_matching_generator | Construct branches from a matching product generator |
+| [GP-X285](must/GP-X285.json) | ACCEPT | AGREES | construct_from_matching_generator | Normalize parent polynomial before matching a product |
+| [GP-X286](must/GP-X286.json) | REFUSE | AGREES | construct_from_matching_generator | Do not infer unprovided ideal membership for branch construction |
+| [GP-X287](must/GP-X287.json) | REFUSE | AGREES | construct_from_matching_generator | Variable-unit product needs localization-aware branch construction |
+| [GP-X288](must/GP-X288.json) | REFUSE | AGREES | construct_from_matching_generator | False product identity cannot construct branches |
+| [GP-X289](must/GP-X289.json) | ACCEPT | AGREES | check_identity | Constant-unit binary product identity verifies |
+| [GP-X290](must/GP-X290.json) | ACCEPT | AGREES | check_identity | Declared-variable-unit product verifies only as an identity |
+| [GP-X291](must/GP-X291.json) | REFUSE | AGREES | check_identity | Incorrect binary product identity refuses |

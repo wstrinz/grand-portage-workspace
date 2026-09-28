@@ -80,3 +80,4 @@ Batch 38 closes the v0.27 full-diff-reading gap. Continue remaining semantic/com
 
 Batch 39: extract product identity/constructor/premise controls next. Five newly partial sources, including the previously uncredited operations slice; coverage 62 partial / 306 unreviewed. One live product-partition test remains unrun.
 
+Batch 40 extracts GP-X284–291 product identity/construction controls. Continue premise-deletion and validation-boundary review; do not count diagnostic arithmetic as a graph-level licence.
