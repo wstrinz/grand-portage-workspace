@@ -1,0 +1,109 @@
+{
+  "path": "grandportage/groebner.py",
+  "sha256": "239d045e28c7ee672905dac4c9b0214661ec33d7b10d29e8038c4a8088f16ce2",
+  "full_text_read": false,
+  "complete_read_range": [
+    1,
+    604
+  ],
+  "definitions": [
+    {
+      "name": "CertificateError",
+      "start": 22,
+      "end": 23
+    },
+    {
+      "name": "_valid_characteristic",
+      "start": 44,
+      "end": 47
+    },
+    {
+      "name": "_prime_characteristic",
+      "start": 51,
+      "end": 61
+    },
+    {
+      "name": "_coefficient",
+      "start": 63,
+      "end": 73
+    },
+    {
+      "name": "_coefficient_bits",
+      "start": 76,
+      "end": 79
+    },
+    {
+      "name": "_add",
+      "start": 82,
+      "end": 83
+    },
+    {
+      "name": "_mul",
+      "start": 86,
+      "end": 87
+    },
+    {
+      "name": "_inverse",
+      "start": 90,
+      "end": 100
+    },
+    {
+      "name": "_ArithmeticBudget",
+      "start": 103,
+      "end": 115
+    },
+    {
+      "name": "Polynomial",
+      "start": 118,
+      "end": 306
+    },
+    {
+      "name": "_parse_sparse_polynomial",
+      "start": 309,
+      "end": 412
+    },
+    {
+      "name": "parse_polynomial",
+      "start": 415,
+      "end": 508
+    },
+    {
+      "name": "_coefficient_text",
+      "start": 511,
+      "end": 516
+    },
+    {
+      "name": "render_polynomial",
+      "start": 519,
+      "end": 552
+    },
+    {
+      "name": "encode_sparse_polynomial",
+      "start": 554,
+      "end": 568
+    },
+    {
+      "name": "portable_polynomial",
+      "start": 571,
+      "end": 586
+    },
+    {
+      "name": "canonical_polynomial_value",
+      "start": 589,
+      "end": 593
+    },
+    {
+      "name": "canonical_polynomial",
+      "start": 597,
+      "end": 602
+    }
+  ],
+  "diagnostic": "reports/POLYNOMIAL-REPRESENTATION-BOUNDARY.json",
+  "semantic_status": "partial",
+  "remaining": [
+    "Read complete substitution, membership and elimination certificate paths and their full input preflight.",
+    "Determine which internal object assumptions can be reached through serialized public interfaces; current controls do not establish such a bypass.",
+    "Disposition generated exponent/encoding mismatch as a portable resource-contract case without mislabeling exact identity as false.",
+    "General arithmetic soundness and cumulative work/error totality remain open."
+  ]
+}

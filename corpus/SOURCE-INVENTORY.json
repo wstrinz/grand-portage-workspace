@@ -723,7 +723,8 @@
       "extracted_cases": [
         "GP-X15",
         "GP-X16"
-      ]
+      ],
+      "polynomial_review": "corpus/POLYNOMIAL-REVIEW.json"
     },
     {
       "path": "grandportage/groebner_producer.py",

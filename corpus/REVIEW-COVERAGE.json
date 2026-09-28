@@ -309,5 +309,6 @@
   "product_split_review": "corpus/PRODUCT-SPLIT-REVIEW.json",
   "factor_review": "corpus/FACTOR-COMPOSITION-REVIEW.json",
   "laurent_review": "corpus/LAURENT-PIPELINE-REVIEW.json",
-  "coefficient_review": "corpus/COEFFICIENT-REVIEW.json"
+  "coefficient_review": "corpus/COEFFICIENT-REVIEW.json",
+  "polynomial_review": "corpus/POLYNOMIAL-REVIEW.json"
 }

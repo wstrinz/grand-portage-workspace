@@ -91,3 +91,5 @@ Batch 43: extract canonical pipeline binding controls next. Two valid individual
 Batch 44 extracts GP-X302–307 canonical pipeline-binding controls. Continue coefficient-expansion/arithmetic and remaining source/history review; selected composition extraction does not close semantic coverage.
 
 Batch 45: retain coefficient malformed-input totality defect and repair candidate; continue arithmetic dependency and error/budget review. Coverage 71 partial / 297 unreviewed.
+
+Batch 46: continue groebner.py at substitute_polynomial through membership and elimination checks. Preserve generated-output bounds versus input bounds and native-object assumptions as distinct review questions.
