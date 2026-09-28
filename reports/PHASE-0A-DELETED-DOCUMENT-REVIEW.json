@@ -57,6 +57,28 @@
           "text": "4. Treat adapter refusal as an interface or evidence obligation, not as a"
         }
       ]
+    },
+    {
+      "deletion_commit": "2cac30114573f7b6923c43d86fb22679c4dbedfb",
+      "path": "JC-COORDINATOR-NEXT-PACKET.md",
+      "deleted_blob": "8e43710b45cbce695813df66ebc2b6df732cf618",
+      "exact_retained_matches": [],
+      "disposition": "content_review_needed",
+      "sha256": "bc759e3cfee98ef0af45faa7a1e34ea26ee907c10e145b763ef63863b5ebdbd9",
+      "lines": 224,
+      "full_text_read": true,
+      "extraction_status": "candidate_existing_mappings_pending_payload_review"
+    },
+    {
+      "deletion_commit": "2cac30114573f7b6923c43d86fb22679c4dbedfb",
+      "path": "JC-LEAD-AGENT-PACKET.md",
+      "deleted_blob": "8ed520ec32e0524020b4fbb7edf32e7eef72a0c9",
+      "exact_retained_matches": [],
+      "disposition": "content_review_needed",
+      "sha256": "e87fd910bdd0dfa73c9d880b962f4038b1b3b2637112367571636254a41244e8",
+      "lines": 182,
+      "full_text_read": true,
+      "extraction_status": "candidate_existing_mappings_pending_payload_review"
     }
   ],
   "findings": [
@@ -98,6 +120,34 @@
       "id": "deleted-dm4-prior-proof-spine",
       "status": "recorded_confession_requires_disposition",
       "summary": "The audit withdraws an informal gamma > 2*beta conclusion in favor of a unique-minimum valuation argument. This is a recorded proof correction; do not count it as a newly executed theorem or assume already extracted."
+    },
+    {
+      "id": "deleted-coordinator-normalization-and-seam",
+      "status": "existing_case_mapping_needed",
+      "source": "JC-COORDINATOR-NEXT-PACKET.md",
+      "summary": "Normalization a=c=1 only covers J=a*c^(-3)=1, not arbitrary J fibers. Generic exclusion does not settle exceptional roots; eliminant zeros do not establish source witnesses. Partial coefficient maps do not establish reverse lifting or complete b=0 closure. Matching support does not establish coefficient occurrence. Historical row-count repair is said to preserve output and requires freshness update only if bound digest changes.",
+      "candidate_cases": [
+        "GP-X100",
+        "GP-X101",
+        "GP-X102",
+        "GP-X103",
+        "GP-X104",
+        "GP-X105"
+      ],
+      "limit": "Read GP-owned packet only; historical requests and referenced campaign claims not executed or treated as current authorization."
+    },
+    {
+      "id": "deleted-lead-operation-boundaries",
+      "status": "existing_case_mapping_needed",
+      "source": "JC-LEAD-AGENT-PACKET.md",
+      "summary": "Recorded three-versus-seventeen-generator contraction refusal, separate finite point-lift cover, and dm4=-y/2 versus degree-cap-zero trap. Complete coefficient expansion differs from selected rows; mapped equivalence differs from literal containment; timed-out backend supplies no authority. Active host hook enforcement requires an actual host check and cannot be inferred from source tests.",
+      "candidate_cases": [
+        "GP-X07",
+        "GP-X27",
+        "GP-X28",
+        "GP-X32"
+      ],
+      "limit": "Historical live/build and campaign assertions are source statements, not fresh execution. No onboarding/install/hook instruction followed."
     }
   ],
   "authority": "Source review and elementary symbolic counterexample only; no new corpus expectations or oracle outcomes.",
