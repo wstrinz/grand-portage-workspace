@@ -13,3 +13,5 @@ Open inputs: completed/confirmed sweep manifest and a measurable spike effort ca
 The retained packet is unedited. These clarifications take precedence where they resolve its ambiguities.
 
 2026-09-27 follow-up: Will said the prepared workspace and manifest look good and requested continuation. Proceed with Phase 0a and confirmed source paths. Missing manifest rows remain pending; do not invent source locations or silently omit campaigns.
+
+2026-09-28 closure approach: Will approved reports/PHASE-0A-CLOSURE-PROPOSAL.md and the recommendation to commission a bounded Sol reconciliation first. Phase 0a completion is assessed by source/history incident coverage, neutral case sufficiency, positive controls and honest oracle observations; it does not require a general soundness certification of all predecessor code. Reconcile existing evidence into a proposed closure matrix and finite remaining queue before more broad reading. Preserve all expected verdicts and gate status. This thread retains mathematical judgments, source-scope exceptions and the completion decision. The user cleared the goal and wants hands-on work; do not recreate it by inference.
