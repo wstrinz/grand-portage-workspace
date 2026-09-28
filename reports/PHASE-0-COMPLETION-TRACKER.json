@@ -1,0 +1,49 @@
+{
+  "goal": "Complete Phase 0 or identify concrete blockers; do not advance into Phase 1 by inference.",
+  "status": "active",
+  "lanes": {
+    "0a": {
+      "status": "in_progress",
+      "evidence": "217 cases; 210 agreements and seven explicitly classified exceptions; current tree 29 partial / 339 unreviewed; historical deleted-test first pass complete.",
+      "remaining": [
+        "Exhaustive source/history disposition, including docs and theory",
+        "Resolve or explicitly disposition A24 and X53 for G0",
+        "Audit neutral-schema compliance: recent lifecycle inputs embed legacy event records, which need a separate neutral projection without changing expected verdicts",
+        "Extract joint/alternative support cases and distinguish transport checking from proof entailment"
+      ]
+    },
+    "0b": {
+      "status": "waiting_for_manifest_input",
+      "rule_source": "docs/GP-0.50-REWORK-PACKET.md section 0b item 3",
+      "remaining": [
+        "Confirm discovered campaign paths, missing files or explicit omissions, optional scope and exclusions",
+        "Then private verbatim harvest, hashed manifests, class/cost inventory and meaning-risk assessment"
+      ]
+    },
+    "0c": {
+      "status": "deferred_by_prerequisites",
+      "remaining": [
+        "Finish 0a/0b",
+        "Agree measurable spike cap",
+        "Execute pinned Lean JSONL/process/cofactor/LRAT feasibility work and write report"
+      ]
+    },
+    "0d": {
+      "status": "prepared_not_published",
+      "evidence": "reports/freeze-v0.37.1",
+      "remaining": [
+        "Final completeness and applicability audit of prepared freeze patch and known-issues notes; no public mutation implied"
+      ]
+    }
+  },
+  "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
+  "next_work": [
+    "Close current join/premise review with neutral cases",
+    "Disposition SPEC/DESIGN/review/theory and earlier-history sources systematically",
+    "Keep legacy bugs separate from documented limits and proposed fixes"
+  ],
+  "new_findings": [
+    "reports/RETRY-MERGE-AUDIT.json",
+    "reports/JOIN-AUTHORITY-AUDIT.json"
+  ]
+}

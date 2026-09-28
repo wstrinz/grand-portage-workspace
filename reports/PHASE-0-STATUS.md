@@ -23,3 +23,5 @@ G0 is not yet evaluated; Phase 0 is in progress.
 The chat's default directory still points to C:. Continue explicitly in F:\repos\grandportage-0.50 and keep practical outputs there.
 
 Current lifecycle finding: two current identity receipts can produce different active fields under reversed branch merge order, although both receipts remain retained. The proposed 0.50 policy is not settled; see LIFECYCLE-DESIGN-FINDINGS.md and RETRY-MERGE-AUDIT.json.
+
+2026-09-28: Goal run active toward Phase 0 completion or concrete blockers. PHASE-0-COMPLETION-TRACKER.json records lane requirements. The source-manifest clarification is pending; independent review continues. JOIN-AUTHORITY-AUDIT.json confirms the documented boundary between legacy transport auditing and logical entailment. Neutral-schema compliance of lifecycle event-shaped inputs is an explicit remaining task; no corpus expectations were changed.
