@@ -241,7 +241,7 @@
       "path": "docs/PORTAGE-COMMAND-V0.md",
       "git_object": "18f1ff6d646ffd392f93cb4146426b1fd4bd327a",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "docs/PRESERVATION-ATLAS-PROGRAM.md",
@@ -613,7 +613,7 @@
       "path": "grandportage/campaign.py",
       "git_object": "39d81e0dda09d70d416dde2997c7f7b27c871fd5",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/cas.py",
@@ -1919,7 +1919,7 @@
       "path": "tests/test_campaign.py",
       "git_object": "0aa11d8906448a6a488267f2608bacb621e61f8a",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_cancellation_interpreter.py",
