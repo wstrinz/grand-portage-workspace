@@ -133,3 +133,5 @@ Batch 64 completes campaign packet/ledger source, tests and Portage Command doc 
 Batch 65 completes frontier-bundle source/tests and synthetic fixture text review: 15 tests and five diagnostics pass. Review emission overwrites bound inputs, duplicate open entries distort receipt counts, final-newline IDs pass, and lone replacement references can be absent. Corpus unchanged; 114 partial / 254 unreviewed. See PHASE-0A-BATCH-65.md.
 
 Batch 66 completes frontier projection source/test reading. Eight tests and four diagnostics verify supplied-record authority limits, unknown-status closed classification, history-only fingerprints and literal DISCHARGED propagation. Corpus unchanged; 116 partial / 252 unreviewed. See PHASE-0A-BATCH-66.md.
+
+Batch 67 completes explanation source/tests and Lean name dictionary reading. Five tests pass; native zero-step diagnostic has runtime_licensed/profile_covered true but complete false because the premise lacks authority. Corpus unchanged; 119 partial / 249 unreviewed. See PHASE-0A-BATCH-67.md.

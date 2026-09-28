@@ -675,7 +675,7 @@
       "path": "grandportage/explain.py",
       "git_object": "7e5c7c31a20942332ee8bbbab4447ccdf8006543",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/factor_power.py",
@@ -992,7 +992,7 @@
       "path": "lean/GrandPortage/ExplainChecks.lean",
       "git_object": "983b412853fbf0d16a8e38817c7501f0eb30e7bc",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/GrandPortage/ExpressionTransport.lean",
@@ -2032,7 +2032,7 @@
       "path": "tests/test_explain.py",
       "git_object": "f77c7636ed45b50079f3b4696f25ca787e7d8f35",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_factor_power.py",
