@@ -47,3 +47,5 @@ Batch 15 adds eight exact-replay/availability cases, three structural conformanc
 Batch 16 adds ten launch/recording controls and passes 17 source regression instances. Missing source references are rejected after execution and raw artifact persistence, while graph bytes remain unchanged; proposed preflight improvement recorded separately. Current source coverage: 48 partial / 320 unreviewed.
 
 Batch 17 adds fifteen compiler-slot cases and passes fifteen source test instances, including three process controls. GP-X241 retains expected ACCEPT but the frozen scalar-division guard rejects harmless comments; COMMENT-DIVISION-AUDIT.json isolates the defect. Current coverage: 48 partial / 320 unreviewed. No expected verdict changed.
+
+Batch 18 fully text-reads SCOPE and ARCHITECTURE, passes all 16 architecture tests, and calibrates relative-import-only checking. The private freeze README was corrected from 161 to the tested 160-line limit; patch reapplication and the actual frozen test now pass. Corpus/replay unchanged; source coverage 51 partial / 317 unreviewed.

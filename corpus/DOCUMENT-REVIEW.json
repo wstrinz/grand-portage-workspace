@@ -993,6 +993,231 @@
           "remaining": "Audit each actual adapter and graph-bound verifier separately; no checker admission follows from this harness."
         }
       ]
+    },
+    {
+      "path": "SCOPE.md",
+      "sha256": "e69fe38ac9c61483bc0aa906dc20fc22d14fdf622fbd25e9a729789971abafb8",
+      "lines": 310,
+      "full_text_read": true,
+      "semantic_status": "partial",
+      "sections": [
+        {
+          "start_line": 1,
+          "end_line": 15,
+          "anchor": "# Scope: which mathematics this kernel is for",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Semantic regimes, not shared polynomial syntax, determine what evidence and transport mean.",
+          "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
+        },
+        {
+          "start_line": 16,
+          "end_line": 32,
+          "anchor": "## 1. The regime this kernel owns",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Exact-affine model/ring/point distinction is useful; survival across foreign domains is supporting experience, not proof of nucleus soundness.",
+          "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
+        },
+        {
+          "start_line": 33,
+          "end_line": 37,
+          "anchor": "## 2. The regimes we have actually met",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Historical live regime inventory; underlying campaign sources were not reread.",
+          "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
+        },
+        {
+          "start_line": 38,
+          "end_line": 53,
+          "anchor": "### Exact real / semialgebraic",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Pointwise real claims differ from ideal membership. Later bounded ordered-root support means this historical exclusion is not a complete current feature description.",
+          "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
+        },
+        {
+          "start_line": 54,
+          "end_line": 73,
+          "anchor": "### Optimisation",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Gram identity, SDP feasibility, cone nonmembership and solver-report behavior are different propositions; mathematical and operational statements need distinct sorts.",
+          "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
+        },
+        {
+          "start_line": 74,
+          "end_line": 87,
+          "anchor": "### Finite census",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Census equality is not ideal equality; exhaustive enumeration must have separately admitted completeness evidence. The approved replay-only rule supersedes any trusted-enumerator implication.",
+          "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
+        },
+        {
+          "start_line": 88,
+          "end_line": 98,
+          "anchor": "### Bibliographic resolution",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Citation resolution can select the wrong statement while appearing successful; source object identity and theorem meaning remain separate obligations.",
+          "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
+        },
+        {
+          "start_line": 99,
+          "end_line": 105,
+          "anchor": "### Certified numerics",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Certified numerics explicitly deferred; historical not-yet-met claim is not current campaign evidence.",
+          "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
+        },
+        {
+          "start_line": 106,
+          "end_line": 120,
+          "anchor": "## 3. Non-goals for this kernel",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Arbitrary scripts and discovering missing equations are excluded; denylist compilation limits are now independently reproduced in the corpus.",
+          "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
+        },
+        {
+          "start_line": 121,
+          "end_line": 177,
+          "anchor": "## 4. Make regimes explicit; defer the package split",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Conceptual regimes do not authorize premature package design. Family-to-model bridge is an explicit obligation. The claim that the problem has never been the transport table conflicts with retained table-error confessions and should be narrowed to the cited vocabulary-transfer observation.",
+          "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
+        },
+        {
+          "start_line": 178,
+          "end_line": 211,
+          "anchor": "## 5. The cut that decides what gets automated",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "No inferred joins, self-certified exhaustiveness or uncertainty scores. Constructor output requires independent checked authority; collection of bookkeeping is not proof of entailment.",
+          "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
+        },
+        {
+          "start_line": 212,
+          "end_line": 230,
+          "anchor": "## 6. The test for whether something belongs",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Admission questions include compatible semantics, local validation, composition, honest ignorance and real demand. Apply approved soundness/adversarial requirements as well.",
+          "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
+        },
+        {
+          "start_line": 231,
+          "end_line": 237,
+          "anchor": "## 7. Three concepts the external landscape asked for, run through \u00a76",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Proposed features are evaluated from evidence, not adopted as new edge types here.",
+          "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
+        },
+        {
+          "start_line": 238,
+          "end_line": 254,
+          "anchor": "### Symmetry quotient \u2014 NOT ONE THING, and the useful half already works",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Fixed-locus restriction differs from quotient mapping. The blanket statement that invariant rings are not isomorphic is too broad (a trivial action is an immediate exception); focus on whether the actual quotient map has the required inverse, not abstract presentation isomorphism.",
+          "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
+        },
+        {
+          "start_line": 255,
+          "end_line": 283,
+          "anchor": "### Irreducible components \u2014 a MODEL CONSTRUCTOR, not an edge type",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "facstd is described as a cover, not primary/irreducible decomposition. Wording about a free constructor proof must not bypass independent coverage replay; overlapping pieces and absence of completeness evidence remain material.",
+          "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
+        },
+        {
+          "start_line": 284,
+          "end_line": 310,
+          "anchor": "### DEGENERATION \u2014 IDENTIFIED, NOT BUILT",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Degeneration is deferred and needs a theorem with stated hypotheses. All-six-types-as-literal-inclusions is historical overgeneralization; mapped equivalences already require maps. No seventh edge type or campaign theorem is adopted.",
+          "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
+        }
+      ]
+    },
+    {
+      "path": "ARCHITECTURE.md",
+      "sha256": "4c6cda69df440016f9ce71f7f89d8d095d10a46816d3b066238019639ab75e33",
+      "lines": 172,
+      "full_text_read": true,
+      "semantic_status": "partial",
+      "sections": [
+        {
+          "start_line": 1,
+          "end_line": 7,
+          "anchor": "# Trust architecture",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Logical trust zones are distinct from current Python package layout; implementation is no longer uniformly small.",
+          "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
+        },
+        {
+          "start_line": 8,
+          "end_line": 31,
+          "anchor": "## 1. Semantic core",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Table plus context/reach/binding gates determine use. Pure-zone relative-import tests provide bounded dependency checks, not semantic soundness.",
+          "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
+        },
+        {
+          "start_line": 32,
+          "end_line": 52,
+          "anchor": "## 2. Exact affine evidence",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Standalone bounded affine replay has no graph effect. Independent ordered receipt checker and resource limits need their own proofs and controls.",
+          "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
+        },
+        {
+          "start_line": 53,
+          "end_line": 103,
+          "anchor": "## 3. Authority binding",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Persisted verifier receipts and check-time use are different boundaries. Exact subject/context binding is required. Current provenance-to-CAS and orchestration dependencies are admitted debt; sealed Python values are not proof of whole-program isolation.",
+          "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
+        },
+        {
+          "start_line": 104,
+          "end_line": 138,
+          "anchor": "## 4. Adapters and read surfaces",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Read models, operational packets and publication readiness do not create theorem authority. Native source custody and disagreement refusal require source-specific validation, not just these architectural rules.",
+          "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
+        },
+        {
+          "start_line": 139,
+          "end_line": 157,
+          "anchor": "## Dependency direction",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Desired dependency diagram differs from actual debt. Static tests inspect relative ImportFrom nodes; absolute/dynamic imports are outside that helper, as diagnostic controls confirm.",
+          "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
+        },
+        {
+          "start_line": 158,
+          "end_line": 172,
+          "anchor": "## Evidence promotion",
+          "cases": [],
+          "disposition": "diagnostic_or_followup",
+          "review": "Legacy two-independent-consumers alternative is superseded for this rework by DECISIONS.md item 4: every checker needs a soundness argument and adversarial controls. Prefer compilation into smaller existing certificates, but successful structural conformance is insufficient.",
+          "remaining": "Source-specific semantics, implementation and historical incident extraction remain partial; no new 0.50 design decision inferred."
+        }
+      ]
     }
   ]
 }

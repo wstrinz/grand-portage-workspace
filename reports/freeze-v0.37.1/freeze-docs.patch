@@ -1,12 +1,19 @@
 --- a/README.md
 +++ b/README.md
-@@ -1,3 +1,5 @@
+@@ -1,9 +1,10 @@
 +> *Frozen at v0.37.0. This repository remains the reference implementation and fixture source for a successor now in design. No further feature development here.*
 +
  # Grand Portage
  
  **Transport typing and obstruction tracking for computational algebra.**
-@@ -105,23 +107,23 @@
+ 
+-A computation produces an artifact. The artifact does not carry its own
+-license to conclude. Grand Portage computes which claims remain licensed after each modelling step
++A computation produces an artifact. The artifact does not carry its own license to conclude. Grand Portage computes which claims remain licensed after each modelling step
+ under available evidence, and refuses unsupported conclusions.
+ 
+ ```text
+@@ -105,23 +106,23 @@
  field-relative emptiness scope. The current transport semantics are kernel
  epoch 12.
  

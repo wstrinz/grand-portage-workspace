@@ -4,7 +4,7 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "295 cases; 287 agreements and eight classified exceptions; 48 partial / 320 unreviewed sources. Harmless-comment refusal added as a known conservative difference, expected ACCEPT retained.",
+      "evidence": "295 cases; 287 agreements and eight classified exceptions; 51 partial / 317 unreviewed sources. Scope/architecture documents read; 16 architecture tests and three static-sensitivity controls pass.",
       "remaining": [
         "Exhaustive source/history disposition, including docs and theory",
         "Resolve or explicitly disposition A24 and X53 for G0",
@@ -30,7 +30,7 @@
     },
     "0d": {
       "status": "private_preparation_verified",
-      "evidence": "reports/freeze-v0.37.1/AUDIT.json and RELEASE-HANDOFF.md: exact banner, 17 repairs, current status constants, doc-only patch application, private-link scope and pinned existing tag verified.",
+      "evidence": "reports/freeze-v0.37.1/AUDIT.json and RELEASE-HANDOFF.md; prepared README now 160 lines and actual frozen limit test passes; isolated patch reapplication verified.",
       "remaining": [],
       "deferred_public_actions": "Application/publication and any freeze tag designation remain unperformed under DECISIONS.md item 5; no approval is requested while independent Phase 0 work remains. Existing v0.37.0 release tag is unchanged, with ordinary release annotation."
     }

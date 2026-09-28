@@ -4,8 +4,7 @@
 
 **Transport typing and obstruction tracking for computational algebra.**
 
-A computation produces an artifact. The artifact does not carry its own
-license to conclude. Grand Portage computes which claims remain licensed after each modelling step
+A computation produces an artifact. The artifact does not carry its own license to conclude. Grand Portage computes which claims remain licensed after each modelling step
 under available evidence, and refuses unsupported conclusions.
 
 ```text

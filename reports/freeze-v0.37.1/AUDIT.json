@@ -1,11 +1,11 @@
 {
   "oracle_commit": "ac4155787207e2847d248cffed7be871d5dcd577",
-  "script_sha256": "5a9a377f70d419b7119c31f042bc1bca8bb0003863c5b5a697bd993f87853095",
-  "patch_sha256": "9444dec0302bfebdd5a835143dfee778ce52c841e65e50ea06e4aa64a0ce59e1",
+  "script_sha256": "edd4daf0dd468669ec38e619553e73cc4a036ca8b61404478f8bf7cda273d8a4",
+  "patch_sha256": "69d252096f463dead1b8b8c4e68af05e933c7e4ad16a4c3b4b84d619dcf56fb1",
   "files": [
     {
       "path": "README.md",
-      "sha256": "a79aaa112fbc902837ae09c59bcde1ea683c17b23437024823a425b881b6d263"
+      "sha256": "2eb600072de5d92e383ff753ccb05795df343d0c3ec9050f76be106cd9a9d64f"
     },
     {
       "path": "SPEC.md",
@@ -26,6 +26,8 @@
   },
   "checks": {
     "verbatim_banner": true,
+    "readme_lines": 160,
+    "readme_limit": 160,
     "mojibake_repairs": 17,
     "status_matches_runtime_constants": true,
     "doc_only_paths": [

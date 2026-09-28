@@ -46,7 +46,7 @@
       "path": "ARCHITECTURE.md",
       "git_object": "0266f5a9a30c9a66894ebb8c6bd7981dfa446b79",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "COMPATIBILITY.md",
@@ -141,7 +141,7 @@
       "path": "SCOPE.md",
       "git_object": "f99b6b4e568e44db90ce404a02c19e39d0f4fb10",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "SPEC.md",
@@ -1830,7 +1830,7 @@
       "path": "tests/test_architecture.py",
       "git_object": "9efa4a35b699c05ff8a1cab13d5cbf068d2753f8",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_arr15_contract_closure.py",

@@ -5,8 +5,8 @@
   "current_tree": {
     "total_files": 368,
     "file_statuses": {
-      "unreviewed": 320,
-      "partial": 48
+      "unreviewed": 317,
+      "partial": 51
     },
     "full_review_count": 0
   },
@@ -289,5 +289,6 @@
   "lean_boundary_review": "reports/LEAN-AUTHORITY-BOUNDARIES.md",
   "provenance_review": "reports/PHASE-0A-BATCH-11.md",
   "coverage_inventory_review": "reports/PHASE-0A-BATCH-12.md",
-  "backend_review": "corpus/BACKEND-REVIEW.json"
+  "backend_review": "corpus/BACKEND-REVIEW.json",
+  "architecture_review": "reports/PHASE-0A-BATCH-18.md"
 }
