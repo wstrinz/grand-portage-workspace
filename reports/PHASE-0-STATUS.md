@@ -89,3 +89,5 @@ Batch 36: eight more release path diffs reviewed; twelve of thirty-six now dispo
 Batch 37: 22 additional release diffs dispositioned; 34/36 complete path diffs read. Registry consistency and conditional Lean scope proof limits recorded; no new runtime authority or Lean execution.
 
 Batch 38 completes full v0.27 diff reading: all 36 changed paths and hashes verified. Semantic extraction remains partial. Historical private HISTORY/ link bypasses root-md link check; fix candidate documented.
+
+Batch 39: product checker/constructor review, 28 offline tests passed and neutral premise controls verified. Coverage now 62 partial / 306 unreviewed; corpus unchanged, portable extraction next.

@@ -77,3 +77,6 @@ Batch 36 covers eight read-model/publication/extraction release paths and record
 Batch 37 leaves only README.md and SPEC.md for complete v0.27 release path-diff reading. Semantic extraction and wider source/history coverage remain open; reuse prior relevant evidence without broadening its claims.
 
 Batch 38 closes the v0.27 full-diff-reading gap. Continue remaining semantic/compiler/source review and earlier history; do not repeat these 36 diffs or count reading as Phase 0a completion.
+
+Batch 39: extract product identity/constructor/premise controls next. Five newly partial sources, including the previously uncredited operations slice; coverage 62 partial / 306 unreviewed. One live product-partition test remains unrun.
+

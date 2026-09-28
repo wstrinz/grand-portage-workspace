@@ -445,7 +445,8 @@
       "path": "fixtures/algebraic_contracts/product_split_v1.json",
       "git_object": "54f8d9e322bd868f91c7c3a3a14cd3dd381c170b",
       "category": "fixtures_examples",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "product_split_review": "corpus/PRODUCT-SPLIT-REVIEW.json"
     },
     {
       "path": "fixtures/arr15/n14-nondivfree-member-keys-v1.json",
@@ -795,7 +796,8 @@
       "path": "grandportage/operations.py",
       "git_object": "44593e2e859282c16da36a6dfd770650638dbfa9",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "product_split_review": "corpus/PRODUCT-SPLIT-REVIEW.json"
     },
     {
       "path": "grandportage/ordered.py",
@@ -819,7 +821,8 @@
       "path": "grandportage/product_split.py",
       "git_object": "ad9e37e73bcfc02332ae81693b316bc5f9b7372b",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "product_split_review": "corpus/PRODUCT-SPLIT-REVIEW.json"
     },
     {
       "path": "grandportage/project_v2.py",
@@ -2225,13 +2228,15 @@
       "path": "tests/test_product_partition.py",
       "git_object": "04d8c99a2706318b22bb7064257dfb128b2659c9",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "product_split_review": "corpus/PRODUCT-SPLIT-REVIEW.json"
     },
     {
       "path": "tests/test_product_split.py",
       "git_object": "39235c6d741056d17641a7f1eb336bac20cf5846",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial",
+      "product_split_review": "corpus/PRODUCT-SPLIT-REVIEW.json"
     },
     {
       "path": "tests/test_project_v2.py",
