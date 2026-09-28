@@ -950,7 +950,7 @@
       "path": "lean/GrandPortage/BackendTrust.lean",
       "git_object": "ce8e9e937b94bef7e0419589edcbc1b7c805e28e",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/GrandPortage/CancellationInterpreter.lean",
@@ -986,7 +986,7 @@
       "path": "lean/GrandPortage/Exhaustive.lean",
       "git_object": "84050b2b7619432793561a2ebb7c59d74dba27f1",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/GrandPortage/ExplainChecks.lean",
@@ -1082,7 +1082,7 @@
       "path": "lean/GrandPortage/PartitionContract.lean",
       "git_object": "270a429adb439a0007b3b56442eb5afefdda0bdb",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/GrandPortage/Points.lean",
@@ -1118,7 +1118,7 @@
       "path": "lean/GrandPortage/SelectedEmbedding.lean",
       "git_object": "c78b740de5888c80e99a40f88d914f9f83dc5cb1",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/GrandPortage/SemanticLoss.lean",

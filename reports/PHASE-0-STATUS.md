@@ -179,3 +179,5 @@ Batch 81 reviews requirements classifier/tests and three Lean interface/proof fi
 Batch 82 reviews formal certificate/expression/cancellation implementations and executable sample correspondence. Seven native offline composition tests pass; no Lean compilation or Singular. Corpus unchanged; 157 partial / 211 unreviewed. See PHASE-0A-BATCH-82.md.
 
 Batch 83 fully reads Atlas, relational/point semantics, historical CertificateScope and AtlasParity. Explicit premise and abstract-scope boundaries dispositioned; no Lean run. Corpus unchanged; 162 partial / 206 unreviewed. See PHASE-0A-BATCH-83.md.
+
+Batch 84 reviews IR licences, selected structure, backend trust and partition formal sources. Abstract semantic/freshness hypotheses and overbroad historical coverage prose dispositioned against prior counterexamples. No Lean run. Corpus unchanged; 166 partial / 202 unreviewed. See PHASE-0A-BATCH-84.md.
