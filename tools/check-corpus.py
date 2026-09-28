@@ -578,6 +578,9 @@ def probe(case, route):
             receipt_current=stored["current"],effective_certificate=effective,
             baseline_current=True,execution_descriptor="fabricated_historical_test_trace")
 
+    if kind == "factor_composition":
+        from factor_composition_probes import probe as factor_probe
+        return factor_probe(case,route)
     if kind == "product_split":
         from product_split_probes import probe as product_probe
         return product_probe(case,route)
@@ -678,6 +681,7 @@ def main():
               "mapped_ring_probe_sha256":sha(ROOT/"tools/mapped_ring_probes.py"),
               "partition_guard_probe_sha256":sha(ROOT/"tools/partition_guard_probes.py"),
               "partition_embedding_probe_sha256":sha(ROOT/"tools/partition_embedding_probes.py"),
+              "factor_composition_probe_sha256":sha(ROOT/"tools/factor_composition_probes.py"),
               "product_split_probe_sha256":sha(ROOT/"tools/product_split_probes.py"),
               "universe_boundary_probe_sha256":sha(ROOT/"tools/universe_boundary_probes.py"),
               "artifact_fixture_sha256":sha(ORACLE/"tests/test_artifacts.py"),

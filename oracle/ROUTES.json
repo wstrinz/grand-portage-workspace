@@ -2194,6 +2194,56 @@
       "kind": "product_split",
       "layer": "check_identity",
       "limitation": "Actual pinned identity checker/constructor; no graph append, coverage verdict, CAS or interpretation theorem. Matching-generator refusal is not a claim that the ideals differ."
+    },
+    "GP-X292": {
+      "kind": "factor_composition",
+      "layer": "check_power_identity",
+      "limitation": "Pinned exact checker with explicit exponent-limit profile; refusal may be resource or syntax policy, not a false identity. No graph authority, CAS or model binding."
+    },
+    "GP-X293": {
+      "kind": "factor_composition",
+      "layer": "check_power_identity",
+      "limitation": "Pinned exact checker with explicit exponent-limit profile; refusal may be resource or syntax policy, not a false identity. No graph authority, CAS or model binding."
+    },
+    "GP-X294": {
+      "kind": "factor_composition",
+      "layer": "check_power_identity",
+      "limitation": "Pinned exact checker with explicit exponent-limit profile; refusal may be resource or syntax policy, not a false identity. No graph authority, CAS or model binding."
+    },
+    "GP-X295": {
+      "kind": "factor_composition",
+      "layer": "check_power_identity",
+      "limitation": "Pinned exact checker with explicit exponent-limit profile; refusal may be resource or syntax policy, not a false identity. No graph authority, CAS or model binding."
+    },
+    "GP-X296": {
+      "kind": "factor_composition",
+      "layer": "check_power_identity",
+      "limitation": "Pinned exact checker with explicit exponent-limit profile; refusal may be resource or syntax policy, not a false identity. No graph authority, CAS or model binding."
+    },
+    "GP-X297": {
+      "kind": "factor_composition",
+      "layer": "check_power_identity",
+      "limitation": "Pinned exact checker with explicit exponent-limit profile; refusal may be resource or syntax policy, not a false identity. No graph authority, CAS or model binding."
+    },
+    "GP-X298": {
+      "kind": "factor_composition",
+      "layer": "check_affine_contradiction_pattern",
+      "limitation": "Pinned exact checker with explicit exponent-limit profile; refusal may be resource or syntax policy, not a false identity. No graph authority, CAS or model binding."
+    },
+    "GP-X299": {
+      "kind": "factor_composition",
+      "layer": "check_affine_contradiction_pattern",
+      "limitation": "Pinned exact checker with explicit exponent-limit profile; refusal may be resource or syntax policy, not a false identity. No graph authority, CAS or model binding."
+    },
+    "GP-X300": {
+      "kind": "factor_composition",
+      "layer": "check_affine_contradiction_pattern",
+      "limitation": "Pinned exact checker with explicit exponent-limit profile; refusal may be resource or syntax policy, not a false identity. No graph authority, CAS or model binding."
+    },
+    "GP-X301": {
+      "kind": "factor_composition",
+      "layer": "check_affine_contradiction_pattern",
+      "limitation": "Pinned exact checker with explicit exponent-limit profile; refusal may be resource or syntax policy, not a false identity. No graph authority, CAS or model binding."
     }
   }
 }

@@ -83,3 +83,5 @@ Batch 39: extract product identity/constructor/premise controls next. Five newly
 Batch 40 extracts GP-X284–291 product identity/construction controls. Continue premise-deletion and validation-boundary review; do not count diagnostic arithmetic as a graph-level licence.
 
 Batch 41: extract factor-power/composition neutral controls next, preserving resource refusal versus mathematical invalidity and identity versus model authority. Coverage 68 partial / 300 unreviewed.
+
+Batch 42 extracts GP-X292–301 bounded factor/composition controls. Continue remaining compiler/checker and semantic-premise review; keep the nilpotent example diagnostic and resource refusal distinct from mathematical invalidity.

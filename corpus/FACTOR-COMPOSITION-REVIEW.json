@@ -74,8 +74,20 @@
     "Exponent 64 succeeds in neutral control; 65 is refused as resource policy. Domain-valued interpretation suffices for vanishing-power inference but is stronger than absence of nonzero nilpotents. No weaker 0.50 rule adopted."
   ],
   "remaining": [
-    "Extract portable factor and composition controls with explicit layer-specific questions.",
+    "Selected neutral identity/composition controls extracted in GP-X292\u2013301; remaining validation/budget/dependency and semantic premise dispositions still open.",
     "Complete validation/budget and dependency review; tests and source reading do not constitute checker soundness proof.",
     "Keep semantic countermodels distinct from admitted graph records."
+  ],
+  "corpus_cases": [
+    "GP-X292",
+    "GP-X293",
+    "GP-X294",
+    "GP-X295",
+    "GP-X296",
+    "GP-X297",
+    "GP-X298",
+    "GP-X299",
+    "GP-X300",
+    "GP-X301"
   ]
 }

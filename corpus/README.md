@@ -338,3 +338,13 @@ Observations remain layer-specific. Conditional transport, premise-route and cov
 | [GP-X289](must/GP-X289.json) | ACCEPT | AGREES | check_identity | Constant-unit binary product identity verifies |
 | [GP-X290](must/GP-X290.json) | ACCEPT | AGREES | check_identity | Declared-variable-unit product verifies only as an identity |
 | [GP-X291](must/GP-X291.json) | REFUSE | AGREES | check_identity | Incorrect binary product identity refuses |
+| [GP-X292](must/GP-X292.json) | ACCEPT | AGREES | check_power_identity | Positive power identity verifies |
+| [GP-X293](must/GP-X293.json) | ACCEPT | AGREES | check_power_identity | Maximum declared exponent verifies |
+| [GP-X294](must/GP-X294.json) | REFUSE | AGREES | check_power_identity | Exceeded declared exponent limit refuses |
+| [GP-X295](must/GP-X295.json) | REFUSE | AGREES | check_power_identity | Boolean is not a power exponent |
+| [GP-X296](must/GP-X296.json) | ACCEPT | AGREES | check_power_identity | Declared unit scalar verifies as factor identity |
+| [GP-X297](must/GP-X297.json) | REFUSE | AGREES | check_power_identity | Undeclared scalar variable refuses unit interpretation |
+| [GP-X298](must/GP-X298.json) | ACCEPT | AGREES | check_affine_contradiction_pattern | Affine unit contradiction pattern verifies without model authority |
+| [GP-X299](must/GP-X299.json) | REFUSE | AGREES | check_affine_contradiction_pattern | Self-referential affine solution refuses |
+| [GP-X300](must/GP-X300.json) | REFUSE | AGREES | check_affine_contradiction_pattern | Incorrect substituted residual refuses |
+| [GP-X301](must/GP-X301.json) | REFUSE | AGREES | check_affine_contradiction_pattern | Zero residual cannot supply a unit contradiction |
