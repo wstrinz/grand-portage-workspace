@@ -40,7 +40,9 @@
   "evidence": [
     "reports/oracle-ordered-review.xml",
     "reports/ORDERED-SOS-RECORDING-BOUNDARY.json",
-    "reports/ORDERED-PATH-BOUNDARY.json"
+    "reports/ORDERED-PATH-BOUNDARY.json",
+    "reports/PARTITION-ORDERED-PREMISE-BOUNDARY.json",
+    "reports/oracle-partition-consumer-review.xml"
   ],
   "tests": {
     "passed": 31,
@@ -53,10 +55,11 @@
     "Parity compare binds one concrete fixture and rejects a different valid certificate. This is not general Python/Lean interpreter equivalence; no Lean executable was run.",
     "Family bridge tests establish structural prerequisites and premise-order behavior, not logical entailment of arbitrary assertion prose.",
     "Six real graph controls compare zero and one-step audits before/after native replay: zero routes return true with empty trace independently of receipt; typed R requires current reach, typed C refuses, untyped-about BASE_EXTENSION refuses at R scope.",
-    "Typed R success trace uses generic base-change wording even though the field gate grants only ordered interpretation. Clarify explanations to preserve this distinction."
+    "Typed R success trace uses generic base-change wording even though the field gate grants only ordered interpretation. Clarify explanations to preserve this distinction.",
+    "Legacy partition consumer counts ordered-only branch premises for C and counts unreplayed declarations when a true cover projection is supplied. Current epoch-1 schema rejects via_partition, so this is not an end-to-end native-log bypass."
   ],
   "remaining": [
-    "Review other legacy edge kinds and partition scope composition; selected BASE_EXTENSION controls are not exhaustive.",
+    "Disposition legacy partition scope gap with native schema exclusion, and extract any distinct neutral conditional-composition requirement; other legacy edge kinds remain.",
     "General implementation soundness and complete semantic disposition remain open."
   ],
   "extracted_cases": [

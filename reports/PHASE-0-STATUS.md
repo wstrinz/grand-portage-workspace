@@ -115,3 +115,5 @@ Batch 49 reviews ordered SOS recording and typed routes: 31 tests pass; two nati
 Batch 50 extracts GP-X308–311: full replay has 352 cases, 337 agreements and twelve known differences. Valid noncanonical SOS recording remains an ACCEPT expectation despite conservative legacy rejection. All prior 348 hashes and outcomes are unchanged. See ORDERED-CORPUS-EXTRACTION.json and PHASE-0A-BATCH-50.md.
 
 Batch 51 verifies six ordered path graphs: typed R needs a current receipt, C refuses, and legacy-about-absent base extension stays refused. Zero-step success is transport-only and independent of earned authority. All checker findings retained; no new false-proof admission or corpus difference claimed. See PHASE-0A-BATCH-51.md.
+
+Batch 52 identifies a legacy partition consumer scope gap under an explicitly supplied true cover, while verifying that current epoch-1 schema rejects via_partition. Four legacy controls, one native schema refusal and twelve selected source tests pass. No native-log bypass claimed; corpus remains 352. See PHASE-0A-BATCH-52.md.
