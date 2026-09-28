@@ -707,7 +707,7 @@
       "path": "grandportage/frontier.py",
       "git_object": "d5c42cdc3cee1da32b27a7d66f2e17dcd72ee3e8",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/frontier_bundle.py",
@@ -2070,7 +2070,7 @@
       "path": "tests/test_frontier.py",
       "git_object": "98021554896d66a65ee068d9d28e88ab3ca00fde",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_frontier_bundle.py",
