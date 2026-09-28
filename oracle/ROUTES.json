@@ -2361,6 +2361,61 @@
       "layer": "named_first_order_fiber_witness_replay",
       "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
       "limitation": "Pinned exact L-valued nonzero premise on one named first-order fiber; no native binding, nonlinear or parent exclusion, or graph authority."
+    },
+    "GP-X324": {
+      "kind": "historical_depth8_block",
+      "layer": "historical_necessary_block_replay",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned necessary rank-two block only; symbolic residual unexported, no graph or source equivalence."
+    },
+    "GP-X325": {
+      "kind": "historical_depth8_block",
+      "layer": "historical_native_commitment",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical adapter contract gate only; commitment/projection/ledger refusal does not establish a new mathematical counterexample or graph authority.",
+      "expected_gate": "A2"
+    },
+    "GP-X326": {
+      "kind": "historical_depth8_block",
+      "layer": "historical_native_commitment",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical adapter contract gate only; commitment/projection/ledger refusal does not establish a new mathematical counterexample or graph authority.",
+      "expected_gate": "A4"
+    },
+    "GP-X327": {
+      "kind": "historical_depth8_block",
+      "layer": "historical_projection_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical adapter contract gate only; commitment/projection/ledger refusal does not establish a new mathematical counterexample or graph authority.",
+      "expected_gate": "M1"
+    },
+    "GP-X328": {
+      "kind": "historical_depth8_block",
+      "layer": "historical_projection_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical adapter contract gate only; commitment/projection/ledger refusal does not establish a new mathematical counterexample or graph authority.",
+      "expected_gate": "M1"
+    },
+    "GP-X329": {
+      "kind": "historical_depth8_block",
+      "layer": "historical_projection_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical adapter contract gate only; commitment/projection/ledger refusal does not establish a new mathematical counterexample or graph authority.",
+      "expected_gate": "M1"
+    },
+    "GP-X330": {
+      "kind": "historical_depth8_block",
+      "layer": "historical_projection_contract",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical adapter contract gate only; commitment/projection/ledger refusal does not establish a new mathematical counterexample or graph authority.",
+      "expected_gate": "M1"
+    },
+    "GP-X331": {
+      "kind": "historical_depth8_block",
+      "layer": "historical_localization_ledger",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "limitation": "Pinned historical adapter contract gate only; commitment/projection/ledger refusal does not establish a new mathematical counterexample or graph authority.",
+      "expected_gate": "A11"
     }
   }
 }

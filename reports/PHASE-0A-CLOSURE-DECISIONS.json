@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "purpose": "Parent-adjudicated incident extraction decisions, separate from source reading and general soundness. Existing source ledgers remain historical evidence.",
+  "decisions": [
+    {
+      "source_pin": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+      "source_path": "tests/test_jc_h3_b0_depth8_free_plane.py",
+      "test": "test_arithmetic_and_scope_mutations_refuse",
+      "extraction_status": "complete_for_all_eight_parameterized_mutations",
+      "positive_controls": [
+        "GP-X324"
+      ],
+      "mutation_mappings": {
+        "raw_coefficient": [
+          "GP-X325"
+        ],
+        "transported_block": [
+          "GP-X326"
+        ],
+        "graph_effect": [
+          "GP-X327"
+        ],
+        "D7_transport_sign": [
+          "GP-X328"
+        ],
+        "residual_export_label": [
+          "GP-X329"
+        ],
+        "source_equivalence_label": [
+          "GP-X330"
+        ],
+        "first_open_obligation_CLOSED": [
+          "GP-X37"
+        ],
+        "never_inverted_R": [
+          "GP-X331"
+        ]
+      },
+      "evidence": [
+        "reports/PHASE-0A-DEPTH8-BLOCK-EXTRACTION.md",
+        "reports/PHASE-0A-DEPTH8-BLOCK-EVIDENCE.json",
+        "reports/oracle-runs/20260928T201826560097Z.json"
+      ],
+      "review": "Parent read adapter and each new payload, verified prior case preservation and validator success. A2/A4 are commitments, M1 projection-contract checks, A11 no-inversion ledger; no proof of mutated arithmetic invalidity."
+    }
+  ]
+}

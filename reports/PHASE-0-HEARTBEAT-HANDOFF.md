@@ -8,13 +8,13 @@ Work explicitly in F:/repos/grandportage-0.50. Read AGENTS/DECISIONS and the clo
 
 ## Current integrated evidence
 
-364 cases: 113 ACCEPT / 251 REFUSE. Latest replay reports/oracle-runs/20260928T200343664378Z.json: 349 AGREES, 12 KNOWN_DIFFERENCE, 1 DIAGNOSTIC_OBSERVED, 1 PENDING, 1 UNSUPPORTED. Parent reviewed the adapter additions and three new payloads, validated 364 source anchors/pin, and independently compared every old case hash/expectation/status/observed verdict/route/layer against the 361-case predecessor run. Unchanged. New X321 is a declared-jump J2 refusal, X322/X323 exact nonzero/zero L-valued witness checks at N8 before digest N10. No live CAS or graph authority claimed.
+372 cases: 114 ACCEPT / 258 REFUSE. Latest replay reports/oracle-runs/20260928T201826560097Z.json: 357 AGREES, 12 KNOWN_DIFFERENCE, 1 DIAGNOSTIC_OBSERVED, 1 PENDING, 1 UNSUPPORTED. Parent reviewed the adapter additions and three new payloads, validated 364 source anchors/pin, and independently compared every old case hash/expectation/status/observed verdict/route/layer against the 361-case predecessor run. Unchanged. New X321 is a declared-jump J2 refusal, X322/X323 exact nonzero/zero L-valued witness checks at N8 before digest N10. No live CAS or graph authority claimed.
 
 Latest worker proposal reports: FOUR-GATE-MAPPING-REVIEW (17 assertion-level mutations across four functions) and DELETED-IR-SNAPSHOT-REVIEW (14 snapshot paths). Retain proposals until parent verifies mappings; do not upgrade global coverage mechanically. MAPPING-PARENT-OVERRIDES remains authoritative over the earlier broad 20-covered proposal. Structural fallback is not cofactor replay; never_inverted is not merely guard deletion; changing field modulus is not changing point universe.
 
 ## Workers and ownership
 
-Sol thread 01a0e90c-4cb4-7392-b246-590cce500642, host local, gpt-6-sol. Existing user authorization includes follow-up messages. Last completed jump/nonzero extraction is integrated. Next bounded assignment: depth-eight block-contract mutations from FOUR-GATE-MAPPING-REVIEW, after exact existing-case screening and gate confirmation. Check thread status before assigning or duplicating work. Sol may own corpus/adapters for one slice at a time; parent owns integration and gate judgments.
+Sol thread 01a0e90c-4cb4-7392-b246-590cce500642, host local, gpt-6-sol. Existing user authorization includes follow-up messages. Depth-eight block extraction X324-X331 is integrated; all eight source test parameters are dispositioned in PHASE-0A-CLOSURE-DECISIONS.json. Next bounded assignment: residual-witness contract (six parameterized mutations and changed modulus) from FOUR-GATE-MAPPING-REVIEW, after reuse screening. Check thread status before assigning or duplicating work. Sol may own corpus/adapters for one slice at a time; parent owns integration and gate judgments.
 
 Terra subagents available in root tree: deleted_mappings and mapping_gate_review. Latest assignments completed. Reuse them for separate finite source/mapping tasks, with output-only destinations. Do not have two agents edit corpus/adapters simultaneously. Do not infer work is running from a ready queue.
 
@@ -31,3 +31,5 @@ Terra subagents available in root tree: deleted_mappings and mapping_gate_review
 ## Gates and stopping
 
 A24 needs an authorized concrete realization source/projection; preserve expected REFUSE and PENDING observation, and check implication/guard direction. X53 remains unsupported dimension-credit vocabulary. A03a remains diagnostic advice evidence, not reproduced false-held authority. These cannot be silently relabeled. Campaign manifest and later Lean cap require user input. Continue independent GP work meanwhile; when these are the actual remaining barriers, report the smallest decision and pause heartbeat. 0d private preparation is verified, publication remains gated. Do not call all Phase 0 complete merely because 0a closes.
+
+Manual heartbeat integration: parent read the full depth-eight adapter and all eight payloads, verified all 364 old hashes/outcomes unchanged, and validated 372 cases. Start from the latest counts above; earlier paragraph descriptions refer to prior slices. Use CLOSURE-DECISIONS to remove adjudicated work instead of repeatedly reopening it without new evidence.

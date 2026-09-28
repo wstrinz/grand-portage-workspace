@@ -641,6 +641,9 @@ def probe(case, route):
     if kind == "membership_contraction":
         from membership_contraction_probes import probe as membership_contraction_probe
         return membership_contraction_probe(case,route)
+    if kind == "historical_depth8_block":
+        from historical_depth8_block_probes import probe as historical_depth8_block_probe
+        return historical_depth8_block_probe(case,route)
     if kind == "historical_residual":
         from historical_residual_probes import probe as historical_residual_probe
         return historical_residual_probe(case,route)
@@ -679,6 +682,7 @@ def main():
               "oracle_path":str(ORACLE),"runner_sha256":sha(Path(__file__)),
               "historical_probe_sha256":sha(ROOT/"tools/historical_probes.py"),
                "historical_residual_probe_sha256":sha(ROOT/"tools/historical_residual_probes.py"),
+               "historical_depth8_block_probe_sha256":sha(ROOT/"tools/historical_depth8_block_probes.py"),
               "current_algebra_probe_sha256":sha(ROOT/"tools/current_algebra_probes.py"),
               "lifecycle_probe_sha256":sha(ROOT/"tools/lifecycle_probes.py"),
               "joint_probe_sha256":sha(ROOT/"tools/joint_probes.py"),
