@@ -616,7 +616,7 @@
       "path": "grandportage/cas.py",
       "git_object": "c1d0b2036c71fe13c09bb9ed1360e22825e84973",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/check.py",
@@ -1860,7 +1860,7 @@
       "path": "tests/test_artifacts.py",
       "git_object": "2fb9e2d926e762da832b4debe6aa758f94958846",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_atlas.py",
@@ -2097,7 +2097,7 @@
       "path": "tests/test_inband_identity.py",
       "git_object": "f827e187508fff6cb9491062ce98698616736a74",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_kernel.py",

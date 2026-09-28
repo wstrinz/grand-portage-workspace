@@ -578,6 +578,9 @@ def probe(case, route):
             receipt_current=stored["current"],effective_certificate=effective,
             baseline_current=True,execution_descriptor="fabricated_historical_test_trace")
 
+    if kind == "execution_envelope":
+        from execution_probes import probe as execution_probe
+        return execution_probe(case,route)
     if kind == "inventory_diagnostic":
         from inventory_probes import probe as inventory_probe
         return inventory_probe(case,route)
@@ -632,6 +635,7 @@ def main():
               "joint_probe_sha256":sha(ROOT/"tools/joint_probes.py"),
               "provenance_probe_sha256":sha(ROOT/"tools/provenance_probes.py"),
               "inventory_probe_sha256":sha(ROOT/"tools/inventory_probes.py"),
+              "execution_probe_sha256":sha(ROOT/"tools/execution_probes.py"),
               "lifecycle_input_adapter_sha256":sha(ROOT/"tools/lifecycle_inputs.py"),
               "lifecycle_baseline_sha256":sha(ROOT/"oracle/LIFECYCLE-INPUT-BASELINE.json"),
               "routes_sha256":sha(ROOT/"oracle/ROUTES.json"),

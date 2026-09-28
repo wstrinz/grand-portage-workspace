@@ -1732,6 +1732,56 @@
       "kind": "inventory_diagnostic",
       "layer": "declared_inventory_or_type_consistency",
       "limitation": "No proof of model adequacy, equation independence, or held mathematical claims. Coverage acceptance is relative to declared axes and recorded uses."
+    },
+    "GP-X201": {
+      "kind": "execution_envelope",
+      "layer": "offline_execution_envelope",
+      "limitation": "Fabricated process/version responses exercise envelope control flow only. No live Singular, executable digest, graph receipt or mathematical authority is established."
+    },
+    "GP-X202": {
+      "kind": "execution_envelope",
+      "layer": "offline_execution_envelope",
+      "limitation": "Fabricated process/version responses exercise envelope control flow only. No live Singular, executable digest, graph receipt or mathematical authority is established."
+    },
+    "GP-X203": {
+      "kind": "execution_envelope",
+      "layer": "offline_execution_envelope",
+      "limitation": "Fabricated process/version responses exercise envelope control flow only. No live Singular, executable digest, graph receipt or mathematical authority is established."
+    },
+    "GP-X204": {
+      "kind": "execution_envelope",
+      "layer": "offline_execution_envelope",
+      "limitation": "Fabricated process/version responses exercise envelope control flow only. No live Singular, executable digest, graph receipt or mathematical authority is established."
+    },
+    "GP-X205": {
+      "kind": "execution_envelope",
+      "layer": "offline_execution_envelope",
+      "limitation": "Fabricated process/version responses exercise envelope control flow only. No live Singular, executable digest, graph receipt or mathematical authority is established."
+    },
+    "GP-X206": {
+      "kind": "execution_envelope",
+      "layer": "offline_execution_envelope",
+      "limitation": "Fabricated process/version responses exercise envelope control flow only. No live Singular, executable digest, graph receipt or mathematical authority is established."
+    },
+    "GP-X207": {
+      "kind": "execution_envelope",
+      "layer": "offline_execution_envelope",
+      "limitation": "Fabricated process/version responses exercise envelope control flow only. No live Singular, executable digest, graph receipt or mathematical authority is established."
+    },
+    "GP-X208": {
+      "kind": "execution_envelope",
+      "layer": "offline_execution_envelope",
+      "limitation": "Fabricated process/version responses exercise envelope control flow only. No live Singular, executable digest, graph receipt or mathematical authority is established."
+    },
+    "GP-X209": {
+      "kind": "execution_envelope",
+      "layer": "offline_execution_envelope",
+      "limitation": "Fabricated process/version responses exercise envelope control flow only. No live Singular, executable digest, graph receipt or mathematical authority is established."
+    },
+    "GP-X210": {
+      "kind": "execution_envelope",
+      "layer": "offline_execution_envelope",
+      "limitation": "Fabricated process/version responses exercise envelope control flow only. No live Singular, executable digest, graph receipt or mathematical authority is established."
     }
   }
 }

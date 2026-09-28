@@ -247,3 +247,13 @@ Observations remain layer-specific. Conditional transport, premise-route and cov
 | [GP-X198](must/GP-X198.json) | REFUSE | AGREES | declared_inventory_or_type_consistency | A conclusion read alone requires its index component |
 | [GP-X199](must/GP-X199.json) | ACCEPT | AGREES | declared_inventory_or_type_consistency | Equation-refinement annotation with equations_forgotten |
 | [GP-X200](must/GP-X200.json) | REFUSE | AGREES | declared_inventory_or_type_consistency | Equation-refinement annotation with equivalent_presentations |
+| [GP-X201](must/GP-X201.json) | ACCEPT | AGREES | offline_execution_envelope | identity envelope: matching |
+| [GP-X202](must/GP-X202.json) | REFUSE | AGREES | offline_execution_envelope | identity envelope: different version |
+| [GP-X203](must/GP-X203.json) | REFUSE | AGREES | offline_execution_envelope | identity envelope: absent identity |
+| [GP-X204](must/GP-X204.json) | REFUSE | AGREES | offline_execution_envelope | identity envelope: repeated identity |
+| [GP-X205](must/GP-X205.json) | REFUSE | AGREES | offline_execution_envelope | identity envelope: foreign invocation |
+| [GP-X206](must/GP-X206.json) | ACCEPT | AGREES | offline_execution_envelope | completion envelope: matching |
+| [GP-X207](must/GP-X207.json) | REFUSE | AGREES | offline_execution_envelope | completion envelope: absent completion |
+| [GP-X208](must/GP-X208.json) | REFUSE | AGREES | offline_execution_envelope | completion envelope: foreign invocation |
+| [GP-X209](must/GP-X209.json) | REFUSE | AGREES | offline_execution_envelope | completion envelope: repeated completion |
+| [GP-X210](must/GP-X210.json) | REFUSE | AGREES | offline_execution_envelope | completion envelope: trailing output |
