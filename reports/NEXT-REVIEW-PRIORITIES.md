@@ -121,3 +121,5 @@ Batch 58 completes MCP full text reading and verifies handoff context loss: dist
 Batch 59 reviews the operational work ledger and CLI boundary; all thirteen tests pass. Resolution/accounting stays separate from mathematical authority; graph-snapshot and cross-log limits recorded. Corpus unchanged; 86 partial / 282 unreviewed sources. See PHASE-0A-BATCH-59.md.
 
 Batch 60 reviews descriptive evidence metadata (eight tests pass) and starts dossier lines 1–210. Corrects missing MCP/CLI partial inventory credit; prior prose claiming that credit already existed was wrong. Recorded transitions give 91 partial / 277 unreviewed. Corpus unchanged. See PHASE-0A-BATCH-60.md.
+
+Batch 61 completes dossier source, tests, documentation and synthetic fixture text review: 15 tests pass, five diagnostics verify metadata-only readiness, CRLF digest inconsistency and a broken fixture replay path. Corpus unchanged; 98 partial / 270 unreviewed sources. See PHASE-0A-BATCH-61.md.

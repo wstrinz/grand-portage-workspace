@@ -181,7 +181,7 @@
       "path": "docs/CAMPAIGN-DOSSIER-V0.md",
       "git_object": "8ba17d4048725aa193b0a6bff5fbf0b46b34fd2e",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "docs/CAMPAIGN-PUBLICATION-V0.md",
@@ -490,31 +490,31 @@
       "path": "fixtures/dossier/synthetic/authority.md",
       "git_object": "3b5f70554c5f2a40136d203d439c01c138c28783",
       "category": "fixtures_examples",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "fixtures/dossier/synthetic/dossier.json",
       "git_object": "906e3d9630867e28622e44e329abacbf7d2f0e8f",
       "category": "fixtures_examples",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "fixtures/dossier/synthetic/proof.txt",
       "git_object": "45d5b01d22ccacbeeb64d2bae7954863c78f9a96",
       "category": "fixtures_examples",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "fixtures/dossier/synthetic/synthetic-receipt.json",
       "git_object": "903c6fbcac6981af2dba81522520ecab5c21f459",
       "category": "fixtures_examples",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "fixtures/dossier/synthetic/verify_synthetic.py",
       "git_object": "fc21342262443b2a8b29837023b60199787c045d",
       "category": "fixtures_examples",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "fixtures/frontier/synthetic/bundle.json",
@@ -1991,7 +1991,7 @@
       "path": "tests/test_dossier.py",
       "git_object": "9247c9118f5e46e04ca4f2e72423f151af79e2ae",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_embedding_semantics.py",
