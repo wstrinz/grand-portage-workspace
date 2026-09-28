@@ -75,3 +75,5 @@ Batch 35 reviews four reference-checker release paths and verifies six sparse-bo
 Batch 36 covers eight read-model/publication/extraction release paths and records an actual output-size defect. Continue the remaining 24 release path diffs and semantic extraction; campaign manifest remains pending.
 
 Batch 37 leaves only README.md and SPEC.md for complete v0.27 release path-diff reading. Semantic extraction and wider source/history coverage remain open; reuse prior relevant evidence without broadening its claims.
+
+Batch 38 closes the v0.27 full-diff-reading gap. Continue remaining semantic/compiler/source review and earlier history; do not repeat these 36 diffs or count reading as Phase 0a completion.

@@ -37,7 +37,7 @@
   },
   "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
   "next_work": [
-    "Review remaining release/history diffs and source gaps; keep live-execution limits explicit",
+    "Continue semantic extraction and remaining source/history review; the three named historical fixes/releases now have full-diff reading evidence, but remain semantically partial",
     "Continue release documents and earlier history",
     "Preserve conservative-refusal cost evidence for the campaign inventory"
   ],

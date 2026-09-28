@@ -66,9 +66,9 @@
         "GP-X25",
         "GP-X26"
       ],
-      "reviewed": "Located coefficient-cap counterexample in historical HANDOFF.md, OPERATION-CONTRACTS.md, SPEC.md and TESTPLAN.md; read the bounded-polynomial TESTPLAN section. Batch 35 reads four complete reference-checker subsystem diffs and records hashes/dispositions in reports/REFERENCE-RELEASE-HISTORY-REVIEW.json; six pinned sparse-boundary controls verified. Batch 36 reads eight additional complete read-model/publication/extraction path diffs; twelve of thirty-six release paths now have explicit full-diff dispositions. See reports/READ-MODEL-RELEASE-HISTORY-REVIEW.json. Batch 37 dispositions 22 further complete path diffs: authority, adapter, Lean scope, release metadata and test gates. Cumulative full-path diff reading is 34/36; README.md and SPEC.md remain.",
-      "remaining": "The release commit has not been fully reviewed. A22 now replays via a recovered source-point projection and coefficient obstruction; no historical 17-generator elimination run is claimed.",
-      "full_diff_read": false
+      "reviewed": "Complete 36-path release diff and message read across Batches 35\u201338; exact changed-path coverage and all reviewed blob hashes revalidated in reports/V0.27-FULL-DIFF-REVIEW.json. Prior coefficient corpus plus reference, read-model, authority and documentation boundaries dispositioned.",
+      "remaining": "Semantic review remains partial: remaining contract/countermodel extraction, historical live-CAS/full-suite execution limits, Lean interpretation/axioms and campaign facts. Full diff reading does not close Phase 0a.",
+      "full_diff_read": true
     }
   ],
   "historical_deleted_tests": [

@@ -87,3 +87,5 @@ Batch 35: reference-checker release slice and six exact sparse-input controls re
 Batch 36: eight more release path diffs reviewed; twelve of thirty-six now dispositioned. Actual projection CLI output exceeds its 1 MB compact-size check; three retained tests pass and proposed repair recorded. No publication or authority change.
 
 Batch 37: 22 additional release diffs dispositioned; 34/36 complete path diffs read. Registry consistency and conditional Lean scope proof limits recorded; no new runtime authority or Lean execution.
+
+Batch 38 completes full v0.27 diff reading: all 36 changed paths and hashes verified. Semantic extraction remains partial. Historical private HISTORY/ link bypasses root-md link check; fix candidate documented.
