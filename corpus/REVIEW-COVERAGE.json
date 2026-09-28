@@ -66,8 +66,9 @@
         "GP-X25",
         "GP-X26"
       ],
-      "reviewed": "Located coefficient-cap counterexample in historical HANDOFF.md, OPERATION-CONTRACTS.md, SPEC.md and TESTPLAN.md; read the bounded-polynomial TESTPLAN section.",
-      "remaining": "The release commit has not been fully reviewed. A22 now replays via a recovered source-point projection and coefficient obstruction; no historical 17-generator elimination run is claimed."
+      "reviewed": "Located coefficient-cap counterexample in historical HANDOFF.md, OPERATION-CONTRACTS.md, SPEC.md and TESTPLAN.md; read the bounded-polynomial TESTPLAN section. Batch 35 reads four complete reference-checker subsystem diffs and records hashes/dispositions in reports/REFERENCE-RELEASE-HISTORY-REVIEW.json; six pinned sparse-boundary controls verified.",
+      "remaining": "The release commit has not been fully reviewed. A22 now replays via a recovered source-point projection and coefficient obstruction; no historical 17-generator elimination run is claimed.",
+      "full_diff_read": false
     }
   ],
   "historical_deleted_tests": [

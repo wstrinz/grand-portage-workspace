@@ -81,3 +81,5 @@ Batch 32 fully reads the eight-path point-universe fix 93770c6 and passes its br
 Batch 33 extracts GP-X275-283: other typed universe mismatches, same/both-omitted readability and untyped debt versus transport. All nine agree; 315 prior cases unchanged.
 
 Batch 34 fully reads the eight-path characteristic fix f2b7c49. Eight isolated historical predicate controls expose intermediate 1/composite acceptance corrected in the pinned validator. Existing corpus and constructor-emission evidence reused; live historical tests remain unrun.
+
+Batch 35: reference-checker release slice and six exact sparse-input controls recorded. Four standalone reference validation gaps are blocked by production validation; no new production false licence. Corpus and latest replay unchanged; Phase 0 active.

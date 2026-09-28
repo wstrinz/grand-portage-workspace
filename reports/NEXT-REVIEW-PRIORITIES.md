@@ -69,3 +69,5 @@ Batch 32 fully reads the eight-path point-universe fix 93770c6 and passes its br
 Batch 33 extracts the remaining named universe-boundary controls from the fully read historical fix. Continue other partial history diffs and source disposition.
 
 Batch 34 fully reads the eight-path characteristic fix f2b7c49. Eight isolated historical predicate controls expose intermediate 1/composite acceptance corrected in the pinned validator. Existing corpus and constructor-emission evidence reused; live historical tests remain unrun.
+
+Batch 35 reviews four reference-checker release paths and verifies six sparse-boundary controls. Production rejects the four reference-only malformed representations. Continue the other 32 release paths; no full-release credit.
