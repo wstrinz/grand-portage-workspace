@@ -836,7 +836,7 @@
       "path": "grandportage/project_v2.py",
       "git_object": "c160e38b5684fec2f5be8e30a84b61721148f0e7",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/projection.py",
@@ -1028,7 +1028,7 @@
       "path": "lean/GrandPortage/IRChecks.lean",
       "git_object": "3f656c7db7ba2b4862dba1bbfafefb219c5e354e",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/GrandPortage/Identity.lean",
@@ -1652,7 +1652,7 @@
       "path": "scripts/project_ir_corpus.py",
       "git_object": "ce1d3b47c600f512cfba0709d56458e71eb748a5",
       "category": "other",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "scripts/public_snapshot.py",
@@ -2254,7 +2254,7 @@
       "path": "tests/test_project_v2.py",
       "git_object": "9342d6de76c524fb022c1b86cfddd988fd9fb5b7",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_projection.py",

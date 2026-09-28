@@ -135,3 +135,5 @@ Batch 65 completes frontier-bundle source/tests and synthetic fixture text revie
 Batch 66 completes frontier projection source/test reading. Eight tests and four diagnostics verify supplied-record authority limits, unknown-status closed classification, history-only fingerprints and literal DISCHARGED propagation. Corpus unchanged; 116 partial / 252 unreviewed. See PHASE-0A-BATCH-66.md.
 
 Batch 67 completes explanation source/tests and Lean name dictionary reading. Five tests pass; native zero-step diagnostic has runtime_licensed/profile_covered true but complete false because the premise lacks authority. Corpus unchanged; 119 partial / 249 unreviewed. See PHASE-0A-BATCH-67.md.
+
+Batch 68 completes IR projection source/tests and Lean dictionary reading; six tests and four diagnostics pass. Loaded authority-map changes can alter currentness without changing the structural state fingerprint. Corpus unchanged; 123 partial / 245 unreviewed. See PHASE-0A-BATCH-68.md.
