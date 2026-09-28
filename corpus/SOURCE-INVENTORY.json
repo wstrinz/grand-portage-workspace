@@ -598,7 +598,7 @@
       "path": "grandportage/authority_registry.py",
       "git_object": "55b7874311f09bdc2bd3f85d51a85c676748784a",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/backend.py",
@@ -1878,13 +1878,13 @@
       "path": "tests/test_authority_binding.py",
       "git_object": "23a206ad0ef69908d7e220ca5565179084c7b04e",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_authority_registry.py",
       "git_object": "f2a8a64577852f24a69ece2a714256b0b2e9b5aa",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_backend.py",

@@ -53,3 +53,5 @@ Batch 18 fully text-reads SCOPE and ARCHITECTURE, passes all 16 architecture tes
 Batch 19 fully text-reads COMPATIBILITY.md and separates historical semantics, evidence extensions, migration custody and current replay-only requirements. Source coverage 52 partial / 316 unreviewed. No corpus or runtime edits, and no new test execution claimed. OPERATION-CONTRACTS reading is incomplete and receives no new full-read credit.
 
 Batch 20 completes OPERATION-CONTRACTS text reading, reads runtime contract metadata and correspondence tests, and passes 30 tests. Direct effective-verdict mutation tests do not verify persisted authority binding. Header version drift documented; 54 partial / 314 unreviewed.
+
+Batch 21 reads authority binder/registry and both test files: 31 tests pass. Four direct API controls document caller-owned target binding and shallow proof payloads without claiming a persisted bypass. Continue store subject-specific replay and real provenance controls. Coverage 57 partial / 311 unreviewed.

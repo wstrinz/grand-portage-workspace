@@ -5,8 +5,8 @@
   "current_tree": {
     "total_files": 368,
     "file_statuses": {
-      "unreviewed": 314,
-      "partial": 54
+      "unreviewed": 311,
+      "partial": 57
     },
     "full_review_count": 0
   },
@@ -292,5 +292,6 @@
   "backend_review": "corpus/BACKEND-REVIEW.json",
   "architecture_review": "reports/PHASE-0A-BATCH-18.md",
   "compatibility_review": "reports/PHASE-0A-BATCH-19.md",
-  "operation_contract_review": "reports/PHASE-0A-BATCH-20.md"
+  "operation_contract_review": "reports/PHASE-0A-BATCH-20.md",
+  "authority_review": "corpus/AUTHORITY-REVIEW.json"
 }
