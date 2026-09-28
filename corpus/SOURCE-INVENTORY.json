@@ -811,13 +811,13 @@
       "path": "grandportage/ordered.py",
       "git_object": "7429a7923b62cb406b7f1dd30f909d0653fb7c60",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/ordered_receipt.py",
       "git_object": "ff7ff49cb3d31dcf187f6b1bd7b2d3effca53727",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/ordered_sos.py",
@@ -2222,7 +2222,7 @@
       "path": "tests/test_ordered_real_semantics.py",
       "git_object": "eebaa1675b971d1f6cf6d79824a48564bde8a13d",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_point_lift.py",
