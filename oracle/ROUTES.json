@@ -1402,6 +1402,216 @@
       "layer": "exact_replay_and_operation_boundary",
       "limitation": "Pinned v0.37 offline replay. No live Singular execution or GP 0.50 held claim. Producer and one-sided checks do not establish completeness.",
       "action": "completeness"
+    },
+    "GP-X142": {
+      "kind": "lifecycle",
+      "action": "fold",
+      "layer": "lifecycle_contract",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X143": {
+      "kind": "lifecycle",
+      "action": "fold",
+      "layer": "lifecycle_contract",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X144": {
+      "kind": "lifecycle",
+      "action": "order",
+      "layer": "lifecycle_contract",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X145": {
+      "kind": "lifecycle",
+      "action": "order",
+      "layer": "lifecycle_contract",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X146": {
+      "kind": "lifecycle",
+      "action": "order",
+      "layer": "lifecycle_contract",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X147": {
+      "kind": "lifecycle",
+      "action": "clean",
+      "layer": "lifecycle_contract",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X148": {
+      "kind": "lifecycle",
+      "action": "clean",
+      "layer": "lifecycle_contract",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X149": {
+      "kind": "lifecycle",
+      "action": "absent",
+      "layer": "lifecycle_contract",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X150": {
+      "kind": "lifecycle",
+      "action": "no_rule",
+      "layer": "lifecycle_contract",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X151": {
+      "kind": "lifecycle",
+      "action": "no_rule",
+      "layer": "lifecycle_contract",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X152": {
+      "kind": "lifecycle",
+      "action": "fold",
+      "layer": "lifecycle_contract",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X153": {
+      "kind": "lifecycle",
+      "action": "fold",
+      "layer": "lifecycle_contract",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X154": {
+      "kind": "lifecycle",
+      "action": "fold",
+      "layer": "lifecycle_contract",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X155": {
+      "kind": "lifecycle",
+      "action": "no_rule",
+      "layer": "lifecycle_contract",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X156": {
+      "kind": "lifecycle",
+      "action": "no_rule",
+      "layer": "lifecycle_contract",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X157": {
+      "kind": "lifecycle",
+      "action": "no_rule",
+      "layer": "lifecycle_contract",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X158": {
+      "kind": "lifecycle",
+      "action": "no_rule",
+      "layer": "lifecycle_contract",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X159": {
+      "kind": "lifecycle",
+      "action": "no_rule",
+      "layer": "lifecycle_contract",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X160": {
+      "kind": "lifecycle",
+      "action": "no_rule",
+      "layer": "lifecycle_contract",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X161": {
+      "kind": "lifecycle",
+      "action": "successors",
+      "layer": "lifecycle_contract",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X162": {
+      "kind": "lifecycle",
+      "action": "fold",
+      "layer": "lifecycle_contract",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X163": {
+      "kind": "lifecycle",
+      "action": "fold",
+      "layer": "lifecycle_contract",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X164": {
+      "kind": "lifecycle",
+      "action": "receipt",
+      "layer": "provenance_binding",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X165": {
+      "kind": "lifecycle",
+      "action": "receipt",
+      "layer": "provenance_binding",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X166": {
+      "kind": "lifecycle",
+      "action": "receipt",
+      "layer": "provenance_binding",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X167": {
+      "kind": "lifecycle",
+      "action": "receipt",
+      "layer": "provenance_binding",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X168": {
+      "kind": "lifecycle",
+      "action": "receipt",
+      "layer": "provenance_binding",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X169": {
+      "kind": "lifecycle",
+      "action": "receipt",
+      "layer": "provenance_binding",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X170": {
+      "kind": "lifecycle",
+      "action": "receipt",
+      "layer": "provenance_binding",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X171": {
+      "kind": "lifecycle",
+      "action": "receipt",
+      "layer": "provenance_binding",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X172": {
+      "kind": "lifecycle",
+      "action": "receipt",
+      "layer": "provenance_binding",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X173": {
+      "kind": "lifecycle",
+      "action": "section",
+      "layer": "exact_section_and_provenance",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X174": {
+      "kind": "lifecycle",
+      "action": "section",
+      "layer": "exact_section_and_provenance",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X175": {
+      "kind": "lifecycle",
+      "action": "section",
+      "layer": "exact_section_and_provenance",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
+    },
+    "GP-X176": {
+      "kind": "lifecycle",
+      "action": "section",
+      "layer": "exact_section_and_provenance",
+      "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold."
     }
   }
 }

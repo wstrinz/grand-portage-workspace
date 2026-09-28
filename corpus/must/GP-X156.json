@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "GP-X156",
+  "seed": null,
+  "title": "Clear the old untyped finding after a typed replacement",
+  "situation": "A live typed successor resolves the original untyped-edge debt; this does not prove the declared relation.",
+  "inputs": {
+    "records": [
+      {
+        "ev": "model",
+        "id": "IV",
+        "desc": "the interval-valued system"
+      },
+      {
+        "ev": "model",
+        "id": "PD",
+        "desc": "the positive-definite locus"
+      },
+      {
+        "ev": "edge",
+        "id": "E-IV-PD",
+        "src": "IV",
+        "dst": "PD",
+        "type": "UNTYPED",
+        "why": "the step is not yet characterised",
+        "map_kind": "IDENTITY_MAP",
+        "debt_why": "nobody has derived what this inclusion loses"
+      },
+      {
+        "ev": "edge",
+        "id": "E-IV-PD-RESTRICT",
+        "src": "IV",
+        "dst": "PD",
+        "type": "RESTRICTION",
+        "why": "the cut-out subset, same coordinates",
+        "map_kind": "IDENTITY_MAP",
+        "supersedes": "E-IV-PD",
+        "discharge_kind": "RETYPE"
+      }
+    ],
+    "rules": [
+      "UNTYPED-EDGE"
+    ]
+  },
+  "attempted_conclusion": "Clear the old untyped finding after a typed replacement.",
+  "expected": {
+    "verdict": "ACCEPT",
+    "reason": "A live typed successor resolves the original untyped-edge debt; this does not prove the declared relation."
+  },
+  "scope_or_region": "N/A",
+  "sources": [
+    {
+      "repository": "gp-v037",
+      "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+      "path": "tests/test_supersession_noise.py",
+      "line": 330,
+      "anchor": "def test_an_untyped_edge_that_was_retyped_stops_reporting_as_live_debt("
+    }
+  ]
+}

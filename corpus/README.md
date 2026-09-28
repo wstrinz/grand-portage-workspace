@@ -101,9 +101,44 @@ Historical coverage remains incomplete. The first pass covers all 29 deleted tes
 | [GP-X14](must/GP-X14.json) | REFUSE | AGREES | graph_diagnostic | Field-relative emptiness needs a typed point model |
 | [GP-X140](must/GP-X140.json) | ACCEPT | AGREES | producer_parser | Explicit zero component parses |
 | [GP-X141](must/GP-X141.json) | REFUSE | AGREES | exact_replay_and_operation_boundary | One-sided saturation soundness cannot establish completeness |
+| [GP-X142](must/GP-X142.json) | ACCEPT | AGREES | lifecycle_contract | Merge an identical shared declaration |
+| [GP-X143](must/GP-X143.json) | REFUSE | AGREES | lifecycle_contract | Merge conflicting descriptions under one identifier |
+| [GP-X144](must/GP-X144.json) | ACCEPT | AGREES | lifecycle_contract | Fold claim supersession in either branch order |
+| [GP-X145](must/GP-X145.json) | ACCEPT | AGREES | lifecycle_contract | Fold edge supersession in either branch order |
+| [GP-X146](must/GP-X146.json) | ACCEPT | AGREES | lifecycle_contract | Fold inference supersession in either branch order |
+| [GP-X147](must/GP-X147.json) | REFUSE | AGREES | lifecycle_contract | Use a retracted inference as live support |
+| [GP-X148](must/GP-X148.json) | ACCEPT | AGREES | lifecycle_contract | Retain a separate inference after retracting its neighbor |
+| [GP-X149](must/GP-X149.json) | REFUSE | AGREES | lifecycle_contract | Use an edge withdrawal tombstone as an edge |
 | [GP-X15](must/GP-X15.json) | ACCEPT | AGREES | exact_replay | Cofactor replay binds characteristic 2 |
+| [GP-X150](must/GP-X150.json) | REFUSE | AGREES | lifecycle_contract | Clear stale path debt while a live inference uses a withdrawn edge |
+| [GP-X151](must/GP-X151.json) | ACCEPT | AGREES | lifecycle_contract | Clear stale path debt after withdrawing the rider too |
+| [GP-X152](must/GP-X152.json) | REFUSE | AGREES | lifecycle_contract | Combine withdrawal with a live replacement |
+| [GP-X153](must/GP-X153.json) | REFUSE | AGREES | lifecycle_contract | Allow an edge to supersede itself |
+| [GP-X154](must/GP-X154.json) | REFUSE | AGREES | lifecycle_contract | Allow supersession of a missing edge |
+| [GP-X155](must/GP-X155.json) | REFUSE | AGREES | lifecycle_contract | Clear untyped debt with a closed supersession cycle |
+| [GP-X156](must/GP-X156.json) | ACCEPT | AGREES | lifecycle_contract | Clear the old untyped finding after a typed replacement |
+| [GP-X157](must/GP-X157.json) | REFUSE | AGREES | lifecycle_contract | Clear untyped debt by replacing it with another untyped edge |
+| [GP-X158](must/GP-X158.json) | ACCEPT | AGREES | lifecycle_contract | Treat a declared replacement chain as one current edge |
+| [GP-X159](must/GP-X159.json) | REFUSE | AGREES | lifecycle_contract | Clear parallel edge debt while an unrelated live edge remains |
 | [GP-X16](must/GP-X16.json) | REFUSE | AGREES | exact_replay | Cofactor replay binds characteristic 0 |
+| [GP-X160](must/GP-X160.json) | REFUSE | AGREES | lifecycle_contract | Treat a claim at a superseded model as current without repointing |
+| [GP-X161](must/GP-X161.json) | ACCEPT | AGREES | lifecycle_contract | Retain both successors when a claim is split |
+| [GP-X162](must/GP-X162.json) | REFUSE | AGREES | lifecycle_contract | Hide a licensing change inside AMEND |
+| [GP-X163](must/GP-X163.json) | ACCEPT | AGREES | lifecycle_contract | Amend a citation without changing licensing |
+| [GP-X164](must/GP-X164.json) | ACCEPT | AGREES | provenance_binding | Current receipt binding control |
+| [GP-X165](must/GP-X165.json) | REFUSE | AGREES | provenance_binding | Reject an old verifier identifier |
+| [GP-X166](must/GP-X166.json) | REFUSE | AGREES | provenance_binding | Reject an old verifier version |
+| [GP-X167](must/GP-X167.json) | REFUSE | AGREES | provenance_binding | Reject another kernel epoch |
+| [GP-X168](must/GP-X168.json) | REFUSE | AGREES | provenance_binding | Reject an unknown backend |
+| [GP-X169](must/GP-X169.json) | REFUSE | AGREES | provenance_binding | Reject evidence for another semantic input |
 | [GP-X17](must/GP-X17.json) | ACCEPT | AGREES | exact_replay | Localized identity with valid evidence |
+| [GP-X170](must/GP-X170.json) | REFUSE | AGREES | provenance_binding | Keep legacy evidence readable but inactive |
+| [GP-X171](must/GP-X171.json) | ACCEPT | AGREES | provenance_binding | Preserve current evidence when stale evidence arrives later |
+| [GP-X172](must/GP-X172.json) | ACCEPT | AGREES | provenance_binding | Activate current evidence after stale history |
+| [GP-X173](must/GP-X173.json) | ACCEPT | AGREES | exact_section_and_provenance | Preserve an exact section after rejecting another proposal |
+| [GP-X174](must/GP-X174.json) | REFUSE | AGREES | exact_section_and_provenance | Promote a rejected section proposal to authority |
+| [GP-X175](must/GP-X175.json) | REFUSE | AGREES | exact_section_and_provenance | Use a mutated stored section certificate |
+| [GP-X176](must/GP-X176.json) | REFUSE | AGREES | exact_section_and_provenance | Use a section verdict with no proof object |
 | [GP-X18](must/GP-X18.json) | REFUSE | AGREES | exact_replay | Localized identity with invalid evidence |
 | [GP-X19](must/GP-X19.json) | REFUSE | AGREES | exact_replay | Localized identity with invalid evidence |
 | [GP-X20](must/GP-X20.json) | ACCEPT | AGREES | exact_replay | Mapped ring isomorphism with valid pullback evidence |
@@ -187,4 +222,4 @@ Historical coverage remains incomplete. The first pass covers all 29 deleted tes
 | [GP-X98](must/GP-X98.json) | REFUSE | AGREES | derived_metadata_contract | Resolve overlapping reports implicitly by last writer |
 | [GP-X99](must/GP-X99.json) | REFUSE | AGREES | derived_metadata_contract | Declare agreement between incompatible exact scopes |
 
-Observations remain layer-specific. Conditional rules assume their prerequisites. Frozen metadata contracts do not establish their underlying mathematical claims. Historical binding tests may use fabricated backend descriptors; exact arithmetic replay is separate. Minimal projections are explicitly labeled and do not reproduce the entire campaign fixture. Producer/parser controls do not establish mathematical completeness. UNSUPPORTED is not an observed mathematical refusal.
+Observations remain layer-specific. Conditional rules assume their prerequisites. Frozen metadata and lifecycle contracts do not establish mathematical claims. Historical binding probes may use fabricated backend descriptors; exact arithmetic replay is separate. Minimal projections do not reproduce entire campaign fixtures. Producer/parser controls do not establish completeness. UNSUPPORTED is not an observed mathematical refusal. The unresolved retry/merge policy is recorded separately in reports/RETRY-MERGE-AUDIT.json; its observations do not change fixed corpus expectations.

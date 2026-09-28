@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "id": "GP-X142",
+  "seed": null,
+  "title": "Merge an identical shared declaration",
+  "situation": "An identical redeclaration is idempotent.",
+  "inputs": {
+    "records": [
+      {
+        "ev": "model",
+        "id": "M",
+        "desc": "model"
+      },
+      {
+        "ev": "model",
+        "id": "M",
+        "desc": "model"
+      }
+    ]
+  },
+  "attempted_conclusion": "Merge an identical shared declaration.",
+  "expected": {
+    "verdict": "ACCEPT",
+    "reason": "An identical redeclaration is idempotent."
+  },
+  "scope_or_region": "N/A",
+  "sources": [
+    {
+      "repository": "gp-v037",
+      "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+      "path": "tests/test_store.py",
+      "line": 36,
+      "anchor": "def test_identical_redeclaration_is_idempotent("
+    }
+  ]
+}

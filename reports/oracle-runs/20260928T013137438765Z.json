@@ -1,21 +1,22 @@
 {
   "schema_version": 1,
-  "timestamp_utc": "20260928T013344497973Z",
+  "timestamp_utc": "20260928T013137438765Z",
   "oracle_commit": "ac4155787207e2847d248cffed7be871d5dcd577",
   "oracle_path": "F:\\repos\\grandportage-0.50\\oracle\\checkout",
   "runner_sha256": "43f39dd44da0f5971f2c61a597f404c7b81747c9b272b4d9c978c1d27899687b",
   "historical_probe_sha256": "b85c9cffda5964c36f7ff81d32e334ed43a2c69ef84bc6c55db58194bd33c38d",
   "current_algebra_probe_sha256": "d76af36869c5da824adf54cb8ef1f1883bb68d9231d23be3d0b4a3d6f7fc1ed3",
-  "lifecycle_probe_sha256": "77373c2bfd0e061eb826092576a1b6823ee11c72d0441d2fd9e742e270b62d5c",
+  "lifecycle_probe_sha256": "14187b13e9a17f8f4ab561ce43881cac08f2ae507be7746a10c33fd432e804e3",
   "routes_sha256": "dbc25d449e699de329d181b4c433407adddee0ee197530fb4c7116229484d7a8",
   "historical_manifest_sha256": "4f1c64b8aaa28da4032f9e407dac929083b5436aedf122fba2d98a37c296633a",
   "schema_sha256": "76029f1faf4265c01e711e32ea255d5ca6e16811fa2e174fc7ba62454a9c782b",
   "python": "3.12.9 (main, Feb 12 2025, 14:52:31) [MSC v.1942 64 bit (AMD64)]",
   "summary": {
-    "AGREES": 210,
+    "AGREES": 209,
     "DIAGNOSTIC_OBSERVED": 1,
     "KNOWN_DIFFERENCE": 4,
     "PENDING": 1,
+    "ERROR": 1,
     "UNSUPPORTED": 1
   },
   "scope": "Layer-specific legacy observations, not GP 0.50 held claims or a completed G0 gate.",
@@ -3517,17 +3518,10 @@
       "route": "lifecycle",
       "historical_commit": null,
       "limitation": "Frozen v0.37 lifecycle/binding contract, not a GP 0.50 held claim. No external backend. Receipt routes explicitly use fabricated historical backend descriptors; section arithmetic is replayed separately by the fold.",
-      "observed_verdict": "REFUSE",
-      "reason": "Receipt-binding observation using fabricated historical backend metadata.",
-      "projected": null,
-      "receipts": {
-        "receipt.current": {
-          "current": false,
-          "stale_reason": "epoch-0 verdicts are compatibility history only"
-        }
-      },
-      "external_execution": false,
-      "status": "AGREES"
+      "status": "ERROR",
+      "observed_verdict": null,
+      "reason": "<log>:0: epoch-1 verdict event needs `backend`, `input_fingerprint`, `kernel_epoch`, `verifier`, `verifier_version`",
+      "traceback": "Traceback (most recent call last):\n  File \"F:\\repos\\grandportage-0.50\\tools\\check-corpus.py\", line 604, in main\n    record.update(probe(case,route))\n                  ^^^^^^^^^^^^^^^^^\n  File \"F:\\repos\\grandportage-0.50\\tools\\check-corpus.py\", line 580, in probe\n    return lifecycle_probe(case,route)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\repos\\grandportage-0.50\\tools\\lifecycle_probes.py\", line 51, in probe\n    g.apply(event);active=g.verdicts[event['id']]['current'] and g.claims['C'].get('identity_verdict')=='VERIFIED_DERIVED'\n    ^^^^^^^^^^^^^^\n  File \"F:\\repos\\grandportage-0.50\\oracle\\checkout\\grandportage\\store.py\", line 342, in apply\n    F.validate_native_event(ev, where, GraphError)\n  File \"F:\\repos\\grandportage-0.50\\oracle\\checkout\\grandportage\\format.py\", line 218, in validate_native_event\n    raise error(\ngrandportage.store.GraphError: <log>:0: epoch-1 verdict event needs `backend`, `input_fingerprint`, `kernel_epoch`, `verifier`, `verifier_version`\n"
     },
     {
       "id": "GP-X171",

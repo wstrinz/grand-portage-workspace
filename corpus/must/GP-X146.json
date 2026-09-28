@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "id": "GP-X146",
+  "seed": null,
+  "title": "Fold inference supersession in either branch order",
+  "situation": "Supersession is resolved after the full fold, so both orders retain the same records and successor links.",
+  "inputs": {
+    "records": [
+      {
+        "ev": "model",
+        "id": "M",
+        "desc": "m"
+      },
+      {
+        "ev": "model",
+        "id": "N",
+        "desc": "n"
+      },
+      {
+        "ev": "claim",
+        "id": "C",
+        "model": "M",
+        "kind": "PREDICATE",
+        "statement": "P"
+      },
+      {
+        "ev": "inference",
+        "id": "I",
+        "claim": "C",
+        "path": [],
+        "concludes_kind": "PREDICATE",
+        "asserted": "P at M"
+      },
+      {
+        "ev": "inference",
+        "id": "I2",
+        "claim": "C",
+        "path": [],
+        "concludes_kind": "PREDICATE",
+        "asserted": "P restated",
+        "supersedes": "I",
+        "discharge_kind": "RESTATE"
+      }
+    ],
+    "prefix": [
+      {
+        "ev": "model",
+        "id": "M",
+        "desc": "m"
+      },
+      {
+        "ev": "model",
+        "id": "N",
+        "desc": "n"
+      },
+      {
+        "ev": "claim",
+        "id": "C",
+        "model": "M",
+        "kind": "PREDICATE",
+        "statement": "P"
+      }
+    ],
+    "old": [
+      {
+        "ev": "inference",
+        "id": "I",
+        "claim": "C",
+        "path": [],
+        "concludes_kind": "PREDICATE",
+        "asserted": "P at M"
+      }
+    ],
+    "new": [
+      {
+        "ev": "inference",
+        "id": "I2",
+        "claim": "C",
+        "path": [],
+        "concludes_kind": "PREDICATE",
+        "asserted": "P restated",
+        "supersedes": "I",
+        "discharge_kind": "RESTATE"
+      }
+    ]
+  },
+  "attempted_conclusion": "Fold inference supersession in either branch order.",
+  "expected": {
+    "verdict": "ACCEPT",
+    "reason": "Supersession is resolved after the full fold, so both orders retain the same records and successor links."
+  },
+  "scope_or_region": "N/A",
+  "sources": [
+    {
+      "repository": "gp-v037",
+      "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+      "path": "tests/test_adversarial.py",
+      "line": 3297,
+      "anchor": "def test_supersession_does_not_make_the_fold_order_dependent("
+    }
+  ]
+}

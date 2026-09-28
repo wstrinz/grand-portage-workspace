@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "id": "GP-X145",
+  "seed": null,
+  "title": "Fold edge supersession in either branch order",
+  "situation": "Supersession is resolved after the full fold, so both orders retain the same records and successor links.",
+  "inputs": {
+    "records": [
+      {
+        "ev": "model",
+        "id": "M",
+        "desc": "m"
+      },
+      {
+        "ev": "model",
+        "id": "N",
+        "desc": "n"
+      },
+      {
+        "ev": "edge",
+        "id": "E",
+        "src": "M",
+        "dst": "N",
+        "type": "NECESSARY_CONDITION",
+        "why": "drops equations"
+      },
+      {
+        "ev": "edge",
+        "id": "E2",
+        "src": "M",
+        "dst": "N",
+        "type": "NECESSARY_CONDITION",
+        "why": "drops equations",
+        "supersedes": "E",
+        "discharge_kind": "RETYPE"
+      }
+    ],
+    "prefix": [
+      {
+        "ev": "model",
+        "id": "M",
+        "desc": "m"
+      },
+      {
+        "ev": "model",
+        "id": "N",
+        "desc": "n"
+      }
+    ],
+    "old": [
+      {
+        "ev": "edge",
+        "id": "E",
+        "src": "M",
+        "dst": "N",
+        "type": "NECESSARY_CONDITION",
+        "why": "drops equations"
+      }
+    ],
+    "new": [
+      {
+        "ev": "edge",
+        "id": "E2",
+        "src": "M",
+        "dst": "N",
+        "type": "NECESSARY_CONDITION",
+        "why": "drops equations",
+        "supersedes": "E",
+        "discharge_kind": "RETYPE"
+      }
+    ]
+  },
+  "attempted_conclusion": "Fold edge supersession in either branch order.",
+  "expected": {
+    "verdict": "ACCEPT",
+    "reason": "Supersession is resolved after the full fold, so both orders retain the same records and successor links."
+  },
+  "scope_or_region": "N/A",
+  "sources": [
+    {
+      "repository": "gp-v037",
+      "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+      "path": "tests/test_adversarial.py",
+      "line": 3297,
+      "anchor": "def test_supersession_does_not_make_the_fold_order_dependent("
+    }
+  ]
+}

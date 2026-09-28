@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "id": "GP-X162",
+  "seed": null,
+  "title": "Hide a licensing change inside AMEND",
+  "situation": "Adding coefficients_in_base changes licensing and requires relicense review.",
+  "inputs": {
+    "records": [
+      {
+        "ev": "model",
+        "id": "M",
+        "desc": "m"
+      },
+      {
+        "ev": "model",
+        "id": "N",
+        "desc": "n"
+      },
+      {
+        "ev": "claim",
+        "id": "C",
+        "model": "M",
+        "kind": "IDENTITY",
+        "statement": "x=y",
+        "identity_origin": "DERIVED"
+      },
+      {
+        "ev": "claim",
+        "id": "C2",
+        "model": "M",
+        "kind": "IDENTITY",
+        "statement": "x=y",
+        "identity_origin": "DERIVED",
+        "coefficients_in_base": true,
+        "supersedes": "C",
+        "discharge_kind": "AMEND"
+      }
+    ]
+  },
+  "attempted_conclusion": "Hide a licensing change inside AMEND.",
+  "expected": {
+    "verdict": "REFUSE",
+    "reason": "Adding coefficients_in_base changes licensing and requires relicense review."
+  },
+  "scope_or_region": "N/A",
+  "sources": [
+    {
+      "repository": "gp-v037",
+      "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+      "path": "tests/test_adversarial.py",
+      "line": 1697,
+      "anchor": "def test_amend_is_computed_not_declared("
+    }
+  ]
+}

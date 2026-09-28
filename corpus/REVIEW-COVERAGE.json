@@ -5,8 +5,8 @@
   "current_tree": {
     "total_files": 368,
     "file_statuses": {
-      "unreviewed": 343,
-      "partial": 25
+      "unreviewed": 339,
+      "partial": 29
     },
     "full_review_count": 0
   },
@@ -243,7 +243,7 @@
   ],
   "next_pass": [
     "Continue current-tree authority review beyond the extracted F23, saturation-bound, pending/zero-ideal, substitution and producer-parser cases; live constructor verification remains unrun.",
-    "Review log fold, merge, retraction, independent receipt survival and verifier-version semantics before proposing core rules.",
+    "Extend the lifecycle findings to transitive joint/alternative premise support and census needs; resolve selective warrant withdrawal, failed retries and conflict semantics before proposing kernel rules.",
     "Read remaining SPEC/DESIGN/release/theory material and resolve the named earlier history-review gaps; all 368 current-tree sources still require completed semantic dispositions.",
     "Campaign sweep remains blocked on the complete source manifest. It is needed for A24, incident cost/class counts, meaning-risk analysis and companion bindings.",
     "Keep X53 unsupported and the four known conservative differences explicit; agree a measurable Lean spike cap only after 0a/0b completion."
@@ -275,5 +275,13 @@
       "display_only": 6
     }
   },
-  "current_algebra_review": "corpus/CURRENT-ALGEBRA-REVIEW.json"
+  "current_algebra_review": "corpus/CURRENT-ALGEBRA-REVIEW.json",
+  "lifecycle_review": "corpus/LIFECYCLE-REVIEW.json",
+  "open_semantic_audits": [
+    {
+      "path": "reports/RETRY-MERGE-AUDIT.json",
+      "status": "unresolved",
+      "summary": "Two current identity results retain both receipts but project by arrival order; section rejection preserves prior positive authority. No new 0.50 policy adopted."
+    }
+  ]
 }

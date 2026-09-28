@@ -361,7 +361,7 @@
       "path": "experiments/consolidation/merge_assay.py",
       "git_object": "151d60e754be920b5d4fb0108d14384c224cc2d7",
       "category": "other",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "experiments/stacks_applicability/MCP-ASSAY.md",
@@ -592,7 +592,7 @@
       "path": "grandportage/authority.py",
       "git_object": "67f25eed0009f1f3dc6e033eb3607985c81ae742",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/authority_registry.py",
@@ -868,7 +868,7 @@
       "path": "grandportage/store.py",
       "git_object": "7410b55e007316533e0ce697c5a43559211c3357",
       "category": "implementation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "grandportage/triangular.py",
@@ -2306,7 +2306,7 @@
       "path": "tests/test_supersession_noise.py",
       "git_object": "d8ed647edf661469605bc12121dfb6f25cdaff67",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_surface_smoke.py",

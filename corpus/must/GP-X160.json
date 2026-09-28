@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "id": "GP-X160",
+  "seed": null,
+  "title": "Treat a claim at a superseded model as current without repointing",
+  "situation": "Model replacement does not automatically repoint consumers.",
+  "inputs": {
+    "records": [
+      {
+        "ev": "model",
+        "id": "M",
+        "desc": "m"
+      },
+      {
+        "ev": "model",
+        "id": "N",
+        "desc": "n"
+      },
+      {
+        "ev": "claim",
+        "id": "C",
+        "model": "M",
+        "kind": "PREDICATE",
+        "statement": "P"
+      },
+      {
+        "ev": "model",
+        "id": "M2",
+        "desc": "m",
+        "supersedes": "M",
+        "discharge_kind": "RESTATE"
+      }
+    ],
+    "rules": [
+      "STALE-MODEL"
+    ]
+  },
+  "attempted_conclusion": "Treat a claim at a superseded model as current without repointing.",
+  "expected": {
+    "verdict": "REFUSE",
+    "reason": "Model replacement does not automatically repoint consumers."
+  },
+  "scope_or_region": "N/A",
+  "sources": [
+    {
+      "repository": "gp-v037",
+      "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+      "path": "tests/test_supersession_noise.py",
+      "line": 210,
+      "anchor": "def test_verify_declines_a_live_edge_with_a_superseded_endpoint("
+    }
+  ]
+}

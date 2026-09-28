@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "id": "GP-X152",
+  "seed": null,
+  "title": "Combine withdrawal with a live replacement",
+  "situation": "Nothing-replaces-it and live replacement cannot both describe one target.",
+  "inputs": {
+    "records": [
+      {
+        "ev": "model",
+        "id": "IV",
+        "desc": "the interval-valued system"
+      },
+      {
+        "ev": "model",
+        "id": "PD",
+        "desc": "the positive-definite locus"
+      },
+      {
+        "ev": "edge",
+        "id": "E-IV-PD",
+        "src": "IV",
+        "dst": "PD",
+        "type": "UNTYPED",
+        "why": "the step is not yet characterised",
+        "map_kind": "IDENTITY_MAP",
+        "debt_why": "nobody has derived what this inclusion loses"
+      },
+      {
+        "ev": "edge",
+        "id": "E-IV-PD-RESTRICT",
+        "src": "IV",
+        "dst": "PD",
+        "type": "RESTRICTION",
+        "why": "the cut-out subset, same coordinates",
+        "map_kind": "IDENTITY_MAP",
+        "supersedes": "E-IV-PD",
+        "discharge_kind": "RETYPE"
+      },
+      {
+        "ev": "edge",
+        "id": "W-E",
+        "supersedes": "E-IV-PD",
+        "discharge_kind": "WITHDRAW",
+        "why": "not an edge"
+      }
+    ]
+  },
+  "attempted_conclusion": "Combine withdrawal with a live replacement.",
+  "expected": {
+    "verdict": "REFUSE",
+    "reason": "Nothing-replaces-it and live replacement cannot both describe one target."
+  },
+  "scope_or_region": "N/A",
+  "sources": [
+    {
+      "repository": "gp-v037",
+      "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+      "path": "tests/test_supersession_noise.py",
+      "line": 167,
+      "anchor": "def test_tombstone_and_live_successor_are_mutually_exclusive("
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "id": "GP-X163",
+  "seed": null,
+  "title": "Amend a citation without changing licensing",
+  "situation": "A citation-only amendment changes no transport-determining field.",
+  "inputs": {
+    "records": [
+      {
+        "ev": "model",
+        "id": "M",
+        "desc": "m"
+      },
+      {
+        "ev": "model",
+        "id": "N",
+        "desc": "n"
+      },
+      {
+        "ev": "claim",
+        "id": "C",
+        "model": "M",
+        "kind": "PREDICATE",
+        "statement": "P"
+      },
+      {
+        "ev": "claim",
+        "id": "C2",
+        "model": "M",
+        "kind": "PREDICATE",
+        "statement": "P",
+        "cite": "better citation",
+        "supersedes": "C",
+        "discharge_kind": "AMEND"
+      }
+    ]
+  },
+  "attempted_conclusion": "Amend a citation without changing licensing.",
+  "expected": {
+    "verdict": "ACCEPT",
+    "reason": "A citation-only amendment changes no transport-determining field."
+  },
+  "scope_or_region": "N/A",
+  "sources": [
+    {
+      "repository": "gp-v037",
+      "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+      "path": "tests/test_adversarial.py",
+      "line": 1732,
+      "anchor": "def test_over_declaring_a_supersession_is_allowed("
+    }
+  ]
+}

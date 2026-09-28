@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "id": "GP-X159",
+  "seed": null,
+  "title": "Clear parallel edge debt while an unrelated live edge remains",
+  "situation": "Replacing one edge does not resolve another independent parallel declaration.",
+  "inputs": {
+    "records": [
+      {
+        "ev": "model",
+        "id": "IV",
+        "desc": "the interval-valued system"
+      },
+      {
+        "ev": "model",
+        "id": "PD",
+        "desc": "the positive-definite locus"
+      },
+      {
+        "ev": "edge",
+        "id": "E-IV-PD",
+        "src": "IV",
+        "dst": "PD",
+        "type": "UNTYPED",
+        "why": "the step is not yet characterised",
+        "map_kind": "IDENTITY_MAP",
+        "debt_why": "nobody has derived what this inclusion loses"
+      },
+      {
+        "ev": "edge",
+        "id": "E-IV-PD-RESTRICT",
+        "src": "IV",
+        "dst": "PD",
+        "type": "RESTRICTION",
+        "why": "the cut-out subset, same coordinates",
+        "map_kind": "IDENTITY_MAP",
+        "supersedes": "E-IV-PD",
+        "discharge_kind": "RETYPE"
+      },
+      {
+        "ev": "edge",
+        "id": "EXTRA",
+        "src": "IV",
+        "dst": "PD",
+        "type": "RESTRICTION",
+        "why": "the cut-out subset, same coordinates",
+        "map_kind": "IDENTITY_MAP",
+        "supersedes": null,
+        "discharge_kind": "RETYPE"
+      }
+    ],
+    "rules": [
+      "PARALLEL-EDGE"
+    ]
+  },
+  "attempted_conclusion": "Clear parallel edge debt while an unrelated live edge remains.",
+  "expected": {
+    "verdict": "REFUSE",
+    "reason": "Replacing one edge does not resolve another independent parallel declaration."
+  },
+  "scope_or_region": "N/A",
+  "sources": [
+    {
+      "repository": "gp-v037",
+      "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+      "path": "tests/test_supersession_noise.py",
+      "line": 447,
+      "anchor": "def test_a_replacement_parallel_to_a_live_edge_is_still_reported("
+    }
+  ]
+}
