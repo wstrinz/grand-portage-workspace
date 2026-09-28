@@ -10,7 +10,7 @@ The deleted-test reading milestone is complete. These are the remaining work que
 | 4 | Complete the campaign source manifest, then execute the near-miss sweep | All included campaigns accounted for, verbatim private harvest hashes, incident class and cost inventory, and the meaning-risk assessment |
 | 5 | Resolve A24 and X53's profile implications; run the deferred Lean spike after 0a/0b | Actual collapsed-placement model, explicit treatment of unsupported dimension credit, agreed measurable spike cap and written feasibility report |
 
-Current-tree ledger (Batch 81): 368 files, 153 partial, 215 unreviewed, zero claimed fully reviewed. Historical first pass: 29/29 deleted test files read, 226 functions dispositioned, 271 selected test instances passed. Twenty-seven companion-dependent functions and two live-CAS functions remain unrun.
+Current-tree ledger (Batch 82): 368 files, 157 partial, 211 unreviewed, zero claimed fully reviewed. Historical first pass: 29/29 deleted test files read, 226 functions dispositioned, 271 selected test instances passed. Twenty-seven companion-dependent functions and two live-CAS functions remain unrun.
 
 Source-manifest inputs still needed: confirmation of discovered DK/Cloquet/ARR15/Pigeon River locations, missing report/scouting/Highway 61 paths or explicit omissions, optional LSEM/SCOUT scope, and access notes/exclusions. The retained packet explicitly requires the completed manifest before the sweep. Independent GP source review can continue meanwhile.
 
@@ -163,3 +163,5 @@ Batch 79 fully reads nine IR/interpreter/observation documents and dispositions 
 Batch 80 completes atlas mapping/work/program and parity script/test reading. Seven offline tests pass; table inventory and parser controls do not claim newly executed Lean parity. Corpus unchanged; 149 partial / 219 unreviewed. See PHASE-0A-BATCH-80.md.
 
 Batch 81 reviews requirements classifier/tests and three Lean interface/proof files. Four offline tests pass; no Lean compilation. Supplied-catalog inference, name-dictionary limits and conditional unit/target proofs dispositioned. Corpus unchanged; 153 partial / 215 unreviewed. See PHASE-0A-BATCH-81.md.
+
+Batch 82 reviews formal certificate/expression/cancellation implementations and executable sample correspondence. Seven native offline composition tests pass; no Lean compilation or Singular. Corpus unchanged; 157 partial / 211 unreviewed. See PHASE-0A-BATCH-82.md.

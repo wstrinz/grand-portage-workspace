@@ -175,3 +175,5 @@ Batch 79 fully reads nine IR/interpreter/observation documents and dispositions 
 Batch 80 completes atlas mapping/work/program and parity script/test reading. Seven offline tests pass; table inventory and parser controls do not claim newly executed Lean parity. Corpus unchanged; 149 partial / 219 unreviewed. See PHASE-0A-BATCH-80.md.
 
 Batch 81 reviews requirements classifier/tests and three Lean interface/proof files. Four offline tests pass; no Lean compilation. Supplied-catalog inference, name-dictionary limits and conditional unit/target proofs dispositioned. Corpus unchanged; 153 partial / 215 unreviewed. See PHASE-0A-BATCH-81.md.
+
+Batch 82 reviews formal certificate/expression/cancellation implementations and executable sample correspondence. Seven native offline composition tests pass; no Lean compilation or Singular. Corpus unchanged; 157 partial / 211 unreviewed. See PHASE-0A-BATCH-82.md.

@@ -956,13 +956,13 @@
       "path": "lean/GrandPortage/CancellationInterpreter.lean",
       "git_object": "0b68862bb3d71fcfc4a6527fef429bb35fd5269a",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/GrandPortage/CertificateInterpreter.lean",
       "git_object": "1a658a00b92090ad7a8a0c8b046ed01a26b2784e",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/GrandPortage/CertificateScope.lean",
@@ -998,7 +998,7 @@
       "path": "lean/GrandPortage/ExpressionTransport.lean",
       "git_object": "bb716987183a50ec961137426a6e68cad7140bc2",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/GrandPortage/FactorPower.lean",
@@ -1148,7 +1148,7 @@
       "path": "lean/InterpreterParity.lean",
       "git_object": "06301024f4abf3a4d559035bb6ca18b4c1c58926",
       "category": "lean_theory",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "lean/README.md",

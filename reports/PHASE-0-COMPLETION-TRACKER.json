@@ -4,7 +4,7 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "352 cases (108 ACCEPT / 244 REFUSE); 337 agreements, twelve known differences and three other classified outcomes. Requirements review: four offline tests pass; 153 partial / 215 unreviewed sources.",
+      "evidence": "352 cases (108 ACCEPT / 244 REFUSE); 337 agreements, twelve known differences and three other classified outcomes. Interpreter review: seven native offline composition tests pass; 157 partial / 211 unreviewed sources.",
       "remaining": [
         "Exhaustive source/history disposition, including docs and theory",
         "Resolve or explicitly disposition A24 and X53 for G0",
@@ -37,7 +37,7 @@
   },
   "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
   "next_work": [
-    "Continue formal interpreter/expression/cancellation source review and corresponding neutral corpus coverage",
+    "Continue imported Atlas and remaining formal model source review; map uncovered neutral interpreter controls",
     "Continue release documents and earlier history",
     "Preserve conservative-refusal cost evidence for the campaign inventory"
   ],
