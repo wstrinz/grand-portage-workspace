@@ -169,13 +169,13 @@
       "path": "docs/ATLAS-MAPPING-V0.md",
       "git_object": "d301f77b2bc957017053fb1b10b1e58481759699",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "docs/ATLAS-WORK.md",
       "git_object": "2073e3fc206f5ec357431c1ce4794970fb366d63",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "docs/CAMPAIGN-DOSSIER-V0.md",
@@ -247,7 +247,7 @@
       "path": "docs/PRESERVATION-ATLAS-PROGRAM.md",
       "git_object": "31b6110a96cbdfb380ebec7062d2123cdf9e33dd",
       "category": "documentation",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "docs/REQUIREMENT-PROFILES-V0.md",
@@ -1628,7 +1628,7 @@
       "path": "scripts/check_atlas_parity.py",
       "git_object": "8207599a0b973aebbd88954fd5ed1d3be32361e0",
       "category": "other",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "scripts/check_interpreter_parity.py",
@@ -1877,7 +1877,7 @@
       "path": "tests/test_atlas.py",
       "git_object": "46f6f4eac34f13da5918bbec11fd56bd03b6aec8",
       "category": "tests",
-      "review_status": "unreviewed"
+      "review_status": "partial"
     },
     {
       "path": "tests/test_atlas_requirements.py",
