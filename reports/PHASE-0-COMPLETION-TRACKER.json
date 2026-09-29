@@ -6,10 +6,12 @@
       "status": "in_progress",
       "evidence": "408 cases (130 ACCEPT /278 REFUSE);391 agreements,14 known differences,1 diagnostic,1 pending,1 unsupported. Q3 integrated; automatic extraction stopped under approved closure triage.",
       "remaining": [
-        "Exhaustive source/history disposition, including docs and theory",
+        "Finish supported source/history group dispositions under approved narrowed closeout; no blanket deep-read requirement",
         "Resolve or explicitly disposition A24 and X53 for G0",
         "Complete semantic-neutrality review across corpus families; the 22 embedded lifecycle event inputs are now migrated and audited",
-        "Joint-route and cover cases extracted; general alternative support, transitive warrant semantics and admitted entailment remain unresolved"
+        "Joint-route and cover cases extracted; general alternative support, transitive warrant semantics and admitted entailment remain unresolved",
+        "Corrected A27 scope/admission seed family under approved revision-3 amendments",
+        "84.8 geometric-cover failure is not BASE-cover refutation; distinct minimal contrast required"
       ]
     },
     "0b": {
@@ -25,7 +27,8 @@
       "remaining": [
         "Finish 0a/0b",
         "Agree measurable spike cap",
-        "Execute pinned Lean JSONL/process/cofactor/LRAT feasibility work and write report"
+        "Execute pinned Lean JSONL/process/cofactor/LRAT feasibility work and write report",
+        "Time two corpus lemmas in a separate pinned Mathlib package"
       ]
     },
     "0d": {
@@ -33,11 +36,19 @@
       "evidence": "reports/freeze-v0.37.1/AUDIT.json and RELEASE-HANDOFF.md; prepared README now 160 lines and actual frozen limit test passes; isolated patch reapplication verified.",
       "remaining": [],
       "deferred_public_actions": "Application/publication and any freeze tag designation remain unperformed under DECISIONS.md item 5; no approval is requested while independent Phase 0 work remains. Existing v0.37.0 release tag is unchanged, with ordinary release annotation."
+    },
+    "0e": {
+      "status": "authorized_not_started",
+      "active_review_cap_minutes": 120,
+      "remaining": [
+        "18-row primary-source review, three G1 recommendations, territory/consumer and interop assessment; report unresolved items at cap"
+      ],
+      "limits": "No code imports, installations or implementation prototypes; P13 M1-only and P15 post-G5."
     }
   },
   "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
   "next_work": [
-    "Correct and adjudicate closure triage: documented operational regressions cannot be deferred solely for lacking false mathematical authority; screen existing receipt controls before proposing duplicates",
+    "Sol: bounded84.8 BASE/geometric cover-refutation pair. Parent: corrected A27 and operational register neutral-schema dispositions;76.7 contrast independently accepted.",
     "Closure triage: supported grouped reuse/nonincident dispositions, concrete necessary gaps with protection rationale, explicit deferrals and user decisions",
     "Selectively screen remaining source groups for unaccounted recorded incidents; no blanket deep-reading requirement",
     "Resolve A24 and campaign manifest decisions without altering fixed expectations"
@@ -50,5 +61,11 @@
     "cases": 22,
     "expected_verdicts_changed": 0,
     "report": "reports/NEUTRAL-LIFECYCLE-AUDIT.json"
+  },
+  "packet_revision": {
+    "revision": 3,
+    "status": "approved_with_review_amendments",
+    "packet": "docs/GP-0.50-REWORK-PACKET-rev3.md",
+    "amendments": "reports/PACKET-REV3-REVIEW.md"
   }
 }

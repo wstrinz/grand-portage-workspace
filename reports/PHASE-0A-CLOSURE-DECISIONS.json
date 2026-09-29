@@ -474,6 +474,546 @@
         "reports/oracle-runs/20260929T013956101499Z.json"
       ],
       "parent_override": "Supersedes missing/partial label based solely on missed case or known-difference observation; global closeout gates unchanged."
+    },
+    {
+      "finding_obligation": "51.2",
+      "extraction_status": "covered_by_existing_cases_at_recorded_layer",
+      "case_ids": [
+        "GP-A10-R",
+        "GP-A10-C"
+      ],
+      "review": "Parent compared neutral inputs, attempted conclusion, expectation, batch evidence and pinned replay. Reuse is limited to the named premise/failure mechanism, not full source soundness or an unexecuted native path.",
+      "mechanism": "ordered-field reach, not polynomial equality alone",
+      "observation_limits": [
+        {
+          "id": "GP-A10-R",
+          "layer": "receipt_and_reach",
+          "route": "sos",
+          "status": "AGREES",
+          "limitation": null
+        },
+        {
+          "id": "GP-A10-C",
+          "layer": "receipt_and_reach",
+          "route": "sos",
+          "status": "AGREES",
+          "limitation": null
+        }
+      ],
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/PHASE-0A-REV3-INTEGRATION-REVIEW.md",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ]
+    },
+    {
+      "finding_obligation": "59.2a",
+      "extraction_status": "covered_by_existing_cases_at_recorded_layer",
+      "case_ids": [
+        "GP-A17"
+      ],
+      "review": "Parent compared neutral inputs, attempted conclusion, expectation, batch evidence and pinned replay. Reuse is limited to the named premise/failure mechanism, not full source soundness or an unexecuted native path.",
+      "mechanism": "absence of completed verification",
+      "observation_limits": [
+        {
+          "id": "GP-A17",
+          "layer": "graph_authority",
+          "route": "unverified_attempt",
+          "status": "AGREES",
+          "limitation": "Constructed UNVERIFIED event; no backend timeout is simulated. Receipt wrappers are not positive authority."
+        }
+      ],
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/PHASE-0A-REV3-INTEGRATION-REVIEW.md",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ]
+    },
+    {
+      "finding_obligation": "72.2",
+      "extraction_status": "covered_by_existing_cases_at_recorded_layer",
+      "case_ids": [
+        "GP-X84",
+        "GP-X86",
+        "GP-X87"
+      ],
+      "review": "Parent compared neutral inputs, attempted conclusion, expectation, batch evidence and pinned replay. Reuse is limited to the named premise/failure mechanism, not full source soundness or an unexecuted native path.",
+      "mechanism": "ordered substitution and exact inverse identity",
+      "observation_limits": [
+        {
+          "id": "GP-X84",
+          "layer": "exact_replay_and_binding",
+          "route": "historical_review",
+          "status": "AGREES",
+          "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+        },
+        {
+          "id": "GP-X86",
+          "layer": "exact_replay_and_binding",
+          "route": "historical_review",
+          "status": "AGREES",
+          "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+        },
+        {
+          "id": "GP-X87",
+          "layer": "exact_replay_and_binding",
+          "route": "historical_review",
+          "status": "AGREES",
+          "limitation": "Pinned historical GP adapter on v0.37 runtime. No companion bindings or backend execution. The exact checked object and the source-binding limits are recorded separately."
+        }
+      ],
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/PHASE-0A-REV3-INTEGRATION-REVIEW.md",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ]
+    },
+    {
+      "finding_obligation": "75.6b",
+      "extraction_status": "covered_by_existing_cases_at_recorded_layer",
+      "case_ids": [
+        "GP-A16-missing",
+        "GP-X186"
+      ],
+      "review": "Parent compared neutral inputs, attempted conclusion, expectation, batch evidence and pinned replay. Reuse is limited to the named premise/failure mechanism, not full source soundness or an unexecuted native path.",
+      "mechanism": "cover premise is necessary independently of branch data",
+      "observation_limits": [
+        {
+          "id": "GP-A16-missing",
+          "layer": "conditional_rule",
+          "route": "partition",
+          "status": "AGREES",
+          "limitation": "Tests the partition rule assuming checked prerequisites, not exhaustiveness replay."
+        },
+        {
+          "id": "GP-X186",
+          "layer": "conditional_premise_routes",
+          "route": "joint_premises",
+          "status": "AGREES",
+          "limitation": "Legacy transport/coverage rule under declared premises; not logical entailment or GP 0.50 held authority. Partition verification is explicitly assumed for rule isolation. Whole checker and renderer also execute without an external CAS."
+        }
+      ],
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/PHASE-0A-REV3-INTEGRATION-REVIEW.md",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ]
+    },
+    {
+      "finding_obligation": "76.4",
+      "extraction_status": "covered_by_existing_cases_at_recorded_layer",
+      "case_ids": [
+        "GP-X239"
+      ],
+      "review": "Parent compared neutral inputs, attempted conclusion, expectation, batch evidence and pinned replay. Reuse is limited to the named premise/failure mechanism, not full source soundness or an unexecuted native path.",
+      "mechanism": "late source-existence validation",
+      "observation_limits": [
+        {
+          "id": "GP-X239",
+          "layer": "offline_launch_and_recording",
+          "route": "launch_boundary",
+          "status": "AGREES",
+          "limitation": "Counted injected runner only. Valid recorded declaration is not verified operation semantics or theorem authority. Source existence may be rejected only at transactional graph append."
+        }
+      ],
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/PHASE-0A-REV3-INTEGRATION-REVIEW.md",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ]
+    },
+    {
+      "finding_obligation": "77.2",
+      "extraction_status": "covered_by_existing_cases_at_recorded_layer",
+      "case_ids": [
+        "GP-X191"
+      ],
+      "review": "Parent compared neutral inputs, attempted conclusion, expectation, batch evidence and pinned replay. Reuse is limited to the named premise/failure mechanism, not full source soundness or an unexecuted native path.",
+      "mechanism": "review must bind reviewed meaning",
+      "observation_limits": [
+        {
+          "id": "GP-X191",
+          "layer": "diagnostic_or_operational_policy",
+          "route": "provenance_review",
+          "status": "AGREES",
+          "limitation": "No checked mathematical premise authority. Construction taint and operational warning acceptance are separate from valid theorem entailment."
+        }
+      ],
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/PHASE-0A-REV3-INTEGRATION-REVIEW.md",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ]
+    },
+    {
+      "finding_obligation": "78.2",
+      "extraction_status": "covered_by_existing_cases_at_recorded_layer",
+      "case_ids": [
+        "GP-X230",
+        "GP-X234",
+        "GP-X236",
+        "GP-X237",
+        "GP-X238"
+      ],
+      "review": "Parent compared neutral inputs, attempted conclusion, expectation, batch evidence and pinned replay. Reuse is limited to the named premise/failure mechanism, not full source soundness or an unexecuted native path.",
+      "mechanism": "omitted declaration, reported error, nonzero exit, and abort are distinct refusal inputs",
+      "observation_limits": [
+        {
+          "id": "GP-X230",
+          "layer": "offline_launch_and_recording",
+          "route": "launch_boundary",
+          "status": "AGREES",
+          "limitation": "Counted injected runner only. Valid recorded declaration is not verified operation semantics or theorem authority. Source existence may be rejected only at transactional graph append."
+        },
+        {
+          "id": "GP-X234",
+          "layer": "offline_launch_and_recording",
+          "route": "launch_boundary",
+          "status": "AGREES",
+          "limitation": "Counted injected runner only. Valid recorded declaration is not verified operation semantics or theorem authority. Source existence may be rejected only at transactional graph append."
+        },
+        {
+          "id": "GP-X236",
+          "layer": "offline_launch_and_recording",
+          "route": "launch_boundary",
+          "status": "AGREES",
+          "limitation": "Counted injected runner only. Valid recorded declaration is not verified operation semantics or theorem authority. Source existence may be rejected only at transactional graph append."
+        },
+        {
+          "id": "GP-X237",
+          "layer": "offline_launch_and_recording",
+          "route": "launch_boundary",
+          "status": "AGREES",
+          "limitation": "Counted injected runner only. Valid recorded declaration is not verified operation semantics or theorem authority. Source existence may be rejected only at transactional graph append."
+        },
+        {
+          "id": "GP-X238",
+          "layer": "offline_launch_and_recording",
+          "route": "launch_boundary",
+          "status": "AGREES",
+          "limitation": "Counted injected runner only. Valid recorded declaration is not verified operation semantics or theorem authority. Source existence may be rejected only at transactional graph append."
+        }
+      ],
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/PHASE-0A-REV3-INTEGRATION-REVIEW.md",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ]
+    },
+    {
+      "finding_obligation": "80.5",
+      "extraction_status": "covered_by_existing_cases_at_recorded_layer",
+      "case_ids": [
+        "GP-X07"
+      ],
+      "review": "Parent compared neutral inputs, attempted conclusion, expectation, batch evidence and pinned replay. Reuse is limited to the named premise/failure mechanism, not full source soundness or an unexecuted native path.",
+      "mechanism": "algebraic contraction and geometric closure are separate authorities",
+      "observation_limits": [
+        {
+          "id": "GP-X07",
+          "layer": "conditional_rule",
+          "route": "transport",
+          "status": "AGREES",
+          "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+        }
+      ],
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/PHASE-0A-REV3-INTEGRATION-REVIEW.md",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ]
+    },
+    {
+      "finding_obligation": "82.3",
+      "extraction_status": "covered_by_existing_cases_at_recorded_layer",
+      "case_ids": [
+        "GP-A10-C",
+        "GP-A10-R"
+      ],
+      "review": "Parent compared neutral inputs, attempted conclusion, expectation, batch evidence and pinned replay. Reuse is limited to the named premise/failure mechanism, not full source soundness or an unexecuted native path.",
+      "mechanism": "ordered interpretation is load-bearing",
+      "observation_limits": [
+        {
+          "id": "GP-A10-C",
+          "layer": "receipt_and_reach",
+          "route": "sos",
+          "status": "AGREES",
+          "limitation": null
+        },
+        {
+          "id": "GP-A10-R",
+          "layer": "receipt_and_reach",
+          "route": "sos",
+          "status": "AGREES",
+          "limitation": null
+        }
+      ],
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/PHASE-0A-REV3-INTEGRATION-REVIEW.md",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ]
+    },
+    {
+      "finding_obligation": "82.8",
+      "extraction_status": "covered_by_existing_cases_at_recorded_layer",
+      "case_ids": [
+        "GP-A10-C",
+        "GP-A10-R",
+        "GP-X308",
+        "GP-X310",
+        "GP-X311"
+      ],
+      "review": "Parent compared neutral inputs, attempted conclusion, expectation, batch evidence and pinned replay. Reuse is limited to the named premise/failure mechanism, not full source soundness or an unexecuted native path.",
+      "mechanism": "reach plus exact arithmetic and model binding",
+      "observation_limits": [
+        {
+          "id": "GP-A10-C",
+          "layer": "receipt_and_reach",
+          "route": "sos",
+          "status": "AGREES",
+          "limitation": null
+        },
+        {
+          "id": "GP-A10-R",
+          "layer": "receipt_and_reach",
+          "route": "sos",
+          "status": "AGREES",
+          "limitation": null
+        },
+        {
+          "id": "GP-X308",
+          "layer": "native_ordered_receipt_replay",
+          "route": "ordered_recording",
+          "status": "AGREES",
+          "limitation": "Native exact checker plus current-metadata log fold; ordered reach only. No backend or broader field interpretation."
+        },
+        {
+          "id": "GP-X310",
+          "layer": "native_ordered_receipt_replay",
+          "route": "ordered_recording",
+          "status": "AGREES",
+          "limitation": "Native exact checker plus current-metadata log fold; ordered reach only. No backend or broader field interpretation."
+        },
+        {
+          "id": "GP-X311",
+          "layer": "native_ordered_receipt_replay",
+          "route": "ordered_recording",
+          "status": "AGREES",
+          "limitation": "Native exact checker plus current-metadata log fold; ordered reach only. No backend or broader field interpretation."
+        }
+      ],
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/PHASE-0A-REV3-INTEGRATION-REVIEW.md",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ]
+    },
+    {
+      "finding_obligation": "83.2a",
+      "extraction_status": "covered_by_existing_cases_at_recorded_layer",
+      "case_ids": [
+        "GP-A23"
+      ],
+      "review": "Parent compared neutral inputs, attempted conclusion, expectation, batch evidence and pinned replay. Reuse is limited to the named premise/failure mechanism, not full source soundness or an unexecuted native path.",
+      "mechanism": "open-locus emptiness does not cover parent",
+      "observation_limits": [
+        {
+          "id": "GP-A23",
+          "layer": "conditional_rule",
+          "route": "transport",
+          "status": "AGREES",
+          "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+        }
+      ],
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/PHASE-0A-REV3-INTEGRATION-REVIEW.md",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ]
+    },
+    {
+      "finding_obligation": "83.2b",
+      "extraction_status": "covered_by_existing_cases_at_recorded_layer",
+      "case_ids": [
+        "GP-X52"
+      ],
+      "review": "Parent compared neutral inputs, attempted conclusion, expectation, batch evidence and pinned replay. Reuse is limited to the named premise/failure mechanism, not full source soundness or an unexecuted native path.",
+      "mechanism": "reverse realization requires a lift warrant",
+      "observation_limits": [
+        {
+          "id": "GP-X52",
+          "layer": "conditional_rule",
+          "route": "transport",
+          "status": "AGREES",
+          "limitation": "Direct pinned-kernel table observation with relation prerequisites assumed. The historical ledger expected-verdict comparison is not consulted; no declaration or theorem name is treated as a warrant."
+        }
+      ],
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/PHASE-0A-REV3-INTEGRATION-REVIEW.md",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ]
+    },
+    {
+      "finding_obligation": "83.2d",
+      "extraction_status": "covered_by_existing_cases_at_recorded_layer",
+      "case_ids": [
+        "GP-A03b",
+        "GP-C02",
+        "GP-A16-covered"
+      ],
+      "review": "Parent compared neutral inputs, attempted conclusion, expectation, batch evidence and pinned replay. Reuse is limited to the named premise/failure mechanism, not full source soundness or an unexecuted native path.",
+      "mechanism": "three separate sound directions, not a generalized inclusion rule",
+      "observation_limits": [
+        {
+          "id": "GP-A03b",
+          "layer": "conditional_rule",
+          "route": "transport",
+          "status": "AGREES",
+          "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+        },
+        {
+          "id": "GP-C02",
+          "layer": "conditional_rule",
+          "route": "transport",
+          "status": "AGREES",
+          "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+        },
+        {
+          "id": "GP-A16-covered",
+          "layer": "conditional_rule",
+          "route": "partition",
+          "status": "AGREES",
+          "limitation": "Tests the partition rule assuming checked prerequisites, not exhaustiveness replay."
+        }
+      ],
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/PHASE-0A-REV3-INTEGRATION-REVIEW.md",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ]
+    },
+    {
+      "finding_obligation": "83.4",
+      "extraction_status": "covered_by_existing_cases_at_recorded_layer",
+      "case_ids": [
+        "GP-A07a",
+        "GP-X52"
+      ],
+      "review": "Parent compared neutral inputs, attempted conclusion, expectation, batch evidence and pinned replay. Reuse is limited to the named premise/failure mechanism, not full source soundness or an unexecuted native path.",
+      "mechanism": "specific lift requires a preimage warrant",
+      "observation_limits": [
+        {
+          "id": "GP-A07a",
+          "layer": "conditional_rule",
+          "route": "transport",
+          "status": "AGREES",
+          "limitation": "Tests the legacy transport rule assuming its prerequisites. Does not mint or replay a graph warrant."
+        },
+        {
+          "id": "GP-X52",
+          "layer": "conditional_rule",
+          "route": "transport",
+          "status": "AGREES",
+          "limitation": "Direct pinned-kernel table observation with relation prerequisites assumed. The historical ledger expected-verdict comparison is not consulted; no declaration or theorem name is treated as a warrant."
+        }
+      ],
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/PHASE-0A-REV3-INTEGRATION-REVIEW.md",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ]
+    },
+    {
+      "finding_obligation": "84.10",
+      "extraction_status": "covered_by_existing_cases_at_recorded_layer",
+      "case_ids": [
+        "GP-A16-covered",
+        "GP-A16-missing"
+      ],
+      "review": "Parent compared neutral inputs, attempted conclusion, expectation, batch evidence and pinned replay. Reuse is limited to the named premise/failure mechanism, not full source soundness or an unexecuted native path.",
+      "mechanism": "cover authenticity plus branch emptiness",
+      "observation_limits": [
+        {
+          "id": "GP-A16-covered",
+          "layer": "conditional_rule",
+          "route": "partition",
+          "status": "AGREES",
+          "limitation": "Tests the partition rule assuming checked prerequisites, not exhaustiveness replay."
+        },
+        {
+          "id": "GP-A16-missing",
+          "layer": "conditional_rule",
+          "route": "partition",
+          "status": "AGREES",
+          "limitation": "Tests the partition rule assuming checked prerequisites, not exhaustiveness replay."
+        }
+      ],
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/PHASE-0A-REV3-INTEGRATION-REVIEW.md",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ]
+    },
+    {
+      "finding_obligation": "83.7",
+      "extraction_status": "covered_countermodel_diagnostic_observation_only",
+      "case_ids": [
+        "GP-A03a"
+      ],
+      "review": "In Q[x]/(x^2), x is nonzero while x vanishes at every field-valued point. This is the same radical-versus-ideal implication failure (including Int/(4), element2). Existing observation is advice/diagnostic only; no executable authority refusal or false-held path is claimed. Positive point transport remains GP-A03b.",
+      "observation_status": "DIAGNOSTIC_OBSERVED",
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/PHASE-0A-REV3-INTEGRATION-REVIEW.md",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ]
+    },
+    {
+      "finding_obligation": "85.3",
+      "extraction_status": "covered_countermodel_diagnostic_observation_only",
+      "case_ids": [
+        "GP-A03a"
+      ],
+      "review": "In Q[x]/(x^2), x is nonzero while x vanishes at every field-valued point. This is the same radical-versus-ideal implication failure (including Int/(4), element2). Existing observation is advice/diagnostic only; no executable authority refusal or false-held path is claimed. Positive point transport remains GP-A03b.",
+      "observation_status": "DIAGNOSTIC_OBSERVED",
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/PHASE-0A-REV3-INTEGRATION-REVIEW.md",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ]
+    },
+    {
+      "finding_obligation": "84.8",
+      "extraction_status": "necessary_gap_incorrect_reuse_rejected",
+      "rejected_case_ids": [
+        "GP-X56"
+      ],
+      "review": "Read complete pinned Exhaustive.lean. The geometric_hole_does_not_refute_base_cover countermodel concerns noncoverage over an extended point universe not refuting BASE coverage. X56 concerns base EMPTY not carrying forward to an extension. They are different attempted conclusions.",
+      "minimal_required_contrast": {
+        "parent_equations": [
+          "x^2+1"
+        ],
+        "branches": [],
+        "base": "Q",
+        "geometric": "algebraic closure of Q",
+        "attempt": "Use failed geometric exhaustiveness as a refutation of BASE coverage",
+        "expected": "REFUSE",
+        "reason": "Parent has no Q points, so its empty branch family covers vacuously; geometric parent has roots and is not covered.",
+        "positive_control": "A geometric noncoverage conclusion at the algebraic-closure point universe, with a checked hole or explicitly assumed geometric test result."
+      },
+      "source_pin": {
+        "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+        "path": "lean/GrandPortage/Exhaustive.lean",
+        "anchor": "theorem geometric_hole_does_not_refute_base_cover"
+      },
+      "limits": "Concrete payload design specified; no new corpus case, native reproduction or gate closure yet.",
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/PHASE-0A-REV3-INTEGRATION-REVIEW.md",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ]
     }
   ]
 }

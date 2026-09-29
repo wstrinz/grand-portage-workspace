@@ -1,6 +1,6 @@
 # Working instructions
 
-Read BACKBRIEF.md, DECISIONS.md and docs/GP-0.50-REWORK-PACKET.md before substantive work. User decisions in DECISIONS.md amend the retained packet.
+Read BACKBRIEF.md, BACKBRIEF-REV3.md, DECISIONS.md, docs/GP-0.50-REWORK-PACKET-rev3.md and reports/PACKET-REV3-REVIEW.md before substantive work. Revision 3 and its review amendments were approved on 2026-09-29. User decisions in DECISIONS.md amend the verbatim retained packet; earlier revisions are historical comparison sources.
 
 Keep work, builds, downloads, caches and scratch data on F: where practical. Use this workspace explicitly; the chat may still have the predecessor as its default directory. Do not move existing campaign repositories.
 
