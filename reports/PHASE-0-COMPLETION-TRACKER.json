@@ -8,18 +8,19 @@
       "remaining": [
         "A24 direct semantic clarification remains pending; current REFUSE/PENDING unchanged",
         "Final bounded source/neutrality/exception closeout; include X53, six A27 and two contraction/lift unsupported cases without claiming executed positive gates",
-        "A03a diagnostic limit and deferred later-design semantics remain explicit; no general predecessor soundness certification required"
+        "A03a diagnostic limit and deferred later-design semantics remain explicit; no general predecessor soundness certification required",
+        "Bounded ordinary-point guarded/equation-free candidate design commissioned after GP consolidation; admission/observation choice awaits parent review"
       ]
     },
     "0b": {
       "status": "in_progress",
       "rule_source": "docs/GP-0.50-REWORK-PACKET-rev3.md section 0b and Appendices B/C",
       "remaining": [
-        "Complete Pigeon River bounded campaign review and parent integration",
-        "Finalize finite GP family/reuse dispositions and grouped campaign episode/class/origin inventory",
-        "Retain unknown cost/shipping/core-catch and correlated subfindings honestly; final AppendixB schema handling cannot be silently relaxed"
+        "Integrate47qualified GP subepisode dispositions into final descriptive inventory; source histories/control suggestions are not all mandatory new cases",
+        "Approve explicit-unknown final schema handling or keep strict AppendixB incomplete; direct user question pending",
+        "Finalize corpus/incidents and root incident inventory with grouped subepisodes, qualified counts and honest scope/custody limitations"
       ],
-      "evidence": "JC/DK/Cloquet/ARR15 bounded intakes integrated;73private hash-verified files (20JC/22DK/19Cloquet/12ARR15). Stored receipts/logs remain custody evidence, no fresh campaign execution."
+      "evidence": "JC/DK/Cloquet/ARR15/Pigeon River bounded intakes integrated.89private hash-verified files(20JC/22DK/19Cloquet/12ARR15/16PigeonRiver). All89ignored files verified; historical exports are custody evidence, no fresh campaign execution.68qualified non-GP campaign draft rows; not independent statistical incidents."
     },
     "0c": {
       "status": "deferred_by_prerequisites",
@@ -45,11 +46,11 @@
       "limits": "No code imports, installations or implementation prototypes; P13 M1-only and P15 post-G5."
     }
   },
-  "blocker_assessment": "No global blocker. A24 semantic clarification remains pending; Pigeon River and finite GP/inventory consolidation provide meaningful independent work.",
+  "blocker_assessment": "No global blocker. A24 and final unknown-field decision await direct answers; finite GP consolidation and bounded0a closeout provide independent work.",
   "next_work": [
-    "Worker: Pigeon River twelve-document maximum review only",
-    "Parent: finite GP reuse/campaign inventory consolidation and final0a source/exception review",
-    "A24 direct clarification;0c effort cap after0a/0b;0e120active-minute reading cap authorized, not started"
+    "Worker: ORDINARY-POINT-GUARD-CANDIDATE reports only, at most3payload designs and faithful observation assessment; no execution/admission",
+    "Parent: finite GP/campaign inventory and final0a source/exception disposition; unknown-field finalization awaits user answer",
+    "A24 clarification pending; final bounded0a exception/source review;0c cap after0a/0b;0e authorized/not started"
   ],
   "new_findings": [
     "reports/RETRY-MERGE-AUDIT.json",
