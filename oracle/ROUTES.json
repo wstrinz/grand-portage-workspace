@@ -2853,6 +2853,67 @@
       "manifest_sha256": "b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
       "case_sha256": "13732d12cfb7e26ef8a24a20a57d6f484aad369eaeb613ec4002cd5e7f081568",
       "limitation": "Verifies retained incident evidence bindings only; no fresh operational execution, native verdict, mathematical checker admission or agreement."
+    },
+    "GP-X404": {
+      "kind": "interval_admission",
+      "layer": "native_model_admission_with_direct_api_contrast",
+      "limitation": "Direct APIs replay a positive endpoint sign in both cases; native model interval admission is the observed verdict. No held mathematical claim or new standalone API contract."
+    },
+    "GP-X405": {
+      "kind": "interval_admission",
+      "layer": "native_model_admission_with_direct_api_contrast",
+      "limitation": "Direct APIs replay a positive endpoint sign in both cases; native model interval admission is the observed verdict. No held mathematical claim or new standalone API contract."
+    },
+    "GP-X399": {
+      "kind": "closure_fixture",
+      "family": "guard",
+      "layer": "frozen_declaration_or_open_premise_guard",
+      "case_sha256": "cf8583a6198d4d29c479da443df2f26e7f4e4c1b3d021623a2a6e11bddc774a7",
+      "limitation": "Exact frozen fixture replay only. Declaration/clean-step success does not prove family coverage or held authority; Cramer arithmetic grants no source equivalence or graph result."
+    },
+    "GP-X400": {
+      "kind": "closure_fixture",
+      "family": "guard",
+      "layer": "frozen_declaration_or_open_premise_guard",
+      "case_sha256": "3dee6d121b0a786e2e5e9d4cb96929fad49472996e59f061c0209cd3fa195542",
+      "limitation": "Exact frozen fixture replay only. Declaration/clean-step success does not prove family coverage or held authority; Cramer arithmetic grants no source equivalence or graph result."
+    },
+    "GP-X401": {
+      "kind": "closure_fixture",
+      "family": "guard",
+      "layer": "frozen_declaration_or_open_premise_guard",
+      "case_sha256": "a5616f38bb141c5905112556b17bf11df32cf4d1cf3b5bc854d00c35103695bf",
+      "limitation": "Exact frozen fixture replay only. Declaration/clean-step success does not prove family coverage or held authority; Cramer arithmetic grants no source equivalence or graph result."
+    },
+    "GP-X402": {
+      "kind": "closure_fixture",
+      "family": "guard",
+      "layer": "frozen_declaration_or_open_premise_guard",
+      "case_sha256": "490987e96755ceb32a5f6fb44bd0202488212ce348bc04cd1e70d37b7d1c144f",
+      "limitation": "Exact frozen fixture replay only. Declaration/clean-step success does not prove family coverage or held authority; Cramer arithmetic grants no source equivalence or graph result."
+    },
+    "GP-X403": {
+      "kind": "closure_fixture",
+      "family": "guard",
+      "layer": "frozen_declaration_or_open_premise_guard",
+      "case_sha256": "f17172a2744b2346f254402b94c5aa755fed17ad81d1227a21a7ae0c23033f52",
+      "limitation": "Exact frozen fixture replay only. Declaration/clean-step success does not prove family coverage or held authority; Cramer arithmetic grants no source equivalence or graph result."
+    },
+    "GP-X406": {
+      "kind": "closure_fixture",
+      "family": "cramer",
+      "layer": "historical_exact_cramer_arithmetic",
+      "case_sha256": "f8cbecfffb06793792f51820234f3e65ea4e466407e0a14d18411ebcc99d3972",
+      "limitation": "Exact frozen fixture replay only. Declaration/clean-step success does not prove family coverage or held authority; Cramer arithmetic grants no source equivalence or graph result.",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
+    },
+    "GP-X407": {
+      "kind": "closure_fixture",
+      "family": "cramer",
+      "layer": "historical_exact_cramer_arithmetic",
+      "case_sha256": "e604165a3ce143ed7ad58cd9cf00819747aa1c9b1b1a3f45a51cf2604f1f8358",
+      "limitation": "Exact frozen fixture replay only. Declaration/clean-step success does not prove family coverage or held authority; Cramer arithmetic grants no source equivalence or graph result.",
+      "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
     }
   }
 }

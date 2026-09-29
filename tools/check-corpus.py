@@ -95,6 +95,12 @@ def probe(case, route):
             raise ValueError("Admitted case differs from bound candidate")
         return {**observation, "status": "RETAINED_DIAGNOSTIC",
                 "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."}
+    if kind == "interval_admission":
+        from interval_admission_probes import probe as interval_probe
+        return interval_probe(case, route)
+    if kind == "closure_fixture":
+        from closure_fixture_probes import probe as closure_probe
+        return closure_probe(case, route)
     if kind == "a27_unsupported_contract":
         # Keep scope-contract expectations without fabricating a legacy result.
         # Source and rationale: docs/A27-CORRECTED-CONTRACT.md.
@@ -721,6 +727,10 @@ def main():
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
     report = {"schema_version":1,"timestamp_utc":stamp,"oracle_commit":PIN,
               "oracle_path":str(ORACLE),"runner_sha256":sha(Path(__file__)),
+              "closure_fixture_probe_sha256":sha(ROOT/"tools/closure_fixture_probes.py"),
+              "guard_snapshot_probe_sha256":sha(ROOT/"tools/guard_snapshot_probes.py"),
+              "cramer_exponent_probe_sha256":sha(ROOT/"tools/cramer_exponent_probes.py"),
+              "interval_admission_probe_sha256":sha(ROOT/"tools/interval_admission_probes.py"),
               "operational_retained_adapter_sha256":sha(ROOT/"tools/operational-retained-observation.py"),
               "historical_probe_sha256":sha(ROOT/"tools/historical_probes.py"),
                "historical_residual_probe_sha256":sha(ROOT/"tools/historical_residual_probes.py"),

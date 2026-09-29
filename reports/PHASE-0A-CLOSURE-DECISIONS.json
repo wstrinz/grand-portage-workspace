@@ -1222,6 +1222,122 @@
         "GP-X398"
       ],
       "limit": "29 added observations are retained diagnostic binding checks, not fresh operational execution or native verdicts. A24 pending; X53 and six A27 unsupported. No Phase0a closure asserted."
+    },
+    {
+      "row": "51.4",
+      "status": "wording_repair_deferred_no_new_case",
+      "cases": [
+        "GP-A10-R",
+        "GP-A10-C"
+      ],
+      "evidence": [
+        "reports/PHASE-0A-BATCH-51.md"
+      ],
+      "reason": "Successful R trace uses generic base-change wording, but C remains refused. Existing R/C cases preserve the verdict boundary; no distinct consequential authority claim was observed."
+    },
+    {
+      "row": "58.3b",
+      "status": "bounded_mechanism_reuse",
+      "cases": [
+        "GP-X65",
+        "GP-X66"
+      ],
+      "evidence": [
+        "reports/PHASE-0A-Q1-RECEIPT-PARTITION-EVIDENCE.json#/rows/3"
+      ],
+      "reason": "Advice that attaching a certificate kind earns scope is not a checked receipt. X65/X66 cover absence/currentness of actual receipt authority. This is normative mechanism reuse, not exact MCP wording replay or generic UNIT_IDEAL_CERT equivalence."
+    },
+    {
+      "row": "78.4",
+      "status": "bounded_mechanism_reuse",
+      "cases": [
+        "GP-X65",
+        "GP-X66",
+        "GP-C01"
+      ],
+      "evidence": [
+        "reports/PHASE-0A-Q1-RECEIPT-PARTITION-EVIDENCE.json#/rows/4",
+        "reports/PHASE-0A-BATCH-78.md"
+      ],
+      "reason": "Retained hook test classifies transport under a declared known kind; it is not earned leaf authority. X65/X66 protect the known-name/current-receipt distinction; C01 provides exact-unit-identity base-extension control. Localized and generic certificate handlers are not claimed identical."
+    },
+    {
+      "row": "71.2b",
+      "status": "paired_native_admission_extraction_pending_full_replay",
+      "cases": [
+        "GP-X404",
+        "GP-X405"
+      ],
+      "evidence": [
+        "reports/ORDERED-RECEIPT-BOUNDARIES.json#/controls/3",
+        "reports/ORDERED-RECEIPT-BOUNDARIES.json#/controls/4"
+      ],
+      "reason": "Exact endpoint w=2 gives sign+1 through both direct APIs for ordered/reversed bounds. Native model admission accepts(2,3), refuses(2,1). This tests an existing native contract without selecting a new standalone checker contract or claiming false arithmetic."
+    },
+    {
+      "extraction_status": "twelve_interpretation_holds_deferred_under_approved_narrow_scope",
+      "ids": [
+        "59.2b",
+        "59.4",
+        "63.5",
+        "65.2",
+        "65.3c",
+        "66.4a",
+        "68.2",
+        "75.6a",
+        "76.5",
+        "76.8a",
+        "83.5",
+        "83.8"
+      ],
+      "evidence": "reports/PHASE-0A-INTERPRETATION-DEFERRALS.json",
+      "limit": "No existing expectation changed. Direct-API observations remain preserved. These rows require a specified supported contract or additional concrete incident before new fixed verdicts; this is not a claim that the predecessor behavior is sound."
+    },
+    {
+      "extraction_status": "release_README_SPEC_diff_disposition_complete",
+      "source_pin": "af4f6a8f6872521f4f814ab8cdb22af32a11d52c",
+      "evidence": "reports/PHASE-0A-RELEASE-DOCUMENT-DISPOSITION.json",
+      "limit": "Closes the two outstanding path-diff dispositions for this release commit only; does not certify all reachable history or runtime soundness."
+    },
+    {
+      "id": "deleted-dm4-prior-proof-spine",
+      "status": "explicitly_withdrawn_intermediate_claim_no_new_case",
+      "source_blob": "36e9e90cecee7209ef1098ca8f79118c02381bb6",
+      "source_lines": [
+        45,
+        72
+      ],
+      "evidence": "reports/PHASE-0A-DELETED-DOCUMENT-REVIEW.json#/findings/2",
+      "parent_check": {
+        "alpha": 2,
+        "beta": 1,
+        "gamma": 0,
+        "delta": -1,
+        "two_balances": true,
+        "withdrawn_gamma_gt_2beta": false,
+        "replacement_unique_minimum_inequalities": true
+      },
+      "reason": "The document explicitly withdraws the informal inequality; the integer check demonstrates why that intermediate conclusion is unavailable and supports the corrected conditional spine. It is not a polynomial solution to G1-G3, a runtime admission failure or a counterexample to the corrected theorem. The distinct universal zero-chart overclaim is already extracted as X341/X342. No new case for a withdrawn intermediate proof step under narrowed correction dispositions."
+    },
+    {
+      "extraction_status": "fixed42_deleted_assertions_dispositioned_with_cramer_replay_pending",
+      "evidence": "reports/PHASE-0A-DELETED-MAPPING-PARENT-DISPOSITION.json",
+      "limit": "Binding-only reuse certifies neither mutated polynomial arithmetic nor full fixture replay. Positive historical assertions remain source evidence. This accounts for fixed42 assertions, not all history."
+    },
+    {
+      "extraction_status": "nine_guard_interval_cramer_cases_full_replay_verified",
+      "evidence": "reports/PHASE-0A-BOUNDED-CLOSEOUT-SLICE.json",
+      "cases": [
+        "GP-X399",
+        "GP-X400",
+        "GP-X401",
+        "GP-X402",
+        "GP-X403",
+        "GP-X404",
+        "GP-X405",
+        "GP-X406",
+        "GP-X407"
+      ]
     }
   ]
 }

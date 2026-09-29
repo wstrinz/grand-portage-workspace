@@ -1,4 +1,4 @@
-# Approved clarifications — 2026-09-27
+# Approved clarifications â€” 2026-09-27
 
 Source: Will's response to the backbrief review: "ok i am good with those recs" with the change to use the development partition on F: for the new workspace and all practical activity; moving old files is unnecessary.
 
@@ -25,3 +25,7 @@ The retained packet is unedited. These clarifications take precedence where they
 0e initial review is authorized with a two-hour active-review cap, all 18 rows accounted for (P13 M1-only, P15 post-G5; P12/P16 reading may be combined), primary-source evidence and explicit unresolved items. No installations, code imports or implementation prototypes in that reading pass. The cap does not waive an incomplete gate. Three G1 adoption decisions remain evidence-backed decisions for later sign-off, not approved adoption of particular packages. 0c still needs completed 0a/0b and a separately agreed measurable cap; include its new separate-package Mathlib timing experiment. Heartbeats stay cancelled. Approval releases the revision-3 backbrief pause and authorizes bounded 0a closeout and corrected A27 work.
 
 2026-09-29 source confirmation: Will confirmed all five campaign folders under C:/Users/wstri/dev/math-research/campaigns (cfg23, dk-retrodiction, match4, arr15, ac-2gen), read-only, with private harvested copies on F:. Remaining manifest questions are pending; this partial confirmation does not yet start0b.
+
+2026-09-29 manifest discovery: Will authorized filename-only search under C:/Users/wstri/dev. Three configuration-23-4 notes/archive candidates were found; no newly discovered content was opened. Their inclusion and disposition of missing named packets remain pending confirmation. See reports/PHASE-0B-FILENAME-DISCOVERY.json.
+
+2026-09-29 confirmed: Will approved all three configuration-23-4 files in C:/Users/wstri/dev/math-research/tmp (v1.2.0-notes.md, v1.2.0-zenodo.zip, v1.1.0-zenodo.zip), read-only with private F: extraction. Missing-packet disposition and optional/nonlocal scope remain pending; no complete-manifest sweep yet.

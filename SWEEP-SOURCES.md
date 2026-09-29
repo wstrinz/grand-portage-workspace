@@ -16,3 +16,5 @@ Status: Will approved the draft and continuing on 2026-09-27. Concrete JC and GP
 Hosts/access notes: pending. Anything not to read or harvest: pending.
 
 Pending questions already sent: supply missing DK/T1, Cloquet scouting and Highway61 packet paths or authorize bounded filename discovery; decide LSEM/SCOUT/other scope and additional exclusions/nonlocal sources. Do not start0b until these complete the manifest.
+
+2026-09-29 confirmed: Will approved all three configuration-23-4 files in C:/Users/wstri/dev/math-research/tmp (v1.2.0-notes.md, v1.2.0-zenodo.zip, v1.1.0-zenodo.zip), read-only with private F: extraction. Missing-packet disposition and optional/nonlocal scope remain pending; no complete-manifest sweep yet.
