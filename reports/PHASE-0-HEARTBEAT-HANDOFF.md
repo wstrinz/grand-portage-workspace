@@ -8,11 +8,11 @@ Work explicitly in F:/repos/grandportage-0.50. Read AGENTS/DECISIONS and closure
 
 ## Current integrated evidence
 
-398 cases:124 ACCEPT /274 REFUSE. Replay reports/oracle-runs/20260929T012356934782Z.json:381 AGREES,14 KNOWN_DIFFERENCE,1 DIAGNOSTIC_OBSERVED,1 PENDING,1 UNSUPPORTED. Parent reviewed full Q2 probe/11 payloads, validated398 and independently preserved387 prior bytes/outcomes. X347-X354 are native cubic/sign arithmetic; X355-X357 reference countermodels. Stronger saturation gap now covered byX357. Nine of historical47 proposals extracted;38 remain proposals, not confirmed missing cases.
+408 cases:130 ACCEPT /278 REFUSE. Replay reports/oracle-runs/20260929T013956101499Z.json:391 AGREES,14 KNOWN_DIFFERENCE,1 DIAGNOSTIC_OBSERVED,1 PENDING,1 UNSUPPORTED. Parent read complete Q3 probe/10 payloads, validated408 and independently preserved398 prior bytes/outcomes. Five Q3 row occurrences closed; extraction stopped as directed. No automatic next batch.
 
 ## Workers and next priority
 
-USER-APPROVED PRIORITY CHANGE: finish active Q3 only, then closure triage with NO DEFAULT CASE EXPANSION. Sol thread01a0e90c-4cb4-7392-b246-590cce500642 host local remains sole Q3 corpus/adapter/replay writer and has been instructed to stop after delivery. Do not automatically dispatch Q4 or another extraction batch. Terra will triage existing candidate/reuse/nonincident evidence into grouped dispositions, necessary gaps, deferrals and decisions, with no corpus changes. Parent reviews concrete rationale and chooses only foundation-critical follow-up. Read latest DECISIONS amendment.
+Sol thread01a0e90c-4cb4-7392-b246-590cce500642 host local idle after Q3. Terra mapping_gate_review correcting CLOSURE-TRIAGE22 proposed deferrals plus N1 duplicate risk. Parent found absence of mathematical false authority insufficient to defer documented operational regressions; corrected triage must distinguish actual failed contract, wording, policy and hypothetical risk. X65/X66 and X343/X346 must be screened before another receipt control. No new extraction authorized by triage proposal alone. User-approved plan is grouped closure with concrete necessary gaps, explicit deferrals and decisions.
 
 ## Parent findings and remaining queue
 

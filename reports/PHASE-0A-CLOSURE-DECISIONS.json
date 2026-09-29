@@ -318,6 +318,74 @@
         "reports/oracle-runs/20260929T012356934782Z.json"
       ],
       "review": "Parent read full probe and11 payloads, runner diff and relevant source premises; validated398 and independently preserved387 prior case bytes/expectations/verdicts/status/routes/layers. Cubic and sign routes use pinned native exact checks; zero algebra, Fin4 and unchanged(6) saturation are transparent reference countermodels, no Lean/native theorem verdict. Saturation3 has witness2 and is absent from(6) despite both local premises. Reversed interval remains separate71.2b."
+    },
+    {
+      "finding_obligation": "79.8",
+      "extraction_status": "complete_for_recorded_mechanism",
+      "case_ids": [
+        "GP-X358",
+        "GP-X359",
+        "GP-X360"
+      ],
+      "evidence": [
+        "reports/PHASE-0A-Q3-MAP-LOCALIZATION-EXTRACTION.md",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ],
+      "review": "Parent read full probe and10 payloads, independently verified arithmetic/predicate countermodels, validated408 and preserved398 prior case bytes, expectations, verdicts, status, route and layer. Reference checks only, no Lean/native verifier verdict. Operation map preserves roots not forward emptiness; local multiplier does not imply ambient membership; inverse substitution orientation and literal containment are separately tested."
+    },
+    {
+      "finding_obligation": "82.4",
+      "extraction_status": "complete_for_recorded_mechanism",
+      "case_ids": [
+        "GP-X358",
+        "GP-X359",
+        "GP-X360"
+      ],
+      "evidence": [
+        "reports/PHASE-0A-Q3-MAP-LOCALIZATION-EXTRACTION.md",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ],
+      "review": "Parent read full probe and10 payloads, independently verified arithmetic/predicate countermodels, validated408 and preserved398 prior case bytes, expectations, verdicts, status, route and layer. Reference checks only, no Lean/native verifier verdict. Operation map preserves roots not forward emptiness; local multiplier does not imply ambient membership; inverse substitution orientation and literal containment are separately tested."
+    },
+    {
+      "finding_obligation": "85.5",
+      "extraction_status": "complete_for_recorded_mechanism",
+      "case_ids": [
+        "GP-X361",
+        "GP-X362",
+        "GP-X363"
+      ],
+      "evidence": [
+        "reports/PHASE-0A-Q3-MAP-LOCALIZATION-EXTRACTION.md",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ],
+      "review": "Parent read full probe and10 payloads, independently verified arithmetic/predicate countermodels, validated408 and preserved398 prior case bytes, expectations, verdicts, status, route and layer. Reference checks only, no Lean/native verifier verdict. Operation map preserves roots not forward emptiness; local multiplier does not imply ambient membership; inverse substitution orientation and literal containment are separately tested."
+    },
+    {
+      "finding_obligation": "85.7a",
+      "extraction_status": "complete_for_recorded_mechanism",
+      "case_ids": [
+        "GP-X364",
+        "GP-X365"
+      ],
+      "evidence": [
+        "reports/PHASE-0A-Q3-MAP-LOCALIZATION-EXTRACTION.md",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ],
+      "review": "Parent read full probe and10 payloads, independently verified arithmetic/predicate countermodels, validated408 and preserved398 prior case bytes, expectations, verdicts, status, route and layer. Reference checks only, no Lean/native verifier verdict. Operation map preserves roots not forward emptiness; local multiplier does not imply ambient membership; inverse substitution orientation and literal containment are separately tested."
+    },
+    {
+      "finding_obligation": "85.7b",
+      "extraction_status": "complete_for_recorded_mechanism",
+      "case_ids": [
+        "GP-X366",
+        "GP-X367"
+      ],
+      "evidence": [
+        "reports/PHASE-0A-Q3-MAP-LOCALIZATION-EXTRACTION.md",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ],
+      "review": "Parent read full probe and10 payloads, independently verified arithmetic/predicate countermodels, validated408 and preserved398 prior case bytes, expectations, verdicts, status, route and layer. Reference checks only, no Lean/native verifier verdict. Operation map preserves roots not forward emptiness; local multiplier does not imply ambient membership; inverse substitution orientation and literal containment are separately tested."
     }
   ]
 }

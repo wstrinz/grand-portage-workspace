@@ -4,7 +4,7 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "398 cases (124 ACCEPT /274 REFUSE);381 agreements,14 known differences,1 diagnostic,1 pending,1 unsupported. Q2 four finding obligations and stronger saturation countermodel closed.",
+      "evidence": "408 cases (130 ACCEPT /278 REFUSE);391 agreements,14 known differences,1 diagnostic,1 pending,1 unsupported. Q3 integrated; automatic extraction stopped under approved closure triage.",
       "remaining": [
         "Exhaustive source/history disposition, including docs and theory",
         "Resolve or explicitly disposition A24 and X53 for G0",
@@ -37,7 +37,7 @@
   },
   "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
   "next_work": [
-    "Finish and parent-review active Q3 batch; no further automatic extraction",
+    "Correct and adjudicate closure triage: documented operational regressions cannot be deferred solely for lacking false mathematical authority; screen existing receipt controls before proposing duplicates",
     "Closure triage: supported grouped reuse/nonincident dispositions, concrete necessary gaps with protection rationale, explicit deferrals and user decisions",
     "Selectively screen remaining source groups for unaccounted recorded incidents; no blanket deep-reading requirement",
     "Resolve A24 and campaign manifest decisions without altering fixed expectations"

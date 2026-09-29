@@ -2560,6 +2560,56 @@
       "kind": "q2_exact",
       "layer": "reference_sixes_saturation",
       "limitation": "Exact integer reference countermodel with BOTH source containment and generator no-invention; no Lean execution or native saturation verifier verdict."
+    },
+    "GP-X358": {
+      "kind": "q3_map",
+      "layer": "reference_operation_map",
+      "limitation": "Exact reference arithmetic/predicate countermodel to pinned formal source. No Lean compilation, native GP verifier result, or new checker admission."
+    },
+    "GP-X359": {
+      "kind": "q3_map",
+      "layer": "reference_operation_map",
+      "limitation": "Exact reference arithmetic/predicate countermodel to pinned formal source. No Lean compilation, native GP verifier result, or new checker admission."
+    },
+    "GP-X360": {
+      "kind": "q3_map",
+      "layer": "reference_operation_map",
+      "limitation": "Exact reference arithmetic/predicate countermodel to pinned formal source. No Lean compilation, native GP verifier result, or new checker admission."
+    },
+    "GP-X361": {
+      "kind": "q3_map",
+      "layer": "reference_localization_ambient",
+      "limitation": "Exact reference arithmetic/predicate countermodel to pinned formal source. No Lean compilation, native GP verifier result, or new checker admission."
+    },
+    "GP-X362": {
+      "kind": "q3_map",
+      "layer": "reference_localization_ambient",
+      "limitation": "Exact reference arithmetic/predicate countermodel to pinned formal source. No Lean compilation, native GP verifier result, or new checker admission."
+    },
+    "GP-X363": {
+      "kind": "q3_map",
+      "layer": "reference_localization_ambient",
+      "limitation": "Exact reference arithmetic/predicate countermodel to pinned formal source. No Lean compilation, native GP verifier result, or new checker admission."
+    },
+    "GP-X364": {
+      "kind": "q3_map",
+      "layer": "reference_map_orientation",
+      "limitation": "Exact reference arithmetic/predicate countermodel to pinned formal source. No Lean compilation, native GP verifier result, or new checker admission."
+    },
+    "GP-X365": {
+      "kind": "q3_map",
+      "layer": "reference_map_orientation",
+      "limitation": "Exact reference arithmetic/predicate countermodel to pinned formal source. No Lean compilation, native GP verifier result, or new checker admission."
+    },
+    "GP-X366": {
+      "kind": "q3_map",
+      "layer": "reference_equivalence_containment",
+      "limitation": "Exact reference arithmetic/predicate countermodel to pinned formal source. No Lean compilation, native GP verifier result, or new checker admission."
+    },
+    "GP-X367": {
+      "kind": "q3_map",
+      "layer": "reference_equivalence_containment",
+      "limitation": "Exact reference arithmetic/predicate countermodel to pinned formal source. No Lean compilation, native GP verifier result, or new checker admission."
     }
   }
 }
