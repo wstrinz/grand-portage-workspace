@@ -1014,6 +1014,21 @@
         "reports/PHASE-0A-REV3-INTEGRATION-REVIEW.md",
         "reports/oracle-runs/20260929T013956101499Z.json"
       ]
+    },
+    {
+      "finding_obligation": "84.8",
+      "extraction_status": "complete_with_distinct_base_geometric_cover_pair",
+      "case_ids": [
+        "GP-X368",
+        "GP-X369"
+      ],
+      "review": "Parent read both payloads and complete adapter, independently reran both frozen-classifier probes, verified all408 prior hashes/expectations/outcomes/statuses/routes/layers unchanged, and validated410 cases. Two unit-ideal branches preserve the empty union. Backend result is explicitly injected; BASE refusal is not proof of exhaustiveness.",
+      "evidence": [
+        "reports/PHASE-0A-BASE-COVER-REFUTATION.md",
+        "reports/PHASE-0A-BASE-COVER-REFUTATION.json",
+        "reports/oracle-runs/20260929T120626698944Z.json"
+      ],
+      "supersedes": "Necessary-gap decision for84.8; X56 mapping remains rejected. No whole-phase closure."
     }
   ]
 }

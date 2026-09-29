@@ -2610,6 +2610,16 @@
       "kind": "q3_map",
       "layer": "reference_equivalence_containment",
       "limitation": "Exact reference arithmetic/predicate countermodel to pinned formal source. No Lean compilation, native GP verifier result, or new checker admission."
+    },
+    "GP-X368": {
+      "kind": "base_cover_refutation",
+      "layer": "native_partition_classifier_with_injected_geometric_test",
+      "limitation": "Native frozen partition classifier with explicitly injected geometric-test result; elementary exact point contrast is a reference argument. Literal zero-branch family is encoded as two empty-locus branches. No checked CAS arithmetic, Lean compile, or persisted verdict."
+    },
+    "GP-X369": {
+      "kind": "base_cover_refutation",
+      "layer": "native_partition_classifier_with_injected_geometric_test",
+      "limitation": "Native frozen partition classifier with explicitly injected geometric-test result; elementary exact point contrast is a reference argument. Literal zero-branch family is encoded as two empty-locus branches. No checked CAS arithmetic, Lean compile, or persisted verdict."
     }
   }
 }

@@ -659,6 +659,9 @@ def probe(case, route):
     if kind == "q3_map":
         from q3_map_probes import probe as q3_map_probe
         return q3_map_probe(case,route)
+    if kind == "base_cover_refutation":
+        from base_cover_refutation_probes import probe as base_cover_probe
+        return base_cover_probe(case,route)
     if kind == "historical_depth8_block":
         from historical_depth8_block_probes import probe as historical_depth8_block_probe
         return historical_depth8_block_probe(case,route)
@@ -707,6 +710,7 @@ def main():
                "receipt_partition_probe_sha256":sha(ROOT/"tools/receipt_partition_probes.py"),
                "q2_exact_probe_sha256":sha(ROOT/"tools/q2_exact_probes.py"),
                "q3_map_probe_sha256":sha(ROOT/"tools/q3_map_probes.py"),
+               "base_cover_refutation_probe_sha256":sha(ROOT/"tools/base_cover_refutation_probes.py"),
               "current_algebra_probe_sha256":sha(ROOT/"tools/current_algebra_probes.py"),
               "lifecycle_probe_sha256":sha(ROOT/"tools/lifecycle_probes.py"),
               "joint_probe_sha256":sha(ROOT/"tools/joint_probes.py"),
