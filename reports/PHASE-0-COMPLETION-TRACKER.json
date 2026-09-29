@@ -21,7 +21,7 @@
         "Finalize source-grounded incident records and class/origin/campaign counts; distinguish unknown cost/shipping data",
         "Harvest selected receipts/exports and complete campaign custody summaries; current seven files are source documents, not validated execution receipts"
       ],
-      "evidence": "Eight confirmed directories inventoried with Git HEADs. Seven JC source files harvested verbatim with hashes. Three distinct incident candidates extracted; cost/shipping fields remain unresolved and excluded from completed-incident statistics."
+      "evidence": "Eight confirmed directories inventoried.20 JC private verbatim harvests include four stored receipt/ledger exports. Three full JC summaries reviewed;17 findings grouped into16 source-supported episodes (one operational recommendation). Unknown fields/taxonomy/origin limits explicit; no complete statistical headline or fresh campaign replay."
     },
     "0c": {
       "status": "deferred_by_prerequisites",
@@ -49,10 +49,10 @@
   },
   "blocker_assessment": "No global blocker. A24 concrete source found within confirmed match4 root; fixed seed interpretation needs clarification.0b remains in progress.",
   "next_work": [
-    "Worker: bounded JC three-summary incident review in separate output reports",
-    "Parent: integrate exact-contraction candidate with honest observation classification",
-    "Parent: resolve A24 source-supported interpretation, then final neutrality and exception closeout",
-    "Parent: continue confirmed0b sweep and receipt/custody harvesting; shipping definition is resolved"
+    "Worker: DK bounded summary/incident/custody pass in separate reports",
+    "Parent: GP0b reuse and final JC/campaign source dispositions",
+    "Parent: contraction candidate admission, A24 clarification and final0a closeout",
+    "Parent: remaining confirmed campaign sweep and incident inventory with explicit unknowns"
   ],
   "new_findings": [
     "reports/RETRY-MERGE-AUDIT.json",
