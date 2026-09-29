@@ -101,6 +101,14 @@ def probe(case, route):
     if kind == "closure_fixture":
         from closure_fixture_probes import probe as closure_probe
         return closure_probe(case, route)
+    if kind == "unsupported_neutral_contract":
+        # Record an expressiveness limit without creating a reference checker.
+        if sha(ROOT/"corpus/must"/(case["id"]+".json")) != route["case_sha256"]:
+            raise ValueError("Bound unsupported neutral case bytes changed")
+        return {"observed_verdict": None, "status": "UNSUPPORTED",
+                "reason": route["reason"], "oracle_called": False,
+                "arithmetic_replayed": False, "lean_compiled": False,
+                "premises_assumed_not_verified": True}
     if kind == "a27_unsupported_contract":
         # Keep scope-contract expectations without fabricating a legacy result.
         # Source and rationale: docs/A27-CORRECTED-CONTRACT.md.

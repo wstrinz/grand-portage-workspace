@@ -4,24 +4,22 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "454 cases (136 ACCEPT/318 REFUSE):402 AGREES,14 KNOWN_DIFFERENCE,1 DIAGNOSTIC_OBSERVED,29 RETAINED_DIAGNOSTIC,1 PENDING,7 UNSUPPORTED.445 prior cases and59 prior replay files preserved. Fixed42 deleted-test assertions dispositioned.",
+      "evidence": "456cases (137 ACCEPT/319 REFUSE):402 AGREES,14 KNOWN_DIFFERENCE,1 DIAGNOSTIC_OBSERVED,29 RETAINED_DIAGNOSTIC,1 PENDING,9 UNSUPPORTED.454prior case bytes/routes/outcomes and60prior immutable replays preserved. Exact-contraction/lift pair integrated as explicitly unsupported abstract contracts.",
       "remaining": [
-        "Bounded document/source successor dispositions accepted; integrate exact-contraction/valid-evaluation residual",
-        "Resolve or explicitly disposition A24 and X53 for G0",
-        "Complete semantic-neutrality review across corpus families; the 22 embedded lifecycle event inputs are now migrated and audited",
-        "Joint-route and cover cases extracted; general alternative support, transitive warrant semantics and admitted entailment remain unresolved",
-        "Include A27 unsupported conditional-premise controls explicitly in closeout; no claimed arithmetic or executable-positive gate"
+        "A24 direct semantic clarification remains pending; current REFUSE/PENDING unchanged",
+        "Final bounded source/neutrality/exception closeout; include X53, six A27 and two contraction/lift unsupported cases without claiming executed positive gates",
+        "A03a diagnostic limit and deferred later-design semantics remain explicit; no general predecessor soundness certification required"
       ]
     },
     "0b": {
       "status": "in_progress",
       "rule_source": "docs/GP-0.50-REWORK-PACKET-rev3.md section 0b and Appendices B/C",
       "remaining": [
-        "Finish confirmed Cloquet/ARR15/Pigeon River summaries and bounded incident history; GP source reuse and final JC/DK dispositions",
-        "Finalize source-grounded episode/class/origin inventory with explicit unknown cost/shipping and correlation treatment",
-        "Complete selected receipt/export custody and campaign scope/schema summaries; current42harvests include actual stored exports, not fresh executions"
+        "Complete Pigeon River bounded campaign review and parent integration",
+        "Finalize finite GP family/reuse dispositions and grouped campaign episode/class/origin inventory",
+        "Retain unknown cost/shipping/core-catch and correlated subfindings honestly; final AppendixB schema handling cannot be silently relaxed"
       ],
-      "evidence": "JC bounded intake and20harvests integrated. DK finite12-document pass reviewed, both approved archives indexed/raw-compared;29 campaign proposals and10GP entries retained with limits, two exact0a reuse routes identified.22private DK custody items added. No completed incident percentage or fresh campaign execution claimed."
+      "evidence": "JC/DK/Cloquet/ARR15 bounded intakes integrated;73private hash-verified files (20JC/22DK/19Cloquet/12ARR15). Stored receipts/logs remain custody evidence, no fresh campaign execution."
     },
     "0c": {
       "status": "deferred_by_prerequisites",
@@ -47,12 +45,11 @@
       "limits": "No code imports, installations or implementation prototypes; P13 M1-only and P15 post-G5."
     }
   },
-  "blocker_assessment": "No global blocker. A24 concrete source found within confirmed match4 root; fixed seed interpretation needs clarification.0b remains in progress.",
+  "blocker_assessment": "No global blocker. A24 semantic clarification remains pending; Pigeon River and finite GP/inventory consolidation provide meaningful independent work.",
   "next_work": [
-    "Worker: Cloquet bounded review only",
-    "Parent: remaining DK GP-row reconciliation and GP0b reuse",
-    "Parent:0a contraction admission, pending A24 clarification and final exception/neutrality closeout",
-    "Then remaining ARR15/Pigeon River and campaign inventory closeout;50-minute heartbeat active"
+    "Worker: Pigeon River twelve-document maximum review only",
+    "Parent: finite GP reuse/campaign inventory consolidation and final0a source/exception review",
+    "A24 direct clarification;0c effort cap after0a/0b;0e120active-minute reading cap authorized, not started"
   ],
   "new_findings": [
     "reports/RETRY-MERGE-AUDIT.json",

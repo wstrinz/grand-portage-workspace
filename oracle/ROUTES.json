@@ -2914,6 +2914,20 @@
       "case_sha256": "e604165a3ce143ed7ad58cd9cf00819747aa1c9b1b1a3f45a51cf2604f1f8358",
       "limitation": "Exact frozen fixture replay only. Declaration/clean-step success does not prove family coverage or held authority; Cramer arithmetic grants no source equivalence or graph result.",
       "historical_commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e"
+    },
+    "GP-X408": {
+      "kind": "unsupported_neutral_contract",
+      "layer": "abstract_evaluation_contract",
+      "case_sha256": "1266c015fe65d8808b2d47af0c56bf2a0924a192c7fd057f0f4f32ecf8dd52be",
+      "reason": "Frozen oracle has no projection for deriving valid-evaluation point-surjectivity from exact contraction or checking the additional lift. Source-backed neutral expectations only; no Lean compilation, arithmetic replay or native checker execution.",
+      "limitation": "Abstract conditional countermodel/contrast; positive expectation is not an executed checker control."
+    },
+    "GP-X409": {
+      "kind": "unsupported_neutral_contract",
+      "layer": "abstract_evaluation_contract",
+      "case_sha256": "bf5a957187fb9e70d12ab365ddaa45e089a925ee4ed2f7dbc87e514b0a528351",
+      "reason": "Frozen oracle has no projection for deriving valid-evaluation point-surjectivity from exact contraction or checking the additional lift. Source-backed neutral expectations only; no Lean compilation, arithmetic replay or native checker execution.",
+      "limitation": "Abstract conditional countermodel/contrast; positive expectation is not an executed checker control."
     }
   }
 }

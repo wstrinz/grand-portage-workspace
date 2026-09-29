@@ -1,6 +1,6 @@
 # Corpus catalog
 
-Historical coverage remains incomplete. The first pass covers all 29 deleted test files; current-tree sources and earlier history still need review. [Review coverage](REVIEW-COVERAGE.json) distinguishes test reading, extraction and execution. G0 is not evaluated.
+456 neutral cases. Current observations remain layer-specific; G0 is not complete. A24 is pending; nine unsupported contracts and A03a diagnostic limits remain explicit. See PHASE-0A-CONTRACTION-LIFT-INTEGRATION and PHASE-0-COMPLETION-TRACKER for the bounded remaining queue.
 
 | Case | Expected | Oracle observation | Layer | Title |
 |---|---|---|---|---|
@@ -41,6 +41,12 @@ Historical coverage remains incomplete. The first pass covers all 29 deleted tes
 | [GP-A25a](must/GP-A25a.json) | REFUSE | AGREES | graph_validation | Conflicting identifiers must not merge silently |
 | [GP-A25b](must/GP-A25b.json) | REFUSE | AGREES | receipt_binding | Two identifiers do not establish an alias |
 | [GP-A26](must/GP-A26.json) | REFUSE | AGREES | declaration_validation | Unknown certificate names grant no scope |
+| [GP-A27-drop-GRH](must/GP-A27-drop-GRH.json) | REFUSE | UNSUPPORTED | unsupported_class_group_conditional_admission | Class-group authority contract: drop-GRH |
+| [GP-A27-full](must/GP-A27-full.json) | ACCEPT | UNSUPPORTED | unsupported_class_group_conditional_admission | Class-group authority contract: full |
+| [GP-A27-heuristic](must/GP-A27-heuristic.json) | REFUSE | UNSUPPORTED | unsupported_class_group_conditional_admission | Class-group authority contract: heuristic |
+| [GP-A27-keep-GRH](must/GP-A27-keep-GRH.json) | ACCEPT | UNSUPPORTED | unsupported_class_group_conditional_admission | Class-group authority contract: keep-GRH |
+| [GP-A27-label](must/GP-A27-label.json) | REFUSE | UNSUPPORTED | unsupported_class_group_conditional_admission | Class-group authority contract: label |
+| [GP-A27-partial](must/GP-A27-partial.json) | REFUSE | UNSUPPORTED | unsupported_class_group_conditional_admission | Class-group authority contract: partial |
 | [GP-C01](must/GP-C01.json) | ACCEPT | AGREES | conditional_rule | Certificate-backed base extension |
 | [GP-C02](must/GP-C02.json) | ACCEPT | AGREES | conditional_rule | Emptiness pulls back along inclusion |
 | [GP-C03](must/GP-C03.json) | ACCEPT | AGREES | graph_validation | Repeated identical declaration is idempotent |
@@ -150,28 +156,251 @@ Historical coverage remains incomplete. The first pass covers all 29 deleted tes
 | [GP-X184](must/GP-X184.json) | ACCEPT | AGREES | conditional_premise_routes | Recombine all empty branches with explicit exhaustiveness |
 | [GP-X185](must/GP-X185.json) | REFUSE | AGREES | conditional_premise_routes | An open branch slot contributes no cover support |
 | [GP-X186](must/GP-X186.json) | REFUSE | AGREES | conditional_premise_routes | Branch emptiness without the required exhaustive premise |
+| [GP-X187](must/GP-X187.json) | REFUSE | AGREES | diagnostic_or_operational_policy | Second-generation construction provenance inherits a refused lift |
+| [GP-X188](must/GP-X188.json) | ACCEPT | AGREES | diagnostic_or_operational_policy | Second-generation construction provenance without the refused dependency |
+| [GP-X189](must/GP-X189.json) | ACCEPT | AGREES | diagnostic_or_operational_policy | Unchanged reviewed warning remains operationally accepted |
 | [GP-X19](must/GP-X19.json) | REFUSE | AGREES | exact_replay | Localized identity with invalid evidence |
+| [GP-X190](must/GP-X190.json) | REFUSE | AGREES | diagnostic_or_operational_policy | Retyping a relation reopens its warning despite stable finding identity |
+| [GP-X191](must/GP-X191.json) | REFUSE | AGREES | diagnostic_or_operational_policy | A warning review without its meaning digest cannot suppress the warning |
+| [GP-X192](must/GP-X192.json) | REFUSE | AGREES | diagnostic_or_operational_policy | An unreviewed warning still blocks operational continuation |
+| [GP-X193](must/GP-X193.json) | REFUSE | AGREES | declared_inventory_or_type_consistency | Independent place and order omissions remain visible |
+| [GP-X194](must/GP-X194.json) | REFUSE | AGREES | declared_inventory_or_type_consistency | Repairing a place inventory does not repair order coverage |
+| [GP-X195](must/GP-X195.json) | REFUSE | AGREES | declared_inventory_or_type_consistency | Repairing order inventory does not repair place coverage |
+| [GP-X196](must/GP-X196.json) | ACCEPT | AGREES | declared_inventory_or_type_consistency | All recorded uses have components on both asserted dimensions |
+| [GP-X197](must/GP-X197.json) | ACCEPT | AGREES | declared_inventory_or_type_consistency | An inventory with no recorded uses has no detected gap |
+| [GP-X198](must/GP-X198.json) | REFUSE | AGREES | declared_inventory_or_type_consistency | A conclusion read alone requires its index component |
+| [GP-X199](must/GP-X199.json) | ACCEPT | AGREES | declared_inventory_or_type_consistency | Equation-refinement annotation with equations_forgotten |
 | [GP-X20](must/GP-X20.json) | ACCEPT | AGREES | exact_replay | Mapped ring isomorphism with valid pullback evidence |
+| [GP-X200](must/GP-X200.json) | REFUSE | AGREES | declared_inventory_or_type_consistency | Equation-refinement annotation with equivalent_presentations |
+| [GP-X201](must/GP-X201.json) | ACCEPT | AGREES | offline_execution_envelope | identity envelope: matching |
+| [GP-X202](must/GP-X202.json) | REFUSE | AGREES | offline_execution_envelope | identity envelope: different version |
+| [GP-X203](must/GP-X203.json) | REFUSE | AGREES | offline_execution_envelope | identity envelope: absent identity |
+| [GP-X204](must/GP-X204.json) | REFUSE | AGREES | offline_execution_envelope | identity envelope: repeated identity |
+| [GP-X205](must/GP-X205.json) | REFUSE | AGREES | offline_execution_envelope | identity envelope: foreign invocation |
+| [GP-X206](must/GP-X206.json) | ACCEPT | AGREES | offline_execution_envelope | completion envelope: matching |
+| [GP-X207](must/GP-X207.json) | REFUSE | AGREES | offline_execution_envelope | completion envelope: absent completion |
+| [GP-X208](must/GP-X208.json) | REFUSE | AGREES | offline_execution_envelope | completion envelope: foreign invocation |
+| [GP-X209](must/GP-X209.json) | REFUSE | AGREES | offline_execution_envelope | completion envelope: repeated completion |
 | [GP-X21](must/GP-X21.json) | REFUSE | AGREES | exact_replay | Mapped ring isomorphism with corrupted pullback evidence |
+| [GP-X210](must/GP-X210.json) | REFUSE | AGREES | offline_execution_envelope | completion envelope: trailing output |
+| [GP-X211](must/GP-X211.json) | ACCEPT | AGREES | offline_artifact_integrity | Identical execution records roundtrip and deduplicate |
+| [GP-X212](must/GP-X212.json) | REFUSE | AGREES | offline_artifact_integrity | Existing corrupt evidence is refused without being healed |
+| [GP-X213](must/GP-X213.json) | REFUSE | AGREES | offline_artifact_integrity | Changed output fails its retained inner hash |
+| [GP-X214](must/GP-X214.json) | REFUSE | AGREES | offline_artifact_integrity | Rehashed output still fails the retained object address |
+| [GP-X215](must/GP-X215.json) | REFUSE | AGREES | offline_artifact_integrity | Equivalent JSON formatting does not match canonical stored bytes |
+| [GP-X216](must/GP-X216.json) | REFUSE | AGREES | offline_artifact_integrity | Referenced execution object is absent |
+| [GP-X217](must/GP-X217.json) | REFUSE | AGREES | offline_artifact_integrity | A valid but different artifact cannot satisfy the trace |
+| [GP-X218](must/GP-X218.json) | REFUSE | AGREES | offline_artifact_integrity | Stored backend protocol disagrees with the manifest |
+| [GP-X219](must/GP-X219.json) | REFUSE | AGREES | offline_artifact_integrity | A path-like reference cannot escape the artifact store |
 | [GP-X22](must/GP-X22.json) | ACCEPT | AGREES | exact_replay | Extension-valued witness 1 |
+| [GP-X220](must/GP-X220.json) | REFUSE | AGREES | offline_artifact_integrity | Failed immutable publication leaves no target object |
+| [GP-X221](must/GP-X221.json) | ACCEPT | AGREES | offline_artifact_integrity | Distinct artifacts preserve execution order |
+| [GP-X222](must/GP-X222.json) | ACCEPT | AGREES | exact_replay_or_artifact_audit | Exact cofactor proof is current with matching local backend |
+| [GP-X223](must/GP-X223.json) | ACCEPT | AGREES | exact_replay_or_artifact_audit | Exact cofactor proof survives unavailable local backend |
+| [GP-X224](must/GP-X224.json) | ACCEPT | AGREES | exact_replay_or_artifact_audit | Exact cofactor proof survives a different local backend version |
+| [GP-X225](must/GP-X225.json) | REFUSE | AGREES | exact_replay_or_artifact_audit | Wrong cofactor cannot gain identity authority |
+| [GP-X226](must/GP-X226.json) | ACCEPT | AGREES | exact_replay_or_artifact_audit | Available raw artifact satisfies its storage audit |
+| [GP-X227](must/GP-X227.json) | REFUSE | AGREES | exact_replay_or_artifact_audit | Missing raw artifact fails its storage audit |
+| [GP-X228](must/GP-X228.json) | ACCEPT | AGREES | exact_replay_or_artifact_audit | Self-contained exact identity remains replayable without raw artifact |
+| [GP-X229](must/GP-X229.json) | REFUSE | AGREES | exact_replay_or_artifact_audit | Readable unidentified historical execution is not current authority |
 | [GP-X23](must/GP-X23.json) | REFUSE | AGREES | exact_replay | Extension-valued witness 2 |
+| [GP-X230](must/GP-X230.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: omitted, structured, success |
+| [GP-X231](must/GP-X231.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: unknown_relation, structured, success |
+| [GP-X232](must/GP-X232.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: untyped_without_reason, structured, success |
+| [GP-X233](must/GP-X233.json) | ACCEPT | AGREES | offline_launch_and_recording | Computation recording: untyped_with_reason, structured, success |
+| [GP-X234](must/GP-X234.json) | ACCEPT | AGREES | offline_launch_and_recording | Computation recording: typed, structured, success |
+| [GP-X235](must/GP-X235.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: typed, raw_text, success |
+| [GP-X236](must/GP-X236.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: typed, structured, reported_error |
+| [GP-X237](must/GP-X237.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: typed, structured, nonzero_exit |
+| [GP-X238](must/GP-X238.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: typed, structured, aborted |
+| [GP-X239](must/GP-X239.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: missing_source, structured, success |
 | [GP-X24](must/GP-X24.json) | REFUSE | AGREES | exact_replay | Extension-valued witness 3 |
+| [GP-X240](must/GP-X240.json) | ACCEPT | AGREES | program_construction | Unshadowed g0 variable remains legal |
+| [GP-X241](must/GP-X241.json) | ACCEPT | KNOWN_DIFFERENCE | program_construction | Harmless comment and assignment retain a legal body |
+| [GP-X242](must/GP-X242.json) | REFUSE | AGREES | program_construction | Body declaration cannot shadow a ring variable |
+| [GP-X243](must/GP-X243.json) | REFUSE | AGREES | program_construction | Expression slot cannot carry a second declaration |
+| [GP-X244](must/GP-X244.json) | REFUSE | AGREES | program_construction | Type slot cannot carry a hidden declaration |
+| [GP-X245](must/GP-X245.json) | REFUSE | AGREES | program_construction | Body escape is refused: execute(str(1)); |
+| [GP-X246](must/GP-X246.json) | REFUSE | AGREES | program_construction | Body escape is refused: kill I; |
+| [GP-X247](must/GP-X247.json) | REFUSE | AGREES | program_construction | Body escape is refused: setring R2; |
+| [GP-X248](must/GP-X248.json) | REFUSE | AGREES | program_construction | Body escape is refused: LIB "poly.lib"; |
+| [GP-X249](must/GP-X249.json) | REFUSE | AGREES | program_construction | Comment prefix cannot hide poly g0 = 1; |
 | [GP-X25](must/GP-X25.json) | ACCEPT | AGREES | exact_replay | Bounded JC source witness with dm4 cap 0 |
+| [GP-X250](must/GP-X250.json) | REFUSE | AGREES | program_construction | Comment prefix cannot hide execute("int Z=1"); |
+| [GP-X251](must/GP-X251.json) | REFUSE | AGREES | program_construction | Comment prefix cannot hide kill I; |
+| [GP-X252](must/GP-X252.json) | REFUSE | AGREES | program_construction | Variable slot cannot close the ring declaration |
+| [GP-X253](must/GP-X253.json) | REFUSE | AGREES | program_construction | Ring-name slot cannot inject a statement sequence |
+| [GP-X254](must/GP-X254.json) | ACCEPT | AGREES | program_construction | Comment-free assignment remains constructible |
+| [GP-X255](must/GP-X255.json) | ACCEPT | AGREES | section_evidence_admission | Exact section identities support the supplied section receipt |
+| [GP-X256](must/GP-X256.json) | REFUSE | AGREES | section_evidence_admission | Altered section proof cannot retain its previous input binding |
+| [GP-X257](must/GP-X257.json) | REFUSE | KNOWN_DIFFERENCE | section_evidence_admission | Fresh producer metadata cannot repair a false section identity |
+| [GP-X258](must/GP-X258.json) | ACCEPT | AGREES | output_evidence_admission | Valid output membership receipt is admissible |
+| [GP-X259](must/GP-X259.json) | REFUSE | AGREES | output_evidence_admission | Edited output proof cannot retain its previous binding |
 | [GP-X26](must/GP-X26.json) | ACCEPT | AGREES | exact_replay | Bounded JC source witness with dm4 cap 1 |
+| [GP-X260](must/GP-X260.json) | REFUSE | KNOWN_DIFFERENCE | output_evidence_admission | Fresh producer binding cannot repair false output membership |
+| [GP-X261](must/GP-X261.json) | REFUSE | AGREES | output_evidence_admission | Absent execution cannot authorize a false nonempty output proof |
+| [GP-X262](must/GP-X262.json) | ACCEPT | AGREES | output_evidence_admission | Empty output has vacuous no-invention evidence |
+| [GP-X263](must/GP-X263.json) | ACCEPT | AGREES | check_proof | Identity map with exact ideal rows / check_proof |
+| [GP-X264](must/GP-X264.json) | ACCEPT | AGREES | admit_positive_receipt | Identity map with exact ideal rows / admit_positive_receipt |
+| [GP-X265](must/GP-X265.json) | REFUSE | AGREES | check_proof | False pullback cofactor / check_proof |
+| [GP-X266](must/GP-X266.json) | REFUSE | KNOWN_DIFFERENCE | admit_positive_receipt | False pullback cofactor / admit_positive_receipt |
+| [GP-X267](must/GP-X267.json) | REFUSE | AGREES | check_proof | Polynomial map without an inverse / check_proof |
+| [GP-X268](must/GP-X268.json) | REFUSE | KNOWN_DIFFERENCE | admit_positive_receipt | Polynomial map without an inverse / admit_positive_receipt |
+| [GP-X269](must/GP-X269.json) | ACCEPT | AGREES | partition_verification | Closed branches cover the affine line |
 | [GP-X27](must/GP-X27.json) | ACCEPT | AGREES | exact_replay | Complete coefficient expansion permits the converse |
+| [GP-X270](must/GP-X270.json) | REFUSE | KNOWN_DIFFERENCE | partition_verification | Two punctured branches miss the origin |
+| [GP-X271](must/GP-X271.json) | ACCEPT | AGREES | partition_verification | Punctured branches cover a matching punctured parent |
+| [GP-X272](must/GP-X272.json) | ACCEPT | AGREES | partition_verification | An unrestricted branch fills the missing origin |
+| [GP-X273](must/GP-X273.json) | ACCEPT | AGREES | partition_verification | Matching selected roots cover their parent |
+| [GP-X274](must/GP-X274.json) | REFUSE | KNOWN_DIFFERENCE | partition_verification | Negative selected roots do not cover the positive root |
+| [GP-X275](must/GP-X275.json) | REFUSE | AGREES | record_step | NECESSARY_CONDITION refuses incompatible point universes |
+| [GP-X276](must/GP-X276.json) | REFUSE | AGREES | record_step | BASE_EXTENSION refuses incompatible point universes |
+| [GP-X277](must/GP-X277.json) | REFUSE | AGREES | record_step | IMAGE_CLOSURE refuses incompatible point universes |
+| [GP-X278](must/GP-X278.json) | REFUSE | AGREES | record_step | RESTRICTION refuses incompatible point universes |
+| [GP-X279](must/GP-X279.json) | REFUSE | AGREES | record_step | SPECIALIZATION refuses incompatible point universes |
 | [GP-X28](must/GP-X28.json) | REFUSE | AGREES | exact_replay | Selected coefficient rows do not permit the converse |
+| [GP-X280](must/GP-X280.json) | ACCEPT | AGREES | record_step | Matching explicit universes remain recordable |
+| [GP-X281](must/GP-X281.json) | ACCEPT | AGREES | record_step | Both-omitted legacy context remains readable |
+| [GP-X282](must/GP-X282.json) | ACCEPT | AGREES | record_step | Untyped context change records explicit debt |
+| [GP-X283](must/GP-X283.json) | REFUSE | AGREES | license_nonempty_along | Untyped context change grants no nonemptiness transport |
+| [GP-X284](must/GP-X284.json) | ACCEPT | AGREES | construct_from_matching_generator | Construct branches from a matching product generator |
+| [GP-X285](must/GP-X285.json) | ACCEPT | AGREES | construct_from_matching_generator | Normalize parent polynomial before matching a product |
+| [GP-X286](must/GP-X286.json) | REFUSE | AGREES | construct_from_matching_generator | Do not infer unprovided ideal membership for branch construction |
+| [GP-X287](must/GP-X287.json) | REFUSE | AGREES | construct_from_matching_generator | Variable-unit product needs localization-aware branch construction |
+| [GP-X288](must/GP-X288.json) | REFUSE | AGREES | construct_from_matching_generator | False product identity cannot construct branches |
+| [GP-X289](must/GP-X289.json) | ACCEPT | AGREES | check_identity | Constant-unit binary product identity verifies |
 | [GP-X29](must/GP-X29.json) | ACCEPT | AGREES | exact_replay | Selected coefficient rows retain their necessary direction |
+| [GP-X290](must/GP-X290.json) | ACCEPT | AGREES | check_identity | Declared-variable-unit product verifies only as an identity |
+| [GP-X291](must/GP-X291.json) | REFUSE | AGREES | check_identity | Incorrect binary product identity refuses |
+| [GP-X292](must/GP-X292.json) | ACCEPT | AGREES | check_power_identity | Positive power identity verifies |
+| [GP-X293](must/GP-X293.json) | ACCEPT | AGREES | check_power_identity | Maximum declared exponent verifies |
+| [GP-X294](must/GP-X294.json) | REFUSE | AGREES | check_power_identity | Exceeded declared exponent limit refuses |
+| [GP-X295](must/GP-X295.json) | REFUSE | AGREES | check_power_identity | Boolean is not a power exponent |
+| [GP-X296](must/GP-X296.json) | ACCEPT | AGREES | check_power_identity | Declared unit scalar verifies as factor identity |
+| [GP-X297](must/GP-X297.json) | REFUSE | AGREES | check_power_identity | Undeclared scalar variable refuses unit interpretation |
+| [GP-X298](must/GP-X298.json) | ACCEPT | AGREES | check_affine_contradiction_pattern | Affine unit contradiction pattern verifies without model authority |
+| [GP-X299](must/GP-X299.json) | REFUSE | AGREES | check_affine_contradiction_pattern | Self-referential affine solution refuses |
 | [GP-X30](must/GP-X30.json) | REFUSE | AGREES | exact_replay | Complete expansion cannot omit overflow |
+| [GP-X300](must/GP-X300.json) | REFUSE | AGREES | check_affine_contradiction_pattern | Incorrect substituted residual refuses |
+| [GP-X301](must/GP-X301.json) | REFUSE | AGREES | check_affine_contradiction_pattern | Zero residual cannot supply a unit contradiction |
+| [GP-X302](must/GP-X302.json) | ACCEPT | AGREES | canonical_pass_composition | Exact canonical export binds two valid passes |
+| [GP-X303](must/GP-X303.json) | REFUSE | AGREES | canonical_pass_composition | Self-consistent edited intermediate fails export binding |
+| [GP-X304](must/GP-X304.json) | REFUSE | AGREES | canonical_pass_composition | Equivalent infix expression fails canonical-object binding |
+| [GP-X305](must/GP-X305.json) | REFUSE | AGREES | canonical_pass_composition | Missing intermediate binding refuses composition |
+| [GP-X306](must/GP-X306.json) | REFUSE | AGREES | canonical_pass_composition | Duplicate export binding refuses composition |
+| [GP-X307](must/GP-X307.json) | ACCEPT | AGREES | canonical_pass_composition | Unused verified export does not invalidate complete image binding |
+| [GP-X308](must/GP-X308.json) | ACCEPT | AGREES | native_ordered_receipt_replay | Canonical ordered proof records |
+| [GP-X309](must/GP-X309.json) | ACCEPT | KNOWN_DIFFERENCE | native_ordered_receipt_replay | Equivalent noncanonical ordered proof records |
 | [GP-X31](must/GP-X31.json) | REFUSE | AGREES | exact_replay | Invented coefficient row is refused |
+| [GP-X310](must/GP-X310.json) | REFUSE | AGREES | native_ordered_receipt_replay | False ordered cofactor refuses |
+| [GP-X311](must/GP-X311.json) | REFUSE | AGREES | native_ordered_receipt_replay | Detached ordered evidence refuses |
+| [GP-X312](must/GP-X312.json) | ACCEPT | AGREES | injected_candidate_exact_replay | Complete matrix rows support exact membership |
+| [GP-X313](must/GP-X313.json) | REFUSE | AGREES | injected_candidate_exact_replay | Missing matrix row is not checked membership |
+| [GP-X314](must/GP-X314.json) | REFUSE | AGREES | injected_candidate_exact_replay | Duplicate matrix row is not checked membership |
+| [GP-X315](must/GP-X315.json) | ACCEPT | AGREES | elimination_and_reverse_identity | Strict upper target supports only forward inclusion |
+| [GP-X316](must/GP-X316.json) | REFUSE | AGREES | elimination_and_reverse_identity | Strict upper target is not exact contraction |
+| [GP-X317](must/GP-X317.json) | ACCEPT | AGREES | elimination_and_reverse_identity | Both inclusions establish exact contraction |
+| [GP-X318](must/GP-X318.json) | REFUSE | AGREES | finite_recurrence_instance_mutation | Zeroed last endpoint refuses minimal eighth shift |
+| [GP-X319](must/GP-X319.json) | ACCEPT | AGREES | finite_quotient_exact_replay | Finite quotient unit witness replays |
 | [GP-X32](must/GP-X32.json) | REFUSE | AGREES | exact_replay | Degree cap requires enough scalar coordinates |
+| [GP-X320](must/GP-X320.json) | REFUSE | AGREES | finite_quotient_exact_replay | False finite quotient gcd claim refuses |
+| [GP-X321](must/GP-X321.json) | REFUSE | AGREES | historical_jump_declaration_preflight | Changed declared jump schedule refuses recurrence certificate |
+| [GP-X322](must/GP-X322.json) | ACCEPT | AGREES | named_first_order_fiber_witness_replay | Named first-order fiber has a checked nonzero obstruction |
+| [GP-X323](must/GP-X323.json) | REFUSE | AGREES | named_first_order_fiber_witness_replay | Zeroed omega_comb refuses named first-order fiber certificate |
+| [GP-X324](must/GP-X324.json) | ACCEPT | AGREES | historical_necessary_block_replay | Checked rank-two necessary block |
+| [GP-X325](must/GP-X325.json) | REFUSE | AGREES | historical_native_commitment | Changed raw coefficient cannot retain native commitment |
+| [GP-X326](must/GP-X326.json) | REFUSE | AGREES | historical_native_commitment | Changed transported block cannot retain native commitment |
+| [GP-X327](must/GP-X327.json) | REFUSE | AGREES | historical_projection_contract | Necessary block cannot mint point inclusion |
+| [GP-X328](must/GP-X328.json) | REFUSE | AGREES | historical_projection_contract | Changed D7 derivative transport invalidates projection binding |
+| [GP-X329](must/GP-X329.json) | REFUSE | AGREES | historical_projection_contract | Unexported residual is not an algebra object |
 | [GP-X33](must/GP-X33.json) | REFUSE | AGREES | exact_replay | Coefficient pack order is checked |
+| [GP-X330](must/GP-X330.json) | REFUSE | AGREES | historical_projection_contract | Necessary block is not source-fiber equivalence |
+| [GP-X331](must/GP-X331.json) | REFUSE | AGREES | historical_localization_ledger | Removing R from no-inversion ledger grants no unit authority |
+| [GP-X332](must/GP-X332.json) | REFUSE | AGREES | coefficient_field_contract | Changed coefficient field cannot retain residual receipt |
+| [GP-X333](must/GP-X333.json) | REFUSE | AGREES | ordered_ring_binding | Reversed coefficient-ring variable order breaks receipt binding |
+| [GP-X334](must/GP-X334.json) | REFUSE | AGREES | missing_middle_rationale | Unexplained missing middle residual refuses |
+| [GP-X335](must/GP-X335.json) | REFUSE | AGREES | finite_witness_slice_scope | Changed finite-witness slice cannot retain result |
+| [GP-X336](must/GP-X336.json) | REFUSE | AGREES | finite_witness_modulus | Changed quotient modulus cannot retain finite unit witness |
+| [GP-X337](must/GP-X337.json) | ACCEPT | AGREES | operational_structural_shortcut | Literal selected generator uses structural containment |
+| [GP-X338](must/GP-X338.json) | ACCEPT | AGREES | operational_backend_fallback | Changed selected coefficient triggers backend fallback |
+| [GP-X339](must/GP-X339.json) | ACCEPT | AGREES | exact_zero_regime_reference_arithmetic | Unit operator annihilates both zero-padded regimes |
 | [GP-X34](must/GP-X34.json) | REFUSE | AGREES | exact_replay | Scalar coefficient rows cannot retain the parameter |
+| [GP-X340](must/GP-X340.json) | REFUSE | AGREES | exact_zero_regime_reference_arithmetic | Zero regimes refuse blanket S-1 minimality |
+| [GP-X341](must/GP-X341.json) | REFUSE | AGREES | exact_reference_rational_zero_chart | Rational zero-chart solution refutes universal polynomiality |
+| [GP-X342](must/GP-X342.json) | ACCEPT | AGREES | exact_reference_rational_zero_chart | Same retained zero chart admits polynomial q |
+| [GP-X343](must/GP-X343.json) | REFUSE | AGREES | operational_zero_route_vs_receipt | Zero-step route audit does not earn an emptiness premise |
+| [GP-X344](must/GP-X344.json) | ACCEPT | AGREES | legacy_partition_ordered_R_positive | Ordered branch receipts with a true cover pass the legacy partition audit |
+| [GP-X345](must/GP-X345.json) | REFUSE | KNOWN_DIFFERENCE | legacy_partition_ordered_C_gap | Ordered branch receipts cannot establish complex parent emptiness |
+| [GP-X346](must/GP-X346.json) | REFUSE | KNOWN_DIFFERENCE | legacy_partition_missing_receipts_gap | Declared ordered certificate kinds without receipts cannot settle a partition |
+| [GP-X347](must/GP-X347.json) | ACCEPT | AGREES | native_exact_cubic | Irreducible cubic root is an extension-valued point |
+| [GP-X348](must/GP-X348.json) | ACCEPT | AGREES | native_exact_cubic | Invertible cubic coordinate satisfies its equation |
+| [GP-X349](must/GP-X349.json) | REFUSE | AGREES | native_exact_cubic | Cubic root with vanishing open guard is not a point |
 | [GP-X35](must/GP-X35.json) | ACCEPT | AGREES | historical_metadata_audit | Conditional evidence remains usable with its obligations |
+| [GP-X350](must/GP-X350.json) | REFUSE | AGREES | native_exact_cubic | Reducible degree-three quotient is not an admitted field witness |
+| [GP-X351](must/GP-X351.json) | ACCEPT | AGREES | native_exact_selected_sign | Repeated interior root has positive selected sign |
+| [GP-X352](must/GP-X352.json) | ACCEPT | AGREES | native_exact_selected_sign | Common factor proves zero at repeated root |
+| [GP-X353](must/GP-X353.json) | ACCEPT | AGREES | native_exact_selected_sign | Repeated endpoint root has positive sign |
+| [GP-X354](must/GP-X354.json) | REFUSE | AGREES | native_exact_selected_sign | False selected-root sign receipt is rejected |
+| [GP-X355](must/GP-X355.json) | REFUSE | AGREES | reference_zero_algebra | Unit identity needs a nontrivial target |
+| [GP-X356](must/GP-X356.json) | REFUSE | AGREES | reference_fin4_cancellation | Fin4 blocks cancellation without no-zero-divisors |
+| [GP-X357](must/GP-X357.json) | REFUSE | AGREES | reference_sixes_saturation | Both local saturation checks do not prove exactness |
+| [GP-X358](must/GP-X358.json) | ACCEPT | AGREES | reference_operation_map | Operation map carries a source root forward |
+| [GP-X359](must/GP-X359.json) | ACCEPT | AGREES | reference_operation_map | Target emptiness pulls back through an operation map |
 | [GP-X36](must/GP-X36.json) | REFUSE | AGREES | historical_metadata_audit | An incomplete source map cannot support strict source authority |
+| [GP-X360](must/GP-X360.json) | REFUSE | AGREES | reference_operation_map | Source emptiness does not travel forward without surjectivity |
+| [GP-X361](must/GP-X361.json) | ACCEPT | AGREES | reference_localization_ambient | Explicit guard multiplier proves localized membership |
+| [GP-X362](must/GP-X362.json) | REFUSE | AGREES | reference_localization_ambient | Localized membership alone cannot return to ambient membership |
+| [GP-X363](must/GP-X363.json) | ACCEPT | AGREES | reference_localization_ambient | Direct source-ideal witness proves ambient membership |
+| [GP-X364](must/GP-X364.json) | ACCEPT | AGREES | reference_map_orientation | Translation rewrites a source predicate through the backward map |
+| [GP-X365](must/GP-X365.json) | REFUSE | AGREES | reference_map_orientation | Forward-oriented predicate substitution fails under translation |
+| [GP-X366](must/GP-X366.json) | ACCEPT | AGREES | reference_equivalence_containment | Identity equivalence permits literal inclusion |
+| [GP-X367](must/GP-X367.json) | REFUSE | AGREES | reference_equivalence_containment | Two-point swap equivalence gives no literal containment |
+| [GP-X368](must/GP-X368.json) | REFUSE | AGREES | native_partition_classifier_with_injected_geometric_test | BASE cover is not refuted by a geometric hole |
+| [GP-X369](must/GP-X369.json) | ACCEPT | AGREES | native_partition_classifier_with_injected_geometric_test | Geometric hole refutes declared algebraic-closure cover |
 | [GP-X37](must/GP-X37.json) | REFUSE | AGREES | historical_metadata_audit | A completion label does not supply the missing map |
+| [GP-X370](must/GP-X370.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 53.2: source format schema boundary |
+| [GP-X371](must/GP-X371.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 54.3: source format schema boundary |
+| [GP-X372](must/GP-X372.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 55.2a: source format schema boundary |
+| [GP-X373](must/GP-X373.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 55.2b: source format schema boundary |
+| [GP-X374](must/GP-X374.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 55.3: health request commit boundary |
+| [GP-X375](must/GP-X375.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 56.2: health request commit boundary |
+| [GP-X376](must/GP-X376.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 56.3: health request commit boundary |
+| [GP-X377](must/GP-X377.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 58.2: handoff api contract boundary |
+| [GP-X378](must/GP-X378.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 58.3a: handoff api contract boundary |
+| [GP-X379](must/GP-X379.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 61.3: digest filesystem custody boundary |
 | [GP-X38](must/GP-X38.json) | REFUSE | AGREES | historical_metadata_audit | A serialization assertion does not materialize a source pair |
+| [GP-X380](must/GP-X380.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 63.2: digest filesystem custody boundary |
+| [GP-X381](must/GP-X381.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 63.3: digest filesystem custody boundary |
+| [GP-X382](must/GP-X382.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 63.4: digest filesystem custody boundary |
+| [GP-X383](must/GP-X383.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 65.4: digest filesystem custody boundary |
+| [GP-X384](must/GP-X384.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 69.3: digest filesystem custody boundary |
+| [GP-X385](must/GP-X385.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 64.3b: packet attempt binding boundary |
+| [GP-X386](must/GP-X386.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 65.3a: frontier count status boundary |
+| [GP-X387](must/GP-X387.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 65.3b: frontier count status boundary |
+| [GP-X388](must/GP-X388.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 66.2: frontier count status boundary |
+| [GP-X389](must/GP-X389.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 69.2: corpus reporting boundary |
 | [GP-X39](must/GP-X39.json) | REFUSE | AGREES | historical_metadata_audit | A downstream specialization cannot enter an upstream derivation |
+| [GP-X390](must/GP-X390.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 74.3: transcript postvalidation boundary |
+| [GP-X391](must/GP-X391.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 74.5: transcript postvalidation boundary |
+| [GP-X392](must/GP-X392.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 76.2: transcript postvalidation boundary |
+| [GP-X393](must/GP-X393.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 74.4: lexical validation boundary |
+| [GP-X394](must/GP-X394.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 76.8b: lexical validation boundary |
+| [GP-X395](must/GP-X395.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 76.3: cas declaration identity boundary |
+| [GP-X396](must/GP-X396.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 76.7: cas declaration identity boundary |
+| [GP-X397](must/GP-X397.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 77.3: hook error reporting boundary |
+| [GP-X398](must/GP-X398.json) | REFUSE | RETAINED_DIAGNOSTIC | retained_operational_diagnostic | Operational 77.4: hook error reporting boundary |
+| [GP-X399](must/GP-X399.json) | REFUSE | AGREES | frozen_declaration_or_open_premise_guard | Family PREDICATE cannot be used as a model inference premise without a checked family bridge |
 | [GP-X40](must/GP-X40.json) | REFUSE | AGREES | historical_metadata_audit | A changed row commitment cannot reuse the old binding |
+| [GP-X400](must/GP-X400.json) | REFUSE | AGREES | frozen_declaration_or_open_premise_guard | A family disposition cannot be declared as PREDICATE with COUNT-only fields |
+| [GP-X401](must/GP-X401.json) | ACCEPT | AGREES | frozen_declaration_or_open_premise_guard | A typed COUNT disposition may declare while its family coverage debt remains live |
+| [GP-X402](must/GP-X402.json) | REFUSE | AGREES | frozen_declaration_or_open_premise_guard | Census cardinality cannot reach the world without E5 completeness |
+| [GP-X403](must/GP-X403.json) | REFUSE | AGREES | frozen_declaration_or_open_premise_guard | E5 subclaims cannot establish the actual-source or parent-cover bridge |
+| [GP-X404](must/GP-X404.json) | REFUSE | AGREES | native_model_admission_with_direct_api_contrast | Selected sign receipt versus reversed interval admission |
+| [GP-X405](must/GP-X405.json) | ACCEPT | AGREES | native_model_admission_with_direct_api_contrast | Selected sign receipt versus ordered interval admission |
+| [GP-X406](must/GP-X406.json) | REFUSE | AGREES | historical_exact_cramer_arithmetic | Historical Cramer clearing exponent one does not clear Phi_b0_compat |
+| [GP-X407](must/GP-X407.json) | ACCEPT | AGREES | historical_exact_cramer_arithmetic | Historical Cramer clearing exponent two reconstructs Phi_b0_compat |
+| [GP-X408](must/GP-X408.json) | REFUSE | UNSUPPORTED | abstract_evaluation_contract | Exact contraction alone does not provide a valid evaluation lift |
+| [GP-X409](must/GP-X409.json) | ACCEPT | UNSUPPORTED | abstract_evaluation_contract | Valid evaluation lift supports point-surjectivity |
 | [GP-X41](must/GP-X41.json) | REFUSE | AGREES | historical_metadata_audit | Deleting a refusal does not earn the excluded theorem |
 | [GP-X42](must/GP-X42.json) | REFUSE | AGREES | historical_metadata_audit | An altered source revision cannot reuse a frozen receipt |
 | [GP-X43](must/GP-X43.json) | REFUSE | AGREES | historical_metadata_audit | Conditional row evidence does not prove original-source membership |
@@ -231,130 +460,3 @@ Historical coverage remains incomplete. The first pass covers all 29 deleted tes
 | [GP-X97](must/GP-X97.json) | ACCEPT | AGREES | derived_metadata_contract | Aggregate overlapping reports with explicit compatible resolutions |
 | [GP-X98](must/GP-X98.json) | REFUSE | AGREES | derived_metadata_contract | Resolve overlapping reports implicitly by last writer |
 | [GP-X99](must/GP-X99.json) | REFUSE | AGREES | derived_metadata_contract | Declare agreement between incompatible exact scopes |
-
-Observations remain layer-specific. Conditional transport, premise-route and cover rules assume their prerequisites. A clean legacy argument does not prove entailment or mint a 0.50 warrant. Lifecycle and frozen metadata contracts do not establish mathematical claims. Some binding probes use fabricated backend descriptors; exact replay is distinct. Producer/parser controls do not establish completeness. UNSUPPORTED is not mathematical refusal. The retry/merge design issue is recorded separately without changing fixed expectations.
-| [GP-X187](must/GP-X187.json) | REFUSE | AGREES | diagnostic_or_operational_policy | Second-generation construction provenance inherits a refused lift |
-| [GP-X188](must/GP-X188.json) | ACCEPT | AGREES | diagnostic_or_operational_policy | Second-generation construction provenance without the refused dependency |
-| [GP-X189](must/GP-X189.json) | ACCEPT | AGREES | diagnostic_or_operational_policy | Unchanged reviewed warning remains operationally accepted |
-| [GP-X190](must/GP-X190.json) | REFUSE | AGREES | diagnostic_or_operational_policy | Retyping a relation reopens its warning despite stable finding identity |
-| [GP-X191](must/GP-X191.json) | REFUSE | AGREES | diagnostic_or_operational_policy | A warning review without its meaning digest cannot suppress the warning |
-| [GP-X192](must/GP-X192.json) | REFUSE | AGREES | diagnostic_or_operational_policy | An unreviewed warning still blocks operational continuation |
-| [GP-X193](must/GP-X193.json) | REFUSE | AGREES | declared_inventory_or_type_consistency | Independent place and order omissions remain visible |
-| [GP-X194](must/GP-X194.json) | REFUSE | AGREES | declared_inventory_or_type_consistency | Repairing a place inventory does not repair order coverage |
-| [GP-X195](must/GP-X195.json) | REFUSE | AGREES | declared_inventory_or_type_consistency | Repairing order inventory does not repair place coverage |
-| [GP-X196](must/GP-X196.json) | ACCEPT | AGREES | declared_inventory_or_type_consistency | All recorded uses have components on both asserted dimensions |
-| [GP-X197](must/GP-X197.json) | ACCEPT | AGREES | declared_inventory_or_type_consistency | An inventory with no recorded uses has no detected gap |
-| [GP-X198](must/GP-X198.json) | REFUSE | AGREES | declared_inventory_or_type_consistency | A conclusion read alone requires its index component |
-| [GP-X199](must/GP-X199.json) | ACCEPT | AGREES | declared_inventory_or_type_consistency | Equation-refinement annotation with equations_forgotten |
-| [GP-X200](must/GP-X200.json) | REFUSE | AGREES | declared_inventory_or_type_consistency | Equation-refinement annotation with equivalent_presentations |
-| [GP-X201](must/GP-X201.json) | ACCEPT | AGREES | offline_execution_envelope | identity envelope: matching |
-| [GP-X202](must/GP-X202.json) | REFUSE | AGREES | offline_execution_envelope | identity envelope: different version |
-| [GP-X203](must/GP-X203.json) | REFUSE | AGREES | offline_execution_envelope | identity envelope: absent identity |
-| [GP-X204](must/GP-X204.json) | REFUSE | AGREES | offline_execution_envelope | identity envelope: repeated identity |
-| [GP-X205](must/GP-X205.json) | REFUSE | AGREES | offline_execution_envelope | identity envelope: foreign invocation |
-| [GP-X206](must/GP-X206.json) | ACCEPT | AGREES | offline_execution_envelope | completion envelope: matching |
-| [GP-X207](must/GP-X207.json) | REFUSE | AGREES | offline_execution_envelope | completion envelope: absent completion |
-| [GP-X208](must/GP-X208.json) | REFUSE | AGREES | offline_execution_envelope | completion envelope: foreign invocation |
-| [GP-X209](must/GP-X209.json) | REFUSE | AGREES | offline_execution_envelope | completion envelope: repeated completion |
-| [GP-X210](must/GP-X210.json) | REFUSE | AGREES | offline_execution_envelope | completion envelope: trailing output |
-| [GP-X211](must/GP-X211.json) | ACCEPT | AGREES | offline_artifact_integrity | Identical execution records roundtrip and deduplicate |
-| [GP-X212](must/GP-X212.json) | REFUSE | AGREES | offline_artifact_integrity | Existing corrupt evidence is refused without being healed |
-| [GP-X213](must/GP-X213.json) | REFUSE | AGREES | offline_artifact_integrity | Changed output fails its retained inner hash |
-| [GP-X214](must/GP-X214.json) | REFUSE | AGREES | offline_artifact_integrity | Rehashed output still fails the retained object address |
-| [GP-X215](must/GP-X215.json) | REFUSE | AGREES | offline_artifact_integrity | Equivalent JSON formatting does not match canonical stored bytes |
-| [GP-X216](must/GP-X216.json) | REFUSE | AGREES | offline_artifact_integrity | Referenced execution object is absent |
-| [GP-X217](must/GP-X217.json) | REFUSE | AGREES | offline_artifact_integrity | A valid but different artifact cannot satisfy the trace |
-| [GP-X218](must/GP-X218.json) | REFUSE | AGREES | offline_artifact_integrity | Stored backend protocol disagrees with the manifest |
-| [GP-X219](must/GP-X219.json) | REFUSE | AGREES | offline_artifact_integrity | A path-like reference cannot escape the artifact store |
-| [GP-X220](must/GP-X220.json) | REFUSE | AGREES | offline_artifact_integrity | Failed immutable publication leaves no target object |
-| [GP-X221](must/GP-X221.json) | ACCEPT | AGREES | offline_artifact_integrity | Distinct artifacts preserve execution order |
-| [GP-X222](must/GP-X222.json) | ACCEPT | AGREES | exact_replay_or_artifact_audit | Exact cofactor proof is current with matching local backend |
-| [GP-X223](must/GP-X223.json) | ACCEPT | AGREES | exact_replay_or_artifact_audit | Exact cofactor proof survives unavailable local backend |
-| [GP-X224](must/GP-X224.json) | ACCEPT | AGREES | exact_replay_or_artifact_audit | Exact cofactor proof survives a different local backend version |
-| [GP-X225](must/GP-X225.json) | REFUSE | AGREES | exact_replay_or_artifact_audit | Wrong cofactor cannot gain identity authority |
-| [GP-X226](must/GP-X226.json) | ACCEPT | AGREES | exact_replay_or_artifact_audit | Available raw artifact satisfies its storage audit |
-| [GP-X227](must/GP-X227.json) | REFUSE | AGREES | exact_replay_or_artifact_audit | Missing raw artifact fails its storage audit |
-| [GP-X228](must/GP-X228.json) | ACCEPT | AGREES | exact_replay_or_artifact_audit | Self-contained exact identity remains replayable without raw artifact |
-| [GP-X229](must/GP-X229.json) | REFUSE | AGREES | exact_replay_or_artifact_audit | Readable unidentified historical execution is not current authority |
-| [GP-X230](must/GP-X230.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: omitted, structured, success |
-| [GP-X231](must/GP-X231.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: unknown_relation, structured, success |
-| [GP-X232](must/GP-X232.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: untyped_without_reason, structured, success |
-| [GP-X233](must/GP-X233.json) | ACCEPT | AGREES | offline_launch_and_recording | Computation recording: untyped_with_reason, structured, success |
-| [GP-X234](must/GP-X234.json) | ACCEPT | AGREES | offline_launch_and_recording | Computation recording: typed, structured, success |
-| [GP-X235](must/GP-X235.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: typed, raw_text, success |
-| [GP-X236](must/GP-X236.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: typed, structured, reported_error |
-| [GP-X237](must/GP-X237.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: typed, structured, nonzero_exit |
-| [GP-X238](must/GP-X238.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: typed, structured, aborted |
-| [GP-X239](must/GP-X239.json) | REFUSE | AGREES | offline_launch_and_recording | Computation recording: missing_source, structured, success |
-| [GP-X240](must/GP-X240.json) | ACCEPT | AGREES | program_construction | Unshadowed g0 variable remains legal |
-| [GP-X241](must/GP-X241.json) | ACCEPT | KNOWN_DIFFERENCE | program_construction | Harmless comment and assignment retain a legal body |
-| [GP-X242](must/GP-X242.json) | REFUSE | AGREES | program_construction | Body declaration cannot shadow a ring variable |
-| [GP-X243](must/GP-X243.json) | REFUSE | AGREES | program_construction | Expression slot cannot carry a second declaration |
-| [GP-X244](must/GP-X244.json) | REFUSE | AGREES | program_construction | Type slot cannot carry a hidden declaration |
-| [GP-X245](must/GP-X245.json) | REFUSE | AGREES | program_construction | Body escape is refused: execute(str(1)); |
-| [GP-X246](must/GP-X246.json) | REFUSE | AGREES | program_construction | Body escape is refused: kill I; |
-| [GP-X247](must/GP-X247.json) | REFUSE | AGREES | program_construction | Body escape is refused: setring R2; |
-| [GP-X248](must/GP-X248.json) | REFUSE | AGREES | program_construction | Body escape is refused: LIB "poly.lib"; |
-| [GP-X249](must/GP-X249.json) | REFUSE | AGREES | program_construction | Comment prefix cannot hide poly g0 = 1; |
-| [GP-X250](must/GP-X250.json) | REFUSE | AGREES | program_construction | Comment prefix cannot hide execute("int Z=1"); |
-| [GP-X251](must/GP-X251.json) | REFUSE | AGREES | program_construction | Comment prefix cannot hide kill I; |
-| [GP-X252](must/GP-X252.json) | REFUSE | AGREES | program_construction | Variable slot cannot close the ring declaration |
-| [GP-X253](must/GP-X253.json) | REFUSE | AGREES | program_construction | Ring-name slot cannot inject a statement sequence |
-| [GP-X254](must/GP-X254.json) | ACCEPT | AGREES | program_construction | Comment-free assignment remains constructible |
-| [GP-X255](must/GP-X255.json) | ACCEPT | AGREES | section_evidence_admission | Exact section identities support the supplied section receipt |
-| [GP-X256](must/GP-X256.json) | REFUSE | AGREES | section_evidence_admission | Altered section proof cannot retain its previous input binding |
-| [GP-X257](must/GP-X257.json) | REFUSE | KNOWN_DIFFERENCE | section_evidence_admission | Fresh producer metadata cannot repair a false section identity |
-| [GP-X258](must/GP-X258.json) | ACCEPT | AGREES | output_evidence_admission | Valid output membership receipt is admissible |
-| [GP-X259](must/GP-X259.json) | REFUSE | AGREES | output_evidence_admission | Edited output proof cannot retain its previous binding |
-| [GP-X260](must/GP-X260.json) | REFUSE | KNOWN_DIFFERENCE | output_evidence_admission | Fresh producer binding cannot repair false output membership |
-| [GP-X261](must/GP-X261.json) | REFUSE | AGREES | output_evidence_admission | Absent execution cannot authorize a false nonempty output proof |
-| [GP-X262](must/GP-X262.json) | ACCEPT | AGREES | output_evidence_admission | Empty output has vacuous no-invention evidence |
-| [GP-X263](must/GP-X263.json) | ACCEPT | AGREES | check_proof | Identity map with exact ideal rows / check_proof |
-| [GP-X264](must/GP-X264.json) | ACCEPT | AGREES | admit_positive_receipt | Identity map with exact ideal rows / admit_positive_receipt |
-| [GP-X265](must/GP-X265.json) | REFUSE | AGREES | check_proof | False pullback cofactor / check_proof |
-| [GP-X266](must/GP-X266.json) | REFUSE | KNOWN_DIFFERENCE | admit_positive_receipt | False pullback cofactor / admit_positive_receipt |
-| [GP-X267](must/GP-X267.json) | REFUSE | AGREES | check_proof | Polynomial map without an inverse / check_proof |
-| [GP-X268](must/GP-X268.json) | REFUSE | KNOWN_DIFFERENCE | admit_positive_receipt | Polynomial map without an inverse / admit_positive_receipt |
-| [GP-X269](must/GP-X269.json) | ACCEPT | AGREES | partition_verification | Closed branches cover the affine line |
-| [GP-X270](must/GP-X270.json) | REFUSE | KNOWN_DIFFERENCE | partition_verification | Two punctured branches miss the origin |
-| [GP-X271](must/GP-X271.json) | ACCEPT | AGREES | partition_verification | Punctured branches cover a matching punctured parent |
-| [GP-X272](must/GP-X272.json) | ACCEPT | AGREES | partition_verification | An unrestricted branch fills the missing origin |
-| [GP-X273](must/GP-X273.json) | ACCEPT | AGREES | partition_verification | Matching selected roots cover their parent |
-| [GP-X274](must/GP-X274.json) | REFUSE | KNOWN_DIFFERENCE | partition_verification | Negative selected roots do not cover the positive root |
-| [GP-X275](must/GP-X275.json) | REFUSE | AGREES | record_step | NECESSARY_CONDITION refuses incompatible point universes |
-| [GP-X276](must/GP-X276.json) | REFUSE | AGREES | record_step | BASE_EXTENSION refuses incompatible point universes |
-| [GP-X277](must/GP-X277.json) | REFUSE | AGREES | record_step | IMAGE_CLOSURE refuses incompatible point universes |
-| [GP-X278](must/GP-X278.json) | REFUSE | AGREES | record_step | RESTRICTION refuses incompatible point universes |
-| [GP-X279](must/GP-X279.json) | REFUSE | AGREES | record_step | SPECIALIZATION refuses incompatible point universes |
-| [GP-X280](must/GP-X280.json) | ACCEPT | AGREES | record_step | Matching explicit universes remain recordable |
-| [GP-X281](must/GP-X281.json) | ACCEPT | AGREES | record_step | Both-omitted legacy context remains readable |
-| [GP-X282](must/GP-X282.json) | ACCEPT | AGREES | record_step | Untyped context change records explicit debt |
-| [GP-X283](must/GP-X283.json) | REFUSE | AGREES | license_nonempty_along | Untyped context change grants no nonemptiness transport |
-| [GP-X284](must/GP-X284.json) | ACCEPT | AGREES | construct_from_matching_generator | Construct branches from a matching product generator |
-| [GP-X285](must/GP-X285.json) | ACCEPT | AGREES | construct_from_matching_generator | Normalize parent polynomial before matching a product |
-| [GP-X286](must/GP-X286.json) | REFUSE | AGREES | construct_from_matching_generator | Do not infer unprovided ideal membership for branch construction |
-| [GP-X287](must/GP-X287.json) | REFUSE | AGREES | construct_from_matching_generator | Variable-unit product needs localization-aware branch construction |
-| [GP-X288](must/GP-X288.json) | REFUSE | AGREES | construct_from_matching_generator | False product identity cannot construct branches |
-| [GP-X289](must/GP-X289.json) | ACCEPT | AGREES | check_identity | Constant-unit binary product identity verifies |
-| [GP-X290](must/GP-X290.json) | ACCEPT | AGREES | check_identity | Declared-variable-unit product verifies only as an identity |
-| [GP-X291](must/GP-X291.json) | REFUSE | AGREES | check_identity | Incorrect binary product identity refuses |
-| [GP-X292](must/GP-X292.json) | ACCEPT | AGREES | check_power_identity | Positive power identity verifies |
-| [GP-X293](must/GP-X293.json) | ACCEPT | AGREES | check_power_identity | Maximum declared exponent verifies |
-| [GP-X294](must/GP-X294.json) | REFUSE | AGREES | check_power_identity | Exceeded declared exponent limit refuses |
-| [GP-X295](must/GP-X295.json) | REFUSE | AGREES | check_power_identity | Boolean is not a power exponent |
-| [GP-X296](must/GP-X296.json) | ACCEPT | AGREES | check_power_identity | Declared unit scalar verifies as factor identity |
-| [GP-X297](must/GP-X297.json) | REFUSE | AGREES | check_power_identity | Undeclared scalar variable refuses unit interpretation |
-| [GP-X298](must/GP-X298.json) | ACCEPT | AGREES | check_affine_contradiction_pattern | Affine unit contradiction pattern verifies without model authority |
-| [GP-X299](must/GP-X299.json) | REFUSE | AGREES | check_affine_contradiction_pattern | Self-referential affine solution refuses |
-| [GP-X300](must/GP-X300.json) | REFUSE | AGREES | check_affine_contradiction_pattern | Incorrect substituted residual refuses |
-| [GP-X301](must/GP-X301.json) | REFUSE | AGREES | check_affine_contradiction_pattern | Zero residual cannot supply a unit contradiction |
-| [GP-X302](must/GP-X302.json) | ACCEPT | AGREES | canonical_pass_composition | Exact canonical export binds two valid passes |
-| [GP-X303](must/GP-X303.json) | REFUSE | AGREES | canonical_pass_composition | Self-consistent edited intermediate fails export binding |
-| [GP-X304](must/GP-X304.json) | REFUSE | AGREES | canonical_pass_composition | Equivalent infix expression fails canonical-object binding |
-| [GP-X305](must/GP-X305.json) | REFUSE | AGREES | canonical_pass_composition | Missing intermediate binding refuses composition |
-| [GP-X306](must/GP-X306.json) | REFUSE | AGREES | canonical_pass_composition | Duplicate export binding refuses composition |
-| [GP-X307](must/GP-X307.json) | ACCEPT | AGREES | canonical_pass_composition | Unused verified export does not invalidate complete image binding |
-| [GP-X308](must/GP-X308.json) | ACCEPT | AGREES | native_ordered_receipt_replay | Canonical ordered proof records |
-| [GP-X309](must/GP-X309.json) | ACCEPT | KNOWN_DIFFERENCE | native_ordered_receipt_replay | Equivalent noncanonical ordered proof records |
-| [GP-X310](must/GP-X310.json) | REFUSE | AGREES | native_ordered_receipt_replay | False ordered cofactor refuses |
-| [GP-X311](must/GP-X311.json) | REFUSE | AGREES | native_ordered_receipt_replay | Detached ordered evidence refuses |
