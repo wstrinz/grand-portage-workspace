@@ -1,0 +1,33 @@
+{
+  "entries": [
+    {
+      "source": "C:\\Users\\wstri\\dev\\math-stuff\\README.md",
+      "harvest": "corpus/harvest/jc/initial-summaries/README.md",
+      "sha256": "2edd0d5e64ebfd1a53e244e9e93f6b5a4f48f4180788f05ad68be7b6ed40e18d",
+      "bytes": 9686,
+      "source_ref": "working-tree bytes captured 2026-09-29; not assumed identical to HEAD"
+    },
+    {
+      "source": "C:\\Users\\wstri\\dev\\math-stuff\\d2_plane_72_108\\FIELD_SPLIT_AUDIT.md",
+      "harvest": "corpus/harvest/jc/initial-summaries/d2_plane_72_108/FIELD_SPLIT_AUDIT.md",
+      "sha256": "db4d7a74aa30e6fcbe3e810c98f25e78073f5dcc15e7548710f299c6ceee6e00",
+      "bytes": 12942,
+      "source_ref": "working-tree bytes captured 2026-09-29; not assumed identical to HEAD"
+    },
+    {
+      "source": "C:\\Users\\wstri\\dev\\math-stuff\\d2_plane_72_108\\CURRENT.md",
+      "harvest": "corpus/harvest/jc/initial-summaries/d2_plane_72_108/CURRENT.md",
+      "sha256": "cfeee1c386c972272bd979bcd97e4d0373fe148f7319d78e25cd2a7b6f1e85d7",
+      "bytes": 501757,
+      "source_ref": "working-tree bytes captured 2026-09-29; not assumed identical to HEAD"
+    },
+    {
+      "source": "C:\\Users\\wstri\\dev\\math-stuff\\d2_plane_72_108\\SESSION_HANDOFF.md",
+      "harvest": "corpus/harvest/jc/initial-summaries/d2_plane_72_108/SESSION_HANDOFF.md",
+      "sha256": "1c3fee5d28140afe49b4896797bcb333a71a0138c3f6f75ba9d267c1565674d3",
+      "bytes": 175,
+      "source_ref": "working-tree bytes captured 2026-09-29; not assumed identical to HEAD"
+    }
+  ],
+  "authority": "verbatim source custody only; no proof or receipt validation claimed"
+}

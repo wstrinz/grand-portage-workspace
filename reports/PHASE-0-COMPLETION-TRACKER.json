@@ -14,11 +14,12 @@
       ]
     },
     "0b": {
-      "status": "waiting_for_manifest_input",
+      "status": "in_progress",
       "rule_source": "docs/GP-0.50-REWORK-PACKET.md section 0b item 3",
       "remaining": [
-        "Confirm discovered campaign paths, missing files or explicit omissions, optional scope and exclusions",
-        "Then private verbatim harvest, hashed manifests, class/cost inventory and meaning-risk assessment"
+        "Inventory every confirmed root and record explicit unavailable/excluded entries",
+        "Read summaries, review incident-led history, extract incident/class/cost records and custody inventory",
+        "Harvest selected receipts/exports verbatim with hashes on F:; assess meaning risk and report gaps"
       ]
     },
     "0c": {
@@ -45,7 +46,7 @@
       "limits": "No code imports, installations or implementation prototypes; P13 M1-only and P15 post-G5."
     }
   },
-  "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
+  "blocker_assessment": "Manifest gate released by explicit unavailable/excluded-source decision. A24 still requires concrete fixture/guard interpretation or explicit exception. No global blocker.",
   "next_work": [
     "Parent: remaining grouped document/source dispositions and OperationContract successor signoff, A24 and final exception treatment. No automatic further case batch. Sol fixed42 mapping and11-gate residual review complete.",
     "Closure triage: supported grouped reuse/nonincident dispositions, concrete necessary gaps with protection rationale, explicit deferrals and user decisions",

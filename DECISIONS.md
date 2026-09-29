@@ -29,3 +29,5 @@ The retained packet is unedited. These clarifications take precedence where they
 2026-09-29 manifest discovery: Will authorized filename-only search under C:/Users/wstri/dev. Three configuration-23-4 notes/archive candidates were found; no newly discovered content was opened. Their inclusion and disposition of missing named packets remain pending confirmation. See reports/PHASE-0B-FILENAME-DISCOVERY.json.
 
 2026-09-29 confirmed: Will approved all three configuration-23-4 files in C:/Users/wstri/dev/math-research/tmp (v1.2.0-notes.md, v1.2.0-zenodo.zip, v1.1.0-zenodo.zip), read-only with private F: extraction. Missing-packet disposition and optional/nonlocal scope remain pending; no complete-manifest sweep yet.
+
+2026-09-29 sweep boundary finalized: Will accepted the recommendation to mark the missing named packets unavailable for this pass and proceed without optional/nonlocal sources. Use the confirmed roots/files in SWEEP-SOURCES.md. Ask for a missing item only if a concrete indispensable dependency emerges. Phase0b is authorized to begin; A24 expectations and all other gates remain unchanged.
