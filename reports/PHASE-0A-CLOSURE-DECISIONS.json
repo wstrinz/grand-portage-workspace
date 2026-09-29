@@ -386,6 +386,94 @@
         "reports/oracle-runs/20260929T013956101499Z.json"
       ],
       "review": "Parent read full probe and10 payloads, independently verified arithmetic/predicate countermodels, validated408 and preserved398 prior case bytes, expectations, verdicts, status, route and layer. Reference checks only, no Lean/native verifier verdict. Operation map preserves roots not forward emptiness; local multiplier does not imply ambient membership; inverse substitution orientation and literal containment are separately tested."
+    },
+    {
+      "finding_obligation": "83.2c",
+      "extraction_status": "covered_by_existing_cases_with_honest_observation",
+      "case_ids": [
+        "GP-A13-derived",
+        "GP-A13-ambient"
+      ],
+      "review": "Parent read both full payloads and checked current oracle rows. Derived x=0 from(x) cannot survive dropping the equation; ambient x+0=x positive remains. Terra missed A13-derived; no new control needed.",
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ],
+      "parent_override": "Supersedes missing/partial label based solely on missed case or known-difference observation; global closeout gates unchanged."
+    },
+    {
+      "finding_obligation": "73.4",
+      "extraction_status": "covered_by_existing_cases_with_honest_observation",
+      "case_ids": [
+        "GP-X258",
+        "GP-X260"
+      ],
+      "review": "Parent read membership payloads: false zero cofactor for x is exact negative, valid1 cofactor is positive. Recorded native ACCEPT against fixed REFUSE is the documented regression, not a missing extraction. No predecessor repair or invented refusal required.",
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ],
+      "parent_override": "Supersedes missing/partial label based solely on missed case or known-difference observation; global closeout gates unchanged."
+    },
+    {
+      "finding_obligation": "73.5",
+      "extraction_status": "covered_by_existing_cases_with_honest_observation",
+      "case_ids": [
+        "GP-X258",
+        "GP-X260"
+      ],
+      "review": "Parent read membership payloads: false zero cofactor for x is exact negative, valid1 cofactor is positive. Recorded native ACCEPT against fixed REFUSE is the documented regression, not a missing extraction. No predecessor repair or invented refusal required.",
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ],
+      "parent_override": "Supersedes missing/partial label based solely on missed case or known-difference observation; global closeout gates unchanged."
+    },
+    {
+      "finding_obligation": "75.2",
+      "extraction_status": "covered_by_existing_cases_with_honest_observation",
+      "case_ids": [
+        "GP-X258",
+        "GP-X260"
+      ],
+      "review": "Parent read membership payloads: false zero cofactor for x is exact negative, valid1 cofactor is positive. Recorded native ACCEPT against fixed REFUSE is the documented regression, not a missing extraction. No predecessor repair or invented refusal required.",
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ],
+      "parent_override": "Supersedes missing/partial label based solely on missed case or known-difference observation; global closeout gates unchanged."
+    },
+    {
+      "finding_obligation": "75.7",
+      "extraction_status": "covered_by_existing_cases_with_honest_observation",
+      "case_ids": [
+        "GP-X269",
+        "GP-X270",
+        "GP-X273",
+        "GP-X274"
+      ],
+      "review": "Parent read full guard/selected-root payloads. Punctured branches miss origin; negative roots miss positive parent root. Exact negative controls are preserved as known differences with matching positives; failure to refuse does not prevent incident coverage.",
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ],
+      "parent_override": "Supersedes missing/partial label based solely on missed case or known-difference observation; global closeout gates unchanged."
+    },
+    {
+      "finding_obligation": "84.9",
+      "extraction_status": "covered_by_existing_cases_with_honest_observation",
+      "case_ids": [
+        "GP-X269",
+        "GP-X270",
+        "GP-X273",
+        "GP-X274"
+      ],
+      "review": "Parent read full guard/selected-root payloads. Punctured branches miss origin; negative roots miss positive parent root. Exact negative controls are preserved as known differences with matching positives; failure to refuse does not prevent incident coverage.",
+      "evidence": [
+        "reports/PHASE-0A-EXISTING-24-REUSE-REVIEW.json",
+        "reports/oracle-runs/20260929T013956101499Z.json"
+      ],
+      "parent_override": "Supersedes missing/partial label based solely on missed case or known-difference observation; global closeout gates unchanged."
     }
   ]
 }
