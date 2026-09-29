@@ -31,3 +31,6 @@ The retained packet is unedited. These clarifications take precedence where they
 2026-09-29 confirmed: Will approved all three configuration-23-4 files in C:/Users/wstri/dev/math-research/tmp (v1.2.0-notes.md, v1.2.0-zenodo.zip, v1.1.0-zenodo.zip), read-only with private F: extraction. Missing-packet disposition and optional/nonlocal scope remain pending; no complete-manifest sweep yet.
 
 2026-09-29 sweep boundary finalized: Will accepted the recommendation to mark the missing named packets unavailable for this pass and proceed without optional/nonlocal sources. Use the confirmed roots/files in SWEEP-SOURCES.md. Ask for a missing item only if a concrete indispensable dependency emerges. Phase0b is authorized to begin; A24 expectations and all other gates remain unchanged.
+
+
+2026-09-29 Phase0b shipping criterion: Will confirmed that shipped means a wrong claim was published or handed off for others to rely on. A local commit alone is insufficient. When publication/handoff is not evidenced, retain unknown shipping status; do not infer false or force a completed cost classification. Continue independent sweep work.

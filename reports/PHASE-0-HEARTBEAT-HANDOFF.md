@@ -55,3 +55,6 @@ Manual closeout slice:454 cases,402 agreements, all445 prior cases and59 prior r
 
 
 2026-09-29 JC initial extraction: see PHASE-0B-JC-INITIAL-REVIEW.md and INCIDENT-CANDIDATES.json. Seven verified private source harvests; three staged incidents with cost/shipped unknown, no completed statistical counts. Companion review brief fully read; no campaign execution. Parent independently confirmed OperationContract abstract no-valid-source-evaluation residual from predecessor pinned source. Sol assigned candidate/contrast and route assessment only in PHASE-0A-CONTRACTION-LIFT-CANDIDATE.md/.json. User shipping-criterion question pending; other review can continue. Corpus454 unchanged; no replay required for report-only changes.
+
+
+Shipping criterion resolved: publication or relied-on handoff, not a local commit alone. DECISIONS.md records the user confirmation. The three JC candidates still lack sufficient shipping evidence; no user response is pending for this definition.
