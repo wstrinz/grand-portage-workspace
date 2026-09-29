@@ -177,6 +177,43 @@
         "GP-X06"
       ],
       "review": "Parent read source799-829 and both full case payloads. Source True/target False with identity surjection witnesses missing retained expressibility. X05 refuses with checked surjection and expressibility false; X06 accepts when expressibility supplied, without closedness. Mapping covers the missing-premise transport rule, not an executed Lean theorem or native reconstruction of the abstract points."
+    },
+    {
+      "finding_obligation": "75.3",
+      "extraction_status": "complete_for_recorded_mechanism",
+      "case_ids": [
+        "GP-X312",
+        "GP-X313",
+        "GP-X314"
+      ],
+      "positive_controls": [
+        "GP-X312"
+      ],
+      "evidence": [
+        "reports/PHASE-0A-MEMBERSHIP-CONTRACTION-EXTRACTION.md",
+        "reports/PHASE-0A-MEMBERSHIP-CONTRACTION-EVIDENCE.json",
+        "reports/PHASE-0A-SHEPHERD-CHECKPOINT.md"
+      ],
+      "review": "Explicitly links prior parent integration review to originating finding row. Cases were reviewed and integrated at74e815a; no new execution or scope expansion. Candidate matrix malformed rows remain producer/exact-checker observations; contraction cases distinguish forward completeness from reverse no-invention."
+    },
+    {
+      "finding_obligation": "73.3",
+      "extraction_status": "complete_for_recorded_mechanism",
+      "case_ids": [
+        "GP-X315",
+        "GP-X316",
+        "GP-X317"
+      ],
+      "positive_controls": [
+        "GP-X315",
+        "GP-X317"
+      ],
+      "evidence": [
+        "reports/PHASE-0A-MEMBERSHIP-CONTRACTION-EXTRACTION.md",
+        "reports/PHASE-0A-MEMBERSHIP-CONTRACTION-EVIDENCE.json",
+        "reports/PHASE-0A-SHEPHERD-CHECKPOINT.md"
+      ],
+      "review": "Explicitly links prior parent integration review to originating finding row. Cases were reviewed and integrated at74e815a; no new execution or scope expansion. Candidate matrix malformed rows remain producer/exact-checker observations; contraction cases distinguish forward completeness from reverse no-invention."
     }
   ]
 }
