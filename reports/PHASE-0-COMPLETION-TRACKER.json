@@ -6,7 +6,7 @@
       "status": "in_progress",
       "evidence": "454 cases (136 ACCEPT/318 REFUSE):402 AGREES,14 KNOWN_DIFFERENCE,1 DIAGNOSTIC_OBSERVED,29 RETAINED_DIAGNOSTIC,1 PENDING,7 UNSUPPORTED.445 prior cases and59 prior replay files preserved. Fixed42 deleted-test assertions dispositioned.",
       "remaining": [
-        "Finish supported source/history group dispositions under approved narrowed closeout; no blanket deep-read requirement",
+        "Bounded document/source successor dispositions accepted; integrate exact-contraction/valid-evaluation residual",
         "Resolve or explicitly disposition A24 and X53 for G0",
         "Complete semantic-neutrality review across corpus families; the 22 embedded lifecycle event inputs are now migrated and audited",
         "Joint-route and cover cases extracted; general alternative support, transitive warrant semantics and admitted entailment remain unresolved",
@@ -47,11 +47,12 @@
       "limits": "No code imports, installations or implementation prototypes; P13 M1-only and P15 post-G5."
     }
   },
-  "blocker_assessment": "Manifest gate released by explicit unavailable/excluded-source decision. A24 still requires concrete fixture/guard interpretation or explicit exception. No global blocker.",
+  "blocker_assessment": "No global blocker. A24 concrete source found within confirmed match4 root; fixed seed interpretation needs clarification.0b remains in progress.",
   "next_work": [
-    "Parent: JC incident inventory and source/custody review; clarify shipping criterion without blocking other source work",
-    "Sol: bounded exact-contraction/valid-evaluation candidate design and existing observation-route assessment only",
-    "Parent: review remaining 0a document mappings, A24 and final exceptions; no automatic case batch"
+    "Worker: bounded JC three-summary incident review in separate output reports",
+    "Parent: integrate exact-contraction candidate with honest observation classification",
+    "Parent: resolve A24 source-supported interpretation, then final neutrality and exception closeout",
+    "Parent: continue confirmed0b sweep and receipt/custody harvesting; shipping definition is resolved"
   ],
   "new_findings": [
     "reports/RETRY-MERGE-AUDIT.json",

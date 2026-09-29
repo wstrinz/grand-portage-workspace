@@ -34,3 +34,5 @@ The retained packet is unedited. These clarifications take precedence where they
 
 
 2026-09-29 Phase0b shipping criterion: Will confirmed that shipped means a wrong claim was published or handed off for others to rely on. A local commit alone is insufficient. When publication/handoff is not evidenced, retain unknown shipping status; do not infer false or force a completed cost classification. Continue independent sweep work.
+
+2026-09-29 worker transition: Will requested a fresh Sol6.1 Medium or Low worker while retaining this coordinator. Created GPT-6.1 Sol Medium chat01a0eeca-572e-7202-a708-c730d410b901 for bounded separate-output work. All commands/writes must explicitly use F:/repos/grandportage-0.50; the saved C: project remains read-only. Previous worker is idle after its completed assignment. No heartbeat or goal is recreated.
