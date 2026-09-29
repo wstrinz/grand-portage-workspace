@@ -1,3 +1,5 @@
+USER UPDATE: Recurring heartbeat cancelled at user request. This file is a manual handoff only. Work toward winding down0a and possibly0b, then integrate incoming revised packet before post-0b work. Do not recreate automation.
+
 # Phase 0 heartbeat handoff
 
 Updated 2026-09-28. User authorized a 50-minute same-thread heartbeat, ongoing Sol coordination and bounded Terra subagents until Phase 0 completion or a hard blocker. Automation id: grand-portage-phase-0-shepherd. Do not recreate the cleared goal. Pause this automation when complete or no meaningful authorized work remains without user input; do not quietly waive gates.
