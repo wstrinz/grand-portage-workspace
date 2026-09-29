@@ -37,10 +37,10 @@
   },
   "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
   "next_work": [
-    "Q3 operation-map/localization/orientation batch; parent adjudicates24 reuse proposals and two Q1 qualified reuses",
-    "Adjudicate proposed case mappings at their actual validation layers",
-    "Disposition unmatched deleted GP-owned sources; 77 of 156 deleted non-test blobs have exact retained matches, 79 do not",
-    "Resolve A24 source dependency and preserve explicit oracle limits before proposing 0a closeout"
+    "Finish and parent-review active Q3 batch; no further automatic extraction",
+    "Closure triage: supported grouped reuse/nonincident dispositions, concrete necessary gaps with protection rationale, explicit deferrals and user decisions",
+    "Selectively screen remaining source groups for unaccounted recorded incidents; no blanket deep-reading requirement",
+    "Resolve A24 and campaign manifest decisions without altering fixed expectations"
   ],
   "new_findings": [
     "reports/RETRY-MERGE-AUDIT.json",

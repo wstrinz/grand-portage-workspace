@@ -12,7 +12,7 @@ Work explicitly in F:/repos/grandportage-0.50. Read AGENTS/DECISIONS and closure
 
 ## Workers and next priority
 
-Sol thread01a0e90c-4cb4-7392-b246-590cce500642 host local next Q3 operation maps/localization/orientation:79.8,82.4,85.5,85.7a,85.7b. Sole corpus/adapters/routes/replay writer; reuse first. Parent retains24 reuse-proposal adjudication and Q1 generic/localized distinctions58.3b/78.4. Terra24 report is uncommitted proposal; known differences alone need not prevent incident closure. No campaign reads, kernel or Lean.
+USER-APPROVED PRIORITY CHANGE: finish active Q3 only, then closure triage with NO DEFAULT CASE EXPANSION. Sol thread01a0e90c-4cb4-7392-b246-590cce500642 host local remains sole Q3 corpus/adapter/replay writer and has been instructed to stop after delivery. Do not automatically dispatch Q4 or another extraction batch. Terra will triage existing candidate/reuse/nonincident evidence into grouped dispositions, necessary gaps, deferrals and decisions, with no corpus changes. Parent reviews concrete rationale and chooses only foundation-critical follow-up. Read latest DECISIONS amendment.
 
 ## Parent findings and remaining queue
 
