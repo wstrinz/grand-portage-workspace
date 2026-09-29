@@ -38,7 +38,7 @@
       "design_or_repair": 12,
       "later_design": 81
     },
-    "row_level_parent_decisions": 5,
+    "row_level_parent_decisions": 9,
     "notes": [
       "Historical counts174/24/47/13 are retained. Parent explicitly linked prior integrated extraction to73.3 and75.3: two accepted extracted,45 remaining case proposals,24 reuse proposals,174 nonincident proposals,12 interpretation holds and one resolved reading request.",
       "85.8 is no longer a source-reading hold: OPERATION-CONTRACT-CLOSE-READ completes the text. Successor countermodel mapping remains a separate source incident queue.",
@@ -1825,8 +1825,8 @@
         "finding_row": "70.2",
         "evidence_record": "reports/PHASE-0A-BATCH-70.md#paragraph-2",
         "baseline_disposition": "new_case_candidate",
-        "current_state": "candidate_unextracted",
-        "parent_adjudicated": false,
+        "current_state": "parent_adjudicated_extracted",
+        "parent_adjudicated": true,
         "existing_case_proposal": [],
         "screened_near_cases": [
           "GP-X22",
@@ -1837,7 +1837,10 @@
         "proposed_bundle": "B1-earned-authority-and-math",
         "equivalence_or_distinction": "GP-X22-24 test quadratic extension witnesses, not the cubic root, inverse coordinate, vanishing guard and reducible degree-three field checks exercised here. Treat as one bounded positive/negative family.",
         "positive_control_requirement": "Exact cubic root and inverse accept; vanishing guard and reducible polynomial refuse.",
-        "later_evidence": []
+        "later_evidence": [
+          "reports/PHASE-0A-Q2-EXACT-COUNTERMODELS-EXTRACTION.md",
+          "reports/PHASE-0A-CLOSURE-DECISIONS.json"
+        ]
       },
       {
         "id": "70.3",
@@ -1904,8 +1907,8 @@
         "finding_row": "71.2",
         "evidence_record": "reports/PHASE-0A-BATCH-71.md#paragraph-2",
         "baseline_disposition": "new_case_candidate",
-        "current_state": "candidate_unextracted",
-        "parent_adjudicated": false,
+        "current_state": "parent_adjudicated_extracted",
+        "parent_adjudicated": true,
         "existing_case_proposal": [],
         "screened_near_cases": [
           "GP-X273",
@@ -1915,7 +1918,10 @@
         "proposed_bundle": "B1-earned-authority-and-math",
         "equivalence_or_distinction": "Repeated interior/endpoint roots and common-factor zero are exact sign controls. Existing selected-root cover GP-X273/274 does not exercise standalone Sturm/gcd sign replay.",
         "positive_control_requirement": "Repeated root sign and common-factor zero pair with false sign/refinement refusal.",
-        "later_evidence": []
+        "later_evidence": [
+          "reports/PHASE-0A-Q2-EXACT-COUNTERMODELS-EXTRACTION.md",
+          "reports/PHASE-0A-CLOSURE-DECISIONS.json"
+        ]
       },
       {
         "id": "71.2b",
@@ -3398,8 +3404,8 @@
         "finding_row": "81.5",
         "evidence_record": "reports/PHASE-0A-BATCH-81.md#paragraph-5",
         "baseline_disposition": "new_case_candidate",
-        "current_state": "candidate_unextracted",
-        "parent_adjudicated": false,
+        "current_state": "parent_adjudicated_extracted",
+        "parent_adjudicated": true,
         "existing_case_proposal": [],
         "screened_near_cases": [
           "GP-X133"
@@ -3408,7 +3414,10 @@
         "proposed_bundle": "B1-earned-authority-and-math",
         "equivalence_or_distinction": "GP-X133 distinguishes zero ideal from unit ideal in a nonzero polynomial ring; it does not delete nontriviality from the unit-certificate interpreter and exhibit a zero-algebra model.",
         "positive_control_requirement": "Nontrivial ring unit identity excludes points; zero algebra deletion does not.",
-        "later_evidence": []
+        "later_evidence": [
+          "reports/PHASE-0A-Q2-EXACT-COUNTERMODELS-EXTRACTION.md",
+          "reports/PHASE-0A-CLOSURE-DECISIONS.json"
+        ]
       },
       {
         "id": "81.6",
@@ -3543,8 +3552,8 @@
         "finding_row": "82.5",
         "evidence_record": "reports/PHASE-0A-BATCH-82.md#paragraph-5",
         "baseline_disposition": "new_case_candidate",
-        "current_state": "candidate_unextracted",
-        "parent_adjudicated": false,
+        "current_state": "parent_adjudicated_extracted",
+        "parent_adjudicated": true,
         "existing_case_proposal": [],
         "screened_near_cases": [
           "GP-X120",
@@ -3554,7 +3563,10 @@
         "proposed_bundle": "B1-earned-authority-and-math",
         "equivalence_or_distinction": "GP-X119/120 concern nonzero versus nonzerodivisor observation and GP-X124 concerns invertibility of an exceptional factor. None uses Fin4 c=g=2 to refute cancellation with retained equation and missing no-zero-divisors.",
         "positive_control_requirement": "A no-zero-divisors structure supports cancellation; Fin4 with c=g=2 refutes it.",
-        "later_evidence": []
+        "later_evidence": [
+          "reports/PHASE-0A-Q2-EXACT-COUNTERMODELS-EXTRACTION.md",
+          "reports/PHASE-0A-CLOSURE-DECISIONS.json"
+        ]
       },
       {
         "id": "82.6",
@@ -5352,5 +5364,5 @@
     "reports/ORACLE-RESULTS.json": "e70d6176f214fdc9d1bba3ee41345c483824cbdd21c499fa9ff7aabf31f0ef23"
   },
   "parent_correction": "Parent review linked prior membership/contraction integration to73.3 and75.3; absence of row ID in the earlier parent ledger did not mean no extraction evidence existed. Batch Q2 now has four original candidate obligations plus separate stronger-premise saturation residual.",
-  "parent_current_note": "Five of historical47 candidate obligations extracted;42 remain proposals including58.3b/78.4 reuse recommendations not yet accepted. Original counts and source universes retained."
+  "parent_current_note": "Nine of historical47 candidate obligations extracted;38 remain proposals. Stronger-premise OperationContract:664 separately covered byX357. Historical universes retained."
 }

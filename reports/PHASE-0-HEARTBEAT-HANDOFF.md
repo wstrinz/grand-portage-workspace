@@ -8,11 +8,11 @@ Work explicitly in F:/repos/grandportage-0.50. Read AGENTS/DECISIONS and closure
 
 ## Current integrated evidence
 
-387 cases:119 ACCEPT /268 REFUSE. Replay reports/oracle-runs/20260929T003257767801Z.json:370 AGREES,14 KNOWN_DIFFERENCE,1 DIAGNOSTIC_OBSERVED,1 PENDING,1 UNSUPPORTED. Parent reviewed full Q1 adapter/four payloads, validated387 and independently preserved383 prior bytes/outcomes. X345/X346 legacy partition gaps are known differences, not native epoch1 admission. Three Q1 finding obligations closed;58.3b/78.4 qualified reuse remains open. Five of historical47 proposals now extracted;42 remain proposals, not confirmed missing cases.
+398 cases:124 ACCEPT /274 REFUSE. Replay reports/oracle-runs/20260929T012356934782Z.json:381 AGREES,14 KNOWN_DIFFERENCE,1 DIAGNOSTIC_OBSERVED,1 PENDING,1 UNSUPPORTED. Parent reviewed full Q2 probe/11 payloads, validated398 and independently preserved387 prior bytes/outcomes. X347-X354 are native cubic/sign arithmetic; X355-X357 reference countermodels. Stronger saturation gap now covered byX357. Nine of historical47 proposals extracted;38 remain proposals, not confirmed missing cases.
 
 ## Workers and next priority
 
-Sol thread01a0e90c-4cb4-7392-b246-590cce500642 host local next Q2 remaining70.2,71.2a,81.5,82.5 plus stronger-premise saturation source664. Reuse first; sole corpus/adapters/routes/replay writer.73.3/75.3 already closed. Terra24 reuse report completed, uncommitted pending parent adjudication. Known differences alone do not mean incomplete extraction; distinguish oracle behavior from missing premises in reviewing its partial labels.83.2c proposed missing control needs parent comparison.
+Sol thread01a0e90c-4cb4-7392-b246-590cce500642 host local next Q3 operation maps/localization/orientation:79.8,82.4,85.5,85.7a,85.7b. Sole corpus/adapters/routes/replay writer; reuse first. Parent retains24 reuse-proposal adjudication and Q1 generic/localized distinctions58.3b/78.4. Terra24 report is uncommitted proposal; known differences alone need not prevent incident closure. No campaign reads, kernel or Lean.
 
 ## Parent findings and remaining queue
 

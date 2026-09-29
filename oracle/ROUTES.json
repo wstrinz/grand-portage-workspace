@@ -2505,6 +2505,61 @@
       "layer": "legacy_partition_missing_receipts_gap",
       "known_difference": "legacy_partition_consumer_counts_unverified_names",
       "limitation": "Legacy consumer accepts named branch certificates without receipts; current epoch-1 schema rejects via_partition. Supplied cover, no native held claim."
+    },
+    "GP-X347": {
+      "kind": "q2_exact",
+      "layer": "native_exact_cubic",
+      "limitation": "Pinned exact simple-number-field witness check; no external CAS, campaign point, chosen ordered embedding, or new checker admission."
+    },
+    "GP-X348": {
+      "kind": "q2_exact",
+      "layer": "native_exact_cubic",
+      "limitation": "Pinned exact simple-number-field witness check; no external CAS, campaign point, chosen ordered embedding, or new checker admission."
+    },
+    "GP-X349": {
+      "kind": "q2_exact",
+      "layer": "native_exact_cubic",
+      "limitation": "Pinned exact simple-number-field witness check; no external CAS, campaign point, chosen ordered embedding, or new checker admission."
+    },
+    "GP-X350": {
+      "kind": "q2_exact",
+      "layer": "native_exact_cubic",
+      "limitation": "Pinned exact simple-number-field witness check; no external CAS, campaign point, chosen ordered embedding, or new checker admission."
+    },
+    "GP-X351": {
+      "kind": "q2_exact",
+      "layer": "native_exact_selected_sign",
+      "limitation": "Pinned exact selected-real sign and independent receipt replay; shared parser and Sturm premises remain. No live CAS."
+    },
+    "GP-X352": {
+      "kind": "q2_exact",
+      "layer": "native_exact_selected_sign",
+      "limitation": "Pinned exact selected-real sign and independent receipt replay; shared parser and Sturm premises remain. No live CAS."
+    },
+    "GP-X353": {
+      "kind": "q2_exact",
+      "layer": "native_exact_selected_sign",
+      "limitation": "Pinned exact selected-real sign and independent receipt replay; shared parser and Sturm premises remain. No live CAS."
+    },
+    "GP-X354": {
+      "kind": "q2_exact",
+      "layer": "native_exact_selected_sign",
+      "limitation": "Pinned exact selected-real sign and independent receipt replay; shared parser and Sturm premises remain. No live CAS."
+    },
+    "GP-X355": {
+      "kind": "q2_exact",
+      "layer": "reference_zero_algebra",
+      "limitation": "Finite one-element reference countermodel to deleting nontriviality; Lean theorem not compiled and native rational-polynomial admission not claimed."
+    },
+    "GP-X356": {
+      "kind": "q2_exact",
+      "layer": "reference_fin4_cancellation",
+      "limitation": "Finite modular reference countermodel to deleting no-zero-divisors; Lean theorem not compiled or claimed as native runtime authority."
+    },
+    "GP-X357": {
+      "kind": "q2_exact",
+      "layer": "reference_sixes_saturation",
+      "limitation": "Exact integer reference countermodel with BOTH source containment and generator no-invention; no Lean execution or native saturation verifier verdict."
     }
   }
 }

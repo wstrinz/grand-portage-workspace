@@ -252,6 +252,72 @@
         "reports/oracle-runs/20260929T003257767801Z.json"
       ],
       "review": "Parent read full probe, four payloads and runner change; independently validated387 and preserved383 prior case bytes, expectations, verdicts, statuses, routes and layers. Zero-step audit is not earned receipt. Partition is isolated legacy consumer with supplied true cover; no native epoch1 admission or durable cover receipt. X345/X346 are expected REFUSE, observed legacy ACCEPT known differences; exact SOS positive X344."
+    },
+    {
+      "finding_obligation": "70.2",
+      "extraction_status": "complete_for_recorded_mechanism",
+      "case_ids": [
+        "GP-X347",
+        "GP-X348",
+        "GP-X349",
+        "GP-X350"
+      ],
+      "evidence": [
+        "reports/PHASE-0A-Q2-EXACT-COUNTERMODELS-EXTRACTION.md",
+        "reports/oracle-runs/20260929T012356934782Z.json"
+      ],
+      "review": "Parent read full probe and11 payloads, runner diff and relevant source premises; validated398 and independently preserved387 prior case bytes/expectations/verdicts/status/routes/layers. Cubic and sign routes use pinned native exact checks; zero algebra, Fin4 and unchanged(6) saturation are transparent reference countermodels, no Lean/native theorem verdict. Saturation3 has witness2 and is absent from(6) despite both local premises. Reversed interval remains separate71.2b."
+    },
+    {
+      "finding_obligation": "71.2a",
+      "extraction_status": "complete_for_recorded_mechanism",
+      "case_ids": [
+        "GP-X351",
+        "GP-X352",
+        "GP-X353",
+        "GP-X354"
+      ],
+      "evidence": [
+        "reports/PHASE-0A-Q2-EXACT-COUNTERMODELS-EXTRACTION.md",
+        "reports/oracle-runs/20260929T012356934782Z.json"
+      ],
+      "review": "Parent read full probe and11 payloads, runner diff and relevant source premises; validated398 and independently preserved387 prior case bytes/expectations/verdicts/status/routes/layers. Cubic and sign routes use pinned native exact checks; zero algebra, Fin4 and unchanged(6) saturation are transparent reference countermodels, no Lean/native theorem verdict. Saturation3 has witness2 and is absent from(6) despite both local premises. Reversed interval remains separate71.2b."
+    },
+    {
+      "finding_obligation": "81.5",
+      "extraction_status": "complete_for_recorded_mechanism",
+      "case_ids": [
+        "GP-X355"
+      ],
+      "evidence": [
+        "reports/PHASE-0A-Q2-EXACT-COUNTERMODELS-EXTRACTION.md",
+        "reports/oracle-runs/20260929T012356934782Z.json"
+      ],
+      "review": "Parent read full probe and11 payloads, runner diff and relevant source premises; validated398 and independently preserved387 prior case bytes/expectations/verdicts/status/routes/layers. Cubic and sign routes use pinned native exact checks; zero algebra, Fin4 and unchanged(6) saturation are transparent reference countermodels, no Lean/native theorem verdict. Saturation3 has witness2 and is absent from(6) despite both local premises. Reversed interval remains separate71.2b."
+    },
+    {
+      "finding_obligation": "82.5",
+      "extraction_status": "complete_for_recorded_mechanism",
+      "case_ids": [
+        "GP-X356"
+      ],
+      "evidence": [
+        "reports/PHASE-0A-Q2-EXACT-COUNTERMODELS-EXTRACTION.md",
+        "reports/oracle-runs/20260929T012356934782Z.json"
+      ],
+      "review": "Parent read full probe and11 payloads, runner diff and relevant source premises; validated398 and independently preserved387 prior case bytes/expectations/verdicts/status/routes/layers. Cubic and sign routes use pinned native exact checks; zero algebra, Fin4 and unchanged(6) saturation are transparent reference countermodels, no Lean/native theorem verdict. Saturation3 has witness2 and is absent from(6) despite both local premises. Reversed interval remains separate71.2b."
+    },
+    {
+      "finding_obligation": "OperationContract:664",
+      "extraction_status": "complete_for_recorded_mechanism",
+      "case_ids": [
+        "GP-X357"
+      ],
+      "evidence": [
+        "reports/PHASE-0A-Q2-EXACT-COUNTERMODELS-EXTRACTION.md",
+        "reports/oracle-runs/20260929T012356934782Z.json"
+      ],
+      "review": "Parent read full probe and11 payloads, runner diff and relevant source premises; validated398 and independently preserved387 prior case bytes/expectations/verdicts/status/routes/layers. Cubic and sign routes use pinned native exact checks; zero algebra, Fin4 and unchanged(6) saturation are transparent reference countermodels, no Lean/native theorem verdict. Saturation3 has witness2 and is absent from(6) despite both local premises. Reversed interval remains separate71.2b."
     }
   ]
 }
