@@ -8,13 +8,11 @@ Work explicitly in F:/repos/grandportage-0.50. Read AGENTS/DECISIONS and closure
 
 ## Current integrated evidence
 
-383 cases:118 ACCEPT /265 REFUSE. Latest replay reports/oracle-runs/20260928T224802105393Z.json:368 AGREES,12 KNOWN_DIFFERENCE,1 DIAGNOSTIC_OBSERVED,1 PENDING,1 UNSUPPORTED. Parent reviewed full dm4 probe and cases, validated383 and independently preserved381 prior bytes/outcomes. X341/X342 separate universal polynomiality from existence for displayed G1-G3 only; reference arithmetic, no full target claim.
+387 cases:119 ACCEPT /268 REFUSE. Replay reports/oracle-runs/20260929T003257767801Z.json:370 AGREES,14 KNOWN_DIFFERENCE,1 DIAGNOSTIC_OBSERVED,1 PENDING,1 UNSUPPORTED. Parent reviewed full Q1 adapter/four payloads, validated387 and independently preserved383 prior bytes/outcomes. X345/X346 legacy partition gaps are known differences, not native epoch1 admission. Three Q1 finding obligations closed;58.3b/78.4 qualified reuse remains open. Five of historical47 proposals now extracted;42 remain proposals, not confirmed missing cases.
 
 ## Workers and next priority
 
-User asked for path reevaluation. Keep approved corpus-first closure criterion; change next work from serial tiny slices to finite consolidation. Sol thread01a0e90c-4cb4-7392-b246-590cce500642 host local now owns only CURRENT-REMAINING-QUEUE.json/.md: reconcile all258 finding obligations and separately source/history groups against later parent decisions, preserve proposed-vs-accepted mappings, expose user decisions and coherent larger batches. No new cases during consolidation. Parent selects batch after review; do not keep extracting from stale47candidate/13hold totals.
-
-Terra OPERATION-COUNTERMODEL-MAPPINGS completed, uncommitted proposal pending parent adjudication. Cramer review integrated with provenance limits. Existing workers may be reused for bounded tasks; avoid duplicate reconciliation.
+Sol thread01a0e90c-4cb4-7392-b246-590cce500642 host local next Q2 remaining70.2,71.2a,81.5,82.5 plus stronger-premise saturation source664. Reuse first; sole corpus/adapters/routes/replay writer.73.3/75.3 already closed. Terra24 reuse report completed, uncommitted pending parent adjudication. Known differences alone do not mean incomplete extraction; distinguish oracle behavior from missing premises in reviewing its partial labels.83.2c proposed missing control needs parent comparison.
 
 ## Parent findings and remaining queue
 

@@ -2483,6 +2483,28 @@
       "kind": "dm4_zero_chart",
       "layer": "exact_reference_rational_zero_chart",
       "limitation": "Local SymPy arithmetic proves polynomial q exists for the same retained zero chart and displayed G1-G3 only; no full v13 target-lift claim."
+    },
+    "GP-X343": {
+      "kind": "receipt_partition",
+      "layer": "operational_zero_route_vs_receipt",
+      "limitation": "Native zero-step route audit and exact SOS replay are separate observations; REFUSE is the no-receipt authority boundary, not a native held-claim verdict."
+    },
+    "GP-X344": {
+      "kind": "receipt_partition",
+      "layer": "legacy_partition_ordered_R_positive",
+      "limitation": "Isolated legacy partition consumer with supplied true cover and replayed SOS branch receipts. Current epoch-1 schema rejects via_partition; no admitted held claim."
+    },
+    "GP-X345": {
+      "kind": "receipt_partition",
+      "layer": "legacy_partition_ordered_C_gap",
+      "known_difference": "legacy_partition_consumer_ignores_ordered_reach",
+      "limitation": "Legacy consumer accepts ORDERED-only branch premises over C; current epoch-1 schema rejects via_partition. Supplied cover, no native held claim."
+    },
+    "GP-X346": {
+      "kind": "receipt_partition",
+      "layer": "legacy_partition_missing_receipts_gap",
+      "known_difference": "legacy_partition_consumer_counts_unverified_names",
+      "limitation": "Legacy consumer accepts named branch certificates without receipts; current epoch-1 schema rejects via_partition. Supplied cover, no native held claim."
     }
   }
 }

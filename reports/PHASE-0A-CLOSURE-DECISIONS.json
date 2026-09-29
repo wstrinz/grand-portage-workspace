@@ -214,6 +214,44 @@
         "reports/PHASE-0A-SHEPHERD-CHECKPOINT.md"
       ],
       "review": "Explicitly links prior parent integration review to originating finding row. Cases were reviewed and integrated at74e815a; no new execution or scope expansion. Candidate matrix malformed rows remain producer/exact-checker observations; contraction cases distinguish forward completeness from reverse no-invention."
+    },
+    {
+      "finding_obligation": "51.3",
+      "extraction_status": "complete_for_recorded_mechanism",
+      "case_ids": [
+        "GP-X343"
+      ],
+      "evidence": [
+        "reports/PHASE-0A-Q1-RECEIPT-PARTITION-EXTRACTION.md",
+        "reports/oracle-runs/20260929T003257767801Z.json"
+      ],
+      "review": "Parent read full probe, four payloads and runner change; independently validated387 and preserved383 prior case bytes, expectations, verdicts, statuses, routes and layers. Zero-step audit is not earned receipt. Partition is isolated legacy consumer with supplied true cover; no native epoch1 admission or durable cover receipt. X345/X346 are expected REFUSE, observed legacy ACCEPT known differences; exact SOS positive X344."
+    },
+    {
+      "finding_obligation": "52.2a",
+      "extraction_status": "complete_for_recorded_mechanism",
+      "case_ids": [
+        "GP-X344",
+        "GP-X345"
+      ],
+      "evidence": [
+        "reports/PHASE-0A-Q1-RECEIPT-PARTITION-EXTRACTION.md",
+        "reports/oracle-runs/20260929T003257767801Z.json"
+      ],
+      "review": "Parent read full probe, four payloads and runner change; independently validated387 and preserved383 prior case bytes, expectations, verdicts, statuses, routes and layers. Zero-step audit is not earned receipt. Partition is isolated legacy consumer with supplied true cover; no native epoch1 admission or durable cover receipt. X345/X346 are expected REFUSE, observed legacy ACCEPT known differences; exact SOS positive X344."
+    },
+    {
+      "finding_obligation": "52.2b",
+      "extraction_status": "complete_for_recorded_mechanism",
+      "case_ids": [
+        "GP-X344",
+        "GP-X346"
+      ],
+      "evidence": [
+        "reports/PHASE-0A-Q1-RECEIPT-PARTITION-EXTRACTION.md",
+        "reports/oracle-runs/20260929T003257767801Z.json"
+      ],
+      "review": "Parent read full probe, four payloads and runner change; independently validated387 and preserved383 prior case bytes, expectations, verdicts, statuses, routes and layers. Zero-step audit is not earned receipt. Partition is isolated legacy consumer with supplied true cover; no native epoch1 admission or durable cover receipt. X345/X346 are expected REFUSE, observed legacy ACCEPT known differences; exact SOS positive X344."
     }
   ]
 }

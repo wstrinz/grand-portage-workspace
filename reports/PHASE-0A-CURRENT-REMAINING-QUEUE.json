@@ -38,7 +38,7 @@
       "design_or_repair": 12,
       "later_design": 81
     },
-    "row_level_parent_decisions": 2,
+    "row_level_parent_decisions": 5,
     "notes": [
       "Historical counts174/24/47/13 are retained. Parent explicitly linked prior integrated extraction to73.3 and75.3: two accepted extracted,45 remaining case proposals,24 reuse proposals,174 nonincident proposals,12 interpretation holds and one resolved reading request.",
       "85.8 is no longer a source-reading hold: OPERATION-CONTRACT-CLOSE-READ completes the text. Successor countermodel mapping remains a separate source incident queue.",
@@ -85,8 +85,8 @@
         "finding_row": "51.3",
         "evidence_record": "reports/PHASE-0A-BATCH-51.md#paragraph-3",
         "baseline_disposition": "new_case_candidate",
-        "current_state": "candidate_unextracted",
-        "parent_adjudicated": false,
+        "current_state": "parent_adjudicated_extracted",
+        "parent_adjudicated": true,
         "existing_case_proposal": [],
         "screened_near_cases": [
           "GP-X181",
@@ -96,7 +96,10 @@
         "proposed_bundle": "B1-earned-authority-and-math",
         "equivalence_or_distinction": "No case attempts to promote a zero-length transport audit to earned premise authority; GP-X181/182 have explicit missing slots in multi-premise routes instead.",
         "positive_control_requirement": "Pair zero-step True with a missing/unverified premise and an actually replayed premise.",
-        "later_evidence": []
+        "later_evidence": [
+          "reports/PHASE-0A-Q1-RECEIPT-PARTITION-EXTRACTION.md",
+          "reports/PHASE-0A-CLOSURE-DECISIONS.json"
+        ]
       },
       {
         "id": "51.4",
@@ -151,8 +154,8 @@
         "finding_row": "52.2a",
         "evidence_record": "reports/PHASE-0A-BATCH-52.md#paragraph-2",
         "baseline_disposition": "new_case_candidate",
-        "current_state": "candidate_unextracted",
-        "parent_adjudicated": false,
+        "current_state": "parent_adjudicated_extracted",
+        "parent_adjudicated": true,
         "existing_case_proposal": [],
         "screened_near_cases": [
           "GP-A16-covered",
@@ -163,15 +166,18 @@
         "proposed_bundle": "B1-earned-authority-and-math",
         "equivalence_or_distinction": "A16/X184 assume applicable branch emptiness; they do not test ordered-only receipts consumed over C under a true cover. Native epoch-1 exclusion must remain a limitation.",
         "positive_control_requirement": "Retain current epoch-1 via_partition schema refusal and valid R ordered branch case.",
-        "later_evidence": []
+        "later_evidence": [
+          "reports/PHASE-0A-Q1-RECEIPT-PARTITION-EXTRACTION.md",
+          "reports/PHASE-0A-CLOSURE-DECISIONS.json"
+        ]
       },
       {
         "id": "52.2b",
         "finding_row": "52.2b",
         "evidence_record": "reports/PHASE-0A-BATCH-52.md#paragraph-2",
         "baseline_disposition": "new_case_candidate",
-        "current_state": "candidate_unextracted",
-        "parent_adjudicated": false,
+        "current_state": "parent_adjudicated_extracted",
+        "parent_adjudicated": true,
         "existing_case_proposal": [],
         "screened_near_cases": [
           "GP-A16-missing",
@@ -181,7 +187,10 @@
         "proposed_bundle": "B1-earned-authority-and-math",
         "equivalence_or_distinction": "A16-missing/X183 omit cover or a branch premise at the neutral route; this legacy consumer accepts composition with no R receipts. Distinct absent-authority mechanism.",
         "positive_control_requirement": "Retain true cover with current R receipts and no-receipt R variant.",
-        "later_evidence": []
+        "later_evidence": [
+          "reports/PHASE-0A-Q1-RECEIPT-PARTITION-EXTRACTION.md",
+          "reports/PHASE-0A-CLOSURE-DECISIONS.json"
+        ]
       },
       {
         "id": "52.3",
@@ -5342,5 +5351,6 @@
     "reports/PHASE-0A-OPERATION-COUNTERMODEL-MAPPINGS.json": "2e7131da880863948e7777ce64be00abeeaad3230a89241bb1ecd86faf94ef18",
     "reports/ORACLE-RESULTS.json": "e70d6176f214fdc9d1bba3ee41345c483824cbdd21c499fa9ff7aabf31f0ef23"
   },
-  "parent_correction": "Parent review linked prior membership/contraction integration to73.3 and75.3; absence of row ID in the earlier parent ledger did not mean no extraction evidence existed. Batch Q2 now has four original candidate obligations plus separate stronger-premise saturation residual."
+  "parent_correction": "Parent review linked prior membership/contraction integration to73.3 and75.3; absence of row ID in the earlier parent ledger did not mean no extraction evidence existed. Batch Q2 now has four original candidate obligations plus separate stronger-premise saturation residual.",
+  "parent_current_note": "Five of historical47 candidate obligations extracted;42 remain proposals including58.3b/78.4 reuse recommendations not yet accepted. Original counts and source universes retained."
 }

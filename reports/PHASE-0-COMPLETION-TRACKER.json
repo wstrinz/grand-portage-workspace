@@ -4,7 +4,7 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "383 cases (118 ACCEPT /265 REFUSE);368 agreements,12 known differences and3 other classified outcomes. Polynomial-lift quantifier incident parent-dispositioned; source coverage still incomplete.",
+      "evidence": "387 cases (119 ACCEPT /268 REFUSE);370 agreements,14 known differences,1 diagnostic,1 pending,1 unsupported. Three Q1 obligations parent-closed; two proposed reuses await review.",
       "remaining": [
         "Exhaustive source/history disposition, including docs and theory",
         "Resolve or explicitly disposition A24 and X53 for G0",
@@ -37,7 +37,7 @@
   },
   "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
   "next_work": [
-    "Q1 five receipt/partition obligations, reuse first; parallel24 proposed existing-case mappings review",
+    "Q2 remaining four algebra obligations plus stronger-premise saturation; parent review24 reuse proposals and Q1 two qualified reuses",
     "Adjudicate proposed case mappings at their actual validation layers",
     "Disposition unmatched deleted GP-owned sources; 77 of 156 deleted non-test blobs have exact retained matches, 79 do not",
     "Resolve A24 source dependency and preserve explicit oracle limits before proposing 0a closeout"
