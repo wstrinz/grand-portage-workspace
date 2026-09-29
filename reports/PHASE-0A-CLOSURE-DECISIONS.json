@@ -1029,6 +1029,199 @@
         "reports/oracle-runs/20260929T120626698944Z.json"
       ],
       "supersedes": "Necessary-gap decision for84.8; X56 mapping remains rejected. No whole-phase closure."
+    },
+    {
+      "packet_seed": "A27",
+      "extraction_status": "encoded_conditional_scope_contract_oracle_unsupported",
+      "case_ids": [
+        "GP-A27-drop-GRH",
+        "GP-A27-full",
+        "GP-A27-heuristic",
+        "GP-A27-keep-GRH",
+        "GP-A27-label",
+        "GP-A27-partial"
+      ],
+      "evidence": [
+        "docs/A27-CORRECTED-CONTRACT.md",
+        "reports/PHASE-0A-A27-INTEGRATION.json",
+        "reports/oracle-runs/20260929T121944186483Z.json"
+      ],
+      "review": "mapping_gate_review accepted mathematical scope distinctions and conditional positives; no real receipt or arithmetic execution. Unsupported positives do not pass an executable positive-control gate.",
+      "limit": "Not real receipt verification or executed positive controls; explicit closeout expressiveness limit."
+    },
+    {
+      "source_path": "review/ir-v2-projection/fixtures__gamma_window__graph.json",
+      "source_blob": "05bacca06ba0fbb8c15c52b359d68688e715a187",
+      "extraction_status": "derived_snapshot_no_additional_incident",
+      "case_ids": [],
+      "review": "A complete generated projection of gamma_window/graph.jsonl: 5 claims, 1 evidence, 5 licences and 10 models are UNPROJECTABLE; three steps remain PROJECTABLE and three do not. It records missing context, receipt and runtime-refusal fields, but it neither validates a mathematical conclusion nor asserts a particular counterexample.",
+      "evidence": [
+        "reports/PHASE-0A-DELETED-IR-SNAPSHOT-REVIEW.json",
+        "oracle/checkout/tests/test_guard_release.py",
+        "oracle/checkout/scripts/replay_guard_fixtures.py"
+      ],
+      "parent_limit": "Parent independently checked all14 original Git blob identities and derived-only/no-graph-effect contracts; read retained guard assertions. This disposes only the generated snapshot, not every underlying campaign/source incident. D2 live controls were read, not executed."
+    },
+    {
+      "source_path": "review/ir-v2-projection/fixtures__jc2__graph.json",
+      "source_blob": "48917af2aa15ebb83f92dc08432622f2f1c000f5",
+      "extraction_status": "derived_snapshot_no_additional_incident",
+      "case_ids": [],
+      "review": "A complete generated projection of jc2/graph.jsonl: 14 claims, 7 evidence records, 13 licences and 18 models are UNPROJECTABLE, while 15 steps are PROJECTABLE. The rows preserve audit debt and historic runtime-refusal labels only; they are not a semantic acceptance or refusal test.",
+      "evidence": [
+        "reports/PHASE-0A-DELETED-IR-SNAPSHOT-REVIEW.json",
+        "oracle/checkout/tests/test_guard_release.py",
+        "oracle/checkout/scripts/replay_guard_fixtures.py"
+      ],
+      "parent_limit": "Parent independently checked all14 original Git blob identities and derived-only/no-graph-effect contracts; read retained guard assertions. This disposes only the generated snapshot, not every underlying campaign/source incident. D2 live controls were read, not executed."
+    },
+    {
+      "source_path": "review/ir-v2-projection/fixtures__matroid__graph.json",
+      "source_blob": "7256d0fa3c129f29a153815db1d5f78cb9219246",
+      "extraction_status": "derived_snapshot_no_additional_incident",
+      "case_ids": [],
+      "review": "A complete generated projection of matroid/graph.jsonl: 14 claims, 7 evidence records, 12 licences and 19 models are UNPROJECTABLE, while 10 steps are PROJECTABLE. It reports missing context and receipt debt, not an independently replayed matroid counterexample or theorem.",
+      "evidence": [
+        "reports/PHASE-0A-DELETED-IR-SNAPSHOT-REVIEW.json",
+        "oracle/checkout/tests/test_guard_release.py",
+        "oracle/checkout/scripts/replay_guard_fixtures.py"
+      ],
+      "parent_limit": "Parent independently checked all14 original Git blob identities and derived-only/no-graph-effect contracts; read retained guard assertions. This disposes only the generated snapshot, not every underlying campaign/source incident. D2 live controls were read, not executed."
+    },
+    {
+      "source_path": "review/ir-v2-projection/tests__fixtures__arr15__class_12909_open_witness.json",
+      "source_blob": "307f4d4b6e2b88bd219e023400be49d8927af935",
+      "extraction_status": "derived_snapshot_no_additional_incident",
+      "case_ids": [],
+      "review": "ARR15 wrapper serialization of one model. Its sole model is UNPROJECTABLE for omitted about/field/point-universe context; it has no claim, evidence, licence, step, acceptance, or refusal assertion.",
+      "evidence": [
+        "reports/PHASE-0A-DELETED-IR-SNAPSHOT-REVIEW.json",
+        "oracle/checkout/tests/test_guard_release.py",
+        "oracle/checkout/scripts/replay_guard_fixtures.py"
+      ],
+      "parent_limit": "Parent independently checked all14 original Git blob identities and derived-only/no-graph-effect contracts; read retained guard assertions. This disposes only the generated snapshot, not every underlying campaign/source incident. D2 live controls were read, not executed."
+    },
+    {
+      "source_path": "review/ir-v2-projection/tests__fixtures__arr15__class_4102.json",
+      "source_blob": "b8ca78a87419a46d353d6887605516baaf8410f1",
+      "extraction_status": "derived_snapshot_no_additional_incident",
+      "case_ids": [],
+      "review": "ARR15 wrapper serialization of one model. Its sole model is UNPROJECTABLE for omitted about/field/point-universe context; it has no claim, evidence, licence, step, acceptance, or refusal assertion.",
+      "evidence": [
+        "reports/PHASE-0A-DELETED-IR-SNAPSHOT-REVIEW.json",
+        "oracle/checkout/tests/test_guard_release.py",
+        "oracle/checkout/scripts/replay_guard_fixtures.py"
+      ],
+      "parent_limit": "Parent independently checked all14 original Git blob identities and derived-only/no-graph-effect contracts; read retained guard assertions. This disposes only the generated snapshot, not every underlying campaign/source incident. D2 live controls were read, not executed."
+    },
+    {
+      "source_path": "review/ir-v2-projection/tests__fixtures__atlas__ordered_certificate.json",
+      "source_blob": "69639fe8ee804c099b1aec85c7f7ba5438d54f2e",
+      "extraction_status": "covered_unchecked_certificate_payload",
+      "case_ids": [
+        "GP-X65"
+      ],
+      "review": "The supplied atlas certificate is retained as unverified data: one claim and model are projectable, but the evidence has actual_requirement_discharge debt. The snapshot therefore records the refusal to treat a certificate payload as a checked receipt.",
+      "evidence": [
+        "reports/PHASE-0A-DELETED-IR-SNAPSHOT-REVIEW.json",
+        "oracle/checkout/tests/test_guard_release.py",
+        "oracle/checkout/scripts/replay_guard_fixtures.py"
+      ],
+      "parent_limit": "Parent independently checked all14 original Git blob identities and derived-only/no-graph-effect contracts; read retained guard assertions. This disposes only the generated snapshot, not every underlying campaign/source incident. D2 live controls were read, not executed."
+    },
+    {
+      "source_path": "review/ir-v2-projection/tests__fixtures__dk_retrodiction__fixtures__D2-witness-substitution-scaling__fail-97vars.json",
+      "source_blob": "9150c5de4d97bb04f14f3de4e25960e05d70b473",
+      "extraction_status": "derived_snapshot_no_additional_incident",
+      "case_ids": [],
+      "review": "Despite its historical filename, the exact parametrized retained test calls cas.check_witness for size 97 three times and asserts ok. The projection itself has one claim and model UNPROJECTABLE solely for missing about context; it records no negative boundary or refusal.",
+      "evidence": [
+        "reports/PHASE-0A-DELETED-IR-SNAPSHOT-REVIEW.json",
+        "oracle/checkout/tests/test_guard_release.py",
+        "oracle/checkout/scripts/replay_guard_fixtures.py"
+      ],
+      "parent_limit": "Parent independently checked all14 original Git blob identities and derived-only/no-graph-effect contracts; read retained guard assertions. This disposes only the generated snapshot, not every underlying campaign/source incident. D2 live controls were read, not executed."
+    },
+    {
+      "source_path": "review/ir-v2-projection/tests__fixtures__dk_retrodiction__fixtures__D2-witness-substitution-scaling__pass-96vars.json",
+      "source_blob": "1d874371ac0bb4fa2bb18df8b11a24948d77096f",
+      "extraction_status": "derived_snapshot_no_additional_incident",
+      "case_ids": [],
+      "review": "The exact parametrized retained test calls cas.check_witness for size 96 three times and asserts ok. The projection itself has one claim and model UNPROJECTABLE solely for missing about context; it records no comparative 96/97 semantic boundary.",
+      "evidence": [
+        "reports/PHASE-0A-DELETED-IR-SNAPSHOT-REVIEW.json",
+        "oracle/checkout/tests/test_guard_release.py",
+        "oracle/checkout/scripts/replay_guard_fixtures.py"
+      ],
+      "parent_limit": "Parent independently checked all14 original Git blob identities and derived-only/no-graph-effect contracts; read retained guard assertions. This disposes only the generated snapshot, not every underlying campaign/source incident. D2 live controls were read, not executed."
+    },
+    {
+      "source_path": "review/ir-v2-projection/tests__fixtures__dk_retrodiction__fixtures__ledger__graph.json",
+      "source_blob": "7d1178424e07b650941879a1bffcb41434e30e2d",
+      "extraction_status": "derived_snapshot_no_additional_incident",
+      "case_ids": [],
+      "review": "Generated ledger serialization: 57 claims, 15 evidence records and 19 models are all UNPROJECTABLE. Its reasons include receipt, interpreter, kind-adapter and missing-context debt. It is an audit container, not proof that each embedded historical label is a current corpus case.",
+      "evidence": [
+        "reports/PHASE-0A-DELETED-IR-SNAPSHOT-REVIEW.json",
+        "oracle/checkout/tests/test_guard_release.py",
+        "oracle/checkout/scripts/replay_guard_fixtures.py"
+      ],
+      "parent_limit": "Parent independently checked all14 original Git blob identities and derived-only/no-graph-effect contracts; read retained guard assertions. This disposes only the generated snapshot, not every underlying campaign/source incident. D2 live controls were read, not executed."
+    },
+    {
+      "source_path": "review/ir-v2-projection/tests__test_match4_hardening.json",
+      "source_blob": "63516b8e324acc630ae5a7135cbf922a27e718ab",
+      "extraction_status": "derived_snapshot_no_additional_incident",
+      "case_ids": [],
+      "review": "Projection wrapper for an existing literal Match4 regression. It carries one UNPROJECTABLE model and no claims, evidence, licences or steps; its source adapter expressly says it is not a complete campaign ledger. It supplies no separate refusal or counterexample.",
+      "evidence": [
+        "reports/PHASE-0A-DELETED-IR-SNAPSHOT-REVIEW.json",
+        "oracle/checkout/tests/test_guard_release.py",
+        "oracle/checkout/scripts/replay_guard_fixtures.py"
+      ],
+      "parent_limit": "Parent independently checked all14 original Git blob identities and derived-only/no-graph-effect contracts; read retained guard assertions. This disposes only the generated snapshot, not every underlying campaign/source incident. D2 live controls were read, not executed."
+    },
+    {
+      "extraction_status": "bounded_nonincident_set_accepted",
+      "count": 174,
+      "evidence": "reports/PHASE-0A-NONINCIDENT-PARENT-DISPOSITION.json",
+      "limit": "Disposition of the existing recorded set only; not broader history completeness, fresh live-test execution, or Phase0a completion."
+    },
+    {
+      "extraction_status": "operational29_integrated_retained_diagnostics",
+      "evidence": "reports/PHASE-0A-OPERATIONAL-INTEGRATION.json",
+      "cases": [
+        "GP-X370",
+        "GP-X371",
+        "GP-X372",
+        "GP-X373",
+        "GP-X374",
+        "GP-X375",
+        "GP-X376",
+        "GP-X377",
+        "GP-X378",
+        "GP-X379",
+        "GP-X380",
+        "GP-X381",
+        "GP-X382",
+        "GP-X383",
+        "GP-X384",
+        "GP-X385",
+        "GP-X386",
+        "GP-X387",
+        "GP-X388",
+        "GP-X389",
+        "GP-X390",
+        "GP-X391",
+        "GP-X392",
+        "GP-X393",
+        "GP-X394",
+        "GP-X395",
+        "GP-X396",
+        "GP-X397",
+        "GP-X398"
+      ],
+      "limit": "29 added observations are retained diagnostic binding checks, not fresh operational execution or native verdicts. A24 pending; X53 and six A27 unsupported. No Phase0a closure asserted."
     }
   ]
 }

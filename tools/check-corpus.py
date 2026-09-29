@@ -82,6 +82,26 @@ def never_run(*args, **kwargs):
 def probe(case, route):
     from grandportage import kernel as K, store as S, cas, ordered_sos as SOS, field as E, groebner as G
     kind = route["kind"]
+    if kind == "operational_retained_observation":
+        import importlib.util
+        if sha(ROOT/"corpus/must"/(case["id"]+".json")) != route["case_sha256"]:
+            raise ValueError("Admitted operational case bytes changed")
+        spec = importlib.util.spec_from_file_location("operational_retained", ROOT/"tools/operational-retained-observation.py")
+        adapter = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(adapter)
+        observation = adapter.verify(case["id"], manifest_sha256=route["manifest_sha256"])
+        candidate = json.loads((ROOT/"reports/operational-case-candidates"/(case["id"]+".json")).read_text(encoding="utf-8"))
+        if case != candidate:
+            raise ValueError("Admitted case differs from bound candidate")
+        return {**observation, "status": "RETAINED_DIAGNOSTIC",
+                "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."}
+    if kind == "a27_unsupported_contract":
+        # Keep scope-contract expectations without fabricating a legacy result.
+        # Source and rationale: docs/A27-CORRECTED-CONTRACT.md.
+        return {"observed_verdict": None, "status": "UNSUPPORTED",
+                "reason": "Frozen oracle has no selected class-group/GRH receipt-admission projection; positive check premises are assumptions, not executed checks.",
+                "oracle_called": False, "arithmetic_replayed": False,
+                "premises_assumed_not_verified": True}
     if kind == "pending":
         return {"observed_verdict":None,"status":"PENDING","reason":route["reason"]}
     if kind == "advice_audit":
@@ -701,6 +721,7 @@ def main():
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
     report = {"schema_version":1,"timestamp_utc":stamp,"oracle_commit":PIN,
               "oracle_path":str(ORACLE),"runner_sha256":sha(Path(__file__)),
+              "operational_retained_adapter_sha256":sha(ROOT/"tools/operational-retained-observation.py"),
               "historical_probe_sha256":sha(ROOT/"tools/historical_probes.py"),
                "historical_residual_probe_sha256":sha(ROOT/"tools/historical_residual_probes.py"),
                "historical_depth8_block_probe_sha256":sha(ROOT/"tools/historical_depth8_block_probes.py"),

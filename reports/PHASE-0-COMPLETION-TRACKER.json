@@ -4,13 +4,13 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "410 cases (131 ACCEPT /279 REFUSE);393 agreements,14 known differences,1 diagnostic,1 pending,1 unsupported. Parent integrated84.8 pair with408-case preservation; all24 reuse-review obligations now have supported dispositions at their stated layers.",
+      "evidence": "445 cases (133 ACCEPT/312 REFUSE expectations):393 AGREES,14 KNOWN_DIFFERENCE,1 DIAGNOSTIC_OBSERVED,29 RETAINED_DIAGNOSTIC,1 PENDING,7 UNSUPPORTED. All416 prior cases and all prior replay files preserved.174 bounded nonincident dispositions accepted.",
       "remaining": [
         "Finish supported source/history group dispositions under approved narrowed closeout; no blanket deep-read requirement",
         "Resolve or explicitly disposition A24 and X53 for G0",
         "Complete semantic-neutrality review across corpus families; the 22 embedded lifecycle event inputs are now migrated and audited",
         "Joint-route and cover cases extracted; general alternative support, transitive warrant semantics and admitted entailment remain unresolved",
-        "Corrected A27 scope/admission seed family under approved revision-3 amendments"
+        "Include A27 unsupported conditional-premise controls explicitly in closeout; no claimed arithmetic or executable-positive gate"
       ]
     },
     "0b": {
@@ -47,7 +47,7 @@
   },
   "blocker_assessment": "Manifest input blocks the sweep, not independent GP review. No global impasse yet. Spike budget is a later required input.",
   "next_work": [
-    "Sol: finite29-row operational neutral-coverage disposition. Parent: corrected A27 conditional-authority fixture and honest oracle limitation; remaining source/history group dispositions.",
+    "Parent: review final necessary closure queue and close source/history dispositions. Sol: PHASE-0A-FINAL-NECESSARY-QUEUE reconciliation only. Operational29 integrated; no new control round required.",
     "Closure triage: supported grouped reuse/nonincident dispositions, concrete necessary gaps with protection rationale, explicit deferrals and user decisions",
     "Selectively screen remaining source groups for unaccounted recorded incidents; no blanket deep-reading requirement",
     "Resolve A24 and campaign manifest decisions without altering fixed expectations"
