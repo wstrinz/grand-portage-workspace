@@ -11,3 +11,5 @@ Corpus first: no new kernel code until Phase 0a and 0b are complete. Environment
 Preserve source pointers, exact oracle commit, and raw oracle outcomes. Distinguish expected verdicts, observed verdicts, unsupported cases and unexecuted cases. Never change expected verdicts to make a gate pass. Harvests are verbatim, hashed, private and ignored by Git.
 
 Replay-only authority; trusted generators require a separately approved exception. Every admitted checker requires a stated soundness argument and adversarial controls; consumer count is supporting evidence only.
+
+Current scheduling authority (2026-09-29): Will reauthorized a50-minute same-chat Phase0 heartbeat, id grand-portage-phase-0-shepherd. This supersedes older cancellation/handoff notes. Preserve the cleared goal and implementation/approval gates. Pause for completion or when required user input blocks all useful authorized work.

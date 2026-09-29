@@ -17,11 +17,11 @@
       "status": "in_progress",
       "rule_source": "docs/GP-0.50-REWORK-PACKET-rev3.md section 0b and Appendices B/C",
       "remaining": [
-        "Complete summary/history sweep of confirmed sources, including three DK supplemental files",
-        "Finalize source-grounded incident records and class/origin/campaign counts; distinguish unknown cost/shipping data",
-        "Harvest selected receipts/exports and complete campaign custody summaries; current seven files are source documents, not validated execution receipts"
+        "Finish confirmed Cloquet/ARR15/Pigeon River summaries and bounded incident history; GP source reuse and final JC/DK dispositions",
+        "Finalize source-grounded episode/class/origin inventory with explicit unknown cost/shipping and correlation treatment",
+        "Complete selected receipt/export custody and campaign scope/schema summaries; current42harvests include actual stored exports, not fresh executions"
       ],
-      "evidence": "Eight confirmed directories inventoried.20 JC private verbatim harvests include four stored receipt/ledger exports. Three full JC summaries reviewed;17 findings grouped into16 source-supported episodes (one operational recommendation). Unknown fields/taxonomy/origin limits explicit; no complete statistical headline or fresh campaign replay."
+      "evidence": "JC bounded intake and20harvests integrated. DK finite12-document pass reviewed, both approved archives indexed/raw-compared;29 campaign proposals and10GP entries retained with limits, two exact0a reuse routes identified.22private DK custody items added. No completed incident percentage or fresh campaign execution claimed."
     },
     "0c": {
       "status": "deferred_by_prerequisites",
@@ -49,10 +49,10 @@
   },
   "blocker_assessment": "No global blocker. A24 concrete source found within confirmed match4 root; fixed seed interpretation needs clarification.0b remains in progress.",
   "next_work": [
-    "Worker: DK bounded summary/incident/custody pass in separate reports",
-    "Parent: GP0b reuse and final JC/campaign source dispositions",
-    "Parent: contraction candidate admission, A24 clarification and final0a closeout",
-    "Parent: remaining confirmed campaign sweep and incident inventory with explicit unknowns"
+    "Worker: Cloquet bounded review only",
+    "Parent: remaining DK GP-row reconciliation and GP0b reuse",
+    "Parent:0a contraction admission, pending A24 clarification and final exception/neutrality closeout",
+    "Then remaining ARR15/Pigeon River and campaign inventory closeout;50-minute heartbeat active"
   ],
   "new_findings": [
     "reports/RETRY-MERGE-AUDIT.json",
@@ -68,5 +68,11 @@
     "status": "approved_with_review_amendments",
     "packet": "docs/GP-0.50-REWORK-PACKET-rev3.md",
     "amendments": "reports/PACKET-REV3-REVIEW.md"
+  },
+  "heartbeat": {
+    "automation_id": "grand-portage-phase-0-shepherd",
+    "status": "ACTIVE",
+    "interval_minutes": 50,
+    "renewed_by_user": "2026-09-29"
   }
 }
