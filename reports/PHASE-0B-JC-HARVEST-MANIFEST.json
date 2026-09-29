@@ -27,6 +27,27 @@
       "sha256": "1c3fee5d28140afe49b4896797bcb333a71a0138c3f6f75ba9d267c1565674d3",
       "bytes": 175,
       "source_ref": "working-tree bytes captured 2026-09-29; not assumed identical to HEAD"
+    },
+    {
+      "source": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/F2_TOWER.md",
+      "harvest": "corpus/harvest/jc/initial-summaries/d2_plane_72_108/F2_TOWER.md",
+      "sha256": "624b38c92fea86b74e875d77a074f583623e0d12d207787503bc644723ac10b9",
+      "bytes": 17980,
+      "source_ref": "working-tree bytes captured 2026-09-29; not assumed identical to HEAD"
+    },
+    {
+      "source": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/PASSPORT_75_125_REPAIR.md",
+      "harvest": "corpus/harvest/jc/initial-summaries/d2_plane_72_108/PASSPORT_75_125_REPAIR.md",
+      "sha256": "4bde9e54296c02bad2fda8417c55a5b89085482dffbe49acf80cc399cd8633d1",
+      "bytes": 24997,
+      "source_ref": "working-tree bytes captured 2026-09-29; not assumed identical to HEAD"
+    },
+    {
+      "source": "C:/Users/wstri/dev/math-stuff/whetstone/MODELLING_GAPS.md",
+      "harvest": "corpus/harvest/jc/initial-summaries/whetstone/MODELLING_GAPS.md",
+      "sha256": "155804b33a822dcf2d4ae4e2b274f718d01d0ccd1bc740c4aea0147740609dfe",
+      "bytes": 41249,
+      "source_ref": "working-tree bytes captured 2026-09-29; not assumed identical to HEAD"
     }
   ],
   "authority": "verbatim source custody only; no proof or receipt validation claimed"

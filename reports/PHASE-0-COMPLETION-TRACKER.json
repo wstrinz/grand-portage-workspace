@@ -15,12 +15,13 @@
     },
     "0b": {
       "status": "in_progress",
-      "rule_source": "docs/GP-0.50-REWORK-PACKET.md section 0b item 3",
+      "rule_source": "docs/GP-0.50-REWORK-PACKET-rev3.md section 0b and Appendices B/C",
       "remaining": [
-        "Inventory every confirmed root and record explicit unavailable/excluded entries",
-        "Read summaries, review incident-led history, extract incident/class/cost records and custody inventory",
-        "Harvest selected receipts/exports verbatim with hashes on F:; assess meaning risk and report gaps"
-      ]
+        "Complete summary/history sweep of confirmed sources, including three DK supplemental files",
+        "Finalize source-grounded incident records and class/origin/campaign counts; distinguish unknown cost/shipping data",
+        "Harvest selected receipts/exports and complete campaign custody summaries; current seven files are source documents, not validated execution receipts"
+      ],
+      "evidence": "Eight confirmed directories inventoried with Git HEADs. Seven JC source files harvested verbatim with hashes. Three distinct incident candidates extracted; cost/shipping fields remain unresolved and excluded from completed-incident statistics."
     },
     "0c": {
       "status": "deferred_by_prerequisites",
@@ -48,10 +49,9 @@
   },
   "blocker_assessment": "Manifest gate released by explicit unavailable/excluded-source decision. A24 still requires concrete fixture/guard interpretation or explicit exception. No global blocker.",
   "next_work": [
-    "Parent: remaining grouped document/source dispositions and OperationContract successor signoff, A24 and final exception treatment. No automatic further case batch. Sol fixed42 mapping and11-gate residual review complete.",
-    "Closure triage: supported grouped reuse/nonincident dispositions, concrete necessary gaps with protection rationale, explicit deferrals and user decisions",
-    "Selectively screen remaining source groups for unaccounted recorded incidents; no blanket deep-reading requirement",
-    "Resolve A24 and campaign manifest decisions without altering fixed expectations"
+    "Parent: JC incident inventory and source/custody review; clarify shipping criterion without blocking other source work",
+    "Sol: bounded exact-contraction/valid-evaluation candidate design and existing observation-route assessment only",
+    "Parent: review remaining 0a document mappings, A24 and final exceptions; no automatic case batch"
   ],
   "new_findings": [
     "reports/RETRY-MERGE-AUDIT.json",
