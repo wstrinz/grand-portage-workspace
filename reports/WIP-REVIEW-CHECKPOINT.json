@@ -1,6 +1,6 @@
 {
   "date": "2026-09-30",
-  "status": "WIP_review_checkpoint_prepared_destination_pending",
+  "status": "WIP_review_checkpoint_ready_for_confirmed_private_shadow",
   "branch": "codex/phase-0",
   "prior_checkpoint": "2f6101a",
   "phase0_complete": true,
@@ -30,5 +30,14 @@
   ],
   "scope": "Documentation publication checkpoint; no fresh oracle/campaign execution, case changes or source harvest publication.",
   "private_boundary": "corpus/harvest, oracle/checkout, virtual environment, scratch, dependency/build caches remain excluded from tracked tree and reachable Git history.",
-  "review": "REVIEW.md"
+  "review": "REVIEW.md",
+  "remote": {
+    "url": "https://github.com/wstrinz/grand-portage-workspace.git",
+    "visibility": "private",
+    "visibility_verified": true,
+    "push_permission_verified": true,
+    "branch": "codex/phase-0",
+    "existing_default_branch": "master",
+    "existing_default_sha": "ac4155787207e2847d248cffed7be871d5dcd577"
+  }
 }
