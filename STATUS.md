@@ -7,9 +7,9 @@ Phase 2 is authorized. We will build the actual Lean kernel and prove that every
 
 Event arrival order will not choose current authority. Explicit versions and targeted retractions determine the final snapshot. Will confirmed that conflicts freeze release separately from the complete checked held closure.
 
-The worker is implementing layer metadata/tests for the unchanged 459 cases, followed by the small executable slice and proofs. Worker assignments produce code, tests or proofs. The coordinator handles the runtime, semantic review and integration.
+The local layer draft accounts for all 459 cases: 84 kernel, 193 profile, 53 adapter, 7 surface, 11 host and 111 unresolved. All ten metadata tests pass; case bytes are unchanged. Parent semantic review and grouped boundary decisions remain before final G2 selection. The next implementation is the small kernel slice.
 
-The three-file public freeze is published as [6f38e96](https://github.com/wstrinz/grandportage/commit/6f38e96b8e18a726ff97cdde20daeaa34a6e15b5); checks passed and the tag is unchanged. Will confirmed that the shadow stays public and authorized this reviewed checkpoint push. Local integration is committed; unfinished worker output remains separate. Heartbeats remain paused.
+The three-file public freeze is published as [6f38e96](https://github.com/wstrinz/grandportage/commit/6f38e96b8e18a726ff97cdde20daeaa34a6e15b5); checks passed and the tag is unchanged. Will confirmed that the shadow stays public. The reviewed integration is pushed; the worker draft remains separate pending semantic review. Heartbeats remain paused.
 
 The main implementation risks are support/retraction semantics, parser-to-record binding, proving finite saturation, and keeping the kernel small. The next checkpoint must show actual code/tests, an ambiguity list and measured budget use.
 
