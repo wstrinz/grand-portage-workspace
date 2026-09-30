@@ -2928,6 +2928,36 @@
       "case_sha256": "bf5a957187fb9e70d12ab365ddaa45e089a925ee4ed2f7dbc87e514b0a528351",
       "reason": "Frozen oracle has no projection for deriving valid-evaluation point-surjectivity from exact contraction or checking the additional lift. Source-backed neutral expectations only; no Lean compilation, arithmetic replay or native checker execution.",
       "limitation": "Abstract conditional countermodel/contrast; positive expectation is not an executed checker control."
+    },
+    "GP-X410": {
+      "kind": "ordinary_point_guard_diagnostic",
+      "layer": "ordinary_point_guard_diagnostic",
+      "case_sha256": "3d7bdf110719f7d3bf9fee280a3a0b85001cfe8e0ea140816d91dabff7a1bcde",
+      "source_sha256": {
+        "grandportage/verify.py": "51ee50fd4be7e8f0f6b2cdd10f680ac7060ef8f91f1f424290a342e3c7ce9c03",
+        "tests/test_adversarial.py": "1150aa49c0596af1a9816a71f44694838e6fef17370a2fc8337b453b3d43c9f8"
+      },
+      "limitation": "Pinned point_witness decision branch exercised with the existing literal-value test helper. Native verdict remains null: no Singular execution, parser validation, native receipt or held authority."
+    },
+    "GP-X411": {
+      "kind": "ordinary_point_guard_diagnostic",
+      "layer": "ordinary_point_guard_diagnostic",
+      "case_sha256": "49fe6d55ffee4c72d8db975a8f74dfe07e5425e0793ccca28d5b98f9b24c469d",
+      "source_sha256": {
+        "grandportage/verify.py": "51ee50fd4be7e8f0f6b2cdd10f680ac7060ef8f91f1f424290a342e3c7ce9c03",
+        "tests/test_adversarial.py": "1150aa49c0596af1a9816a71f44694838e6fef17370a2fc8337b453b3d43c9f8"
+      },
+      "limitation": "Pinned point_witness decision branch exercised with the existing literal-value test helper. Native verdict remains null: no Singular execution, parser validation, native receipt or held authority."
+    },
+    "GP-X412": {
+      "kind": "ordinary_point_guard_diagnostic",
+      "layer": "ordinary_point_guard_diagnostic",
+      "case_sha256": "da84a2e84c2331357cea4a5947899db0831019eacc98e7cb92af5fd7622c3ee5",
+      "source_sha256": {
+        "grandportage/verify.py": "51ee50fd4be7e8f0f6b2cdd10f680ac7060ef8f91f1f424290a342e3c7ce9c03",
+        "tests/test_adversarial.py": "1150aa49c0596af1a9816a71f44694838e6fef17370a2fc8337b453b3d43c9f8"
+      },
+      "limitation": "Pinned point_witness decision branch exercised with the existing literal-value test helper. Native verdict remains null: no Singular execution, parser validation, native receipt or held authority."
     }
   }
 }

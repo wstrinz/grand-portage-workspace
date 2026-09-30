@@ -101,6 +101,9 @@ def probe(case, route):
     if kind == "closure_fixture":
         from closure_fixture_probes import probe as closure_probe
         return closure_probe(case, route)
+    if kind == "ordinary_point_guard_diagnostic":
+        from ordinary_point_guard_probes import probe as ordinary_guard_probe
+        return ordinary_guard_probe(case, route)
     if kind == "unsupported_neutral_contract":
         # Record an expressiveness limit without creating a reference checker.
         if sha(ROOT/"corpus/must"/(case["id"]+".json")) != route["case_sha256"]:
@@ -736,6 +739,7 @@ def main():
     report = {"schema_version":1,"timestamp_utc":stamp,"oracle_commit":PIN,
               "oracle_path":str(ORACLE),"runner_sha256":sha(Path(__file__)),
               "closure_fixture_probe_sha256":sha(ROOT/"tools/closure_fixture_probes.py"),
+              "ordinary_point_guard_probe_sha256":sha(ROOT/"tools/ordinary_point_guard_probes.py"),
               "guard_snapshot_probe_sha256":sha(ROOT/"tools/guard_snapshot_probes.py"),
               "cramer_exponent_probe_sha256":sha(ROOT/"tools/cramer_exponent_probes.py"),
               "interval_admission_probe_sha256":sha(ROOT/"tools/interval_admission_probes.py"),

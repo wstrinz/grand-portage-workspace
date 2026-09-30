@@ -4,12 +4,12 @@
   "lanes": {
     "0a": {
       "status": "in_progress",
-      "evidence": "456cases (137 ACCEPT/319 REFUSE):402 AGREES,14 KNOWN_DIFFERENCE,1 DIAGNOSTIC_OBSERVED,29 RETAINED_DIAGNOSTIC,1 PENDING,9 UNSUPPORTED.454prior case bytes/routes/outcomes and60prior immutable replays preserved. Exact-contraction/lift pair integrated as explicitly unsupported abstract contracts.",
+      "evidence": "459cases (138 ACCEPT/321 REFUSE):402 AGREES,14 KNOWN_DIFFERENCE,4 DIAGNOSTIC_OBSERVED,29 RETAINED_DIAGNOSTIC,1 PENDING,9 UNSUPPORTED.456prior case bytes/routes/outcomes and62prior immutable replays preserved. Ordinary-point guards observed through the existing literal diagnostic seam; native verdicts null.",
       "remaining": [
         "A24 direct semantic clarification remains pending; current REFUSE/PENDING unchanged",
         "Final bounded source/neutrality/exception closeout; include X53, six A27 and two contraction/lift unsupported cases without claiming executed positive gates",
         "A03a diagnostic limit and deferred later-design semantics remain explicit; no general predecessor soundness certification required",
-        "Bounded ordinary-point guarded/equation-free candidate design commissioned after GP consolidation; admission/observation choice awaits parent review"
+        "Ordinary/equation-free guard family integrated as three qualified diagnostics; no additional historical fixture expansion commissioned"
       ]
     },
     "0b": {
@@ -48,9 +48,9 @@
   },
   "blocker_assessment": "No global blocker. A24 and final unknown-field decision await direct answers; finite GP consolidation and bounded0a closeout provide independent work.",
   "next_work": [
-    "Worker: ORDINARY-POINT-GUARD-CANDIDATE reports only, at most3payload designs and faithful observation assessment; no execution/admission",
-    "Parent: finite GP/campaign inventory and final0a source/exception disposition; unknown-field finalization awaits user answer",
-    "A24 clarification pending; final bounded0a exception/source review;0c cap after0a/0b;0e authorized/not started"
+    "Worker: GP-INVENTORY-SUPPLEMENT-DRAFT only,29operational mechanisms and18GP source groups/47qualified dispositions; no execution/admission",
+    "Parent: independent GP supplement integration and final bounded0a source/family/exception closeout",
+    "A24 and final AppendixB unknown-field decisions pending direct replies;0c cap after0a/0b;0e authorized/not started"
   ],
   "new_findings": [
     "reports/RETRY-MERGE-AUDIT.json",

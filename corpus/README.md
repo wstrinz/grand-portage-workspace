@@ -1,6 +1,6 @@
 # Corpus catalog
 
-456 neutral cases. Current observations remain layer-specific; G0 is not complete. A24 is pending; nine unsupported contracts and A03a diagnostic limits remain explicit. See PHASE-0A-CONTRACTION-LIFT-INTEGRATION and PHASE-0-COMPLETION-TRACKER for the bounded remaining queue.
+459 neutral cases. Current observations remain layer-specific; G0 is not complete. A24 is pending; nine unsupported contracts and four diagnostic observations remain explicit. See PHASE-0A-ORDINARY-POINT-GUARD-INTEGRATION and PHASE-0-COMPLETION-TRACKER for the bounded remaining queue.
 
 | Case | Expected | Oracle observation | Layer | Title |
 |---|---|---|---|---|
@@ -401,6 +401,9 @@
 | [GP-X407](must/GP-X407.json) | ACCEPT | AGREES | historical_exact_cramer_arithmetic | Historical Cramer clearing exponent two reconstructs Phi_b0_compat |
 | [GP-X408](must/GP-X408.json) | REFUSE | UNSUPPORTED | abstract_evaluation_contract | Exact contraction alone does not provide a valid evaluation lift |
 | [GP-X409](must/GP-X409.json) | ACCEPT | UNSUPPORTED | abstract_evaluation_contract | Valid evaluation lift supports point-surjectivity |
+| [GP-X410](must/GP-X410.json) | REFUSE | DIAGNOSTIC_OBSERVED | ordinary_point_guard_diagnostic | Vanishing equations do not excuse a vanishing open guard |
+| [GP-X411](must/GP-X411.json) | REFUSE | DIAGNOSTIC_OBSERVED | ordinary_point_guard_diagnostic | An equation-free model still requires its open guard |
+| [GP-X412](must/GP-X412.json) | ACCEPT | DIAGNOSTIC_OBSERVED | ordinary_point_guard_diagnostic | A nonvanishing guard admits the equation-free offered point |
 | [GP-X41](must/GP-X41.json) | REFUSE | AGREES | historical_metadata_audit | Deleting a refusal does not earn the excluded theorem |
 | [GP-X42](must/GP-X42.json) | REFUSE | AGREES | historical_metadata_audit | An altered source revision cannot reuse a frozen receipt |
 | [GP-X43](must/GP-X43.json) | REFUSE | AGREES | historical_metadata_audit | Conditional row evidence does not prove original-source membership |
