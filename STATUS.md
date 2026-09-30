@@ -9,7 +9,7 @@ Event arrival order will not choose current authority. Explicit versions and tar
 
 The worker is implementing layer metadata/tests for the unchanged 459 cases, followed by the small executable slice and proofs. Worker assignments produce code, tests or proofs. The coordinator handles the runtime, semantic review and integration.
 
-The exact three-file public freeze patch is published as [6f38e96](https://github.com/wstrinz/grandportage/commit/6f38e96b8e18a726ff97cdde20daeaa34a6e15b5); documentation checks passed and the existing tag is unchanged. The rework remains on the private shadow's codex/phase-0 branch. Heartbeats remain paused.
+The three-file public freeze is published as [6f38e96](https://github.com/wstrinz/grandportage/commit/6f38e96b8e18a726ff97cdde20daeaa34a6e15b5); checks passed and the tag is unchanged. GitHub now reports the designated shadow as public. The new rework push is stopped pending Will's visibility decision; local integration is committed. Heartbeats remain paused.
 
 The main implementation risks are support/retraction semantics, parser-to-record binding, proving finite saturation, and keeping the kernel small. The next checkpoint must show actual code/tests, an ambiguity list and measured budget use.
 
