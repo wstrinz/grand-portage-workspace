@@ -43,7 +43,7 @@ private def scanKeys : Nat → List KeyFrame → Std.Internal.Parsec.String.Pars
 private def rejectDuplicateKeys (text : String) : Except String Unit :=
   Std.Internal.Parsec.String.Parser.run (scanKeys (text.utf8ByteSize + 1) []) text
 
-private def exactFields (json : Json) (names : List String) : Except String Unit := do
+def exactFields (json : Json) (names : List String) : Except String Unit := do
   let object ← json.getObj?
   for key in object.keys do
     if !names.contains key then throw s!"unexpected field: {key}"
@@ -145,9 +145,12 @@ def decodeEnvelope (json : Json) : Except String (List Event) := do
   listField json "events" decodeEvent
 
 -- String parsing is delegated unchanged to installed Lean.Json, not replaced.
-def decode (text : String) : Except String (List Event) := do
+def parseUnique (text : String) : Except String Json := do
   let json ← Json.parse text
   rejectDuplicateKeys text
-  decodeEnvelope json
+  return json
+
+def decode (text : String) : Except String (List Event) := do
+  decodeEnvelope (← parseUnique text)
 end GP50.Decoder
 

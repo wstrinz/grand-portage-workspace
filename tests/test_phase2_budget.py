@@ -24,6 +24,13 @@ class Phase2BudgetTests(unittest.TestCase):
         self.assertFalse(budget.has_executable_declaration(
             "protected def Closed\n    (n : Nat)\n    : Prop := n = 0\n"))
 
+    def test_erased_proof_record_is_proof_only(self):
+        self.assertFalse(budget.has_executable_declaration(
+            "structure Contract (n : Nat) : Prop where\n  sound : n = 0\n"))
+        self.assertTrue(budget.has_executable_declaration(
+            "structure Contract (n : Nat) : Prop where\n  sound : n = 0\n"
+            "def runtime : Nat := 0\n"))
+
     def test_runtime_abbreviations_and_types_are_charged(self):
         for source in ("abbrev Id := Nat", "structure Token where\n  value : Nat",
                        "inductive Token where | value", "opaque token : Nat",

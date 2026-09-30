@@ -33,3 +33,11 @@ Neither a theorem pointer nor matching typeclass names implement GP's statement/
 
 ## Corpus preservation and performance interpretation
 The 459-case-sized load test binds case IDs/digests to deliberately trivial equalities. It measures serialization/fold plumbing, not the mathematical cases or harvested exports. Full oracle replay is unchanged. Unsupported routes/formats remain unsupported.
+
+## Phase 2 native receipt path — 2026-09-30
+
+The Mathlib-free test stub decodes actual univariate rational generators, targets and cofactors, then recomputes coefficient identities. Lean proves receipt acceptance yields the uniquely registered clause’s formal polynomial-span meaning with exact claim/version/binding equality. Runtime soundness is proved under validator and claim-projection contracts; the concrete fold-to-statement composition remains open.
+
+The host adapter must faithfully translate the original fixture contract, select identities, hash the configured data, invoke the pinned compiled executable and interpret its output. Digest strings are compared inside Lean; Lean does not establish their relationship to original bytes or intended meaning. Native execution relies on the Lean compiler/runtime, rational implementation, operating system and executable/input integrity. Independent leanchecker replay checks proof declarations, not those host assumptions.
+
+Raw registry/events reject duplicate keys, malformed fields/types and unknown constructors. Theorem pointers, proof/rule/narrow capabilities are refused in the receipt-only registry. No geometric interpretation, general profile adoption or native LRAT admission is supplied by this formal span stub. Earlier Phase 0 observations above retain their historical scope.

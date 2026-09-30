@@ -5,3 +5,6 @@ import GP50.ClosureOrderProofs
 import GP50.Entry
 import GP50.RuntimeProofs
 import GP50.PolyStubProofs
+import GP50.AdmissionProofs
+import GP50.BoundReplay
+import GP50.BoundReplayProofs

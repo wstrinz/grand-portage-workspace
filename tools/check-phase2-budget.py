@@ -13,6 +13,10 @@ def has_executable_declaration(source):
             header = source[match.end():].split(":=", 1)[0].strip()
             if header.endswith(": Prop"):
                 continue  # Erased proposition; no production executable helper.
+        if match.group(1) == "structure":
+            header = source[match.end():].split("where", 1)[0].strip()
+            if header.endswith(": Prop"):
+                continue  # Proof records are erased as well as proposition defs.
         return True
     return False
 
