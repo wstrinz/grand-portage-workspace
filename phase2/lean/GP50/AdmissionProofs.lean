@@ -150,4 +150,3 @@ theorem evaluate_held_truth_composition (admission : Admission) (snapshot : Snap
 #print axioms evaluate_supported_truth
 #print axioms evaluate_held_truth_composition
 end GP50
-

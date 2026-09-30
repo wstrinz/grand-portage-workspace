@@ -143,4 +143,3 @@ def main : IO Unit := do
 
 #print axioms GP50.Span.accepts_exact_identity
 #print axioms GP50.Span.accepts_unique_clause_meaning
-

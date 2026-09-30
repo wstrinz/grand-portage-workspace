@@ -67,4 +67,3 @@ example (snapshot : Snapshot) (dependencies : List Nat) (premises : List Warrant
 #print axioms refuseAll_validator_sound
 #print axioms GP50.evaluate_supported_truth
 #print axioms GP50.evaluate_held_truth_composition
-

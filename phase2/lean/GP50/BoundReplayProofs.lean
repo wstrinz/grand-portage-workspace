@@ -129,4 +129,3 @@ theorem accepts_unique_clause_meaning (clauses : List Clause) (receipts : List R
 #print axioms accepts_exact_identity
 #print axioms accepts_unique_clause_meaning
 end GP50.Span
-
