@@ -1,0 +1,24 @@
+{
+  "status": "authorized_proposals_in_progress_G1_open",
+  "phase0_commit": "685c790",
+  "spec": "SPEC-CORE.md",
+  "soundness_goal": "phase1/lean/SoundnessStatement.lean",
+  "scope": "Specification and scoring only; no Phase2 implementation or adoption.",
+  "remaining": [
+    "Elaborate typed soundness target; implementation slot must bind actual Phase2 functions before proving/admitting anything.",
+    "Paper non-MEANING expressiveness/refusal scoring with source-grounded counterfactual limits.",
+    "Parent review and three explicit G1 adoption sign-offs from Will."
+  ],
+  "evidence": "reports/PHASE-1-ELABORATION.json",
+  "worker": {
+    "thread_id": "01a0eeca-572e-7202-a708-c730d410b901",
+    "host": "local",
+    "owned_outputs": [
+      "reports/PHASE-1-PAPER-EXPRESSIVENESS.md",
+      "reports/PHASE-1-PAPER-EXPRESSIVENESS.json"
+    ],
+    "active_minute_cap": 60,
+    "scope": "67primary non-MEANING owner/group records,37supplemental records separately; no source/case changes, no checker inventions or shared gate claim"
+  },
+  "recommendations": "reports/PHASE-1-ADOPTION-PROPOSAL.md; reports/PHASE-1-SCOPE-MAP.md"
+}
