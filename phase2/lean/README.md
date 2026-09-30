@@ -8,13 +8,19 @@ lake -d phase2/lean build
 ./phase2/lean/.lake/build/bin/gp_closure_tests.exe
 ./phase2/lean/.lake/build/bin/gp_completeness_tests.exe
 ./phase2/lean/.lake/build/bin/gp_order_tests.exe
+./phase2/lean/.lake/build/bin/gp_decoder_tests.exe
+./phase2/lean/.lake/build/bin/gp_runtime_tests.exe
 lake -d phase2/lean env leanchecker -v GP50.ClosureProofs
 lake -d phase2/lean env leanchecker -v GP50.ClosureCompleteness
 lake -d phase2/lean env leanchecker -v GP50.ClosureOrderProofs
+lake -d phase2/lean env leanchecker -v GP50.RuntimeProofs
+lake -d phase2/lean env leanchecker -v GP50.Decoder
 ```
 
-Events resolves complete typed event lists using explicit versions and targeted retraction/supersession. Liveness is custody eligibility; it does not validate evidence.
+Events resolves complete event lists using explicit versions and targeted retraction/supersession. Decoder validates the typed wire envelope and rejects duplicate keys before typed admission. Installed Lean JSON still normalizes numeric syntax; raw-byte identity is an adapter contract.
 
-Closure computes support reachability with a bound derived from the declared support-node count. ClosureProofs proves soundness under node semantic contracts. ClosureCompleteness proves exact reachability equivalence for every finite list, including repeated IDs. ClosureOrderProofs proves supported membership is invariant under equal complete declaration sets, including reordered lists and changed duplicate counts. Independent kernel checks passed; axioms are propext, Quot.sound and Classical.choice.
+Runtime converts current validated warrants into support nodes, computes finite closure and projects held claims. Entry connects raw decode to fold. Admission is a registry of validator functions; the default refuses all evidence. Runtime tests use explicit component seams, with theorem-name pointers refused.
 
-The 22 event, 13 closure, 16 completeness and 14 graph-order controls include duplicate identity, conflicting current versions, stale binding, independent support, cycles, a 512-node reversed chain and event permutations. Completeness controls check 13,122 finite graphs; order controls check 3,072 transformations of 1,024 graphs. They are component tests; integration and G2 progress live in STATUS.md.
+ClosureProofs proves soundness under node semantic contracts. ClosureCompleteness proves exact finite reachability, including repeated IDs. ClosureOrderProofs proves support membership is invariant under equal complete declaration sets. RuntimeProofs proves held equals reachable warrant-backed claims for the actual fold. Whole-kernel semantic soundness and event-order proof remain in STATUS.md.
+
+The package has 335 passing component controls, including 13,122 finite graphs and 3,072 order transformations. These do not count as G2 corpus passes.
