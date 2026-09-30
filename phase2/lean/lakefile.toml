@@ -1,6 +1,6 @@
 name = "gp_kernel"
 version = "0.1.0"
-defaultTargets = ["GP50", "gp_events_tests", "gp_closure_tests", "gp_completeness_tests", "gp_order_tests", "gp_decoder_tests", "gp_runtime_tests", "gp_poly_tests", "gp_span_runner", "ProofControls", "gp_bound_tests"]
+defaultTargets = ["GP50", "gp_events_tests", "gp_closure_tests", "gp_completeness_tests", "gp_order_tests", "gp_decoder_tests", "gp_runtime_tests", "gp_poly_tests", "gp_span_runner", "ProofControls", "gp_bound_tests", "gp_lifecycle_runner", "gp_narrow_tests"]
 [[lean_lib]]
 name = "GP50"
 [[lean_exe]]
@@ -34,3 +34,11 @@ roots = ["Tests.AdmissionProofs", "Tests.SpanSoundness"]
 [[lean_exe]]
 name = "gp_bound_tests"
 root = "Tests.BoundReplay"
+
+[[lean_exe]]
+name = "gp_lifecycle_runner"
+root = "GP50.LifecycleRunner"
+
+[[lean_exe]]
+name = "gp_narrow_tests"
+root = "Tests.Narrowing"

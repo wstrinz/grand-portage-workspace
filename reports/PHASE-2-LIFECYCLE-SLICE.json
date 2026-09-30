@@ -1,171 +1,24 @@
 {
-  "schema": "gp-phase2-native-slice/v1",
-  "case_count": 6,
+  "schema": "gp-phase2-lifecycle-slice/v1",
+  "case_count": 3,
+  "branch_executions": 6,
   "complete_ten_case_slice": false,
   "g2_pass": false,
-  "runner_sha256": "ef108f23bb28b688273ac2f618346a4d5b645c5c1241d89f98a262e043edc675",
-  "adapter_sha256": "ea08f6bd1d20eae1968c09544fa8bf9b4015584b0f507daf941f249ac5929fff",
+  "source_contract": {
+    "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+    "path": "tests/test_adversarial.py",
+    "line": 3297,
+    "anchor": "def test_supersession_does_not_make_the_fold_order_dependent(",
+    "file_sha256": "1150aa49c0596af1a9816a71f44694838e6fef17370a2fc8337b453b3d43c9f8",
+    "function_sha256": "13623373c6c6e898105eb30346ea19b0876aee8806670386108ff861273ff825",
+    "contract": "Same retained records in both concatenation orders; old successor pointer exists.",
+    "fixture_boundary": "Literal unchanged fixture abstraction, not a reconstruction of predecessor object data."
+  },
+  "runner_path": "F:\\repos\\grandportage-0.50\\phase2\\lean\\.lake\\build\\bin\\gp_lifecycle_runner.exe",
+  "runner_sha256": "3864574664dae66eb178a0af7fe6997a610daac16b5d2a7282e46bfefe0c2fa1",
+  "runner_source_sha256": "612c1ec3a7a42dda2f44953be7c2f2f42065b817a4253b691132823eb4e86121",
+  "adapter_sha256": "7f5cf75f825ae11574acfcd64f180a5bb2c194c2b9ca47b3134c4fb70eed4586",
   "cases": [
-    {
-      "id": "GP-A17",
-      "source_sha256": "b7f3bf4e3244f91945f521d9b1a2d8eb244504a57166457bcc127012ee4de965",
-      "expected": {
-        "verdict": "REFUSE",
-        "reason": "An unfinished attempt is absent evidence and remains retryable."
-      },
-      "observed": "REFUSE",
-      "native_query": 1,
-      "native_result": {
-        "current_count": 1,
-        "domain": [
-          1
-        ],
-        "held": [],
-        "live_warrants": [
-          10
-        ],
-        "retracted": [],
-        "status": "OK",
-        "successors": [],
-        "supports": [],
-        "warrant_count": 1
-      },
-      "positive_control": {
-        "current_count": 1,
-        "domain": [
-          1
-        ],
-        "held": [
-          1
-        ],
-        "live_warrants": [
-          10
-        ],
-        "retracted": [],
-        "status": "OK",
-        "successors": [],
-        "supports": [
-          10
-        ],
-        "warrant_count": 1
-      },
-      "native_inputs": {
-        "registry_sha256": "b36864b2d04fcccd07992bf9a1d53fbd1224c54bf34a3c517e936b13dad8c147",
-        "events_sha256": "173ebbf736028cda7478540845eda96ebcab1878a7196399a3faa94620862bd6"
-      },
-      "positive_inputs": {
-        "registry_sha256": "421863db75d8411c83916b99b5a298c7c68899ab2ddeb3d0b0a5092cc92e4792",
-        "events_sha256": "e341b566f71436ed5d26303357d35aef007a6a7aa2f0a38b220489ced645694d"
-      },
-      "full_fixture_contract": true,
-      "translation_fidelity": "Explicit UNVERIFIED-to-absent vocabulary translation; no earlier warrant is supplied. A successful exact-replay contrast uses the same statement and current binding."
-    },
-    {
-      "id": "GP-A18",
-      "source_sha256": "61d7e0ce789d2cc6c469f2bd29e6e1d8b28a733347f0731e79c59e8141d93817",
-      "expected": {
-        "verdict": "REFUSE",
-        "reason": "The semantic input fingerprint no longer matches."
-      },
-      "observed": "REFUSE",
-      "native_query": 1,
-      "native_result": {
-        "current_count": 1,
-        "domain": [
-          1
-        ],
-        "held": [],
-        "live_warrants": [],
-        "retracted": [],
-        "status": "OK",
-        "successors": [],
-        "supports": [],
-        "warrant_count": 1
-      },
-      "positive_control": {
-        "current_count": 1,
-        "domain": [
-          1
-        ],
-        "held": [
-          1
-        ],
-        "live_warrants": [
-          10
-        ],
-        "retracted": [],
-        "status": "OK",
-        "successors": [],
-        "supports": [
-          10
-        ],
-        "warrant_count": 1
-      },
-      "native_inputs": {
-        "registry_sha256": "6b6298162aef8a88b7fc2b77d1d0f14fd451405f6965e661a70eb54a128ceb13",
-        "events_sha256": "d91f5c540957b5b5fd620ead2d07a6dc6e3bf0c561cc2cd8af7c7d6f830d8324"
-      },
-      "positive_inputs": {
-        "registry_sha256": "421863db75d8411c83916b99b5a298c7c68899ab2ddeb3d0b0a5092cc92e4792",
-        "events_sha256": "e341b566f71436ed5d26303357d35aef007a6a7aa2f0a38b220489ced645694d"
-      },
-      "full_fixture_contract": true,
-      "translation_fidelity": "Actual x=1*x replay accepts before the input mutation. The unchanged receipt keeps its old version/input binding after (x) becomes (x^2). The query is whether that receipt remains current, not geometric emptiness."
-    },
-    {
-      "id": "GP-A25b",
-      "source_sha256": "12ee5721170301eefa342cbed9a02442f536906c1a3dc7444543ee45262d9e01",
-      "expected": {
-        "verdict": "REFUSE",
-        "reason": "Aliasing requires explicit binding evidence."
-      },
-      "observed": "REFUSE",
-      "native_query": 2,
-      "native_result": {
-        "current_count": 1,
-        "domain": [
-          2
-        ],
-        "held": [],
-        "live_warrants": [
-          10
-        ],
-        "retracted": [],
-        "status": "OK",
-        "successors": [],
-        "supports": [],
-        "warrant_count": 1
-      },
-      "positive_control": {
-        "current_count": 1,
-        "domain": [
-          2
-        ],
-        "held": [
-          2
-        ],
-        "live_warrants": [
-          10
-        ],
-        "retracted": [],
-        "status": "OK",
-        "successors": [],
-        "supports": [
-          10
-        ],
-        "warrant_count": 1
-      },
-      "native_inputs": {
-        "registry_sha256": "3188f56378b5604df6d31bb34b06de6a4e88ff658d5de9b1a84837c3758497bd",
-        "events_sha256": "c0e141a2b47978bf75b3eeb908032fb42c132660696f2fb2d6b5db657398c55f"
-      },
-      "positive_inputs": {
-        "registry_sha256": "376bc82af780f1b4d34b9b7a33b7e5f7aade61e586056089327fc6651b0ba9ff",
-        "events_sha256": "c0e141a2b47978bf75b3eeb908032fb42c132660696f2fb2d6b5db657398c55f"
-      },
-      "full_fixture_contract": true,
-      "translation_fidelity": "Both selected identities are preserved in registry keys and model/input bindings. The B warrant asks for the A-owned receipt; no alias rule is registered. A fresh independently bound B receipt is a separate positive control."
-    },
     {
       "id": "GP-X144",
       "source_sha256": "c7bdf284879011a4de3063b83236b71762c2b6bbfaad39e61a478ba523c7011f",
@@ -1908,20 +1761,6 @@
       "mathematical_authority_admitted": false
     }
   ],
-  "remaining_slice_behaviors": [
-    "non-exhaustive cover",
-    "independent checked support and targeted retraction",
-    "failed retry",
-    "K2 narrowing",
-    "earned consequence",
-    "proved-overlap conflict",
-    "corpus positive control"
-  ],
-  "execution_counts": {
-    "receipt_path_cases": 3,
-    "receipt_positive_contrasts": 3,
-    "lifecycle_cases": 3,
-    "lifecycle_branch_folds": 6
-  },
-  "lifecycle_report_sha256": "c3a1feb8fac5e374f4248843f4015d4dfe360aa1d26152c39b7f1cf67916fa7b"
+  "binding_boundary": "Host canonical JSON and SHA-256 bind every literal source object and replacement annotation; Lean compares opaque identities.",
+  "verdict_boundary": "ACCEPT answers branch resolution only. All source entities are inert assertion custody records; held and support remain empty."
 }

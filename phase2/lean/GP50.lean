@@ -9,3 +9,4 @@ import GP50.AdmissionProofs
 import GP50.BoundReplay
 import GP50.BoundReplayProofs
 import GP50.SpanSoundnessProofs
+import GP50.NarrowingProofs

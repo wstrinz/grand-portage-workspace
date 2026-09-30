@@ -2,6 +2,7 @@
 import argparse
 import copy
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import subprocess
@@ -148,8 +149,19 @@ def run(output):
                   "non-exhaustive cover", "independent checked support and targeted retraction",
                   "failed retry", "real supersession branch-order fixture", "K2 narrowing",
                   "earned consequence", "proved-overlap conflict", "corpus positive control"]}
+    spec = importlib.util.spec_from_file_location("lifecycle_slice", ROOT / "tools/run-phase2-lifecycle-slice.py")
+    lifecycle = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(lifecycle)
+    lifecycle_path = ROOT / "reports/PHASE-2-LIFECYCLE-SLICE.json"
+    operational = lifecycle.run(lifecycle_path)
+    record["cases"].extend(operational["cases"])
+    record["case_count"] = len(record["cases"])
+    record["execution_counts"] = {"receipt_path_cases": 3, "receipt_positive_contrasts": 3,
+                                  "lifecycle_cases": 3, "lifecycle_branch_folds": 6}
+    record["lifecycle_report_sha256"] = hashlib.sha256(lifecycle_path.read_bytes()).hexdigest()
+    record["remaining_slice_behaviors"].remove("real supersession branch-order fixture")
     output.write_bytes((json.dumps(record, indent=2) + "\n").encode("utf-8"))
-    print("Native slice: 3 unchanged fixtures passed; 3 exact-replay positive controls passed.")
+    print("Native slice: 6 unchanged fixtures passed; 3 exact-replay contrasts and 6 branch folds passed.")
     return record
 
 if __name__ == "__main__":

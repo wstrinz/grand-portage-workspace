@@ -1,19 +1,24 @@
-# Phase 2 executed slice — checkpoint 1
+# Phase 2 executed slice — checkpoint 2
 
-Three unchanged kernel fixtures execute through the compiled Lean runner: strict registry/event decoding, exact rational receipt replay, event resolution, support closure and held projection.
+Six unchanged kernel fixtures execute through native Lean decoding, resolution, support closure and held projection.
 
-| Case | Executed result | Accepting contrast |
+| Case | Executed result | Checked contrast or property |
 |---|---|---|
-| GP-A17 | REFUSE: unfinished attempt supplies no authority | Same current claim with an actual replayed receipt |
-| GP-A18 | REFUSE: old receipt after ideal inputs change from (x) to (x²) | Original x = 1·x receipt before mutation |
-| GP-A25b | REFUSE: B asks for A's bound receipt without alias evidence | Independently bound and replayed B receipt |
+| GP-A17 | REFUSE: unfinished attempt supplies no authority | Actual bound rational replay accepts |
+| GP-A18 | REFUSE: receipt stales after (x) becomes (x²) | Original x = 1·x replay accepts |
+| GP-A25b | REFUSE: B asks for A's receipt without alias evidence | Independently bound B replay accepts |
+| GP-X144 | ACCEPT: claim supersession in both orders | Complete records, bindings and successor links equal |
+| GP-X145 | ACCEPT: edge supersession in both orders | Complete records, bindings and successor links equal |
+| GP-X146 | ACCEPT: inference supersession in both orders | Complete records, bindings and successor links equal |
 
-The adapter preserves fixture contracts and original expectations. A18 tests receipt freshness, not geometric emptiness. A25b preserves both selected identities. The contrasts are component controls, not additional corpus cases.
+The first three pass through actual configured generators, targets and cofactors. A18 tests freshness; A25b preserves selected identities. Their accepting contrasts are component controls, not new corpus cases.
 
-The runner reads actual polynomial generators, targets and cofactors. The concrete receipt-only fold is now proved sound for formal span meaning: every held key has a registered clause, and all matching clauses satisfy the identity. Receipt acceptance also establishes exact claim/version/binding equality. Host mapping and digest fidelity are specified in TCB.md.
+The lifecycle cases answer operational record/link questions. Each literal fixture object and replacement annotation is bound into an inert custody record. All six branch executions preserve the full resolved snapshot and successor direction; support and held remain empty. These ACCEPT verdicts do not supply mathematical authority or an accepting receipt corpus control.
 
-The ten-case slice is incomplete. Remaining required behaviors: non-exhaustive cover; independent checked support surviving targeted retraction; failed retry; the real branch-order fixture; K2 narrowing; earned consequence; proved-overlap conflict; and a corpus positive control. Existing component controls for lifecycle behaviors do not replace those corpus runs.
+The receipt-only fold is proved sound for registered formal polynomial-span meaning. Typed narrowing has a local semantic proof and 14 runtime component controls; its real corpus/wire path is unfinished. Host interpretation and digest fidelity remain in TCB.md.
 
-Full legacy replay preserved all 459 case bytes and outcomes: 403 AGREES, 14 KNOWN_DIFFERENCE, nine UNSUPPORTED, four DIAGNOSTIC_OBSERVED and 29 RETAINED_DIAGNOSTIC. Source pins and the prior latest replay artifact remain unchanged.
+The required slice is incomplete: cover completeness; independent checked support surviving targeted retraction; failed retry; K2 narrowing; earned consequence; proved-overlap conflict; and a corpus positive control remain. Component controls do not replace these runs.
 
-Machine receipts: [native slice](PHASE-2-SLICE.json), [integration and preservation](PHASE-2-ADMISSION.json), [concrete soundness](PHASE-2-SPAN-SOUNDNESS.json). G2 remains open.
+Fresh full legacy replay preserved all 459 fixture bytes, expectations and outcomes: 403 AGREES, 14 KNOWN_DIFFERENCE, nine UNSUPPORTED, four DIAGNOSTIC_OBSERVED and 29 RETAINED_DIAGNOSTIC. Source pins and historical replay artifacts remain unchanged.
+
+Receipts: [aggregate slice](PHASE-2-SLICE.json), [lifecycle detail](PHASE-2-LIFECYCLE-SLICE.json), [parent integration](PHASE-2-LIFECYCLE-INTEGRATION.json), [concrete soundness](PHASE-2-SPAN-SOUNDNESS.json). G2 remains open.

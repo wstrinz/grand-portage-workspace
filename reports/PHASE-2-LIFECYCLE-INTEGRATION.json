@@ -1,0 +1,74 @@
+{
+  "schema": "gp-phase2-lifecycle-parent-integration/v1",
+  "date": "2026-09-30",
+  "source_hashes": {
+    "phase2/lean/GP50/LifecycleRunner.lean": "612c1ec3a7a42dda2f44953be7c2f2f42065b817a4253b691132823eb4e86121",
+    "tools/run-phase2-lifecycle-slice.py": "7f5cf75f825ae11574acfcd64f180a5bb2c194c2b9ca47b3134c4fb70eed4586",
+    "tests/test_phase2_lifecycle_slice.py": "b9c24aa94d82ca8b07d54d5c91120b93dc3f8955815c168ca1ca0d7811397f14",
+    "tools/run-phase2-slice.py": "ea08f6bd1d20eae1968c09544fa8bf9b4015584b0f507daf941f249ac5929fff",
+    "phase2/lean/GP50/Semantics.lean": "d57e383d780b15c03ebb46f62c36e74556f2f0c08793f958daf9b4fd02db1c8d",
+    "phase2/lean/GP50/Narrowing.lean": "70c0441bad0ce466e7da8a4a0159a0a09cf370f1eee16137474c74b15ce9bcf3",
+    "phase2/lean/GP50/NarrowingProofs.lean": "7735f7ba64e9cc6caaec131ebef7d20f53ddb10910cb98b98116fc938896c72a",
+    "phase2/lean/Tests/Narrowing.lean": "a432585d0fb9e11772764d1b3b033576982373722bd9594d2020274a672d50b9",
+    "phase2/lean/GP50.lean": "ef98200b6715f50d91539c51dd97edd2b648b87dbe7d362130105a0ffaaf9230",
+    "phase2/lean/lakefile.toml": "ad377aa4518406e63f6b1d018b75504acb5dc65899bd923d20c8e30de9442bde",
+    "reports/PHASE-2-SLICE.json": "1eba480401ab4ce903b019dc7a7220dc26b61ed7b7d55a34a30d91c0d6cab952",
+    "reports/PHASE-2-LIFECYCLE-SLICE.json": "c3a1feb8fac5e374f4248843f4015d4dfe360aa1d26152c39b7f1cf67916fa7b"
+  },
+  "build": "lake build: 74 jobs passed",
+  "independent_kernel_replay": {
+    "GP50.LifecycleRunner": 0,
+    "GP50.NarrowingProofs": 0
+  },
+  "lifecycle": {
+    "cases": [
+      "GP-X144",
+      "GP-X145",
+      "GP-X146"
+    ],
+    "both_branch_orders_executed": true,
+    "branch_folds": 6,
+    "full_records_bindings_links_preserved": true,
+    "held_and_support_empty": true,
+    "test_methods": 13,
+    "pytest_subtests": 62,
+    "worker_active_seconds": 647,
+    "previous_span_worker_active_minutes_reported_approximately": 13,
+    "verdict_meaning": "ACCEPT of complete operational retained-record/successor-link fixture contract; no mathematical authority."
+  },
+  "narrowing": {
+    "native_controls": 14,
+    "local_semantic_theorem": "GP50.Semantic.checked_narrow_sound",
+    "axioms": [
+      "propext"
+    ],
+    "objects_and_statement_preserved": true,
+    "binding_and_scope_checks": true,
+    "source_support_required_by_actual_runtime": true,
+    "test_semantics": "Finite named scopes on formal rational-span identity; component test only.",
+    "not_yet_complete": [
+      "wire/profile registration",
+      "full registry-to-held semantic proof",
+      "real K2 corpus fixture"
+    ]
+  },
+  "native_component_controls": 449,
+  "compiled_proof_controls": 21,
+  "affected_python_tests": 33,
+  "aggregate_executed_corpus_cases": 6,
+  "legacy": {
+    "fresh_full_replay_count": 459,
+    "summary": {
+      "AGREES": 403,
+      "DIAGNOSTIC_OBSERVED": 4,
+      "KNOWN_DIFFERENCE": 14,
+      "UNSUPPORTED": 9,
+      "RETAINED_DIAGNOSTIC": 29
+    },
+    "scratch_receipt_sha256": "512d852eff93bb592e92621c36ca7709a4042d0d7e940ba677cff7ebb307cd01",
+    "all_prior_bytes_expectations_outcomes_preserved": true,
+    "immutable_latest_sha256": "77321d0f86e5160ef0f78f13498092061718a7b829256548cc430b1d19f302df",
+    "oracle_pin_sha256": "9bb807c3034e045927dfc277f9ac268317ae2fdf7c07fd77c1643749794ee11f"
+  },
+  "g2_pass": false
+}

@@ -12,7 +12,9 @@ lake -d phase2/lean build
 ./phase2/lean/.lake/build/bin/gp_runtime_tests.exe
 ./phase2/lean/.lake/build/bin/gp_poly_tests.exe
 ./phase2/lean/.lake/build/bin/gp_bound_tests.exe
+./phase2/lean/.lake/build/bin/gp_narrow_tests.exe
 ./.venv/Scripts/python.exe -B tools/run-phase2-slice.py
+./.venv/Scripts/python.exe -B tools/run-phase2-lifecycle-slice.py
 lake -d phase2/lean env leanchecker -v GP50.ClosureProofs
 lake -d phase2/lean env leanchecker -v GP50.ClosureCompleteness
 lake -d phase2/lean env leanchecker -v GP50.ClosureOrderProofs
@@ -32,8 +34,12 @@ ClosureProofs proves soundness under node semantic contracts. ClosureCompletenes
 
 PolyStub supplies exact univariate rational cofactor replay. Its proof establishes all-exponent coefficient identity; binding and geometric interpretation remain separate.
 
-The package has 435 passing native component controls and 21 compiled proof controls, including 13,122 finite graphs and 3,072 order transformations. These do not count as G2 corpus passes.
+The package has 449 passing native component controls and 21 compiled proof controls, including 13,122 finite graphs and 3,072 order transformations. These do not count as G2 corpus passes.
 
-BoundReplay binds actual registered clauses/receipts and recomputes rational identities. SpanDecoder and Runner connect strict raw configuration/events to held. AdmissionProofs lifts validator contracts through the actual runtime; BoundReplayProofs establishes unique registered clause meaning on receipt acceptance. The real corpus slice currently executes three cases; see reports/PHASE-2-SLICE.md.
+BoundReplay binds actual registered clauses/receipts and recomputes rational identities. SpanDecoder and Runner connect strict raw configuration/events to held. AdmissionProofs lifts validator contracts through the actual runtime; BoundReplayProofs establishes unique registered clause meaning on receipt acceptance. The real corpus slice currently executes six cases; see reports/PHASE-2-SLICE.md.
 
 SpanSoundnessProofs composes receipt admission with the actual resolver/fold/held. Successful folding and a held bit imply registration and formal polynomial-span meaning, with warrant ID uniqueness proved from resolution. The host fixture/digest contract remains separate.
+
+LifecycleRunner exports full resolved identities/bindings and successor links. X144/X145/X146 run in both branch orders under refuseAll admission. Their ACCEPT verdicts answer operational record/link questions; held remains empty.
+
+Semantics supplies the typed statement/model/scope contract. Narrowing checks registered exact statements and custody identities plus sound scope inclusion. Its local semantic theorem is kernel-checked; 14 runtime controls use formal rational span roots. Wire registration and the general fold-to-profile proof remain open.
