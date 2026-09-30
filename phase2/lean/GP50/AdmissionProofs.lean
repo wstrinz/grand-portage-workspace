@@ -12,6 +12,7 @@ structure ValidatorSound (admission : Admission) (snapshot : Snapshot)
     admission.proof w declaration = true → Truth w.id
   rule : ∀ w ∈ snapshot.warrants, ∀ premises side,
     admission.rule w premises side = true →
+      (∀ premise ∈ premises, premise ∈ snapshot.warrants) →
       (∀ premise ∈ premises, Truth premise.id) → Truth w.id
   narrow : ∀ w ∈ snapshot.warrants, ∀ source ∈ snapshot.warrants,
     admission.narrow w source = true → Truth source.id → Truth w.id
@@ -57,6 +58,31 @@ theorem lookup_mapM_truth (snapshot : Snapshot) (dependencies : List Nat)
   rw [← lookup_mapM_ids snapshot dependencies premises mapped]
   exact List.mem_map.mpr ⟨premise, present, rfl⟩
 
+theorem lookup_mapM_members (snapshot : Snapshot) (dependencies : List Nat)
+    (premises : List Warrant)
+    (mapped : dependencies.mapM (lookupWarrant snapshot) = some premises) :
+    ∀ premise ∈ premises, premise ∈ snapshot.warrants := by
+  induction dependencies generalizing premises with
+  | nil =>
+    simp at mapped
+    subst premises
+    simp
+  | cons id rest ih =>
+    cases headLookup : lookupWarrant snapshot id with
+    | none => simp [List.mapM_cons, headLookup] at mapped
+    | some head =>
+      cases tailLookup : rest.mapM (lookupWarrant snapshot) with
+      | none => simp [List.mapM_cons, headLookup, tailLookup] at mapped
+      | some tail =>
+        have listEq : head :: tail = premises := by
+          simpa [List.mapM_cons, headLookup, tailLookup] using mapped
+        subst premises
+        intro premise present
+        rcases List.mem_cons.mp present with equal | present
+        · subst premise
+          exact lookupWarrant_member snapshot id head headLookup
+        · exact ih tail tailLookup premise present
+
 theorem requirements_truth (admission : Admission) (snapshot : Snapshot)
     (Truth : Nat → Prop) (sound : ValidatorSound admission snapshot Truth)
     (w : Warrant) (present : w ∈ snapshot.warrants) (dependencies : List Nat)
@@ -84,6 +110,7 @@ theorem requirements_truth (admission : Admission) (snapshot : Snapshot)
           have dependenciesEq : declared = dependencies := by
             simpa [requirements, liveValue, evidence, mapped, accepted] using admitted
           apply sound.rule w present premises side accepted
+            (lookup_mapM_members snapshot declared premises mapped)
           apply lookup_mapM_truth snapshot declared premises Truth mapped
           intro id member
           exact supported id (dependenciesEq ▸ member)

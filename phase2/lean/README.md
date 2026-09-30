@@ -14,6 +14,7 @@ lake -d phase2/lean build
 ./phase2/lean/.lake/build/bin/gp_bound_tests.exe
 ./phase2/lean/.lake/build/bin/gp_narrow_tests.exe
 ./phase2/lean/.lake/build/bin/gp_query_tests.exe
+./phase2/lean/.lake/build/bin/gp_cover_tests.exe
 ./.venv/Scripts/python.exe -B tools/run-phase2-slice.py
 ./.venv/Scripts/python.exe -B tools/run-phase2-lifecycle-slice.py
 lake -d phase2/lean env leanchecker -v GP50.ClosureProofs
@@ -35,7 +36,7 @@ ClosureProofs proves soundness under node semantic contracts. ClosureCompletenes
 
 PolyStub supplies exact univariate rational cofactor replay. Its proof establishes all-exponent coefficient identity; binding and geometric interpretation remain separate.
 
-The package has 495 passing native component controls; compiled proof controls are recorded in reports/PHASE-2-SCOPED-RUNTIME.json, including 13,122 finite graphs and 3,072 order transformations. These do not count as G2 corpus passes.
+The package has 538 passing native component controls and 65 compiled proof controls; the earlier suites include 13,122 finite graphs and 3,072 order transformations. These do not count as G2 corpus passes.
 
 BoundReplay binds actual registered clauses/receipts and recomputes rational identities. SpanDecoder and Runner connect strict raw configuration/events to held. AdmissionProofs lifts validator contracts through the actual runtime; BoundReplayProofs establishes unique registered clause meaning on receipt acceptance. The real corpus slice currently executes seven cases; see reports/PHASE-2-SLICE.md.
 
@@ -46,3 +47,5 @@ LifecycleRunner exports full resolved identities/bindings and successor links. X
 Semantics supplies the typed statement/model/scope contract. Narrowing checks registered exact statements and custody identities plus sound scope inclusion. Its local and fold-to-profile semantic theorems are kernel-checked; the concrete ScopedSpan instantiation discharges receipt soundness from actual exact replay. Scopes denote named Nat test contexts, with selected objects and actual polynomial data in statements.
 
 ScopedRunner accepts strict registry schema 2 (rows contain algebra, object and scope), the existing event schema, and query schema 1 (why_not, claimed, links and open_obligations). Run gp_scoped_runner with registry.json, events.json and queries.json paths. It returns state, why_not and earned using the same admission registry. Query annotations never mint authority. Tests/test_phase2_scoped_wire.py supplies executable examples and malformed-input controls.
+
+CoveredSpan admits named cover rules with exact destination/premise-claim lists, bound clauses and actual finite-list coverage. ScopedRunner registry schema 3 adds rules (name, destination, branches); schema 2 retains its receipt/narrowing path. CoverAdmissionProofs proves actual combined fold-to-registered-meaning soundness. Rule contracts use snapshot premise membership proved from runtime lookup, so rule soundness is applied to resolved premise records. Tests/test_phase2_cover_wire.py exercises the production route; Tests/Cover.lean separately labels its runtime seam.

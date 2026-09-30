@@ -1,13 +1,19 @@
 import GP50.Entry
-import GP50.ScopedDecoder
+import GP50.CoveredDecoder
 import GP50.QueryDecoder
 import GP50.Presentation
 namespace GP50.ScopedSpan
 open Lean
 def run (registry events queries : String) : Except String Json := do
-  let (rows, receipts) ← decode registry
+  let json ← GP50.Decoder.parseUnique registry
+  let version ← (← json.getObjVal? "schema_version").getNat?
+  let admitted ← if version == 3 then do
+    let (rows, receipts, rules) ← CoveredSpan.decode registry
+    pure (CoveredSpan.admission rows receipts rules)
+  else do
+    let (rows, receipts) ← decode registry
+    pure (admission rows receipts)
   let request ← GP50.Queries.decodeRequest queries
-  let admitted := admission rows receipts
   let state ← decodeFold admitted events
   return Json.mkObj [
     ("state", stateJson state),

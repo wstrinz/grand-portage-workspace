@@ -14,3 +14,6 @@ import GP50.Queries
 import GP50.ScopedSpan
 import GP50.NarrowingAdmissionProofs
 import GP50.ScopedSpanProofs
+import GP50.CoverProofs
+import GP50.CoveredSpan
+import GP50.CoverAdmissionProofs

@@ -1,6 +1,6 @@
 name = "gp_kernel"
 version = "0.1.0"
-defaultTargets = ["GP50", "gp_events_tests", "gp_closure_tests", "gp_completeness_tests", "gp_order_tests", "gp_decoder_tests", "gp_runtime_tests", "gp_poly_tests", "gp_span_runner", "ProofControls", "gp_bound_tests", "gp_lifecycle_runner", "gp_narrow_tests", "gp_query_tests", "gp_scoped_runner"]
+defaultTargets = ["GP50", "gp_events_tests", "gp_closure_tests", "gp_completeness_tests", "gp_order_tests", "gp_decoder_tests", "gp_runtime_tests", "gp_poly_tests", "gp_span_runner", "ProofControls", "gp_bound_tests", "gp_lifecycle_runner", "gp_narrow_tests", "gp_query_tests", "gp_scoped_runner", "gp_cover_tests"]
 [[lean_lib]]
 name = "GP50"
 [[lean_exe]]
@@ -29,7 +29,7 @@ name = "gp_span_runner"
 root = "GP50.Runner"
 [[lean_lib]]
 name = "ProofControls"
-roots = ["Tests.AdmissionProofs", "Tests.SpanSoundness", "Tests.NarrowingAdmission", "Tests.ScopedSpanSoundness"]
+roots = ["Tests.AdmissionProofs", "Tests.SpanSoundness", "Tests.NarrowingAdmission", "Tests.ScopedSpanSoundness", "Tests.CoverAdmission"]
 
 [[lean_exe]]
 name = "gp_bound_tests"
@@ -50,3 +50,7 @@ root = "Tests.Queries"
 [[lean_exe]]
 name = "gp_scoped_runner"
 root = "GP50.ScopedRunner"
+
+[[lean_exe]]
+name = "gp_cover_tests"
+root = "Tests.Cover"

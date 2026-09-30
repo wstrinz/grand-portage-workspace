@@ -16,10 +16,10 @@ The first three pass through actual configured generators, targets and cofactors
 
 The lifecycle cases answer operational record/link questions. Each literal fixture object and replacement annotation is bound into an inert custody record. All six branch executions preserve the full resolved snapshot and successor direction; support and held remain empty. These ACCEPT verdicts do not supply mathematical authority; X164 separately supplies the accepting receipt corpus control.
 
-The receipt-only fold is proved sound for registered formal polynomial-span meaning. Typed narrowing now has a strict native wire path, component controls and a concrete fold-to-profile semantic proof. Its real corpus fixture remains unfinished. Host interpretation and digest fidelity remain in TCB.md.
+The receipt-only fold is proved sound for registered formal polynomial-span meaning. Receipts, typed narrowing and registered finite-context cover rules now share a strict native wire path and concrete fold-to-profile semantic proof. Their remaining real corpus fixtures are unfinished. Host interpretation and digest fidelity remain in TCB.md.
 
 The required slice is incomplete: cover completeness; independent checked support surviving targeted retraction; failed retry; K2 narrowing; earned consequence; and proved-overlap conflict remain. Component controls do not replace these runs.
 
 Fresh full legacy replay preserved all 459 fixture bytes, expectations and outcomes: 403 AGREES, 14 KNOWN_DIFFERENCE, nine UNSUPPORTED, four DIAGNOSTIC_OBSERVED and 29 RETAINED_DIAGNOSTIC. Source pins and historical replay artifacts remain unchanged.
 
-Receipts: [aggregate slice](PHASE-2-SLICE.json), [lifecycle detail](PHASE-2-LIFECYCLE-SLICE.json), [parent integration](PHASE-2-LIFECYCLE-INTEGRATION.json), [concrete soundness](PHASE-2-SPAN-SOUNDNESS.json), [scoped runtime](PHASE-2-SCOPED-RUNTIME.json). G2 remains open.
+Receipts: [aggregate slice](PHASE-2-SLICE.json), [lifecycle detail](PHASE-2-LIFECYCLE-SLICE.json), [parent integration](PHASE-2-LIFECYCLE-INTEGRATION.json), [concrete soundness](PHASE-2-SPAN-SOUNDNESS.json), [scoped runtime](PHASE-2-SCOPED-RUNTIME.json), [cover integration](PHASE-2-COVER-RUNTIME.json). G2 remains open.

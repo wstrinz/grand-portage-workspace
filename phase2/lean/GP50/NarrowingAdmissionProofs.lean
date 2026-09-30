@@ -19,6 +19,7 @@ structure BaseValidatorSound (p : Profile) (clauses : List (Clause p))
     base.proof w declaration = true → WarrantMeaning p clauses snapshot w.id
   rule : ∀ w ∈ snapshot.warrants, ∀ premises side,
     base.rule w premises side = true →
+    (∀ premise ∈ premises, premise ∈ snapshot.warrants) →
     (∀ premise ∈ premises, WarrantMeaning p clauses snapshot premise.id) →
     WarrantMeaning p clauses snapshot w.id
 

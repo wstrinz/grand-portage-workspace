@@ -67,3 +67,9 @@ example (snapshot : Snapshot) (dependencies : List Nat) (premises : List Warrant
 #print axioms refuseAll_validator_sound
 #print axioms GP50.evaluate_supported_truth
 #print axioms GP50.evaluate_held_truth_composition
+
+-- Rule contracts use the actual records recovered from the resolved snapshot.
+example (snapshot : Snapshot) (dependencies : List Nat) (premises : List Warrant)
+    (mapped : dependencies.mapM (lookupWarrant snapshot) = some premises) :
+    ∀ premise ∈ premises, premise ∈ snapshot.warrants :=
+  lookup_mapM_members snapshot dependencies premises mapped
