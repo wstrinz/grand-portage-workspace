@@ -73,3 +73,8 @@ For final Phase0b AppendixB records, cost, shipped and gp_v037_would_catch may b
 ## Review-shadow visibility — Will, 2026-09-30
 
 GitHub reports wstrinz/grand-portage-workspace as public. Will directly confirmed: "Keep it public; authorize pushing this reviewed rework checkpoint." Publish the reviewed integration on codex/phase-0; retain the predecessor default branch and exclude private harvests, checkouts, caches and unfinished worker output. This amends earlier private-shadow wording. The separately authorized three-document predecessor freeze is already published.
+
+
+## Phase 2 layer policy - Will, 2026-09-30
+
+Will directly approved primary-contract tagging with secondary duties. Choose the primary layer by the complete contract the unchanged fixture requires; record secondary kernel obligations. G2 counts complete kernel tests. A partial custody-only translation cannot count as passing a mathematical, parser, rendering or filesystem fixture. Preserve every case and expectation; remaining real ambiguities require Will, while the clear kernel slice can proceed.

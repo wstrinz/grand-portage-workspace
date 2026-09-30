@@ -1,0 +1,11 @@
+name = "gp_kernel"
+version = "0.1.0"
+defaultTargets = ["GP50", "gp_events_tests", "gp_closure_tests"]
+[[lean_lib]]
+name = "GP50"
+[[lean_exe]]
+name = "gp_events_tests"
+root = "Tests.Events"
+[[lean_exe]]
+name = "gp_closure_tests"
+root = "Tests.Closure"
