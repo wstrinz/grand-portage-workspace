@@ -10,3 +10,6 @@ __pycache__/
 
 # Future oracle checkout; PIN.json remains tracked
 oracle/checkout/
+
+# Phase0c downloaded dependency cache
+/spikes/mathlib-binding/cache/

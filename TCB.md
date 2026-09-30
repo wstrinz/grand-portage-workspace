@@ -1,0 +1,35 @@
+# Phase 0c trust observations
+This is a feasibility record, not checker admission or a Phase1 kernel contract.
+
+## Installed toolchain
+Lean4.32.1, commit f054605aea4b840552cca2e725580bffd1e1b704. Existing C: binaries are read-only. New packages, dependency checkouts, cache downloads, generated artifacts and fixtures live on F:. Executable/library/compiler integrity is assumed when interpreting native runs. Exact file digests are recorded in the spike reports.
+
+## Mathlib-free toy
+Spike.lean models natural-number equality and finite named context sets. Its checker compares the actual two naturals; declarations alone cannot hold a claim. Receipts bind claim ID, both operands, exact requested scope, model key/digest and checker digest. Current source registrations override prior registrations. Narrowing requires a held parent and subset contexts; stale parents cannot support children. The bounded recursive lookup rejects cycles by exhaustion.
+Source digests are opaque strings in Lean. The Python validation driver hashes actual fixture/case/source bytes; the spike does not implement cryptographic hashing, authenticated source registration, a general statement AST, complete provenance or all K1-K6.
+checked_equality proves equality from the actual checked Boolean definition. Its axiom audit is propext only. This is not a proof of the complete custody fold.
+Array scans and bounded recursion are toy implementations. Empty scopes are permitted; extra JSON fields are ignored. Resource caps, duplicate JSON-key policy, normalized scope identity, retraction and independent-warrant survival are not settled here.
+
+## Exact univariate rational replay
+Spike.Poly uses Lean Rat, finite sparse exponent/coefficient lists, explicit cofactor-count equality and exact coefficient comparison up to the maximum degree in the computed products/target. Duplicate exponent terms are summed; zero denominators and negative/non-natural exponents are refused.
+The exact cofactor test is executed, but no theorem relating this implementation to Mathlib Polynomial has been proved. It is not an admitted unit-ideal checker. No multivariate encoding, arbitrary CAS export parser or resource bound is supplied.
+
+## External process
+CheckerMain calls the private fraction_checker.py through IO.Process.output with the exact input string on stdin. Acceptance requires exit0, valid=true, exact echoed request bytes (after JSON string decoding), and checker label fraction-cofactor-v1. Hostile output binding/version controls were exercised.
+Python/Fraction, its interpreter, script contents, process transport and invocation path are additional TCB for this route. Validation pins script and executable hashes; the Lean wrapper itself does not enforce a pre-execution SHA-256 check or prevent TOCTOU. Echoing input binds a response; it does not establish checker honesty.
+Production would need checker admission, executable/version integrity, soundness, resource handling and cryptographic source binding. None is inferred from this successful process experiment.
+
+## Installed LRAT
+Std.Tactic.BVDecide.LRAT.check_sound proves successful checking implies UNSAT of its typed CNF. Axiom audit: propext, Classical.choice, Quot.sound.
+The spike uses exact typed contradictory unit clauses [(0,true)],[(0,false)] and a parsed text certificate '3 0 1 2 0'. The installed conversion increments zero-based variables to DIMACS numbering and prepends the clause-index sentinel; this mapping was inspected.
+Runtime positive, satisfiable-CNF, invalid-hint and malformed-text controls are included. A shortened hint list was genuinely valid for this example; it is not counted as a refusal.
+Plain decide, decide +kernel and bounded full-definition import attempts did not reduce the checker at this pin. The preserved failed experiment is reproduction data, not an admitted theorem or a global impossibility result.
+The successful native_decide theorem adds nativeCheck._native.native_decide.ax_1_1. Native UNSAT therefore depends on compiler/runtime plus that generated Boolean-result axiom. Module rechecking accepts declared axioms; it does not discharge this axiom.
+This is a usable native LRAT evaluation candidate with explicit trust, not an axiom-free LRAT replay claim. Arbitrary DIMACS ingestion, census-to-CNF encoding correctness/completeness, DRAT conversion, large-certificate performance and independent checker admission remain outside this miniature spike.
+
+## Mathlib binding
+The separate pinned package formalizes actual GP-A08b/GP-A05 obligations. Its own report records exact Mathlib/dependency pins, theorem hypotheses, positive contrasts, axioms and timings. New module kernel replay does not recheck every imported Mathlib declaration. Cached dependencies are distinguished from a clean dependency build.
+Neither a theorem pointer nor matching typeclass names implement GP's statement/input/hypothesis/scope binding. G1 must decide and specify that layer.
+
+## Corpus preservation and performance interpretation
+The 459-case-sized load test binds case IDs/digests to deliberately trivial equalities. It measures serialization/fold plumbing, not the mathematical cases or harvested exports. Full oracle replay is unchanged. Unsupported routes/formats remain unsupported.
