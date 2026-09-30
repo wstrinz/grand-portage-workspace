@@ -43,7 +43,7 @@
       "limits": "No code imports, installations or implementation prototypes; P13 M1-only and P15 post-G5.",
       "budget_accounting": {
         "authorized_active_review_minutes": 120,
-        "completed_active_review_minutes": 26,
+        "completed_active_review_minutes": 45,
         "charges": [
           {
             "owner": "worker",
@@ -54,20 +54,30 @@
             "owner": "parent",
             "report": "reports/PHASE-0E-P12-P16-P18-REVIEW.json",
             "minutes": 12
+          },
+          {
+            "owner": "worker",
+            "report": "reports/PHASE-0E-TRANSFER-REVIEW.json",
+            "minutes": 15
+          },
+          {
+            "owner": "parent",
+            "report": "reports/PHASE-0E-TRANSFER-PARENT-REVIEW.json",
+            "minutes": 4
           }
         ],
         "reserved_worker_slice_minutes": 25,
-        "unreserved_minutes": 69,
+        "unreserved_minutes": 50,
         "active_owner": "01a0eeca-572e-7202-a708-c730d410b901",
-        "scope": "Next P3/P4/P5/P7 only; max25 minutes; prior reservations replaced by actual charges. Parent no concurrent reading commissioned."
+        "scope": "Next P6/P8/P9/P10/P11 only; maximum25minutes. Transfer worker15minute and parent actual charges integrated. Parent P13/P14/P15 remains a finite later slice, uncommissioned."
       },
-      "evidence": "Six provisional primary-source rows accepted: P1/P2/P17 worker and P12/P16/P18 parent; root PRIOR-ART.md explicitly partial. Important P1 campaign-state/P2 provenance packet overstatements corrected. No execution/adoption or final territory claim."
+      "evidence": "Ten provisional primary-source rows integrated in partial PRIOR-ART.md; existing Mathlib Relator/cast/ACF theorem candidates with exact limitations, no execution/adoption/final gate."
     }
   },
   "blocker_assessment": "0aawaits A24 meaning; final0bawaits unknown-field policy. Neither is inferred from general continuation. Approved bounded0ereading is independent meaningful work; no global pause.",
   "next_work": [
-    "Worker: PHASE-0E-TRANSFER-REVIEW.md/json only; P3/P4/P5/P7 primary-source reading,25minute maximum, no implementation/adoption",
-    "Parent: integrate direct A24/final0b decisions when answered; remaining0e rows P6/P8/P9/P10/P11/P13/P14/P15 after transfer slice",
+    "Worker: PHASE-0E-CERTIFICATE-CAMPAIGN-REVIEW.md/json only; P6/P8/P9/P10/P11 primary-source review,25minute maximum.",
+    "Parent: direct A24/final0b decision integration when answered; remaining0e P13 Hets M1/P14 AFP algebraic numbers/P15record-only plus final synthesis.",
     "0c still requires completed0a/0b and separately agreed measurable cap; G1 adoption remains a user decision"
   ],
   "new_findings": [
