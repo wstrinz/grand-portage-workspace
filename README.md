@@ -1,6 +1,6 @@
 # Grand Portage 0.50 — WIP for review
 
-This is a separate rework of Grand Portage, currently at the boundary between specification and kernel implementation. Its private shadow is [wstrinz/grand-portage-workspace](https://github.com/wstrinz/grand-portage-workspace/tree/codex/phase-0), branch codex/phase-0. **It is not a production release.** Phase 0 is complete under its recorded source, observation and trust limits; Phase 1 has a reviewed design and paper scoring, and Will has closed G1 by a documented coverage exception. Phase 2 is authorized.
+This is a separate rework of Grand Portage, currently at the boundary between specification and kernel implementation. Its review shadow is [wstrinz/grand-portage-workspace](https://github.com/wstrinz/grand-portage-workspace/tree/codex/phase-0), branch codex/phase-0. **It is not a production release.** Phase 0 is complete under its recorded source, observation and trust limits; Phase 1 has a reviewed design and paper scoring, and Will has closed G1 by a documented coverage exception. Phase 2 is authorized.
 
 The intended guarantee is that accurately specified claims are held only through current, bound evidence and sound admitted rules, throughout their stated scope. GP also aims to expose consequences reachable within a declared finite closure domain. It cannot establish the intended meaning of a wrongly specified problem.
 

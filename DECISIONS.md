@@ -68,3 +68,8 @@ For final Phase0b AppendixB records, cost, shipped and gp_v037_would_catch may b
 8. **Terminology.** "Profile" is retained as GP's name. Its correspondence to institutions is documented in §3 and used as reference semantics.
 
 2026-09-30 conflict clarification: Will directly selected Complete held closure; freeze release. Compute the full checked least fixpoint from the final event set; proved conflict freezes release/promotion separately. Completeness is not defined over an arrival-dependent or conflict-filtered held subset. Report conflict supports/unknown overlap; no unrestricted explosion rule is admitted.
+
+
+## Review-shadow visibility — Will, 2026-09-30
+
+GitHub reports wstrinz/grand-portage-workspace as public. Will directly confirmed: "Keep it public; authorize pushing this reviewed rework checkpoint." Publish the reviewed integration on codex/phase-0; retain the predecessor default branch and exclude private harvests, checkouts, caches and unfinished worker output. This amends earlier private-shadow wording. The separately authorized three-document predecessor freeze is already published.

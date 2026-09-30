@@ -2,7 +2,7 @@
 
 2026-09-30. This checkpoint is a design and feasibility review of Grand Portage 0.50. Phase 0 is complete under explicit limits; Will closed G1 by a documented coverage exception and authorized Phase 2. Read [STATUS.md](STATUS.md) for current progress. Review does not imply production soundness, checker admission or permission to change corpus expectations.
 
-Review branch: [codex/phase-0](https://github.com/wstrinz/grand-portage-workspace/tree/codex/phase-0) in the approved private shadow repository. For a fresh review checkout, clone that branch explicitly; the existing default branch retains the predecessor.
+Review branch: [codex/phase-0](https://github.com/wstrinz/grand-portage-workspace/tree/codex/phase-0) in the approved review shadow repository. For a fresh review checkout, clone that branch explicitly; the existing default branch retains the predecessor.
 
 ## Suggested reading order
 

@@ -9,7 +9,7 @@ Event arrival order will not choose current authority. Explicit versions and tar
 
 The worker is implementing layer metadata/tests for the unchanged 459 cases, followed by the small executable slice and proofs. Worker assignments produce code, tests or proofs. The coordinator handles the runtime, semantic review and integration.
 
-The three-file public freeze is published as [6f38e96](https://github.com/wstrinz/grandportage/commit/6f38e96b8e18a726ff97cdde20daeaa34a6e15b5); checks passed and the tag is unchanged. GitHub now reports the designated shadow as public. The new rework push is stopped pending Will's visibility decision; local integration is committed. Heartbeats remain paused.
+The three-file public freeze is published as [6f38e96](https://github.com/wstrinz/grandportage/commit/6f38e96b8e18a726ff97cdde20daeaa34a6e15b5); checks passed and the tag is unchanged. Will confirmed that the shadow stays public and authorized this reviewed checkpoint push. Local integration is committed; unfinished worker output remains separate. Heartbeats remain paused.
 
 The main implementation risks are support/retraction semantics, parser-to-record binding, proving finite saturation, and keeping the kernel small. The next checkpoint must show actual code/tests, an ambiguity list and measured budget use.
 
@@ -18,4 +18,4 @@ The main implementation risks are support/retraction semantics, parser-to-record
 - [Standing limits](LIMITS.md)
 - [Phase 1 review](reports/PHASE-1-PAPER-PARENT-REVIEW.md)
 - [Freeze publication receipt](reports/FREEZE-PUBLICATION.json)
-- [Private shadow](https://github.com/wstrinz/grand-portage-workspace/tree/codex/phase-0)
+- [Review shadow](https://github.com/wstrinz/grand-portage-workspace/tree/codex/phase-0)

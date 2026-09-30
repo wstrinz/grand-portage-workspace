@@ -12,6 +12,6 @@ Logic/decoder/statement targets are 500/400/80 lines; stop at 750/600/120. Only 
 
 Workers are authorized for finite code/proof/test assignments with separate outputs. Reading-only assignments need Will's approval. No new corpus cases, general predecessor audits, package adoption, further profiles or surfaces beyond why-not/earned in Phase 2.
 
-The private shadow is https://github.com/wstrinz/grand-portage-workspace.git, branch codex/phase-0; use the wstrinz account, preserve predecessor branches, never force-push. The handoff authorizes exactly the prepared three-document freeze patch to wstrinz/grandportage. No other public action is authorized. Private verbatim harvests, source checkouts, caches and scratch remain ignored.
+The review shadow is https://github.com/wstrinz/grand-portage-workspace.git, branch codex/phase-0; use the wstrinz account, preserve predecessor branches, never force-push. The handoff authorizes exactly the prepared three-document freeze patch to wstrinz/grandportage. Will subsequently confirmed the shadow stays public and authorized this reviewed rework checkpoint push. No other public action is authorized. Private verbatim harvests, source checkouts, caches and scratch remain ignored.
 
 Heartbeats remain PAUSED; permission to use workers/heartbeats does not request restart. Do not recreate the cleared goal.
