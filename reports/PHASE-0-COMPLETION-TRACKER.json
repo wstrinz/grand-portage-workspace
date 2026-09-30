@@ -1,6 +1,6 @@
 {
   "goal": "Complete Phase 0 or identify concrete blockers; do not advance into Phase 1 by inference.",
-  "status": "active",
+  "status": "awaiting_direct_user_decisions",
   "lanes": {
     "0a": {
       "status": "awaiting_A24_semantic_decision",
@@ -35,15 +35,13 @@
       "deferred_public_actions": "Application/publication and any freeze tag designation remain unperformed under DECISIONS.md item 5; no approval is requested while independent Phase 0 work remains. Existing v0.37.0 release tag is unchanged, with ordinary release annotation."
     },
     "0e": {
-      "status": "primary_source_reading_in_progress",
+      "status": "completed_bounded_primary_source_review",
       "active_review_cap_minutes": 120,
-      "remaining": [
-        "18-row primary-source review, three G1 recommendations, territory/consumer and interop assessment; report unresolved items at cap"
-      ],
+      "remaining": [],
       "limits": "No code imports, installations or implementation prototypes; P13 M1-only and P15 post-G5.",
       "budget_accounting": {
         "authorized_active_review_minutes": 120,
-        "completed_active_review_minutes": 45,
+        "completed_active_review_minutes": 75,
         "charges": [
           {
             "owner": "worker",
@@ -64,21 +62,33 @@
             "owner": "parent",
             "report": "reports/PHASE-0E-TRANSFER-PARENT-REVIEW.json",
             "minutes": 4
+          },
+          {
+            "owner": "worker",
+            "report": "reports/PHASE-0E-CERTIFICATE-CAMPAIGN-REVIEW.json",
+            "minutes": 16
+          },
+          {
+            "owner": "parent",
+            "report": "reports/PHASE-0E-FINAL-PARENT-REVIEW.json",
+            "minutes": 14
           }
         ],
-        "reserved_worker_slice_minutes": 25,
-        "unreserved_minutes": 50,
-        "active_owner": "01a0eeca-572e-7202-a708-c730d410b901",
-        "scope": "Next P6/P8/P9/P10/P11 only; maximum25minutes. Transfer worker15minute and parent actual charges integrated. Parent P13/P14/P15 remains a finite later slice, uncommissioned."
+        "reserved_worker_slice_minutes": 0,
+        "unreserved_minutes": 45,
+        "active_owner": null,
+        "scope": "Finite0e reading and synthesis complete. Unspent cap does not commission further research.",
+        "reserved_parent_slice_minutes": 0,
+        "parent_scope": "Complete; no active reading."
       },
-      "evidence": "Ten provisional primary-source rows integrated in partial PRIOR-ART.md; existing Mathlib Relator/cast/ACF theorem candidates with exact limitations, no execution/adoption/final gate."
+      "evidence": "All18 rows accounted; three G1 recommendations, bounded territory/consumer and interoperability assessment in PRIOR-ART.md. Six consequential worker source files independently checked. No checker execution, package adoption or G1/G0 completion."
     }
   },
-  "blocker_assessment": "0aawaits A24 meaning; final0bawaits unknown-field policy. Neither is inferred from general continuation. Approved bounded0ereading is independent meaningful work; no global pause.",
+  "blocker_assessment": "Finite0e complete. Further meaningful authorized work awaits direct A24 semantic and final0b explicit-unknown policy answers.0c additionally requires completed0a/0b and an agreed measurable cap. No new audit or bibliography expansion commissioned.",
   "next_work": [
-    "Worker: PHASE-0E-CERTIFICATE-CAMPAIGN-REVIEW.md/json only; P6/P8/P9/P10/P11 primary-source review,25minute maximum.",
-    "Parent: direct A24/final0b decision integration when answered; remaining0e P13 Hets M1/P14 AFP algebraic numbers/P15record-only plus final synthesis.",
-    "0c still requires completed0a/0b and separately agreed measurable cap; G1 adoption remains a user decision"
+    "Integrate direct A24 answer with bounded correction, preservation checks/full replay and0a closeout.",
+    "Integrate direct AppendixB unknown-field policy answer and finalize descriptive0b inventory without invented statistics.",
+    "After0a/0b complete, agree measurable0c cap; G1 remains a direct user decision."
   ],
   "new_findings": [
     "reports/RETRY-MERGE-AUDIT.json",
@@ -97,7 +107,7 @@
   },
   "heartbeat": {
     "automation_id": "grand-portage-phase-0-shepherd",
-    "status": "ACTIVE",
+    "status": "PAUSED",
     "interval_minutes": 50,
     "renewed_by_user": "2026-09-29"
   }
