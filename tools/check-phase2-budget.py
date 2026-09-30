@@ -6,6 +6,16 @@ import subprocess
 ROOT = Path(__file__).resolve().parents[1]
 def git(*args):
     return subprocess.check_output(["git", *args], cwd=ROOT, text=True, encoding="utf-8")
+def has_executable_declaration(source):
+    pattern = re.compile(r"^\s*(?:(?:private|protected|noncomputable|partial)\s+)*(def|abbrev|structure|inductive|instance|opaque)\b", re.M)
+    for match in pattern.finditer(source):
+        if match.group(1) in {"def", "abbrev"}:
+            header = source[match.end():].split(":=", 1)[0].strip()
+            if header.endswith(": Prop"):
+                continue  # Erased proposition; no production executable helper.
+        return True
+    return False
+
 def measure():
     baseline = json.loads((ROOT / "reports/PHASE-2-BASELINE.json").read_text(encoding="utf-8"))
     change = git("diff", "--unified=0", baseline["base_commit"], "--", "*.md")
@@ -16,12 +26,11 @@ def measure():
                  if p.endswith(".md"))
     counts = {"logic": 0, "decoder": 0, "statement": 0, "proof": 0}
     modules = []
-    executable = re.compile(r"^\s*(?:(?:private|protected|noncomputable|partial)\s+)*(?:def|abbrev|structure|inductive|instance|opaque)\b", re.M)
     for path in sorted((ROOT / "phase2/lean/GP50").rglob("*.lean")):
         source = path.read_text(encoding="utf-8")
         if "Proof" in path.stem or "Completeness" in path.stem:
-            # A mixed proof/helper file gets charged entirely to logic.
-            category = "logic" if executable.search(source) else "proof"
+            # A mixed proof/executable-helper file gets charged entirely to logic.
+            category = "logic" if has_executable_declaration(source) else "proof"
         elif "Decod" in path.stem:
             category = "decoder"
         elif path.stem in {"Statement", "Semantics"}:

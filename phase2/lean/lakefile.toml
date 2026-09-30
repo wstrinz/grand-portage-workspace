@@ -1,6 +1,6 @@
 name = "gp_kernel"
 version = "0.1.0"
-defaultTargets = ["GP50", "gp_events_tests", "gp_closure_tests"]
+defaultTargets = ["GP50", "gp_events_tests", "gp_closure_tests", "gp_completeness_tests", "gp_order_tests"]
 [[lean_lib]]
 name = "GP50"
 [[lean_exe]]
@@ -9,3 +9,9 @@ root = "Tests.Events"
 [[lean_exe]]
 name = "gp_closure_tests"
 root = "Tests.Closure"
+[[lean_exe]]
+name = "gp_completeness_tests"
+root = "Tests.ClosureCompleteness"
+[[lean_exe]]
+name = "gp_order_tests"
+root = "Tests.ClosureOrder"
