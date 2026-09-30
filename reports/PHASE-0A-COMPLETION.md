@@ -1,11 +1,11 @@
-# Phase0a completion
+# Phase 0a completion
 
-2026-09-29 local. Completed under the approved recorded-incident/selective source-history scope; no claim of predecessor-wide soundness.
+2026-09-29 local. Complete under the approved recorded-incident and selective source/history scope; this is not a predecessor-wide soundness certification.
 
-All459 neutral cases retain138ACCEPT/321REFUSE expectations. The approved A24 correction now rejects the concrete collapsed point as an injective realization. Frozen native arithmetic checks all12edge equations in the positive contrast and the vanishing guard in the refusal. OriginalA24bytes and all63prior immutable replays are preserved; all458other case bytes/routes/outcomes unchanged, apart from explicitly normalized fresh framing nonces in two reason strings.
+All 459 neutral cases retain their 138 ACCEPT/321 REFUSE expectations. The approved A24 correction rejects the concrete collapsed point as an injective realization. Frozen native arithmetic checks all twelve edge equations in the unguarded positive contrast and the vanishing guard in the refusal. Original A24 bytes and all 63 prior immutable replays are preserved. The other 458 case files, routes and outcomes are unchanged, apart from fresh framing nonces in two reason strings.
 
-Final replay reports/oracle-runs/20260930T021113009291Z.json:403AGREES,14KNOWN_DIFFERENCE,4DIAGNOSTIC_OBSERVED,29RETAINED_DIAGNOSTIC,9UNSUPPORTED. NoPENDING/ERROR/REVIEW_REQUIRED. Unsupported/different/diagnostic cases remain qualified evidence, not invented executed authority.
+Final replay: reports/oracle-runs/20260930T021113009291Z.json. It records 403 AGREES, 14 KNOWN_DIFFERENCE, 4 DIAGNOSTIC_OBSERVED, 29 RETAINED_DIAGNOSTIC and 9 UNSUPPORTED. No PENDING, ERROR or REVIEW_REQUIRED. Unsupported, different and diagnostic observations retain their stated limits.
 
-The accepted source boundary, incident/family/control dispositions and explicit exceptions are bound in PHASE-0A-COMPLETION.json. Its source boundary is368treepaths/244reachable commits plus retained/deleted sources; these sizes do not prove deep reading or source correctness. The113old remaining-work entries and16necessary-queue entries were parent-reviewed; A24was their sole fixed-case meaning blocker and is now resolved. No additional blanket extraction/audit is commissioned.
+PHASE-0A-COMPLETION.json binds the accepted source boundary, incident/family/control dispositions and exceptions. The 368 tree paths and 244 reachable commits identify the intake boundary; their sizes do not prove deep reading or source correctness. The 113 old remaining-work entries and 16 necessary-queue entries were parent-reviewed; their sole unresolved fixed-case meaning was A24, now resolved.
 
-Phase0a completion does not completePhase0/G0. Final0b integration, capped0c, and laterG1 decisions remain. The indeterminate cost-based pivot screen must be explicitly reviewed beforePhase1.
+Phase 0a completion does not complete Phase 0/G0. The capped 0c spike and later decisions remain, including explicit review of the indeterminate cost-based pivot screen before Phase 1.

@@ -1,0 +1,83 @@
+{
+  "id": "DK-B004",
+  "campaign": "DK",
+  "origin": "tool",
+  "class": "ADAPTER",
+  "scope_or_region": "N/A",
+  "sources": [
+    {
+      "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/results/accepted/2026-08-25-compatible-matroid-completion-intake.md",
+      "lines": "70-87",
+      "sha256": "6ca9d7b31a2e8dfd6105b8a68def16d28687ccf867f8aeba1e1f0b404d020cd6"
+    }
+  ],
+  "claimed": "Custom Levi checker supported non-isomorphism and a0/1847 self-dual statement.",
+  "problem": "39/40 cyclic17 relabelings false-negative due to free greedy line choices. Repaired correspondence is checked against full incidence. Historical Stokes verdicts retained; trade self-duality statement withdrawn.",
+  "discovered_by": "unknown",
+  "cost": null,
+  "shipped": null,
+  "gp_v037_would_catch": null,
+  "core_expressible": null,
+  "core_would_refuse": null,
+  "notes": "One checker-completeness incident, repeated FRONTIER892-894;931-933. No claim historical Stokes conclusions changed. accept attributed recorded correction/defect for extraction; unknowns retained",
+  "subfindings": [],
+  "status": "final retained source-backed record under ratified unknown policy; observation and counting limits remain explicit",
+  "primary_class": "ADAPTER",
+  "primary_origin": "tool",
+  "record_kind": "documented incident",
+  "final_disposition": "retain qualified source-backed Appendix B candidate",
+  "owner_id": "DK-B004",
+  "original_pointer": {
+    "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
+    "pointer": "/rows/19",
+    "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+    "review_date": "2026-09-29",
+    "date_kind": "retained report review date; not incident date or source publication date"
+  },
+  "source": {
+    "repo": "F:/repos/grandportage-0.50",
+    "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/rows/19",
+    "date": "2026-09-29",
+    "review_date": "2026-09-29",
+    "date_kind": "review-source date of retained report; not incident date or original primary-source date"
+  },
+  "incident_date": null,
+  "source_date_qualification": "No incident date invented; original source dates/history metadata remain unchanged in sources.",
+  "cost_note": "Source evidence does not establish incident-specific work lost/cost class.",
+  "shipped_note": "Source evidence does not establish publication or handoff of a wrong claim; unknown is neither false nor n/a.",
+  "gp_v037_would_catch_note": "No supported frozen-GP catch verdict for this episode. Conditional design/reuse commentary in notes is not a yes/no/partial assessment; no fresh campaign replay.",
+  "counting_qualification": {
+    "record_count": 1,
+    "independent_sample": null,
+    "mathematical_incident_count": null,
+    "rule": "Count this owner record once. Repeated summaries, witnesses, consumers and children do not add independent samples.",
+    "source_detail": "One checker-completeness incident, repeated FRONTIER892-894;931-933. No claim historical Stokes conclusions changed. accept attributed recorded correction/defect for extraction; unknowns retained"
+  },
+  "classification_qualification": "Proposed primary class and origin retained from accepted inventory; uncertainty and secondary dimensions remain in evidence. Not a statistically adjudicated incident population.",
+  "parent_adjudications": [
+    {
+      "decision": "accept attributed recorded correction/defect for extraction; unknowns retained",
+      "qualifications": "One checker-completeness incident, repeated FRONTIER892-894;931-933. No claim historical Stokes conclusions changed.",
+      "source": {
+        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/results/accepted/2026-08-25-compatible-matroid-completion-intake.md",
+        "lines": "70-87",
+        "sha256": "6ca9d7b31a2e8dfd6105b8a68def16d28687ccf867f8aeba1e1f0b404d020cd6"
+      },
+      "pointer": {
+        "report": "reports/PHASE-0B-DK-PARENT-INTAKE.json",
+        "pointer": "/campaign_dispositions/3",
+        "sha256": "e453b2e932a95a7a6cf1b7ab91282cbf7958f8ed6fdfdb879ca507f1f04bc67d",
+        "review_date": "2026-09-29",
+        "date_kind": "retained report review date; not incident date or source publication date"
+      }
+    }
+  ],
+  "linked_cross_occurrence": null,
+  "children": [],
+  "evidence_level": "retained source-backed report; no new source read, execution, or authentication",
+  "parent_integration": {
+    "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
+    "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+    "register": "incident/correction/group"
+  }
+}

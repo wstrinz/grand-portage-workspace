@@ -1,0 +1,83 @@
+{
+  "id": "JC-B011",
+  "campaign": "JC",
+  "origin": "tool",
+  "class": "ADAPTER",
+  "scope_or_region": "N/A",
+  "sources": [
+    {
+      "path": "C:/Users/wstri/dev/math-stuff/whetstone/whetstone_dag.py",
+      "lines": "836-842",
+      "sha256": "627749285c45566edddd05b01ae1f44c2488b29564b1ea98cc663099aad4992c"
+    }
+  ],
+  "claimed": "Modular triage produced UNIT verdicts.",
+  "problem": "Source records poly g0 shadowed ring variable and manufactured false UNIT verdicts for months.",
+  "discovered_by": "unknown",
+  "cost": null,
+  "shipped": null,
+  "gp_v037_would_catch": null,
+  "core_expressible": null,
+  "core_would_refuse": null,
+  "notes": "Recorded shadowing defect; own versus tool origin provisional without original command responsibility. Months of persistence is not work lost. No direct catch of shadowing. Admitted sound replay may protect authority; char-p edge typing cannot fix backend code.",
+  "subfindings": [],
+  "status": "final retained source-backed record under ratified unknown policy; observation and counting limits remain explicit",
+  "primary_class": "ADAPTER",
+  "primary_origin": "tool",
+  "record_kind": "documented incident",
+  "final_disposition": "retain qualified source-backed Appendix B candidate",
+  "owner_id": "JC-B011",
+  "original_pointer": {
+    "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
+    "pointer": "/rows/13",
+    "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+    "review_date": "2026-09-29",
+    "date_kind": "retained report review date; not incident date or source publication date"
+  },
+  "source": {
+    "repo": "F:/repos/grandportage-0.50",
+    "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/rows/13",
+    "date": "2026-09-29",
+    "review_date": "2026-09-29",
+    "date_kind": "review-source date of retained report; not incident date or original primary-source date"
+  },
+  "incident_date": null,
+  "source_date_qualification": "No incident date invented; original source dates/history metadata remain unchanged in sources.",
+  "cost_note": "Source evidence does not establish incident-specific work lost/cost class.",
+  "shipped_note": "Source evidence does not establish publication or handoff of a wrong claim; unknown is neither false nor n/a.",
+  "gp_v037_would_catch_note": "No supported frozen-GP catch verdict for this episode. Conditional design/reuse commentary in notes is not a yes/no/partial assessment; no fresh campaign replay.",
+  "counting_qualification": {
+    "record_count": 1,
+    "independent_sample": null,
+    "mathematical_incident_count": null,
+    "rule": "Count this owner record once. Repeated summaries, witnesses, consumers and children do not add independent samples.",
+    "source_detail": "Recorded shadowing defect; own versus tool origin provisional without original command responsibility. Months of persistence is not work lost. No direct catch of shadowing. Admitted sound replay may protect authority; char-p edge typing cannot fix backend code."
+  },
+  "classification_qualification": "Proposed primary class and origin retained from accepted inventory; uncertainty and secondary dimensions remain in evidence. Not a statistically adjudicated incident population.",
+  "parent_adjudications": [
+    {
+      "decision": "accept source-supported extraction with unknowns",
+      "qualifications": "Recorded shadowing defect; own versus tool origin provisional without original command responsibility. Months of persistence is not work lost.",
+      "source": {
+        "path": "C:/Users/wstri/dev/math-stuff/whetstone/whetstone_dag.py",
+        "lines": "836-842",
+        "sha256": "627749285c45566edddd05b01ae1f44c2488b29564b1ea98cc663099aad4992c"
+      },
+      "pointer": {
+        "report": "reports/PHASE-0B-JC-PARENT-ADJUDICATION.json",
+        "pointer": "/dispositions/10",
+        "sha256": "6b949509c3660671b79886bf2b9ea33c9007b19ddcd47743f78b3b5ea65e4736",
+        "review_date": "2026-09-29",
+        "date_kind": "retained report review date; not incident date or source publication date"
+      }
+    }
+  ],
+  "linked_cross_occurrence": null,
+  "children": [],
+  "evidence_level": "retained source-backed report; no new source read, execution, or authentication",
+  "parent_integration": {
+    "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
+    "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+    "register": "incident/correction/group"
+  }
+}

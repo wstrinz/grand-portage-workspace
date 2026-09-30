@@ -1,0 +1,129 @@
+{
+  "id": "ARR-O08",
+  "campaign": "ARR15",
+  "origin": "own",
+  "class": "BINDING",
+  "scope_or_region": "N/A",
+  "sources": [
+    {
+      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\CHECKPOINT.md",
+      "lines": [
+        86,
+        96
+      ],
+      "sha256": "8313ea3bfb2ccabfc7f01abcfe239fd5b3ca1d4caaa619947a3c324ae531bfb1",
+      "latest_path_history": "619744193411d40a0f37f01b76e4f0c9bf96c86a|2026-08-23T14:13:48-05:00|Add reader package and Lean backstop"
+    },
+    {
+      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-23-publication-readiness-closeout.md",
+      "lines": [
+        69,
+        77
+      ],
+      "sha256": "d001f6a941c3d64f9262dfece1d8db6dfdb01f07826df690540db66af975a0c6",
+      "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
+    },
+    {
+      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\REPRODUCIBILITY.md",
+      "lines": [
+        25,
+        27
+      ],
+      "sha256": "31b1522dc743b6627f9fa15db25a532a0e593a01e6780e0a4d4d3664fca9d347",
+      "latest_path_history": "619744193411d40a0f37f01b76e4f0c9bf96c86a|2026-08-23T14:13:48-05:00|Add reader package and Lean backstop"
+    }
+  ],
+  "claimed": "Mark the cold publication-positioning attempt SUPPORTED despite incorrect declared base-blob hash.",
+  "problem": "Packet declared wrong SHA for RESULTS_SO_FAR at base628c24e; trial stays PARTIAL and mandated replay exits FAIL_PACKET_INPUT_MISMATCH. Later checkpoint expects precisely this regression failure.",
+  "discovered_by": "unknown",
+  "cost": null,
+  "shipped": null,
+  "gp_v037_would_catch": null,
+  "core_expressible": null,
+  "core_would_refuse": null,
+  "notes": "Concrete packet identity defect; failing literal trial and passing wrapper assertion are different observations, neither rerun here. Primary-class choices are parent provisional; core catch remains null.",
+  "subfindings": [],
+  "status": "final retained source-backed record under ratified unknown policy; observation and counting limits remain explicit",
+  "primary_class": "BINDING",
+  "primary_origin": "own",
+  "record_kind": "documented incident",
+  "final_disposition": "retain qualified source-backed Appendix B candidate",
+  "owner_id": "ARR-O08",
+  "original_pointer": {
+    "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
+    "pointer": "/rows/52",
+    "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+    "review_date": "2026-09-29",
+    "date_kind": "retained report review date; not incident date or source publication date"
+  },
+  "source": {
+    "repo": "F:/repos/grandportage-0.50",
+    "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/rows/52",
+    "date": "2026-09-29",
+    "review_date": "2026-09-29",
+    "date_kind": "review-source date of retained report; not incident date or original primary-source date"
+  },
+  "incident_date": null,
+  "source_date_qualification": "No incident date invented; original source dates/history metadata remain unchanged in sources.",
+  "cost_note": "Source evidence does not establish incident-specific work lost/cost class.",
+  "shipped_note": "Source evidence does not establish publication or handoff of a wrong claim; unknown is neither false nor n/a.",
+  "gp_v037_would_catch_note": "No supported frozen-GP catch verdict for this episode. Conditional design/reuse commentary in notes is not a yes/no/partial assessment; no fresh campaign replay.",
+  "counting_qualification": {
+    "record_count": 1,
+    "independent_sample": null,
+    "mathematical_incident_count": null,
+    "rule": "Count this owner record once. Repeated summaries, witnesses, consumers and children do not add independent samples.",
+    "source_detail": "Concrete packet identity defect; failing literal trial and passing wrapper assertion are different observations, neither rerun here. Primary-class choices are parent provisional; core catch remains null."
+  },
+  "classification_qualification": "Proposed primary class and origin retained from accepted inventory; uncertainty and secondary dimensions remain in evidence. Not a statistically adjudicated incident population.",
+  "parent_adjudications": [
+    {
+      "decision": "accept recorded packet hash mismatch as custody failure; failing literal trial and passing regression wrapper are distinct; no fresh trial execution",
+      "qualifications": "Concrete packet identity defect; failing literal trial and passing wrapper assertion are different observations, neither rerun here.",
+      "source": [
+        {
+          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\CHECKPOINT.md",
+          "lines": [
+            86,
+            96
+          ],
+          "sha256": "8313ea3bfb2ccabfc7f01abcfe239fd5b3ca1d4caaa619947a3c324ae531bfb1",
+          "latest_path_history": "619744193411d40a0f37f01b76e4f0c9bf96c86a|2026-08-23T14:13:48-05:00|Add reader package and Lean backstop"
+        },
+        {
+          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-23-publication-readiness-closeout.md",
+          "lines": [
+            69,
+            77
+          ],
+          "sha256": "d001f6a941c3d64f9262dfece1d8db6dfdb01f07826df690540db66af975a0c6",
+          "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
+        },
+        {
+          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\REPRODUCIBILITY.md",
+          "lines": [
+            25,
+            27
+          ],
+          "sha256": "31b1522dc743b6627f9fa15db25a532a0e593a01e6780e0a4d4d3664fca9d347",
+          "latest_path_history": "619744193411d40a0f37f01b76e4f0c9bf96c86a|2026-08-23T14:13:48-05:00|Add reader package and Lean backstop"
+        }
+      ],
+      "pointer": {
+        "report": "reports/PHASE-0B-ARR15-PARENT-INTAKE.json",
+        "pointer": "/dispositions/7",
+        "sha256": "bfec81762d273a6023a2d4c4684ca9a76318224f0df504e4db0fd52565a5134f",
+        "review_date": "2026-09-29",
+        "date_kind": "retained report review date; not incident date or source publication date"
+      }
+    }
+  ],
+  "linked_cross_occurrence": null,
+  "children": [],
+  "evidence_level": "retained source-backed report; no new source read, execution, or authentication",
+  "parent_integration": {
+    "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
+    "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+    "register": "incident/correction/group"
+  }
+}

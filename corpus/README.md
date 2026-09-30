@@ -1,6 +1,6 @@
 # Corpus catalog
 
-459 neutral cases; Phase0a completed under the approved bounded source/history scope.403agreements,14known differences,4diagnostic observations,29retained diagnostics and9unsupported cases are separately classified; no pending cases. A24correction/native contrast and preserved original history: reports/PHASE-0A-A24-INTEGRATION.json. G0 remains incomplete.
+459 neutral cases. Phase 0a is complete under the approved source/history scope. Observations: 403 agreements, 14 known differences, 4 diagnostics, 29 retained diagnostics and 9 unsupported cases; no pending cases. The A24 correction and preserved original history are recorded in reports/PHASE-0A-A24-INTEGRATION.json. G0 remains incomplete.
 
 | Case | Expected | Oracle observation | Layer | Title |
 |---|---|---|---|---|

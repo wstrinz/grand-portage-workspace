@@ -1,6 +1,6 @@
 {
   "goal": "Complete Phase 0 or identify concrete blockers; do not advance into Phase 1 by inference.",
-  "status": "active_closeout_after_ratified_decisions",
+  "status": "awaiting_measurable_0c_cap",
   "lanes": {
     "0a": {
       "status": "completed_with_explicit_observation_limits",
@@ -9,21 +9,17 @@
       "closeout_decision": "Complete recorded-incident extraction under approved selective scope; explicit exceptions retained, no predecessor soundness claim."
     },
     "0b": {
-      "status": "final_inventory_consolidation",
+      "status": "completed_bounded_confirmed_sweep_under_ratified_unknown_policy",
       "rule_source": "docs/GP-0.50-REWORK-PACKET-rev3.md section 0b and Appendices B/C",
-      "remaining": [
-        "Parent review finite FINAL-RECORD-CANDIDATES and emit validated final incident/separate registers plus root inventory with approved explicit unknowns.",
-        "Report cost-based pivot assessment indeterminate, qualitative risks and explicit review required beforePhase1."
-      ],
-      "evidence": "JC/DK/Cloquet/ARR15/Pigeon River bounded intakes integrated.89private hash-verified files(20JC/22DK/19Cloquet/12ARR15/16PigeonRiver). All89ignored files verified; historical exports are custody evidence, no fresh campaign execution.68qualified non-GP campaign draft rows; not independent statistical incidents. GP supplement integrated as qualified draft;76raw file hashes/168JSON pointers independently checked. Four campaign-owned GP cross-occurrences retain existing IDs without duplicate additions."
+      "remaining": [],
+      "evidence": "reports/PHASE-0B-COMPLETION.json;76incident/correction/group records and39separate main dispositions account for115entries;17auxiliary/47nested/2child/fourcross-owner distinctions preserved.89private files hash-size-ignore verified. Explicit unknown policy ratified; pivot screen indeterminate, not passed."
     },
     "0c": {
-      "status": "deferred_by_prerequisites",
+      "status": "awaiting_measurable_cap",
       "remaining": [
-        "Finish 0a/0b",
-        "Agree measurable spike cap",
-        "Execute pinned Lean JSONL/process/cofactor/LRAT feasibility work and write report",
-        "Time two corpus lemmas in a separate pinned Mathlib package"
+        "Approve proposed measurable cap in reports/PHASE-0C-CAP-PROPOSAL.md",
+        "Execute bounded pinned Lean JSONL/process/cofactor/LRAT feasibility work and report",
+        "Time GP-A08b/GP-A05 obligations in separate pinned Mathlib package"
       ]
     },
     "0d": {
@@ -82,10 +78,10 @@
       "evidence": "All18 rows accounted; three G1 recommendations, bounded territory/consumer and interoperability assessment in PRIOR-ART.md. Six consequential worker source files independently checked. No checker execution, package adoption or G1/G0 completion."
     }
   },
-  "blocker_assessment": "A24 and AppendixBunknown decisions directly approved.0a complete; final0b record consolidation active.0c remains gated by completed0b and separately agreed measurable cap.",
+  "blocker_assessment": "0a/0bcomplete,0ebounded review complete,0dprivate preparation verified.0cneeds direct approval of a measurable shared cap. Phase0/G0notcomplete; no additional intake/audit commissioned.",
   "next_work": [
-    "Worker finite0b record proposals; parent integration/schema/source/custody/dedup review.",
-    "Finalize0b and root inventory; propose6shared-active-hour0c cap with2hours maximum unattended waits, no execution before approval."
+    "Will decides proposed6shared active-agent-hour0c cap plus2hours maximum unattended build/download waits, setup stop condition and3hour checkpoint.",
+    "After approval, reserve finite worker/coordinator slices, inspect pins and perform toy feasibility work onF:; no package adoption/G1by inference."
   ],
   "new_findings": [
     "reports/RETRY-MERGE-AUDIT.json",
@@ -107,5 +103,8 @@
     "status": "PAUSED",
     "interval_minutes": 50,
     "renewed_by_user": "2026-09-29"
-  }
+  },
+  "before_phase1": [
+    "Explicit review of indeterminate cost-based MEANING/ADAPTER pivot screen and qualitative risks; do not infer screen passed from0bcomplete."
+  ]
 }
