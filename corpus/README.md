@@ -1,6 +1,6 @@
 # Corpus catalog
 
-459 neutral cases. Current observations remain layer-specific; G0 is not complete. A24 is pending; nine unsupported contracts and four diagnostic observations remain explicit. See PHASE-0A-ORDINARY-POINT-GUARD-INTEGRATION and PHASE-0-COMPLETION-TRACKER for the bounded remaining queue.
+459 neutral cases; Phase0a completed under the approved bounded source/history scope.403agreements,14known differences,4diagnostic observations,29retained diagnostics and9unsupported cases are separately classified; no pending cases. A24correction/native contrast and preserved original history: reports/PHASE-0A-A24-INTEGRATION.json. G0 remains incomplete.
 
 | Case | Expected | Oracle observation | Layer | Title |
 |---|---|---|---|---|
@@ -37,7 +37,7 @@
 | [GP-A21](must/GP-A21.json) | REFUSE | AGREES | receipt_replay | Symbolic Laurent terms cannot be dropped |
 | [GP-A22](must/GP-A22.json) | REFUSE | AGREES | exact_replay | A necessary scalar target does not prove a capped lift |
 | [GP-A23](must/GP-A23.json) | REFUSE | AGREES | conditional_rule | Open-locus emptiness does not establish parent emptiness |
-| [GP-A24](must/GP-A24.json) | REFUSE | PENDING | none | Collapsed solutions require nondegeneracy guards |
+| [GP-A24](must/GP-A24.json) | REFUSE | AGREES | native_number_field_point | A collapsed edge-equation witness is not an injective realization |
 | [GP-A25a](must/GP-A25a.json) | REFUSE | AGREES | graph_validation | Conflicting identifiers must not merge silently |
 | [GP-A25b](must/GP-A25b.json) | REFUSE | AGREES | receipt_binding | Two identifiers do not establish an alias |
 | [GP-A26](must/GP-A26.json) | REFUSE | AGREES | declaration_validation | Unknown certificate names grant no scope |
@@ -401,10 +401,10 @@
 | [GP-X407](must/GP-X407.json) | ACCEPT | AGREES | historical_exact_cramer_arithmetic | Historical Cramer clearing exponent two reconstructs Phi_b0_compat |
 | [GP-X408](must/GP-X408.json) | REFUSE | UNSUPPORTED | abstract_evaluation_contract | Exact contraction alone does not provide a valid evaluation lift |
 | [GP-X409](must/GP-X409.json) | ACCEPT | UNSUPPORTED | abstract_evaluation_contract | Valid evaluation lift supports point-surjectivity |
+| [GP-X41](must/GP-X41.json) | REFUSE | AGREES | historical_metadata_audit | Deleting a refusal does not earn the excluded theorem |
 | [GP-X410](must/GP-X410.json) | REFUSE | DIAGNOSTIC_OBSERVED | ordinary_point_guard_diagnostic | Vanishing equations do not excuse a vanishing open guard |
 | [GP-X411](must/GP-X411.json) | REFUSE | DIAGNOSTIC_OBSERVED | ordinary_point_guard_diagnostic | An equation-free model still requires its open guard |
 | [GP-X412](must/GP-X412.json) | ACCEPT | DIAGNOSTIC_OBSERVED | ordinary_point_guard_diagnostic | A nonvanishing guard admits the equation-free offered point |
-| [GP-X41](must/GP-X41.json) | REFUSE | AGREES | historical_metadata_audit | Deleting a refusal does not earn the excluded theorem |
 | [GP-X42](must/GP-X42.json) | REFUSE | AGREES | historical_metadata_audit | An altered source revision cannot reuse a frozen receipt |
 | [GP-X43](must/GP-X43.json) | REFUSE | AGREES | historical_metadata_audit | Conditional row evidence does not prove original-source membership |
 | [GP-X44](must/GP-X44.json) | REFUSE | AGREES | historical_metadata_audit | A changed frozen fixture must fail its outer digest check |

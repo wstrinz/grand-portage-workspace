@@ -1,21 +1,19 @@
 {
   "goal": "Complete Phase 0 or identify concrete blockers; do not advance into Phase 1 by inference.",
-  "status": "awaiting_direct_user_decisions",
+  "status": "active_closeout_after_ratified_decisions",
   "lanes": {
     "0a": {
-      "status": "awaiting_A24_semantic_decision",
-      "evidence": "459cases (138 ACCEPT/321 REFUSE):402 AGREES,14 KNOWN_DIFFERENCE,4 DIAGNOSTIC_OBSERVED,29 RETAINED_DIAGNOSTIC,1 PENDING,9 UNSUPPORTED.456prior case bytes/routes/outcomes and62prior immutable replays preserved. Ordinary-point guards observed through the existing literal diagnostic seam; native verdicts null.",
-      "remaining": [
-        "Direct A24 semantic clarification answer, then bounded integration/full replay and final0a completion report; original REFUSE/PENDING unchanged until answered"
-      ],
-      "closeout_decision": "reports/PHASE-0A-CLOSEOUT-PARENT-REVIEW.json accepts bounded source/incident/family/exception dispositions; no further blanket audit funded. No0a/G0completion yet."
+      "status": "completed_with_explicit_observation_limits",
+      "evidence": "reports/PHASE-0A-COMPLETION.json;459cases unchanged expectations;403AGREES/14KNOWN_DIFFERENCE/4DIAGNOSTIC_OBSERVED/29RETAINED_DIAGNOSTIC/9UNSUPPORTED; zero pending/errors/reviewrequired. Approved A24source-grounded native refusal plus unguarded positive;458other cases/routes/outcomes and63prior replays preserved.",
+      "remaining": [],
+      "closeout_decision": "Complete recorded-incident extraction under approved selective scope; explicit exceptions retained, no predecessor soundness claim."
     },
     "0b": {
-      "status": "in_progress",
+      "status": "final_inventory_consolidation",
       "rule_source": "docs/GP-0.50-REWORK-PACKET-rev3.md section 0b and Appendices B/C",
       "remaining": [
-        "Approve explicit-unknown final schema handling or keep strict AppendixB incomplete; direct user question pending",
-        "Finalize corpus/incidents and root incident inventory from the68campaign owners,29operational mechanisms and18qualified GP source groups/47subdispositions; register sizes are not statistical incident counts"
+        "Parent review finite FINAL-RECORD-CANDIDATES and emit validated final incident/separate registers plus root inventory with approved explicit unknowns.",
+        "Report cost-based pivot assessment indeterminate, qualitative risks and explicit review required beforePhase1."
       ],
       "evidence": "JC/DK/Cloquet/ARR15/Pigeon River bounded intakes integrated.89private hash-verified files(20JC/22DK/19Cloquet/12ARR15/16PigeonRiver). All89ignored files verified; historical exports are custody evidence, no fresh campaign execution.68qualified non-GP campaign draft rows; not independent statistical incidents. GP supplement integrated as qualified draft;76raw file hashes/168JSON pointers independently checked. Four campaign-owned GP cross-occurrences retain existing IDs without duplicate additions."
     },
@@ -84,11 +82,10 @@
       "evidence": "All18 rows accounted; three G1 recommendations, bounded territory/consumer and interoperability assessment in PRIOR-ART.md. Six consequential worker source files independently checked. No checker execution, package adoption or G1/G0 completion."
     }
   },
-  "blocker_assessment": "Finite0e complete. Further meaningful authorized work awaits direct A24 semantic and final0b explicit-unknown policy answers.0c additionally requires completed0a/0b and an agreed measurable cap. No new audit or bibliography expansion commissioned.",
+  "blocker_assessment": "A24 and AppendixBunknown decisions directly approved.0a complete; final0b record consolidation active.0c remains gated by completed0b and separately agreed measurable cap.",
   "next_work": [
-    "Integrate direct A24 answer with bounded correction, preservation checks/full replay and0a closeout.",
-    "Integrate direct AppendixB unknown-field policy answer and finalize descriptive0b inventory without invented statistics.",
-    "After0a/0b complete, agree measurable0c cap; G1 remains a direct user decision."
+    "Worker finite0b record proposals; parent integration/schema/source/custody/dedup review.",
+    "Finalize0b and root inventory; propose6shared-active-hour0c cap with2hours maximum unattended waits, no execution before approval."
   ],
   "new_findings": [
     "reports/RETRY-MERGE-AUDIT.json",
