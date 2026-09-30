@@ -87,3 +87,16 @@ def test_event_error_and_inert_theorem_pointer(native):
     assert result["held"] == []
     events["events"][1]["value"]["evidence"] = {"kind": "receipt", "data": "receipt-1", "success": True}
     assert run(registry, events)["status"] == "MALFORMED"
+
+def test_x164_current_positive_preserves_exact_identity_and_refuses_mismatches(native):
+    registry, events, run = native
+    case = json.loads((ROOT / "corpus/must/GP-X164.json").read_bytes())
+    registry, events, contrast, fidelity, key = bridge.translate(case)
+    assert contrast is None and run(registry, events)["held"] == [key]
+    for field, changed in (("authorityVersion", 2), ("kernelVersion", 2),
+                           ("inputHashes", ["different"]), ("modelHash", "different")):
+        altered = copy.deepcopy(events)
+        altered["events"][1]["value"]["binding"][field] = changed
+        assert run(registry, altered)["held"] == []
+    registry["receipts"][0]["cofactors"] = []
+    assert run(registry, events)["held"] == []

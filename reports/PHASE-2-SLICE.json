@@ -1,10 +1,10 @@
 {
   "schema": "gp-phase2-native-slice/v1",
-  "case_count": 6,
+  "case_count": 7,
   "complete_ten_case_slice": false,
   "g2_pass": false,
-  "runner_sha256": "ef108f23bb28b688273ac2f618346a4d5b645c5c1241d89f98a262e043edc675",
-  "adapter_sha256": "ea08f6bd1d20eae1968c09544fa8bf9b4015584b0f507daf941f249ac5929fff",
+  "runner_sha256": "b132a3c6161859fcee2ee98ae9c5bb99f385ff8e416a2249325bc49b363a284b",
+  "adapter_sha256": "8dd604eb941351e582db88ccd70c72ad098be564389e12cc89227c0914bc7fd1",
   "cases": [
     {
       "id": "GP-A17",
@@ -165,6 +165,45 @@
       },
       "full_fixture_contract": true,
       "translation_fidelity": "Both selected identities are preserved in registry keys and model/input bindings. The B warrant asks for the A-owned receipt; no alias rule is registered. A fresh independently bound B receipt is a separate positive control."
+    },
+    {
+      "id": "GP-X164",
+      "source_sha256": "3380ad2566475144e05b162f3113e02ead4faf3ea5a92c568f9fa0b5e8a24fed",
+      "expected": {
+        "verdict": "ACCEPT",
+        "reason": "Only matching provenance can project current identity authority; stale history must not overwrite a current result."
+      },
+      "observed": "ACCEPT",
+      "native_query": 1,
+      "native_result": {
+        "current_count": 1,
+        "domain": [
+          1
+        ],
+        "held": [
+          1
+        ],
+        "live_warrants": [
+          10
+        ],
+        "retracted": [],
+        "status": "OK",
+        "successors": [],
+        "supports": [
+          10
+        ],
+        "warrant_count": 1
+      },
+      "positive_control": null,
+      "native_inputs": {
+        "registry_sha256": "eaf1cd796d87d10a554a59062529925b13d4360ddbe739865d5c48184733fa49",
+        "events_sha256": "518cde1c13edc886dc5dae7ca62f37bca748fe44c5f4b9dc2d388bbc66145c5b"
+      },
+      "positive_inputs": null,
+      "full_fixture_contract": true,
+      "translation_fidelity": "Pinned source has M:(x), C:x=0, current epoch-1 provenance. Those exact polynomial and selected-object identities are preserved. Native Rat cofactor replay supplies checked identity authority instead of the source's fabricated Singular execution metadata; no Singular execution is claimed.",
+      "pinned_source_sha256": "0768ed5bd2b671ba57127b708dfd877970740cae40587631ae5fcd7c0e2ad7bd",
+      "positive_corpus_control": true
     },
     {
       "id": "GP-X144",
@@ -1914,11 +1953,10 @@
     "failed retry",
     "K2 narrowing",
     "earned consequence",
-    "proved-overlap conflict",
-    "corpus positive control"
+    "proved-overlap conflict"
   ],
   "execution_counts": {
-    "receipt_path_cases": 3,
+    "receipt_path_cases": 4,
     "receipt_positive_contrasts": 3,
     "lifecycle_cases": 3,
     "lifecycle_branch_folds": 6

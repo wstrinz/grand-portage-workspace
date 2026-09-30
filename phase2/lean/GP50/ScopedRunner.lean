@@ -1,0 +1,31 @@
+import GP50.Entry
+import GP50.ScopedDecoder
+import GP50.QueryDecoder
+import GP50.Presentation
+namespace GP50.ScopedSpan
+open Lean
+def run (registry events queries : String) : Except String Json := do
+  let (rows, receipts) ← decode registry
+  let request ← GP50.Queries.decodeRequest queries
+  let admitted := admission rows receipts
+  let state ← decodeFold admitted events
+  return Json.mkObj [
+    ("state", stateJson state),
+    ("why_not", toJson ((canonicalIds request.whyNot).map fun key =>
+      whyNotJson (GP50.Queries.whyNot admitted state key))),
+    ("earned", toJson ((GP50.Queries.earned state request.claimed request.links request.openIds).map earnedJson))]
+end GP50.ScopedSpan
+
+def main (args : List String) : IO UInt32 := do
+  match args with
+  | [registryPath, eventsPath, queriesPath] =>
+    let result := GP50.ScopedSpan.run (← IO.FS.readFile registryPath)
+      (← IO.FS.readFile eventsPath) (← IO.FS.readFile queriesPath)
+    IO.println (match result with
+      | .ok output => output.compress
+      | .error error => (Lean.Json.mkObj [
+          ("status", Lean.toJson "MALFORMED"), ("error", Lean.toJson error)]).compress)
+    return 0
+  | _ =>
+    IO.eprintln "usage: gp_scoped_runner <registry.json> <events.json> <queries.json>"
+    return 2

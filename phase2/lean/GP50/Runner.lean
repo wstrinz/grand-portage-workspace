@@ -1,5 +1,6 @@
 import GP50.Entry
 import GP50.SpanDecoder
+import GP50.Presentation
 namespace GP50
 open Lean
 
@@ -7,14 +8,6 @@ def runBoundSpan (registry events : String) : Except String RuntimeState := do
   let (clauses, receipts) ← Span.decodeRegistry registry
   decodeFold (Span.admission clauses receipts) events
 
-def stateJson (state : RuntimeState) : Json := Json.mkObj [
-  ("status", toJson "OK"), ("held", toJson state.claims),
-  ("supports", toJson state.supports), ("domain", toJson state.snapshot.domain),
-  ("live_warrants", toJson (eligibleIds state.snapshot)),
-  ("warrant_count", toJson state.snapshot.warrants.length),
-  ("current_count", toJson state.snapshot.currents.length),
-  ("retracted", toJson state.snapshot.retracted),
-  ("successors", toJson state.snapshot.successors)]
 end GP50
 
 def main (args : List String) : IO UInt32 := do

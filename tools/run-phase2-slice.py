@@ -100,6 +100,26 @@ def translate(case):
             "Both selected identities are preserved in registry keys and model/input bindings. "
             "The B warrant asks for the A-owned receipt; no alias rule is registered. "
             "A fresh independently bound B receipt is a separate positive control."), 2
+    if case["id"] == "GP-X164":
+        if inputs:
+            raise ValueError("X164 requires the unchanged fresh provenance control")
+        # Pinned test_verdict_provenance.py: _identity_graph/_verdict and
+        # test_fresh_epoch1_verdict_is_active use M:(x), C:x=0.
+        registry, events = prepared([copy.deepcopy(POLYNOMIALS["x"])], copy.deepcopy(POLYNOMIALS["x"]))
+        b = registry["clauses"][0]["binding"]
+        b["statementHash"] = digest({"id": "C", "model": "M", "lhs": "x", "rhs": "0",
+                                    "kind": "identity", "identity_origin": "derived"})
+        b["modelHash"] = digest({"id": "M", "ring_vars": ["x"], "characteristic": 0,
+                                "generators": registry["clauses"][0]["generators"]})
+        b["inputHashes"].append(digest({"claim": "C", "model": "M"}))
+        registry["receipts"][0]["binding"] = copy.deepcopy(b)
+        for event in events["events"]:
+            event["value"]["binding"] = copy.deepcopy(b)
+        return registry, events, None, (
+            "Pinned source has M:(x), C:x=0, current epoch-1 provenance. "
+            "Those exact polynomial and selected-object identities are preserved. "
+            "Native Rat cofactor replay supplies checked identity authority instead of the source's "
+            "fabricated Singular execution metadata; no Singular execution is claimed."), 1
     raise ValueError("Uncommissioned fixture: " + case["id"])
 
 def execute(label, registry, events):
@@ -121,7 +141,7 @@ def execute(label, registry, events):
 def run(output):
     results = []
     tags = json.loads((ROOT / "corpus/LAYER-TAGS.json").read_text(encoding="utf-8"))
-    for case_id in ("GP-A17", "GP-A18", "GP-A25b"):
+    for case_id in ("GP-A17", "GP-A18", "GP-A25b", "GP-X164"):
         path = ROOT / "corpus/must" / (case_id + ".json")
         raw = path.read_bytes()
         case = json.loads(raw)
@@ -129,8 +149,10 @@ def run(output):
         assert row["primary_layer"] == "kernel"
         assert hashlib.sha256(raw).hexdigest() == row["sha256"]
         registry, events, baseline, fidelity, query = translate(case)
-        positive, positive_inputs = execute(case_id + "-positive-control", *baseline)
-        assert query in positive["held"], case_id + ": positive replay control failed"
+        positive, positive_inputs = (None, None) if baseline is None else execute(
+            case_id + "-positive-control", *baseline)
+        if positive is not None:
+            assert query in positive["held"], case_id + ": positive replay control failed"
         observed, receipts = execute(case_id, registry, events)
         verdict = "ACCEPT" if query in observed["held"] else "REFUSE"
         assert verdict == case["expected"]["verdict"], case_id + ": unexpected native verdict"
@@ -140,6 +162,9 @@ def run(output):
                         "native_result": observed, "positive_control": positive,
                         "native_inputs": receipts, "positive_inputs": positive_inputs, "full_fixture_contract": True,
                         "translation_fidelity": fidelity})
+    source_path = ROOT / "oracle/checkout/tests/test_verdict_provenance.py"
+    results[-1]["pinned_source_sha256"] = hashlib.sha256(source_path.read_bytes()).hexdigest()
+    results[-1]["positive_corpus_control"] = True
     record = {"schema": "gp-phase2-native-slice/v1", "case_count": len(results),
               "complete_ten_case_slice": False, "g2_pass": False,
               "runner_sha256": hashlib.sha256(EXE.read_bytes()).hexdigest(),
@@ -148,7 +173,7 @@ def run(output):
               "remaining_slice_behaviors": [
                   "non-exhaustive cover", "independent checked support and targeted retraction",
                   "failed retry", "real supersession branch-order fixture", "K2 narrowing",
-                  "earned consequence", "proved-overlap conflict", "corpus positive control"]}
+                  "earned consequence", "proved-overlap conflict"]}
     spec = importlib.util.spec_from_file_location("lifecycle_slice", ROOT / "tools/run-phase2-lifecycle-slice.py")
     lifecycle = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(lifecycle)
@@ -156,12 +181,12 @@ def run(output):
     operational = lifecycle.run(lifecycle_path)
     record["cases"].extend(operational["cases"])
     record["case_count"] = len(record["cases"])
-    record["execution_counts"] = {"receipt_path_cases": 3, "receipt_positive_contrasts": 3,
+    record["execution_counts"] = {"receipt_path_cases": 4, "receipt_positive_contrasts": 3,
                                   "lifecycle_cases": 3, "lifecycle_branch_folds": 6}
     record["lifecycle_report_sha256"] = hashlib.sha256(lifecycle_path.read_bytes()).hexdigest()
     record["remaining_slice_behaviors"].remove("real supersession branch-order fixture")
     output.write_bytes((json.dumps(record, indent=2) + "\n").encode("utf-8"))
-    print("Native slice: 6 unchanged fixtures passed; 3 exact-replay contrasts and 6 branch folds passed.")
+    print("Native slice: 7 unchanged fixtures passed; 3 exact-replay contrasts and 6 branch folds passed.")
     return record
 
 if __name__ == "__main__":

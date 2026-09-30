@@ -41,3 +41,9 @@ The Mathlib-free test stub decodes actual univariate rational generators, target
 The host adapter must faithfully translate the original fixture contract, select identities, hash the configured data, invoke the pinned compiled executable and interpret its output. Digest strings are compared inside Lean; Lean does not establish their relationship to original bytes or intended meaning. Native execution relies on the Lean compiler/runtime, rational implementation, operating system and executable/input integrity. Independent leanchecker replay checks proof declarations, not those host assumptions.
 
 Raw registry/events reject duplicate keys, malformed fields/types and unknown constructors. Theorem pointers, proof/rule/narrow capabilities are refused in the receipt-only registry. No geometric interpretation, general profile adoption or native LRAT admission is supplied by this formal span stub. Earlier Phase 0 observations above retain their historical scope.
+
+## Phase 2 scoped runner
+
+ScopedSpan derives both replay clauses and semantic clauses from the same decoded rows. Its concrete fold-to-registered-meaning theorem discharges receipt truth through exact Rat replay and narrowing through the actual statement/inclusion checks. Scope IDs denote finite named test contexts; Holds is the formal polynomial-span predicate, independent of context. They do not encode fields or geometric regions. Selected object labels are part of statement equality. Host byte/digest fidelity and intended interpretation remain adapter contracts.
+
+ScopedRunner uses the same admission for held and why-not. Caller claimed keys, obligation links and open IDs affect earned reporting only. Proof and general rule capabilities refuse; conflict detection is not implemented in this stub. The receipt-only runner retains its earlier capability boundary.

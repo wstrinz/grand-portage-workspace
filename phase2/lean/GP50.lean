@@ -10,3 +10,7 @@ import GP50.BoundReplay
 import GP50.BoundReplayProofs
 import GP50.SpanSoundnessProofs
 import GP50.NarrowingProofs
+import GP50.Queries
+import GP50.ScopedSpan
+import GP50.NarrowingAdmissionProofs
+import GP50.ScopedSpanProofs
