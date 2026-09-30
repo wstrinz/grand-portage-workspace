@@ -43,18 +43,31 @@
       "limits": "No code imports, installations or implementation prototypes; P13 M1-only and P15 post-G5.",
       "budget_accounting": {
         "authorized_active_review_minutes": 120,
-        "completed_active_review_minutes": 0,
+        "completed_active_review_minutes": 26,
+        "charges": [
+          {
+            "owner": "worker",
+            "report": "reports/PHASE-0E-P1-P2-P17-REVIEW.json",
+            "minutes": 14
+          },
+          {
+            "owner": "parent",
+            "report": "reports/PHASE-0E-P12-P16-P18-REVIEW.json",
+            "minutes": 12
+          }
+        ],
         "reserved_worker_slice_minutes": 25,
-        "unreserved_minutes": 95,
+        "unreserved_minutes": 69,
         "active_owner": "01a0eeca-572e-7202-a708-c730d410b901",
-        "scope": "P1/P2/P17only; read-only primary public sources; actual charge pending worker report; no parallel parent0ereading"
-      }
+        "scope": "Next P3/P4/P5/P7 only; max25 minutes; prior reservations replaced by actual charges. Parent no concurrent reading commissioned."
+      },
+      "evidence": "Six provisional primary-source rows accepted: P1/P2/P17 worker and P12/P16/P18 parent; root PRIOR-ART.md explicitly partial. Important P1 campaign-state/P2 provenance packet overstatements corrected. No execution/adoption or final territory claim."
     }
   },
   "blocker_assessment": "0aawaits A24 meaning; final0bawaits unknown-field policy. Neither is inferred from general continuation. Approved bounded0ereading is independent meaningful work; no global pause.",
   "next_work": [
-    "Worker: PHASE-0E-P1-P2-P17-REVIEW reports only;25minute slice from120active-minute cap, public primary reading/no installs/imports/prototypes",
-    "Parent: integrate directly answered A24/final0bdecisions; no more general0aaudit",
+    "Worker: PHASE-0E-TRANSFER-REVIEW.md/json only; P3/P4/P5/P7 primary-source reading,25minute maximum, no implementation/adoption",
+    "Parent: integrate direct A24/final0b decisions when answered; remaining0e rows P6/P8/P9/P10/P11/P13/P14/P15 after transfer slice",
     "0c still requires completed0a/0b and separately agreed measurable cap; G1 adoption remains a user decision"
   ],
   "new_findings": [
