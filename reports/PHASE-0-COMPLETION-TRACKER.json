@@ -3,14 +3,12 @@
   "status": "active",
   "lanes": {
     "0a": {
-      "status": "in_progress",
+      "status": "awaiting_A24_semantic_decision",
       "evidence": "459cases (138 ACCEPT/321 REFUSE):402 AGREES,14 KNOWN_DIFFERENCE,4 DIAGNOSTIC_OBSERVED,29 RETAINED_DIAGNOSTIC,1 PENDING,9 UNSUPPORTED.456prior case bytes/routes/outcomes and62prior immutable replays preserved. Ordinary-point guards observed through the existing literal diagnostic seam; native verdicts null.",
       "remaining": [
-        "A24 direct semantic clarification remains pending; current REFUSE/PENDING unchanged",
-        "Final bounded source/neutrality/exception closeout; include X53, six A27 and two contraction/lift unsupported cases without claiming executed positive gates",
-        "A03a diagnostic limit and deferred later-design semantics remain explicit; no general predecessor soundness certification required",
-        "Review finite113entry closeout concordance against accepted evidence; only concrete recorded residuals may generate follow-up"
-      ]
+        "Direct A24 semantic clarification answer, then bounded integration/full replay and final0a completion report; original REFUSE/PENDING unchanged until answered"
+      ],
+      "closeout_decision": "reports/PHASE-0A-CLOSEOUT-PARENT-REVIEW.json accepts bounded source/incident/family/exception dispositions; no further blanket audit funded. No0a/G0completion yet."
     },
     "0b": {
       "status": "in_progress",
@@ -37,19 +35,27 @@
       "deferred_public_actions": "Application/publication and any freeze tag designation remain unperformed under DECISIONS.md item 5; no approval is requested while independent Phase 0 work remains. Existing v0.37.0 release tag is unchanged, with ordinary release annotation."
     },
     "0e": {
-      "status": "authorized_not_started",
+      "status": "primary_source_reading_in_progress",
       "active_review_cap_minutes": 120,
       "remaining": [
         "18-row primary-source review, three G1 recommendations, territory/consumer and interop assessment; report unresolved items at cap"
       ],
-      "limits": "No code imports, installations or implementation prototypes; P13 M1-only and P15 post-G5."
+      "limits": "No code imports, installations or implementation prototypes; P13 M1-only and P15 post-G5.",
+      "budget_accounting": {
+        "authorized_active_review_minutes": 120,
+        "completed_active_review_minutes": 0,
+        "reserved_worker_slice_minutes": 25,
+        "unreserved_minutes": 95,
+        "active_owner": "01a0eeca-572e-7202-a708-c730d410b901",
+        "scope": "P1/P2/P17only; read-only primary public sources; actual charge pending worker report; no parallel parent0ereading"
+      }
     }
   },
-  "blocker_assessment": "No global blocker. A24 and final unknown-field decision await direct answers; finite GP consolidation and bounded0a closeout provide independent work.",
+  "blocker_assessment": "0aawaits A24 meaning; final0bawaits unknown-field policy. Neither is inferred from general continuation. Approved bounded0ereading is independent meaningful work; no global pause.",
   "next_work": [
-    "Worker: PHASE-0A-CLOSEOUT-CONCORDANCE reports only; exactly113old named_remaining_work records and finite necessary-queue groups, no new source content/execution/admission",
-    "Parent: review concordance residuals and make bounded source/family/exception judgment; final0b records await direct unknown-field answer",
-    "A24 and final AppendixB unknown-field decisions pending direct replies;0c cap after0a/0b;0e authorized/not started"
+    "Worker: PHASE-0E-P1-P2-P17-REVIEW reports only;25minute slice from120active-minute cap, public primary reading/no installs/imports/prototypes",
+    "Parent: integrate directly answered A24/final0bdecisions; no more general0aaudit",
+    "0c still requires completed0a/0b and separately agreed measurable cap; G1 adoption remains a user decision"
   ],
   "new_findings": [
     "reports/RETRY-MERGE-AUDIT.json",
