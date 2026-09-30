@@ -1,6 +1,6 @@
 name = "gp_kernel"
 version = "0.1.0"
-defaultTargets = ["GP50", "gp_events_tests", "gp_closure_tests", "gp_completeness_tests", "gp_order_tests", "gp_decoder_tests", "gp_runtime_tests"]
+defaultTargets = ["GP50", "gp_events_tests", "gp_closure_tests", "gp_completeness_tests", "gp_order_tests", "gp_decoder_tests", "gp_runtime_tests", "gp_poly_tests"]
 [[lean_lib]]
 name = "GP50"
 [[lean_exe]]
@@ -21,3 +21,6 @@ root = "Tests.Decoder"
 [[lean_exe]]
 name = "gp_runtime_tests"
 root = "Tests.Runtime"
+[[lean_exe]]
+name = "gp_poly_tests"
+root = "Tests.PolyStub"
