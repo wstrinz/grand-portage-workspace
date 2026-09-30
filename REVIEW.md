@@ -1,6 +1,6 @@
 # WIP review guide
 
-2026-09-30. This checkpoint is a design and feasibility review of Grand Portage 0.50. Phase 0 is complete under explicit limits; Phase 1 is reviewed but G1 is not closed. Review does not imply production soundness, checker admission or permission to change corpus expectations.
+2026-09-30. This checkpoint is a design and feasibility review of Grand Portage 0.50. Phase 0 is complete under explicit limits; Will closed G1 by a documented coverage exception and authorized Phase 2. Read [STATUS.md](STATUS.md) for current progress. Review does not imply production soundness, checker admission or permission to change corpus expectations.
 
 Review branch: [codex/phase-0](https://github.com/wstrinz/grand-portage-workspace/tree/codex/phase-0) in the approved private shadow repository. For a fresh review checkout, clone that branch explicitly; the existing default branch retains the predecessor.
 
@@ -17,7 +17,7 @@ Review branch: [codex/phase-0](https://github.com/wstrinz/grand-portage-workspac
 
 - **Guarantee and size:** Is the abstract Mathlib-free kernel a useful boundary between evidence custody and domain semantics? Do its proposed guarantees justify a separate component?
 - **Scope versus model:** Are ambient mathematical assumptions correctly separated from selected points, branches, finite universes and regions? All finite object/index/path quantifiers belong in statement/model predicates; K2 must not change a search region. Object-changing relations require separately sound rules.
-- **Lifecycle:** Is support by specific immutable warrant IDs sufficient for retraction, staleness, failed retries and independent support? Can the actual total fold remain small and deterministic with ordered concatenation/re-fold?
+- **Lifecycle:** Is support by specific immutable warrant IDs sufficient for retraction, staleness, failed retries and independent support? Can the actual total fold remain small and deterministic with event-set resolution with explicit numeric versions?
 - **Earned closure:** Is a finite declared claim/rule-instance domain useful enough? What precise completeness property should accompany soundness, so an always-false held predicate cannot satisfy the product contract?
 - **Bindings and admission:** What exact statement/model/hypothesis/receipt/byte/version checks are needed across the profile and proof-binding boundaries? A matching ID/hash, citation, tool label or theorem pointer is insufficient.
 - **Conflict handling:** Is proved inhabited overlap plus contradictory statements the right basis for freezing new promotion? Unknown overlap must remain unresolved.
@@ -30,9 +30,9 @@ The existing inventory distinguishes 76 documented-incident/correction/group own
 
 Parent-reviewed primary expression proposals: **52 true, 8 outside, 7 unresolved**. Refusal assessments remain **19 conditional true, 11 false, 37 unknown**. Representation is not prevention, an implemented checker or proof that a historical result was wrong. The two original worker reviews and the parent qualifications are retained separately.
 
-A strict 80% minimum would require 54/67 positives. The proposed 52/67 exception has not been accepted; neither numerical G1 passage nor Phase 2 authorization is assumed. The eight exclusions cover source interpretation/priority, external reviewer behavior and product availability. Seven composite owners remain unresolved. Known-high-cost stale-prose incident JC-B005 has a written exclusion reason; its cost/shipping are source-attributed. Cost-based Phase 0 pivot percentages remain indeterminate, as ratified at G0.
+A strict 80% minimum would require 54/67 positives. Will accepted the 52/67 exception and authorized Phase 2; the strict numerical screen remains below 80%. The eight exclusions cover source interpretation/priority, external reviewer behavior and product availability. Seven composite owners remain unresolved. Known-high-cost stale-prose incident JC-B005 has a written exclusion reason; its cost/shipping are source-attributed. Cost-based Phase 0 pivot percentages remain indeterminate, as ratified at G0.
 
-No checker or package is admitted. Ordinary theorem warrants would exclude generated native-result axioms by default under the pending proposal. A separate native checker may have explicit trust assumptions, subject to its own admission.
+No checker or package is admitted. Ordinary theorem warrants would exclude generated native-result axioms by default under the ratified policy. A separate native checker may have explicit trust assumptions, subject to its own admission.
 
 ## What the Lean evidence establishes
 

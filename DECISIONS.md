@@ -51,3 +51,20 @@ For final Phase0b AppendixB records, cost, shipped and gp_v037_would_catch may b
 2026-09-30 WIP review publication authorized: Will requested committing and pushing the current rework for external review with explicit WIP status. Prepare an up-to-date README and review guide, preserve all case expectations/source pins/replay history, and exclude private harvests/caches/build data. No remote exists yet; destination/visibility is pending a direct answer. This authorizes the selected WIP publication, not G1 coverage/adoption sign-offs, Phase2 implementation, predecessor publication/repairs or unsolicited external messages.
 
 2026-09-30 private shadow destination confirmed: Will selected https://github.com/wstrinz/grand-portage-workspace for the WIP rework. API verification confirms private visibility and push permission under wstrinz. Publish codex/phase-0 as a new branch; existing default/predecessor branches and history remain unchanged. Private harvests, oracle checkout, caches and build products stay excluded. This confirms the remote/publication destination only; G1 design/coverage decisions and Phase2 authorization remain pending.
+
+
+## 1. G1 decisions (ratified by Will, 2026-09-30)
+
+1. **Coverage exception accepted.** Paper expressiveness is 52/67 (77.6%), with 8 outside and 7 unresolved. This passes G1 as a documented exception to the ~80% screen. No prevention rate is claimed. All 459 expectations are unchanged, and G3's full obligations remain.
+2. **Both warrant forms, one scope interface.** Admitted replay receipts and bound Lean proofs share exact statement/model/hypothesis/authority identities.
+   - **Policy:** receipts are the default working currency. A Lean-proved warrant is an *upgrade* for durable or important claims, or where no receipt checker exists.
+   - The binder checks declaration type, imported axioms and exact input identity. A theorem pointer or build flag is never enough.
+   - Generated native-result axioms are excluded from ordinary theorem warrants.
+3. **MathEvidence: imitate the contracts, qualify components individually.** Adopt its capability-specific, bound-candidate, fail-closed discipline. Import no code wholesale. Before building any checker that overlaps an existing tool, name that tool and the contract it lacks.
+4. **Mathlib vocabulary through a pinned binding layer, with explicit exceptions.** Use `reports/PHASE-1-SCOPE-MAP.md` as the initial map. Do not substitute old labels mechanically. For example, A08b needs only `Ring`, while general ideal checks need `CommRing`. GRH, selected roots, coverage and encodings stay as explicit hypotheses or statement/model fields.
+5. **Native LRAT is accepted as a checker candidate with a named trust boundary.** The compiler, runtime and generated Boolean-result axiom go in `TCB.md` as explicit assumptions. Admission still requires a soundness argument and adversarial controls. A verified alternative such as cake_lpr is deferred until a claim needs it.
+6. **Earned closure is defined as a least fixpoint.** `held` is the least fixpoint of admitted checkers and rules over the declared finite domain: claim keys, narrowing requests and admitted rule instances. Phase 2 must prove **completeness** against this definition: every claim reachable in the finite domain from current valid warrants is held. This is what gives "no missed implications" teeth.
+7. **Freeze patch: authorized.** Push the prepared v0.37.1 doc-only patch, including the banner, to `wstrinz/grandportage`, exactly as prepared in `reports/freeze-v0.37.1/`. This is the only public action authorized here.
+8. **Terminology.** "Profile" is retained as GP's name. Its correspondence to institutions is documented in §3 and used as reference semantics.
+
+2026-09-30 conflict clarification: Will directly selected Complete held closure; freeze release. Compute the full checked least fixpoint from the final event set; proved conflict freezes release/promotion separately. Completeness is not defined over an arrival-dependent or conflict-filtered held subset. Report conflict supports/unknown overlap; no unrestricted explosion rule is admitted.

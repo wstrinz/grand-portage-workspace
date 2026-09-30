@@ -1,15 +1,17 @@
 # Working instructions
 
-Read BACKBRIEF.md, BACKBRIEF-REV3.md, DECISIONS.md, docs/GP-0.50-REWORK-PACKET-rev3.md and reports/PACKET-REV3-REVIEW.md before substantive work. Revision 3 and its review amendments were approved on 2026-09-29. User decisions in DECISIONS.md amend the verbatim retained packet; earlier revisions are historical comparison sources.
+Read STATUS.md, LIMITS.md, docs/GP-0.50-PHASE-2-HANDOFF.md, DECISIONS.md and SPEC-CORE.md before substantive work. Will's 2026-09-30 Phase 2 handoff closes G1 by an explicit coverage exception and authorizes implementation; it supersedes conflicting revision 3 text. Retained packets and historical reports preserve their original wording.
 
-Keep work, builds, downloads, caches and scratch data on F: where practical. Use this workspace explicitly; the chat may still have the predecessor as its default directory. Do not move existing campaign repositories.
+Use F:/repos/grandportage-0.50 explicitly for commands. Keep practical writes, builds, downloads, caches and scratch on F:. C:/Users/wstri/dev/grand-portage and confirmed campaign sources remain read-only.
 
-This is a separate private rework, not a branch of v0.37. Existing repositories are read-only sources. Do not change or publish a public repository without Will's approval. The approved private shadow remote is https://github.com/wstrinz/grand-portage-workspace.git; the rework is published on codex/phase-0. Preserve predecessor branches and history; no force pushes or public publication are authorized by the WIP review request. Use the wstrinz account for this repository.
+STATUS.md is the single current human status, with a top summary of at most 300 words. Standing limits live in LIMITS.md. Phase reports cap at 800 words, slice report at 500, decision entries at 150. New Phase 2 Markdown targets 10,000 words; stop at 15,000. Preserve required verbatim source records and count them conservatively.
 
-Corpus first: no new kernel code until Phase 0a and 0b are complete. Environment inspection may precede them. No campaign sweep or harvest until Will confirms the source manifest. Do not turn discovered paths into assumed authorization.
+Phase 2 starts with a separate hash-bound layer registry for all 459 cases; do not alter case bytes, expectations, source pins or replay history. Ambiguous layers/G2 eligibility require Will's judgment. Then implement the actual Mathlib-free kernel, early ten-case slice, finite least-fixpoint completeness and soundness against executable code. Event-set semantics use explicit versions and targeted retractions. Will confirmed complete held closure with proved-overlap conflicts freezing release separately.
 
-Preserve source pointers, exact oracle commit, and raw oracle outcomes. Distinguish expected verdicts, observed verdicts, unsupported cases and unexecuted cases. Never change expected verdicts to make a gate pass. Harvests are verbatim, hashed, private and ignored by Git.
+Logic/decoder/statement targets are 500/400/80 lines; stop at 750/600/120. Only standard propext, Quot.sound and Classical.choice are allowed; no sorry, native_decide or custom kernel axioms. Checker admission requires soundness arguments and adversarial controls. Receipts are default; bound Lean proofs are upgrades. Native LRAT is a candidate, not admitted.
 
-Replay-only authority; trusted generators require a separately approved exception. Every admitted checker requires a stated soundness argument and adversarial controls; consumer count is supporting evidence only.
+Workers are authorized for finite code/proof/test assignments with separate outputs. Reading-only assignments need Will's approval. No new corpus cases, general predecessor audits, package adoption, further profiles or surfaces beyond why-not/earned in Phase 2.
 
-Current scheduling authority (2026-09-29): Will reauthorized a50-minute same-chat Phase0 heartbeat, id grand-portage-phase-0-shepherd. This supersedes older cancellation/handoff notes. Preserve the cleared goal and implementation/approval gates. Pause for completion or when required user input blocks all useful authorized work.
+The private shadow is https://github.com/wstrinz/grand-portage-workspace.git, branch codex/phase-0; use the wstrinz account, preserve predecessor branches, never force-push. The handoff authorizes exactly the prepared three-document freeze patch to wstrinz/grandportage. No other public action is authorized. Private verbatim harvests, source checkouts, caches and scratch remain ignored.
+
+Heartbeats remain PAUSED; permission to use workers/heartbeats does not request restart. Do not recreate the cleared goal.
