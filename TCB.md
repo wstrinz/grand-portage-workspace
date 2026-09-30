@@ -36,7 +36,7 @@ The 459-case-sized load test binds case IDs/digests to deliberately trivial equa
 
 ## Phase 2 native receipt path — 2026-09-30
 
-The Mathlib-free test stub decodes actual univariate rational generators, targets and cofactors, then recomputes coefficient identities. Lean proves receipt acceptance yields the uniquely registered clause’s formal polynomial-span meaning with exact claim/version/binding equality. Runtime soundness is proved under validator and claim-projection contracts; the concrete fold-to-statement composition remains open.
+The Mathlib-free test stub decodes actual univariate rational generators, targets and cofactors, then recomputes coefficient identities. Lean proves receipt acceptance yields the uniquely registered clause’s formal polynomial-span meaning with exact claim/version/binding equality. The receipt-only fold-to-formal-span composition is proved: held claims have registered true formal-span clauses, and warrant-ID uniqueness follows from actual resolution. Generic runtime truth still uses explicit validator and projection contracts; whole-profile scope/rule semantics remain open.
 
 The host adapter must faithfully translate the original fixture contract, select identities, hash the configured data, invoke the pinned compiled executable and interpret its output. Digest strings are compared inside Lean; Lean does not establish their relationship to original bytes or intended meaning. Native execution relies on the Lean compiler/runtime, rational implementation, operating system and executable/input integrity. Independent leanchecker replay checks proof declarations, not those host assumptions.
 

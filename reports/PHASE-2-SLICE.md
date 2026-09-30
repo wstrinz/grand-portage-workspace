@@ -10,10 +10,10 @@ Three unchanged kernel fixtures execute through the compiled Lean runner: strict
 
 The adapter preserves fixture contracts and original expectations. A18 tests receipt freshness, not geometric emptiness. A25b preserves both selected identities. The contrasts are component controls, not additional corpus cases.
 
-The runner reads actual polynomial generators, targets and cofactors. Accepted receipts imply exact all-exponent rational coefficient identities for the registered clause, with exact claim/version/binding equality. Host mapping and digest fidelity are specified in TCB.md.
+The runner reads actual polynomial generators, targets and cofactors. The concrete receipt-only fold is now proved sound for formal span meaning: every held key has a registered clause, and all matching clauses satisfy the identity. Receipt acceptance also establishes exact claim/version/binding equality. Host mapping and digest fidelity are specified in TCB.md.
 
 The ten-case slice is incomplete. Remaining required behaviors: non-exhaustive cover; independent checked support surviving targeted retraction; failed retry; the real branch-order fixture; K2 narrowing; earned consequence; proved-overlap conflict; and a corpus positive control. Existing component controls for lifecycle behaviors do not replace those corpus runs.
 
 Full legacy replay preserved all 459 case bytes and outcomes: 403 AGREES, 14 KNOWN_DIFFERENCE, nine UNSUPPORTED, four DIAGNOSTIC_OBSERVED and 29 RETAINED_DIAGNOSTIC. Source pins and the prior latest replay artifact remain unchanged.
 
-Machine receipts: [native slice](PHASE-2-SLICE.json), [integration and preservation](PHASE-2-ADMISSION.json). G2 remains open.
+Machine receipts: [native slice](PHASE-2-SLICE.json), [integration and preservation](PHASE-2-ADMISSION.json), [concrete soundness](PHASE-2-SPAN-SOUNDNESS.json). G2 remains open.
