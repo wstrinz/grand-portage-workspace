@@ -1,6 +1,6 @@
-# Phase 2 executed slice — checkpoint 5
+# Phase 2 executed slice — checkpoint 6
 
-Seventeen unchanged kernel fixtures execute through native Lean decoding, final-set resolution, support closure and held projection.
+Twenty unchanged kernel fixtures execute through native Lean decoding, final-set resolution, support closure and held projection.
 
 | Cases | Executed result | Checked property |
 |---|---|---|
@@ -11,13 +11,14 @@ Seventeen unchanged kernel fixtures execute through native Lean decoding, final-
 | X169 | REFUSE | Old evidence after (x) becomes (x²); refreshing its binding still cannot validate the false identity |
 | X170 | REFUSE | Complete legacy verdict remains readable as inert evidence; fresh checked contrast accepts |
 | X171, X172 | ACCEPT | Both exact current/stale histories preserve complete records and current support |
+| A25a, X143 / C03 | REFUSE / ACCEPT | Same identifier with conflicting contents fails; identical contents retain one complete record in both orders and with duplicates |
 | A16-missing, A16-covered | REFUSE / conditional ACCEPT | Parent emptiness requires both named branch-emptiness and exhaustive-cover premises |
 
 The provenance source anchor supplies the identity model and current-verdict constructor. The retained baseline adapter supplies the two order histories, including receipt.valid/receipt.stale and source epochs 12/11. Native epochs 1/0 preserve their equality/mismatch contract. Native rational arithmetic replaces fabricated historical Singular execution descriptors. No Singular execution or source success flag supplies authority.
 
-All nine accepting contrasts remain component controls, separate from corpus counts. Operational supersession cases provide no mathematical authority. The aggregate validates distinct IDs and full fixture contracts.
+Nine accepting contrasts remain separate from corpus counts. Operational supersession and declaration cases provide no mathematical authority. Declaration repairs supply sixteen separate accepting folds, not additional corpus passes. The aggregate validates distinct IDs and full fixture contracts.
 
-Equal final event sets now provably produce identical resolver/fold results, including malformed diagnostics; release review inherits that equality. The scoped runner combines receipts, narrowing and finite-context cover rules with concrete semantic soundness. Generic release review separately reports contradictory supported statements and checked common contexts, preserving complete held closure. Its positive alarm controls simulate a compromised checker; the positive-only rational profile has no contradictory statement constructor. This does not complete a real conflict fixture.
+Equal final event sets now provably produce identical resolver/fold results, including malformed diagnostics; release review inherits that equality. The scoped runner combines receipts, narrowing and finite-context cover rules with concrete semantic soundness. Generic release review separately reports contradictory supported statements and checked common contexts, preserving complete held closure. Positive alarm controls simulate a compromised checker; the positive-only rational profile has no contradictory statement constructor. This does not complete a real conflict fixture.
 
 The approved conditional A16 harness preserves the literal parent-emptiness conclusion and collective branch premise. It invents no concrete regions or points. Lean proves its actual validator and arbitrary-event fold sound for all interpretations satisfying the explicit hypotheses; input identities bind the unchanged fixture. This certifies conditional composition, not underlying algebraic truth.
 
@@ -25,4 +26,4 @@ Required slice behaviors still need faithful real fixture execution: independent
 
 Fresh full legacy replay preserved all 459 fixture bytes, expectations and outcomes: 403 AGREES, 14 KNOWN_DIFFERENCE, nine UNSUPPORTED, four DIAGNOSTIC_OBSERVED and 29 RETAINED_DIAGNOSTIC. All 67 protected source/handoff/replay artifacts remain unchanged.
 
-Receipts: [aggregate](PHASE-2-SLICE.json), [provenance detail](PHASE-2-PROVENANCE-SLICE.json), [conditional cover](PHASE-2-CONDITIONAL-COVER-SLICE.json), [integration](PHASE-2-PROVENANCE-INTEGRATION.json), [cover soundness](PHASE-2-COVER-RUNTIME.json). G2 remains open.
+Receipts: [aggregate](PHASE-2-SLICE.json), [provenance detail](PHASE-2-PROVENANCE-SLICE.json), [conditional cover](PHASE-2-CONDITIONAL-COVER-SLICE.json), [declarations](PHASE-2-DECLARATION-SLICE.json), [integration](PHASE-2-DECLARATION-INTEGRATION.json), [cover soundness](PHASE-2-COVER-RUNTIME.json). G2 remains open.

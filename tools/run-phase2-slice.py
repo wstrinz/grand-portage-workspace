@@ -207,8 +207,20 @@ def run(output):
     record["conditional_cover_report_sha256"] = hashlib.sha256(conditional_path.read_bytes()).hexdigest()
     record["remaining_slice_behaviors"].remove("non-exhaustive cover")
     assert len({row["id"] for row in record["cases"]}) == record["case_count"]
+    spec = importlib.util.spec_from_file_location("declaration_slice", ROOT / "tools/run-phase2-declaration-slice.py")
+    declaration = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(declaration)
+    declaration_path = ROOT / "reports/PHASE-2-DECLARATION-SLICE.json"
+    declaration_record = declaration.run(declaration_path)
+    record["cases"].extend(declaration_record["cases"])
+    record["case_count"] = len(record["cases"])
+    record["execution_counts"].update(declaration_cases=declaration_record["case_count"],
+                                    declaration_original_folds=declaration_record["corpus_native_executions"],
+                                    declaration_repaired_controls=declaration_record["repaired_control_executions"])
+    record["declaration_report_sha256"] = hashlib.sha256(declaration_path.read_bytes()).hexdigest()
+    assert len({row["id"] for row in record["cases"]}) == record["case_count"]
     output.write_bytes((json.dumps(record, indent=2) + "\n").encode("utf-8"))
-    print("Native slice: 17 unchanged fixtures passed; 9 exact-replay contrasts and 6 supersession branch folds passed.")
+    print("Native slice: 20 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
     return record
 
 if __name__ == "__main__":
