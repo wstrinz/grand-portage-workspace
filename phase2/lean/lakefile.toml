@@ -1,6 +1,6 @@
 name = "gp_kernel"
 version = "0.1.0"
-defaultTargets = ["GP50", "gp_events_tests", "gp_closure_tests", "gp_completeness_tests", "gp_order_tests", "gp_decoder_tests", "gp_runtime_tests", "gp_poly_tests", "gp_span_runner", "ProofControls", "gp_bound_tests", "gp_lifecycle_runner", "gp_narrow_tests", "gp_query_tests", "gp_scoped_runner", "gp_cover_tests", "gp_conflict_tests", "gp_conditional_cover_fixture", "gp_conditional_partition_fixture"]
+defaultTargets = ["GP50", "gp_events_tests", "gp_closure_tests", "gp_completeness_tests", "gp_order_tests", "gp_decoder_tests", "gp_runtime_tests", "gp_poly_tests", "gp_span_runner", "ProofControls", "gp_bound_tests", "gp_lifecycle_runner", "gp_narrow_tests", "gp_query_tests", "gp_scoped_runner", "gp_cover_tests", "gp_conflict_tests", "gp_conditional_cover_fixture", "gp_conditional_partition_fixture", "gp_conditional_routes_fixture"]
 [[lean_lib]]
 name = "GP50"
 [[lean_exe]]
@@ -66,3 +66,7 @@ root = "Tests.ConditionalCover"
 [[lean_exe]]
 name = "gp_conditional_partition_fixture"
 root = "Tests.ConditionalPartition"
+
+[[lean_exe]]
+name = "gp_conditional_routes_fixture"
+root = "Tests.ConditionalRoutes"

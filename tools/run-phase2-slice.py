@@ -230,8 +230,20 @@ def run(output):
                                     conditional_partition_native_folds=partition_record["native_executions"])
     record["conditional_partition_report_sha256"] = hashlib.sha256(partition_path.read_bytes()).hexdigest()
     assert len({row["id"] for row in record["cases"]}) == record["case_count"]
+    spec = importlib.util.spec_from_file_location("conditional_routes", ROOT / "tools/run-phase2-conditional-routes-slice.py")
+    routes_slice = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(routes_slice)
+    routes_path = ROOT / "reports/PHASE-2-CONDITIONAL-ROUTES-SLICE.json"
+    routes_record = routes_slice.run(routes_path)
+    record["cases"].extend(routes_record["cases"])
+    record["case_count"] = len(record["cases"])
+    record["execution_counts"].update(conditional_routes_cases=routes_record["case_count"],
+                                    conditional_routes_native_folds=routes_record["native_executions"])
+    record["conditional_routes_report_sha256"] = hashlib.sha256(routes_path.read_bytes()).hexdigest()
+    record["remaining_slice_behaviors"].remove("K2 narrowing")
+    assert len({row["id"] for row in record["cases"]}) == record["case_count"]
     output.write_bytes((json.dumps(record, indent=2) + "\n").encode("utf-8"))
-    print("Native slice: 23 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
+    print("Native slice: 25 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
     return record
 
 if __name__ == "__main__":
