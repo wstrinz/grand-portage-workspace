@@ -1,10 +1,10 @@
 {
   "schema": "gp-phase2-native-slice/v1",
-  "case_count": 38,
+  "case_count": 40,
   "complete_ten_case_slice": true,
   "g2_pass": false,
   "runner_sha256": "b132a3c6161859fcee2ee98ae9c5bb99f385ff8e416a2249325bc49b363a284b",
-  "adapter_sha256": "f8f4b0687e330a0952075b1afedd16fd57f00939b483d4fcfa78b3e0bde9a07f",
+  "adapter_sha256": "0711c807832fba5d68fe288fdf0c8c6a8f3b7f6b979fc5a42eae815bd629d1c5",
   "cases": [
     {
       "id": "GP-A17",
@@ -26222,6 +26222,3112 @@
       "full_fixture_contract_executed": true,
       "full_fixture_contract": true,
       "status": "EXECUTED"
+    },
+    {
+      "id": "GP-X179",
+      "source_sha256": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67",
+      "expected": {
+        "verdict": "REFUSE",
+        "reason": "A point of a relaxation cannot be lifted through equation-forgetting merely because another required leg is valid."
+      },
+      "observed": "REFUSE",
+      "full_fixture_contract": true,
+      "conditional_conclusion_only": true,
+      "status": "EXECUTED",
+      "literal_inputs": {
+        "contexts": [
+          "tight",
+          "loose",
+          "side"
+        ],
+        "relations": [
+          {
+            "name": "first",
+            "source": "tight",
+            "target": "loose",
+            "relation": "equations_forgotten"
+          },
+          {
+            "name": "second",
+            "source": "tight",
+            "target": "side",
+            "relation": "equations_forgotten"
+          }
+        ],
+        "premises": [
+          {
+            "context": "loose",
+            "statement_class": "universal_property",
+            "statement": "a universal property",
+            "route": [
+              {
+                "relation": "first",
+                "direction": "reverse"
+              }
+            ]
+          },
+          {
+            "context": "side",
+            "statement_class": "exhibited_point",
+            "statement": "a point in the relaxed side model",
+            "route": [
+              {
+                "relation": "second",
+                "direction": "reverse"
+              }
+            ]
+          }
+        ],
+        "conclusion_class": "universal_property",
+        "conclusion_text": "both premises have licensed routes to the tight context"
+      },
+      "layer_entry": {
+        "id": "GP-X179",
+        "path": "corpus/must/GP-X179.json",
+        "sha256": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67",
+        "primary_layer": "kernel",
+        "candidate_layers": [
+          "kernel"
+        ],
+        "g2_kernel_eligible": true,
+        "status": "resolved",
+        "rationale": "The full fixture assumes mathematical premises or supplies only declaration/claim data; registered rule, exact context, dependency and scope obligations decide authority.",
+        "review_group": "supplied-premise-authority",
+        "full_contract_required": true,
+        "secondary_layers": [],
+        "secondary_duties": [],
+        "evidence_pointers": [
+          "/title",
+          "/inputs",
+          "/attempted_conclusion",
+          "/expected/reason"
+        ]
+      },
+      "native_results": {
+        "normal": {
+          "additional_tight_membership": false,
+          "argument_dependency_ids": [
+            110,
+            120
+          ],
+          "case": "GP-X179",
+          "conditional": true,
+          "countermodel": {
+            "same_witness_not_tight": true,
+            "side_inhabited": true,
+            "tight_empty": true
+          },
+          "literal_fixture": {
+            "attempted_conclusion": "Accept the stated conditional premise-route or cover-composition step.",
+            "expected": {
+              "reason": "A point of a relaxation cannot be lifted through equation-forgetting merely because another required leg is valid.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X179",
+            "inputs": {
+              "conclusion_class": "universal_property",
+              "conclusion_text": "both premises have licensed routes to the tight context",
+              "contexts": [
+                "tight",
+                "loose",
+                "side"
+              ],
+              "premises": [
+                {
+                  "context": "loose",
+                  "route": [
+                    {
+                      "direction": "reverse",
+                      "relation": "first"
+                    }
+                  ],
+                  "statement": "a universal property",
+                  "statement_class": "universal_property"
+                },
+                {
+                  "context": "side",
+                  "route": [
+                    {
+                      "direction": "reverse",
+                      "relation": "second"
+                    }
+                  ],
+                  "statement": "a point in the relaxed side model",
+                  "statement_class": "exhibited_point"
+                }
+              ],
+              "relations": [
+                {
+                  "name": "first",
+                  "relation": "equations_forgotten",
+                  "source": "tight",
+                  "target": "loose"
+                },
+                {
+                  "name": "second",
+                  "relation": "equations_forgotten",
+                  "source": "tight",
+                  "target": "side"
+                }
+              ]
+            },
+            "schema_version": 1,
+            "scope_or_region": "REGION",
+            "seed": null,
+            "situation": "A point of a relaxation cannot be lifted through equation-forgetting merely because another required leg is valid.",
+            "sources": [
+              {
+                "anchor": "def test_a_refused_leg_refuses_the_whole_argument(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 1494,
+                "path": "tests/test_adversarial.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "A refused point-lifting leg defeats the joint route second"
+          },
+          "literal_inputs": {
+            "conclusion_class": "universal_property",
+            "conclusion_text": "both premises have licensed routes to the tight context",
+            "contexts": [
+              "tight",
+              "loose",
+              "side"
+            ],
+            "premises": [
+              {
+                "context": "loose",
+                "route": [
+                  {
+                    "direction": "reverse",
+                    "relation": "first"
+                  }
+                ],
+                "statement": "a universal property",
+                "statement_class": "universal_property"
+              },
+              {
+                "context": "side",
+                "route": [
+                  {
+                    "direction": "reverse",
+                    "relation": "second"
+                  }
+                ],
+                "statement": "a point in the relaxed side model",
+                "statement_class": "exhibited_point"
+              }
+            ],
+            "relations": [
+              {
+                "name": "first",
+                "relation": "equations_forgotten",
+                "source": "tight",
+                "target": "loose"
+              },
+              {
+                "name": "second",
+                "relation": "equations_forgotten",
+                "source": "tight",
+                "target": "side"
+              }
+            ]
+          },
+          "mode": "normal",
+          "narrow_checks": {
+            "exhibited_point": false,
+            "universal": true
+          },
+          "point_statement_scope": "global-conditional-theory",
+          "route_licensed": [
+            true,
+            false
+          ],
+          "snapshot": {
+            "currents": [
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:loose",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 1,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "exhibited_point;a point in the relaxed side model;selected-model:side;selected-witness:side-premise"
+                },
+                "claim": 2,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "both premises have licensed routes to the tight context"
+                },
+                "claim": 3,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:tight",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 11,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "exhibited_point;same supplied exhibited point;selected-model:tight;selected-witness:side-premise"
+                },
+                "claim": 12,
+                "version": 1
+              }
+            ],
+            "domain": [
+              1,
+              2,
+              3,
+              11,
+              12
+            ],
+            "retracted": [],
+            "successors": [],
+            "warrants": [
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:loose",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 1,
+                "evidence": {
+                  "data": "given:loose:universal-property",
+                  "kind": "receipt"
+                },
+                "id": 10,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "exhibited_point;a point in the relaxed side model;selected-model:side;selected-witness:side-premise"
+                },
+                "claim": 2,
+                "evidence": {
+                  "data": "given:side:exhibited-point",
+                  "kind": "receipt"
+                },
+                "id": 20,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "both premises have licensed routes to the tight context"
+                },
+                "claim": 3,
+                "evidence": {
+                  "kind": "derived",
+                  "premises": [
+                    110,
+                    120
+                  ],
+                  "sideReceipt": "join:universal-and-same-exhibited-point"
+                },
+                "id": 30,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:tight",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 11,
+                "evidence": {
+                  "kind": "narrow",
+                  "premise": 10
+                },
+                "id": 110,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "exhibited_point;same supplied exhibited point;selected-model:tight;selected-witness:side-premise"
+                },
+                "claim": 12,
+                "evidence": {
+                  "kind": "narrow",
+                  "premise": 20
+                },
+                "id": 120,
+                "version": 1
+              }
+            ]
+          },
+          "source_digest": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67",
+          "state": {
+            "current_count": 5,
+            "domain": [
+              1,
+              2,
+              3,
+              11,
+              12
+            ],
+            "held": [
+              1,
+              2,
+              11
+            ],
+            "live_warrants": [
+              10,
+              20,
+              30,
+              110,
+              120
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [
+              10,
+              20,
+              110
+            ],
+            "warrant_count": 5
+          }
+        },
+        "reverse": {
+          "additional_tight_membership": false,
+          "argument_dependency_ids": [
+            110,
+            120
+          ],
+          "case": "GP-X179",
+          "conditional": true,
+          "countermodel": {
+            "same_witness_not_tight": true,
+            "side_inhabited": true,
+            "tight_empty": true
+          },
+          "literal_fixture": {
+            "attempted_conclusion": "Accept the stated conditional premise-route or cover-composition step.",
+            "expected": {
+              "reason": "A point of a relaxation cannot be lifted through equation-forgetting merely because another required leg is valid.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X179",
+            "inputs": {
+              "conclusion_class": "universal_property",
+              "conclusion_text": "both premises have licensed routes to the tight context",
+              "contexts": [
+                "tight",
+                "loose",
+                "side"
+              ],
+              "premises": [
+                {
+                  "context": "loose",
+                  "route": [
+                    {
+                      "direction": "reverse",
+                      "relation": "first"
+                    }
+                  ],
+                  "statement": "a universal property",
+                  "statement_class": "universal_property"
+                },
+                {
+                  "context": "side",
+                  "route": [
+                    {
+                      "direction": "reverse",
+                      "relation": "second"
+                    }
+                  ],
+                  "statement": "a point in the relaxed side model",
+                  "statement_class": "exhibited_point"
+                }
+              ],
+              "relations": [
+                {
+                  "name": "first",
+                  "relation": "equations_forgotten",
+                  "source": "tight",
+                  "target": "loose"
+                },
+                {
+                  "name": "second",
+                  "relation": "equations_forgotten",
+                  "source": "tight",
+                  "target": "side"
+                }
+              ]
+            },
+            "schema_version": 1,
+            "scope_or_region": "REGION",
+            "seed": null,
+            "situation": "A point of a relaxation cannot be lifted through equation-forgetting merely because another required leg is valid.",
+            "sources": [
+              {
+                "anchor": "def test_a_refused_leg_refuses_the_whole_argument(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 1494,
+                "path": "tests/test_adversarial.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "A refused point-lifting leg defeats the joint route second"
+          },
+          "literal_inputs": {
+            "conclusion_class": "universal_property",
+            "conclusion_text": "both premises have licensed routes to the tight context",
+            "contexts": [
+              "tight",
+              "loose",
+              "side"
+            ],
+            "premises": [
+              {
+                "context": "loose",
+                "route": [
+                  {
+                    "direction": "reverse",
+                    "relation": "first"
+                  }
+                ],
+                "statement": "a universal property",
+                "statement_class": "universal_property"
+              },
+              {
+                "context": "side",
+                "route": [
+                  {
+                    "direction": "reverse",
+                    "relation": "second"
+                  }
+                ],
+                "statement": "a point in the relaxed side model",
+                "statement_class": "exhibited_point"
+              }
+            ],
+            "relations": [
+              {
+                "name": "first",
+                "relation": "equations_forgotten",
+                "source": "tight",
+                "target": "loose"
+              },
+              {
+                "name": "second",
+                "relation": "equations_forgotten",
+                "source": "tight",
+                "target": "side"
+              }
+            ]
+          },
+          "mode": "reverse",
+          "narrow_checks": {
+            "exhibited_point": false,
+            "universal": true
+          },
+          "point_statement_scope": "global-conditional-theory",
+          "route_licensed": [
+            true,
+            false
+          ],
+          "snapshot": {
+            "currents": [
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:loose",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 1,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "exhibited_point;a point in the relaxed side model;selected-model:side;selected-witness:side-premise"
+                },
+                "claim": 2,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "both premises have licensed routes to the tight context"
+                },
+                "claim": 3,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:tight",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 11,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "exhibited_point;same supplied exhibited point;selected-model:tight;selected-witness:side-premise"
+                },
+                "claim": 12,
+                "version": 1
+              }
+            ],
+            "domain": [
+              1,
+              2,
+              3,
+              11,
+              12
+            ],
+            "retracted": [],
+            "successors": [],
+            "warrants": [
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:loose",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 1,
+                "evidence": {
+                  "data": "given:loose:universal-property",
+                  "kind": "receipt"
+                },
+                "id": 10,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "exhibited_point;a point in the relaxed side model;selected-model:side;selected-witness:side-premise"
+                },
+                "claim": 2,
+                "evidence": {
+                  "data": "given:side:exhibited-point",
+                  "kind": "receipt"
+                },
+                "id": 20,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "both premises have licensed routes to the tight context"
+                },
+                "claim": 3,
+                "evidence": {
+                  "kind": "derived",
+                  "premises": [
+                    110,
+                    120
+                  ],
+                  "sideReceipt": "join:universal-and-same-exhibited-point"
+                },
+                "id": 30,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:tight",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 11,
+                "evidence": {
+                  "kind": "narrow",
+                  "premise": 10
+                },
+                "id": 110,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "exhibited_point;same supplied exhibited point;selected-model:tight;selected-witness:side-premise"
+                },
+                "claim": 12,
+                "evidence": {
+                  "kind": "narrow",
+                  "premise": 20
+                },
+                "id": 120,
+                "version": 1
+              }
+            ]
+          },
+          "source_digest": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67",
+          "state": {
+            "current_count": 5,
+            "domain": [
+              1,
+              2,
+              3,
+              11,
+              12
+            ],
+            "held": [
+              1,
+              2,
+              11
+            ],
+            "live_warrants": [
+              10,
+              20,
+              30,
+              110,
+              120
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [
+              10,
+              20,
+              110
+            ],
+            "warrant_count": 5
+          }
+        },
+        "duplicates": {
+          "additional_tight_membership": false,
+          "argument_dependency_ids": [
+            110,
+            120
+          ],
+          "case": "GP-X179",
+          "conditional": true,
+          "countermodel": {
+            "same_witness_not_tight": true,
+            "side_inhabited": true,
+            "tight_empty": true
+          },
+          "literal_fixture": {
+            "attempted_conclusion": "Accept the stated conditional premise-route or cover-composition step.",
+            "expected": {
+              "reason": "A point of a relaxation cannot be lifted through equation-forgetting merely because another required leg is valid.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X179",
+            "inputs": {
+              "conclusion_class": "universal_property",
+              "conclusion_text": "both premises have licensed routes to the tight context",
+              "contexts": [
+                "tight",
+                "loose",
+                "side"
+              ],
+              "premises": [
+                {
+                  "context": "loose",
+                  "route": [
+                    {
+                      "direction": "reverse",
+                      "relation": "first"
+                    }
+                  ],
+                  "statement": "a universal property",
+                  "statement_class": "universal_property"
+                },
+                {
+                  "context": "side",
+                  "route": [
+                    {
+                      "direction": "reverse",
+                      "relation": "second"
+                    }
+                  ],
+                  "statement": "a point in the relaxed side model",
+                  "statement_class": "exhibited_point"
+                }
+              ],
+              "relations": [
+                {
+                  "name": "first",
+                  "relation": "equations_forgotten",
+                  "source": "tight",
+                  "target": "loose"
+                },
+                {
+                  "name": "second",
+                  "relation": "equations_forgotten",
+                  "source": "tight",
+                  "target": "side"
+                }
+              ]
+            },
+            "schema_version": 1,
+            "scope_or_region": "REGION",
+            "seed": null,
+            "situation": "A point of a relaxation cannot be lifted through equation-forgetting merely because another required leg is valid.",
+            "sources": [
+              {
+                "anchor": "def test_a_refused_leg_refuses_the_whole_argument(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 1494,
+                "path": "tests/test_adversarial.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "A refused point-lifting leg defeats the joint route second"
+          },
+          "literal_inputs": {
+            "conclusion_class": "universal_property",
+            "conclusion_text": "both premises have licensed routes to the tight context",
+            "contexts": [
+              "tight",
+              "loose",
+              "side"
+            ],
+            "premises": [
+              {
+                "context": "loose",
+                "route": [
+                  {
+                    "direction": "reverse",
+                    "relation": "first"
+                  }
+                ],
+                "statement": "a universal property",
+                "statement_class": "universal_property"
+              },
+              {
+                "context": "side",
+                "route": [
+                  {
+                    "direction": "reverse",
+                    "relation": "second"
+                  }
+                ],
+                "statement": "a point in the relaxed side model",
+                "statement_class": "exhibited_point"
+              }
+            ],
+            "relations": [
+              {
+                "name": "first",
+                "relation": "equations_forgotten",
+                "source": "tight",
+                "target": "loose"
+              },
+              {
+                "name": "second",
+                "relation": "equations_forgotten",
+                "source": "tight",
+                "target": "side"
+              }
+            ]
+          },
+          "mode": "duplicates",
+          "narrow_checks": {
+            "exhibited_point": false,
+            "universal": true
+          },
+          "point_statement_scope": "global-conditional-theory",
+          "route_licensed": [
+            true,
+            false
+          ],
+          "snapshot": {
+            "currents": [
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:loose",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 1,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "exhibited_point;a point in the relaxed side model;selected-model:side;selected-witness:side-premise"
+                },
+                "claim": 2,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "both premises have licensed routes to the tight context"
+                },
+                "claim": 3,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:tight",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 11,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "exhibited_point;same supplied exhibited point;selected-model:tight;selected-witness:side-premise"
+                },
+                "claim": 12,
+                "version": 1
+              }
+            ],
+            "domain": [
+              1,
+              2,
+              3,
+              11,
+              12
+            ],
+            "retracted": [],
+            "successors": [],
+            "warrants": [
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:loose",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 1,
+                "evidence": {
+                  "data": "given:loose:universal-property",
+                  "kind": "receipt"
+                },
+                "id": 10,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "exhibited_point;a point in the relaxed side model;selected-model:side;selected-witness:side-premise"
+                },
+                "claim": 2,
+                "evidence": {
+                  "data": "given:side:exhibited-point",
+                  "kind": "receipt"
+                },
+                "id": 20,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "both premises have licensed routes to the tight context"
+                },
+                "claim": 3,
+                "evidence": {
+                  "kind": "derived",
+                  "premises": [
+                    110,
+                    120
+                  ],
+                  "sideReceipt": "join:universal-and-same-exhibited-point"
+                },
+                "id": 30,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:tight",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 11,
+                "evidence": {
+                  "kind": "narrow",
+                  "premise": 10
+                },
+                "id": 110,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "exhibited_point;same supplied exhibited point;selected-model:tight;selected-witness:side-premise"
+                },
+                "claim": 12,
+                "evidence": {
+                  "kind": "narrow",
+                  "premise": 20
+                },
+                "id": 120,
+                "version": 1
+              }
+            ]
+          },
+          "source_digest": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67",
+          "state": {
+            "current_count": 5,
+            "domain": [
+              1,
+              2,
+              3,
+              11,
+              12
+            ],
+            "held": [
+              1,
+              2,
+              11
+            ],
+            "live_warrants": [
+              10,
+              20,
+              30,
+              110,
+              120
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [
+              10,
+              20,
+              110
+            ],
+            "warrant_count": 5
+          }
+        },
+        "reverse_duplicates": {
+          "additional_tight_membership": false,
+          "argument_dependency_ids": [
+            110,
+            120
+          ],
+          "case": "GP-X179",
+          "conditional": true,
+          "countermodel": {
+            "same_witness_not_tight": true,
+            "side_inhabited": true,
+            "tight_empty": true
+          },
+          "literal_fixture": {
+            "attempted_conclusion": "Accept the stated conditional premise-route or cover-composition step.",
+            "expected": {
+              "reason": "A point of a relaxation cannot be lifted through equation-forgetting merely because another required leg is valid.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X179",
+            "inputs": {
+              "conclusion_class": "universal_property",
+              "conclusion_text": "both premises have licensed routes to the tight context",
+              "contexts": [
+                "tight",
+                "loose",
+                "side"
+              ],
+              "premises": [
+                {
+                  "context": "loose",
+                  "route": [
+                    {
+                      "direction": "reverse",
+                      "relation": "first"
+                    }
+                  ],
+                  "statement": "a universal property",
+                  "statement_class": "universal_property"
+                },
+                {
+                  "context": "side",
+                  "route": [
+                    {
+                      "direction": "reverse",
+                      "relation": "second"
+                    }
+                  ],
+                  "statement": "a point in the relaxed side model",
+                  "statement_class": "exhibited_point"
+                }
+              ],
+              "relations": [
+                {
+                  "name": "first",
+                  "relation": "equations_forgotten",
+                  "source": "tight",
+                  "target": "loose"
+                },
+                {
+                  "name": "second",
+                  "relation": "equations_forgotten",
+                  "source": "tight",
+                  "target": "side"
+                }
+              ]
+            },
+            "schema_version": 1,
+            "scope_or_region": "REGION",
+            "seed": null,
+            "situation": "A point of a relaxation cannot be lifted through equation-forgetting merely because another required leg is valid.",
+            "sources": [
+              {
+                "anchor": "def test_a_refused_leg_refuses_the_whole_argument(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 1494,
+                "path": "tests/test_adversarial.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "A refused point-lifting leg defeats the joint route second"
+          },
+          "literal_inputs": {
+            "conclusion_class": "universal_property",
+            "conclusion_text": "both premises have licensed routes to the tight context",
+            "contexts": [
+              "tight",
+              "loose",
+              "side"
+            ],
+            "premises": [
+              {
+                "context": "loose",
+                "route": [
+                  {
+                    "direction": "reverse",
+                    "relation": "first"
+                  }
+                ],
+                "statement": "a universal property",
+                "statement_class": "universal_property"
+              },
+              {
+                "context": "side",
+                "route": [
+                  {
+                    "direction": "reverse",
+                    "relation": "second"
+                  }
+                ],
+                "statement": "a point in the relaxed side model",
+                "statement_class": "exhibited_point"
+              }
+            ],
+            "relations": [
+              {
+                "name": "first",
+                "relation": "equations_forgotten",
+                "source": "tight",
+                "target": "loose"
+              },
+              {
+                "name": "second",
+                "relation": "equations_forgotten",
+                "source": "tight",
+                "target": "side"
+              }
+            ]
+          },
+          "mode": "reverse_duplicates",
+          "narrow_checks": {
+            "exhibited_point": false,
+            "universal": true
+          },
+          "point_statement_scope": "global-conditional-theory",
+          "route_licensed": [
+            true,
+            false
+          ],
+          "snapshot": {
+            "currents": [
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:loose",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 1,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "exhibited_point;a point in the relaxed side model;selected-model:side;selected-witness:side-premise"
+                },
+                "claim": 2,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "both premises have licensed routes to the tight context"
+                },
+                "claim": 3,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:tight",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 11,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "exhibited_point;same supplied exhibited point;selected-model:tight;selected-witness:side-premise"
+                },
+                "claim": 12,
+                "version": 1
+              }
+            ],
+            "domain": [
+              1,
+              2,
+              3,
+              11,
+              12
+            ],
+            "retracted": [],
+            "successors": [],
+            "warrants": [
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:loose",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 1,
+                "evidence": {
+                  "data": "given:loose:universal-property",
+                  "kind": "receipt"
+                },
+                "id": 10,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "exhibited_point;a point in the relaxed side model;selected-model:side;selected-witness:side-premise"
+                },
+                "claim": 2,
+                "evidence": {
+                  "data": "given:side:exhibited-point",
+                  "kind": "receipt"
+                },
+                "id": 20,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "both premises have licensed routes to the tight context"
+                },
+                "claim": 3,
+                "evidence": {
+                  "kind": "derived",
+                  "premises": [
+                    110,
+                    120
+                  ],
+                  "sideReceipt": "join:universal-and-same-exhibited-point"
+                },
+                "id": 30,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:tight",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 11,
+                "evidence": {
+                  "kind": "narrow",
+                  "premise": 10
+                },
+                "id": 110,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67:global-conditional-theory",
+                  "statementHash": "exhibited_point;same supplied exhibited point;selected-model:tight;selected-witness:side-premise"
+                },
+                "claim": 12,
+                "evidence": {
+                  "kind": "narrow",
+                  "premise": 20
+                },
+                "id": 120,
+                "version": 1
+              }
+            ]
+          },
+          "source_digest": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67",
+          "state": {
+            "current_count": 5,
+            "domain": [
+              1,
+              2,
+              3,
+              11,
+              12
+            ],
+            "held": [
+              1,
+              2,
+              11
+            ],
+            "live_warrants": [
+              10,
+              20,
+              30,
+              110,
+              120
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [
+              10,
+              20,
+              110
+            ],
+            "warrant_count": 5
+          }
+        }
+      },
+      "input_sha256": {
+        "normal": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67",
+        "reverse": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67",
+        "duplicates": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67",
+        "reverse_duplicates": "6753b6d331b21b26afc1064c925618447610d96bb4db1f3fd1860225add82b67"
+      }
+    },
+    {
+      "id": "GP-X180",
+      "source_sha256": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b",
+      "expected": {
+        "verdict": "REFUSE",
+        "reason": "A point of a relaxation cannot be lifted through equation-forgetting merely because another required leg is valid."
+      },
+      "observed": "REFUSE",
+      "full_fixture_contract": true,
+      "conditional_conclusion_only": true,
+      "status": "EXECUTED",
+      "literal_inputs": {
+        "contexts": [
+          "tight",
+          "loose",
+          "side"
+        ],
+        "relations": [
+          {
+            "name": "first",
+            "source": "tight",
+            "target": "loose",
+            "relation": "equations_forgotten"
+          },
+          {
+            "name": "second",
+            "source": "tight",
+            "target": "side",
+            "relation": "equations_forgotten"
+          }
+        ],
+        "premises": [
+          {
+            "context": "side",
+            "statement_class": "exhibited_point",
+            "statement": "a point in the relaxed side model",
+            "route": [
+              {
+                "relation": "second",
+                "direction": "reverse"
+              }
+            ]
+          },
+          {
+            "context": "loose",
+            "statement_class": "universal_property",
+            "statement": "a universal property",
+            "route": [
+              {
+                "relation": "first",
+                "direction": "reverse"
+              }
+            ]
+          }
+        ],
+        "conclusion_class": "universal_property",
+        "conclusion_text": "both premises have licensed routes to the tight context"
+      },
+      "layer_entry": {
+        "id": "GP-X180",
+        "path": "corpus/must/GP-X180.json",
+        "sha256": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b",
+        "primary_layer": "kernel",
+        "candidate_layers": [
+          "kernel"
+        ],
+        "g2_kernel_eligible": true,
+        "status": "resolved",
+        "rationale": "The full fixture assumes mathematical premises or supplies only declaration/claim data; registered rule, exact context, dependency and scope obligations decide authority.",
+        "review_group": "supplied-premise-authority",
+        "full_contract_required": true,
+        "secondary_layers": [],
+        "secondary_duties": [],
+        "evidence_pointers": [
+          "/title",
+          "/inputs",
+          "/attempted_conclusion",
+          "/expected/reason"
+        ]
+      },
+      "native_results": {
+        "normal": {
+          "additional_tight_membership": false,
+          "argument_dependency_ids": [
+            120,
+            110
+          ],
+          "case": "GP-X180",
+          "conditional": true,
+          "countermodel": {
+            "same_witness_not_tight": true,
+            "side_inhabited": true,
+            "tight_empty": true
+          },
+          "literal_fixture": {
+            "attempted_conclusion": "Accept the stated conditional premise-route or cover-composition step.",
+            "expected": {
+              "reason": "A point of a relaxation cannot be lifted through equation-forgetting merely because another required leg is valid.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X180",
+            "inputs": {
+              "conclusion_class": "universal_property",
+              "conclusion_text": "both premises have licensed routes to the tight context",
+              "contexts": [
+                "tight",
+                "loose",
+                "side"
+              ],
+              "premises": [
+                {
+                  "context": "side",
+                  "route": [
+                    {
+                      "direction": "reverse",
+                      "relation": "second"
+                    }
+                  ],
+                  "statement": "a point in the relaxed side model",
+                  "statement_class": "exhibited_point"
+                },
+                {
+                  "context": "loose",
+                  "route": [
+                    {
+                      "direction": "reverse",
+                      "relation": "first"
+                    }
+                  ],
+                  "statement": "a universal property",
+                  "statement_class": "universal_property"
+                }
+              ],
+              "relations": [
+                {
+                  "name": "first",
+                  "relation": "equations_forgotten",
+                  "source": "tight",
+                  "target": "loose"
+                },
+                {
+                  "name": "second",
+                  "relation": "equations_forgotten",
+                  "source": "tight",
+                  "target": "side"
+                }
+              ]
+            },
+            "schema_version": 1,
+            "scope_or_region": "REGION",
+            "seed": null,
+            "situation": "A point of a relaxation cannot be lifted through equation-forgetting merely because another required leg is valid.",
+            "sources": [
+              {
+                "anchor": "def test_a_refused_leg_refuses_the_whole_argument(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 1494,
+                "path": "tests/test_adversarial.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "A refused point-lifting leg defeats the joint route first"
+          },
+          "literal_inputs": {
+            "conclusion_class": "universal_property",
+            "conclusion_text": "both premises have licensed routes to the tight context",
+            "contexts": [
+              "tight",
+              "loose",
+              "side"
+            ],
+            "premises": [
+              {
+                "context": "side",
+                "route": [
+                  {
+                    "direction": "reverse",
+                    "relation": "second"
+                  }
+                ],
+                "statement": "a point in the relaxed side model",
+                "statement_class": "exhibited_point"
+              },
+              {
+                "context": "loose",
+                "route": [
+                  {
+                    "direction": "reverse",
+                    "relation": "first"
+                  }
+                ],
+                "statement": "a universal property",
+                "statement_class": "universal_property"
+              }
+            ],
+            "relations": [
+              {
+                "name": "first",
+                "relation": "equations_forgotten",
+                "source": "tight",
+                "target": "loose"
+              },
+              {
+                "name": "second",
+                "relation": "equations_forgotten",
+                "source": "tight",
+                "target": "side"
+              }
+            ]
+          },
+          "mode": "normal",
+          "narrow_checks": {
+            "exhibited_point": false,
+            "universal": true
+          },
+          "point_statement_scope": "global-conditional-theory",
+          "route_licensed": [
+            false,
+            true
+          ],
+          "snapshot": {
+            "currents": [
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:loose",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 1,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "exhibited_point;a point in the relaxed side model;selected-model:side;selected-witness:side-premise"
+                },
+                "claim": 2,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "both premises have licensed routes to the tight context"
+                },
+                "claim": 3,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:tight",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 11,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "exhibited_point;same supplied exhibited point;selected-model:tight;selected-witness:side-premise"
+                },
+                "claim": 12,
+                "version": 1
+              }
+            ],
+            "domain": [
+              1,
+              2,
+              3,
+              11,
+              12
+            ],
+            "retracted": [],
+            "successors": [],
+            "warrants": [
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:loose",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 1,
+                "evidence": {
+                  "data": "given:loose:universal-property",
+                  "kind": "receipt"
+                },
+                "id": 10,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "exhibited_point;a point in the relaxed side model;selected-model:side;selected-witness:side-premise"
+                },
+                "claim": 2,
+                "evidence": {
+                  "data": "given:side:exhibited-point",
+                  "kind": "receipt"
+                },
+                "id": 20,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "both premises have licensed routes to the tight context"
+                },
+                "claim": 3,
+                "evidence": {
+                  "kind": "derived",
+                  "premises": [
+                    120,
+                    110
+                  ],
+                  "sideReceipt": "join:universal-and-same-exhibited-point"
+                },
+                "id": 30,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:tight",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 11,
+                "evidence": {
+                  "kind": "narrow",
+                  "premise": 10
+                },
+                "id": 110,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "exhibited_point;same supplied exhibited point;selected-model:tight;selected-witness:side-premise"
+                },
+                "claim": 12,
+                "evidence": {
+                  "kind": "narrow",
+                  "premise": 20
+                },
+                "id": 120,
+                "version": 1
+              }
+            ]
+          },
+          "source_digest": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b",
+          "state": {
+            "current_count": 5,
+            "domain": [
+              1,
+              2,
+              3,
+              11,
+              12
+            ],
+            "held": [
+              1,
+              2,
+              11
+            ],
+            "live_warrants": [
+              10,
+              20,
+              30,
+              110,
+              120
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [
+              10,
+              20,
+              110
+            ],
+            "warrant_count": 5
+          }
+        },
+        "reverse": {
+          "additional_tight_membership": false,
+          "argument_dependency_ids": [
+            120,
+            110
+          ],
+          "case": "GP-X180",
+          "conditional": true,
+          "countermodel": {
+            "same_witness_not_tight": true,
+            "side_inhabited": true,
+            "tight_empty": true
+          },
+          "literal_fixture": {
+            "attempted_conclusion": "Accept the stated conditional premise-route or cover-composition step.",
+            "expected": {
+              "reason": "A point of a relaxation cannot be lifted through equation-forgetting merely because another required leg is valid.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X180",
+            "inputs": {
+              "conclusion_class": "universal_property",
+              "conclusion_text": "both premises have licensed routes to the tight context",
+              "contexts": [
+                "tight",
+                "loose",
+                "side"
+              ],
+              "premises": [
+                {
+                  "context": "side",
+                  "route": [
+                    {
+                      "direction": "reverse",
+                      "relation": "second"
+                    }
+                  ],
+                  "statement": "a point in the relaxed side model",
+                  "statement_class": "exhibited_point"
+                },
+                {
+                  "context": "loose",
+                  "route": [
+                    {
+                      "direction": "reverse",
+                      "relation": "first"
+                    }
+                  ],
+                  "statement": "a universal property",
+                  "statement_class": "universal_property"
+                }
+              ],
+              "relations": [
+                {
+                  "name": "first",
+                  "relation": "equations_forgotten",
+                  "source": "tight",
+                  "target": "loose"
+                },
+                {
+                  "name": "second",
+                  "relation": "equations_forgotten",
+                  "source": "tight",
+                  "target": "side"
+                }
+              ]
+            },
+            "schema_version": 1,
+            "scope_or_region": "REGION",
+            "seed": null,
+            "situation": "A point of a relaxation cannot be lifted through equation-forgetting merely because another required leg is valid.",
+            "sources": [
+              {
+                "anchor": "def test_a_refused_leg_refuses_the_whole_argument(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 1494,
+                "path": "tests/test_adversarial.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "A refused point-lifting leg defeats the joint route first"
+          },
+          "literal_inputs": {
+            "conclusion_class": "universal_property",
+            "conclusion_text": "both premises have licensed routes to the tight context",
+            "contexts": [
+              "tight",
+              "loose",
+              "side"
+            ],
+            "premises": [
+              {
+                "context": "side",
+                "route": [
+                  {
+                    "direction": "reverse",
+                    "relation": "second"
+                  }
+                ],
+                "statement": "a point in the relaxed side model",
+                "statement_class": "exhibited_point"
+              },
+              {
+                "context": "loose",
+                "route": [
+                  {
+                    "direction": "reverse",
+                    "relation": "first"
+                  }
+                ],
+                "statement": "a universal property",
+                "statement_class": "universal_property"
+              }
+            ],
+            "relations": [
+              {
+                "name": "first",
+                "relation": "equations_forgotten",
+                "source": "tight",
+                "target": "loose"
+              },
+              {
+                "name": "second",
+                "relation": "equations_forgotten",
+                "source": "tight",
+                "target": "side"
+              }
+            ]
+          },
+          "mode": "reverse",
+          "narrow_checks": {
+            "exhibited_point": false,
+            "universal": true
+          },
+          "point_statement_scope": "global-conditional-theory",
+          "route_licensed": [
+            false,
+            true
+          ],
+          "snapshot": {
+            "currents": [
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:loose",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 1,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "exhibited_point;a point in the relaxed side model;selected-model:side;selected-witness:side-premise"
+                },
+                "claim": 2,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "both premises have licensed routes to the tight context"
+                },
+                "claim": 3,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:tight",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 11,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "exhibited_point;same supplied exhibited point;selected-model:tight;selected-witness:side-premise"
+                },
+                "claim": 12,
+                "version": 1
+              }
+            ],
+            "domain": [
+              1,
+              2,
+              3,
+              11,
+              12
+            ],
+            "retracted": [],
+            "successors": [],
+            "warrants": [
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:loose",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 1,
+                "evidence": {
+                  "data": "given:loose:universal-property",
+                  "kind": "receipt"
+                },
+                "id": 10,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "exhibited_point;a point in the relaxed side model;selected-model:side;selected-witness:side-premise"
+                },
+                "claim": 2,
+                "evidence": {
+                  "data": "given:side:exhibited-point",
+                  "kind": "receipt"
+                },
+                "id": 20,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "both premises have licensed routes to the tight context"
+                },
+                "claim": 3,
+                "evidence": {
+                  "kind": "derived",
+                  "premises": [
+                    120,
+                    110
+                  ],
+                  "sideReceipt": "join:universal-and-same-exhibited-point"
+                },
+                "id": 30,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:tight",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 11,
+                "evidence": {
+                  "kind": "narrow",
+                  "premise": 10
+                },
+                "id": 110,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "exhibited_point;same supplied exhibited point;selected-model:tight;selected-witness:side-premise"
+                },
+                "claim": 12,
+                "evidence": {
+                  "kind": "narrow",
+                  "premise": 20
+                },
+                "id": 120,
+                "version": 1
+              }
+            ]
+          },
+          "source_digest": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b",
+          "state": {
+            "current_count": 5,
+            "domain": [
+              1,
+              2,
+              3,
+              11,
+              12
+            ],
+            "held": [
+              1,
+              2,
+              11
+            ],
+            "live_warrants": [
+              10,
+              20,
+              30,
+              110,
+              120
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [
+              10,
+              20,
+              110
+            ],
+            "warrant_count": 5
+          }
+        },
+        "duplicates": {
+          "additional_tight_membership": false,
+          "argument_dependency_ids": [
+            120,
+            110
+          ],
+          "case": "GP-X180",
+          "conditional": true,
+          "countermodel": {
+            "same_witness_not_tight": true,
+            "side_inhabited": true,
+            "tight_empty": true
+          },
+          "literal_fixture": {
+            "attempted_conclusion": "Accept the stated conditional premise-route or cover-composition step.",
+            "expected": {
+              "reason": "A point of a relaxation cannot be lifted through equation-forgetting merely because another required leg is valid.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X180",
+            "inputs": {
+              "conclusion_class": "universal_property",
+              "conclusion_text": "both premises have licensed routes to the tight context",
+              "contexts": [
+                "tight",
+                "loose",
+                "side"
+              ],
+              "premises": [
+                {
+                  "context": "side",
+                  "route": [
+                    {
+                      "direction": "reverse",
+                      "relation": "second"
+                    }
+                  ],
+                  "statement": "a point in the relaxed side model",
+                  "statement_class": "exhibited_point"
+                },
+                {
+                  "context": "loose",
+                  "route": [
+                    {
+                      "direction": "reverse",
+                      "relation": "first"
+                    }
+                  ],
+                  "statement": "a universal property",
+                  "statement_class": "universal_property"
+                }
+              ],
+              "relations": [
+                {
+                  "name": "first",
+                  "relation": "equations_forgotten",
+                  "source": "tight",
+                  "target": "loose"
+                },
+                {
+                  "name": "second",
+                  "relation": "equations_forgotten",
+                  "source": "tight",
+                  "target": "side"
+                }
+              ]
+            },
+            "schema_version": 1,
+            "scope_or_region": "REGION",
+            "seed": null,
+            "situation": "A point of a relaxation cannot be lifted through equation-forgetting merely because another required leg is valid.",
+            "sources": [
+              {
+                "anchor": "def test_a_refused_leg_refuses_the_whole_argument(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 1494,
+                "path": "tests/test_adversarial.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "A refused point-lifting leg defeats the joint route first"
+          },
+          "literal_inputs": {
+            "conclusion_class": "universal_property",
+            "conclusion_text": "both premises have licensed routes to the tight context",
+            "contexts": [
+              "tight",
+              "loose",
+              "side"
+            ],
+            "premises": [
+              {
+                "context": "side",
+                "route": [
+                  {
+                    "direction": "reverse",
+                    "relation": "second"
+                  }
+                ],
+                "statement": "a point in the relaxed side model",
+                "statement_class": "exhibited_point"
+              },
+              {
+                "context": "loose",
+                "route": [
+                  {
+                    "direction": "reverse",
+                    "relation": "first"
+                  }
+                ],
+                "statement": "a universal property",
+                "statement_class": "universal_property"
+              }
+            ],
+            "relations": [
+              {
+                "name": "first",
+                "relation": "equations_forgotten",
+                "source": "tight",
+                "target": "loose"
+              },
+              {
+                "name": "second",
+                "relation": "equations_forgotten",
+                "source": "tight",
+                "target": "side"
+              }
+            ]
+          },
+          "mode": "duplicates",
+          "narrow_checks": {
+            "exhibited_point": false,
+            "universal": true
+          },
+          "point_statement_scope": "global-conditional-theory",
+          "route_licensed": [
+            false,
+            true
+          ],
+          "snapshot": {
+            "currents": [
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:loose",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 1,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "exhibited_point;a point in the relaxed side model;selected-model:side;selected-witness:side-premise"
+                },
+                "claim": 2,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "both premises have licensed routes to the tight context"
+                },
+                "claim": 3,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:tight",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 11,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "exhibited_point;same supplied exhibited point;selected-model:tight;selected-witness:side-premise"
+                },
+                "claim": 12,
+                "version": 1
+              }
+            ],
+            "domain": [
+              1,
+              2,
+              3,
+              11,
+              12
+            ],
+            "retracted": [],
+            "successors": [],
+            "warrants": [
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:loose",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 1,
+                "evidence": {
+                  "data": "given:loose:universal-property",
+                  "kind": "receipt"
+                },
+                "id": 10,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "exhibited_point;a point in the relaxed side model;selected-model:side;selected-witness:side-premise"
+                },
+                "claim": 2,
+                "evidence": {
+                  "data": "given:side:exhibited-point",
+                  "kind": "receipt"
+                },
+                "id": 20,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "both premises have licensed routes to the tight context"
+                },
+                "claim": 3,
+                "evidence": {
+                  "kind": "derived",
+                  "premises": [
+                    120,
+                    110
+                  ],
+                  "sideReceipt": "join:universal-and-same-exhibited-point"
+                },
+                "id": 30,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:tight",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 11,
+                "evidence": {
+                  "kind": "narrow",
+                  "premise": 10
+                },
+                "id": 110,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "exhibited_point;same supplied exhibited point;selected-model:tight;selected-witness:side-premise"
+                },
+                "claim": 12,
+                "evidence": {
+                  "kind": "narrow",
+                  "premise": 20
+                },
+                "id": 120,
+                "version": 1
+              }
+            ]
+          },
+          "source_digest": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b",
+          "state": {
+            "current_count": 5,
+            "domain": [
+              1,
+              2,
+              3,
+              11,
+              12
+            ],
+            "held": [
+              1,
+              2,
+              11
+            ],
+            "live_warrants": [
+              10,
+              20,
+              30,
+              110,
+              120
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [
+              10,
+              20,
+              110
+            ],
+            "warrant_count": 5
+          }
+        },
+        "reverse_duplicates": {
+          "additional_tight_membership": false,
+          "argument_dependency_ids": [
+            120,
+            110
+          ],
+          "case": "GP-X180",
+          "conditional": true,
+          "countermodel": {
+            "same_witness_not_tight": true,
+            "side_inhabited": true,
+            "tight_empty": true
+          },
+          "literal_fixture": {
+            "attempted_conclusion": "Accept the stated conditional premise-route or cover-composition step.",
+            "expected": {
+              "reason": "A point of a relaxation cannot be lifted through equation-forgetting merely because another required leg is valid.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X180",
+            "inputs": {
+              "conclusion_class": "universal_property",
+              "conclusion_text": "both premises have licensed routes to the tight context",
+              "contexts": [
+                "tight",
+                "loose",
+                "side"
+              ],
+              "premises": [
+                {
+                  "context": "side",
+                  "route": [
+                    {
+                      "direction": "reverse",
+                      "relation": "second"
+                    }
+                  ],
+                  "statement": "a point in the relaxed side model",
+                  "statement_class": "exhibited_point"
+                },
+                {
+                  "context": "loose",
+                  "route": [
+                    {
+                      "direction": "reverse",
+                      "relation": "first"
+                    }
+                  ],
+                  "statement": "a universal property",
+                  "statement_class": "universal_property"
+                }
+              ],
+              "relations": [
+                {
+                  "name": "first",
+                  "relation": "equations_forgotten",
+                  "source": "tight",
+                  "target": "loose"
+                },
+                {
+                  "name": "second",
+                  "relation": "equations_forgotten",
+                  "source": "tight",
+                  "target": "side"
+                }
+              ]
+            },
+            "schema_version": 1,
+            "scope_or_region": "REGION",
+            "seed": null,
+            "situation": "A point of a relaxation cannot be lifted through equation-forgetting merely because another required leg is valid.",
+            "sources": [
+              {
+                "anchor": "def test_a_refused_leg_refuses_the_whole_argument(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 1494,
+                "path": "tests/test_adversarial.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "A refused point-lifting leg defeats the joint route first"
+          },
+          "literal_inputs": {
+            "conclusion_class": "universal_property",
+            "conclusion_text": "both premises have licensed routes to the tight context",
+            "contexts": [
+              "tight",
+              "loose",
+              "side"
+            ],
+            "premises": [
+              {
+                "context": "side",
+                "route": [
+                  {
+                    "direction": "reverse",
+                    "relation": "second"
+                  }
+                ],
+                "statement": "a point in the relaxed side model",
+                "statement_class": "exhibited_point"
+              },
+              {
+                "context": "loose",
+                "route": [
+                  {
+                    "direction": "reverse",
+                    "relation": "first"
+                  }
+                ],
+                "statement": "a universal property",
+                "statement_class": "universal_property"
+              }
+            ],
+            "relations": [
+              {
+                "name": "first",
+                "relation": "equations_forgotten",
+                "source": "tight",
+                "target": "loose"
+              },
+              {
+                "name": "second",
+                "relation": "equations_forgotten",
+                "source": "tight",
+                "target": "side"
+              }
+            ]
+          },
+          "mode": "reverse_duplicates",
+          "narrow_checks": {
+            "exhibited_point": false,
+            "universal": true
+          },
+          "point_statement_scope": "global-conditional-theory",
+          "route_licensed": [
+            false,
+            true
+          ],
+          "snapshot": {
+            "currents": [
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:loose",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 1,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "exhibited_point;a point in the relaxed side model;selected-model:side;selected-witness:side-premise"
+                },
+                "claim": 2,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "both premises have licensed routes to the tight context"
+                },
+                "claim": 3,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:tight",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 11,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "exhibited_point;same supplied exhibited point;selected-model:tight;selected-witness:side-premise"
+                },
+                "claim": 12,
+                "version": 1
+              }
+            ],
+            "domain": [
+              1,
+              2,
+              3,
+              11,
+              12
+            ],
+            "retracted": [],
+            "successors": [],
+            "warrants": [
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:loose",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 1,
+                "evidence": {
+                  "data": "given:loose:universal-property",
+                  "kind": "receipt"
+                },
+                "id": 10,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "exhibited_point;a point in the relaxed side model;selected-model:side;selected-witness:side-premise"
+                },
+                "claim": 2,
+                "evidence": {
+                  "data": "given:side:exhibited-point",
+                  "kind": "receipt"
+                },
+                "id": 20,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "both premises have licensed routes to the tight context"
+                },
+                "claim": 3,
+                "evidence": {
+                  "kind": "derived",
+                  "premises": [
+                    120,
+                    110
+                  ],
+                  "sideReceipt": "join:universal-and-same-exhibited-point"
+                },
+                "id": 30,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:tight",
+                  "statementHash": "universal_property;a universal property;selected-predicate:universal-premise"
+                },
+                "claim": 11,
+                "evidence": {
+                  "kind": "narrow",
+                  "premise": 10
+                },
+                "id": 110,
+                "version": 1
+              },
+              {
+                "binding": {
+                  "authority": "test-only-supplied-universal-and-exhibited-point",
+                  "authorityVersion": 1,
+                  "inputHashes": [
+                    "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+                  ],
+                  "kernelVersion": 1,
+                  "modelHash": "contexts=[tight,loose,side];first:tight->loose:equations_forgotten;second:tight->side:equations_forgotten;selected-witness=side-premise",
+                  "scopeHash": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b:global-conditional-theory",
+                  "statementHash": "exhibited_point;same supplied exhibited point;selected-model:tight;selected-witness:side-premise"
+                },
+                "claim": 12,
+                "evidence": {
+                  "kind": "narrow",
+                  "premise": 20
+                },
+                "id": 120,
+                "version": 1
+              }
+            ]
+          },
+          "source_digest": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b",
+          "state": {
+            "current_count": 5,
+            "domain": [
+              1,
+              2,
+              3,
+              11,
+              12
+            ],
+            "held": [
+              1,
+              2,
+              11
+            ],
+            "live_warrants": [
+              10,
+              20,
+              30,
+              110,
+              120
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [
+              10,
+              20,
+              110
+            ],
+            "warrant_count": 5
+          }
+        }
+      },
+      "input_sha256": {
+        "normal": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b",
+        "reverse": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b",
+        "duplicates": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b",
+        "reverse_duplicates": "69ee5dc417caa4a683b14c37f3c13ba1a472bab0e586edad2f1af50e2d20c54b"
+      }
     }
   ],
   "remaining_slice_behaviors": [],
@@ -26255,16 +29361,19 @@
     "missing_authority_cases": 3,
     "missing_authority_checked_folds": 12,
     "missing_authority_custody_folds": 12,
-    "missing_authority_separate_contrasts": 13
+    "missing_authority_separate_contrasts": 13,
+    "conditional_point_route_cases": 2,
+    "conditional_point_route_folds": 8,
+    "conditional_point_route_separate_controls": 16
   },
   "lifecycle_report_sha256": "c3a1feb8fac5e374f4248843f4015d4dfe360aa1d26152c39b7f1cf67916fa7b",
-  "provenance_report_sha256": "3394f84121f50b49323ce9392e71d1fd37f1b6894f9d862129fa8d88bd8587bc",
+  "provenance_report_sha256": "54293858fde4d58b8450b72adb1cdc595e44732da90a500e3d0442a93372e3d4",
   "conditional_cover_report_sha256": "dec205eb4e96799fa95ebf3e034292954b6988a9e1b0328b3189a225041075d3",
   "declaration_report_sha256": "669a1e5e86feb501c36f3bb233ee761837aedca210896bce790c82ac8d71bfd1",
   "conditional_partition_report_sha256": "b863b97bf82efd583baa3c4cb6b92f08afd73205099c157c0e1b9571a73df149",
   "conditional_routes_report_sha256": "8e718ef9acc262e541daa89374e3438c75c94f62acfd3b9f07f2cfed2cb76091",
   "retraction_report_sha256": "b4903189f4622cc569f419fbabceda67f40c04e67309a8d34ee4fd51b1c6bccc",
-  "checked_lifecycle_supplement_sha256": "fe9d34cffa7cf9992f8362e895a86b3c061679804fae569f5137efafb29a66df",
+  "checked_lifecycle_supplement_sha256": "1112fdcea9f4ab079d784e4763aa0dc697cded7be18568e1e4b67352907f41a7",
   "supplemental_slice_contracts": {
     "independent checked support and targeted retraction": "Two independently replay-validated X164 receipts; one survives targeted retraction, neither survives both retractions.",
     "failed retry": "Explicit failed/timeout attempts preserve prior native checked support; attempt-only controls are unheld.",
@@ -26272,6 +29381,7 @@
   },
   "supersession_guards_report_sha256": "44c21ef5ddbe7b9e56a02040e8c118dd4fe5f9344ccd2b7f55f7a7b98925c7fe",
   "residual_successors_report_sha256": "efdbf909a864496475cf6e70870c7463bf160ffcb86c6a82b5ef7bdbc52a4de0",
-  "missing_authority_report_sha256": "de1a48e72af3676ae105a7fc151ad7412bb7792b5e8cef4e855a2d1de13d673f",
+  "missing_authority_report_sha256": "79c54a211f01fba72d6cc48de40bbd13a9a8e87b3c4811ba6a93a3ec4420683b",
+  "conditional_point_routes_report_sha256": "268752ee2d82481cecd268dbac5502b4510d4ac3c7323fae6ca839b7424d1563",
   "conflict_demonstration_report_sha256": "c528854b0343f7f9d6d6f388c4468c2ed06ff4ebe56d0aee8ed682b5422f6fdc"
 }
