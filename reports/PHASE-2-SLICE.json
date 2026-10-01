@@ -1,10 +1,10 @@
 {
   "schema": "gp-phase2-native-slice/v1",
-  "case_count": 15,
+  "case_count": 17,
   "complete_ten_case_slice": false,
   "g2_pass": false,
   "runner_sha256": "b132a3c6161859fcee2ee98ae9c5bb99f385ff8e416a2249325bc49b363a284b",
-  "adapter_sha256": "9e02a5eeda3f8f9d5e956833071d287e1f2fdfe09397b7d46cfffecede626e62",
+  "adapter_sha256": "c7afb8dc020a05bf938658420b1243b3ae0609c27404a34bf41961a9d38decb9",
   "cases": [
     {
       "id": "GP-A17",
@@ -3505,10 +3505,112 @@
       "positive_contrast": null,
       "positive_inputs": null,
       "translation_fidelity": "Retained baseline adapter supplies both exact histories: valid/stale IDs and source epoch 12/11. Native epochs 1/0 preserve their equality/mismatch contract. Both complete records survive; only the valid receipt contributes held authority in either order."
+    },
+    {
+      "id": "GP-A16-missing",
+      "source_sha256": "96f56221f276fc151ea0a7debc09633ceb915a9eb64e4f1619ce7c6a2fd75107",
+      "expected": {
+        "verdict": "REFUSE",
+        "reason": "All branches must be settled and the cover must be checked exhaustive."
+      },
+      "observed": "REFUSE",
+      "full_fixture_contract": true,
+      "conditional_conclusion_only": true,
+      "native_result": {
+        "case": "GP-A16-missing",
+        "conclusion": "the parent is empty",
+        "conditional": true,
+        "given": [
+          "all_listed_branches_empty"
+        ],
+        "literal_inputs": {
+          "all_listed_branches_empty": true,
+          "checked_exhaustive_cover": false
+        },
+        "source_digest": "96f56221f276fc151ea0a7debc09633ceb915a9eb64e4f1619ce7c6a2fd75107",
+        "state": {
+          "current_count": 3,
+          "domain": [
+            1,
+            2,
+            3
+          ],
+          "held": [
+            1
+          ],
+          "live_warrants": [
+            10,
+            20,
+            30
+          ],
+          "retracted": [],
+          "status": "OK",
+          "successors": [],
+          "supports": [
+            10
+          ],
+          "warrant_count": 3
+        }
+      },
+      "native_input_sha256": "96f56221f276fc151ea0a7debc09633ceb915a9eb64e4f1619ce7c6a2fd75107",
+      "translation_fidelity": "Original parent-emptiness formula and collective listed-branch premise; no concrete parent, branches or points invented. Named premise hypotheses delimit authority."
+    },
+    {
+      "id": "GP-A16-covered",
+      "source_sha256": "4194049d120bb7c8da1aabf435104231f17e653e3589845332a2c5172e81f68d",
+      "expected": {
+        "verdict": "ACCEPT",
+        "reason": "All branches must be settled and the cover must be checked exhaustive."
+      },
+      "observed": "ACCEPT",
+      "full_fixture_contract": true,
+      "conditional_conclusion_only": true,
+      "native_result": {
+        "case": "GP-A16-covered",
+        "conclusion": "the parent is empty",
+        "conditional": true,
+        "given": [
+          "all_listed_branches_empty",
+          "checked_exhaustive_cover"
+        ],
+        "literal_inputs": {
+          "all_listed_branches_empty": true,
+          "checked_exhaustive_cover": true
+        },
+        "source_digest": "4194049d120bb7c8da1aabf435104231f17e653e3589845332a2c5172e81f68d",
+        "state": {
+          "current_count": 3,
+          "domain": [
+            1,
+            2,
+            3
+          ],
+          "held": [
+            1,
+            2,
+            3
+          ],
+          "live_warrants": [
+            10,
+            20,
+            30
+          ],
+          "retracted": [],
+          "status": "OK",
+          "successors": [],
+          "supports": [
+            10,
+            20,
+            30
+          ],
+          "warrant_count": 3
+        }
+      },
+      "native_input_sha256": "4194049d120bb7c8da1aabf435104231f17e653e3589845332a2c5172e81f68d",
+      "translation_fidelity": "Original parent-emptiness formula and collective listed-branch premise; no concrete parent, branches or points invented. Named premise hypotheses delimit authority."
     }
   ],
   "remaining_slice_behaviors": [
-    "non-exhaustive cover",
     "independent checked support and targeted retraction",
     "failed retry",
     "K2 narrowing",
@@ -3521,8 +3623,10 @@
     "lifecycle_cases": 3,
     "lifecycle_branch_folds": 6,
     "provenance_cases": 8,
-    "provenance_positive_contrasts": 6
+    "provenance_positive_contrasts": 6,
+    "conditional_cover_cases": 2
   },
   "lifecycle_report_sha256": "c3a1feb8fac5e374f4248843f4015d4dfe360aa1d26152c39b7f1cf67916fa7b",
-  "provenance_report_sha256": "1e6021baebedf52d72916ce8476effadbe6a46008d954a4fa013fdcd41deccdd"
+  "provenance_report_sha256": "53dfd04ddaf5fc524c369b81cbc020f7cd40f1bd2ae4bce035b60644da8b56f2",
+  "conditional_cover_report_sha256": "dec205eb4e96799fa95ebf3e034292954b6988a9e1b0328b3189a225041075d3"
 }

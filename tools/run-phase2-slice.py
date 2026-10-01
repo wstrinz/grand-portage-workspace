@@ -196,8 +196,19 @@ def run(output):
                                     provenance_positive_contrasts=provenance_record["positive_contrasts"])
     record["provenance_report_sha256"] = hashlib.sha256(provenance_path.read_bytes()).hexdigest()
     assert len({row["id"] for row in record["cases"]}) == record["case_count"], "duplicate case count"
+    spec = importlib.util.spec_from_file_location("conditional_cover", ROOT / "tools/run-phase2-conditional-cover-slice.py")
+    conditional = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(conditional)
+    conditional_path = ROOT / "reports/PHASE-2-CONDITIONAL-COVER-SLICE.json"
+    conditional_record = conditional.run(conditional_path)
+    record["cases"].extend(conditional_record["cases"])
+    record["case_count"] = len(record["cases"])
+    record["execution_counts"]["conditional_cover_cases"] = conditional_record["case_count"]
+    record["conditional_cover_report_sha256"] = hashlib.sha256(conditional_path.read_bytes()).hexdigest()
+    record["remaining_slice_behaviors"].remove("non-exhaustive cover")
+    assert len({row["id"] for row in record["cases"]}) == record["case_count"]
     output.write_bytes((json.dumps(record, indent=2) + "\n").encode("utf-8"))
-    print("Native slice: 15 unchanged fixtures passed; 9 exact-replay contrasts and 6 supersession branch folds passed.")
+    print("Native slice: 17 unchanged fixtures passed; 9 exact-replay contrasts and 6 supersession branch folds passed.")
     return record
 
 if __name__ == "__main__":

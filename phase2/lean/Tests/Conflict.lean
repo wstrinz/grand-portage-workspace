@@ -44,6 +44,12 @@ example (p : Profile) (checker : Overlap p) (a b : Clause p)
 example (p : Profile) (checker : Overlap p) (clauses : List (Clause p)) (state : RuntimeState) :
     (reviewRelease p checker clauses state).state.claims = state.claims :=
   congrArg RuntimeState.claims (release_preserves_complete_state p checker clauses state)
+example (p : Profile) (checker : Overlap p) (clauses : List (Clause p)) (adm : Admission)
+    (events : List Event) (event : Event) :
+    (fold adm (event :: event :: events)).map (reviewRelease p checker clauses) =
+    (fold adm (event :: events)).map (reviewRelease p checker clauses) :=
+  congrArg (fun result => result.map (reviewRelease p checker clauses))
+    (EventOrder.fold_duplicate adm events event)
 private def check (counter : IO.Ref Nat) (label : String) (ok : Bool) : IO Unit := do
   if !ok then throw (IO.userError s!"FAILED: {label}")
   counter.modify (· + 1)

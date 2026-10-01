@@ -78,3 +78,9 @@ GitHub reports wstrinz/grand-portage-workspace as public. Will directly confirme
 ## Phase 2 layer policy - Will, 2026-09-30
 
 Will directly approved primary-contract tagging with secondary duties. Choose the primary layer by the complete contract the unchanged fixture requires; record secondary kernel obligations. G2 counts complete kernel tests. A partial custody-only translation cannot count as passing a mathematical, parser, rendering or filesystem fixture. Preserve every case and expectation; remaining real ambiguities require Will, while the clear kernel slice can proceed.
+
+
+2026-09-30 designators: Will named this chat GPC (Coordinator) and the existing worker chat 01a0eeca-572e-7202-a708-c730d410b901 GPB (Builder). Use these names in assignments and status. The existing authorization and coordinator/builder responsibilities are unchanged.
+
+
+2026-09-30 conditional fixture interpretation: Will directly selected Use the explicit conditional harness. For kernel fixtures that explicitly assume premise truth, preserve literal statements, selected objects and dependencies; prove checker/rule contracts from those named assumptions; execute the actual Lean fold; count only the stated conditional conclusion. This authorizes a test-only harness, not underlying algebraic truth certification, production profile adoption or arbitrary success flags. Original case bytes, expectations and source pins stay fixed.

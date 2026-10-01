@@ -1,4 +1,5 @@
 import GP50.Conflict
+import GP50.EventOrderProofs
 namespace GP50.Semantic
 -- Detection cannot turn contradictory statements into sound claims.
 theorem confirmed_conflict_excludes_joint_truth (p : Profile) (overlap : Overlap p)
@@ -19,4 +20,13 @@ theorem confirmed_conflict_excludes_joint_truth (p : Profile) (overlap : Overlap
 theorem release_preserves_complete_state (p : Profile) (overlap : Overlap p)
     (clauses : List (Clause p)) (state : RuntimeState) :
     (reviewRelease p overlap clauses state).state = state := rfl
+-- The complete release review inherits actual event-set independence.
+theorem release_review_eq_of_mem_iff (p : Profile) (overlap : Overlap p)
+    (clauses : List (Clause p)) (admission : Admission) (left right : List Event)
+    (same : ∀ event, event ∈ left ↔ event ∈ right) :
+    (fold admission left).map (reviewRelease p overlap clauses) =
+    (fold admission right).map (reviewRelease p overlap clauses) :=
+  congrArg (fun result => result.map (reviewRelease p overlap clauses))
+    (EventOrder.fold_eq_of_mem_iff admission left right same)
+#print axioms release_review_eq_of_mem_iff
 end GP50.Semantic

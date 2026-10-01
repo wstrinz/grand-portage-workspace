@@ -56,3 +56,8 @@ Registry schema 3 adds cover rule names, destinations and ordered premise-claim 
 ## Phase 2 release review
 
 Generic Conflict uses the profile's sound contradiction test and an Overlap checker that returns an actual shared context with a proved membership contract. Review pairs supported, exactly bound warrants and preserves the complete runtime state. A confirmed conflict excludes joint semantic truth; unknown overlap does not freeze release. ScopedRunner invokes this review separately from held/why-not/earned. The positive-only rational stub declares no contradictory pairs, so its production findings are empty. Test-only compromised admission exercises the alarm; it is not an admitted checker or a real corpus conflict pass. Full provenance adapters retain mismatches and complete current/stale records; native replay, rather than historical backend descriptors, supplies identity authority.
+
+
+## Approved conditional fixture harness
+
+A16 uses a separate test-only interpreter with arbitrary parent and branch predicates over every point type. Its explicit theory hypotheses are the supplied branch-emptiness and exhaustive-cover premises. Exact bound assumption warrants are sound within that theory; the checked two-premise rule proves parent emptiness. Lean proves the actual validator and arbitrary-event fold sound, including warrant-ID uniqueness from resolution. Host SHA-256 binds unchanged source bytes to input/scope identity. Native decoding rejects unknown input fields and wrong types. Expected verdict metadata supplies no authority. Conditional corpus passes establish the stated inference under its named premises, without certifying those premises' algebraic truth or adopting a production profile.
