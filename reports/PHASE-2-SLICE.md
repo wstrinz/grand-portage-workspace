@@ -1,9 +1,10 @@
-# Phase 2 executed slice — checkpoint 11
+# Phase 2 executed slice — checkpoint 12
 
-Thirty-five kernel fixtures execute through native resolution, closure and held.
+Thirty-eight kernel fixtures execute through native resolution, closure and held.
 
 | Cases | Result | Checked contract |
 |---|---|---|
+| A15, A26, X82 | REFUSE | No connecting rule, unknown certificate, digest-only source; complete inert custody |
 | A17, A18, A25b | REFUSE | Unfinished attempt, stale input, wrong selected identity; three accepting replay contrasts |
 | X164 | ACCEPT | Current x=0 identity modulo (x), checked by rational cofactor replay |
 | X144–X146 | ACCEPT | Complete operational records and successor links agree in both orders; held empty |
@@ -19,16 +20,16 @@ Thirty-five kernel fixtures execute through native resolution, closure and held.
 | X183, X184, X186 | REFUSE / conditional ACCEPT / REFUSE | Missing branch; complete composition; held coverage omitted from argument |
 | X177, X178 | conditional ACCEPT / REFUSE | Actual K2 restrictions retain fixed predicates/models; both supplied routes must meet at tight |
 
-Provenance preserves selected objects and complete records. Native epochs 1/0 model source 12/11 equality. Rational replay replaces fabricated Singular descriptors; no Singular execution.
+Provenance retains complete identities; rational replay replaces fabricated Singular descriptors. No Singular execution.
 
-Replay contrasts, declaration repairs and retraction controls stay separate. Withdrawal records remain inert; custody and liveness provide no checked truth.
+Replay contrasts stay separate. Custody and liveness provide no checked truth. A15/A26/X82 test absent authority, not mathematical parsing or polynomial truth.
 
-Approved conditional harnesses preserve literal statements, objects and dependencies over arbitrary point types. X183 lacks the right-premise record; X186 omits its coverage dependency; X178 lacks its second restriction. Actual acceptsNarrow executes K2. Conclusions remain conditional.
+Conditional harnesses preserve statements, objects and dependencies over arbitrary point types. X183 lacks the right-premise record; X186 omits its coverage dependency; X178 lacks its second restriction. Actual acceptsNarrow executes K2. Conclusions remain conditional.
 
 X155 refuses cyclic construction before any snapshot, blocking clearance without reproducing predecessor findings. Equal event sets yield identical resolver/fold results and release review. The new sound_fold_conflict_has_no_witness theorem excludes confirmed conflicts under actual validator contracts. Existing positive alarm controls simulate a faulty checker; Will ratified these controls plus that proof as the required conflict demonstration.
 
-X164 supplements exercise independent checked support after retraction, failed/timeout retry and earned reporting: 13 scenarios, 52 checked and 52 custody folds, with reversal/duplication. Earned uses direct checked-receipt closure; caller metadata never grants authority. Supplements add no corpus passes. Required early-slice behaviors are complete.
+X164 supplements exercise retraction, failed/timeout retry and earned reporting: 13 scenarios, 52 checked and 52 custody folds, across orders. Earned uses direct checked-receipt closure; metadata grants no authority. Supplements add no corpus passes. Required early slice is complete.
 
-Fresh legacy replay preserved all 459 bytes, expectations and outcomes: 403 AGREES, 14 KNOWN_DIFFERENCE, nine UNSUPPORTED, four DIAGNOSTIC_OBSERVED, 29 RETAINED_DIAGNOSTIC. All 67 protected artifacts remain unchanged.
+Fresh replay preserves 459 bytes, expectations and outcomes: 403 AGREES, 14 KNOWN_DIFFERENCE, nine UNSUPPORTED, four DIAGNOSTIC_OBSERVED, 29 RETAINED_DIAGNOSTIC. All 67 protected artifacts are unchanged.
 
-Receipts: [aggregate](PHASE-2-SLICE.json), [guards](PHASE-2-SUPERSESSION-GUARDS.json), [successors](PHASE-2-RESIDUAL-SUCCESSORS.json), [conflict](PHASE-2-CONFLICT-DEMONSTRATION.json), [integration](PHASE-2-SUPERSESSION-INTEGRATION.json). G2 remains open.
+Receipts: [aggregate](PHASE-2-SLICE.json), [authority](PHASE-2-MISSING-AUTHORITY.json), [conflict](PHASE-2-CONFLICT-DEMONSTRATION.json), [integration](PHASE-2-MISSING-AUTHORITY-INTEGRATION.json). G2 remains open.

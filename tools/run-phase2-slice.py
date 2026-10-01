@@ -294,6 +294,19 @@ def run(output):
                                     residual_successor_separate_controls=residual_record["control_native_executions"])
     record["residual_successors_report_sha256"] = hashlib.sha256(residual_path.read_bytes()).hexdigest()
     assert len({row["id"] for row in record["cases"]}) == record["case_count"]
+    spec = importlib.util.spec_from_file_location("missing_authority", ROOT / "tools/run-phase2-missing-authority.py")
+    missing = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(missing)
+    missing_path = ROOT / "reports/PHASE-2-MISSING-AUTHORITY.json"
+    missing_record = missing.run(missing_path)
+    record["cases"].extend(missing_record["cases"])
+    record["case_count"] = len(record["cases"])
+    record["execution_counts"].update(missing_authority_cases=missing_record["case_count"],
+                                    missing_authority_checked_folds=missing_record["corpus_native_checked_folds"],
+                                    missing_authority_custody_folds=missing_record["corpus_native_custody_folds"],
+                                    missing_authority_separate_contrasts=missing_record["separate_contrast_scenarios"])
+    record["missing_authority_report_sha256"] = hashlib.sha256(missing_path.read_bytes()).hexdigest()
+    assert len({row["id"] for row in record["cases"]}) == record["case_count"]
     spec = importlib.util.spec_from_file_location("conflict_demonstration", ROOT / "tools/run-phase2-conflict-demonstration.py")
     conflict = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(conflict)
@@ -304,7 +317,7 @@ def run(output):
     record["remaining_slice_behaviors"].remove("proved-overlap conflict")
     record["complete_ten_case_slice"] = len(record["cases"]) >= 10 and not record["remaining_slice_behaviors"]
     output.write_bytes((json.dumps(record, indent=2) + "\n").encode("utf-8"))
-    print("Native slice: 35 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
+    print("Native slice: 38 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
     return record
 
 if __name__ == "__main__":
