@@ -219,8 +219,19 @@ def run(output):
                                     declaration_repaired_controls=declaration_record["repaired_control_executions"])
     record["declaration_report_sha256"] = hashlib.sha256(declaration_path.read_bytes()).hexdigest()
     assert len({row["id"] for row in record["cases"]}) == record["case_count"]
+    spec = importlib.util.spec_from_file_location("conditional_partition", ROOT / "tools/run-phase2-conditional-partition-slice.py")
+    partition = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(partition)
+    partition_path = ROOT / "reports/PHASE-2-CONDITIONAL-PARTITION-SLICE.json"
+    partition_record = partition.run(partition_path)
+    record["cases"].extend(partition_record["cases"])
+    record["case_count"] = len(record["cases"])
+    record["execution_counts"].update(conditional_partition_cases=partition_record["case_count"],
+                                    conditional_partition_native_folds=partition_record["native_executions"])
+    record["conditional_partition_report_sha256"] = hashlib.sha256(partition_path.read_bytes()).hexdigest()
+    assert len({row["id"] for row in record["cases"]}) == record["case_count"]
     output.write_bytes((json.dumps(record, indent=2) + "\n").encode("utf-8"))
-    print("Native slice: 20 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
+    print("Native slice: 23 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
     return record
 
 if __name__ == "__main__":
