@@ -254,6 +254,22 @@ def run(output):
                                     retraction_separate_controls=retraction_record["separate_control_folds"])
     record["retraction_report_sha256"] = hashlib.sha256(retraction_path.read_bytes()).hexdigest()
     assert len({row["id"] for row in record["cases"]}) == record["case_count"]
+    spec = importlib.util.spec_from_file_location("checked_lifecycle_supplement", ROOT / "tools/run-phase2-checked-lifecycle-supplement.py")
+    supplement = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(supplement)
+    supplement_path = ROOT / "reports/PHASE-2-CHECKED-LIFECYCLE-SUPPLEMENT.json"
+    supplemental = supplement.run(supplement_path)
+    assert supplemental["distinct_corpus_passes_added"] == supplemental["new_corpus_cases"] == 0
+    record["execution_counts"].update(checked_lifecycle_supplemental_scenarios=supplemental["supplemental_scenario_count"],
+                                    checked_lifecycle_supplemental_checked_folds=supplemental["supplemental_checked_folds"],
+                                    checked_lifecycle_supplemental_custody_folds=supplemental["supplemental_custody_folds"])
+    record["checked_lifecycle_supplement_sha256"] = hashlib.sha256(supplement_path.read_bytes()).hexdigest()
+    record["supplemental_slice_contracts"] = {
+        "independent checked support and targeted retraction": "Two independently replay-validated X164 receipts; one survives targeted retraction, neither survives both retractions.",
+        "failed retry": "Explicit failed/timeout attempts preserve prior native checked support; attempt-only controls are unheld.",
+        "earned consequence": "Actual earned query reports held but caller-unclaimed X164, ranked by open obligations. This is direct checked-receipt closure, not a new K3-derived mathematical theorem."}
+    for behavior in record["supplemental_slice_contracts"]:
+        record["remaining_slice_behaviors"].remove(behavior)
     output.write_bytes((json.dumps(record, indent=2) + "\n").encode("utf-8"))
     print("Native slice: 28 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
     return record
