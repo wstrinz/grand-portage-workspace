@@ -242,8 +242,20 @@ def run(output):
     record["conditional_routes_report_sha256"] = hashlib.sha256(routes_path.read_bytes()).hexdigest()
     record["remaining_slice_behaviors"].remove("K2 narrowing")
     assert len({row["id"] for row in record["cases"]}) == record["case_count"]
+    spec = importlib.util.spec_from_file_location("retraction_slice", ROOT / "tools/run-phase2-retraction-slice.py")
+    retraction = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(retraction)
+    retraction_path = ROOT / "reports/PHASE-2-RETRACTION-SLICE.json"
+    retraction_record = retraction.run(retraction_path)
+    record["cases"].extend(retraction_record["cases"])
+    record["case_count"] = len(record["cases"])
+    record["execution_counts"].update(retraction_cases=retraction_record["case_count"],
+                                    retraction_original_folds=retraction_record["corpus_native_folds"],
+                                    retraction_separate_controls=retraction_record["separate_control_folds"])
+    record["retraction_report_sha256"] = hashlib.sha256(retraction_path.read_bytes()).hexdigest()
+    assert len({row["id"] for row in record["cases"]}) == record["case_count"]
     output.write_bytes((json.dumps(record, indent=2) + "\n").encode("utf-8"))
-    print("Native slice: 25 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
+    print("Native slice: 28 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
     return record
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
-# Phase 2 executed slice — checkpoint 8
+# Phase 2 executed slice — checkpoint 9
 
-Twenty-five unchanged kernel fixtures execute through native Lean resolution, support closure and held projection.
+Twenty-eight unchanged kernel fixtures execute through native Lean resolution, support closure and held projection.
 
 | Cases | Result | Checked contract |
 |---|---|---|
@@ -11,6 +11,7 @@ Twenty-five unchanged kernel fixtures execute through native Lean resolution, su
 | X169 | REFUSE | Old evidence after (x) becomes (x²); refreshing bindings cannot validate the false identity |
 | X170 | REFUSE | Legacy verdict remains inert; fresh checked contrast accepts |
 | X171, X172 | ACCEPT | Exact current/stale histories preserve complete records and current support |
+| X142, X147, X148 | ACCEPT / REFUSE / ACCEPT | Duplicate declaration, targeted retraction with history retained, separate inference remains live; no checked support |
 | A25a, X143 / C03 | REFUSE / ACCEPT | Conflicting declaration contents fail; identical contents retain one complete record |
 | A16-missing, A16-covered | REFUSE / conditional ACCEPT | Both branch-emptiness and exhaustive-cover premises required |
 | X183, X184, X186 | REFUSE / conditional ACCEPT / REFUSE | Missing branch; complete composition; held coverage omitted from argument |
@@ -18,9 +19,9 @@ Twenty-five unchanged kernel fixtures execute through native Lean resolution, su
 
 Provenance replay preserves the pinned identity model, selected objects and full stale/current records. Native epochs 1/0 preserve the source 12/11 equality contract. Rational replay replaces fabricated historical Singular descriptors; no Singular execution is claimed.
 
-Nine accepting contrasts and sixteen declaration-repair folds stay separate from corpus counts. Operational custody grants no mathematical authority. The aggregate checks distinct IDs and full fixture contracts.
+Replay contrasts, declaration repairs and seven retraction controls stay separate from corpus counts. Withdrawal records stay inert. Complete custody and native liveness provide no checked truth.
 
-Approved conditional harnesses interpret literal regions and selected predicates over arbitrary point types under exactly named hypotheses. X183 has no right-premise record. X186 has held coverage but omits its dependency; semantic truth alone cannot seed closure. X178 invents no second restriction: its empty route stays at side. The existing acceptsNarrow checker executes K2; statement, model and input data survive restriction. GPC's native-fold corollary connects the executable's Unit instantiation to every Point type. These certify conditional conclusions, not underlying algebraic truth or production profile adoption.
+Approved conditional harnesses interpret literal regions and selected predicates over arbitrary point types under exactly named hypotheses. X183 has no right-premise record. X186 has held coverage but omits its dependency; semantic truth alone cannot seed closure. X178 invents no second restriction: its empty route stays at side. The existing acceptsNarrow checker executes K2; statement, model and input data survive restriction. Native-fold soundness covers every Point type. Conclusions remain conditional, with no production profile adoption.
 
 Equal event sets provably yield identical resolver/fold results, including malformed diagnostics. Release review inherits that equality and preserves complete held closure. Positive conflict alarms simulate compromised admission; the positive-only rational stub has no contradictory constructor. A real conflict fixture remains open.
 
@@ -28,4 +29,4 @@ Still required: independent checked support surviving targeted retraction, faile
 
 Fresh legacy replay preserved all 459 bytes, expectations and outcomes: 403 AGREES, 14 KNOWN_DIFFERENCE, nine UNSUPPORTED, four DIAGNOSTIC_OBSERVED, 29 RETAINED_DIAGNOSTIC. All 67 protected artifacts remain unchanged.
 
-Receipts: [aggregate](PHASE-2-SLICE.json), [routes](PHASE-2-CONDITIONAL-ROUTES-SLICE.json), [integration](PHASE-2-ROUTES-INTEGRATION.json). G2 remains open.
+Receipts: [aggregate](PHASE-2-SLICE.json), [retractions](PHASE-2-RETRACTION-SLICE.json), [integration](PHASE-2-RETRACTION-INTEGRATION.json). G2 remains open.
