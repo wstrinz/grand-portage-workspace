@@ -1,9 +1,10 @@
-# Phase 2 executed slice — checkpoint 13
+# Phase 2 executed slice — checkpoint 14
 
-Forty kernel fixtures execute through native resolution, closure and held.
+Forty-six kernel fixtures execute through native resolution, closure and held.
 
 | Cases | Result | Checked contract |
 |---|---|---|
+| X193–X198 | four REFUSE / two ACCEPT | Native per-dimension recorded-use containment; no component sufficiency claim |
 | A15, A26, X82 | REFUSE | No connecting rule, unknown certificate, digest-only source; complete inert custody |
 | A17, A18, A25b | REFUSE | Unfinished attempt, stale input, wrong selected identity; three accepting replay contrasts |
 | X164 | ACCEPT | Current x=0 identity modulo (x), checked by rational cofactor replay |
@@ -21,16 +22,14 @@ Forty kernel fixtures execute through native resolution, closure and held.
 | X179, X180 | conditional REFUSE | Valid universal K2; global same-witness point lift unsupported in both premise orders |
 | X177, X178 | conditional ACCEPT / REFUSE | Actual K2 restrictions retain fixed predicates/models; both supplied routes must meet at tight |
 
-Provenance retains complete identities; rational replay replaces fabricated Singular descriptors. No Singular execution.
+Coverage checks recorded construction and conclusion uses per dimension. Empty-use acceptance establishes no real-world completeness or mathematical sufficiency. Labels remain exact.
 
-Replay contrasts stay separate. Custody and liveness provide no checked truth. A15/A26/X82 test absent authority, not mathematical parsing or polynomial truth.
+Conditional harnesses preserve selected statements, objects and dependencies. Actual K2 narrows universal properties; it cannot change a global point statement's model. Separate accepting point controls add same-witness TIGHT membership. No Singular execution or production profile adoption is claimed.
 
-Conditional harnesses preserve statements, objects and dependencies over arbitrary point types. X183 lacks the right-premise record; X186 omits its coverage dependency; X178 lacks its second restriction. Actual acceptsNarrow executes K2. X179/X180 preserve global point existence; accepting controls add explicit same-witness TIGHT membership. Conclusions remain conditional.
+Custody supplies no truth. X155 rejects cyclic construction without reproducing predecessor findings. The finite fold is sound, complete and order independent. The ratified conflict demonstration combines faulty-checker alarms with sound_fold_conflict_has_no_witness; complete held closure survives release review.
 
-X155 refuses cyclic construction before any snapshot, without reproducing predecessor findings. Equal event sets yield identical fold results and release review. sound_fold_conflict_has_no_witness excludes confirmed conflicts under sound validator contracts. Will ratified the faulty-checker alarm controls plus this proof as the conflict demonstration.
+Checked lifecycle supplements cover retraction, retries and earned reporting without adding corpus passes. The required early slice is complete.
 
-X164 supplements exercise retraction, retries and earned reporting: 13 scenarios, 52 checked/52 custody folds. Metadata grants no authority; supplements add no corpus passes. Required early slice is complete.
+This integration freshly executes six cases and retains the earlier 40 complete execution records verbatim after source checks. Fresh legacy replay preserves all 459 bytes, expectations and outcomes and 67 protected artifacts.
 
-Fresh replay preserves all 459 case bytes, expectations and outcomes, and all 67 protected artifacts.
-
-Receipts: [aggregate](PHASE-2-SLICE.json), [authority](PHASE-2-MISSING-AUTHORITY.json), [conflict](PHASE-2-CONFLICT-DEMONSTRATION.json), [integration](PHASE-2-POINT-ROUTES-INTEGRATION.json). G2 remains open.
+Receipts: [aggregate](PHASE-2-SLICE.json), [coverage](PHASE-2-RECORDED-USE-COVERAGE.json), [integration](PHASE-2-COVERAGE-INTEGRATION.json). G2 remains open.

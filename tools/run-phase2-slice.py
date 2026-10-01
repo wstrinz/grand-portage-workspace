@@ -319,6 +319,18 @@ def run(output):
                                     conditional_point_route_separate_controls=point_record["separate_control_executions"])
     record["conditional_point_routes_report_sha256"] = hashlib.sha256(point_path.read_bytes()).hexdigest()
     assert len({row["id"] for row in record["cases"]}) == record["case_count"]
+    spec = importlib.util.spec_from_file_location("recorded_use_coverage", ROOT / "tools/run-phase2-recorded-use-coverage.py")
+    coverage = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(coverage)
+    coverage_path = ROOT / "reports/PHASE-2-RECORDED-USE-COVERAGE.json"
+    coverage_record = coverage.run(coverage_path)
+    record["cases"].extend(coverage_record["cases"])
+    record["case_count"] = len(record["cases"])
+    record["execution_counts"].update(recorded_use_coverage_cases=coverage_record["case_count"],
+                                    recorded_use_coverage_folds=coverage_record["corpus_executions"],
+                                    recorded_use_coverage_separate_controls=coverage_record["separate_control_executions"])
+    record["recorded_use_coverage_report_sha256"] = hashlib.sha256(coverage_path.read_bytes()).hexdigest()
+    assert len({row["id"] for row in record["cases"]}) == record["case_count"]
     spec = importlib.util.spec_from_file_location("conflict_demonstration", ROOT / "tools/run-phase2-conflict-demonstration.py")
     conflict = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(conflict)
@@ -329,7 +341,7 @@ def run(output):
     record["remaining_slice_behaviors"].remove("proved-overlap conflict")
     record["complete_ten_case_slice"] = len(record["cases"]) >= 10 and not record["remaining_slice_behaviors"]
     output.write_bytes((json.dumps(record, indent=2) + "\n").encode("utf-8"))
-    print("Native slice: 40 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
+    print("Native slice: 46 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
     return record
 
 if __name__ == "__main__":
