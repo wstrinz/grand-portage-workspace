@@ -9,7 +9,7 @@ The actual finite fold is proved sound and complete. Equal event sets give ident
 
 Validation: 14 new tests/30 subtests and 229 prior regression tests/678 subtests pass. The unchanged point suite retains 13 tests/36 subtests, giving current coverage of 256/744. Fresh compile/kernel checking passes with propext and Quot.sound. All 459 legacy bytes, expectations, outcomes and 67 protected artifacts remain unchanged. Earlier 40 native execution records are reused verbatim with source checks. Production logic remains 636 lines against the 750 stop; budget checks pass.
 
-Next: GPB owns the six A27 conditional admission/scope variants in one harness. Remaining work is 24 premise-authority, eight lifecycle and one stored-binding case. Keep family batches and avoid duplicate native execution. Work stays local; heartbeats remain paused.
+Paused for token checkpoint: A27 reviewed, but reset lost test exits and replay confirmation. Surviving receipt predates normalization. Verified count stays46. GPB's X60–X62 assignment was interrupted. [Resume handoff](reports/PHASE-2-GPC-HANDOFF.md) records pending integration. Work stays local; heartbeats remain paused.
 
 - [Executed slice](reports/PHASE-2-SLICE.md)
 - [Standing limits](LIMITS.md)
