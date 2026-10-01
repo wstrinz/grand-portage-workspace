@@ -1,4 +1,4 @@
-import GP50.ConflictProofs
+import GP50.ConflictSoundnessProofs
 namespace ConflictControls
 open GP50 GP50.Semantic
 -- Test-only profile and deliberately unsound admission model a compromised checker.
@@ -50,6 +50,20 @@ example (p : Profile) (checker : Overlap p) (clauses : List (Clause p)) (adm : A
     (fold adm (event :: events)).map (reviewRelease p checker clauses) :=
   congrArg (fun result => result.map (reviewRelease p checker clauses))
     (EventOrder.fold_duplicate adm events event)
+example (p : Profile) (checker : Overlap p) (clauses : List (Clause p))
+    (admission : Admission) (snapshot : Snapshot)
+    (sound : ∀ claim, held (evaluate admission snapshot) claim = true → ClaimMeaning p clauses claim)
+    (finding : ConflictFinding p)
+    (present : finding ∈ conflictFindings p checker clauses (evaluate admission snapshot)) :
+    finding.witness = none :=
+  sound_evaluate_conflict_has_no_witness p checker clauses admission snapshot sound finding present
+example (p : Profile) (checker : Overlap p) (clauses : List (Clause p))
+    (base : Admission) (events : List Event) (state : RuntimeState)
+    (baseSound : BaseValidatorSound p clauses base state.snapshot)
+    (folded : fold (withNarrowing p clauses base) events = .ok state)
+    (finding : ConflictFinding p)
+    (present : finding ∈ conflictFindings p checker clauses state) : finding.witness = none :=
+  sound_fold_conflict_has_no_witness p checker clauses base events state baseSound folded finding present
 private def check (counter : IO.Ref Nat) (label : String) (ok : Bool) : IO Unit := do
   if !ok then throw (IO.userError s!"FAILED: {label}")
   counter.modify (· + 1)

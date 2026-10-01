@@ -1,0 +1,35 @@
+{
+  "schema": "gp-phase2-conflict-demonstration/v1",
+  "approval": "2026-10-01 conflict demonstration ratified: Will directly selected Approve faulty-checker demonstration plus soundness proof.",
+  "required_slice_behavior_satisfied": true,
+  "g2_pass": false,
+  "authority_boundary": "Deliberately unsound test admission models a faulty checker; it is not admitted production evidence. Actual fold and release review execute. Sound-fold theorem uses explicit BaseValidatorSound contracts and exact registered clause semantics; confirmed alarms imply their assumptions were breached.",
+  "no_gate_relaxation": "79 kernel cases and all other G2 obligations remain unchanged.",
+  "source_hashes": {
+    "phase2\\lean\\GP50\\ConflictSoundnessProofs.lean": "1825e50668c6710a99ab79e9d1c855ef20b4408c2e3cdd35f9275d5338dc585c",
+    "phase2\\lean\\GP50\\ConflictProofs.lean": "6d4cc8734ff7d5e48511cd1a168e4fc3214064aa9eeb941ca319b3eef2f16018",
+    "phase2\\lean\\GP50\\Conflict.lean": "e05e82b0bae7b0c2d7a717e89ea28476b9f74a9d1727721818b0d4a17341590c",
+    "phase2\\lean\\Tests\\Conflict.lean": "aeb32e8ea331f3939c7f5ee5a16c1c2a610f9dbe14873c5ad5ba06bf32baa46c"
+  },
+  "adapter_sha256": "7377581be14a9fe58d3ef0e9bb220d0fd7a23135938473ac65edaa71c91cb5eb",
+  "executable_sha256": "a5e552687e3e1f4f113d58baba0fc0242d504a7d492209e6b4830ffbbf8751e0",
+  "kernel_check_results": {
+    "GP50.ConflictSoundnessProofs": "replaying GP50.ConflictSoundnessProofs\n",
+    "Tests.Conflict": "replaying Tests.Conflict\n"
+  },
+  "compiled_proof_sha256": {
+    "GP50.ConflictSoundnessProofs": "7d25d4719d79b08748c211a8c39d091cecb772ca01a61ba578a3fd416f9017a6",
+    "Tests.Conflict": "1ba4201fc6d699ede8735feab3d23b731a718166a5268e8e9b5f2e51e13d6263"
+  },
+  "axioms": [
+    "propext",
+    "Quot.sound"
+  ],
+  "build_confirmed": true,
+  "native_output": "PASS: compromised-checker test holds both before release review\nPASS: proved inhabited overlap freezes release\nPASS: review preserves full claims and supports\nPASS: finding retains exact support IDs and witness\nPASS: unknown overlap is reported\nPASS: unknown overlap does not freeze\nPASS: unknown overlap supplies no witness\nPASS: disjoint scopes cannot freeze\nPASS: empty scopes cannot supply an inhabited overlap\nPASS: same statements produce no finding\nPASS: unsupported warrant cannot cause conflict\nPASS: wrong input binding cannot cause conflict\nPASS: duplicate registry keys refuse finding\nPASS: release outcome agrees under event reversal\nPASS: unadmitted evidence cannot seed conflict or held\nConflict controls: 15 passed\n",
+  "existing_component_controls_replayed": 15,
+  "new_component_controls": 0,
+  "new_compiled_proof_controls": 2,
+  "new_corpus_cases": 0,
+  "new_corpus_passes": 0
+}

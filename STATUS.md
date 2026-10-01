@@ -1,19 +1,19 @@
 # Grand Portage status
 Updated 2026-10-01. Authority: [Phase 2 handoff](docs/GP-0.50-PHASE-2-HANDOFF.md) and [decisions](DECISIONS.md).
 
-GPC coordinates; GPB builds. Phase 0 is complete, G1 is ratified, and Phase 2 has 28 executed kernel corpus cases out of 79. G2 remains open.
+GPC coordinates; GPB builds. Phase 0 is complete, G1 is ratified, and Phase 2 has 35 executed kernel corpus cases out of 79. G2 remains open.
 
-The latest supplement executes independent checked support, targeted retraction, failed retries and earned reporting. Two separately identified rational receipts both validate; retracting one leaves the other support intact. Failed/timeout attempts preserve the checked success and cannot establish truth alone. Earned reports held but caller-unclaimed claims, ranked by open obligations; caller metadata never changes authority. These 13 scenarios add no corpus passes.
+Seven new lifecycle fixtures execute through native Lean. Withdrawal plus replacement, self-reference, missing endpoints and cycles are refused. A valid chain has one live relation head. Independent parallel relations remain visible, and split claims retain both successors. X155 refuses construction before any debt clearance; it does not reproduce the predecessor's defect list.
 
-Existing passes include current/stale exact rational receipts, complete declaration/supersession/retraction histories, exhaustive-cover composition and conditional K2 restriction. Conditional harnesses prove their conclusions under named hypotheses and preserve literal statements, objects and dependencies.
+Earlier execution covers exact rational receipts, stale evidence, complete lifecycle histories, conditional cover composition and K2 restriction. Separate checked supplements demonstrate independent support surviving retraction, failed/timeout retries and earned reporting; they add no corpus passes.
 
-The actual finite fold is proved sound and complete. Equal event sets yield identical resolver/fold results, including duplicates and malformed diagnostics; release review inherits that equality. Confirmed inhabited-overlap conflicts freeze release separately from complete held closure. The required executed conflict example remains open.
+The actual finite fold is proved sound and complete. Equal event sets yield identical resolver/fold results, including duplicates and malformed diagnostics. Release review preserves complete held closure.
 
-There are 553 passing native component controls, 81 compiled proof controls and 179 passing host tests. Supplement execution adds 52 checked folds and 52 matching custody folds, counted separately. Fresh replay preserves all 459 legacy bytes, expectations, outcomes and 67 historical artifacts.
+GPC's new checked theorem proves that the actual fold with sound validator contracts cannot produce confirmed contradictory claims at inhabited overlap. Unknown-overlap findings remain possible. Fifteen existing alarm controls deliberately simulate a faulty checker. Will ratified these controls plus the theorem as the required conflict demonstration; the early slice is complete. The 79-case corpus gate remains open.
 
-Production logic remains 636 lines against the 750 stop. Budget checks pass.
+Validation: 211 host tests, 553 native component controls and 83 compiled proof controls pass. Fresh replay preserves all 459 legacy cases, expectations, outcomes and 67 historical artifacts. Production logic remains 636 lines against the 750 stop; budget checks pass.
 
-Next: GPB owns X152/X153/X154/X155/X158 replacement-guard tests. GPC reviews complete contracts and integrates results. The remaining kernel coverage and proved-overlap conflict still gate G2. Work stays local; heartbeats remain paused.
+Next: GPB owns A15/A26/X82 missing-authority tests. GPC integrates complete contracts. Work stays local; heartbeats remain paused.
 
 - [Executed slice](reports/PHASE-2-SLICE.md)
 - [Standing limits](LIMITS.md)

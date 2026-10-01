@@ -1,6 +1,6 @@
-# Phase 2 executed slice — checkpoint 10
+# Phase 2 executed slice — checkpoint 11
 
-Twenty-eight kernel fixtures execute through native resolution, closure and held.
+Thirty-five kernel fixtures execute through native resolution, closure and held.
 
 | Cases | Result | Checked contract |
 |---|---|---|
@@ -12,21 +12,23 @@ Twenty-eight kernel fixtures execute through native resolution, closure and held
 | X170 | REFUSE | Legacy verdict remains inert; fresh checked contrast accepts |
 | X171, X172 | ACCEPT | Exact current/stale histories preserve complete records and current support |
 | X142, X147, X148 | ACCEPT / REFUSE / ACCEPT | Duplicate declaration, targeted retraction with history retained, separate inference remains live; no checked support |
+| X152–X155 / X158 | REFUSE / ACCEPT | Native replacement guards; complete chain with one live relation head |
+| X159 / X161 | REFUSE / ACCEPT | Independent parallel relation remains; both split successors survive |
 | A25a, X143 / C03 | REFUSE / ACCEPT | Conflicting declaration contents fail; identical contents retain one complete record |
 | A16-missing, A16-covered | REFUSE / conditional ACCEPT | Both branch-emptiness and exhaustive-cover premises required |
 | X183, X184, X186 | REFUSE / conditional ACCEPT / REFUSE | Missing branch; complete composition; held coverage omitted from argument |
 | X177, X178 | conditional ACCEPT / REFUSE | Actual K2 restrictions retain fixed predicates/models; both supplied routes must meet at tight |
 
-Provenance replay preserves selected objects and complete records. Native epochs 1/0 preserve source 12/11 equality. Rational replay replaces fabricated historical Singular descriptors; no Singular execution.
+Provenance preserves selected objects and complete records. Native epochs 1/0 model source 12/11 equality. Rational replay replaces fabricated Singular descriptors; no Singular execution.
 
 Replay contrasts, declaration repairs and retraction controls stay separate. Withdrawal records remain inert; custody and liveness provide no checked truth.
 
-Approved conditional harnesses interpret literal regions and selected predicates over arbitrary point types under exactly named hypotheses. X183 has no right-premise record. X186 has held coverage but omits its dependency; semantic truth alone cannot seed closure. X178 invents no second restriction: its empty route stays at side. The existing acceptsNarrow checker executes K2; statement, model and input data survive restriction. Native-fold soundness covers every Point type. Conclusions remain conditional, with no production profile adoption.
+Approved conditional harnesses preserve literal statements, objects and dependencies over arbitrary point types. X183 lacks the right-premise record; X186 omits its coverage dependency; X178 lacks its second restriction. Actual acceptsNarrow executes K2. Conclusions remain conditional.
 
-Equal event sets provably yield identical resolver/fold results, including malformed diagnostics. Release review inherits that equality and preserves complete held closure. Positive conflict alarms simulate compromised admission; the positive-only rational stub has no contradictory constructor. A real conflict fixture remains open.
+X155 refuses cyclic construction before any snapshot, blocking clearance without reproducing predecessor findings. Equal event sets yield identical resolver/fold results and release review. The new sound_fold_conflict_has_no_witness theorem excludes confirmed conflicts under actual validator contracts. Existing positive alarm controls simulate a faulty checker; Will ratified these controls plus that proof as the required conflict demonstration.
 
-X164 supplements execute independent checked support surviving targeted retraction, failed/timeout retry and earned reporting. Thirteen scenarios: 52 checked folds and 52 identical-input custody folds across reversal and duplication. Earned means held but caller-unclaimed: this example uses direct checked-receipt closure, not a new K3 theorem. These add zero corpus passes. Proved-overlap conflict remains required.
+X164 supplements exercise independent checked support after retraction, failed/timeout retry and earned reporting: 13 scenarios, 52 checked and 52 custody folds, with reversal/duplication. Earned uses direct checked-receipt closure; caller metadata never grants authority. Supplements add no corpus passes. Required early-slice behaviors are complete.
 
 Fresh legacy replay preserved all 459 bytes, expectations and outcomes: 403 AGREES, 14 KNOWN_DIFFERENCE, nine UNSUPPORTED, four DIAGNOSTIC_OBSERVED, 29 RETAINED_DIAGNOSTIC. All 67 protected artifacts remain unchanged.
 
-Receipts: [aggregate](PHASE-2-SLICE.json), [retractions](PHASE-2-RETRACTION-SLICE.json), [supplement](PHASE-2-CHECKED-LIFECYCLE-SUPPLEMENT.json), [integration](PHASE-2-CHECKED-SUPPLEMENT-INTEGRATION.json). G2 remains open.
+Receipts: [aggregate](PHASE-2-SLICE.json), [guards](PHASE-2-SUPERSESSION-GUARDS.json), [successors](PHASE-2-RESIDUAL-SUCCESSORS.json), [conflict](PHASE-2-CONFLICT-DEMONSTRATION.json), [integration](PHASE-2-SUPERSESSION-INTEGRATION.json). G2 remains open.

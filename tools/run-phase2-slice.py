@@ -270,8 +270,41 @@ def run(output):
         "earned consequence": "Actual earned query reports held but caller-unclaimed X164, ranked by open obligations. This is direct checked-receipt closure, not a new K3-derived mathematical theorem."}
     for behavior in record["supplemental_slice_contracts"]:
         record["remaining_slice_behaviors"].remove(behavior)
+    spec = importlib.util.spec_from_file_location("supersession_guards", ROOT / "tools/run-phase2-supersession-guards.py")
+    guards = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(guards)
+    guards_path = ROOT / "reports/PHASE-2-SUPERSESSION-GUARDS.json"
+    guards_record = guards.run(guards_path)
+    record["cases"].extend(guards_record["cases"])
+    record["case_count"] = len(record["cases"])
+    record["execution_counts"].update(supersession_guard_cases=guards_record["case_count"],
+                                    supersession_guard_original_folds=guards_record["corpus_native_executions"],
+                                    supersession_guard_separate_controls=guards_record["control_native_executions"])
+    record["supersession_guards_report_sha256"] = hashlib.sha256(guards_path.read_bytes()).hexdigest()
+    assert len({row["id"] for row in record["cases"]}) == record["case_count"]
+    spec = importlib.util.spec_from_file_location("residual_successors", ROOT / "tools/run-phase2-residual-successors.py")
+    residual = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(residual)
+    residual_path = ROOT / "reports/PHASE-2-RESIDUAL-SUCCESSORS.json"
+    residual_record = residual.run(residual_path)
+    record["cases"].extend(residual_record["cases"])
+    record["case_count"] = len(record["cases"])
+    record["execution_counts"].update(residual_successor_cases=residual_record["case_count"],
+                                    residual_successor_original_folds=residual_record["corpus_native_executions"],
+                                    residual_successor_separate_controls=residual_record["control_native_executions"])
+    record["residual_successors_report_sha256"] = hashlib.sha256(residual_path.read_bytes()).hexdigest()
+    assert len({row["id"] for row in record["cases"]}) == record["case_count"]
+    spec = importlib.util.spec_from_file_location("conflict_demonstration", ROOT / "tools/run-phase2-conflict-demonstration.py")
+    conflict = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(conflict)
+    conflict_path = ROOT / "reports/PHASE-2-CONFLICT-DEMONSTRATION.json"
+    conflict_record = conflict.run(conflict_path)
+    assert conflict_record["required_slice_behavior_satisfied"] and not conflict_record["g2_pass"]
+    record["conflict_demonstration_report_sha256"] = hashlib.sha256(conflict_path.read_bytes()).hexdigest()
+    record["remaining_slice_behaviors"].remove("proved-overlap conflict")
+    record["complete_ten_case_slice"] = len(record["cases"]) >= 10 and not record["remaining_slice_behaviors"]
     output.write_bytes((json.dumps(record, indent=2) + "\n").encode("utf-8"))
-    print("Native slice: 28 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
+    print("Native slice: 35 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
     return record
 
 if __name__ == "__main__":
