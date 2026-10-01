@@ -1,22 +1,19 @@
 # Grand Portage status
 Updated 2026-09-30. Authority: [Phase 2 handoff](docs/GP-0.50-PHASE-2-HANDOFF.md) and [decisions](DECISIONS.md).
 
-Phase 0 is complete; G1 is closed by Will's documented 52/67 coverage exception. Phase 2 has seven executed real corpus cases.
+Phase 0 is complete; G1 is closed by Will's documented 52/67 coverage exception. Phase 2 has 15 executed kernel corpus cases out of 79. G2 remains open.
 
-A17/A18/A25b refuse unfinished, stale and wrong-object evidence. X164 accepts a currently bound x=0 identity modulo (x) through exact replay. X144/X145/X146 preserve complete records and successor links in both branch orders, with held empty.
+A17/A18/A25b refuse unfinished, stale and wrong-object evidence. X164 accepts a current exact identity replay. X144/X145/X146 preserve complete supersession records in both orders. X165–X170 refuse mismatched producer/version/epoch/backend, changed inputs and unbound legacy evidence. X171/X172 preserve the current result across both stale/current arrival orders, including full receipt records and bindings.
 
-The native runner now admits registered cover rules as well as receipts and narrowing. Cover checks every destination context against actual branch scopes and requires all branch support. Retraction removes exact dependents while independent support survives; failed retries preserve earlier success. Why-not/earned report the resulting closure without changing authority.
+The native runner admits rational receipts, checked narrowing and registered finite-context cover rules. Why-not and earned report the resulting closure. Release review is now separate: proved inhabited-overlap conflicts freeze release; unknown overlap is reported. Review preserves the entire held state.
 
-Lean proves that the actual combined receipt/cover/narrowing fold holds only registered statements true throughout their declared scopes. The proof derives checker/rule soundness and registry uniqueness. Rule premises are proved to be the actual snapshot records resolved by runtime. The stub uses formal rational identities and named test contexts.
+Lean proves the actual receipt/cover/narrowing fold holds only registered statements true throughout their declared scopes. Finite reachability completeness and support-graph order invariance are proved. Sol is working on actual event-resolution order independence.
 
-Finite reachability equivalence and support-graph order/duplicate invariance are proved. Full event-set order independence and conflict/release handling remain open.
+There are 553 passing native component controls, 67 compiled proof controls and 91 passing host tests. Conflict alarm controls deliberately simulate a compromised checker; the positive-only rational stub cannot hold a genuine contradictory pair from sound checkers. These controls do not count as corpus passes.
 
-There are 538 passing native component controls, 65 compiled proof controls and 79 passing host tests. These remain separate from the seven corpus passes. Fresh replay preserved all 459 legacy case bytes, expectations, outcomes and historical artifacts.
+Fresh replay preserved all 459 legacy case bytes, expectations, outcomes and 67 historical artifacts. Logic is 636 lines against the 750 stop; all budget checks pass. Sol's new declarations are erased proofs.
 
-Next: faithful remaining slice translations and proved-overlap conflicts. Sol owns eight provenance fixtures; coordinator owns integration and the remaining semantic fixtures. Cover/narrowing/earned and independent-support behavior now have native component tests; their required real fixtures remain open. G2 remains open.
-
-Logic is 584 lines against the 500 target and 750 stop. Implementation checkpoints stay local; heartbeats remain paused. No user decision is needed now.
+Next: review Sol's order proof and resolve faithful translations for the remaining required slice behaviors. No geometric fixture is passed by replacing its statement with a trivial identity. Implementation stays local; heartbeats remain paused.
 
 - [Executed slice](reports/PHASE-2-SLICE.md)
-- [Cover integration](reports/PHASE-2-COVER-RUNTIME.json)
 - [Standing limits](LIMITS.md)

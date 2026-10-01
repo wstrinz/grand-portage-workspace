@@ -49,6 +49,7 @@ def execute(folder, registry, events, query):
 def test_actual_receipt_narrows_and_is_earned(tmp_path):
     out = execute(tmp_path, *prepared())
     assert out["state"]["held"] == [1, 2]
+    assert out["release"] == {"allowed": True, "findings": []}
     assert out["state"]["supports"] == [10, 11]
     assert out["earned"] == [{"claim": 2, "open_obligations": [7]}]
     assert out["why_not"] == [

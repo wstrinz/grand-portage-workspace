@@ -185,8 +185,19 @@ def run(output):
                                   "lifecycle_cases": 3, "lifecycle_branch_folds": 6}
     record["lifecycle_report_sha256"] = hashlib.sha256(lifecycle_path.read_bytes()).hexdigest()
     record["remaining_slice_behaviors"].remove("real supersession branch-order fixture")
+    spec = importlib.util.spec_from_file_location("provenance_slice", ROOT / "tools/run-phase2-provenance-slice.py")
+    provenance = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(provenance)
+    provenance_path = ROOT / "reports/PHASE-2-PROVENANCE-SLICE.json"
+    provenance_record = provenance.run(provenance_path)
+    record["cases"].extend(row for row in provenance_record["cases"] if row["status"] == "EXECUTED")
+    record["case_count"] = len(record["cases"])
+    record["execution_counts"].update(provenance_cases=provenance_record["executed_case_count"],
+                                    provenance_positive_contrasts=provenance_record["positive_contrasts"])
+    record["provenance_report_sha256"] = hashlib.sha256(provenance_path.read_bytes()).hexdigest()
+    assert len({row["id"] for row in record["cases"]}) == record["case_count"], "duplicate case count"
     output.write_bytes((json.dumps(record, indent=2) + "\n").encode("utf-8"))
-    print("Native slice: 7 unchanged fixtures passed; 3 exact-replay contrasts and 6 branch folds passed.")
+    print("Native slice: 15 unchanged fixtures passed; 9 exact-replay contrasts and 6 supersession branch folds passed.")
     return record
 
 if __name__ == "__main__":

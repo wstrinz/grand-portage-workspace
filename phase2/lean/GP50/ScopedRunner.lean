@@ -2,21 +2,34 @@ import GP50.Entry
 import GP50.CoveredDecoder
 import GP50.QueryDecoder
 import GP50.Presentation
+import GP50.Conflict
 namespace GP50.ScopedSpan
 open Lean
+def overlap : Semantic.Overlap profile where
+  witness a b := a.find? (b.contains)
+  sound := by
+    intro a b c found
+    exact ⟨List.mem_of_find?_eq_some found, List.contains_iff_mem.mp (List.find?_some found)⟩
+def releaseJson (review : Semantic.ReleaseReview profile) : Json := Json.mkObj [
+  ("allowed", toJson review.allowed),
+  ("findings", toJson (review.findings.map fun f => Json.mkObj [
+    ("supports", toJson [f.leftSupport,f.rightSupport]),
+    ("claims", toJson [f.leftClaim,f.rightClaim]),
+    ("overlap_witness", toJson (f.witness : Option Nat))]))]
 def run (registry events queries : String) : Except String Json := do
   let json ← GP50.Decoder.parseUnique registry
   let version ← (← json.getObjVal? "schema_version").getNat?
-  let admitted ← if version == 3 then do
+  let (admitted, rows) ← if version == 3 then do
     let (rows, receipts, rules) ← CoveredSpan.decode registry
-    pure (CoveredSpan.admission rows receipts rules)
+    pure (CoveredSpan.admission rows receipts rules, rows)
   else do
     let (rows, receipts) ← decode registry
-    pure (admission rows receipts)
+    pure (admission rows receipts, rows)
   let request ← GP50.Queries.decodeRequest queries
   let state ← decodeFold admitted events
   return Json.mkObj [
     ("state", stateJson state),
+    ("release", releaseJson (Semantic.reviewRelease profile overlap (rows.map semantic) state)),
     ("why_not", toJson ((canonicalIds request.whyNot).map fun key =>
       whyNotJson (GP50.Queries.whyNot admitted state key))),
     ("earned", toJson ((GP50.Queries.earned state request.claimed request.links request.openIds).map earnedJson))]

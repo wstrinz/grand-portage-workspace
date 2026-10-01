@@ -51,3 +51,8 @@ ScopedRunner uses the same admission for held and why-not. Caller claimed keys, 
 ## Phase 2 checked cover path
 
 Registry schema 3 adds cover rule names, destinations and ordered premise-claim lists. Actual finite context coverage is recomputed; no caller success flag supplies coverage or branch truth. Runtime resolves exact premise-warrant IDs and proves those premise records belong to the snapshot. The combined receipt/cover/narrowing fold-to-registered-meaning theorem discharges these admission contracts and derives ID uniqueness. This remains the formal Rat/named-context stub; conflict/release handling and faithful translations of conditional geometric fixtures are separate work. Schema 2 continues to refuse general rules.
+
+
+## Phase 2 release review
+
+Generic Conflict uses the profile's sound contradiction test and an Overlap checker that returns an actual shared context with a proved membership contract. Review pairs supported, exactly bound warrants and preserves the complete runtime state. A confirmed conflict excludes joint semantic truth; unknown overlap does not freeze release. ScopedRunner invokes this review separately from held/why-not/earned. The positive-only rational stub declares no contradictory pairs, so its production findings are empty. Test-only compromised admission exercises the alarm; it is not an admitted checker or a real corpus conflict pass. Full provenance adapters retain mismatches and complete current/stale records; native replay, rather than historical backend descriptors, supplies identity authority.

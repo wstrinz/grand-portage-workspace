@@ -17,3 +17,4 @@ import GP50.ScopedSpanProofs
 import GP50.CoverProofs
 import GP50.CoveredSpan
 import GP50.CoverAdmissionProofs
+import GP50.ConflictProofs

@@ -45,6 +45,7 @@ def prepared():
 def test_actual_roots_cover_narrow_and_rank_earned(tmp_path):
     out = wire.execute(tmp_path, *prepared())
     assert out["state"]["held"] == [1, 2, 3, 4]
+    assert out["release"] == {"allowed": True, "findings": []}
     assert out["state"]["supports"] == [10, 20, 30, 40]
     assert out["earned"] == [{"claim": 3, "open_obligations": [7, 8]},
                              {"claim": 4, "open_obligations": [7]}]
