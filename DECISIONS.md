@@ -265,3 +265,12 @@ If (a) approaches 100% and (b) is mostly `NONE`, report it as a finding. GP may 
 **A8. Outside contact remains Will's.** Candidate threads are recorded in §6 for him; the builder makes no contact.
 
 Source: docs/GP-0.50-POST-G2-ADDENDUM-A.md §1, copied verbatim as that addendum directs.
+
+
+Addendum A, amendment 1 (Will, 2026-10-02). Run §3.6a (the Lean-native shadow slice) immediately after the §3.6 receipt reach slice. Then stop and report, before C1–C4 admission, the binder, `GATE-OWNERS.json` and broad corpus runs. This checkpoint is G3a-0. Report against the pre-registered pivot rule:
+
+1. every reach-slice claim is a standard-axiom or admitted-reflective Lean theorem within the A4 budget;
+2. typeclass hypotheses or AutoGeneralization reproduce GP's computed reach;
+3. the A5 tags are only `CUSTODY` or `NONE`.
+
+If all three hold, recommend the Lean-native ledger pivot (keep `Kernel` and the custody surfaces; drop the profile/semantic layer); otherwise recommend continuing. Will decides at G3a-0.
