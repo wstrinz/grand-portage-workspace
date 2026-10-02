@@ -367,6 +367,18 @@ def run(output):
                                     section_provenance_separate_controls=section_record["separate_control_executions"])
     record["section_provenance_report_sha256"] = hashlib.sha256(section_path.read_bytes()).hexdigest()
     assert len({row["id"] for row in record["cases"]}) == record["case_count"]
+    spec = importlib.util.spec_from_file_location("context_reach", ROOT / "tools/run-phase2-context-reach.py")
+    context_reach = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(context_reach)
+    reach_path = ROOT / "reports/PHASE-2-CONTEXT-REACH.json"
+    reach_record = context_reach.run(reach_path)
+    record["cases"].extend(reach_record["cases"])
+    record["case_count"] = len(record["cases"])
+    record["execution_counts"].update(context_reach_cases=reach_record["case_count"],
+                                    context_reach_folds=reach_record["corpus_executions"],
+                                    context_reach_separate_controls=reach_record["separate_control_executions"])
+    record["context_reach_report_sha256"] = hashlib.sha256(reach_path.read_bytes()).hexdigest()
+    assert len({row["id"] for row in record["cases"]}) == record["case_count"]
     spec = importlib.util.spec_from_file_location("conflict_demonstration", ROOT / "tools/run-phase2-conflict-demonstration.py")
     conflict = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(conflict)
@@ -377,7 +389,7 @@ def run(output):
     record["remaining_slice_behaviors"].remove("proved-overlap conflict")
     record["complete_ten_case_slice"] = len(record["cases"]) >= 10 and not record["remaining_slice_behaviors"]
     output.write_bytes((json.dumps(record, indent=2) + "\n").encode("utf-8"))
-    print("Native slice: 59 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
+    print("Native slice: 63 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
     return record
 
 if __name__ == "__main__":
