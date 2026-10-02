@@ -44,7 +44,7 @@
     "F:\\repos\\grandportage-0.50\\corpus\\LAYER-TAGS.json": "aff18aba0d92f0e43d89e75d7b19a63a4876bbd812fa1a18dc9f6dc0114ac752"
   },
   "reviewed_adapter_path": "F:\\repos\\grandportage-0.50\\tools\\run-phase2-slice.py",
-  "reviewed_adapter_sha256": "869ff80c055397bce456a7921c97cb9bb9b926ee59c5a141cfcde6ccd05d8d11",
+  "reviewed_adapter_sha256": "5bde2e64468517843f3f850964ac46c6e9b084e7306bc8b9d440263a799cab23",
   "adapter_sha256": "f7cfd9a171b4006e683381f474521a512ce8d3c89289e53fbecf9de328f50327",
   "tests_sha256": "68b6f7ed84c1e7aecc4788b85198da29552892e406fea24d77596cc0f0683d6b",
   "executables": {

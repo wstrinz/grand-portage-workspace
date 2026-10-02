@@ -403,6 +403,18 @@ def run(output):
                                     unreplayed_evidence_separate_controls=unreplayed_record["separate_control_executions"])
     record["unreplayed_evidence_report_sha256"] = hashlib.sha256(unreplayed_path.read_bytes()).hexdigest()
     assert len({row["id"] for row in record["cases"]}) == record["case_count"]
+    spec = importlib.util.spec_from_file_location("rule_shape", ROOT / "tools/run-phase2-rule-shape.py")
+    rule_shape = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(rule_shape)
+    shape_path = ROOT / "reports/PHASE-2-RULE-SHAPE.json"
+    shape_record = rule_shape.run(shape_path)
+    record["cases"].extend(shape_record["cases"])
+    record["case_count"] = len(record["cases"])
+    record["execution_counts"].update(rule_shape_cases=shape_record["case_count"],
+                                    rule_shape_folds=shape_record["corpus_executions"],
+                                    rule_shape_separate_controls=shape_record["separate_control_executions"])
+    record["rule_shape_report_sha256"] = hashlib.sha256(shape_path.read_bytes()).hexdigest()
+    assert len({row["id"] for row in record["cases"]}) == record["case_count"]
     spec = importlib.util.spec_from_file_location("conflict_demonstration", ROOT / "tools/run-phase2-conflict-demonstration.py")
     conflict = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(conflict)
@@ -413,7 +425,7 @@ def run(output):
     record["remaining_slice_behaviors"].remove("proved-overlap conflict")
     record["complete_ten_case_slice"] = len(record["cases"]) >= 10 and not record["remaining_slice_behaviors"]
     output.write_bytes((json.dumps(record, indent=2) + "\n").encode("utf-8"))
-    print("Native slice: 68 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
+    print("Native slice: 71 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
     return record
 
 if __name__ == "__main__":
