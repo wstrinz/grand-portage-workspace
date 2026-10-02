@@ -1,4 +1,4 @@
-# Local working data and private verbatim harvest
+# Local working data and private verbatim harvest (0.50)
 corpus/harvest/
 tmp/
 .cache/
@@ -8,8 +8,21 @@ tmp/
 __pycache__/
 *.py[cod]
 
-# Future oracle checkout; PIN.json remains tracked
+# Pinned oracle checkout; PIN.json remains tracked
 oracle/checkout/
 
 # Phase0c downloaded dependency cache
 /spikes/mathlib-binding/cache/
+
+# v0.37 build and tool state
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.claude/
+.portage/
+
+# v0.37 verbatim campaign corpora stay local. The tracked 0.50 corpus
+# (corpus/must, corpus/LAYER-TAGS.json) is public review material.
+review/ir-v2-projection/*.json
+!review/ir-v2-projection/index.json
