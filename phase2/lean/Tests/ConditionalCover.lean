@@ -63,7 +63,7 @@ private theorem lift_truth (Point : Type) (branches coverage : Bool) (snapshot :
     (meaning : ClaimMeaning Point branches coverage w.claim) :
     Truth Point branches coverage snapshot w.id := by
   intro other otherPresent sameId
-  have equal := Span.key_unique_of_nodup snapshot.warrants (fun w => w.id) unique
+  have equal := key_unique_of_nodup snapshot.warrants (fun w => w.id) unique
     other w otherPresent present sameId
   exact equal ▸ meaning
 
@@ -108,7 +108,7 @@ theorem actual_fold_held_sound (Point : Type) (source : String) (branches covera
     exact evaluate_held_truth_composition _ snapshot (Truth Point branches coverage snapshot)
       (ClaimMeaning Point branches coverage)
       (actual_validator_sound Point source branches coverage snapshot
-        (Span.resolve_warrant_ids_nodup events snapshot resolved))
+        (resolve_warrant_ids_nodup events snapshot resolved))
       (fun w present meaning => meaning w present rfl) claim holds
 
 example (Point : Type) (source : String) (branches coverage : Bool)

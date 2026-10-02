@@ -324,7 +324,7 @@ theorem registered_meaning (Point : Type) (a b : Bool) (source : String)
     ClaimMeaning (profile Point a b) (clauses Point a b source) c.key := by
   refine ⟨⟨c,present,rfl⟩, ?_⟩
   intro other otherPresent sameKey
-  have same := Span.key_unique_of_nodup _ (fun c => c.key) (keys_unique Point a b source)
+  have same := key_unique_of_nodup _ (fun c => c.key) (keys_unique Point a b source)
     other c otherPresent present sameKey
   exact same ▸ meaning
 
@@ -377,8 +377,8 @@ theorem actual_fold_held_sound (Point : Type) (source : String) (a b : Bool)
     rw [resolved] at folded
     have same := Except.ok.inj folded
     subst state
-    exact evaluate_held_meaning _ _ _ snapshot (Span.resolve_warrant_ids_nodup events snapshot resolved)
-      (actual_base_sound Point source a b snapshot (Span.resolve_warrant_ids_nodup events snapshot resolved))
+    exact evaluate_held_meaning _ _ _ snapshot (resolve_warrant_ids_nodup events snapshot resolved)
+      (actual_base_sound Point source a b snapshot (resolve_warrant_ids_nodup events snapshot resolved))
       claim heldClaim
 
 -- The executable uses Unit; this corollary transfers that exact fold to every Point type.

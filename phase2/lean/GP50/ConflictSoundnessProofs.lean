@@ -59,7 +59,7 @@ theorem sound_fold_conflict_has_no_witness (p : Profile) (overlap : Overlap p)
     apply sound_evaluate_conflict_has_no_witness p overlap clauses
       (withNarrowing p clauses base) snapshot _ finding present
     exact evaluate_held_meaning p clauses base snapshot
-      (Span.resolve_warrant_ids_nodup events snapshot resolved) baseSound
+      (resolve_warrant_ids_nodup events snapshot resolved) baseSound
 
 #print axioms sound_fold_conflict_has_no_witness
 #print axioms sound_evaluate_conflict_has_no_witness

@@ -56,7 +56,7 @@ def build():
     args=[LAKE,"env","lean","-o",OLEAN,"Tests/LifecycleProperties.lean"]
     log=command(args,env);(SCRATCH/"compile.log").write_text(log,encoding="utf-8")
     require("sorryAx" not in log and "error:" not in log,"unproved harness")
-    declarations=re.findall(r"'LifecycleProperties\.([^']+)' (?:depends on axioms: \[([^\]]*)\]|does not depend on any axioms)",log)
+    declarations=re.findall(r"'GP50\.LifecycleProperties\.([^']+)' (?:depends on axioms: \[([^\]]*)\]|does not depend on any axioms)",log)
     require({n for n,_ in declarations}==set(DECLARATIONS),
       "axiom audit incomplete")
     axioms=sorted({a.strip() for _,group in declarations for a in group.split(",") if a.strip()})

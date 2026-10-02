@@ -32,7 +32,7 @@ example (rows : List ScopedSpan.Row) (premises : List Warrant)
     (truth : ∀ premise ∈ premises,
       Semantic.ClaimMeaning ScopedSpan.profile (rows.map ScopedSpan.semantic) premise.claim) :
     ∀ branch ∈ branches, Semantic.Means ScopedSpan.profile branch.stmt branch.scope :=
-  boundClauses_mapM_means _ _ _ _ mapped truth
+  Semantic.boundClauses_mapM_means _ _ _ _ mapped truth
 
 example (rows : List ScopedSpan.Row) (rules : List Rule)
     (dest : Warrant) (premises : List Warrant) (name : String)
@@ -46,7 +46,7 @@ example (rows : List ScopedSpan.Row) (receipts : List Span.Receipt) (rules : Lis
     (events : List Event) (snapshot : Snapshot) (resolved : resolve events = .ok snapshot) :
     Semantic.BaseValidatorSound ScopedSpan.profile (rows.map ScopedSpan.semantic)
       (baseAdmission rows receipts rules) snapshot :=
-  base_validator_sound rows receipts rules snapshot (Span.resolve_warrant_ids_nodup events snapshot resolved)
+  base_validator_sound rows receipts rules snapshot (resolve_warrant_ids_nodup events snapshot resolved)
 
 example (rows : List ScopedSpan.Row) (receipts : List Span.Receipt) (rules : List Rule)
     (events : List Event) (state : RuntimeState)

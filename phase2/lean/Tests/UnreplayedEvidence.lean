@@ -130,7 +130,7 @@ theorem actual_fold_held_sound (s : Stratum) (source literal : String)
     rw [resolved] at folded
     have same := Except.ok.inj folded
     subst state
-    exact evaluate_held_meaning _ _ _ snapshot (Span.resolve_warrant_ids_nodup events snapshot resolved)
+    exact evaluate_held_meaning _ _ _ snapshot (resolve_warrant_ids_nodup events snapshot resolved)
       (actual_base_sound s source literal snapshot) claim heldClaim
 -- A name alone supplies no hypothesis; a verdict on other data says nothing about the current stratum.
 theorem name_alone_no_meaning (d : String) : ∃ w, Hypotheses ⟨d,none⟩ w ∧ ¬ w.localEmpty d :=

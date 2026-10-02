@@ -40,7 +40,7 @@ example (p : Profile) (clauses : List (Clause p)) (w : Warrant) (c left right : 
     (found : boundClause p clauses w = some c)
     (leftPresent : left ∈ clauses) (rightPresent : right ∈ clauses)
     (sameKey : left.key = right.key) : left = right :=
-  Span.key_unique_of_nodup clauses (fun c => c.key)
+  key_unique_of_nodup clauses (fun c => c.key)
     (boundClause_registered p clauses w c found).1 left right leftPresent rightPresent sameKey
 
 -- Distinct registered clauses sharing a key cannot get an arrival-order winner.
@@ -51,7 +51,7 @@ example (p : Profile) (clauses : List (Clause p)) (w : Warrant) (left right : Cl
   cases found : boundClause p clauses w with
   | none => rfl
   | some c =>
-    exact (different (Span.key_unique_of_nodup clauses (fun c => c.key)
+    exact (different (key_unique_of_nodup clauses (fun c => c.key)
       (boundClause_registered p clauses w c found).1 left right leftPresent rightPresent sameKey)).elim
 
 example (p : Profile) (c : Clause p) (w : Warrant) :
@@ -137,6 +137,6 @@ example (p : Profile) (clauses : List (Clause p)) (snapshot : Snapshot)
     (resolved : resolve events = .ok snapshot)
     (meaning : WarrantMeaning p clauses snapshot w.id) : ClaimMeaning p clauses w.claim :=
   warrant_meaning_claim p clauses snapshot
-    (Span.resolve_warrant_ids_nodup events snapshot resolved) w present meaning
+    (resolve_warrant_ids_nodup events snapshot resolved) w present meaning
 
 end GP50.Semantic.NarrowingAdmissionControls

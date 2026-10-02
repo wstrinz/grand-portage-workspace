@@ -349,7 +349,7 @@ theorem registered_meaning (Point : Type) (extra : Bool) (source : String)
     ClaimMeaning (profile Point extra) (clauses Point extra source) c.key := by
   refine ⟨⟨c,present,rfl⟩,?_⟩
   intro other otherPresent sameKey
-  have same := Span.key_unique_of_nodup _ (fun c => c.key) (keys_unique Point extra source)
+  have same := key_unique_of_nodup _ (fun c => c.key) (keys_unique Point extra source)
     other c otherPresent present sameKey
   exact same ▸ meaning
 
@@ -410,8 +410,8 @@ theorem actual_fold_held_sound (Point : Type) (source : String) (pointFirst extr
     rw [resolved] at folded
     have same := Except.ok.inj folded
     subst state
-    exact evaluate_held_meaning _ _ _ snapshot (Span.resolve_warrant_ids_nodup events snapshot resolved)
-      (actual_base_sound Point source pointFirst extra snapshot (Span.resolve_warrant_ids_nodup events snapshot resolved))
+    exact evaluate_held_meaning _ _ _ snapshot (resolve_warrant_ids_nodup events snapshot resolved)
+      (actual_base_sound Point source pointFirst extra snapshot (resolve_warrant_ids_nodup events snapshot resolved))
       claim heldClaim
 
 theorem native_fold_held_sound (Point : Type) (source : String) (pointFirst extra : Bool)

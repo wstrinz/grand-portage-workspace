@@ -1,5 +1,5 @@
 import GP50.NarrowingProofs
-import GP50.SpanSoundnessProofs
+import GP50.ResolveProofs
 namespace GP50.Semantic
 
 def ClaimMeaning (p : Profile) (clauses : List (Clause p)) (claim : Nat) : Prop :=
@@ -32,7 +32,7 @@ theorem boundClause_registered (p : Profile) (clauses : List (Clause p))
   · rename_i distinct
     have sameLength : (clauses.map (·.key)).eraseDups.length = clauses.length := by
       simpa using distinct
-    have nodup := Span.nodup_of_eraseDups_length_eq (clauses.map (·.key))
+    have nodup := nodup_of_eraseDups_length_eq (clauses.map (·.key))
       (by simpa only [List.length_map] using sameLength)
     have member : clause ∈ clauses := List.mem_of_find?_eq_some found
     have matching := List.find?_some (p := fun c : Clause p =>
@@ -58,7 +58,7 @@ theorem acceptsNarrow_claim_meaning (p : Profile) (clauses : List (Clause p))
         (sourceTrue.2 sourceClause sourcePresent sourceKey)
       refine ⟨⟨destClause, present, key⟩, ?_⟩
       intro other otherPresent otherKey
-      have equal := Span.key_unique_of_nodup clauses (fun c => c.key) unique
+      have equal := key_unique_of_nodup clauses (fun c => c.key) unique
         other destClause otherPresent present (otherKey.trans key.symm)
       exact equal ▸ meaning
 
@@ -67,7 +67,7 @@ theorem warrant_meaning_claim (p : Profile) (clauses : List (Clause p))
     (w : Warrant) (present : w ∈ snapshot.warrants)
     (meaning : WarrantMeaning p clauses snapshot w.id) : ClaimMeaning p clauses w.claim := by
   rcases meaning with ⟨other, otherPresent, sameId, meaning⟩
-  have equal := Span.key_unique_of_nodup snapshot.warrants (fun w => w.id)
+  have equal := key_unique_of_nodup snapshot.warrants (fun w => w.id)
     unique other w otherPresent present sameId
   exact equal ▸ meaning
 
@@ -112,7 +112,7 @@ theorem fold_held_meaning (p : Profile) (clauses : List (Clause p))
     have stateEq : evaluate (withNarrowing p clauses base) snapshot = state := Except.ok.inj folded
     subst state
     exact evaluate_held_meaning p clauses base snapshot
-      (Span.resolve_warrant_ids_nodup events snapshot resolved) baseSound claim heldClaim
+      (resolve_warrant_ids_nodup events snapshot resolved) baseSound claim heldClaim
 
 #print axioms boundClause_registered
 #print axioms acceptsNarrow_claim_meaning
