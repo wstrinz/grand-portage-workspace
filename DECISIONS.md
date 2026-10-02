@@ -87,3 +87,9 @@ Will directly approved primary-contract tagging with secondary duties. Choose th
 
 
 2026-10-01 conflict demonstration ratified: Will directly selected Approve faulty-checker demonstration plus soundness proof. Phase 2's required conflict example is the existing test-only compromised-checker simulation: the actual fold holds both contradictory statements at a witnessed inhabited overlap, and release review freezes promotion while preserving the complete held set. Pair this execution with sound_fold_conflict_has_no_witness, which excludes confirmed conflicts from the actual narrowed fold under sound validator contracts. This qualifies the alarm demonstration, not the faulty checker for admission or a new production profile. Unknown overlap remains unresolved. The 79-case kernel corpus gate, all 459 expectations and the other G2 requirements are unchanged.
+
+
+2026-10-01 single-chat operation: Will directed GPC to take over GPB's builder work directly and forgo the coordinator/builder split for now. GPC writes the code and raises genuine unknowns to Will with a recommendation. All other authorization limits are unchanged.
+
+
+2026-10-01 transport licensing policy: GPC selected exact record equality for consuming edges in the conditional theorem-transport harness: identical source, target and ordered premise records including status, matching pinned EDG6/EDG7. Order-insensitive equality and sound weakening (extra edge premises) were considered; exact equality is the most conservative and loosening later only flips refusing controls. Proofs depend only on licensed_sound, so any policy implying equal endpoints and premise retention remains admissible. Will may revisit.
