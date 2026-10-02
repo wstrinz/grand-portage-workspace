@@ -1,15 +1,17 @@
 # Grand Portage status
 Updated 2026-10-01. Authority: [Phase 2 handoff](docs/GP-0.50-PHASE-2-HANDOFF.md) and [decisions](DECISIONS.md).
 
-GPC now coordinates and builds directly; the separate builder chat is retired. Phase 0 is complete, G1 is ratified, and Phase 2 has 71 executed kernel corpus cases out of 79. The required early slice is complete. G2 remains open with eight cases remaining.
+**Where things stand.** Phase 0 is complete and G1 is ratified. All 79 kernel-tagged corpus cases now execute through the native Lean fold with their expected verdicts, so every mechanical G2 criterion is met. G2 still needs Will's readability check and ratification; it is not declared passed.
 
-All supplied-premise-authority cases now execute. A14, X04 and X09 use one proved rule-closure contract: a held goal lies in the forward closure of supplied atoms under registered rules, and a closed set missing the goal yields a countermodel. A path not starting at the claim's object, an unwarranted partition branch and a kind change without a kind-changing rule therefore refuse. Earlier batches bind evidence, theorem premises, section certificates, context reach and frozen open-premise slots exactly.
+**What is proved.** The finite fold is sound, complete and order independent, using only standard axioms. Sound validator contracts exclude confirmed conflicts; the ratified faulty-checker demonstration freezes release while keeping held closure. Each case family has its own kernel-checked harness: held claims mean only their stated, often conditional, statements, and every refusal family has an explicit Lean countermodel.
 
-The actual finite fold is proved sound and complete. Equal event sets give identical resolver/fold results. Sound validator contracts exclude confirmed contradictions at inhabited overlap. The ratified faulty-checker demonstration freezes release while preserving complete held closure.
+**What the families check.** Exact theorem premises and section certificates; context reach; frozen open-premise slots; evidence versus labels (with real cofactor replay); a proved rule-closure contract; and native lifecycle concerns, where withdrawal never hides live traffic, supersession never repoints, and AMEND is computed from pinned licensing fields.
 
-Validation: 10 new tests/27 subtests and 229 prior regression tests/678 subtests pass. Unchanged retained suites cover 105/271, giving 344/976. Fresh compilation and independent kernel checking pass with only standard axioms. All 459 legacy bytes, expectations, outcomes and 67 protected artifacts remain unchanged. Earlier 68 execution records are reused verbatim. Production logic remains 636 lines against the 750 stop; budget checks pass.
+**Not claimed.** No production profile, checker admission, census, field or class-group mathematics is certified. Conditional harnesses assume named premises; OPEN premises stay open.
 
-Next: the eight native-event-lifecycle cases remain. Continue family batches. Work stays local; heartbeats remain paused.
+**Validation.** 13 new tests/52 subtests and 229 prior regression tests/678 subtests pass; unchanged suites cover 115/298, giving 357/1028. All 459 legacy bytes, expectations and outcomes and 67 protected artifacts are unchanged. Production logic is 636 lines against the 750 stop.
+
+**Next.** Will's G2 review, then Phase 3 (minimal algebraic profile). Work stays local; heartbeats remain paused.
 
 - [Executed slice](reports/PHASE-2-SLICE.md)
 - [Standing limits](LIMITS.md)

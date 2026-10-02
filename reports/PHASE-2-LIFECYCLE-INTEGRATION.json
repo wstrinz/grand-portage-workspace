@@ -1,74 +1,107 @@
 {
-  "schema": "gp-phase2-lifecycle-parent-integration/v1",
-  "date": "2026-09-30",
-  "source_hashes": {
-    "phase2/lean/GP50/LifecycleRunner.lean": "612c1ec3a7a42dda2f44953be7c2f2f42065b817a4253b691132823eb4e86121",
-    "tools/run-phase2-lifecycle-slice.py": "7f5cf75f825ae11574acfcd64f180a5bb2c194c2b9ca47b3134c4fb70eed4586",
-    "tests/test_phase2_lifecycle_slice.py": "b9c24aa94d82ca8b07d54d5c91120b93dc3f8955815c168ca1ca0d7811397f14",
-    "tools/run-phase2-slice.py": "ea08f6bd1d20eae1968c09544fa8bf9b4015584b0f507daf941f249ac5929fff",
-    "phase2/lean/GP50/Semantics.lean": "d57e383d780b15c03ebb46f62c36e74556f2f0c08793f958daf9b4fd02db1c8d",
-    "phase2/lean/GP50/Narrowing.lean": "70c0441bad0ce466e7da8a4a0159a0a09cf370f1eee16137474c74b15ce9bcf3",
-    "phase2/lean/GP50/NarrowingProofs.lean": "7735f7ba64e9cc6caaec131ebef7d20f53ddb10910cb98b98116fc938896c72a",
-    "phase2/lean/Tests/Narrowing.lean": "a432585d0fb9e11772764d1b3b033576982373722bd9594d2020274a672d50b9",
-    "phase2/lean/GP50.lean": "ef98200b6715f50d91539c51dd97edd2b648b87dbe7d362130105a0ffaaf9230",
-    "phase2/lean/lakefile.toml": "ad377aa4518406e63f6b1d018b75504acb5dc65899bd923d20c8e30de9442bde",
-    "reports/PHASE-2-SLICE.json": "1eba480401ab4ce903b019dc7a7220dc26b61ed7b7d55a34a30d91c0d6cab952",
-    "reports/PHASE-2-LIFECYCLE-SLICE.json": "c3a1feb8fac5e374f4248843f4015d4dfe360aa1d26152c39b7f1cf67916fa7b"
+ "schema": "gp-phase2-batch-integration/v1",
+ "date": "2026-10-01",
+ "parent_base_commit": "777ab9a9801134ac0c36b03fdddaabffbc465110",
+ "author": "GPC directly (single-chat operation)",
+ "previous_integration": "PHASE-2-SHAPE-INTEGRATION.json",
+ "review": {
+  "semantics": "Inert lifecycle custody under refuseAll; concerns evaluated natively over production liveness after explicit retract/supersede events.",
+  "proofs": [
+   "amend_sound",
+   "routeCleared_sound",
+   "untypedCleared_sound",
+   "contextCleared_sound",
+   "liveRelation_sound"
+  ],
+  "binding": "Native field tables checked against pinned v0.37 kernel IDENTIFYING_FIELDS/LICENSING_FIELDS and tools/lifecycle_inputs.py vocabulary map.",
+  "g2": "All 79 kernel cases execute; every mechanical G2 criterion is met; readability check and ratification remain Will's."
+ },
+ "verdicts": {
+  "GP-X149": "REFUSE",
+  "GP-X150": "REFUSE",
+  "GP-X151": "ACCEPT",
+  "GP-X156": "ACCEPT",
+  "GP-X157": "REFUSE",
+  "GP-X160": "REFUSE",
+  "GP-X162": "REFUSE",
+  "GP-X163": "ACCEPT"
+ },
+ "controls": {
+  "X157_query_live_untyped_successor": "ACCEPT",
+  "X157_typed_successor": "ACCEPT",
+  "X156_without_reclassification": "REFUSE",
+  "X160_consumer_repointed": "ACCEPT",
+  "X162_without_licensing_field": "ACCEPT",
+  "X162_declared_restatement": "ACCEPT",
+  "X163_statement_change_as_annotation": "REFUSE",
+  "X150_unknown_change": "MALFORMED",
+  "X150_unknown_concern": "MALFORMED"
+ },
+ "counts": {
+  "previous_corpus_passes": 71,
+  "new_corpus_passes": 8,
+  "corpus_passes": 79,
+  "kernel_tagged_total": 79,
+  "remaining_kernel_cases": 0,
+  "new_corpus_cases": 0,
+  "fresh_corpus_folds": 32,
+  "separate_controls": 9,
+  "new_host_tests": 13,
+  "new_host_subtests": 52,
+  "fresh_prior_regression_tests": 229,
+  "fresh_prior_regression_subtests": 678,
+  "unchanged_retained_tests": 115,
+  "unchanged_retained_subtests": 298,
+  "total_current_test_coverage": 357,
+  "total_current_subtest_coverage": 1028,
+  "new_audited_proof_declarations": 6
+ },
+ "validation": {
+  "new_suite": "13 passed, 52 subtests passed in 239.01s (0:03:59)",
+  "prior_suite": "229 passed, 678 subtests passed in 114.74s (0:01:54)",
+  "retained_suites": "Earlier phase-2 suites are byte-identical to the parent commit; not re-executed.",
+  "build": {
+   "harness_sha256": "6193da5ad23109846f4f2b837171b4da034f36a9dd0fdca33d9d27be5b512863",
+   "olean_sha256": "578f3306c2f27779303e6f20ed02d8e75e7053068577f8c3109d986eea742e1c",
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ],
+   "compile_exit_code": 0,
+   "checker_exit_code": 0,
+   "kernel_checked": true,
+   "axiom_declarations": [
+    "unmoved",
+    "amend_sound",
+    "routeCleared_sound",
+    "untypedCleared_sound",
+    "contextCleared_sound",
+    "liveRelation_sound"
+   ]
   },
-  "build": "lake build: 74 jobs passed",
-  "independent_kernel_replay": {
-    "GP50.LifecycleRunner": 0,
-    "GP50.NarrowingProofs": 0
-  },
-  "lifecycle": {
-    "cases": [
-      "GP-X144",
-      "GP-X145",
-      "GP-X146"
-    ],
-    "both_branch_orders_executed": true,
-    "branch_folds": 6,
-    "full_records_bindings_links_preserved": true,
-    "held_and_support_empty": true,
-    "test_methods": 13,
-    "pytest_subtests": 62,
-    "worker_active_seconds": 647,
-    "previous_span_worker_active_minutes_reported_approximately": 13,
-    "verdict_meaning": "ACCEPT of complete operational retained-record/successor-link fixture contract; no mathematical authority."
-  },
-  "narrowing": {
-    "native_controls": 14,
-    "local_semantic_theorem": "GP50.Semantic.checked_narrow_sound",
-    "axioms": [
-      "propext"
-    ],
-    "objects_and_statement_preserved": true,
-    "binding_and_scope_checks": true,
-    "source_support_required_by_actual_runtime": true,
-    "test_semantics": "Finite named scopes on formal rational-span identity; component test only.",
-    "not_yet_complete": [
-      "wire/profile registration",
-      "full registry-to-held semantic proof",
-      "real K2 corpus fixture"
-    ]
-  },
-  "native_component_controls": 449,
-  "compiled_proof_controls": 21,
-  "affected_python_tests": 33,
-  "aggregate_executed_corpus_cases": 6,
-  "legacy": {
-    "fresh_full_replay_count": 459,
-    "summary": {
-      "AGREES": 403,
-      "DIAGNOSTIC_OBSERVED": 4,
-      "KNOWN_DIFFERENCE": 14,
-      "UNSUPPORTED": 9,
-      "RETAINED_DIAGNOSTIC": 29
-    },
-    "scratch_receipt_sha256": "512d852eff93bb592e92621c36ca7709a4042d0d7e940ba677cff7ebb307cd01",
-    "all_prior_bytes_expectations_outcomes_preserved": true,
-    "immutable_latest_sha256": "77321d0f86e5160ef0f78f13498092061718a7b829256548cc430b1d19f302df",
-    "oracle_pin_sha256": "9bb807c3034e045927dfc277f9ac268317ae2fdf7c07fd77c1643749794ee11f"
-  },
-  "g2_pass": false
+  "legacy_preservation": {
+   "case_count": 459,
+   "summary": {
+    "AGREES": 403,
+    "DIAGNOSTIC_OBSERVED": 4,
+    "KNOWN_DIFFERENCE": 14,
+    "UNSUPPORTED": 9,
+    "RETAINED_DIAGNOSTIC": 29
+   },
+   "protected_count": 67,
+   "receipt_sha256": "8774e53aa556deddc0f568bcdcbe2d603f75258ccb36d8aa3fbf75ed5237be4f"
+  }
+ },
+ "source_hashes": {
+  "STATUS.md": "60b36ac8dab75c1d62a4452f5ab7be2ebc653f77e751a334c97299ee9547d070",
+  "TCB.md": "2f97fb43b83613c419d306debe38c4d62e12732d6ba2ce65f3a2e4f69f6b4175",
+  "tools/run-phase2-slice.py": "dfd49a3c62d9a9fd44514b3ec823b1b00df431bde3333e20c6d57539f25240c3",
+  "reports/PHASE-2-SLICE.json": "2888f9d4ea6498abd8f8dd4dba51a46ed715e8b103eeca1ca4d7ea0763775c20",
+  "reports/PHASE-2-SLICE.md": "35347d969ee04f1df40f43207d92bf58fdac3d80dedb73e3c289a5a4e9525150",
+  "reports/PHASE-2-LIFECYCLE-CONCERNS.json": "168417093416914095db36fad1045b607ee8abde0d3d2d747e197aadfb77e7d8"
+ },
+ "remaining_queue": {},
+ "g2_pass": false,
+ "public_push": false
 }

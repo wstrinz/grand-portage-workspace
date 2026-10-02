@@ -415,6 +415,18 @@ def run(output):
                                     rule_shape_separate_controls=shape_record["separate_control_executions"])
     record["rule_shape_report_sha256"] = hashlib.sha256(shape_path.read_bytes()).hexdigest()
     assert len({row["id"] for row in record["cases"]}) == record["case_count"]
+    spec = importlib.util.spec_from_file_location("lifecycle_concerns", ROOT / "tools/run-phase2-lifecycle-concerns.py")
+    lifecycle_concerns = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(lifecycle_concerns)
+    concerns_path = ROOT / "reports/PHASE-2-LIFECYCLE-CONCERNS.json"
+    concerns_record = lifecycle_concerns.run(concerns_path)
+    record["cases"].extend(concerns_record["cases"])
+    record["case_count"] = len(record["cases"])
+    record["execution_counts"].update(lifecycle_concern_cases=concerns_record["case_count"],
+                                    lifecycle_concern_folds=concerns_record["corpus_executions"],
+                                    lifecycle_concern_separate_controls=concerns_record["separate_control_executions"])
+    record["lifecycle_concerns_report_sha256"] = hashlib.sha256(concerns_path.read_bytes()).hexdigest()
+    assert len({row["id"] for row in record["cases"]}) == record["case_count"]
     spec = importlib.util.spec_from_file_location("conflict_demonstration", ROOT / "tools/run-phase2-conflict-demonstration.py")
     conflict = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(conflict)
@@ -425,7 +437,7 @@ def run(output):
     record["remaining_slice_behaviors"].remove("proved-overlap conflict")
     record["complete_ten_case_slice"] = len(record["cases"]) >= 10 and not record["remaining_slice_behaviors"]
     output.write_bytes((json.dumps(record, indent=2) + "\n").encode("utf-8"))
-    print("Native slice: 71 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
+    print("Native slice: 79 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
     return record
 
 if __name__ == "__main__":
