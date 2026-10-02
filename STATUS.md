@@ -11,7 +11,7 @@ Updated 2026-10-01. Authority: [Phase 2 handoff](docs/GP-0.50-PHASE-2-HANDOFF.md
 
 **Validation.** One fresh full run passes all 377 tests/1077 subtests: kernel corpus, regressions, layer tags and property proofs. All 459 legacy bytes, expectations and outcomes and 67 protected artifacts are unchanged. Production logic is 636 lines against the 750 stop.
 
-**Next.** Phase 3, the minimal algebraic profile. Deferred items are in the [Phase 2 closeout](reports/PHASE-2-CLOSEOUT.md). Heartbeats remain paused.
+**Next.** Phase 2.5 per the [post-G2 handoff](docs/GP-0.50-POST-G2-HANDOFF.md): kernel package split and pin, the `ProfileOps`/`Profile` split with universe-polymorphic contexts, and an algebraic-context spike. Phase 3a (the first real algebraic profile) follows G2.5. Heartbeats remain paused.
 
 - [Executed slice](reports/PHASE-2-SLICE.md)
 - [Standing limits](LIMITS.md)
