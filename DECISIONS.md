@@ -187,3 +187,6 @@ Will directly approved primary-contract tagging with secondary duties. Choose th
     - The Fano realizability cases (§3.6) and the census must-refuse set (§4) are authorized new corpus cases. Any other new case needs Will.
 
 Source: docs/GP-0.50-POST-G2-HANDOFF.md §1, copied verbatim as that handoff directs.
+
+
+2026-10-02 Phase 2.5 module classification: Will decided the ambiguous cases. Queries and QueryDecoder go to Run: by the rev 3 §6.4 boundary test a query bug cannot make a false claim held, and §1.9 already plans earned-surface changes in 3a. The lifecycle and totality proofs that closed G2 move from Tests/ into a Kernel proof module, so KERNEL-PIN covers every property G2 claimed. Resolved by inspection: AdmissionProofs (ValidatorSound) and Decoder are Kernel; CoverAdmissionProofs and the Span/Scoped/Covered decoders are Stub. The generic log-resolution lemmas inside SpanSoundnessProofs, on which kernel order independence depends, are extracted into a Kernel module.
