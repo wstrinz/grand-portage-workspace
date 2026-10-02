@@ -29,24 +29,24 @@ def kernel_modules():
 # Phase 2.5 markdown is measured from the last Phase 2 commit. Will-authored verbatim
 # authority text (the post-G2 handoff and its §1 copy) is reported, not charged.
 PHASE_25_BASE = "31ae372"
-VERBATIM_AUTHORITY = ("docs/GP-0.50-POST-G2-HANDOFF.md",)
+VERBATIM_AUTHORITY = ("docs/GP-0.50-POST-G2-HANDOFF.md", "docs/GP-0.50-POST-G2-ADDENDUM-A.md")
 def phase25_markdown():
+    # Will's authority docs, and any added line copied from them verbatim (e.g. into DECISIONS.md),
+    # are not builder words.
+    authority = set()
+    for name in VERBATIM_AUTHORITY:
+        authority |= {l.strip() for l in (ROOT / name).read_text(encoding="utf-8").splitlines() if l.strip()}
     words, verbatim, current = 0, 0, None
     for line in git("diff", "--unified=0", PHASE_25_BASE, "--", "*.md").splitlines():
         if line.startswith("+++ "):
             current = line[6:] if line.startswith("+++ b/") else None
         elif line.startswith("+") and not line.startswith("+++"):
             n = len(line[1:].split())
-            if current in VERBATIM_AUTHORITY:
+            if current in VERBATIM_AUTHORITY or line[1:].strip() in authority:
                 verbatim += n
             else:
                 words += n
-    handoff = (ROOT / VERBATIM_AUTHORITY[0]).read_text(encoding="utf-8")
-    section = handoff[handoff.index("## 1. Post-G2 decisions"):]
-    section = section[:section.index("---")]
-    copied = len(section.split())
-    return {"builder_words": max(words - copied, 0), "verbatim_authority_words": verbatim + copied,
-            "target": 2000}
+    return {"builder_words": words, "verbatim_authority_words": verbatim, "target": 2000}
 
 def measure():
     baseline = json.loads((ROOT / "reports/PHASE-2-BASELINE.json").read_text(encoding="utf-8"))

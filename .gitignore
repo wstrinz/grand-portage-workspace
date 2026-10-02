@@ -30,3 +30,5 @@ review/ir-v2-projection/*.json
 # Binding package downloaded caches and scratch
 /binding/cache/
 /binding/tmp/
+/profile/cache/
+/profile/tmp/

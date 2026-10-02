@@ -87,3 +87,15 @@ Rule-shape fixtures A14, X04 and X09 decode into supplied atoms, registered one-
 Lifecycle-concern fixtures X149–X163 decode lifecycle-scenario/v1 natively into inert custody events under refuseAll, so nothing is held. Withdrawals retract, replacements supersede, and concerns are evaluated over production custody liveness; routeCleared_sound, untypedCleared_sound, contextCleared_sound and liveRelation_sound reflect each check into its structural statement. annotation_only replacements are admitted only when the computed classification over the pinned v0.37 identifying and licensing field tables is AMEND (amend_sound); the host checks the native tables against the pinned kernel and the lifecycle vocabulary map.
 
 Lifecycle properties are proved over the actual support graph in Tests/LifecycleProperties.lean. retract_reachable_iff shows that after retracting a warrant, an id stays reachable exactly when it has a derivation avoiding that warrant; requirements_not_live ties this to runtime liveness. attempt_requirements and extra_nodes_keep_support show failed or timed-out attempts never revoke support, and no_bootstrap shows circular support without a requirement-free node supports nothing. fold_total, together with a source audit rejecting partial, unsafe, opaque, implemented_by, extern, sorry and native_decide in the kernel, gives totality and determinism.
+
+## Phase 2.5 pins and libraries — 2026-10-02
+
+Every package uses Lean `v4.34.0-rc2`, a release candidate adopted for Hex v0.6.0 (Addendum A2); compiler, runtime and kernel integrity at that toolchain are assumed. `KERNEL-PIN.json` binds the 22 Kernel files and the toolchain. `tools/check-kernel-axioms.py` replays each Kernel module with `leanchecker` and audits every Kernel constant's axioms.
+
+| GP guarantee | Rests on |
+|---|---|
+| Fold, custody, narrowing, cover and conflict soundness (Kernel) | Lean `v4.34.0-rc2` only; no Mathlib, no Hex |
+| Executable profile arithmetic (none certified yet) | `HexMvPoly`, `HexModArith`, `HexPoly`, `HexArith`, `HexBasic` at v0.6.0 |
+| Field contexts and characteristic scopes (binding spike) | Mathlib `85e3a25e`: `ModelTheory/Bundled`, `ModelTheory/Algebra/Field/Basic`, `Algebra/CharP` |
+
+No GP claim yet depends on a Hex theorem. When 3a admits one, it is listed here by exact declaration, not by library status (A6).

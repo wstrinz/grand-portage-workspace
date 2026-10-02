@@ -14,7 +14,7 @@ ROOT=Path(__file__).resolve().parents[1]
 PACKAGE=ROOT/"phase2/lean"
 HARNESS=PACKAGE/"Tests/RecordedUseCoverage.lean"
 SCRATCH=ROOT/"tmp/phase2-recorded-use-coverage"
-TOOLCHAIN=Path("C:/Users/wstri/.elan/toolchains/leanprover--lean4---v4.32.1")
+TOOLCHAIN=Path.home()/".elan"/"toolchains"/(ROOT/"phase2/lean/lean-toolchain").read_text(encoding="utf-8").strip().replace("/","--").replace(":","---")
 LAKE=TOOLCHAIN/"bin/lake.exe"
 LEAN=TOOLCHAIN/"bin/lean.exe"
 CHECKER=TOOLCHAIN/"bin/leanchecker.exe"
