@@ -1,6 +1,6 @@
 # Grand Portage 0.50 — WIP for review
 
-This is a separate rework of Grand Portage, currently at the boundary between specification and kernel implementation. Its review shadow is [wstrinz/grand-portage-workspace](https://github.com/wstrinz/grand-portage-workspace/tree/codex/phase-0), branch codex/phase-0. **It is not a production release.** Phase 0 is complete under its recorded source, observation and trust limits; Phase 1 has a reviewed design and paper scoring, and Will has closed G1 by a documented coverage exception. Phase 2 is authorized.
+This is a separate rework of Grand Portage. Its review shadow is [wstrinz/grand-portage-workspace](https://github.com/wstrinz/grand-portage-workspace); work lands on codex/phase-0 and is merged into master, which also keeps the v0.37 package and history (its README is in [HISTORY/README-v0.37.md](HISTORY/README-v0.37.md)). **It is not a production release.** Phases 0–2 are complete: Will ratified G2 on 2026-10-02 after all 79 kernel-tagged corpus cases executed through the native Lean kernel. Phase 3 is next.
 
 The intended guarantee is that accurately specified claims are held only through current, bound evidence and sound admitted rules, throughout their stated scope. GP also aims to expose consequences reachable within a declared finite closure domain. It cannot establish the intended meaning of a wrongly specified problem.
 
@@ -24,7 +24,8 @@ Read [BACKBRIEF-REV3.md](BACKBRIEF-REV3.md), [DECISIONS.md](DECISIONS.md) and th
 - **Lean feasibility:** 41 bounded controls passed; actual A08b/A05 Mathlib proofs were checked. The spike is illustrative code, not an admitted checker or production kernel. Native LRAT has explicit runtime/compiler trust.
 - **Phase 1:** ratified core spec and a 64-line Mathlib-free soundness obligation that elaborates. Its production implementation slot remains unimplemented; no global runtime soundness proof is claimed.
 - **Paper coverage:** 52/67 primary non-MEANING owners expressible, 8 outside the core guarantee, 7 unresolved. This is architectural paper representation, not an executed prevention rate. 77.6% is below a strict 80% minimum; no numerical pass is asserted.
-- **G1 is closed:** Will ratified the design directions and 52/67 coverage exception. Phase 2 begins with case layer metadata and the actual kernel slice; package/checker admission remains separate.
+- **G1 is closed:** Will ratified the design directions and 52/67 coverage exception.
+- **Phase 2 (G2 ratified):** a Mathlib-free Lean kernel under [phase2/lean](phase2/lean) with proved soundness, completeness, order independence, lifecycle properties and totality; all 79 kernel cases execute natively. See the [executed slice](reports/PHASE-2-SLICE.md), [TCB](TCB.md) and [closeout](reports/PHASE-2-CLOSEOUT.md). Package/checker admission remains separate.
 
 [STATUS.md](STATUS.md) is the current human status. Phase reports retain their historical evidence.
 

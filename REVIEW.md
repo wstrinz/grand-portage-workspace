@@ -1,8 +1,8 @@
 # WIP review guide
 
-2026-09-30. This checkpoint is a design and feasibility review of Grand Portage 0.50. Phase 0 is complete under explicit limits; Will closed G1 by a documented coverage exception and authorized Phase 2. Read [STATUS.md](STATUS.md) for current progress. Review does not imply production soundness, checker admission or permission to change corpus expectations.
+2026-10-02. This checkpoint reviews Grand Portage 0.50 through Phase 2. Will closed G1 by a documented coverage exception and ratified G2 after all 79 kernel-tagged cases executed through the native Lean kernel; the executed slice, kernel proofs and TCB are the main new review targets. Read [STATUS.md](STATUS.md) for current progress. Review does not imply production soundness, checker admission or permission to change corpus expectations.
 
-Review branch: [codex/phase-0](https://github.com/wstrinz/grand-portage-workspace/tree/codex/phase-0) in the approved review shadow repository. For a fresh review checkout, clone that branch explicitly; the existing default branch retains the predecessor.
+Review branch: [codex/phase-0](https://github.com/wstrinz/grand-portage-workspace/tree/codex/phase-0), merged into master in the approved review shadow repository. Master also carries the v0.37 package and history; its v0.37 review brief is [HISTORY/REVIEW-v0.37.md](HISTORY/REVIEW-v0.37.md). For Phase 2, start with [the executed slice](reports/PHASE-2-SLICE.md), [TCB.md](TCB.md), phase2/lean/GP50 and the [closeout](reports/PHASE-2-CLOSEOUT.md).
 
 ## Suggested reading order
 

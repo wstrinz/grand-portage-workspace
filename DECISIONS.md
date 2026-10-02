@@ -93,3 +93,9 @@ Will directly approved primary-contract tagging with secondary duties. Choose th
 
 
 2026-10-01 transport licensing policy: GPC selected exact record equality for consuming edges in the conditional theorem-transport harness: identical source, target and ordered premise records including status, matching pinned EDG6/EDG7. Order-insensitive equality and sound weakening (extra edge premises) were considered; exact equality is the most conservative and loosening later only flips refusing controls. Proofs depend only on licensed_sound, so any policy implying equal endpoints and premise retention remains admissible. Will may revisit.
+
+
+2026-10-02 G2 ratified: Will reviewed the decisions and ratified G2. All 79 kernel-tagged cases execute with expected verdicts; soundness, completeness, order independence, lifecycle properties, totality and determinism are proved with standard axioms only. Will accepted the two over-target budget lines as within budget because no tripwire is crossed: core logic 636 lines (target ~500, stop 750) and new Phase 2 Markdown 13,348 words at closeout (target 10,000, stop 15,000). Earlier receipts keep their historical g2_pass false fields. Phase 3 (minimal algebraic profile) proceeds per handoff §5. Deferred items are recorded in reports/PHASE-2-CLOSEOUT.md.
+
+
+2026-10-02 workspace landing: Will chose to merge codex/phase-0 into the shadow repository's master by an unrelated-history merge, after GPC recommended a separate main. The merge preserves all v0.37 history; master's v0.37 README and REVIEW move to HISTORY/ and its CI is scoped to the v0.37 suite.
