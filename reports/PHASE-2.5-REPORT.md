@@ -6,7 +6,7 @@ Authority: [post-G2 handoff](../docs/GP-0.50-POST-G2-HANDOFF.md) §2, amended by
 
 The 22 `Kernel` modules are AdmissionProofs, Closure, ClosureCompleteness, ClosureOrderProofs, ClosureProofs, Conflict, ConflictProofs, ConflictSoundnessProofs, Cover, CoverProofs, Decoder, Entry, EventOrderProofs, Events, LifecycleProofs, Narrowing, NarrowingAdmissionProofs, NarrowingProofs, ResolveProofs, Runtime, RuntimeProofs and Semantics.
 
-`Stub` has 12 modules; `Run` has 6, including Queries and QueryDecoder per Will. `tests/test_kernel_pin.py` enforces that `Kernel` imports only `Kernel`.
+`Stub` has 12 modules; `Run` has 6, including Queries and QueryDecoder per Will. `tests/test_gp50_kernel_pin.py` enforces that `Kernel` imports only `Kernel`.
 
 Kernel-only D8 budget: logic 382/500, decoder 156/400, statement 34/80.
 
@@ -64,7 +64,7 @@ Kernel, stub, profile and binding all use Lean `v4.34.0-rc2`. Binding uses Mathl
 | `profile/` | Kernel; HexMvPoly and HexModArith v0.6.0 (with HexPoly, HexArith, HexBasic) |
 | `binding/` | profile; Mathlib `85e3a25e`; HexMvPolyMathlib v0.6.0 |
 
-`tests/test_profile_layout.py` checks four things:
+`tests/test_gp50_profile_layout.py` checks four things:
 - the profile manifest and sources have no Mathlib;
 - shared Hex revisions agree with the binding;
 - the binding requires the profile;
