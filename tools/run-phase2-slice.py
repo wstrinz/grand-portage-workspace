@@ -391,6 +391,18 @@ def run(output):
                                     open_premise_guard_separate_controls=guard_record["separate_control_executions"])
     record["open_premise_guard_report_sha256"] = hashlib.sha256(guard_path.read_bytes()).hexdigest()
     assert len({row["id"] for row in record["cases"]}) == record["case_count"]
+    spec = importlib.util.spec_from_file_location("unreplayed_evidence", ROOT / "tools/run-phase2-unreplayed-evidence.py")
+    unreplayed_evidence = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(unreplayed_evidence)
+    unreplayed_path = ROOT / "reports/PHASE-2-UNREPLAYED-EVIDENCE.json"
+    unreplayed_record = unreplayed_evidence.run(unreplayed_path)
+    record["cases"].extend(unreplayed_record["cases"])
+    record["case_count"] = len(record["cases"])
+    record["execution_counts"].update(unreplayed_evidence_cases=unreplayed_record["case_count"],
+                                    unreplayed_evidence_folds=unreplayed_record["corpus_executions"],
+                                    unreplayed_evidence_separate_controls=unreplayed_record["separate_control_executions"])
+    record["unreplayed_evidence_report_sha256"] = hashlib.sha256(unreplayed_path.read_bytes()).hexdigest()
+    assert len({row["id"] for row in record["cases"]}) == record["case_count"]
     spec = importlib.util.spec_from_file_location("conflict_demonstration", ROOT / "tools/run-phase2-conflict-demonstration.py")
     conflict = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(conflict)
@@ -401,7 +413,7 @@ def run(output):
     record["remaining_slice_behaviors"].remove("proved-overlap conflict")
     record["complete_ten_case_slice"] = len(record["cases"]) >= 10 and not record["remaining_slice_behaviors"]
     output.write_bytes((json.dumps(record, indent=2) + "\n").encode("utf-8"))
-    print("Native slice: 66 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
+    print("Native slice: 68 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
     return record
 
 if __name__ == "__main__":

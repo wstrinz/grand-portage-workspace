@@ -1,9 +1,10 @@
-# Phase 2 executed slice — checkpoint 19
+# Phase 2 executed slice — checkpoint 20
 
-Sixty-six kernel fixtures execute through native resolution, closure and held.
+Sixty-eight kernel fixtures execute through native resolution, closure and held.
 
 | Cases | Result | Checked contract |
 |---|---|---|
+| X229, X65 | REFUSE | Historical metadata or a certificate name is not authority; native cofactor replay and a current verdict accept |
 | X399, X402, X403 | REFUSE | Frozen inferences with an open E5 slot or unbridged family premise; four filled-slot contrasts |
 | A01, A08a, X283, X14 | REFUSE | Field-family, characteristic, untyped and unanchored context changes license nothing; four accepting contrasts |
 | X173 / X174–X176 | ACCEPT / REFUSE | Rejection is a separate record; missing or mutated stored certificate refused |
@@ -18,15 +19,13 @@ Sixty-six kernel fixtures execute through native resolution, closure and held.
 | X142, X147, X148 | ACCEPT / REFUSE / ACCEPT | Duplicate declaration; targeted retraction keeps history; separate inference stays live; no checked support |
 | X152–X155, X159 / X158, X161 | REFUSE / ACCEPT | Replacement guards; parallel relation remains; one live chain head; split successors survive |
 | A25a, X143 / C03 | REFUSE / ACCEPT | Conflicting declarations fail; identical contents retain one record |
-| A16-missing, A16-covered | REFUSE / conditional ACCEPT | Both branch-emptiness and exhaustive-cover premises required |
-| X183, X184, X186 | REFUSE / conditional ACCEPT / REFUSE | Missing branch; complete composition; held coverage omitted |
-| X179, X180 | conditional REFUSE | Valid universal K2; same-witness point lift unsupported in either premise order |
-| X177, X178 | conditional ACCEPT / REFUSE | K2 retains fixed predicates/models; both supplied routes must meet at tight |
+| A16, X183, X184, X186 | REFUSE / conditional ACCEPT | Branch-emptiness and exhaustive-cover premises both required; held coverage omitted refuses |
+| X177–X180 | conditional ACCEPT / REFUSE | K2 keeps fixed predicates and models; routes meet at tight; same-witness point lift unsupported |
 
 Custody supplies no truth. Recorded coverage does not establish real-use discovery or component sufficiency. Conditional harnesses preserve statements, objects and dependencies. K2 cannot change a global point statement's model. A27 assumes named synthetic checker admission/success; it certifies no arithmetic. GRH cannot be dropped; a quotient cannot become equality. X60 holds only the conditional; OPEN premises stay open.
 
 The finite fold is sound, complete and order independent. The ratified conflict demonstration pairs faulty-checker alarms with sound_fold_conflict_has_no_witness; held closure survives release review. Lifecycle supplements cover retraction, retries and reporting; the early slice is complete.
 
-This integration executes three cases, retaining 63 earlier rows verbatim. Legacy replay preserves all 459 fixtures and 67 protected artifacts.
+This integration executes two cases, retaining 66 earlier rows verbatim. Legacy replay preserves all 459 fixtures and 67 protected artifacts.
 
-Receipts: [aggregate](PHASE-2-SLICE.json), [guards](PHASE-2-OPEN-PREMISE-GUARD.json), [integration](PHASE-2-GUARD-INTEGRATION.json). G2 remains open: 13 cases remain.
+Receipts: [aggregate](PHASE-2-SLICE.json), [evidence](PHASE-2-UNREPLAYED-EVIDENCE.json), [integration](PHASE-2-UNREPLAYED-INTEGRATION.json). G2 remains open: 11 cases remain.

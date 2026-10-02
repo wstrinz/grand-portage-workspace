@@ -1,10 +1,10 @@
 {
   "schema": "gp-phase2-native-slice/v1",
-  "case_count": 66,
+  "case_count": 68,
   "complete_ten_case_slice": true,
   "g2_pass": false,
   "runner_sha256": "b132a3c6161859fcee2ee98ae9c5bb99f385ff8e416a2249325bc49b363a284b",
-  "adapter_sha256": "622a15112d5089a46c5bdc3c8c8c604e61bbc2e648dbaad010808b6a31708f47",
+  "adapter_sha256": "869ff80c055397bce456a7921c97cb9bb9b926ee59c5a141cfcde6ccd05d8d11",
   "cases": [
     {
       "id": "GP-A17",
@@ -59052,6 +59052,799 @@
           }
         }
       }
+    },
+    {
+      "id": "GP-X229",
+      "source_sha256": "3f3685e1ed902923312b9089569f97f7ae1d16c5e41636c4de7f36a555b2ccb8",
+      "expected": {
+        "verdict": "REFUSE",
+        "reason": "Readable unidentified historical execution is not current authority"
+      },
+      "observed": "REFUSE",
+      "full_fixture_contract": true,
+      "status": "EXECUTED",
+      "literal_inputs": {
+        "model": {
+          "field": "Q",
+          "variables": [
+            "x"
+          ],
+          "equations": [
+            "x"
+          ]
+        },
+        "identity": {
+          "left": "x^2",
+          "right": "0"
+        },
+        "cofactors": null,
+        "local_backend": "matching",
+        "historical_identity": "unavailable",
+        "raw_artifact": "present",
+        "question": "historical_authority"
+      },
+      "layer_entry": {
+        "id": "GP-X229",
+        "path": "corpus/must/GP-X229.json",
+        "sha256": "3f3685e1ed902923312b9089569f97f7ae1d16c5e41636c4de7f36a555b2ccb8",
+        "primary_layer": "kernel",
+        "candidate_layers": [
+          "kernel"
+        ],
+        "g2_kernel_eligible": true,
+        "status": "resolved",
+        "rationale": "The full fixture assumes mathematical premises or supplies only declaration/claim data; registered rule, exact context, dependency and scope obligations decide authority.",
+        "review_group": "supplied-premise-authority",
+        "full_contract_required": true,
+        "secondary_layers": [],
+        "secondary_duties": [],
+        "evidence_pointers": [
+          "/title",
+          "/inputs",
+          "/attempted_conclusion",
+          "/expected/reason"
+        ]
+      },
+      "native_results": {
+        "normal": {
+          "actual_replay": false,
+          "bound_literal": "{\"attempted_conclusion\":\"Accept historical execution metadata without a replayable certificate as current authority.\",\"expected\":{\"reason\":\"Readable unidentified historical execution is not current authority\",\"verdict\":\"REFUSE\"},\"id\":\"GP-X229\",\"inputs\":{\"cofactors\":null,\"historical_identity\":\"unavailable\",\"identity\":{\"left\":\"x^2\",\"right\":\"0\"},\"local_backend\":\"matching\",\"model\":{\"equations\":[\"x\"],\"field\":\"Q\",\"variables\":[\"x\"]},\"question\":\"historical_authority\",\"raw_artifact\":\"present\"},\"schema_version\":1,\"scope_or_region\":\"N/A\",\"seed\":null,\"situation\":\"Separate replayable polynomial evidence from the availability and identity of its historical producer.\",\"sources\":[{\"anchor\":\"def test_unavailable_historical_backend_is_readable_but_not_authority(\",\"commit\":\"ac4155787207e2847d248cffed7be871d5dcd577\",\"line\":254,\"path\":\"tests/test_artifacts.py\",\"repository\":\"gp-v037\"}],\"title\":\"Readable unidentified historical execution is not current authority\"}",
+          "case": "GP-X229",
+          "cofactors": null,
+          "generators": [
+            [
+              [
+                1,
+                "1"
+              ]
+            ]
+          ],
+          "historical_receipt": "historical-execution:unavailable:matching:present",
+          "literal_fixture": {
+            "attempted_conclusion": "Accept historical execution metadata without a replayable certificate as current authority.",
+            "expected": {
+              "reason": "Readable unidentified historical execution is not current authority",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X229",
+            "inputs": {
+              "cofactors": null,
+              "historical_identity": "unavailable",
+              "identity": {
+                "left": "x^2",
+                "right": "0"
+              },
+              "local_backend": "matching",
+              "model": {
+                "equations": [
+                  "x"
+                ],
+                "field": "Q",
+                "variables": [
+                  "x"
+                ]
+              },
+              "question": "historical_authority",
+              "raw_artifact": "present"
+            },
+            "schema_version": 1,
+            "scope_or_region": "N/A",
+            "seed": null,
+            "situation": "Separate replayable polynomial evidence from the availability and identity of its historical producer.",
+            "sources": [
+              {
+                "anchor": "def test_unavailable_historical_backend_is_readable_but_not_authority(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 254,
+                "path": "tests/test_artifacts.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "Readable unidentified historical execution is not current authority"
+          },
+          "mode": "normal",
+          "source_digest": "3f3685e1ed902923312b9089569f97f7ae1d16c5e41636c4de7f36a555b2ccb8",
+          "state": {
+            "current_count": 2,
+            "domain": [
+              1,
+              100
+            ],
+            "held": [],
+            "live_warrants": [
+              20,
+              100
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [],
+            "warrant_count": 2
+          },
+          "target": [
+            [
+              2,
+              "1"
+            ],
+            [
+              0,
+              "0"
+            ]
+          ]
+        },
+        "reverse": {
+          "actual_replay": false,
+          "bound_literal": "{\"attempted_conclusion\":\"Accept historical execution metadata without a replayable certificate as current authority.\",\"expected\":{\"reason\":\"Readable unidentified historical execution is not current authority\",\"verdict\":\"REFUSE\"},\"id\":\"GP-X229\",\"inputs\":{\"cofactors\":null,\"historical_identity\":\"unavailable\",\"identity\":{\"left\":\"x^2\",\"right\":\"0\"},\"local_backend\":\"matching\",\"model\":{\"equations\":[\"x\"],\"field\":\"Q\",\"variables\":[\"x\"]},\"question\":\"historical_authority\",\"raw_artifact\":\"present\"},\"schema_version\":1,\"scope_or_region\":\"N/A\",\"seed\":null,\"situation\":\"Separate replayable polynomial evidence from the availability and identity of its historical producer.\",\"sources\":[{\"anchor\":\"def test_unavailable_historical_backend_is_readable_but_not_authority(\",\"commit\":\"ac4155787207e2847d248cffed7be871d5dcd577\",\"line\":254,\"path\":\"tests/test_artifacts.py\",\"repository\":\"gp-v037\"}],\"title\":\"Readable unidentified historical execution is not current authority\"}",
+          "case": "GP-X229",
+          "cofactors": null,
+          "generators": [
+            [
+              [
+                1,
+                "1"
+              ]
+            ]
+          ],
+          "historical_receipt": "historical-execution:unavailable:matching:present",
+          "literal_fixture": {
+            "attempted_conclusion": "Accept historical execution metadata without a replayable certificate as current authority.",
+            "expected": {
+              "reason": "Readable unidentified historical execution is not current authority",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X229",
+            "inputs": {
+              "cofactors": null,
+              "historical_identity": "unavailable",
+              "identity": {
+                "left": "x^2",
+                "right": "0"
+              },
+              "local_backend": "matching",
+              "model": {
+                "equations": [
+                  "x"
+                ],
+                "field": "Q",
+                "variables": [
+                  "x"
+                ]
+              },
+              "question": "historical_authority",
+              "raw_artifact": "present"
+            },
+            "schema_version": 1,
+            "scope_or_region": "N/A",
+            "seed": null,
+            "situation": "Separate replayable polynomial evidence from the availability and identity of its historical producer.",
+            "sources": [
+              {
+                "anchor": "def test_unavailable_historical_backend_is_readable_but_not_authority(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 254,
+                "path": "tests/test_artifacts.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "Readable unidentified historical execution is not current authority"
+          },
+          "mode": "reverse",
+          "source_digest": "3f3685e1ed902923312b9089569f97f7ae1d16c5e41636c4de7f36a555b2ccb8",
+          "state": {
+            "current_count": 2,
+            "domain": [
+              1,
+              100
+            ],
+            "held": [],
+            "live_warrants": [
+              20,
+              100
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [],
+            "warrant_count": 2
+          },
+          "target": [
+            [
+              2,
+              "1"
+            ],
+            [
+              0,
+              "0"
+            ]
+          ]
+        },
+        "duplicates": {
+          "actual_replay": false,
+          "bound_literal": "{\"attempted_conclusion\":\"Accept historical execution metadata without a replayable certificate as current authority.\",\"expected\":{\"reason\":\"Readable unidentified historical execution is not current authority\",\"verdict\":\"REFUSE\"},\"id\":\"GP-X229\",\"inputs\":{\"cofactors\":null,\"historical_identity\":\"unavailable\",\"identity\":{\"left\":\"x^2\",\"right\":\"0\"},\"local_backend\":\"matching\",\"model\":{\"equations\":[\"x\"],\"field\":\"Q\",\"variables\":[\"x\"]},\"question\":\"historical_authority\",\"raw_artifact\":\"present\"},\"schema_version\":1,\"scope_or_region\":\"N/A\",\"seed\":null,\"situation\":\"Separate replayable polynomial evidence from the availability and identity of its historical producer.\",\"sources\":[{\"anchor\":\"def test_unavailable_historical_backend_is_readable_but_not_authority(\",\"commit\":\"ac4155787207e2847d248cffed7be871d5dcd577\",\"line\":254,\"path\":\"tests/test_artifacts.py\",\"repository\":\"gp-v037\"}],\"title\":\"Readable unidentified historical execution is not current authority\"}",
+          "case": "GP-X229",
+          "cofactors": null,
+          "generators": [
+            [
+              [
+                1,
+                "1"
+              ]
+            ]
+          ],
+          "historical_receipt": "historical-execution:unavailable:matching:present",
+          "literal_fixture": {
+            "attempted_conclusion": "Accept historical execution metadata without a replayable certificate as current authority.",
+            "expected": {
+              "reason": "Readable unidentified historical execution is not current authority",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X229",
+            "inputs": {
+              "cofactors": null,
+              "historical_identity": "unavailable",
+              "identity": {
+                "left": "x^2",
+                "right": "0"
+              },
+              "local_backend": "matching",
+              "model": {
+                "equations": [
+                  "x"
+                ],
+                "field": "Q",
+                "variables": [
+                  "x"
+                ]
+              },
+              "question": "historical_authority",
+              "raw_artifact": "present"
+            },
+            "schema_version": 1,
+            "scope_or_region": "N/A",
+            "seed": null,
+            "situation": "Separate replayable polynomial evidence from the availability and identity of its historical producer.",
+            "sources": [
+              {
+                "anchor": "def test_unavailable_historical_backend_is_readable_but_not_authority(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 254,
+                "path": "tests/test_artifacts.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "Readable unidentified historical execution is not current authority"
+          },
+          "mode": "duplicates",
+          "source_digest": "3f3685e1ed902923312b9089569f97f7ae1d16c5e41636c4de7f36a555b2ccb8",
+          "state": {
+            "current_count": 2,
+            "domain": [
+              1,
+              100
+            ],
+            "held": [],
+            "live_warrants": [
+              20,
+              100
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [],
+            "warrant_count": 2
+          },
+          "target": [
+            [
+              2,
+              "1"
+            ],
+            [
+              0,
+              "0"
+            ]
+          ]
+        },
+        "reverse_duplicates": {
+          "actual_replay": false,
+          "bound_literal": "{\"attempted_conclusion\":\"Accept historical execution metadata without a replayable certificate as current authority.\",\"expected\":{\"reason\":\"Readable unidentified historical execution is not current authority\",\"verdict\":\"REFUSE\"},\"id\":\"GP-X229\",\"inputs\":{\"cofactors\":null,\"historical_identity\":\"unavailable\",\"identity\":{\"left\":\"x^2\",\"right\":\"0\"},\"local_backend\":\"matching\",\"model\":{\"equations\":[\"x\"],\"field\":\"Q\",\"variables\":[\"x\"]},\"question\":\"historical_authority\",\"raw_artifact\":\"present\"},\"schema_version\":1,\"scope_or_region\":\"N/A\",\"seed\":null,\"situation\":\"Separate replayable polynomial evidence from the availability and identity of its historical producer.\",\"sources\":[{\"anchor\":\"def test_unavailable_historical_backend_is_readable_but_not_authority(\",\"commit\":\"ac4155787207e2847d248cffed7be871d5dcd577\",\"line\":254,\"path\":\"tests/test_artifacts.py\",\"repository\":\"gp-v037\"}],\"title\":\"Readable unidentified historical execution is not current authority\"}",
+          "case": "GP-X229",
+          "cofactors": null,
+          "generators": [
+            [
+              [
+                1,
+                "1"
+              ]
+            ]
+          ],
+          "historical_receipt": "historical-execution:unavailable:matching:present",
+          "literal_fixture": {
+            "attempted_conclusion": "Accept historical execution metadata without a replayable certificate as current authority.",
+            "expected": {
+              "reason": "Readable unidentified historical execution is not current authority",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X229",
+            "inputs": {
+              "cofactors": null,
+              "historical_identity": "unavailable",
+              "identity": {
+                "left": "x^2",
+                "right": "0"
+              },
+              "local_backend": "matching",
+              "model": {
+                "equations": [
+                  "x"
+                ],
+                "field": "Q",
+                "variables": [
+                  "x"
+                ]
+              },
+              "question": "historical_authority",
+              "raw_artifact": "present"
+            },
+            "schema_version": 1,
+            "scope_or_region": "N/A",
+            "seed": null,
+            "situation": "Separate replayable polynomial evidence from the availability and identity of its historical producer.",
+            "sources": [
+              {
+                "anchor": "def test_unavailable_historical_backend_is_readable_but_not_authority(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 254,
+                "path": "tests/test_artifacts.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "Readable unidentified historical execution is not current authority"
+          },
+          "mode": "reverse_duplicates",
+          "source_digest": "3f3685e1ed902923312b9089569f97f7ae1d16c5e41636c4de7f36a555b2ccb8",
+          "state": {
+            "current_count": 2,
+            "domain": [
+              1,
+              100
+            ],
+            "held": [],
+            "live_warrants": [
+              20,
+              100
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [],
+            "warrant_count": 2
+          },
+          "target": [
+            [
+              2,
+              "1"
+            ],
+            [
+              0,
+              "0"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "GP-X65",
+      "source_sha256": "64a3d188feba3c23337c590efc67f4f950af984f0674041f7a67b120daf20cbe",
+      "expected": {
+        "verdict": "REFUSE",
+        "reason": "No current checked verdict is attached to the named certificate."
+      },
+      "observed": "REFUSE",
+      "full_fixture_contract": true,
+      "status": "EXECUTED",
+      "literal_inputs": {
+        "variables": [
+          "p",
+          "t",
+          "c9_11",
+          "I4"
+        ],
+        "generators": [
+          "15*t^3+1",
+          "10*c9_11*t + 15*p*t**2",
+          "5*c9_11**2 + 10*c9_11*p*t + 5*p**2*t**2"
+        ],
+        "guards": [
+          "p",
+          "t"
+        ],
+        "denominator_powers": [
+          0,
+          0
+        ],
+        "numerator": "1",
+        "cofactors": [
+          "0",
+          "-2/5*t*c9_11-1/5*p*t^2",
+          "4/5*t^2"
+        ],
+        "localization_powers": [
+          2,
+          4
+        ],
+        "membership_target": "p^2*t^4",
+        "coefficient_field": "Q",
+        "point_universe": "ALGEBRAIC_CLOSURE",
+        "chart": "p"
+      },
+      "layer_entry": {
+        "id": "GP-X65",
+        "path": "corpus/must/GP-X65.json",
+        "sha256": "64a3d188feba3c23337c590efc67f4f950af984f0674041f7a67b120daf20cbe",
+        "primary_layer": "kernel",
+        "candidate_layers": [
+          "kernel"
+        ],
+        "g2_kernel_eligible": true,
+        "status": "resolved",
+        "rationale": "The full fixture assumes mathematical premises or supplies only declaration/claim data; registered rule, exact context, dependency and scope obligations decide authority.",
+        "review_group": "supplied-premise-authority",
+        "full_contract_required": true,
+        "secondary_layers": [],
+        "secondary_duties": [],
+        "evidence_pointers": [
+          "/title",
+          "/inputs",
+          "/attempted_conclusion",
+          "/expected/reason"
+        ]
+      },
+      "native_results": {
+        "normal": {
+          "actual_currency_check": false,
+          "bound_literal": "{\"attempted_conclusion\":\"The certificate name establishes local emptiness without a checked verdict.\",\"expected\":{\"reason\":\"No current checked verdict is attached to the named certificate.\",\"verdict\":\"REFUSE\"},\"id\":\"GP-X65\",\"inputs\":{\"chart\":\"p\",\"coefficient_field\":\"Q\",\"cofactors\":[\"0\",\"-2/5*t*c9_11-1/5*p*t^2\",\"4/5*t^2\"],\"denominator_powers\":[0,0],\"generators\":[\"15*t^3+1\",\"10*c9_11*t + 15*p*t**2\",\"5*c9_11**2 + 10*c9_11*p*t + 5*p**2*t**2\"],\"guards\":[\"p\",\"t\"],\"localization_powers\":[2,4],\"membership_target\":\"p^2*t^4\",\"numerator\":\"1\",\"point_universe\":\"ALGEBRAIC_CLOSURE\",\"variables\":[\"p\",\"t\",\"c9_11\",\"I4\"]},\"schema_version\":1,\"scope_or_region\":\"BOTH\",\"seed\":null,\"situation\":\"A frozen p-axis stratum has a localized unit-ideal certificate. Its equations, guards and source binding delimit the result.\",\"sources\":[{\"anchor\":\"def test_certificate_name_without_verdict_grants_no_authority(\",\"commit\":\"7991c9052f13e8dcaa78b5eae36f31663e080c1e\",\"line\":168,\"path\":\"tests/test_jc_p_axis_authority.py\",\"repository\":\"gp-history\"}],\"title\":\"A certificate name alone grants no emptiness authority\"}",
+          "case": "GP-X65",
+          "checked_stratum": null,
+          "current_stratum": "{\"chart\":\"p\",\"coefficient_field\":\"Q\",\"cofactors\":[\"0\",\"-2/5*t*c9_11-1/5*p*t^2\",\"4/5*t^2\"],\"denominator_powers\":[0,0],\"generators\":[\"15*t^3+1\",\"10*c9_11*t + 15*p*t**2\",\"5*c9_11**2 + 10*c9_11*p*t + 5*p**2*t**2\"],\"guards\":[\"p\",\"t\"],\"localization_powers\":[2,4],\"membership_target\":\"p^2*t^4\",\"numerator\":\"1\",\"point_universe\":\"ALGEBRAIC_CLOSURE\",\"variables\":[\"p\",\"t\",\"c9_11\",\"I4\"]}",
+          "literal_fixture": {
+            "attempted_conclusion": "The certificate name establishes local emptiness without a checked verdict.",
+            "expected": {
+              "reason": "No current checked verdict is attached to the named certificate.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X65",
+            "inputs": {
+              "chart": "p",
+              "coefficient_field": "Q",
+              "cofactors": [
+                "0",
+                "-2/5*t*c9_11-1/5*p*t^2",
+                "4/5*t^2"
+              ],
+              "denominator_powers": [
+                0,
+                0
+              ],
+              "generators": [
+                "15*t^3+1",
+                "10*c9_11*t + 15*p*t**2",
+                "5*c9_11**2 + 10*c9_11*p*t + 5*p**2*t**2"
+              ],
+              "guards": [
+                "p",
+                "t"
+              ],
+              "localization_powers": [
+                2,
+                4
+              ],
+              "membership_target": "p^2*t^4",
+              "numerator": "1",
+              "point_universe": "ALGEBRAIC_CLOSURE",
+              "variables": [
+                "p",
+                "t",
+                "c9_11",
+                "I4"
+              ]
+            },
+            "schema_version": 1,
+            "scope_or_region": "BOTH",
+            "seed": null,
+            "situation": "A frozen p-axis stratum has a localized unit-ideal certificate. Its equations, guards and source binding delimit the result.",
+            "sources": [
+              {
+                "anchor": "def test_certificate_name_without_verdict_grants_no_authority(",
+                "commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+                "line": 168,
+                "path": "tests/test_jc_p_axis_authority.py",
+                "repository": "gp-history"
+              }
+            ],
+            "title": "A certificate name alone grants no emptiness authority"
+          },
+          "mode": "normal",
+          "source_digest": "64a3d188feba3c23337c590efc67f4f950af984f0674041f7a67b120daf20cbe",
+          "state": {
+            "current_count": 1,
+            "domain": [
+              1
+            ],
+            "held": [],
+            "live_warrants": [
+              20
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [],
+            "warrant_count": 1
+          }
+        },
+        "reverse": {
+          "actual_currency_check": false,
+          "bound_literal": "{\"attempted_conclusion\":\"The certificate name establishes local emptiness without a checked verdict.\",\"expected\":{\"reason\":\"No current checked verdict is attached to the named certificate.\",\"verdict\":\"REFUSE\"},\"id\":\"GP-X65\",\"inputs\":{\"chart\":\"p\",\"coefficient_field\":\"Q\",\"cofactors\":[\"0\",\"-2/5*t*c9_11-1/5*p*t^2\",\"4/5*t^2\"],\"denominator_powers\":[0,0],\"generators\":[\"15*t^3+1\",\"10*c9_11*t + 15*p*t**2\",\"5*c9_11**2 + 10*c9_11*p*t + 5*p**2*t**2\"],\"guards\":[\"p\",\"t\"],\"localization_powers\":[2,4],\"membership_target\":\"p^2*t^4\",\"numerator\":\"1\",\"point_universe\":\"ALGEBRAIC_CLOSURE\",\"variables\":[\"p\",\"t\",\"c9_11\",\"I4\"]},\"schema_version\":1,\"scope_or_region\":\"BOTH\",\"seed\":null,\"situation\":\"A frozen p-axis stratum has a localized unit-ideal certificate. Its equations, guards and source binding delimit the result.\",\"sources\":[{\"anchor\":\"def test_certificate_name_without_verdict_grants_no_authority(\",\"commit\":\"7991c9052f13e8dcaa78b5eae36f31663e080c1e\",\"line\":168,\"path\":\"tests/test_jc_p_axis_authority.py\",\"repository\":\"gp-history\"}],\"title\":\"A certificate name alone grants no emptiness authority\"}",
+          "case": "GP-X65",
+          "checked_stratum": null,
+          "current_stratum": "{\"chart\":\"p\",\"coefficient_field\":\"Q\",\"cofactors\":[\"0\",\"-2/5*t*c9_11-1/5*p*t^2\",\"4/5*t^2\"],\"denominator_powers\":[0,0],\"generators\":[\"15*t^3+1\",\"10*c9_11*t + 15*p*t**2\",\"5*c9_11**2 + 10*c9_11*p*t + 5*p**2*t**2\"],\"guards\":[\"p\",\"t\"],\"localization_powers\":[2,4],\"membership_target\":\"p^2*t^4\",\"numerator\":\"1\",\"point_universe\":\"ALGEBRAIC_CLOSURE\",\"variables\":[\"p\",\"t\",\"c9_11\",\"I4\"]}",
+          "literal_fixture": {
+            "attempted_conclusion": "The certificate name establishes local emptiness without a checked verdict.",
+            "expected": {
+              "reason": "No current checked verdict is attached to the named certificate.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X65",
+            "inputs": {
+              "chart": "p",
+              "coefficient_field": "Q",
+              "cofactors": [
+                "0",
+                "-2/5*t*c9_11-1/5*p*t^2",
+                "4/5*t^2"
+              ],
+              "denominator_powers": [
+                0,
+                0
+              ],
+              "generators": [
+                "15*t^3+1",
+                "10*c9_11*t + 15*p*t**2",
+                "5*c9_11**2 + 10*c9_11*p*t + 5*p**2*t**2"
+              ],
+              "guards": [
+                "p",
+                "t"
+              ],
+              "localization_powers": [
+                2,
+                4
+              ],
+              "membership_target": "p^2*t^4",
+              "numerator": "1",
+              "point_universe": "ALGEBRAIC_CLOSURE",
+              "variables": [
+                "p",
+                "t",
+                "c9_11",
+                "I4"
+              ]
+            },
+            "schema_version": 1,
+            "scope_or_region": "BOTH",
+            "seed": null,
+            "situation": "A frozen p-axis stratum has a localized unit-ideal certificate. Its equations, guards and source binding delimit the result.",
+            "sources": [
+              {
+                "anchor": "def test_certificate_name_without_verdict_grants_no_authority(",
+                "commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+                "line": 168,
+                "path": "tests/test_jc_p_axis_authority.py",
+                "repository": "gp-history"
+              }
+            ],
+            "title": "A certificate name alone grants no emptiness authority"
+          },
+          "mode": "reverse",
+          "source_digest": "64a3d188feba3c23337c590efc67f4f950af984f0674041f7a67b120daf20cbe",
+          "state": {
+            "current_count": 1,
+            "domain": [
+              1
+            ],
+            "held": [],
+            "live_warrants": [
+              20
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [],
+            "warrant_count": 1
+          }
+        },
+        "duplicates": {
+          "actual_currency_check": false,
+          "bound_literal": "{\"attempted_conclusion\":\"The certificate name establishes local emptiness without a checked verdict.\",\"expected\":{\"reason\":\"No current checked verdict is attached to the named certificate.\",\"verdict\":\"REFUSE\"},\"id\":\"GP-X65\",\"inputs\":{\"chart\":\"p\",\"coefficient_field\":\"Q\",\"cofactors\":[\"0\",\"-2/5*t*c9_11-1/5*p*t^2\",\"4/5*t^2\"],\"denominator_powers\":[0,0],\"generators\":[\"15*t^3+1\",\"10*c9_11*t + 15*p*t**2\",\"5*c9_11**2 + 10*c9_11*p*t + 5*p**2*t**2\"],\"guards\":[\"p\",\"t\"],\"localization_powers\":[2,4],\"membership_target\":\"p^2*t^4\",\"numerator\":\"1\",\"point_universe\":\"ALGEBRAIC_CLOSURE\",\"variables\":[\"p\",\"t\",\"c9_11\",\"I4\"]},\"schema_version\":1,\"scope_or_region\":\"BOTH\",\"seed\":null,\"situation\":\"A frozen p-axis stratum has a localized unit-ideal certificate. Its equations, guards and source binding delimit the result.\",\"sources\":[{\"anchor\":\"def test_certificate_name_without_verdict_grants_no_authority(\",\"commit\":\"7991c9052f13e8dcaa78b5eae36f31663e080c1e\",\"line\":168,\"path\":\"tests/test_jc_p_axis_authority.py\",\"repository\":\"gp-history\"}],\"title\":\"A certificate name alone grants no emptiness authority\"}",
+          "case": "GP-X65",
+          "checked_stratum": null,
+          "current_stratum": "{\"chart\":\"p\",\"coefficient_field\":\"Q\",\"cofactors\":[\"0\",\"-2/5*t*c9_11-1/5*p*t^2\",\"4/5*t^2\"],\"denominator_powers\":[0,0],\"generators\":[\"15*t^3+1\",\"10*c9_11*t + 15*p*t**2\",\"5*c9_11**2 + 10*c9_11*p*t + 5*p**2*t**2\"],\"guards\":[\"p\",\"t\"],\"localization_powers\":[2,4],\"membership_target\":\"p^2*t^4\",\"numerator\":\"1\",\"point_universe\":\"ALGEBRAIC_CLOSURE\",\"variables\":[\"p\",\"t\",\"c9_11\",\"I4\"]}",
+          "literal_fixture": {
+            "attempted_conclusion": "The certificate name establishes local emptiness without a checked verdict.",
+            "expected": {
+              "reason": "No current checked verdict is attached to the named certificate.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X65",
+            "inputs": {
+              "chart": "p",
+              "coefficient_field": "Q",
+              "cofactors": [
+                "0",
+                "-2/5*t*c9_11-1/5*p*t^2",
+                "4/5*t^2"
+              ],
+              "denominator_powers": [
+                0,
+                0
+              ],
+              "generators": [
+                "15*t^3+1",
+                "10*c9_11*t + 15*p*t**2",
+                "5*c9_11**2 + 10*c9_11*p*t + 5*p**2*t**2"
+              ],
+              "guards": [
+                "p",
+                "t"
+              ],
+              "localization_powers": [
+                2,
+                4
+              ],
+              "membership_target": "p^2*t^4",
+              "numerator": "1",
+              "point_universe": "ALGEBRAIC_CLOSURE",
+              "variables": [
+                "p",
+                "t",
+                "c9_11",
+                "I4"
+              ]
+            },
+            "schema_version": 1,
+            "scope_or_region": "BOTH",
+            "seed": null,
+            "situation": "A frozen p-axis stratum has a localized unit-ideal certificate. Its equations, guards and source binding delimit the result.",
+            "sources": [
+              {
+                "anchor": "def test_certificate_name_without_verdict_grants_no_authority(",
+                "commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+                "line": 168,
+                "path": "tests/test_jc_p_axis_authority.py",
+                "repository": "gp-history"
+              }
+            ],
+            "title": "A certificate name alone grants no emptiness authority"
+          },
+          "mode": "duplicates",
+          "source_digest": "64a3d188feba3c23337c590efc67f4f950af984f0674041f7a67b120daf20cbe",
+          "state": {
+            "current_count": 1,
+            "domain": [
+              1
+            ],
+            "held": [],
+            "live_warrants": [
+              20
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [],
+            "warrant_count": 1
+          }
+        },
+        "reverse_duplicates": {
+          "actual_currency_check": false,
+          "bound_literal": "{\"attempted_conclusion\":\"The certificate name establishes local emptiness without a checked verdict.\",\"expected\":{\"reason\":\"No current checked verdict is attached to the named certificate.\",\"verdict\":\"REFUSE\"},\"id\":\"GP-X65\",\"inputs\":{\"chart\":\"p\",\"coefficient_field\":\"Q\",\"cofactors\":[\"0\",\"-2/5*t*c9_11-1/5*p*t^2\",\"4/5*t^2\"],\"denominator_powers\":[0,0],\"generators\":[\"15*t^3+1\",\"10*c9_11*t + 15*p*t**2\",\"5*c9_11**2 + 10*c9_11*p*t + 5*p**2*t**2\"],\"guards\":[\"p\",\"t\"],\"localization_powers\":[2,4],\"membership_target\":\"p^2*t^4\",\"numerator\":\"1\",\"point_universe\":\"ALGEBRAIC_CLOSURE\",\"variables\":[\"p\",\"t\",\"c9_11\",\"I4\"]},\"schema_version\":1,\"scope_or_region\":\"BOTH\",\"seed\":null,\"situation\":\"A frozen p-axis stratum has a localized unit-ideal certificate. Its equations, guards and source binding delimit the result.\",\"sources\":[{\"anchor\":\"def test_certificate_name_without_verdict_grants_no_authority(\",\"commit\":\"7991c9052f13e8dcaa78b5eae36f31663e080c1e\",\"line\":168,\"path\":\"tests/test_jc_p_axis_authority.py\",\"repository\":\"gp-history\"}],\"title\":\"A certificate name alone grants no emptiness authority\"}",
+          "case": "GP-X65",
+          "checked_stratum": null,
+          "current_stratum": "{\"chart\":\"p\",\"coefficient_field\":\"Q\",\"cofactors\":[\"0\",\"-2/5*t*c9_11-1/5*p*t^2\",\"4/5*t^2\"],\"denominator_powers\":[0,0],\"generators\":[\"15*t^3+1\",\"10*c9_11*t + 15*p*t**2\",\"5*c9_11**2 + 10*c9_11*p*t + 5*p**2*t**2\"],\"guards\":[\"p\",\"t\"],\"localization_powers\":[2,4],\"membership_target\":\"p^2*t^4\",\"numerator\":\"1\",\"point_universe\":\"ALGEBRAIC_CLOSURE\",\"variables\":[\"p\",\"t\",\"c9_11\",\"I4\"]}",
+          "literal_fixture": {
+            "attempted_conclusion": "The certificate name establishes local emptiness without a checked verdict.",
+            "expected": {
+              "reason": "No current checked verdict is attached to the named certificate.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X65",
+            "inputs": {
+              "chart": "p",
+              "coefficient_field": "Q",
+              "cofactors": [
+                "0",
+                "-2/5*t*c9_11-1/5*p*t^2",
+                "4/5*t^2"
+              ],
+              "denominator_powers": [
+                0,
+                0
+              ],
+              "generators": [
+                "15*t^3+1",
+                "10*c9_11*t + 15*p*t**2",
+                "5*c9_11**2 + 10*c9_11*p*t + 5*p**2*t**2"
+              ],
+              "guards": [
+                "p",
+                "t"
+              ],
+              "localization_powers": [
+                2,
+                4
+              ],
+              "membership_target": "p^2*t^4",
+              "numerator": "1",
+              "point_universe": "ALGEBRAIC_CLOSURE",
+              "variables": [
+                "p",
+                "t",
+                "c9_11",
+                "I4"
+              ]
+            },
+            "schema_version": 1,
+            "scope_or_region": "BOTH",
+            "seed": null,
+            "situation": "A frozen p-axis stratum has a localized unit-ideal certificate. Its equations, guards and source binding delimit the result.",
+            "sources": [
+              {
+                "anchor": "def test_certificate_name_without_verdict_grants_no_authority(",
+                "commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
+                "line": 168,
+                "path": "tests/test_jc_p_axis_authority.py",
+                "repository": "gp-history"
+              }
+            ],
+            "title": "A certificate name alone grants no emptiness authority"
+          },
+          "mode": "reverse_duplicates",
+          "source_digest": "64a3d188feba3c23337c590efc67f4f950af984f0674041f7a67b120daf20cbe",
+          "state": {
+            "current_count": 1,
+            "domain": [
+              1
+            ],
+            "held": [],
+            "live_warrants": [
+              20
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [],
+            "warrant_count": 1
+          }
+        }
+      }
     }
   ],
   "remaining_slice_behaviors": [],
@@ -59106,16 +59899,19 @@
     "context_reach_separate_controls": 11,
     "open_premise_guard_cases": 3,
     "open_premise_guard_folds": 12,
-    "open_premise_guard_separate_controls": 9
+    "open_premise_guard_separate_controls": 9,
+    "unreplayed_evidence_cases": 2,
+    "unreplayed_evidence_folds": 8,
+    "unreplayed_evidence_separate_controls": 10
   },
   "lifecycle_report_sha256": "c3a1feb8fac5e374f4248843f4015d4dfe360aa1d26152c39b7f1cf67916fa7b",
-  "provenance_report_sha256": "db18ea4bc7d5a15d52d6e15ae316f693590127cb397c2f3fb2ec7cec23ead192",
+  "provenance_report_sha256": "bcbb12474a5228bb974ebbbb18fc85bc21c334aa15ac2af999719cb540799189",
   "conditional_cover_report_sha256": "dec205eb4e96799fa95ebf3e034292954b6988a9e1b0328b3189a225041075d3",
   "declaration_report_sha256": "669a1e5e86feb501c36f3bb233ee761837aedca210896bce790c82ac8d71bfd1",
   "conditional_partition_report_sha256": "b863b97bf82efd583baa3c4cb6b92f08afd73205099c157c0e1b9571a73df149",
   "conditional_routes_report_sha256": "8e718ef9acc262e541daa89374e3438c75c94f62acfd3b9f07f2cfed2cb76091",
   "retraction_report_sha256": "b4903189f4622cc569f419fbabceda67f40c04e67309a8d34ee4fd51b1c6bccc",
-  "checked_lifecycle_supplement_sha256": "03b7d8002d8bc781ac349d8c7f376298703c397186eaafdcf505ed0151a06b5e",
+  "checked_lifecycle_supplement_sha256": "63bc8bb61c1a907c707528b08196ccfb0e96b2d4f66eb0ade711d0822161695a",
   "supplemental_slice_contracts": {
     "independent checked support and targeted retraction": "Two independently replay-validated X164 receipts; one survives targeted retraction, neither survives both retractions.",
     "failed retry": "Explicit failed/timeout attempts preserve prior native checked support; attempt-only controls are unheld.",
@@ -59123,7 +59919,7 @@
   },
   "supersession_guards_report_sha256": "44c21ef5ddbe7b9e56a02040e8c118dd4fe5f9344ccd2b7f55f7a7b98925c7fe",
   "residual_successors_report_sha256": "efdbf909a864496475cf6e70870c7463bf160ffcb86c6a82b5ef7bdbc52a4de0",
-  "missing_authority_report_sha256": "235e26ff2877fdeabaf36945f16a172cffaebb2d1bee61b647c00b6d45fb9dfd",
+  "missing_authority_report_sha256": "8d467b0f5306e316df1b5c7a3403f8b49ce6408a3b63a17e84909c1ba3e9f9c6",
   "conditional_point_routes_report_sha256": "268752ee2d82481cecd268dbac5502b4510d4ac3c7323fae6ca839b7424d1563",
   "conflict_demonstration_report_sha256": "c528854b0343f7f9d6d6f388c4468c2ed06ff4ebe56d0aee8ed682b5422f6fdc",
   "recorded_use_coverage_report_sha256": "59ec42c2e964e6933741dc73d71a878b34843188fa8cc02ae741fc6f522a675c",
@@ -59133,11 +59929,12 @@
   "section_provenance_report_sha256": "4018b5760ca66d91f2a2bd69e75b35ef37c3cc93bed33d82adbbc060180eee47",
   "context_reach_report_sha256": "acc7472a22ecf6cd7707828b2f474ac8199e59deab220817880a63868d07c947",
   "open_premise_guard_report_sha256": "aaffb95a91f85ad9ccb1b8d9c753dc6e0cc2a09f27211588cb052e89d58b27ba",
+  "unreplayed_evidence_report_sha256": "07f029f7a46108d698f6863d1d98f97a18bb624bf6f6a74cbfc34fc394ea23c6",
   "execution_reuse": {
-    "retained_case_count": 63,
-    "new_fresh_case_count": 3,
-    "prior_receipt_sha256": "81d2b1852f9f13a9ea844b52775d9c94da614956daa2946aaf3f3c889517dcae",
-    "prior_commit": "0d14bbfb87e181c4211f75bbc94c7cbf0720b87b",
-    "qualification": "Earlier 63 complete execution rows are retained verbatim after byte/expectation checks. Only the new aggregation stage/count text changed; previous helper and execution code is exactly identical. The new suite executed all 12 original folds and 9 separate controls. Retained suites are byte-identical to the reviewed checkpoint. This is not a claim of 66 fresh native executions in this turn."
+    "retained_case_count": 66,
+    "new_fresh_case_count": 2,
+    "prior_receipt_sha256": "42b13f6d181aae76641761c76b5f0e230a693acf1c30ef9a262716261afa94b3",
+    "prior_commit": "0b2922068d07461178d7fd1b92fff2c40bfd1d80",
+    "qualification": "Earlier 66 complete execution rows are retained verbatim after byte/expectation checks. Only the new aggregation stage/count text changed; previous helper and execution code is exactly identical. The new suite executed all 8 original folds and 10 separate controls. Retained suites are byte-identical to the reviewed checkpoint. This is not a claim of 68 fresh native executions in this turn."
   }
 }
