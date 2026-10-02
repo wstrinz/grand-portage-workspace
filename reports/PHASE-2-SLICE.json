@@ -1,10 +1,10 @@
 {
   "schema": "gp-phase2-native-slice/v1",
-  "case_count": 63,
+  "case_count": 66,
   "complete_ten_case_slice": true,
   "g2_pass": false,
   "runner_sha256": "b132a3c6161859fcee2ee98ae9c5bb99f385ff8e416a2249325bc49b363a284b",
-  "adapter_sha256": "e9aa50335c1593e6fb4fd902a171761f39e7b6f469ae88ed877349be4b8e44b4",
+  "adapter_sha256": "622a15112d5089a46c5bdc3c8c8c604e61bbc2e648dbaad010808b6a31708f47",
   "cases": [
     {
       "id": "GP-A17",
@@ -56881,6 +56881,2177 @@
           "target_context": "Q"
         }
       }
+    },
+    {
+      "id": "GP-X399",
+      "source_sha256": "cf8583a6198d4d29c479da443df2f26e7f4e4c1b3d021623a2a6e11bddc774a7",
+      "expected": {
+        "verdict": "REFUSE",
+        "reason": "The frozen guard rejects a family premise at the DISCHARGE family gate; no checked bridge is supplied."
+      },
+      "observed": "REFUSE",
+      "full_fixture_contract": true,
+      "status": "EXECUTED",
+      "literal_inputs": {
+        "fixture": "fixtures/D1-inference-on-family-claim/input.json",
+        "fixture_lf_sha256": "023ae70cb544e795fa78710a629886d4f25e0193b50f41c4df30938ebd97e591",
+        "fixture_manifest_source_commit": "b876fe4ed5c8963a0e8c19e18c829821c0686654",
+        "family": {
+          "id": "F",
+          "count": 2,
+          "enumeration": "C-COUNT"
+        },
+        "claim": {
+          "id": "C-COUNT",
+          "kind": "PREDICATE",
+          "family": "F",
+          "asserts_count": 2
+        },
+        "inference": {
+          "id": "INF",
+          "premises": [
+            "C-COUNT"
+          ],
+          "concludes_kind": "PREDICATE"
+        },
+        "missing_premise": "A checked family_bridge from an exhibited proved member to a model-level premise."
+      },
+      "layer_entry": {
+        "id": "GP-X399",
+        "path": "corpus/must/GP-X399.json",
+        "sha256": "cf8583a6198d4d29c479da443df2f26e7f4e4c1b3d021623a2a6e11bddc774a7",
+        "primary_layer": "kernel",
+        "candidate_layers": [
+          "kernel"
+        ],
+        "g2_kernel_eligible": true,
+        "status": "resolved",
+        "rationale": "The full fixture assumes mathematical premises or supplies only declaration/claim data; registered rule, exact context, dependency and scope obligations decide authority.",
+        "review_group": "supplied-premise-authority",
+        "full_contract_required": true,
+        "secondary_layers": [],
+        "secondary_duties": [],
+        "evidence_pointers": [
+          "/title",
+          "/inputs",
+          "/attempted_conclusion",
+          "/expected/reason"
+        ]
+      },
+      "frozen_frame_lf_sha256": "023ae70cb544e795fa78710a629886d4f25e0193b50f41c4df30938ebd97e591",
+      "native_results": {
+        "normal": {
+          "actual_license_check": false,
+          "asserted": "so something follows from the count",
+          "bound_literal": "{\"attempted_conclusion\":\"Use the family PREDICATE claim directly to derive a model conclusion.\",\"expected\":{\"reason\":\"The frozen guard rejects a family premise at the DISCHARGE family gate; no checked bridge is supplied.\",\"verdict\":\"REFUSE\"},\"id\":\"GP-X399\",\"inputs\":{\"claim\":{\"asserts_count\":2,\"family\":\"F\",\"id\":\"C-COUNT\",\"kind\":\"PREDICATE\"},\"family\":{\"count\":2,\"enumeration\":\"C-COUNT\",\"id\":\"F\"},\"fixture\":\"fixtures/D1-inference-on-family-claim/input.json\",\"fixture_lf_sha256\":\"023ae70cb544e795fa78710a629886d4f25e0193b50f41c4df30938ebd97e591\",\"fixture_manifest_source_commit\":\"b876fe4ed5c8963a0e8c19e18c829821c0686654\",\"inference\":{\"concludes_kind\":\"PREDICATE\",\"id\":\"INF\",\"premises\":[\"C-COUNT\"]},\"missing_premise\":\"A checked family_bridge from an exhibited proved member to a model-level premise.\"},\"schema_version\":1,\"scope_or_region\":\"N/A\",\"seed\":null,\"situation\":\"A two-member family has a PREDICATE count-style claim, but the inference supplies it as a premise without a model-level checked family_bridge.\",\"sources\":[{\"anchor\":\"def test_family_premise_refuses_with_discharge_without_crashing(\",\"commit\":\"ac4155787207e2847d248cffed7be871d5dcd577\",\"line\":26,\"path\":\"tests/test_guard_release.py\",\"repository\":\"gp-v037\"}],\"title\":\"Family PREDICATE cannot be used as a model inference premise without a checked family bridge\"}",
+          "case": "GP-X399",
+          "frozen_frame": [
+            {
+              "count": 2,
+              "desc": "a member",
+              "enumeration": "C-COUNT",
+              "ev": "family",
+              "id": "F"
+            },
+            {
+              "asserts_count": 2,
+              "ev": "claim",
+              "family": "F",
+              "id": "C-COUNT",
+              "kind": "PREDICATE",
+              "statement": "the family has exactly two members"
+            },
+            {
+              "asserted": "so something follows from the count",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF",
+              "premises": [
+                {
+                  "claim": "C-COUNT",
+                  "path": []
+                }
+              ]
+            }
+          ],
+          "inference": "INF",
+          "literal_fixture": {
+            "attempted_conclusion": "Use the family PREDICATE claim directly to derive a model conclusion.",
+            "expected": {
+              "reason": "The frozen guard rejects a family premise at the DISCHARGE family gate; no checked bridge is supplied.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X399",
+            "inputs": {
+              "claim": {
+                "asserts_count": 2,
+                "family": "F",
+                "id": "C-COUNT",
+                "kind": "PREDICATE"
+              },
+              "family": {
+                "count": 2,
+                "enumeration": "C-COUNT",
+                "id": "F"
+              },
+              "fixture": "fixtures/D1-inference-on-family-claim/input.json",
+              "fixture_lf_sha256": "023ae70cb544e795fa78710a629886d4f25e0193b50f41c4df30938ebd97e591",
+              "fixture_manifest_source_commit": "b876fe4ed5c8963a0e8c19e18c829821c0686654",
+              "inference": {
+                "concludes_kind": "PREDICATE",
+                "id": "INF",
+                "premises": [
+                  "C-COUNT"
+                ]
+              },
+              "missing_premise": "A checked family_bridge from an exhibited proved member to a model-level premise."
+            },
+            "schema_version": 1,
+            "scope_or_region": "N/A",
+            "seed": null,
+            "situation": "A two-member family has a PREDICATE count-style claim, but the inference supplies it as a premise without a model-level checked family_bridge.",
+            "sources": [
+              {
+                "anchor": "def test_family_premise_refuses_with_discharge_without_crashing(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 26,
+                "path": "tests/test_guard_release.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "Family PREDICATE cannot be used as a model inference premise without a checked family bridge"
+          },
+          "mode": "normal",
+          "slots": [
+            {
+              "claim": "C-COUNT",
+              "model_level": false
+            }
+          ],
+          "source_digest": "cf8583a6198d4d29c479da443df2f26e7f4e4c1b3d021623a2a6e11bddc774a7",
+          "state": {
+            "current_count": 2,
+            "domain": [
+              1,
+              100
+            ],
+            "held": [],
+            "live_warrants": [
+              1,
+              100
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [],
+            "warrant_count": 2
+          }
+        },
+        "reverse": {
+          "actual_license_check": false,
+          "asserted": "so something follows from the count",
+          "bound_literal": "{\"attempted_conclusion\":\"Use the family PREDICATE claim directly to derive a model conclusion.\",\"expected\":{\"reason\":\"The frozen guard rejects a family premise at the DISCHARGE family gate; no checked bridge is supplied.\",\"verdict\":\"REFUSE\"},\"id\":\"GP-X399\",\"inputs\":{\"claim\":{\"asserts_count\":2,\"family\":\"F\",\"id\":\"C-COUNT\",\"kind\":\"PREDICATE\"},\"family\":{\"count\":2,\"enumeration\":\"C-COUNT\",\"id\":\"F\"},\"fixture\":\"fixtures/D1-inference-on-family-claim/input.json\",\"fixture_lf_sha256\":\"023ae70cb544e795fa78710a629886d4f25e0193b50f41c4df30938ebd97e591\",\"fixture_manifest_source_commit\":\"b876fe4ed5c8963a0e8c19e18c829821c0686654\",\"inference\":{\"concludes_kind\":\"PREDICATE\",\"id\":\"INF\",\"premises\":[\"C-COUNT\"]},\"missing_premise\":\"A checked family_bridge from an exhibited proved member to a model-level premise.\"},\"schema_version\":1,\"scope_or_region\":\"N/A\",\"seed\":null,\"situation\":\"A two-member family has a PREDICATE count-style claim, but the inference supplies it as a premise without a model-level checked family_bridge.\",\"sources\":[{\"anchor\":\"def test_family_premise_refuses_with_discharge_without_crashing(\",\"commit\":\"ac4155787207e2847d248cffed7be871d5dcd577\",\"line\":26,\"path\":\"tests/test_guard_release.py\",\"repository\":\"gp-v037\"}],\"title\":\"Family PREDICATE cannot be used as a model inference premise without a checked family bridge\"}",
+          "case": "GP-X399",
+          "frozen_frame": [
+            {
+              "count": 2,
+              "desc": "a member",
+              "enumeration": "C-COUNT",
+              "ev": "family",
+              "id": "F"
+            },
+            {
+              "asserts_count": 2,
+              "ev": "claim",
+              "family": "F",
+              "id": "C-COUNT",
+              "kind": "PREDICATE",
+              "statement": "the family has exactly two members"
+            },
+            {
+              "asserted": "so something follows from the count",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF",
+              "premises": [
+                {
+                  "claim": "C-COUNT",
+                  "path": []
+                }
+              ]
+            }
+          ],
+          "inference": "INF",
+          "literal_fixture": {
+            "attempted_conclusion": "Use the family PREDICATE claim directly to derive a model conclusion.",
+            "expected": {
+              "reason": "The frozen guard rejects a family premise at the DISCHARGE family gate; no checked bridge is supplied.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X399",
+            "inputs": {
+              "claim": {
+                "asserts_count": 2,
+                "family": "F",
+                "id": "C-COUNT",
+                "kind": "PREDICATE"
+              },
+              "family": {
+                "count": 2,
+                "enumeration": "C-COUNT",
+                "id": "F"
+              },
+              "fixture": "fixtures/D1-inference-on-family-claim/input.json",
+              "fixture_lf_sha256": "023ae70cb544e795fa78710a629886d4f25e0193b50f41c4df30938ebd97e591",
+              "fixture_manifest_source_commit": "b876fe4ed5c8963a0e8c19e18c829821c0686654",
+              "inference": {
+                "concludes_kind": "PREDICATE",
+                "id": "INF",
+                "premises": [
+                  "C-COUNT"
+                ]
+              },
+              "missing_premise": "A checked family_bridge from an exhibited proved member to a model-level premise."
+            },
+            "schema_version": 1,
+            "scope_or_region": "N/A",
+            "seed": null,
+            "situation": "A two-member family has a PREDICATE count-style claim, but the inference supplies it as a premise without a model-level checked family_bridge.",
+            "sources": [
+              {
+                "anchor": "def test_family_premise_refuses_with_discharge_without_crashing(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 26,
+                "path": "tests/test_guard_release.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "Family PREDICATE cannot be used as a model inference premise without a checked family bridge"
+          },
+          "mode": "reverse",
+          "slots": [
+            {
+              "claim": "C-COUNT",
+              "model_level": false
+            }
+          ],
+          "source_digest": "cf8583a6198d4d29c479da443df2f26e7f4e4c1b3d021623a2a6e11bddc774a7",
+          "state": {
+            "current_count": 2,
+            "domain": [
+              1,
+              100
+            ],
+            "held": [],
+            "live_warrants": [
+              1,
+              100
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [],
+            "warrant_count": 2
+          }
+        },
+        "duplicates": {
+          "actual_license_check": false,
+          "asserted": "so something follows from the count",
+          "bound_literal": "{\"attempted_conclusion\":\"Use the family PREDICATE claim directly to derive a model conclusion.\",\"expected\":{\"reason\":\"The frozen guard rejects a family premise at the DISCHARGE family gate; no checked bridge is supplied.\",\"verdict\":\"REFUSE\"},\"id\":\"GP-X399\",\"inputs\":{\"claim\":{\"asserts_count\":2,\"family\":\"F\",\"id\":\"C-COUNT\",\"kind\":\"PREDICATE\"},\"family\":{\"count\":2,\"enumeration\":\"C-COUNT\",\"id\":\"F\"},\"fixture\":\"fixtures/D1-inference-on-family-claim/input.json\",\"fixture_lf_sha256\":\"023ae70cb544e795fa78710a629886d4f25e0193b50f41c4df30938ebd97e591\",\"fixture_manifest_source_commit\":\"b876fe4ed5c8963a0e8c19e18c829821c0686654\",\"inference\":{\"concludes_kind\":\"PREDICATE\",\"id\":\"INF\",\"premises\":[\"C-COUNT\"]},\"missing_premise\":\"A checked family_bridge from an exhibited proved member to a model-level premise.\"},\"schema_version\":1,\"scope_or_region\":\"N/A\",\"seed\":null,\"situation\":\"A two-member family has a PREDICATE count-style claim, but the inference supplies it as a premise without a model-level checked family_bridge.\",\"sources\":[{\"anchor\":\"def test_family_premise_refuses_with_discharge_without_crashing(\",\"commit\":\"ac4155787207e2847d248cffed7be871d5dcd577\",\"line\":26,\"path\":\"tests/test_guard_release.py\",\"repository\":\"gp-v037\"}],\"title\":\"Family PREDICATE cannot be used as a model inference premise without a checked family bridge\"}",
+          "case": "GP-X399",
+          "frozen_frame": [
+            {
+              "count": 2,
+              "desc": "a member",
+              "enumeration": "C-COUNT",
+              "ev": "family",
+              "id": "F"
+            },
+            {
+              "asserts_count": 2,
+              "ev": "claim",
+              "family": "F",
+              "id": "C-COUNT",
+              "kind": "PREDICATE",
+              "statement": "the family has exactly two members"
+            },
+            {
+              "asserted": "so something follows from the count",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF",
+              "premises": [
+                {
+                  "claim": "C-COUNT",
+                  "path": []
+                }
+              ]
+            }
+          ],
+          "inference": "INF",
+          "literal_fixture": {
+            "attempted_conclusion": "Use the family PREDICATE claim directly to derive a model conclusion.",
+            "expected": {
+              "reason": "The frozen guard rejects a family premise at the DISCHARGE family gate; no checked bridge is supplied.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X399",
+            "inputs": {
+              "claim": {
+                "asserts_count": 2,
+                "family": "F",
+                "id": "C-COUNT",
+                "kind": "PREDICATE"
+              },
+              "family": {
+                "count": 2,
+                "enumeration": "C-COUNT",
+                "id": "F"
+              },
+              "fixture": "fixtures/D1-inference-on-family-claim/input.json",
+              "fixture_lf_sha256": "023ae70cb544e795fa78710a629886d4f25e0193b50f41c4df30938ebd97e591",
+              "fixture_manifest_source_commit": "b876fe4ed5c8963a0e8c19e18c829821c0686654",
+              "inference": {
+                "concludes_kind": "PREDICATE",
+                "id": "INF",
+                "premises": [
+                  "C-COUNT"
+                ]
+              },
+              "missing_premise": "A checked family_bridge from an exhibited proved member to a model-level premise."
+            },
+            "schema_version": 1,
+            "scope_or_region": "N/A",
+            "seed": null,
+            "situation": "A two-member family has a PREDICATE count-style claim, but the inference supplies it as a premise without a model-level checked family_bridge.",
+            "sources": [
+              {
+                "anchor": "def test_family_premise_refuses_with_discharge_without_crashing(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 26,
+                "path": "tests/test_guard_release.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "Family PREDICATE cannot be used as a model inference premise without a checked family bridge"
+          },
+          "mode": "duplicates",
+          "slots": [
+            {
+              "claim": "C-COUNT",
+              "model_level": false
+            }
+          ],
+          "source_digest": "cf8583a6198d4d29c479da443df2f26e7f4e4c1b3d021623a2a6e11bddc774a7",
+          "state": {
+            "current_count": 2,
+            "domain": [
+              1,
+              100
+            ],
+            "held": [],
+            "live_warrants": [
+              1,
+              100
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [],
+            "warrant_count": 2
+          }
+        },
+        "reverse_duplicates": {
+          "actual_license_check": false,
+          "asserted": "so something follows from the count",
+          "bound_literal": "{\"attempted_conclusion\":\"Use the family PREDICATE claim directly to derive a model conclusion.\",\"expected\":{\"reason\":\"The frozen guard rejects a family premise at the DISCHARGE family gate; no checked bridge is supplied.\",\"verdict\":\"REFUSE\"},\"id\":\"GP-X399\",\"inputs\":{\"claim\":{\"asserts_count\":2,\"family\":\"F\",\"id\":\"C-COUNT\",\"kind\":\"PREDICATE\"},\"family\":{\"count\":2,\"enumeration\":\"C-COUNT\",\"id\":\"F\"},\"fixture\":\"fixtures/D1-inference-on-family-claim/input.json\",\"fixture_lf_sha256\":\"023ae70cb544e795fa78710a629886d4f25e0193b50f41c4df30938ebd97e591\",\"fixture_manifest_source_commit\":\"b876fe4ed5c8963a0e8c19e18c829821c0686654\",\"inference\":{\"concludes_kind\":\"PREDICATE\",\"id\":\"INF\",\"premises\":[\"C-COUNT\"]},\"missing_premise\":\"A checked family_bridge from an exhibited proved member to a model-level premise.\"},\"schema_version\":1,\"scope_or_region\":\"N/A\",\"seed\":null,\"situation\":\"A two-member family has a PREDICATE count-style claim, but the inference supplies it as a premise without a model-level checked family_bridge.\",\"sources\":[{\"anchor\":\"def test_family_premise_refuses_with_discharge_without_crashing(\",\"commit\":\"ac4155787207e2847d248cffed7be871d5dcd577\",\"line\":26,\"path\":\"tests/test_guard_release.py\",\"repository\":\"gp-v037\"}],\"title\":\"Family PREDICATE cannot be used as a model inference premise without a checked family bridge\"}",
+          "case": "GP-X399",
+          "frozen_frame": [
+            {
+              "count": 2,
+              "desc": "a member",
+              "enumeration": "C-COUNT",
+              "ev": "family",
+              "id": "F"
+            },
+            {
+              "asserts_count": 2,
+              "ev": "claim",
+              "family": "F",
+              "id": "C-COUNT",
+              "kind": "PREDICATE",
+              "statement": "the family has exactly two members"
+            },
+            {
+              "asserted": "so something follows from the count",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF",
+              "premises": [
+                {
+                  "claim": "C-COUNT",
+                  "path": []
+                }
+              ]
+            }
+          ],
+          "inference": "INF",
+          "literal_fixture": {
+            "attempted_conclusion": "Use the family PREDICATE claim directly to derive a model conclusion.",
+            "expected": {
+              "reason": "The frozen guard rejects a family premise at the DISCHARGE family gate; no checked bridge is supplied.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X399",
+            "inputs": {
+              "claim": {
+                "asserts_count": 2,
+                "family": "F",
+                "id": "C-COUNT",
+                "kind": "PREDICATE"
+              },
+              "family": {
+                "count": 2,
+                "enumeration": "C-COUNT",
+                "id": "F"
+              },
+              "fixture": "fixtures/D1-inference-on-family-claim/input.json",
+              "fixture_lf_sha256": "023ae70cb544e795fa78710a629886d4f25e0193b50f41c4df30938ebd97e591",
+              "fixture_manifest_source_commit": "b876fe4ed5c8963a0e8c19e18c829821c0686654",
+              "inference": {
+                "concludes_kind": "PREDICATE",
+                "id": "INF",
+                "premises": [
+                  "C-COUNT"
+                ]
+              },
+              "missing_premise": "A checked family_bridge from an exhibited proved member to a model-level premise."
+            },
+            "schema_version": 1,
+            "scope_or_region": "N/A",
+            "seed": null,
+            "situation": "A two-member family has a PREDICATE count-style claim, but the inference supplies it as a premise without a model-level checked family_bridge.",
+            "sources": [
+              {
+                "anchor": "def test_family_premise_refuses_with_discharge_without_crashing(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 26,
+                "path": "tests/test_guard_release.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "Family PREDICATE cannot be used as a model inference premise without a checked family bridge"
+          },
+          "mode": "reverse_duplicates",
+          "slots": [
+            {
+              "claim": "C-COUNT",
+              "model_level": false
+            }
+          ],
+          "source_digest": "cf8583a6198d4d29c479da443df2f26e7f4e4c1b3d021623a2a6e11bddc774a7",
+          "state": {
+            "current_count": 2,
+            "domain": [
+              1,
+              100
+            ],
+            "held": [],
+            "live_warrants": [
+              1,
+              100
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [],
+            "warrant_count": 2
+          }
+        }
+      }
+    },
+    {
+      "id": "GP-X402",
+      "source_sha256": "490987e96755ceb32a5f6fb44bd0202488212ce348bc04cd1e70d37b7d1c144f",
+      "expected": {
+        "verdict": "REFUSE",
+        "reason": "The transport checker retains INF-X8 as refused because a count in a census is not a world conclusion without E5 completeness."
+      },
+      "observed": "REFUSE",
+      "full_fixture_contract": true,
+      "status": "EXECUTED",
+      "literal_inputs": {
+        "fixture": "transports/X8-X10.json",
+        "fixture_lf_sha256": "b1009142a6cad512e9d6f87fdeaeadc507081c3481aaadf026fd7eea0d9fded1",
+        "fixture_manifest_source_commit": "b876fe4ed5c8963a0e8c19e18c829821c0686654",
+        "model": "M-23-4-REAL",
+        "available_premise": "CL-E3B",
+        "missing_premise": "E5: the 5,395-action census is complete for faithful V4 actions in the stated world",
+        "attempt": "INF-X8: turn exactly two census members into exactly two configurations in the world",
+        "observation_layer": "frozen_transport_refusal",
+        "limited_contrast": "INF-X9 is clean only because the fixture supplies CL-E5-DECLARED at its declared, unproved authority; it is not a completeness receipt or positive for this case."
+      },
+      "layer_entry": {
+        "id": "GP-X402",
+        "path": "corpus/must/GP-X402.json",
+        "sha256": "490987e96755ceb32a5f6fb44bd0202488212ce348bc04cd1e70d37b7d1c144f",
+        "primary_layer": "kernel",
+        "candidate_layers": [
+          "kernel"
+        ],
+        "g2_kernel_eligible": true,
+        "status": "resolved",
+        "rationale": "The full fixture assumes mathematical premises or supplies only declaration/claim data; registered rule, exact context, dependency and scope obligations decide authority.",
+        "review_group": "supplied-premise-authority",
+        "full_contract_required": true,
+        "secondary_layers": [],
+        "secondary_duties": [],
+        "evidence_pointers": [
+          "/title",
+          "/inputs",
+          "/attempted_conclusion",
+          "/expected/reason"
+        ]
+      },
+      "frozen_frame_lf_sha256": "b1009142a6cad512e9d6f87fdeaeadc507081c3481aaadf026fd7eea0d9fded1",
+      "native_results": {
+        "normal": {
+          "actual_license_check": false,
+          "asserted": "X8: therefore the V4-symmetric real (23_4) configurations are exactly E1 and E2",
+          "bound_literal": "{\"attempted_conclusion\":\"Conclude the V4-symmetric real configurations are exactly E1 and E2 without the E5 completeness premise.\",\"expected\":{\"reason\":\"The transport checker retains INF-X8 as refused because a count in a census is not a world conclusion without E5 completeness.\",\"verdict\":\"REFUSE\"},\"id\":\"GP-X402\",\"inputs\":{\"attempt\":\"INF-X8: turn exactly two census members into exactly two configurations in the world\",\"available_premise\":\"CL-E3B\",\"fixture\":\"transports/X8-X10.json\",\"fixture_lf_sha256\":\"b1009142a6cad512e9d6f87fdeaeadc507081c3481aaadf026fd7eea0d9fded1\",\"fixture_manifest_source_commit\":\"b876fe4ed5c8963a0e8c19e18c829821c0686654\",\"limited_contrast\":\"INF-X9 is clean only because the fixture supplies CL-E5-DECLARED at its declared, unproved authority; it is not a completeness receipt or positive for this case.\",\"missing_premise\":\"E5: the 5,395-action census is complete for faithful V4 actions in the stated world\",\"model\":\"M-23-4-REAL\",\"observation_layer\":\"frozen_transport_refusal\"},\"schema_version\":1,\"scope_or_region\":\"SCOPE\",\"seed\":null,\"situation\":\"INF-X8 has the E3b model claim but leaves E5 census completeness as an explicit required PREDICATE premise; the retained comment also records that E4 is a family COUNT and cannot be a model premise.\",\"sources\":[{\"anchor\":\"def test_ledger_and_open_slots_keep_their_original_obligations(\",\"commit\":\"ac4155787207e2847d248cffed7be871d5dcd577\",\"line\":75,\"path\":\"tests/test_guard_release.py\",\"repository\":\"gp-v037\"}],\"title\":\"Census cardinality cannot reach the world without E5 completeness\"}",
+          "case": "GP-X402",
+          "frozen_frame": [
+            {
+              "ev": "note",
+              "text": "X8/X9/X10 in the closest EXPRESSIBLE form. The packet's own shape (a census COUNT claim as an inference premise) crashes GP -- see defects/D1. These use GP's open-premise-slot mechanism, which exists for exactly this purpose: 'the graph could record claims, edges and inferences, and had no way to record a claim that should exist and does not.'"
+            },
+            {
+              "characteristic": 0,
+              "ev": "model",
+              "field": "R",
+              "id": "M-23-4-REAL",
+              "what": "the real (23_4) realization space with a faithful V4 action"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E3B",
+              "kind": "PREDICATE",
+              "ladder": "derivation-checked",
+              "model": "M-23-4-REAL",
+              "scope": "collineations only",
+              "statement": "E3b: for every geometric (23_4) in RP^2, |Sym(X)| is in {1,2,4}; order four implies V4"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5A",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5a: every faithful real V4 action is simultaneously diagonalizable to the standard sign group"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5B",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5b: V and W are singletons at the same index, and the selected point is not incident with the selected line"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5C",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5c: exactly six orbit-profile cells remain"
+            },
+            {
+              "caveat": "declared at candidate authority; E5-gap (the generative bridge) is open",
+              "established_by": "RAN",
+              "ev": "claim",
+              "id": "CL-E5-DECLARED",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "scope": "faithful V4 actions on real (23_4) types",
+              "statement": "E5 DECLARED BUT UNPROVED: the 5,395-action census is complete for faithful V4 <= PGL_3(R) actions"
+            },
+            {
+              "asserted": "X8: therefore the V4-symmetric real (23_4) configurations are exactly E1 and E2",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X8",
+              "premises": [
+                {
+                  "claim": "CL-E3B",
+                  "path": []
+                },
+                {
+                  "at": "M-23-4-REAL",
+                  "missing_why": "X8 cites E4 (exactly 2 of the 5,395 actions realizable) and E3b and stops. E5 -- that the 5,395-action census is COMPLETE -- is not among the premises and is not in this graph as a settled claim. Without it, 'exactly 2 of the census' does not become 'exactly 2 in the world'. E4 itself is a COUNT claim at a family and cannot be cited as a premise at all in GP 0.31.2 (defects/D1).",
+                  "required_kind": "PREDICATE"
+                }
+              ]
+            },
+            {
+              "asserted": "X9: E4 + E3b + E5 (declared, unproved) -> CLASS, at the authority of E5 and no higher",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X9",
+              "premises": [
+                {
+                  "claim": "CL-E3B",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5-DECLARED",
+                  "path": []
+                }
+              ]
+            },
+            {
+              "asserted": "X10: E5a-c proved plus the generative bridge -> E5",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X10",
+              "premises": [
+                {
+                  "claim": "CL-E5A",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5B",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5C",
+                  "path": []
+                },
+                {
+                  "at": "M-23-4-REAL",
+                  "missing_why": "E5-gap, the generative bridge: that every fence-valid type produced by E5a-c is present in the frozen 5,299-pin corpus. E5-argument.md section 5 declines to certify it and names the missing same-method n=22 census retrodiction. This is the SOLE open obligation under E5.",
+                  "required_kind": "PREDICATE"
+                }
+              ]
+            }
+          ],
+          "inference": "INF-X8",
+          "literal_fixture": {
+            "attempted_conclusion": "Conclude the V4-symmetric real configurations are exactly E1 and E2 without the E5 completeness premise.",
+            "expected": {
+              "reason": "The transport checker retains INF-X8 as refused because a count in a census is not a world conclusion without E5 completeness.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X402",
+            "inputs": {
+              "attempt": "INF-X8: turn exactly two census members into exactly two configurations in the world",
+              "available_premise": "CL-E3B",
+              "fixture": "transports/X8-X10.json",
+              "fixture_lf_sha256": "b1009142a6cad512e9d6f87fdeaeadc507081c3481aaadf026fd7eea0d9fded1",
+              "fixture_manifest_source_commit": "b876fe4ed5c8963a0e8c19e18c829821c0686654",
+              "limited_contrast": "INF-X9 is clean only because the fixture supplies CL-E5-DECLARED at its declared, unproved authority; it is not a completeness receipt or positive for this case.",
+              "missing_premise": "E5: the 5,395-action census is complete for faithful V4 actions in the stated world",
+              "model": "M-23-4-REAL",
+              "observation_layer": "frozen_transport_refusal"
+            },
+            "schema_version": 1,
+            "scope_or_region": "SCOPE",
+            "seed": null,
+            "situation": "INF-X8 has the E3b model claim but leaves E5 census completeness as an explicit required PREDICATE premise; the retained comment also records that E4 is a family COUNT and cannot be a model premise.",
+            "sources": [
+              {
+                "anchor": "def test_ledger_and_open_slots_keep_their_original_obligations(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 75,
+                "path": "tests/test_guard_release.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "Census cardinality cannot reach the world without E5 completeness"
+          },
+          "mode": "normal",
+          "slots": [
+            {
+              "claim": "CL-E3B",
+              "model_level": true
+            },
+            {
+              "at": "M-23-4-REAL",
+              "missing_why": "X8 cites E4 (exactly 2 of the 5,395 actions realizable) and E3b and stops. E5 -- that the 5,395-action census is COMPLETE -- is not among the premises and is not in this graph as a settled claim. Without it, 'exactly 2 of the census' does not become 'exactly 2 in the world'. E4 itself is a COUNT claim at a family and cannot be cited as a premise at all in GP 0.31.2 (defects/D1).",
+              "required_kind": "PREDICATE"
+            }
+          ],
+          "source_digest": "490987e96755ceb32a5f6fb44bd0202488212ce348bc04cd1e70d37b7d1c144f",
+          "state": {
+            "current_count": 2,
+            "domain": [
+              1,
+              100
+            ],
+            "held": [],
+            "live_warrants": [
+              1,
+              100
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [],
+            "warrant_count": 2
+          }
+        },
+        "reverse": {
+          "actual_license_check": false,
+          "asserted": "X8: therefore the V4-symmetric real (23_4) configurations are exactly E1 and E2",
+          "bound_literal": "{\"attempted_conclusion\":\"Conclude the V4-symmetric real configurations are exactly E1 and E2 without the E5 completeness premise.\",\"expected\":{\"reason\":\"The transport checker retains INF-X8 as refused because a count in a census is not a world conclusion without E5 completeness.\",\"verdict\":\"REFUSE\"},\"id\":\"GP-X402\",\"inputs\":{\"attempt\":\"INF-X8: turn exactly two census members into exactly two configurations in the world\",\"available_premise\":\"CL-E3B\",\"fixture\":\"transports/X8-X10.json\",\"fixture_lf_sha256\":\"b1009142a6cad512e9d6f87fdeaeadc507081c3481aaadf026fd7eea0d9fded1\",\"fixture_manifest_source_commit\":\"b876fe4ed5c8963a0e8c19e18c829821c0686654\",\"limited_contrast\":\"INF-X9 is clean only because the fixture supplies CL-E5-DECLARED at its declared, unproved authority; it is not a completeness receipt or positive for this case.\",\"missing_premise\":\"E5: the 5,395-action census is complete for faithful V4 actions in the stated world\",\"model\":\"M-23-4-REAL\",\"observation_layer\":\"frozen_transport_refusal\"},\"schema_version\":1,\"scope_or_region\":\"SCOPE\",\"seed\":null,\"situation\":\"INF-X8 has the E3b model claim but leaves E5 census completeness as an explicit required PREDICATE premise; the retained comment also records that E4 is a family COUNT and cannot be a model premise.\",\"sources\":[{\"anchor\":\"def test_ledger_and_open_slots_keep_their_original_obligations(\",\"commit\":\"ac4155787207e2847d248cffed7be871d5dcd577\",\"line\":75,\"path\":\"tests/test_guard_release.py\",\"repository\":\"gp-v037\"}],\"title\":\"Census cardinality cannot reach the world without E5 completeness\"}",
+          "case": "GP-X402",
+          "frozen_frame": [
+            {
+              "ev": "note",
+              "text": "X8/X9/X10 in the closest EXPRESSIBLE form. The packet's own shape (a census COUNT claim as an inference premise) crashes GP -- see defects/D1. These use GP's open-premise-slot mechanism, which exists for exactly this purpose: 'the graph could record claims, edges and inferences, and had no way to record a claim that should exist and does not.'"
+            },
+            {
+              "characteristic": 0,
+              "ev": "model",
+              "field": "R",
+              "id": "M-23-4-REAL",
+              "what": "the real (23_4) realization space with a faithful V4 action"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E3B",
+              "kind": "PREDICATE",
+              "ladder": "derivation-checked",
+              "model": "M-23-4-REAL",
+              "scope": "collineations only",
+              "statement": "E3b: for every geometric (23_4) in RP^2, |Sym(X)| is in {1,2,4}; order four implies V4"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5A",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5a: every faithful real V4 action is simultaneously diagonalizable to the standard sign group"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5B",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5b: V and W are singletons at the same index, and the selected point is not incident with the selected line"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5C",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5c: exactly six orbit-profile cells remain"
+            },
+            {
+              "caveat": "declared at candidate authority; E5-gap (the generative bridge) is open",
+              "established_by": "RAN",
+              "ev": "claim",
+              "id": "CL-E5-DECLARED",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "scope": "faithful V4 actions on real (23_4) types",
+              "statement": "E5 DECLARED BUT UNPROVED: the 5,395-action census is complete for faithful V4 <= PGL_3(R) actions"
+            },
+            {
+              "asserted": "X8: therefore the V4-symmetric real (23_4) configurations are exactly E1 and E2",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X8",
+              "premises": [
+                {
+                  "claim": "CL-E3B",
+                  "path": []
+                },
+                {
+                  "at": "M-23-4-REAL",
+                  "missing_why": "X8 cites E4 (exactly 2 of the 5,395 actions realizable) and E3b and stops. E5 -- that the 5,395-action census is COMPLETE -- is not among the premises and is not in this graph as a settled claim. Without it, 'exactly 2 of the census' does not become 'exactly 2 in the world'. E4 itself is a COUNT claim at a family and cannot be cited as a premise at all in GP 0.31.2 (defects/D1).",
+                  "required_kind": "PREDICATE"
+                }
+              ]
+            },
+            {
+              "asserted": "X9: E4 + E3b + E5 (declared, unproved) -> CLASS, at the authority of E5 and no higher",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X9",
+              "premises": [
+                {
+                  "claim": "CL-E3B",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5-DECLARED",
+                  "path": []
+                }
+              ]
+            },
+            {
+              "asserted": "X10: E5a-c proved plus the generative bridge -> E5",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X10",
+              "premises": [
+                {
+                  "claim": "CL-E5A",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5B",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5C",
+                  "path": []
+                },
+                {
+                  "at": "M-23-4-REAL",
+                  "missing_why": "E5-gap, the generative bridge: that every fence-valid type produced by E5a-c is present in the frozen 5,299-pin corpus. E5-argument.md section 5 declines to certify it and names the missing same-method n=22 census retrodiction. This is the SOLE open obligation under E5.",
+                  "required_kind": "PREDICATE"
+                }
+              ]
+            }
+          ],
+          "inference": "INF-X8",
+          "literal_fixture": {
+            "attempted_conclusion": "Conclude the V4-symmetric real configurations are exactly E1 and E2 without the E5 completeness premise.",
+            "expected": {
+              "reason": "The transport checker retains INF-X8 as refused because a count in a census is not a world conclusion without E5 completeness.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X402",
+            "inputs": {
+              "attempt": "INF-X8: turn exactly two census members into exactly two configurations in the world",
+              "available_premise": "CL-E3B",
+              "fixture": "transports/X8-X10.json",
+              "fixture_lf_sha256": "b1009142a6cad512e9d6f87fdeaeadc507081c3481aaadf026fd7eea0d9fded1",
+              "fixture_manifest_source_commit": "b876fe4ed5c8963a0e8c19e18c829821c0686654",
+              "limited_contrast": "INF-X9 is clean only because the fixture supplies CL-E5-DECLARED at its declared, unproved authority; it is not a completeness receipt or positive for this case.",
+              "missing_premise": "E5: the 5,395-action census is complete for faithful V4 actions in the stated world",
+              "model": "M-23-4-REAL",
+              "observation_layer": "frozen_transport_refusal"
+            },
+            "schema_version": 1,
+            "scope_or_region": "SCOPE",
+            "seed": null,
+            "situation": "INF-X8 has the E3b model claim but leaves E5 census completeness as an explicit required PREDICATE premise; the retained comment also records that E4 is a family COUNT and cannot be a model premise.",
+            "sources": [
+              {
+                "anchor": "def test_ledger_and_open_slots_keep_their_original_obligations(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 75,
+                "path": "tests/test_guard_release.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "Census cardinality cannot reach the world without E5 completeness"
+          },
+          "mode": "reverse",
+          "slots": [
+            {
+              "claim": "CL-E3B",
+              "model_level": true
+            },
+            {
+              "at": "M-23-4-REAL",
+              "missing_why": "X8 cites E4 (exactly 2 of the 5,395 actions realizable) and E3b and stops. E5 -- that the 5,395-action census is COMPLETE -- is not among the premises and is not in this graph as a settled claim. Without it, 'exactly 2 of the census' does not become 'exactly 2 in the world'. E4 itself is a COUNT claim at a family and cannot be cited as a premise at all in GP 0.31.2 (defects/D1).",
+              "required_kind": "PREDICATE"
+            }
+          ],
+          "source_digest": "490987e96755ceb32a5f6fb44bd0202488212ce348bc04cd1e70d37b7d1c144f",
+          "state": {
+            "current_count": 2,
+            "domain": [
+              1,
+              100
+            ],
+            "held": [],
+            "live_warrants": [
+              1,
+              100
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [],
+            "warrant_count": 2
+          }
+        },
+        "duplicates": {
+          "actual_license_check": false,
+          "asserted": "X8: therefore the V4-symmetric real (23_4) configurations are exactly E1 and E2",
+          "bound_literal": "{\"attempted_conclusion\":\"Conclude the V4-symmetric real configurations are exactly E1 and E2 without the E5 completeness premise.\",\"expected\":{\"reason\":\"The transport checker retains INF-X8 as refused because a count in a census is not a world conclusion without E5 completeness.\",\"verdict\":\"REFUSE\"},\"id\":\"GP-X402\",\"inputs\":{\"attempt\":\"INF-X8: turn exactly two census members into exactly two configurations in the world\",\"available_premise\":\"CL-E3B\",\"fixture\":\"transports/X8-X10.json\",\"fixture_lf_sha256\":\"b1009142a6cad512e9d6f87fdeaeadc507081c3481aaadf026fd7eea0d9fded1\",\"fixture_manifest_source_commit\":\"b876fe4ed5c8963a0e8c19e18c829821c0686654\",\"limited_contrast\":\"INF-X9 is clean only because the fixture supplies CL-E5-DECLARED at its declared, unproved authority; it is not a completeness receipt or positive for this case.\",\"missing_premise\":\"E5: the 5,395-action census is complete for faithful V4 actions in the stated world\",\"model\":\"M-23-4-REAL\",\"observation_layer\":\"frozen_transport_refusal\"},\"schema_version\":1,\"scope_or_region\":\"SCOPE\",\"seed\":null,\"situation\":\"INF-X8 has the E3b model claim but leaves E5 census completeness as an explicit required PREDICATE premise; the retained comment also records that E4 is a family COUNT and cannot be a model premise.\",\"sources\":[{\"anchor\":\"def test_ledger_and_open_slots_keep_their_original_obligations(\",\"commit\":\"ac4155787207e2847d248cffed7be871d5dcd577\",\"line\":75,\"path\":\"tests/test_guard_release.py\",\"repository\":\"gp-v037\"}],\"title\":\"Census cardinality cannot reach the world without E5 completeness\"}",
+          "case": "GP-X402",
+          "frozen_frame": [
+            {
+              "ev": "note",
+              "text": "X8/X9/X10 in the closest EXPRESSIBLE form. The packet's own shape (a census COUNT claim as an inference premise) crashes GP -- see defects/D1. These use GP's open-premise-slot mechanism, which exists for exactly this purpose: 'the graph could record claims, edges and inferences, and had no way to record a claim that should exist and does not.'"
+            },
+            {
+              "characteristic": 0,
+              "ev": "model",
+              "field": "R",
+              "id": "M-23-4-REAL",
+              "what": "the real (23_4) realization space with a faithful V4 action"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E3B",
+              "kind": "PREDICATE",
+              "ladder": "derivation-checked",
+              "model": "M-23-4-REAL",
+              "scope": "collineations only",
+              "statement": "E3b: for every geometric (23_4) in RP^2, |Sym(X)| is in {1,2,4}; order four implies V4"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5A",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5a: every faithful real V4 action is simultaneously diagonalizable to the standard sign group"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5B",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5b: V and W are singletons at the same index, and the selected point is not incident with the selected line"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5C",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5c: exactly six orbit-profile cells remain"
+            },
+            {
+              "caveat": "declared at candidate authority; E5-gap (the generative bridge) is open",
+              "established_by": "RAN",
+              "ev": "claim",
+              "id": "CL-E5-DECLARED",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "scope": "faithful V4 actions on real (23_4) types",
+              "statement": "E5 DECLARED BUT UNPROVED: the 5,395-action census is complete for faithful V4 <= PGL_3(R) actions"
+            },
+            {
+              "asserted": "X8: therefore the V4-symmetric real (23_4) configurations are exactly E1 and E2",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X8",
+              "premises": [
+                {
+                  "claim": "CL-E3B",
+                  "path": []
+                },
+                {
+                  "at": "M-23-4-REAL",
+                  "missing_why": "X8 cites E4 (exactly 2 of the 5,395 actions realizable) and E3b and stops. E5 -- that the 5,395-action census is COMPLETE -- is not among the premises and is not in this graph as a settled claim. Without it, 'exactly 2 of the census' does not become 'exactly 2 in the world'. E4 itself is a COUNT claim at a family and cannot be cited as a premise at all in GP 0.31.2 (defects/D1).",
+                  "required_kind": "PREDICATE"
+                }
+              ]
+            },
+            {
+              "asserted": "X9: E4 + E3b + E5 (declared, unproved) -> CLASS, at the authority of E5 and no higher",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X9",
+              "premises": [
+                {
+                  "claim": "CL-E3B",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5-DECLARED",
+                  "path": []
+                }
+              ]
+            },
+            {
+              "asserted": "X10: E5a-c proved plus the generative bridge -> E5",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X10",
+              "premises": [
+                {
+                  "claim": "CL-E5A",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5B",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5C",
+                  "path": []
+                },
+                {
+                  "at": "M-23-4-REAL",
+                  "missing_why": "E5-gap, the generative bridge: that every fence-valid type produced by E5a-c is present in the frozen 5,299-pin corpus. E5-argument.md section 5 declines to certify it and names the missing same-method n=22 census retrodiction. This is the SOLE open obligation under E5.",
+                  "required_kind": "PREDICATE"
+                }
+              ]
+            }
+          ],
+          "inference": "INF-X8",
+          "literal_fixture": {
+            "attempted_conclusion": "Conclude the V4-symmetric real configurations are exactly E1 and E2 without the E5 completeness premise.",
+            "expected": {
+              "reason": "The transport checker retains INF-X8 as refused because a count in a census is not a world conclusion without E5 completeness.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X402",
+            "inputs": {
+              "attempt": "INF-X8: turn exactly two census members into exactly two configurations in the world",
+              "available_premise": "CL-E3B",
+              "fixture": "transports/X8-X10.json",
+              "fixture_lf_sha256": "b1009142a6cad512e9d6f87fdeaeadc507081c3481aaadf026fd7eea0d9fded1",
+              "fixture_manifest_source_commit": "b876fe4ed5c8963a0e8c19e18c829821c0686654",
+              "limited_contrast": "INF-X9 is clean only because the fixture supplies CL-E5-DECLARED at its declared, unproved authority; it is not a completeness receipt or positive for this case.",
+              "missing_premise": "E5: the 5,395-action census is complete for faithful V4 actions in the stated world",
+              "model": "M-23-4-REAL",
+              "observation_layer": "frozen_transport_refusal"
+            },
+            "schema_version": 1,
+            "scope_or_region": "SCOPE",
+            "seed": null,
+            "situation": "INF-X8 has the E3b model claim but leaves E5 census completeness as an explicit required PREDICATE premise; the retained comment also records that E4 is a family COUNT and cannot be a model premise.",
+            "sources": [
+              {
+                "anchor": "def test_ledger_and_open_slots_keep_their_original_obligations(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 75,
+                "path": "tests/test_guard_release.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "Census cardinality cannot reach the world without E5 completeness"
+          },
+          "mode": "duplicates",
+          "slots": [
+            {
+              "claim": "CL-E3B",
+              "model_level": true
+            },
+            {
+              "at": "M-23-4-REAL",
+              "missing_why": "X8 cites E4 (exactly 2 of the 5,395 actions realizable) and E3b and stops. E5 -- that the 5,395-action census is COMPLETE -- is not among the premises and is not in this graph as a settled claim. Without it, 'exactly 2 of the census' does not become 'exactly 2 in the world'. E4 itself is a COUNT claim at a family and cannot be cited as a premise at all in GP 0.31.2 (defects/D1).",
+              "required_kind": "PREDICATE"
+            }
+          ],
+          "source_digest": "490987e96755ceb32a5f6fb44bd0202488212ce348bc04cd1e70d37b7d1c144f",
+          "state": {
+            "current_count": 2,
+            "domain": [
+              1,
+              100
+            ],
+            "held": [],
+            "live_warrants": [
+              1,
+              100
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [],
+            "warrant_count": 2
+          }
+        },
+        "reverse_duplicates": {
+          "actual_license_check": false,
+          "asserted": "X8: therefore the V4-symmetric real (23_4) configurations are exactly E1 and E2",
+          "bound_literal": "{\"attempted_conclusion\":\"Conclude the V4-symmetric real configurations are exactly E1 and E2 without the E5 completeness premise.\",\"expected\":{\"reason\":\"The transport checker retains INF-X8 as refused because a count in a census is not a world conclusion without E5 completeness.\",\"verdict\":\"REFUSE\"},\"id\":\"GP-X402\",\"inputs\":{\"attempt\":\"INF-X8: turn exactly two census members into exactly two configurations in the world\",\"available_premise\":\"CL-E3B\",\"fixture\":\"transports/X8-X10.json\",\"fixture_lf_sha256\":\"b1009142a6cad512e9d6f87fdeaeadc507081c3481aaadf026fd7eea0d9fded1\",\"fixture_manifest_source_commit\":\"b876fe4ed5c8963a0e8c19e18c829821c0686654\",\"limited_contrast\":\"INF-X9 is clean only because the fixture supplies CL-E5-DECLARED at its declared, unproved authority; it is not a completeness receipt or positive for this case.\",\"missing_premise\":\"E5: the 5,395-action census is complete for faithful V4 actions in the stated world\",\"model\":\"M-23-4-REAL\",\"observation_layer\":\"frozen_transport_refusal\"},\"schema_version\":1,\"scope_or_region\":\"SCOPE\",\"seed\":null,\"situation\":\"INF-X8 has the E3b model claim but leaves E5 census completeness as an explicit required PREDICATE premise; the retained comment also records that E4 is a family COUNT and cannot be a model premise.\",\"sources\":[{\"anchor\":\"def test_ledger_and_open_slots_keep_their_original_obligations(\",\"commit\":\"ac4155787207e2847d248cffed7be871d5dcd577\",\"line\":75,\"path\":\"tests/test_guard_release.py\",\"repository\":\"gp-v037\"}],\"title\":\"Census cardinality cannot reach the world without E5 completeness\"}",
+          "case": "GP-X402",
+          "frozen_frame": [
+            {
+              "ev": "note",
+              "text": "X8/X9/X10 in the closest EXPRESSIBLE form. The packet's own shape (a census COUNT claim as an inference premise) crashes GP -- see defects/D1. These use GP's open-premise-slot mechanism, which exists for exactly this purpose: 'the graph could record claims, edges and inferences, and had no way to record a claim that should exist and does not.'"
+            },
+            {
+              "characteristic": 0,
+              "ev": "model",
+              "field": "R",
+              "id": "M-23-4-REAL",
+              "what": "the real (23_4) realization space with a faithful V4 action"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E3B",
+              "kind": "PREDICATE",
+              "ladder": "derivation-checked",
+              "model": "M-23-4-REAL",
+              "scope": "collineations only",
+              "statement": "E3b: for every geometric (23_4) in RP^2, |Sym(X)| is in {1,2,4}; order four implies V4"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5A",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5a: every faithful real V4 action is simultaneously diagonalizable to the standard sign group"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5B",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5b: V and W are singletons at the same index, and the selected point is not incident with the selected line"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5C",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5c: exactly six orbit-profile cells remain"
+            },
+            {
+              "caveat": "declared at candidate authority; E5-gap (the generative bridge) is open",
+              "established_by": "RAN",
+              "ev": "claim",
+              "id": "CL-E5-DECLARED",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "scope": "faithful V4 actions on real (23_4) types",
+              "statement": "E5 DECLARED BUT UNPROVED: the 5,395-action census is complete for faithful V4 <= PGL_3(R) actions"
+            },
+            {
+              "asserted": "X8: therefore the V4-symmetric real (23_4) configurations are exactly E1 and E2",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X8",
+              "premises": [
+                {
+                  "claim": "CL-E3B",
+                  "path": []
+                },
+                {
+                  "at": "M-23-4-REAL",
+                  "missing_why": "X8 cites E4 (exactly 2 of the 5,395 actions realizable) and E3b and stops. E5 -- that the 5,395-action census is COMPLETE -- is not among the premises and is not in this graph as a settled claim. Without it, 'exactly 2 of the census' does not become 'exactly 2 in the world'. E4 itself is a COUNT claim at a family and cannot be cited as a premise at all in GP 0.31.2 (defects/D1).",
+                  "required_kind": "PREDICATE"
+                }
+              ]
+            },
+            {
+              "asserted": "X9: E4 + E3b + E5 (declared, unproved) -> CLASS, at the authority of E5 and no higher",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X9",
+              "premises": [
+                {
+                  "claim": "CL-E3B",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5-DECLARED",
+                  "path": []
+                }
+              ]
+            },
+            {
+              "asserted": "X10: E5a-c proved plus the generative bridge -> E5",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X10",
+              "premises": [
+                {
+                  "claim": "CL-E5A",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5B",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5C",
+                  "path": []
+                },
+                {
+                  "at": "M-23-4-REAL",
+                  "missing_why": "E5-gap, the generative bridge: that every fence-valid type produced by E5a-c is present in the frozen 5,299-pin corpus. E5-argument.md section 5 declines to certify it and names the missing same-method n=22 census retrodiction. This is the SOLE open obligation under E5.",
+                  "required_kind": "PREDICATE"
+                }
+              ]
+            }
+          ],
+          "inference": "INF-X8",
+          "literal_fixture": {
+            "attempted_conclusion": "Conclude the V4-symmetric real configurations are exactly E1 and E2 without the E5 completeness premise.",
+            "expected": {
+              "reason": "The transport checker retains INF-X8 as refused because a count in a census is not a world conclusion without E5 completeness.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X402",
+            "inputs": {
+              "attempt": "INF-X8: turn exactly two census members into exactly two configurations in the world",
+              "available_premise": "CL-E3B",
+              "fixture": "transports/X8-X10.json",
+              "fixture_lf_sha256": "b1009142a6cad512e9d6f87fdeaeadc507081c3481aaadf026fd7eea0d9fded1",
+              "fixture_manifest_source_commit": "b876fe4ed5c8963a0e8c19e18c829821c0686654",
+              "limited_contrast": "INF-X9 is clean only because the fixture supplies CL-E5-DECLARED at its declared, unproved authority; it is not a completeness receipt or positive for this case.",
+              "missing_premise": "E5: the 5,395-action census is complete for faithful V4 actions in the stated world",
+              "model": "M-23-4-REAL",
+              "observation_layer": "frozen_transport_refusal"
+            },
+            "schema_version": 1,
+            "scope_or_region": "SCOPE",
+            "seed": null,
+            "situation": "INF-X8 has the E3b model claim but leaves E5 census completeness as an explicit required PREDICATE premise; the retained comment also records that E4 is a family COUNT and cannot be a model premise.",
+            "sources": [
+              {
+                "anchor": "def test_ledger_and_open_slots_keep_their_original_obligations(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 75,
+                "path": "tests/test_guard_release.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "Census cardinality cannot reach the world without E5 completeness"
+          },
+          "mode": "reverse_duplicates",
+          "slots": [
+            {
+              "claim": "CL-E3B",
+              "model_level": true
+            },
+            {
+              "at": "M-23-4-REAL",
+              "missing_why": "X8 cites E4 (exactly 2 of the 5,395 actions realizable) and E3b and stops. E5 -- that the 5,395-action census is COMPLETE -- is not among the premises and is not in this graph as a settled claim. Without it, 'exactly 2 of the census' does not become 'exactly 2 in the world'. E4 itself is a COUNT claim at a family and cannot be cited as a premise at all in GP 0.31.2 (defects/D1).",
+              "required_kind": "PREDICATE"
+            }
+          ],
+          "source_digest": "490987e96755ceb32a5f6fb44bd0202488212ce348bc04cd1e70d37b7d1c144f",
+          "state": {
+            "current_count": 2,
+            "domain": [
+              1,
+              100
+            ],
+            "held": [],
+            "live_warrants": [
+              1,
+              100
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [],
+            "warrant_count": 2
+          }
+        }
+      }
+    },
+    {
+      "id": "GP-X403",
+      "source_sha256": "f17172a2744b2346f254402b94c5aa755fed17ad81d1227a21a7ae0c23033f52",
+      "expected": {
+        "verdict": "REFUSE",
+        "reason": "The transport checker retains INF-X10 as refused until the E5-gap source/parent-cover premise is supplied."
+      },
+      "observed": "REFUSE",
+      "full_fixture_contract": true,
+      "status": "EXECUTED",
+      "literal_inputs": {
+        "fixture": "transports/X8-X10.json",
+        "fixture_lf_sha256": "b1009142a6cad512e9d6f87fdeaeadc507081c3481aaadf026fd7eea0d9fded1",
+        "fixture_manifest_source_commit": "b876fe4ed5c8963a0e8c19e18c829821c0686654",
+        "model": "M-23-4-REAL",
+        "available_premises": [
+          "CL-E5A",
+          "CL-E5B",
+          "CL-E5C"
+        ],
+        "missing_premise": "E5-gap: actual-source membership and parent-cover/generative bridge for all fence-valid types",
+        "attempt": "INF-X10: turn E5a-c into E5",
+        "observation_layer": "frozen_transport_refusal",
+        "does_not_license": [
+          "actual-source membership",
+          "parent coverage",
+          "E5 completeness",
+          "a positive transport conclusion"
+        ]
+      },
+      "layer_entry": {
+        "id": "GP-X403",
+        "path": "corpus/must/GP-X403.json",
+        "sha256": "f17172a2744b2346f254402b94c5aa755fed17ad81d1227a21a7ae0c23033f52",
+        "primary_layer": "kernel",
+        "candidate_layers": [
+          "kernel"
+        ],
+        "g2_kernel_eligible": true,
+        "status": "resolved",
+        "rationale": "The full fixture assumes mathematical premises or supplies only declaration/claim data; registered rule, exact context, dependency and scope obligations decide authority.",
+        "review_group": "supplied-premise-authority",
+        "full_contract_required": true,
+        "secondary_layers": [],
+        "secondary_duties": [],
+        "evidence_pointers": [
+          "/title",
+          "/inputs",
+          "/attempted_conclusion",
+          "/expected/reason"
+        ]
+      },
+      "frozen_frame_lf_sha256": "b1009142a6cad512e9d6f87fdeaeadc507081c3481aaadf026fd7eea0d9fded1",
+      "native_results": {
+        "normal": {
+          "actual_license_check": false,
+          "asserted": "X10: E5a-c proved plus the generative bridge -> E5",
+          "bound_literal": "{\"attempted_conclusion\":\"Treat the E5a-c structural subclaims as the E5 actual-source and parent-cover conclusion.\",\"expected\":{\"reason\":\"The transport checker retains INF-X10 as refused until the E5-gap source/parent-cover premise is supplied.\",\"verdict\":\"REFUSE\"},\"id\":\"GP-X403\",\"inputs\":{\"attempt\":\"INF-X10: turn E5a-c into E5\",\"available_premises\":[\"CL-E5A\",\"CL-E5B\",\"CL-E5C\"],\"does_not_license\":[\"actual-source membership\",\"parent coverage\",\"E5 completeness\",\"a positive transport conclusion\"],\"fixture\":\"transports/X8-X10.json\",\"fixture_lf_sha256\":\"b1009142a6cad512e9d6f87fdeaeadc507081c3481aaadf026fd7eea0d9fded1\",\"fixture_manifest_source_commit\":\"b876fe4ed5c8963a0e8c19e18c829821c0686654\",\"missing_premise\":\"E5-gap: actual-source membership and parent-cover/generative bridge for all fence-valid types\",\"model\":\"M-23-4-REAL\",\"observation_layer\":\"frozen_transport_refusal\"},\"schema_version\":1,\"scope_or_region\":\"BOTH\",\"seed\":null,\"situation\":\"INF-X10 supplies E5a, E5b, and E5c but leaves the E5-gap as an explicit required PREDICATE premise: every fence-valid type must be represented in the frozen corpus by the actual source and parent-cover bridge.\",\"sources\":[{\"anchor\":\"def test_ledger_and_open_slots_keep_their_original_obligations(\",\"commit\":\"ac4155787207e2847d248cffed7be871d5dcd577\",\"line\":75,\"path\":\"tests/test_guard_release.py\",\"repository\":\"gp-v037\"}],\"title\":\"E5 subclaims cannot establish the actual-source or parent-cover bridge\"}",
+          "case": "GP-X403",
+          "frozen_frame": [
+            {
+              "ev": "note",
+              "text": "X8/X9/X10 in the closest EXPRESSIBLE form. The packet's own shape (a census COUNT claim as an inference premise) crashes GP -- see defects/D1. These use GP's open-premise-slot mechanism, which exists for exactly this purpose: 'the graph could record claims, edges and inferences, and had no way to record a claim that should exist and does not.'"
+            },
+            {
+              "characteristic": 0,
+              "ev": "model",
+              "field": "R",
+              "id": "M-23-4-REAL",
+              "what": "the real (23_4) realization space with a faithful V4 action"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E3B",
+              "kind": "PREDICATE",
+              "ladder": "derivation-checked",
+              "model": "M-23-4-REAL",
+              "scope": "collineations only",
+              "statement": "E3b: for every geometric (23_4) in RP^2, |Sym(X)| is in {1,2,4}; order four implies V4"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5A",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5a: every faithful real V4 action is simultaneously diagonalizable to the standard sign group"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5B",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5b: V and W are singletons at the same index, and the selected point is not incident with the selected line"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5C",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5c: exactly six orbit-profile cells remain"
+            },
+            {
+              "caveat": "declared at candidate authority; E5-gap (the generative bridge) is open",
+              "established_by": "RAN",
+              "ev": "claim",
+              "id": "CL-E5-DECLARED",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "scope": "faithful V4 actions on real (23_4) types",
+              "statement": "E5 DECLARED BUT UNPROVED: the 5,395-action census is complete for faithful V4 <= PGL_3(R) actions"
+            },
+            {
+              "asserted": "X8: therefore the V4-symmetric real (23_4) configurations are exactly E1 and E2",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X8",
+              "premises": [
+                {
+                  "claim": "CL-E3B",
+                  "path": []
+                },
+                {
+                  "at": "M-23-4-REAL",
+                  "missing_why": "X8 cites E4 (exactly 2 of the 5,395 actions realizable) and E3b and stops. E5 -- that the 5,395-action census is COMPLETE -- is not among the premises and is not in this graph as a settled claim. Without it, 'exactly 2 of the census' does not become 'exactly 2 in the world'. E4 itself is a COUNT claim at a family and cannot be cited as a premise at all in GP 0.31.2 (defects/D1).",
+                  "required_kind": "PREDICATE"
+                }
+              ]
+            },
+            {
+              "asserted": "X9: E4 + E3b + E5 (declared, unproved) -> CLASS, at the authority of E5 and no higher",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X9",
+              "premises": [
+                {
+                  "claim": "CL-E3B",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5-DECLARED",
+                  "path": []
+                }
+              ]
+            },
+            {
+              "asserted": "X10: E5a-c proved plus the generative bridge -> E5",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X10",
+              "premises": [
+                {
+                  "claim": "CL-E5A",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5B",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5C",
+                  "path": []
+                },
+                {
+                  "at": "M-23-4-REAL",
+                  "missing_why": "E5-gap, the generative bridge: that every fence-valid type produced by E5a-c is present in the frozen 5,299-pin corpus. E5-argument.md section 5 declines to certify it and names the missing same-method n=22 census retrodiction. This is the SOLE open obligation under E5.",
+                  "required_kind": "PREDICATE"
+                }
+              ]
+            }
+          ],
+          "inference": "INF-X10",
+          "literal_fixture": {
+            "attempted_conclusion": "Treat the E5a-c structural subclaims as the E5 actual-source and parent-cover conclusion.",
+            "expected": {
+              "reason": "The transport checker retains INF-X10 as refused until the E5-gap source/parent-cover premise is supplied.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X403",
+            "inputs": {
+              "attempt": "INF-X10: turn E5a-c into E5",
+              "available_premises": [
+                "CL-E5A",
+                "CL-E5B",
+                "CL-E5C"
+              ],
+              "does_not_license": [
+                "actual-source membership",
+                "parent coverage",
+                "E5 completeness",
+                "a positive transport conclusion"
+              ],
+              "fixture": "transports/X8-X10.json",
+              "fixture_lf_sha256": "b1009142a6cad512e9d6f87fdeaeadc507081c3481aaadf026fd7eea0d9fded1",
+              "fixture_manifest_source_commit": "b876fe4ed5c8963a0e8c19e18c829821c0686654",
+              "missing_premise": "E5-gap: actual-source membership and parent-cover/generative bridge for all fence-valid types",
+              "model": "M-23-4-REAL",
+              "observation_layer": "frozen_transport_refusal"
+            },
+            "schema_version": 1,
+            "scope_or_region": "BOTH",
+            "seed": null,
+            "situation": "INF-X10 supplies E5a, E5b, and E5c but leaves the E5-gap as an explicit required PREDICATE premise: every fence-valid type must be represented in the frozen corpus by the actual source and parent-cover bridge.",
+            "sources": [
+              {
+                "anchor": "def test_ledger_and_open_slots_keep_their_original_obligations(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 75,
+                "path": "tests/test_guard_release.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "E5 subclaims cannot establish the actual-source or parent-cover bridge"
+          },
+          "mode": "normal",
+          "slots": [
+            {
+              "claim": "CL-E5A",
+              "model_level": true
+            },
+            {
+              "claim": "CL-E5B",
+              "model_level": true
+            },
+            {
+              "claim": "CL-E5C",
+              "model_level": true
+            },
+            {
+              "at": "M-23-4-REAL",
+              "missing_why": "E5-gap, the generative bridge: that every fence-valid type produced by E5a-c is present in the frozen 5,299-pin corpus. E5-argument.md section 5 declines to certify it and names the missing same-method n=22 census retrodiction. This is the SOLE open obligation under E5.",
+              "required_kind": "PREDICATE"
+            }
+          ],
+          "source_digest": "f17172a2744b2346f254402b94c5aa755fed17ad81d1227a21a7ae0c23033f52",
+          "state": {
+            "current_count": 2,
+            "domain": [
+              1,
+              100
+            ],
+            "held": [],
+            "live_warrants": [
+              1,
+              100
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [],
+            "warrant_count": 2
+          }
+        },
+        "reverse": {
+          "actual_license_check": false,
+          "asserted": "X10: E5a-c proved plus the generative bridge -> E5",
+          "bound_literal": "{\"attempted_conclusion\":\"Treat the E5a-c structural subclaims as the E5 actual-source and parent-cover conclusion.\",\"expected\":{\"reason\":\"The transport checker retains INF-X10 as refused until the E5-gap source/parent-cover premise is supplied.\",\"verdict\":\"REFUSE\"},\"id\":\"GP-X403\",\"inputs\":{\"attempt\":\"INF-X10: turn E5a-c into E5\",\"available_premises\":[\"CL-E5A\",\"CL-E5B\",\"CL-E5C\"],\"does_not_license\":[\"actual-source membership\",\"parent coverage\",\"E5 completeness\",\"a positive transport conclusion\"],\"fixture\":\"transports/X8-X10.json\",\"fixture_lf_sha256\":\"b1009142a6cad512e9d6f87fdeaeadc507081c3481aaadf026fd7eea0d9fded1\",\"fixture_manifest_source_commit\":\"b876fe4ed5c8963a0e8c19e18c829821c0686654\",\"missing_premise\":\"E5-gap: actual-source membership and parent-cover/generative bridge for all fence-valid types\",\"model\":\"M-23-4-REAL\",\"observation_layer\":\"frozen_transport_refusal\"},\"schema_version\":1,\"scope_or_region\":\"BOTH\",\"seed\":null,\"situation\":\"INF-X10 supplies E5a, E5b, and E5c but leaves the E5-gap as an explicit required PREDICATE premise: every fence-valid type must be represented in the frozen corpus by the actual source and parent-cover bridge.\",\"sources\":[{\"anchor\":\"def test_ledger_and_open_slots_keep_their_original_obligations(\",\"commit\":\"ac4155787207e2847d248cffed7be871d5dcd577\",\"line\":75,\"path\":\"tests/test_guard_release.py\",\"repository\":\"gp-v037\"}],\"title\":\"E5 subclaims cannot establish the actual-source or parent-cover bridge\"}",
+          "case": "GP-X403",
+          "frozen_frame": [
+            {
+              "ev": "note",
+              "text": "X8/X9/X10 in the closest EXPRESSIBLE form. The packet's own shape (a census COUNT claim as an inference premise) crashes GP -- see defects/D1. These use GP's open-premise-slot mechanism, which exists for exactly this purpose: 'the graph could record claims, edges and inferences, and had no way to record a claim that should exist and does not.'"
+            },
+            {
+              "characteristic": 0,
+              "ev": "model",
+              "field": "R",
+              "id": "M-23-4-REAL",
+              "what": "the real (23_4) realization space with a faithful V4 action"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E3B",
+              "kind": "PREDICATE",
+              "ladder": "derivation-checked",
+              "model": "M-23-4-REAL",
+              "scope": "collineations only",
+              "statement": "E3b: for every geometric (23_4) in RP^2, |Sym(X)| is in {1,2,4}; order four implies V4"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5A",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5a: every faithful real V4 action is simultaneously diagonalizable to the standard sign group"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5B",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5b: V and W are singletons at the same index, and the selected point is not incident with the selected line"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5C",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5c: exactly six orbit-profile cells remain"
+            },
+            {
+              "caveat": "declared at candidate authority; E5-gap (the generative bridge) is open",
+              "established_by": "RAN",
+              "ev": "claim",
+              "id": "CL-E5-DECLARED",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "scope": "faithful V4 actions on real (23_4) types",
+              "statement": "E5 DECLARED BUT UNPROVED: the 5,395-action census is complete for faithful V4 <= PGL_3(R) actions"
+            },
+            {
+              "asserted": "X8: therefore the V4-symmetric real (23_4) configurations are exactly E1 and E2",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X8",
+              "premises": [
+                {
+                  "claim": "CL-E3B",
+                  "path": []
+                },
+                {
+                  "at": "M-23-4-REAL",
+                  "missing_why": "X8 cites E4 (exactly 2 of the 5,395 actions realizable) and E3b and stops. E5 -- that the 5,395-action census is COMPLETE -- is not among the premises and is not in this graph as a settled claim. Without it, 'exactly 2 of the census' does not become 'exactly 2 in the world'. E4 itself is a COUNT claim at a family and cannot be cited as a premise at all in GP 0.31.2 (defects/D1).",
+                  "required_kind": "PREDICATE"
+                }
+              ]
+            },
+            {
+              "asserted": "X9: E4 + E3b + E5 (declared, unproved) -> CLASS, at the authority of E5 and no higher",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X9",
+              "premises": [
+                {
+                  "claim": "CL-E3B",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5-DECLARED",
+                  "path": []
+                }
+              ]
+            },
+            {
+              "asserted": "X10: E5a-c proved plus the generative bridge -> E5",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X10",
+              "premises": [
+                {
+                  "claim": "CL-E5A",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5B",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5C",
+                  "path": []
+                },
+                {
+                  "at": "M-23-4-REAL",
+                  "missing_why": "E5-gap, the generative bridge: that every fence-valid type produced by E5a-c is present in the frozen 5,299-pin corpus. E5-argument.md section 5 declines to certify it and names the missing same-method n=22 census retrodiction. This is the SOLE open obligation under E5.",
+                  "required_kind": "PREDICATE"
+                }
+              ]
+            }
+          ],
+          "inference": "INF-X10",
+          "literal_fixture": {
+            "attempted_conclusion": "Treat the E5a-c structural subclaims as the E5 actual-source and parent-cover conclusion.",
+            "expected": {
+              "reason": "The transport checker retains INF-X10 as refused until the E5-gap source/parent-cover premise is supplied.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X403",
+            "inputs": {
+              "attempt": "INF-X10: turn E5a-c into E5",
+              "available_premises": [
+                "CL-E5A",
+                "CL-E5B",
+                "CL-E5C"
+              ],
+              "does_not_license": [
+                "actual-source membership",
+                "parent coverage",
+                "E5 completeness",
+                "a positive transport conclusion"
+              ],
+              "fixture": "transports/X8-X10.json",
+              "fixture_lf_sha256": "b1009142a6cad512e9d6f87fdeaeadc507081c3481aaadf026fd7eea0d9fded1",
+              "fixture_manifest_source_commit": "b876fe4ed5c8963a0e8c19e18c829821c0686654",
+              "missing_premise": "E5-gap: actual-source membership and parent-cover/generative bridge for all fence-valid types",
+              "model": "M-23-4-REAL",
+              "observation_layer": "frozen_transport_refusal"
+            },
+            "schema_version": 1,
+            "scope_or_region": "BOTH",
+            "seed": null,
+            "situation": "INF-X10 supplies E5a, E5b, and E5c but leaves the E5-gap as an explicit required PREDICATE premise: every fence-valid type must be represented in the frozen corpus by the actual source and parent-cover bridge.",
+            "sources": [
+              {
+                "anchor": "def test_ledger_and_open_slots_keep_their_original_obligations(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 75,
+                "path": "tests/test_guard_release.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "E5 subclaims cannot establish the actual-source or parent-cover bridge"
+          },
+          "mode": "reverse",
+          "slots": [
+            {
+              "claim": "CL-E5A",
+              "model_level": true
+            },
+            {
+              "claim": "CL-E5B",
+              "model_level": true
+            },
+            {
+              "claim": "CL-E5C",
+              "model_level": true
+            },
+            {
+              "at": "M-23-4-REAL",
+              "missing_why": "E5-gap, the generative bridge: that every fence-valid type produced by E5a-c is present in the frozen 5,299-pin corpus. E5-argument.md section 5 declines to certify it and names the missing same-method n=22 census retrodiction. This is the SOLE open obligation under E5.",
+              "required_kind": "PREDICATE"
+            }
+          ],
+          "source_digest": "f17172a2744b2346f254402b94c5aa755fed17ad81d1227a21a7ae0c23033f52",
+          "state": {
+            "current_count": 2,
+            "domain": [
+              1,
+              100
+            ],
+            "held": [],
+            "live_warrants": [
+              1,
+              100
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [],
+            "warrant_count": 2
+          }
+        },
+        "duplicates": {
+          "actual_license_check": false,
+          "asserted": "X10: E5a-c proved plus the generative bridge -> E5",
+          "bound_literal": "{\"attempted_conclusion\":\"Treat the E5a-c structural subclaims as the E5 actual-source and parent-cover conclusion.\",\"expected\":{\"reason\":\"The transport checker retains INF-X10 as refused until the E5-gap source/parent-cover premise is supplied.\",\"verdict\":\"REFUSE\"},\"id\":\"GP-X403\",\"inputs\":{\"attempt\":\"INF-X10: turn E5a-c into E5\",\"available_premises\":[\"CL-E5A\",\"CL-E5B\",\"CL-E5C\"],\"does_not_license\":[\"actual-source membership\",\"parent coverage\",\"E5 completeness\",\"a positive transport conclusion\"],\"fixture\":\"transports/X8-X10.json\",\"fixture_lf_sha256\":\"b1009142a6cad512e9d6f87fdeaeadc507081c3481aaadf026fd7eea0d9fded1\",\"fixture_manifest_source_commit\":\"b876fe4ed5c8963a0e8c19e18c829821c0686654\",\"missing_premise\":\"E5-gap: actual-source membership and parent-cover/generative bridge for all fence-valid types\",\"model\":\"M-23-4-REAL\",\"observation_layer\":\"frozen_transport_refusal\"},\"schema_version\":1,\"scope_or_region\":\"BOTH\",\"seed\":null,\"situation\":\"INF-X10 supplies E5a, E5b, and E5c but leaves the E5-gap as an explicit required PREDICATE premise: every fence-valid type must be represented in the frozen corpus by the actual source and parent-cover bridge.\",\"sources\":[{\"anchor\":\"def test_ledger_and_open_slots_keep_their_original_obligations(\",\"commit\":\"ac4155787207e2847d248cffed7be871d5dcd577\",\"line\":75,\"path\":\"tests/test_guard_release.py\",\"repository\":\"gp-v037\"}],\"title\":\"E5 subclaims cannot establish the actual-source or parent-cover bridge\"}",
+          "case": "GP-X403",
+          "frozen_frame": [
+            {
+              "ev": "note",
+              "text": "X8/X9/X10 in the closest EXPRESSIBLE form. The packet's own shape (a census COUNT claim as an inference premise) crashes GP -- see defects/D1. These use GP's open-premise-slot mechanism, which exists for exactly this purpose: 'the graph could record claims, edges and inferences, and had no way to record a claim that should exist and does not.'"
+            },
+            {
+              "characteristic": 0,
+              "ev": "model",
+              "field": "R",
+              "id": "M-23-4-REAL",
+              "what": "the real (23_4) realization space with a faithful V4 action"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E3B",
+              "kind": "PREDICATE",
+              "ladder": "derivation-checked",
+              "model": "M-23-4-REAL",
+              "scope": "collineations only",
+              "statement": "E3b: for every geometric (23_4) in RP^2, |Sym(X)| is in {1,2,4}; order four implies V4"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5A",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5a: every faithful real V4 action is simultaneously diagonalizable to the standard sign group"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5B",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5b: V and W are singletons at the same index, and the selected point is not incident with the selected line"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5C",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5c: exactly six orbit-profile cells remain"
+            },
+            {
+              "caveat": "declared at candidate authority; E5-gap (the generative bridge) is open",
+              "established_by": "RAN",
+              "ev": "claim",
+              "id": "CL-E5-DECLARED",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "scope": "faithful V4 actions on real (23_4) types",
+              "statement": "E5 DECLARED BUT UNPROVED: the 5,395-action census is complete for faithful V4 <= PGL_3(R) actions"
+            },
+            {
+              "asserted": "X8: therefore the V4-symmetric real (23_4) configurations are exactly E1 and E2",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X8",
+              "premises": [
+                {
+                  "claim": "CL-E3B",
+                  "path": []
+                },
+                {
+                  "at": "M-23-4-REAL",
+                  "missing_why": "X8 cites E4 (exactly 2 of the 5,395 actions realizable) and E3b and stops. E5 -- that the 5,395-action census is COMPLETE -- is not among the premises and is not in this graph as a settled claim. Without it, 'exactly 2 of the census' does not become 'exactly 2 in the world'. E4 itself is a COUNT claim at a family and cannot be cited as a premise at all in GP 0.31.2 (defects/D1).",
+                  "required_kind": "PREDICATE"
+                }
+              ]
+            },
+            {
+              "asserted": "X9: E4 + E3b + E5 (declared, unproved) -> CLASS, at the authority of E5 and no higher",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X9",
+              "premises": [
+                {
+                  "claim": "CL-E3B",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5-DECLARED",
+                  "path": []
+                }
+              ]
+            },
+            {
+              "asserted": "X10: E5a-c proved plus the generative bridge -> E5",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X10",
+              "premises": [
+                {
+                  "claim": "CL-E5A",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5B",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5C",
+                  "path": []
+                },
+                {
+                  "at": "M-23-4-REAL",
+                  "missing_why": "E5-gap, the generative bridge: that every fence-valid type produced by E5a-c is present in the frozen 5,299-pin corpus. E5-argument.md section 5 declines to certify it and names the missing same-method n=22 census retrodiction. This is the SOLE open obligation under E5.",
+                  "required_kind": "PREDICATE"
+                }
+              ]
+            }
+          ],
+          "inference": "INF-X10",
+          "literal_fixture": {
+            "attempted_conclusion": "Treat the E5a-c structural subclaims as the E5 actual-source and parent-cover conclusion.",
+            "expected": {
+              "reason": "The transport checker retains INF-X10 as refused until the E5-gap source/parent-cover premise is supplied.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X403",
+            "inputs": {
+              "attempt": "INF-X10: turn E5a-c into E5",
+              "available_premises": [
+                "CL-E5A",
+                "CL-E5B",
+                "CL-E5C"
+              ],
+              "does_not_license": [
+                "actual-source membership",
+                "parent coverage",
+                "E5 completeness",
+                "a positive transport conclusion"
+              ],
+              "fixture": "transports/X8-X10.json",
+              "fixture_lf_sha256": "b1009142a6cad512e9d6f87fdeaeadc507081c3481aaadf026fd7eea0d9fded1",
+              "fixture_manifest_source_commit": "b876fe4ed5c8963a0e8c19e18c829821c0686654",
+              "missing_premise": "E5-gap: actual-source membership and parent-cover/generative bridge for all fence-valid types",
+              "model": "M-23-4-REAL",
+              "observation_layer": "frozen_transport_refusal"
+            },
+            "schema_version": 1,
+            "scope_or_region": "BOTH",
+            "seed": null,
+            "situation": "INF-X10 supplies E5a, E5b, and E5c but leaves the E5-gap as an explicit required PREDICATE premise: every fence-valid type must be represented in the frozen corpus by the actual source and parent-cover bridge.",
+            "sources": [
+              {
+                "anchor": "def test_ledger_and_open_slots_keep_their_original_obligations(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 75,
+                "path": "tests/test_guard_release.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "E5 subclaims cannot establish the actual-source or parent-cover bridge"
+          },
+          "mode": "duplicates",
+          "slots": [
+            {
+              "claim": "CL-E5A",
+              "model_level": true
+            },
+            {
+              "claim": "CL-E5B",
+              "model_level": true
+            },
+            {
+              "claim": "CL-E5C",
+              "model_level": true
+            },
+            {
+              "at": "M-23-4-REAL",
+              "missing_why": "E5-gap, the generative bridge: that every fence-valid type produced by E5a-c is present in the frozen 5,299-pin corpus. E5-argument.md section 5 declines to certify it and names the missing same-method n=22 census retrodiction. This is the SOLE open obligation under E5.",
+              "required_kind": "PREDICATE"
+            }
+          ],
+          "source_digest": "f17172a2744b2346f254402b94c5aa755fed17ad81d1227a21a7ae0c23033f52",
+          "state": {
+            "current_count": 2,
+            "domain": [
+              1,
+              100
+            ],
+            "held": [],
+            "live_warrants": [
+              1,
+              100
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [],
+            "warrant_count": 2
+          }
+        },
+        "reverse_duplicates": {
+          "actual_license_check": false,
+          "asserted": "X10: E5a-c proved plus the generative bridge -> E5",
+          "bound_literal": "{\"attempted_conclusion\":\"Treat the E5a-c structural subclaims as the E5 actual-source and parent-cover conclusion.\",\"expected\":{\"reason\":\"The transport checker retains INF-X10 as refused until the E5-gap source/parent-cover premise is supplied.\",\"verdict\":\"REFUSE\"},\"id\":\"GP-X403\",\"inputs\":{\"attempt\":\"INF-X10: turn E5a-c into E5\",\"available_premises\":[\"CL-E5A\",\"CL-E5B\",\"CL-E5C\"],\"does_not_license\":[\"actual-source membership\",\"parent coverage\",\"E5 completeness\",\"a positive transport conclusion\"],\"fixture\":\"transports/X8-X10.json\",\"fixture_lf_sha256\":\"b1009142a6cad512e9d6f87fdeaeadc507081c3481aaadf026fd7eea0d9fded1\",\"fixture_manifest_source_commit\":\"b876fe4ed5c8963a0e8c19e18c829821c0686654\",\"missing_premise\":\"E5-gap: actual-source membership and parent-cover/generative bridge for all fence-valid types\",\"model\":\"M-23-4-REAL\",\"observation_layer\":\"frozen_transport_refusal\"},\"schema_version\":1,\"scope_or_region\":\"BOTH\",\"seed\":null,\"situation\":\"INF-X10 supplies E5a, E5b, and E5c but leaves the E5-gap as an explicit required PREDICATE premise: every fence-valid type must be represented in the frozen corpus by the actual source and parent-cover bridge.\",\"sources\":[{\"anchor\":\"def test_ledger_and_open_slots_keep_their_original_obligations(\",\"commit\":\"ac4155787207e2847d248cffed7be871d5dcd577\",\"line\":75,\"path\":\"tests/test_guard_release.py\",\"repository\":\"gp-v037\"}],\"title\":\"E5 subclaims cannot establish the actual-source or parent-cover bridge\"}",
+          "case": "GP-X403",
+          "frozen_frame": [
+            {
+              "ev": "note",
+              "text": "X8/X9/X10 in the closest EXPRESSIBLE form. The packet's own shape (a census COUNT claim as an inference premise) crashes GP -- see defects/D1. These use GP's open-premise-slot mechanism, which exists for exactly this purpose: 'the graph could record claims, edges and inferences, and had no way to record a claim that should exist and does not.'"
+            },
+            {
+              "characteristic": 0,
+              "ev": "model",
+              "field": "R",
+              "id": "M-23-4-REAL",
+              "what": "the real (23_4) realization space with a faithful V4 action"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E3B",
+              "kind": "PREDICATE",
+              "ladder": "derivation-checked",
+              "model": "M-23-4-REAL",
+              "scope": "collineations only",
+              "statement": "E3b: for every geometric (23_4) in RP^2, |Sym(X)| is in {1,2,4}; order four implies V4"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5A",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5a: every faithful real V4 action is simultaneously diagonalizable to the standard sign group"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5B",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5b: V and W are singletons at the same index, and the selected point is not incident with the selected line"
+            },
+            {
+              "established_by": "DERIVED",
+              "ev": "claim",
+              "id": "CL-E5C",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "statement": "E5c: exactly six orbit-profile cells remain"
+            },
+            {
+              "caveat": "declared at candidate authority; E5-gap (the generative bridge) is open",
+              "established_by": "RAN",
+              "ev": "claim",
+              "id": "CL-E5-DECLARED",
+              "kind": "PREDICATE",
+              "ladder": "claimed",
+              "model": "M-23-4-REAL",
+              "scope": "faithful V4 actions on real (23_4) types",
+              "statement": "E5 DECLARED BUT UNPROVED: the 5,395-action census is complete for faithful V4 <= PGL_3(R) actions"
+            },
+            {
+              "asserted": "X8: therefore the V4-symmetric real (23_4) configurations are exactly E1 and E2",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X8",
+              "premises": [
+                {
+                  "claim": "CL-E3B",
+                  "path": []
+                },
+                {
+                  "at": "M-23-4-REAL",
+                  "missing_why": "X8 cites E4 (exactly 2 of the 5,395 actions realizable) and E3b and stops. E5 -- that the 5,395-action census is COMPLETE -- is not among the premises and is not in this graph as a settled claim. Without it, 'exactly 2 of the census' does not become 'exactly 2 in the world'. E4 itself is a COUNT claim at a family and cannot be cited as a premise at all in GP 0.31.2 (defects/D1).",
+                  "required_kind": "PREDICATE"
+                }
+              ]
+            },
+            {
+              "asserted": "X9: E4 + E3b + E5 (declared, unproved) -> CLASS, at the authority of E5 and no higher",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X9",
+              "premises": [
+                {
+                  "claim": "CL-E3B",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5-DECLARED",
+                  "path": []
+                }
+              ]
+            },
+            {
+              "asserted": "X10: E5a-c proved plus the generative bridge -> E5",
+              "concludes_kind": "PREDICATE",
+              "ev": "inference",
+              "id": "INF-X10",
+              "premises": [
+                {
+                  "claim": "CL-E5A",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5B",
+                  "path": []
+                },
+                {
+                  "claim": "CL-E5C",
+                  "path": []
+                },
+                {
+                  "at": "M-23-4-REAL",
+                  "missing_why": "E5-gap, the generative bridge: that every fence-valid type produced by E5a-c is present in the frozen 5,299-pin corpus. E5-argument.md section 5 declines to certify it and names the missing same-method n=22 census retrodiction. This is the SOLE open obligation under E5.",
+                  "required_kind": "PREDICATE"
+                }
+              ]
+            }
+          ],
+          "inference": "INF-X10",
+          "literal_fixture": {
+            "attempted_conclusion": "Treat the E5a-c structural subclaims as the E5 actual-source and parent-cover conclusion.",
+            "expected": {
+              "reason": "The transport checker retains INF-X10 as refused until the E5-gap source/parent-cover premise is supplied.",
+              "verdict": "REFUSE"
+            },
+            "id": "GP-X403",
+            "inputs": {
+              "attempt": "INF-X10: turn E5a-c into E5",
+              "available_premises": [
+                "CL-E5A",
+                "CL-E5B",
+                "CL-E5C"
+              ],
+              "does_not_license": [
+                "actual-source membership",
+                "parent coverage",
+                "E5 completeness",
+                "a positive transport conclusion"
+              ],
+              "fixture": "transports/X8-X10.json",
+              "fixture_lf_sha256": "b1009142a6cad512e9d6f87fdeaeadc507081c3481aaadf026fd7eea0d9fded1",
+              "fixture_manifest_source_commit": "b876fe4ed5c8963a0e8c19e18c829821c0686654",
+              "missing_premise": "E5-gap: actual-source membership and parent-cover/generative bridge for all fence-valid types",
+              "model": "M-23-4-REAL",
+              "observation_layer": "frozen_transport_refusal"
+            },
+            "schema_version": 1,
+            "scope_or_region": "BOTH",
+            "seed": null,
+            "situation": "INF-X10 supplies E5a, E5b, and E5c but leaves the E5-gap as an explicit required PREDICATE premise: every fence-valid type must be represented in the frozen corpus by the actual source and parent-cover bridge.",
+            "sources": [
+              {
+                "anchor": "def test_ledger_and_open_slots_keep_their_original_obligations(",
+                "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+                "line": 75,
+                "path": "tests/test_guard_release.py",
+                "repository": "gp-v037"
+              }
+            ],
+            "title": "E5 subclaims cannot establish the actual-source or parent-cover bridge"
+          },
+          "mode": "reverse_duplicates",
+          "slots": [
+            {
+              "claim": "CL-E5A",
+              "model_level": true
+            },
+            {
+              "claim": "CL-E5B",
+              "model_level": true
+            },
+            {
+              "claim": "CL-E5C",
+              "model_level": true
+            },
+            {
+              "at": "M-23-4-REAL",
+              "missing_why": "E5-gap, the generative bridge: that every fence-valid type produced by E5a-c is present in the frozen 5,299-pin corpus. E5-argument.md section 5 declines to certify it and names the missing same-method n=22 census retrodiction. This is the SOLE open obligation under E5.",
+              "required_kind": "PREDICATE"
+            }
+          ],
+          "source_digest": "f17172a2744b2346f254402b94c5aa755fed17ad81d1227a21a7ae0c23033f52",
+          "state": {
+            "current_count": 2,
+            "domain": [
+              1,
+              100
+            ],
+            "held": [],
+            "live_warrants": [
+              1,
+              100
+            ],
+            "retracted": [],
+            "status": "OK",
+            "successors": [],
+            "supports": [],
+            "warrant_count": 2
+          }
+        }
+      }
     }
   ],
   "remaining_slice_behaviors": [],
@@ -56932,16 +59103,19 @@
     "section_provenance_separate_controls": 10,
     "context_reach_cases": 4,
     "context_reach_folds": 16,
-    "context_reach_separate_controls": 11
+    "context_reach_separate_controls": 11,
+    "open_premise_guard_cases": 3,
+    "open_premise_guard_folds": 12,
+    "open_premise_guard_separate_controls": 9
   },
   "lifecycle_report_sha256": "c3a1feb8fac5e374f4248843f4015d4dfe360aa1d26152c39b7f1cf67916fa7b",
-  "provenance_report_sha256": "3382a990d739fe60bff4bbb9132883017d6bbc94f41e0d2947d70dc4c0aa942d",
+  "provenance_report_sha256": "db18ea4bc7d5a15d52d6e15ae316f693590127cb397c2f3fb2ec7cec23ead192",
   "conditional_cover_report_sha256": "dec205eb4e96799fa95ebf3e034292954b6988a9e1b0328b3189a225041075d3",
   "declaration_report_sha256": "669a1e5e86feb501c36f3bb233ee761837aedca210896bce790c82ac8d71bfd1",
   "conditional_partition_report_sha256": "b863b97bf82efd583baa3c4cb6b92f08afd73205099c157c0e1b9571a73df149",
   "conditional_routes_report_sha256": "8e718ef9acc262e541daa89374e3438c75c94f62acfd3b9f07f2cfed2cb76091",
   "retraction_report_sha256": "b4903189f4622cc569f419fbabceda67f40c04e67309a8d34ee4fd51b1c6bccc",
-  "checked_lifecycle_supplement_sha256": "1617fad9b9d03fad9148bdd1d871b7169c4df9a0ab46a4162d346eb6922d71fd",
+  "checked_lifecycle_supplement_sha256": "03b7d8002d8bc781ac349d8c7f376298703c397186eaafdcf505ed0151a06b5e",
   "supplemental_slice_contracts": {
     "independent checked support and targeted retraction": "Two independently replay-validated X164 receipts; one survives targeted retraction, neither survives both retractions.",
     "failed retry": "Explicit failed/timeout attempts preserve prior native checked support; attempt-only controls are unheld.",
@@ -56949,7 +59123,7 @@
   },
   "supersession_guards_report_sha256": "44c21ef5ddbe7b9e56a02040e8c118dd4fe5f9344ccd2b7f55f7a7b98925c7fe",
   "residual_successors_report_sha256": "efdbf909a864496475cf6e70870c7463bf160ffcb86c6a82b5ef7bdbc52a4de0",
-  "missing_authority_report_sha256": "f9a13f1ed93726e127828942d1dc6c0254aceb3613e9b884b3c0d65ff54664a3",
+  "missing_authority_report_sha256": "235e26ff2877fdeabaf36945f16a172cffaebb2d1bee61b647c00b6d45fb9dfd",
   "conditional_point_routes_report_sha256": "268752ee2d82481cecd268dbac5502b4510d4ac3c7323fae6ca839b7424d1563",
   "conflict_demonstration_report_sha256": "c528854b0343f7f9d6d6f388c4468c2ed06ff4ebe56d0aee8ed682b5422f6fdc",
   "recorded_use_coverage_report_sha256": "59ec42c2e964e6933741dc73d71a878b34843188fa8cc02ae741fc6f522a675c",
@@ -56958,11 +59132,12 @@
   "conditional_theorem_transport_report_sha256": "4764506343f891bfa01c79ab1eadbd5e09b6e5b0ac0101fa2a8045a89e1fbdd8",
   "section_provenance_report_sha256": "4018b5760ca66d91f2a2bd69e75b35ef37c3cc93bed33d82adbbc060180eee47",
   "context_reach_report_sha256": "acc7472a22ecf6cd7707828b2f474ac8199e59deab220817880a63868d07c947",
+  "open_premise_guard_report_sha256": "aaffb95a91f85ad9ccb1b8d9c753dc6e0cc2a09f27211588cb052e89d58b27ba",
   "execution_reuse": {
-    "retained_case_count": 59,
-    "new_fresh_case_count": 4,
-    "prior_receipt_sha256": "92453e4dac8b88289a9dd37053f7f16284aab75105f6ab31e87f0466989610ed",
-    "prior_commit": "6bbe637a6250cc9309b410a0847777751c4c4a00",
-    "qualification": "Earlier 59 complete execution rows are retained verbatim after byte/expectation checks. Only the new aggregation stage/count text changed; previous helper and execution code is exactly identical. The new suite executed all 16 original folds and 11 separate controls. Retained suites are byte-identical to the reviewed checkpoint. This is not a claim of 63 fresh native executions in this turn."
+    "retained_case_count": 63,
+    "new_fresh_case_count": 3,
+    "prior_receipt_sha256": "81d2b1852f9f13a9ea844b52775d9c94da614956daa2946aaf3f3c889517dcae",
+    "prior_commit": "0d14bbfb87e181c4211f75bbc94c7cbf0720b87b",
+    "qualification": "Earlier 63 complete execution rows are retained verbatim after byte/expectation checks. Only the new aggregation stage/count text changed; previous helper and execution code is exactly identical. The new suite executed all 12 original folds and 9 separate controls. Retained suites are byte-identical to the reviewed checkpoint. This is not a claim of 66 fresh native executions in this turn."
   }
 }

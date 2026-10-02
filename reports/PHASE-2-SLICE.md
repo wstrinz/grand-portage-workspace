@@ -1,9 +1,10 @@
-# Phase 2 executed slice — checkpoint 18
+# Phase 2 executed slice — checkpoint 19
 
-Sixty-three kernel fixtures execute through native resolution, closure and held.
+Sixty-six kernel fixtures execute through native resolution, closure and held.
 
 | Cases | Result | Checked contract |
 |---|---|---|
+| X399, X402, X403 | REFUSE | Frozen inferences with an open E5 slot or unbridged family premise; four filled-slot contrasts |
 | A01, A08a, X283, X14 | REFUSE | Field-family, characteristic, untyped and unanchored context changes license nothing; four accepting contrasts |
 | X173 / X174–X176 | ACCEPT / REFUSE | Rejection is a separate record; missing or mutated stored certificate refused |
 | X60 / X61, X62 | conditional ACCEPT / REFUSE | Exact theorem premises and endpoints; omission and retargeting refused |
@@ -26,6 +27,6 @@ Custody supplies no truth. Recorded coverage does not establish real-use discove
 
 The finite fold is sound, complete and order independent. The ratified conflict demonstration pairs faulty-checker alarms with sound_fold_conflict_has_no_witness; held closure survives release review. Lifecycle supplements cover retraction, retries and reporting; the early slice is complete.
 
-This integration executes four cases, retaining 59 earlier rows verbatim. Legacy replay preserves all 459 fixtures and 67 protected artifacts.
+This integration executes three cases, retaining 63 earlier rows verbatim. Legacy replay preserves all 459 fixtures and 67 protected artifacts.
 
-Receipts: [aggregate](PHASE-2-SLICE.json), [reach](PHASE-2-CONTEXT-REACH.json), [integration](PHASE-2-REACH-INTEGRATION.json). G2 remains open: 16 cases remain.
+Receipts: [aggregate](PHASE-2-SLICE.json), [guards](PHASE-2-OPEN-PREMISE-GUARD.json), [integration](PHASE-2-GUARD-INTEGRATION.json). G2 remains open: 13 cases remain.
