@@ -105,7 +105,7 @@ theorem registered_meaning (v : Verdict) (source literal : String)
   refine ⟨⟨c,present,rfl⟩,?_⟩
   intro other otherPresent key
   have unique : ((clauses v source literal).map (·.key)).Nodup := by simp [clauses]
-  have same := Span.key_unique_of_nodup (clauses v source literal) (fun c => c.key)
+  have same := key_unique_of_nodup (clauses v source literal) (fun c => c.key)
     unique other c otherPresent present key
   exact same ▸ meaning
 
@@ -141,7 +141,7 @@ theorem actual_fold_held_sound (v : Verdict) (source literal : String)
     rw [resolved] at folded
     have same := Except.ok.inj folded
     subst state
-    exact evaluate_held_meaning _ _ _ snapshot (Span.resolve_warrant_ids_nodup events snapshot resolved)
+    exact evaluate_held_meaning _ _ _ snapshot (resolve_warrant_ids_nodup events snapshot resolved)
       (actual_base_sound v source literal snapshot) claim heldClaim
 theorem held_section_is_valid_stored (v : Verdict) (source literal : String)
     (events : List Event) (state : RuntimeState)

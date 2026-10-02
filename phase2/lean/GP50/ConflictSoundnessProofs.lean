@@ -15,7 +15,7 @@ theorem sound_evaluate_conflict_has_no_witness (p : Profile) (overlap : Overlap 
     (clauses : List (Clause p)) (admission : Admission) (snapshot : Snapshot)
     (sound : ∀ claim, held (evaluate admission snapshot) claim = true →
       ClaimMeaning p clauses claim)
-    (finding : ConflictFinding p)
+    (finding : ConflictFinding p overlap)
     (present : finding ∈ conflictFindings p overlap clauses (evaluate admission snapshot)) :
     finding.witness = none := by
   unfold conflictFindings at present
@@ -38,16 +38,16 @@ theorem sound_evaluate_conflict_has_no_witness (p : Profile) (overlap : Overlap 
         have rightTruth := (sound b.claim (supported_warrant_held admission snapshot b hb checked.2)).2 bc br.2.1 br.2.2
         cases inhabited : finding.witness with
         | none => rfl
-        | some ctx =>
+        | some code =>
           exact False.elim ((confirmed_conflict_excludes_joint_truth p overlap ac bc a.id b.id
-            finding ctx assessed inhabited) ⟨leftTruth, rightTruth⟩)
+            finding code assessed inhabited) ⟨leftTruth, rightTruth⟩)
   next => simp at found
 -- The actual narrowed fold obtains that semantic soundness from its validator contracts.
 theorem sound_fold_conflict_has_no_witness (p : Profile) (overlap : Overlap p)
     (clauses : List (Clause p)) (base : Admission) (events : List Event) (state : RuntimeState)
     (baseSound : BaseValidatorSound p clauses base state.snapshot)
     (folded : fold (withNarrowing p clauses base) events = .ok state)
-    (finding : ConflictFinding p)
+    (finding : ConflictFinding p overlap)
     (present : finding ∈ conflictFindings p overlap clauses state) : finding.witness = none := by
   unfold fold at folded
   cases resolved : resolve events with
@@ -59,7 +59,7 @@ theorem sound_fold_conflict_has_no_witness (p : Profile) (overlap : Overlap p)
     apply sound_evaluate_conflict_has_no_witness p overlap clauses
       (withNarrowing p clauses base) snapshot _ finding present
     exact evaluate_held_meaning p clauses base snapshot
-      (Span.resolve_warrant_ids_nodup events snapshot resolved) baseSound
+      (resolve_warrant_ids_nodup events snapshot resolved) baseSound
 
 #print axioms sound_fold_conflict_has_no_witness
 #print axioms sound_evaluate_conflict_has_no_witness

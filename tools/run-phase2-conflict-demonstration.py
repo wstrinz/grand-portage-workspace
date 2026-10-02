@@ -9,7 +9,7 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
 PACKAGE = ROOT / "phase2/lean"
-LAKE = Path("C:/Users/wstri/.elan/toolchains/leanprover--lean4---v4.32.1/bin/lake.exe")
+LAKE = (Path.home()/".elan"/"toolchains"/(ROOT/"phase2/lean/lean-toolchain").read_text(encoding="utf-8").strip().replace("/","--").replace(":","---"))/"bin"/"lake.exe"
 EXE = PACKAGE / ".lake/build/bin/gp_conflict_tests.exe"
 PROOF = "GP50.ConflictSoundnessProofs"
 APPROVAL = "2026-10-01 conflict demonstration ratified: Will directly selected Approve faulty-checker demonstration plus soundness proof."

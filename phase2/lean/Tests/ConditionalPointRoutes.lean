@@ -154,191 +154,8 @@ def admission (Point : Type) (source : String) (pointFirst extra : Bool) : Admis
 
 theorem admission_point_independent (Point : Type) (source : String) (pointFirst extra : Bool) :
     admission Point source pointFirst extra = admission Unit source pointFirst extra := by
-  unfold admission withNarrowing
-  congr 1
-  funext dest premise
-  simp [acceptsNarrow,boundClause,checkNarrow,clauses,clause,profile,List.find?,List.eraseDups_cons]
-  cases dest0 : (1 == dest.claim && 1 == dest.version && binding source .universalProperty .loose == dest.binding) with
-  | true =>
-    simp only [dest0]
-    cases premise0 : (1 == premise.claim && 1 == premise.version && binding source .universalProperty .loose == premise.binding) with
-    | true =>
-      simp only [premise0]
-      all_goals rfl
-    | false =>
-      simp only [premise0]
-      cases premise1 : (2 == premise.claim && 1 == premise.version && binding source .sidePoint .theory == premise.binding) with
-      | true =>
-        simp only [premise1]
-        all_goals rfl
-      | false =>
-        simp only [premise1]
-        cases premise2 : (11 == premise.claim && 1 == premise.version && binding source .universalProperty .tight == premise.binding) with
-        | true =>
-          simp only [premise2]
-          all_goals rfl
-        | false =>
-          simp only [premise2]
-          cases premise3 : (12 == premise.claim && 1 == premise.version && binding source .tightPoint .theory == premise.binding) with
-          | true =>
-            simp only [premise3]
-            all_goals rfl
-          | false =>
-            simp only [premise3]
-            cases premise4 : (3 == premise.claim && 1 == premise.version && binding source .licensedRoutes .theory == premise.binding) with
-            | true =>
-              simp only [premise4]
-              all_goals rfl
-            | false =>
-              simp only [premise4]
-              all_goals rfl
-  | false =>
-    simp only [dest0]
-    cases dest1 : (2 == dest.claim && 1 == dest.version && binding source .sidePoint .theory == dest.binding) with
-    | true =>
-      simp only [dest1]
-      cases premise0 : (1 == premise.claim && 1 == premise.version && binding source .universalProperty .loose == premise.binding) with
-      | true =>
-        simp only [premise0]
-        all_goals rfl
-      | false =>
-        simp only [premise0]
-        cases premise1 : (2 == premise.claim && 1 == premise.version && binding source .sidePoint .theory == premise.binding) with
-        | true =>
-          simp only [premise1]
-          all_goals rfl
-        | false =>
-          simp only [premise1]
-          cases premise2 : (11 == premise.claim && 1 == premise.version && binding source .universalProperty .tight == premise.binding) with
-          | true =>
-            simp only [premise2]
-            all_goals rfl
-          | false =>
-            simp only [premise2]
-            cases premise3 : (12 == premise.claim && 1 == premise.version && binding source .tightPoint .theory == premise.binding) with
-            | true =>
-              simp only [premise3]
-              all_goals rfl
-            | false =>
-              simp only [premise3]
-              cases premise4 : (3 == premise.claim && 1 == premise.version && binding source .licensedRoutes .theory == premise.binding) with
-              | true =>
-                simp only [premise4]
-                all_goals rfl
-              | false =>
-                simp only [premise4]
-                all_goals rfl
-    | false =>
-      simp only [dest1]
-      cases dest2 : (11 == dest.claim && 1 == dest.version && binding source .universalProperty .tight == dest.binding) with
-      | true =>
-        simp only [dest2]
-        cases premise0 : (1 == premise.claim && 1 == premise.version && binding source .universalProperty .loose == premise.binding) with
-        | true =>
-          simp only [premise0]
-          all_goals rfl
-        | false =>
-          simp only [premise0]
-          cases premise1 : (2 == premise.claim && 1 == premise.version && binding source .sidePoint .theory == premise.binding) with
-          | true =>
-            simp only [premise1]
-            all_goals rfl
-          | false =>
-            simp only [premise1]
-            cases premise2 : (11 == premise.claim && 1 == premise.version && binding source .universalProperty .tight == premise.binding) with
-            | true =>
-              simp only [premise2]
-              all_goals rfl
-            | false =>
-              simp only [premise2]
-              cases premise3 : (12 == premise.claim && 1 == premise.version && binding source .tightPoint .theory == premise.binding) with
-              | true =>
-                simp only [premise3]
-                all_goals rfl
-              | false =>
-                simp only [premise3]
-                cases premise4 : (3 == premise.claim && 1 == premise.version && binding source .licensedRoutes .theory == premise.binding) with
-                | true =>
-                  simp only [premise4]
-                  all_goals rfl
-                | false =>
-                  simp only [premise4]
-                  all_goals rfl
-      | false =>
-        simp only [dest2]
-        cases dest3 : (12 == dest.claim && 1 == dest.version && binding source .tightPoint .theory == dest.binding) with
-        | true =>
-          simp only [dest3]
-          cases premise0 : (1 == premise.claim && 1 == premise.version && binding source .universalProperty .loose == premise.binding) with
-          | true =>
-            simp only [premise0]
-            all_goals rfl
-          | false =>
-            simp only [premise0]
-            cases premise1 : (2 == premise.claim && 1 == premise.version && binding source .sidePoint .theory == premise.binding) with
-            | true =>
-              simp only [premise1]
-              all_goals rfl
-            | false =>
-              simp only [premise1]
-              cases premise2 : (11 == premise.claim && 1 == premise.version && binding source .universalProperty .tight == premise.binding) with
-              | true =>
-                simp only [premise2]
-                all_goals rfl
-              | false =>
-                simp only [premise2]
-                cases premise3 : (12 == premise.claim && 1 == premise.version && binding source .tightPoint .theory == premise.binding) with
-                | true =>
-                  simp only [premise3]
-                  all_goals rfl
-                | false =>
-                  simp only [premise3]
-                  cases premise4 : (3 == premise.claim && 1 == premise.version && binding source .licensedRoutes .theory == premise.binding) with
-                  | true =>
-                    simp only [premise4]
-                    all_goals rfl
-                  | false =>
-                    simp only [premise4]
-                    all_goals rfl
-        | false =>
-          simp only [dest3]
-          cases dest4 : (3 == dest.claim && 1 == dest.version && binding source .licensedRoutes .theory == dest.binding) with
-          | true =>
-            simp only [dest4]
-            cases premise0 : (1 == premise.claim && 1 == premise.version && binding source .universalProperty .loose == premise.binding) with
-            | true =>
-              simp only [premise0]
-              all_goals rfl
-            | false =>
-              simp only [premise0]
-              cases premise1 : (2 == premise.claim && 1 == premise.version && binding source .sidePoint .theory == premise.binding) with
-              | true =>
-                simp only [premise1]
-                all_goals rfl
-              | false =>
-                simp only [premise1]
-                cases premise2 : (11 == premise.claim && 1 == premise.version && binding source .universalProperty .tight == premise.binding) with
-                | true =>
-                  simp only [premise2]
-                  all_goals rfl
-                | false =>
-                  simp only [premise2]
-                  cases premise3 : (12 == premise.claim && 1 == premise.version && binding source .tightPoint .theory == premise.binding) with
-                  | true =>
-                    simp only [premise3]
-                    all_goals rfl
-                  | false =>
-                    simp only [premise3]
-                    cases premise4 : (3 == premise.claim && 1 == premise.version && binding source .licensedRoutes .theory == premise.binding) with
-                    | true =>
-                      simp only [premise4]
-                      all_goals rfl
-                    | false =>
-                      simp only [premise4]
-                      all_goals rfl
-          | false =>
-            simp only [dest4]
-            all_goals rfl
+  -- Executables see only ProfileOps, which has no Ctx, so independence is definitional.
+  rfl
 
 theorem keys_unique (Point : Type) (extra : Bool) (source : String) :
     ((clauses Point extra source).map (·.key)).Nodup := by simp [clauses,clause]
@@ -349,7 +166,7 @@ theorem registered_meaning (Point : Type) (extra : Bool) (source : String)
     ClaimMeaning (profile Point extra) (clauses Point extra source) c.key := by
   refine ⟨⟨c,present,rfl⟩,?_⟩
   intro other otherPresent sameKey
-  have same := Span.key_unique_of_nodup _ (fun c => c.key) (keys_unique Point extra source)
+  have same := key_unique_of_nodup _ (fun c => c.key) (keys_unique Point extra source)
     other c otherPresent present sameKey
   exact same ▸ meaning
 
@@ -410,8 +227,8 @@ theorem actual_fold_held_sound (Point : Type) (source : String) (pointFirst extr
     rw [resolved] at folded
     have same := Except.ok.inj folded
     subst state
-    exact evaluate_held_meaning _ _ _ snapshot (Span.resolve_warrant_ids_nodup events snapshot resolved)
-      (actual_base_sound Point source pointFirst extra snapshot (Span.resolve_warrant_ids_nodup events snapshot resolved))
+    exact evaluate_held_meaning _ _ _ snapshot (resolve_warrant_ids_nodup events snapshot resolved)
+      (actual_base_sound Point source pointFirst extra snapshot (resolve_warrant_ids_nodup events snapshot resolved))
       claim heldClaim
 
 theorem native_fold_held_sound (Point : Type) (source : String) (pointFirst extra : Bool)

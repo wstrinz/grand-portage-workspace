@@ -73,7 +73,7 @@ theorem warrant_truth_claim (inv : Inventory) (snapshot : Snapshot)
     (unique : (snapshot.warrants.map (·.id)).Nodup) (w : Warrant) (present : w ∈ snapshot.warrants)
     (truth : WarrantTruth inv snapshot w.id) : ClaimTruth inv w.claim := by
   rcases truth with ⟨other,otherPresent,sameId,truth⟩
-  have same := Span.key_unique_of_nodup snapshot.warrants (fun w => w.id)
+  have same := key_unique_of_nodup snapshot.warrants (fun w => w.id)
     unique other w otherPresent present sameId
   exact same ▸ truth
 
@@ -116,7 +116,7 @@ theorem actual_fold_held_sound (inv : Inventory) (source literal : String)
     rw [resolved] at folded
     have same := Except.ok.inj folded
     subst state
-    have unique := Span.resolve_warrant_ids_nodup events snapshot resolved
+    have unique := resolve_warrant_ids_nodup events snapshot resolved
     exact evaluate_held_truth_composition (admission inv source literal) snapshot
       (WarrantTruth inv snapshot) (ClaimTruth inv)
       (actual_validator_sound inv source literal snapshot unique)

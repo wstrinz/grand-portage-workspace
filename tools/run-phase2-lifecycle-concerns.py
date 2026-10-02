@@ -17,7 +17,7 @@ import lifecycle_inputs as LI
 PACKAGE=ROOT/"phase2/lean"
 HARNESS=PACKAGE/"Tests/LifecycleConcerns.lean"
 SCRATCH=ROOT/"tmp/phase2-lifecycle-concerns"
-TOOLCHAIN=Path("C:/Users/wstri/.elan/toolchains/leanprover--lean4---v4.32.1")
+TOOLCHAIN=Path.home()/".elan"/"toolchains"/(ROOT/"phase2/lean/lean-toolchain").read_text(encoding="utf-8").strip().replace("/","--").replace(":","---")
 LAKE=TOOLCHAIN/"bin/lake.exe"
 LEAN=TOOLCHAIN/"bin/lean.exe"
 CHECKER=TOOLCHAIN/"bin/leanchecker.exe"

@@ -26,3 +26,9 @@ dist/
 # (corpus/must, corpus/LAYER-TAGS.json) is public review material.
 review/ir-v2-projection/*.json
 !review/ir-v2-projection/index.json
+
+# Binding package downloaded caches and scratch
+/binding/cache/
+/binding/tmp/
+/profile/cache/
+/profile/tmp/

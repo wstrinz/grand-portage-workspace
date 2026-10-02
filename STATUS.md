@@ -1,7 +1,7 @@
 # Grand Portage status
-Updated 2026-10-01. Authority: [Phase 2 handoff](docs/GP-0.50-PHASE-2-HANDOFF.md) and [decisions](DECISIONS.md).
+Updated 2026-10-02. Authority: [post-G2 handoff](docs/GP-0.50-POST-G2-HANDOFF.md), [Addendum A](docs/GP-0.50-POST-G2-ADDENDUM-A.md) and [decisions](DECISIONS.md).
 
-**Where things stand.** Phases 0–2 are complete. Will ratified G2 on 2026-10-02: all 79 kernel-tagged corpus cases execute through the native Lean fold with their expected verdicts.
+**Where things stand.** Phases 0–2 are complete (G2 ratified 2026-10-02). Phase 2.5 is done and awaits Will's G2.5 ratification: the Lean package is split into a pinned 22-module `Kernel`, `Stub` and `Run`; profiles are split into executable `ProfileOps` and a universe-polymorphic `Profile`; all packages use Lean `v4.34.0-rc2`, Hex v0.6.0 and Mathlib `85e3a25e`.
 
 **What is proved.** The finite fold is sound, complete, order independent, total and deterministic, using only standard axioms. Retraction removes exactly the claims whose every derivation used it; failed retries never revoke support; circular support never bootstraps. Sound validator contracts exclude confirmed conflicts; the ratified faulty-checker demonstration freezes release while keeping held closure. Each case family has its own kernel-checked harness: held claims mean only their stated, often conditional, statements, and every refusal family has an explicit Lean countermodel.
 
@@ -9,9 +9,10 @@ Updated 2026-10-01. Authority: [Phase 2 handoff](docs/GP-0.50-PHASE-2-HANDOFF.md
 
 **Not claimed.** No production profile, checker admission, census, field or class-group mathematics is certified. Conditional harnesses assume named premises; OPEN premises stay open.
 
-**Validation.** One fresh full run passes all 377 tests/1077 subtests: kernel corpus, regressions, layer tags and property proofs. All 459 legacy bytes, expectations and outcomes and 67 protected artifacts are unchanged. Production logic is 636 lines against the 750 stop.
+**Validation.** A fresh full run at rc2 passes all 386 tests/1,130 subtests. Every Kernel module passes `leanchecker`, and all 1,054 Kernel constants use only standard axioms. All 79 and 459 legacy cases are unchanged. Kernel logic is 382 lines against 500.
 
-**Next.** Phase 3, the minimal algebraic profile. Deferred items are in the [Phase 2 closeout](reports/PHASE-2-CLOSEOUT.md). Heartbeats remain paused.
+**Next.** After G2.5: the §3.6 receipt reach slice on Hex, then the §3.6a Lean-native shadow slice, then a stop at G3a-0 to report against the pivot rule (Addendum A, amendment 1). Heartbeats remain paused.
 
+- [Phase 2.5 report](reports/PHASE-2.5-REPORT.md)
 - [Executed slice](reports/PHASE-2-SLICE.md)
 - [Standing limits](LIMITS.md)

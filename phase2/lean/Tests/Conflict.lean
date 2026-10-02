@@ -18,13 +18,15 @@ private def profile : Profile where
   contra := fun a b => a != b
   contra_sound := by intro a b c h ha hb; subst a; subst b; contradiction
 private def overlap : Overlap profile where
+  Code := Nat
   witness := fun a b => a.find? (b.contains ·)
   sound := by
-    intro a b c h
-    exact ⟨List.mem_of_find?_eq_some h, List.contains_iff_mem.mp (List.find?_some h)⟩
+    intro a b k h
+    exact ⟨k, List.mem_of_find?_eq_some h, List.contains_iff_mem.mp (List.find?_some h)⟩
 private def unknown : Overlap profile where
+  Code := Nat
   witness := fun _ _ => none
-  sound := by intro a b c h; contradiction
+  sound := by intro a b k h; contradiction
 private def binding (key : Nat) : Binding :=
   ⟨s!"statement-{key}", s!"scope-{key}", "conflict-test-only", [], "unsafe-test-seam", 1, 1⟩
 private def clause (key : Nat) (stmt : Bool) (scope : List Nat) : Clause profile :=
@@ -36,11 +38,11 @@ private def roots (a b : Clause profile) : List Event :=
 private def unsafeAdmission : Admission :=
   {Admission.refuseAll with receipt := fun _ _ => true}
 example (p : Profile) (checker : Overlap p) (a b : Clause p)
-    (left right : Nat) (finding : ConflictFinding p) (ctx : p.Ctx)
+    (left right : Nat) (finding : ConflictFinding p checker) (code : checker.Code)
     (found : assessConflict p checker a b left right = some finding)
-    (inhabited : finding.witness = some ctx) :
+    (inhabited : finding.witness = some code) :
     ¬(Means p a.stmt a.scope ∧ Means p b.stmt b.scope) :=
-  confirmed_conflict_excludes_joint_truth p checker a b left right finding ctx found inhabited
+  confirmed_conflict_excludes_joint_truth p checker a b left right finding code found inhabited
 example (p : Profile) (checker : Overlap p) (clauses : List (Clause p)) (state : RuntimeState) :
     (reviewRelease p checker clauses state).state.claims = state.claims :=
   congrArg RuntimeState.claims (release_preserves_complete_state p checker clauses state)
@@ -53,7 +55,7 @@ example (p : Profile) (checker : Overlap p) (clauses : List (Clause p)) (adm : A
 example (p : Profile) (checker : Overlap p) (clauses : List (Clause p))
     (admission : Admission) (snapshot : Snapshot)
     (sound : ∀ claim, held (evaluate admission snapshot) claim = true → ClaimMeaning p clauses claim)
-    (finding : ConflictFinding p)
+    (finding : ConflictFinding p checker)
     (present : finding ∈ conflictFindings p checker clauses (evaluate admission snapshot)) :
     finding.witness = none :=
   sound_evaluate_conflict_has_no_witness p checker clauses admission snapshot sound finding present
@@ -61,7 +63,7 @@ example (p : Profile) (checker : Overlap p) (clauses : List (Clause p))
     (base : Admission) (events : List Event) (state : RuntimeState)
     (baseSound : BaseValidatorSound p clauses base state.snapshot)
     (folded : fold (withNarrowing p clauses base) events = .ok state)
-    (finding : ConflictFinding p)
+    (finding : ConflictFinding p checker)
     (present : finding ∈ conflictFindings p checker clauses state) : finding.witness = none :=
   sound_fold_conflict_has_no_witness p checker clauses base events state baseSound folded finding present
 private def check (counter : IO.Ref Nat) (label : String) (ok : Bool) : IO Unit := do

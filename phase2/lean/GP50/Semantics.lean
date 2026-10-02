@@ -1,23 +1,31 @@
 import GP50.Events
 namespace GP50.Semantic
-structure Profile where
+universe u
+
+-- Executable, Mathlib-free profile operations. Kernel executables take only these.
+structure ProfileOps where
   Stmt : Type
   Scope : Type
-  Ctx : Type
   same : Stmt → Stmt → Bool
   same_sound : ∀ a b, same a b = true → a = b
-  mem : Ctx → Scope → Prop
   le : Scope → Scope → Bool
-  le_sound : ∀ a b c, le a b = true → mem c a → mem c b
-  Holds : Stmt → Ctx → Prop
   contra : Stmt → Stmt → Bool
+
+-- Semantic profile: contexts are models in any universe (post-G2 handoff §1.3).
+structure Profile extends ProfileOps where
+  Ctx : Type u
+  mem : Ctx → Scope → Prop
+  Holds : Stmt → Ctx → Prop
+  le_sound : ∀ a b c, le a b = true → mem c a → mem c b
   contra_sound : ∀ a b c, contra a b = true → Holds a c → Holds b c → False
 
-def Means (p : Profile) (stmt : p.Stmt) (scope : p.Scope) : Prop :=
+instance : CoeOut Profile.{u} ProfileOps := ⟨Profile.toProfileOps⟩
+
+def Means (p : Profile.{u}) (stmt : p.Stmt) (scope : p.Scope) : Prop :=
   ∀ c, p.mem c scope → p.Holds stmt c
 
 -- Statement data includes selected objects; scope restriction cannot alter it.
-structure Clause (p : Profile) where
+structure Clause (p : ProfileOps) where
   key : Nat
   version : Nat
   binding : Binding

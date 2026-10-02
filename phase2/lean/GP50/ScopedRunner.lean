@@ -5,12 +5,14 @@ import GP50.Presentation
 import GP50.Conflict
 namespace GP50.ScopedSpan
 open Lean
+-- The witness code is the shared point itself; soundness exhibits it as a common context.
 def overlap : Semantic.Overlap profile where
+  Code := Nat
   witness a b := a.find? (b.contains)
   sound := by
-    intro a b c found
-    exact ⟨List.mem_of_find?_eq_some found, List.contains_iff_mem.mp (List.find?_some found)⟩
-def releaseJson (review : Semantic.ReleaseReview profile) : Json := Json.mkObj [
+    intro a b k found
+    exact ⟨k, List.mem_of_find?_eq_some found, List.contains_iff_mem.mp (List.find?_some found)⟩
+def releaseJson (review : Semantic.ReleaseReview profile overlap) : Json := Json.mkObj [
   ("allowed", toJson review.allowed),
   ("findings", toJson (review.findings.map fun f => Json.mkObj [
     ("supports", toJson [f.leftSupport,f.rightSupport]),

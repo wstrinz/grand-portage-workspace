@@ -116,7 +116,7 @@ theorem actual_fold_held_sound (i : Input) (source literal : String)
     rw [resolved] at folded
     have same := Except.ok.inj folded
     subst state
-    exact evaluate_held_meaning _ _ _ snapshot (Span.resolve_warrant_ids_nodup events snapshot resolved)
+    exact evaluate_held_meaning _ _ _ snapshot (resolve_warrant_ids_nodup events snapshot resolved)
       (actual_base_sound i source literal snapshot) claim heldClaim
 
 def str (j : Json) (k : String) : Except String String := do (← j.getObjVal? k).getStr?

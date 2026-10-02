@@ -1,0 +1,27 @@
+name = "gp_profile"
+version = "0.1.0"
+defaultTargets = ["GPProfile", "gp_profile_layout"]
+
+# Executable algebraic profile (Addendum A §2.5e): Kernel plus Mathlib-free Hex libraries.
+# Mathlib must never appear in this package's dependency graph.
+
+[[require]]
+name = "gp_kernel"
+path = "../phase2/lean"
+
+[[require]]
+name = "HexMvPoly"
+git = "https://github.com/leanprover/hex-mv-poly.git"
+rev = "v0.6.0"
+
+[[require]]
+name = "HexModArith"
+git = "https://github.com/leanprover/hex-mod-arith.git"
+rev = "v0.6.0"
+
+[[lean_lib]]
+name = "GPProfile"
+
+[[lean_exe]]
+name = "gp_profile_layout"
+root = "GPProfile.Layout"

@@ -99,3 +99,178 @@ Will directly approved primary-contract tagging with secondary duties. Choose th
 
 
 2026-10-02 workspace landing: Will chose to merge codex/phase-0 into the shadow repository's master by an unrelated-history merge, after GPC recommended a separate main. The merge preserves all v0.37 history; master's v0.37 README and REVIEW move to HISTORY/ and its CI is scoped to the v0.37 suite.
+
+
+## Post-G2 decisions (ratified by Will, 2026-10-02)
+
+1. **Scope/statement criterion.** Scope contains only what the profile's `le` can compare without evidence: characteristic sets, field-class flags, and standing named hypotheses such as GRH.
+   - Anything whose inclusion needs a certificate (loci, ideals, regions, relaxations, branches) belongs in the statement and moves only by K3 rules with checked relation certificates.
+   - Relaxation (v0.37 NECESSARY_CONDITION) is a K3 inclusion rule, with exactly one encoding.
+   - Context splits (kernel `Cover`) and object splits (K3 cover rules) are distinct, and both are legitimate.
+   - Phase 2 harnesses that put contexts in statements (`ContextReach`) or regions in scopes (`ConditionalRoutes`, `ConditionalPointRoutes`) remain valid kernel tests. They are not normative profile encodings.
+
+2. **Statement signature and computed reach.** An algebraic statement's coefficient ring is ℤ[1/S_stmt], where S_stmt is the set of primes dividing any denominator in the statement.
+   - The statement is meaningful only in fields whose characteristic lies outside S_stmt. A claim whose scope leaves that domain is ill-formed.
+   - Certificate reach is computed from the certificate, never declared (§3.3).
+   - An F_p-replayed certificate reaches exactly {p}.
+   - Characteristic specialization is therefore reach, not a transport.
+
+3. **Contexts are models; Profile is split.**
+   - `Profile` splits into a Mathlib-free, executable `ProfileOps` (`Stmt`, `Scope`, `same`, `same_sound`, `le`, `contra`) and a universe-polymorphic semantic `Profile.{u}` extending it (`Ctx : Type u`, `mem`, `Holds`, `le_sound`, `contra_sound`).
+   - Executable kernel code takes `ProfileOps`; theorems take `Profile`.
+   - `Overlap.witness` returns profile-chosen data, and its soundness states that a common context exists.
+   - The target algebraic context is Mathlib's `Theory.field.ModelType`.
+   - Rationale: `Means` is literally truth in every model the scope denotes, with no kind-partition side condition, and the institution correspondence stays exact.
+
+4. **Signature morphisms: no kernel concept.**
+   - ℚ-coefficient statements already range over every suitable field, so ℚ → ℚ(i) base extension is K2 (GP-C01).
+   - GP-A02 refuses because the statement's signature lacks i and no rule supplies it.
+   - Number-field statements (3b) use a fixed signature ℤ[1/S][t]/(m). Translating a statement into that signature is a profile K3 rule of carry kind 1.
+   - Promotion into the kernel happens only under D9.
+
+5. **Ledger conflicts.** The kernel stays strict. A log is malformed, with no partial snapshot, if it contains any of:
+   - conflicting same-version current bindings;
+   - conflicting warrant contents under one ID;
+   - retraction plus supersession of one target.
+
+   Robustness lives in an adapter commit/merge guard:
+   - an append or merge lands only if the resulting log still folds;
+   - ID allocation is branch-safe (namespaced or content-derived);
+   - collisions surface as merge conflicts, resolved before landing.
+
+   Two of the three collision types cannot be repaired by later appends, so the guard is mandatory before any multi-writer use. It is required at Phase 5 entry.
+
+6. **Kernel freeze.** Phase 2.5 splits the Lean package into `Kernel`, `Stub` and `Run`. `Kernel` holds what is domain-independent and soundness-critical, by the rev 3 §6.4 boundary test. Phase 2.5 re-measures the D8 budget on `Kernel` only and pins it in `KERNEL-PIN.json`. At later gates, "kernel unchanged" means the pin is unchanged, or each change is logged with its reason in `PROMOTIONS.md`.
+
+7. **Checker admission.**
+   - Each checker is a Mathlib-free executable replay, admitted with a one-time soundness theorem in the binding package, adversarial controls, and a `TCB.md` entry.
+   - Receipts remain the per-claim currency.
+   - Per G1 decision 3, overlapping tools must be named. For algebraic certificates, Mathlib's `linear_combination` checks the same identities, but it costs Mathlib-scale elaboration per claim (the 0c measurement: 40–150 s) and computes no reach. It remains the upgrade path for durable claims.
+
+8. **Execution rule.**
+   - Corpus cases execute through one shared case-to-profile frontend.
+   - Bridges may construct only profile inputs: the statement AST, the scope, and raw certificate or relation-certificate bytes.
+   - Bridges never construct events, warrants, admission results or success flags. Checkers and the proposer produce events.
+   - A case that requires case-specific code is reported as an expressiveness loss, never as a pass.
+   - Per-family runner scripts are retired for profile work.
+
+9. **Proposer.** An untrusted adapter proposes claim declarations and warrant events:
+   - the widest claim each held receipt's reach allows;
+   - K3 instances over declared statements with available relation certificates;
+   - K2 narrowings to scopes named by open obligations.
+
+   It writes through the commit guard and affects authority only through admitted checkers and rules. The earned surface ranks results by the open obligations they touch and shows at most five by default.
+
+10. **Phase order: 2.5 → 3a → 4 → 3b → 5.**
+    - 3a is the Nullstellensatz regime.
+    - 4 is census, the portability test.
+    - 3b covers ordered/SOS, number fields, selected real algebraic points and sections.
+    - G4 is the most informative architectural test, so it comes before the heaviest builds.
+    - 3b still precedes the pilot, because u(22) and Cloquet need real algebraic points.
+    - D10's spirit is kept: census comes immediately after a genuinely minimal algebraic profile.
+
+11. **Gate ownership.**
+    - A sidecar, `corpus/GATE-OWNERS.json`, assigns every profile-layer case to one of: 3a, 3b, census, or campaign-op. Campaign-op cases are admitted only when a live campaign needs that operation.
+    - The policy matches the layer tags: expectations and bytes are unchanged, and ambiguous cases go to Will.
+    - G3a requires 100% of 3a-owned cases to pass, plus zero false ACCEPTs across all profile cases. G3b applies the same rule to 3b.
+    - Campaign-op cases remain regression material, not minimal-profile scope.
+
+12. **Visibility and release.**
+    - The workspace stays public for reviewability and will later go private.
+    - CI certification and toolchain portability are deferred until then.
+    - At G3a, the builder prepares `v0.50.0-alpha` for the public `wstrinz/grandportage`, per `reports/PUBLIC-INTEGRATION-PLAN.md`. Publication still needs Will's explicit approval at that time.
+
+13. **Unchanged and authorized.**
+    - Theorem transport licenses only exact premise records.
+    - Every K3 rule declares `carry_kind`.
+    - The Phase 2 process caps carry over (§8).
+    - The Fano realizability cases (§3.6) and the census must-refuse set (§4) are authorized new corpus cases. Any other new case needs Will.
+
+Source: docs/GP-0.50-POST-G2-HANDOFF.md §1, copied verbatim as that handoff directs.
+
+
+2026-10-02 Phase 2.5 module classification: Will decided the ambiguous cases. Queries and QueryDecoder go to Run: by the rev 3 §6.4 boundary test a query bug cannot make a false claim held, and §1.9 already plans earned-surface changes in 3a. The lifecycle and totality proofs that closed G2 move from Tests/ into a Kernel proof module, so KERNEL-PIN covers every property G2 claimed. Resolved by inspection: AdmissionProofs (ValidatorSound) and Decoder are Kernel; CoverAdmissionProofs and the Span/Scoped/Covered decoders are Stub. The generic log-resolution lemmas inside SpanSoundnessProofs, on which kernel order independence depends, are extracted into a Kernel module.
+
+
+## Addendum A decisions (ratified by Will, 2026-10-02)
+
+**A1. Lean-first.**
+- New GP code is Lean: kernel, checkers, reach computation, proposer, the shared case-to-profile frontend, and the cores of the query surfaces.
+- Python is limited to:
+  - replaying the v0.37 oracle;
+  - glue code that launches external solvers;
+  - repository tooling such as budget checks and snapshot audits.
+- The Phase 2 per-family Python runners retire under post-G2 §1.8.
+
+**A2. Pin alignment.**
+- GP adopts the Hex v0.6.0 release pins: Lean `v4.34.0-rc2` and Mathlib `85e3a25e006c35636f0e53b0e9296caca2685bc0`. Kernel and binding packages share them.
+- The bump happens in Phase 2.5, before `KERNEL-PIN.json` is written.
+- The release-candidate toolchain is recorded in `TCB.md`.
+- Moving later to a Hex release on a stable toolchain is a logged change. The kernel re-checks; it is not a new design decision.
+
+**A3. Adopt the substrate; build only what is GP's own.**
+
+Adopt:
+
+| Need | Adopted library |
+|---|---|
+| Polynomial representation and evaluation | `HexMvPoly` / `HexMvPolyMathlib` |
+| Arithmetic modulo a prime | `HexModArith` |
+| Real roots | `HexRealRoots` |
+| Number fields | `HexNumberField`, `HexNumberFieldTower` |
+| Univariate real decisions | `HexRCF` |
+| Factoring and irreducibility | `HexBerlekampZassenhaus` |
+| Graph isomorphism | `HexGraphIso` |
+| Permutation groups | `HexPermGroup` |
+| SAT certificates | LRAT-Catcher |
+| Pseudo-Boolean certificates | PBLean |
+
+GP builds only:
+- reach computation;
+- relation-certificate composition (the C4 bundles);
+- receipt and theorem binding;
+- the proposer;
+- the kernel;
+- the surfaces.
+
+Each adopted component goes through admission, as for any checker:
+- an axiom audit of the declarations GP relies on, with `leanchecker`;
+- adversarial controls;
+- a `TCB.md` entry naming any trusted runtime code it brings, such as GMP externs or native evaluation.
+
+**A4. Warrant policy: Lean theorems first when cheap.** This amends the policy line of G1 decision 2; the binder contract is unchanged.
+- For each 3a checker, measure two costs for the same claim:
+  - **receipt cost:** replaying the receipt;
+  - **theorem cost:** producing a Lean theorem with only the standard axioms, via Hex, `linear_combination` or `decide +kernel`.
+- Mint a theorem warrant when its cost per claim is within 30 s of elaboration and checking (Will may adjust this number). Otherwise mint a receipt.
+- The binder (G1 decision 2) becomes a 3a deliverable. It checks declaration type, imported axioms and exact input identity.
+- Theorems that depend on native evaluation (for example LRAT-Catcher's) are not ordinary theorem warrants. They enter as admitted-checker receipts with explicit native trust, as G1 decisions 2 and 5 require.
+
+**A5. Lean-convergence tracking.** Every gate report from G2.5 onward includes a short convergence section:
+
+- **(a)** the fraction of held claims that also exist as standard-axiom Lean theorems, or could within the A4 budget;
+- **(b)** for each held claim, the GP-specific value that remained, using these tags: `REACH` (computed reach wider or narrower than the request), `CUSTODY` (staleness, retraction or supersession affected it), `COVERAGE` (a coverage or premise obligation was tracked), `EARNED` (surfaced unclaimed), or `NONE`;
+- **(c)** a one-paragraph read of the trend.
+
+If (a) approaches 100% and (b) is mostly `NONE`, report it as a finding. GP may properly become a custody and reach layer over a Lean environment. That is an acceptable and interesting outcome, not a failure.
+
+**A6. Concentration safeguard.**
+- Pin released aggregates (`leanprover/hex` v0.6.0), never `hex-dev`.
+- State GP's admission theorems against Mathlib definitions through Hex's Mathlib bridges. Then any substrate library can be swapped out without changing GP's semantics.
+- `TCB.md` lists which GP guarantees rest on which external library and version.
+- Several adopted libraries are developed largely by AI agents at high velocity. Their authority comes only from the kernel-checked theorems GP actually uses, so admission inspects those exact theorems. A library-level status label is not evidence.
+
+**A7. Comparison arm.** G5's arm (b), Lean plus blueprint, uses the strongest Lean-native tooling available when Phase 5 starts, recorded with versions. This includes Hex tactics, LRAT-Catcher, and current autoformalization agents.
+
+**A8. Outside contact remains Will's.** Candidate threads are recorded in §6 for him; the builder makes no contact.
+
+Source: docs/GP-0.50-POST-G2-ADDENDUM-A.md §1, copied verbatim as that addendum directs.
+
+
+Addendum A, amendment 1 (Will, 2026-10-02). Run §3.6a (the Lean-native shadow slice) immediately after the §3.6 receipt reach slice. Then stop and report, before C1–C4 admission, the binder, `GATE-OWNERS.json` and broad corpus runs. This checkpoint is G3a-0. Report against the pre-registered pivot rule:
+
+1. every reach-slice claim is a standard-axiom or admitted-reflective Lean theorem within the A4 budget;
+2. typeclass hypotheses or AutoGeneralization reproduce GP's computed reach;
+3. the A5 tags are only `CUSTODY` or `NONE`.
+
+If all three hold, recommend the Lean-native ledger pivot (keep `Kernel` and the custody surfaces; drop the profile/semantic layer); otherwise recommend continuing. Will decides at G3a-0.

@@ -64,3 +64,16 @@ The finite review is complete; no default bibliography expansion is commissioned
 - reports/PHASE-0E-FINAL-PARENT-REVIEW.md/.json
 
 The final parent record binds reviewed report hashes and actual shared charges. Historical source results are not fresh execution. Native trust, compatibility, actual costs, meaning mappings and full corpus expressiveness remain future gate evidence. The0a/0b decisions and capped0cspike still prevent Phase0/G0completion.
+
+## Addendum A rows (2026-10-02)
+
+Appended from docs/GP-0.50-POST-G2-ADDENDUM-A.md §8. Each row is UNCONFIRMED until the builder checks it against its primary source during admission. Confirmed so far: P19 (leanprover/hex v0.6.0 release, Lean v4.34.0-rc2, Mathlib 85e3a25e).
+
+| Row | Proposal | Reason and guarantee piece |
+|---|---|---|
+| P19 Hex (`leanprover/hex` v0.6.0) | adopt | Verified computational algebra with Mathlib-free cores and Mathlib bridges; same layering as GP; substrate for 3a, 3b and census checkers |
+| P20 LRAT-Catcher (`leansolving/lrat-catcher`) | adopt | LRAT into Lean theorems by native reflection; cube-and-conquer cover certificates; census negatives and coverage |
+| P21 PBLean (arXiv 2602.08692) | adopt (evaluate in M4) | VeriPB certificates with verified encodings and certified symmetry breaking |
+| P22 AutoGeneralization (`pelicanhere/AutoGeneralization`) | adopt (proposer, Lean warrants) | Proof-based widening of typeclass assumptions: the earned-but-unclaimed dual for theorem warrants |
+| P23 Tau Ceti (`TauCetiProject`) | imitate | Human roadmaps, AI implementation, adversarial review against open rubrics; a model for GP's builder workflow; a possible downstream home for GP's admission theorems |
+| P24 Albilich (arXiv 2607.27705) | differ | Agentic CAS harness whose verifier trusts transcripts without re-execution; the contrast case for GP's replay-only authority |

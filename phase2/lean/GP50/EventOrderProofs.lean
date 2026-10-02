@@ -1,4 +1,4 @@
-import GP50.SpanSoundnessProofs
+import GP50.ResolveProofs
 namespace GP50.EventOrder
 
 private theorem binding_beq (a b : Binding) : instBEqBinding.beq a b = true ↔ a = b := by
@@ -89,8 +89,8 @@ theorem canonicalIds_eq_of_mem_iff (left right : List Nat)
     exact Nat.le_antisymm (of_decide_eq_true ab) (of_decide_eq_true ba)
   · exact List.pairwise_mergeSort (by intros; simp_all; omega) (by intros; simp; omega) _
   · exact List.pairwise_mergeSort (by intros; simp_all; omega) (by intros; simp; omega) _
-  · exact Span.canonicalIds_nodup left
-  · exact Span.canonicalIds_nodup right
+  · exact canonicalIds_nodup left
+  · exact canonicalIds_nodup right
   · intro id
     simpa only [canonicalIds, List.mem_mergeSort, List.mem_eraseDups] using same id
 
@@ -118,7 +118,7 @@ private theorem dedup_singleton_iff {α : Type} [BEq α] [LawfulBEq α]
     rw [← List.mem_eraseDups, h]
     simp
   · intro h
-    apply singleton_of_set_eq _ _ (Span.eraseDups_nodup xs)
+    apply singleton_of_set_eq _ _ (eraseDups_nodup xs)
     intro x
     simpa only [List.mem_eraseDups] using h x
 
@@ -271,8 +271,8 @@ private theorem canonicalLinks_eq (left right : List (Nat × Nat))
     · intro a b
       simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq]
       omega
-  · exact (List.mergeSort_perm _ _).symm.nodup (Span.eraseDups_nodup left)
-  · exact (List.mergeSort_perm _ _).symm.nodup (Span.eraseDups_nodup right)
+  · exact (List.mergeSort_perm _ _).symm.nodup (eraseDups_nodup left)
+  · exact (List.mergeSort_perm _ _).symm.nodup (eraseDups_nodup right)
   · intro edge
     simpa only [List.mem_mergeSort, List.mem_eraseDups] using same edge
 
