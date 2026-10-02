@@ -1632,7 +1632,7 @@
   "runner_sha256": "b132a3c6161859fcee2ee98ae9c5bb99f385ff8e416a2249325bc49b363a284b",
   "identity_inspector_sha256": "3864574664dae66eb178a0af7fe6997a610daac16b5d2a7282e46bfefe0c2fa1",
   "adapter_sha256": "583b7cce690a9715c40bf86ec2652b8f7f56cc4933b5f5f074f7adff954a8a8b",
-  "shared_adapter_sha256": "1ef525313dfbe73334012624960448f8d271bc3d9c399335edaa88cc35a5371c",
+  "shared_adapter_sha256": "d94f3aaea6114c60ce2bbf97f4dadbda43ef845eb1ce6542d9e9cc479e4d931b",
   "vocabulary_mapping": {
     "verifier_and_backend": "Native binding.authority stores a canonical pair. Current source verifier/backend contract maps to the actual Rat checker/replay; literal mismatches replace the corresponding component.",
     "verifier_version": "Native authorityVersion=1 is the admitted test checker version; literal mismatch 999 stays 999.",
