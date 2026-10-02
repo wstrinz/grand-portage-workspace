@@ -36,3 +36,4 @@
 - Harnesses hard-code the local Lean 4.32.1 toolchain path, so the 0.50 suite runs on this host, not CI. Master's CI runs only the v0.37 suite.
 - The slice report sits at its 500-word cap; Phase 3 should open its own report.
 - Heartbeats remain paused, and the GPB builder chat is retired.
+- Workspace master merges `codex/phase-0`. Public integration is a [separate plan](PUBLIC-INTEGRATION-PLAN.md) awaiting Will's gate decision.
