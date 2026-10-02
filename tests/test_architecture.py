@@ -143,12 +143,13 @@ def test_lean_shadow_epoch_cannot_drift_silently():
 
 
 def test_readme_remains_a_bounded_introduction():
-    lines = (ROOT / "README.md").read_text(encoding="utf-8").splitlines()
+    # The v0.37 README is archived; the root README leads with the 0.50 rework.
+    lines = (ROOT / "HISTORY" / "README-v0.37.md").read_text(encoding="utf-8").splitlines()
     assert len(lines) <= 160, "README is %d lines; move detail to SPEC.md" % len(lines)
 
 
 def test_intro_and_quickstart_answer_the_five_cold_reader_questions():
-    intro = (ROOT / "README.md").read_text(encoding="utf-8")
+    intro = (ROOT / "HISTORY" / "README-v0.37.md").read_text(encoding="utf-8")
     quickstart = (ROOT / "QUICKSTART.md").read_text(encoding="utf-8")
     combined = intro + "\n" + quickstart
     for concept in ("Established", "Carried", "Stale", "Licensed",

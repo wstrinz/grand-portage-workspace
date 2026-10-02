@@ -1,159 +1,45 @@
-# Grand Portage
+# Grand Portage 0.50 — WIP for review
 
-**Transport typing and obstruction tracking for computational algebra.**
+This is a separate rework of Grand Portage. Its review shadow is [wstrinz/grand-portage-workspace](https://github.com/wstrinz/grand-portage-workspace); work lands on codex/phase-0 and is merged into master, which also keeps the v0.37 package and history (its README is in [HISTORY/README-v0.37.md](HISTORY/README-v0.37.md)). **It is not a production release.** Phases 0–2 are complete: Will ratified G2 on 2026-10-02 after all 79 kernel-tagged corpus cases executed through the native Lean kernel. Phase 3 is next.
 
-A computation produces an artifact. The artifact does not carry its own
-license to conclude. Grand Portage computes which claims remain licensed after each modelling step
-under available evidence, and refuses unsupported conclusions.
-
-```text
-$ gp check
-UNSOUND_CONCLUSION  TRANSPORT:INF-C08-HIST
-  asserted: field-relative emptiness as geometric emptiness
-  refused: BASE_EXTENSION licenses EMPTY along only when its certificate
-           survives the extension
-  discharge: provide a base-changing certificate or keep the narrower scope
-```
-
-That illustrative refusal came from a real published error: a nonsquare-class certificate
-over one field was consumed over every characteristic-zero field. GP turns the
-mistake into a type error at the transport boundary.
-
-## What it is
-
-Grand Portage is research middleware for seams between exact-affine
-computations. It records models, typed model changes, claims, replayable
-evidence, and the exact scope in which an inference is licensed. It is useful
-when humans or agents hand a long-running campaign back and forth.
-
-It is not a mathematical database or a home for bulk CAS output. Keep large
-computations in content-addressed artifacts; use GP for compact conclusions,
-provenance, and obligations that later work must not misread.
-
-EMPTY reach is earned by a current verifier receipt, never accepted from an
-author's label or attached globally to a certificate name. For example, an
-exact rational unit-ideal identity earns `CHAR_0`, the replay-only rational SOS
-identity earns `ORDERED`, and an unchecked or failed certificate earns `NONE`.
-The model separately records the field whose points are discussed and the
-exact coefficient domain used for computation.
-
-## Transport at a glance
-
-Edges point from a tighter model to a looser one. `ALONG` follows that arrow;
-`AGAINST` runs backward.
-
-| edge | ordinary point meaning | load-bearing transport |
-|---|---|---|
-| `NECESSARY_CONDITION` | source points are target points | `NONEMPTY` along; `EMPTY` against |
-| `BASE_EXTENSION` | points change coefficient field | `NONEMPTY` along; `EMPTY` along only with stable evidence |
-| `IMAGE_CLOSURE` | target is the closure of an image | witnesses require checked point-lift evidence |
-
-The remaining edge types, every conditional cell, and the exact licensing
-rules are in [SPEC.md](SPEC.md). Historical confessions remain there too: five
-v0.1 identity cells were wrong, and later drift exposed additional checker and
-read-surface defects. They are part of the review posture, not release notes.
+The intended guarantee is that accurately specified claims are held only through current, bound evidence and sound admitted rules, throughout their stated scope. GP also aims to expose consequences reachable within a declared finite closure domain. It cannot establish the intended meaning of a wrongly specified problem.
 
 ## Start here
 
-The v0.34 semantic release advances to graph format 8 and kernel epoch 12. It
-adds explicit field context, verifier-earned structured reach, exact rational
-SOS replay, and a checked family-to-model bridge. Historical certificate
-booleans migrate through a named conservative table rather than a Boolean
-ladder. [Release notes](review/v0.34/README.md) describe the boundary and
-validation. [Operational work](docs/WORK.md) covers unresolved attempts and
-the explicit accounting-only check mode.
+Read [STATUS.md](STATUS.md) for the current checkpoint, [Phase 2 plan](docs/PHASE-2-PLAN.md) for execution order and [LIMITS.md](LIMITS.md) for standing limits.
 
-```console
-python -m pip install -e .
-python -m pytest -q
-gp init --mcp
-gp schema
-gp check
-gp table
-gp evidence
+1. [Review guide](REVIEW.md): reading order, questions and reproduction limits.
+2. [Core specification](SPEC-CORE.md): the ratified core contract.
+3. [Phase 1 parent review](reports/PHASE-1-PAPER-PARENT-REVIEW.md): coverage and the exact decision boundary.
+4. [Adoption proposals](reports/PHASE-1-ADOPTION-PROPOSAL.md) and [contract checklist](reports/PHASE-1-CONTRACT-CHECKLIST.md).
+5. [Trust observations](TCB.md), [prior-art review](PRIOR-ART.md) and [Phase 0c completion](reports/PHASE-0C-COMPLETION.md).
+
+Read [BACKBRIEF-REV3.md](BACKBRIEF-REV3.md), [DECISIONS.md](DECISIONS.md) and the retained [revision 3 packet](docs/GP-0.50-REWORK-PACKET-rev3.md) for authority and context. Approved decisions amend the verbatim packet; older reports retain the state at their creation.
+
+## Current checkpoint
+
+- **Phase 0:** bounded predecessor/campaign intake, regression corpus, prior-art review, private freeze preparation and Lean feasibility spike complete. G0 continuation was explicitly ratified with limits.
+- **Corpus:** 459 source-linked cases with fixed expectations, pinned oracle identity and immutable replay history. See [corpus/README.md](corpus/README.md) and [oracle/PIN.json](oracle/PIN.json).
+- **Inventory:** 115 descriptive incident/correction/diagnostic/design owners, not 115 independent incidents. Costs and shipping remain mostly unknown; the cost-based pivot percentages remain indeterminate. See [INCIDENT-INVENTORY.md](INCIDENT-INVENTORY.md).
+- **Lean feasibility:** 41 bounded controls passed; actual A08b/A05 Mathlib proofs were checked. The spike is illustrative code, not an admitted checker or production kernel. Native LRAT has explicit runtime/compiler trust.
+- **Phase 1:** ratified core spec and a 64-line Mathlib-free soundness obligation that elaborates. Its production implementation slot remains unimplemented; no global runtime soundness proof is claimed.
+- **Paper coverage:** 52/67 primary non-MEANING owners expressible, 8 outside the core guarantee, 7 unresolved. This is architectural paper representation, not an executed prevention rate. 77.6% is below a strict 80% minimum; no numerical pass is asserted.
+- **G1 is closed:** Will ratified the design directions and 52/67 coverage exception.
+- **Phase 2 (G2 ratified):** a Mathlib-free Lean kernel under [phase2/lean](phase2/lean) with proved soundness, completeness, order independence, lifecycle properties and totality; all 79 kernel cases execute natively. See the [executed slice](reports/PHASE-2-SLICE.md), [TCB](TCB.md) and [closeout](reports/PHASE-2-CLOSEOUT.md). Package/checker admission remains separate.
+
+[STATUS.md](STATUS.md) is the current human status. Phase reports retain their historical evidence.
+
+## Working data and reproduction
+
+Local work lives at F:/repos/grandportage-0.50; predecessor/campaign repositories are read-only sources. Private verbatim harvests, oracle checkout, dependency caches, generated builds, virtual environment and scratch data are excluded from Git. Tracked reports preserve pointers and hashes, not all source bytes needed for independent replay.
+
+Existing local checks, from that workspace:
+
+```powershell
+./.venv/Scripts/python.exe -B tools/check-corpus.py
+./.venv/Scripts/python.exe -B tools/check-incidents.py
 ```
 
-Without Singular, bare `pytest` skips the live tier with a reason. Set
-`GP_REQUIRE_LIVE=1` when the live CAS boundary is an authorized release gate
-and must fail rather than skip. [QUICKSTART.md](QUICKSTART.md) carries a full
-ten-minute campaign and the recovery commands.
+These require the pinned local sources/private custody files and the dependencies in requirements-dev.txt. A fresh clone alone does not reproduce the complete historical validation. The corpus runner's --run-oracle option creates a new replay; it is not needed for documentation review.
 
-## What a fresh reader can answer
-
-- **Established:** current claims whose declarations, evidence, provenance,
-  and transport paths replay successfully.
-- **Carried:** only conclusions licensed by each typed edge and direction.
-- **Stale:** evidence whose model, verifier, backend, or input fingerprint no
-  longer matches; it remains history and carries no authority.
-- **Licensed:** the graph effect and scope derived from the evidence contract,
-  never from prose or process success.
-- **First unresolved seam:** `gp check` reports current actionable debt first;
-  `gp frontier` and the derived review surfaces show larger campaign context.
-
-## Status and documents
-
-Version <!--version-->0.37.0<!--/version-->, graph format
-<!--graph-format-->8<!--/graph-format-->, kernel epoch
-<!--kernel-epoch-->12<!--/kernel-epoch-->. The suite currently has
-<!--checks-->1811<!--/checks--> checks. v0.34 adds field-aware point transport,
-model-bound certificate reach, and explicit family/model composition on top of
-v0.33's centralized fold-time authority; v0.31.2 makes exact cofactor-certified
-identity authority independent of local CAS availability; v0.31.1 closes the
-remaining untyped-model escape hatch for field-relative emptiness; v0.31 publishes the v0.30 native
-verification, extension-witness, ordered-receipt, and Lean work together with
-historical-format migration repairs and a closed, bounded grammar for
-field-relative emptiness scope. The current transport semantics are kernel
-epoch 12.
-
-- [QUICKSTART.md](QUICKSTART.md) â€” install and first campaign
-- [SPEC.md](SPEC.md) â€” complete transport and verifier behavior
-- [OPERATION-CONTRACTS.md](OPERATION-CONTRACTS.md) â€” operation semantics versus checked guarantees
-- [COMPATIBILITY.md](COMPATIBILITY.md) â€” formats, epochs, and migration
-- [ARCHITECTURE.md](ARCHITECTURE.md) â€” trust zones and module boundaries
-- [REVIEW.md](REVIEW.md) â€” current general attack surface
-- [review/v0.29/README.md](review/v0.29/README.md) â€” public release record, selected-embedding implementation, and CFG23 replay evidence
-- [review/v0.30/README.md](review/v0.30/README.md) â€” native verification, extension witnesses, ordered receipt independence, and Lean epoch-11 parity
-- [review/v0.31/README.md](review/v0.31/README.md) â€” public release record, compatibility repairs, and field-scope hardening
-- [review/v0.31.1/README.md](review/v0.31.1/README.md) â€” patch release record for field-scoped emptiness on untyped models
-- [review/v0.31.2/README.md](review/v0.31.2/README.md) â€” patch release record for environment-independent exact identity receipts
-- [review/v0.32/README.md](review/v0.32/README.md) â€” guard release, DK acceptance deltas, and operational accounting
-- [review/v0.33/README.md](review/v0.33/README.md) â€” authority-binding boundary and review diagnostics
-- [review/v0.34/README.md](review/v0.34/README.md) â€” field reach, ordered SOS replay, family/model bridge, and migration
-- [grandportage-jc-campaign](https://github.com/wstrinz/grandportage-jc-campaign) â€” optional extracted campaign fixtures, replay, and historical review brief
-- [HISTORY/](HISTORY/) â€” superseded findings retained as evidence
-- [lean/README.md](lean/README.md) â€” non-authoritative semantic shadow
-
-After the companion is published, its optional external conformance lane is:
-
-```console
-git clone https://github.com/wstrinz/grandportage-jc-campaign
-cd grandportage-jc-campaign
-python -m pip install -e ".[test]"
-python -m pytest -m "not live"
-```
-
-The core checker and JSON read models are Python standard-library code. A CAS
-is used only for explicitly authorized live verification; the small checker
-replays retained certificates independently of the search that found them.
-
-## Limits
-
-GP does not find missing equations, cannot type a modelling step that was never
-declared, and detects absent structure more readily than weak structure. Most
-of the real work remains deciding what the models are. The tool makes that
-judgment explicit and keeps it from dissolving during handoff.
-
-The name is the 8.5-mile haul around the Pigeon River falls: the deliberate
-carry between two bodies of water, with constant attention to what can cross.
-
-## Licence explanation (research read model)
-
-`gp explain GRAPH NODE [--kind K] [--json]` reconstructs a conditional licence
-view, classifying nine obligations as REIFIED, DATA_GAP or ADAPTER_GAP. It grants
-no authority and never writes to the graph. See the [corpus report](docs/IR-V2-CORPUS-REPORT.md)
-and [IR specification](docs/IR-V2-TYPES.md). Raw campaign exports belong in a
-local ignored corpus bundle, separately from regression fixtures; intake and
-recovery instructions are in `scripts/corpus_check.py --help`.
-
-For the distinction from semantic information loss, see the
-[observation-axis note](docs/OBSERVATION-AXIS-V0.md).
+Will separately authorized the exact [freeze patch](reports/freeze-v0.37.1/README-REVIEW.md). Its publication state is recorded in STATUS.md.

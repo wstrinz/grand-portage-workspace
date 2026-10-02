@@ -1,0 +1,9 @@
+{
+  "tag": "v0.37.0",
+  "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
+  "source_path": "C:\\Users\\wstri\\dev\\grand-portage",
+  "mode": "pinned local oracle copy on F; original source unchanged",
+  "verified_on": "2026-09-27",
+  "note": "The F oracle has its own Git metadata and detached HEAD at the pinned revision. The replay runner checks the revision and tracked cleanliness.",
+  "checkout_path": "F:\\repos\\grandportage-0.50\\oracle\\checkout"
+}

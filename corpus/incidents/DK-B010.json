@@ -1,0 +1,83 @@
+{
+  "id": "DK-B010",
+  "campaign": "DK",
+  "origin": "tool",
+  "class": "ADAPTER",
+  "scope_or_region": "REGION",
+  "sources": [
+    {
+      "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/results/accepted/2026-08-28-v4-coherent-canonical-form-intake.md",
+      "lines": "59-66",
+      "sha256": "75975c3cf4dd9fee14c0b1f3e2c668f23b65b84d1b9456c0b9b2fd54fd23a547"
+    }
+  ],
+  "claimed": "Cuntz coherent Aut(V4) stabilizer was{id,(s t)}.",
+  "problem": "Earlier routine intersected decoupled point/line necessary conditions; incidence-coupled stabilizer is{id}. No canonical verdict changes.",
+  "discovered_by": "unknown",
+  "cost": null,
+  "shipped": null,
+  "gp_v037_would_catch": null,
+  "core_expressible": null,
+  "core_would_refuse": null,
+  "notes": "Distinct descriptive audit error from B008/B009; group related audit episode if final inventory counts repair chains. accept attributed recorded correction/defect for extraction; unknowns retained",
+  "subfindings": [],
+  "status": "final retained source-backed record under ratified unknown policy; observation and counting limits remain explicit",
+  "primary_class": "ADAPTER",
+  "primary_origin": "tool",
+  "record_kind": "documented incident",
+  "final_disposition": "retain qualified source-backed Appendix B candidate",
+  "owner_id": "DK-B010",
+  "original_pointer": {
+    "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
+    "pointer": "/rows/25",
+    "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+    "review_date": "2026-09-29",
+    "date_kind": "retained report review date; not incident date or source publication date"
+  },
+  "source": {
+    "repo": "F:/repos/grandportage-0.50",
+    "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/rows/25",
+    "date": "2026-09-29",
+    "review_date": "2026-09-29",
+    "date_kind": "review-source date of retained report; not incident date or original primary-source date"
+  },
+  "incident_date": null,
+  "source_date_qualification": "No incident date invented; original source dates/history metadata remain unchanged in sources.",
+  "cost_note": "Source evidence does not establish incident-specific work lost/cost class.",
+  "shipped_note": "Source evidence does not establish publication or handoff of a wrong claim; unknown is neither false nor n/a.",
+  "gp_v037_would_catch_note": "No supported frozen-GP catch verdict for this episode. Conditional design/reuse commentary in notes is not a yes/no/partial assessment; no fresh campaign replay.",
+  "counting_qualification": {
+    "record_count": 1,
+    "independent_sample": null,
+    "mathematical_incident_count": null,
+    "rule": "Count this owner record once. Repeated summaries, witnesses, consumers and children do not add independent samples.",
+    "source_detail": "Distinct descriptive audit error from B008/B009; group related audit episode if final inventory counts repair chains. accept attributed recorded correction/defect for extraction; unknowns retained"
+  },
+  "classification_qualification": "Proposed primary class and origin retained from accepted inventory; uncertainty and secondary dimensions remain in evidence. Not a statistically adjudicated incident population.",
+  "parent_adjudications": [
+    {
+      "decision": "accept attributed recorded correction/defect for extraction; unknowns retained",
+      "qualifications": "Distinct descriptive audit error from B008/B009; group related audit episode if final inventory counts repair chains.",
+      "source": {
+        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/results/accepted/2026-08-28-v4-coherent-canonical-form-intake.md",
+        "lines": "59-66",
+        "sha256": "75975c3cf4dd9fee14c0b1f3e2c668f23b65b84d1b9456c0b9b2fd54fd23a547"
+      },
+      "pointer": {
+        "report": "reports/PHASE-0B-DK-PARENT-INTAKE.json",
+        "pointer": "/campaign_dispositions/9",
+        "sha256": "e453b2e932a95a7a6cf1b7ab91282cbf7958f8ed6fdfdb879ca507f1f04bc67d",
+        "review_date": "2026-09-29",
+        "date_kind": "retained report review date; not incident date or source publication date"
+      }
+    }
+  ],
+  "linked_cross_occurrence": null,
+  "children": [],
+  "evidence_level": "retained source-backed report; no new source read, execution, or authentication",
+  "parent_integration": {
+    "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
+    "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+    "register": "incident/correction/group"
+  }
+}
