@@ -3425,6 +3425,7 @@ def test_every_marked_check_count_in_the_docs_is_the_real_one():
     out = subprocess.run(
         [sys.executable, "-m", "pytest", "-q", "--collect-only",
          "--ignore-glob=" + os.path.join(root, "tests", "test_phase2_*.py"),
+         "--ignore-glob=" + os.path.join(root, "tests", "test_gp50_*.py"),
          "--ignore=" + os.path.join(root, "tests", "test_layer_tags.py"),
          os.path.join(root, "tests")],
         capture_output=True, text=True, cwd=root).stdout

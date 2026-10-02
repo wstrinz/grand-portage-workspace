@@ -47,6 +47,14 @@
     "docs/PHASE-2-PLAN.md",
     "requirements-dev.txt",
     "tests/test_layer_tags.py",
+    "tests/test_gp50_convergence_baseline.py",
+    "tests/test_gp50_kernel_pin.py",
+    "tests/test_gp50_profile_layout.py",
+    "KERNEL-PIN.json",
+    "PROMOTIONS.md",
+    "tools/check-kernel-axioms.py",
+    "tools/compare-native-outputs.py",
+    "tools/kernel-pin.py",
     "tests/test_phase2_budget.py",
     "tests/test_phase2_checked_lifecycle_supplement.py",
     "tests/test_phase2_conditional_admission_scope.py",
@@ -200,6 +208,8 @@
     "tools/zero_regime_probes.py"
   ],
   "private_prefixes": [
+    "binding/",
+    "profile/",
     ".claude/",
     ".codex/",
     ".portage/",
