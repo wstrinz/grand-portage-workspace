@@ -190,3 +190,78 @@ Source: docs/GP-0.50-POST-G2-HANDOFF.md §1, copied verbatim as that handoff dir
 
 
 2026-10-02 Phase 2.5 module classification: Will decided the ambiguous cases. Queries and QueryDecoder go to Run: by the rev 3 §6.4 boundary test a query bug cannot make a false claim held, and §1.9 already plans earned-surface changes in 3a. The lifecycle and totality proofs that closed G2 move from Tests/ into a Kernel proof module, so KERNEL-PIN covers every property G2 claimed. Resolved by inspection: AdmissionProofs (ValidatorSound) and Decoder are Kernel; CoverAdmissionProofs and the Span/Scoped/Covered decoders are Stub. The generic log-resolution lemmas inside SpanSoundnessProofs, on which kernel order independence depends, are extracted into a Kernel module.
+
+
+## Addendum A decisions (ratified by Will, 2026-10-02)
+
+**A1. Lean-first.**
+- New GP code is Lean: kernel, checkers, reach computation, proposer, the shared case-to-profile frontend, and the cores of the query surfaces.
+- Python is limited to:
+  - replaying the v0.37 oracle;
+  - glue code that launches external solvers;
+  - repository tooling such as budget checks and snapshot audits.
+- The Phase 2 per-family Python runners retire under post-G2 §1.8.
+
+**A2. Pin alignment.**
+- GP adopts the Hex v0.6.0 release pins: Lean `v4.34.0-rc2` and Mathlib `85e3a25e006c35636f0e53b0e9296caca2685bc0`. Kernel and binding packages share them.
+- The bump happens in Phase 2.5, before `KERNEL-PIN.json` is written.
+- The release-candidate toolchain is recorded in `TCB.md`.
+- Moving later to a Hex release on a stable toolchain is a logged change. The kernel re-checks; it is not a new design decision.
+
+**A3. Adopt the substrate; build only what is GP's own.**
+
+Adopt:
+
+| Need | Adopted library |
+|---|---|
+| Polynomial representation and evaluation | `HexMvPoly` / `HexMvPolyMathlib` |
+| Arithmetic modulo a prime | `HexModArith` |
+| Real roots | `HexRealRoots` |
+| Number fields | `HexNumberField`, `HexNumberFieldTower` |
+| Univariate real decisions | `HexRCF` |
+| Factoring and irreducibility | `HexBerlekampZassenhaus` |
+| Graph isomorphism | `HexGraphIso` |
+| Permutation groups | `HexPermGroup` |
+| SAT certificates | LRAT-Catcher |
+| Pseudo-Boolean certificates | PBLean |
+
+GP builds only:
+- reach computation;
+- relation-certificate composition (the C4 bundles);
+- receipt and theorem binding;
+- the proposer;
+- the kernel;
+- the surfaces.
+
+Each adopted component goes through admission, as for any checker:
+- an axiom audit of the declarations GP relies on, with `leanchecker`;
+- adversarial controls;
+- a `TCB.md` entry naming any trusted runtime code it brings, such as GMP externs or native evaluation.
+
+**A4. Warrant policy: Lean theorems first when cheap.** This amends the policy line of G1 decision 2; the binder contract is unchanged.
+- For each 3a checker, measure two costs for the same claim:
+  - **receipt cost:** replaying the receipt;
+  - **theorem cost:** producing a Lean theorem with only the standard axioms, via Hex, `linear_combination` or `decide +kernel`.
+- Mint a theorem warrant when its cost per claim is within 30 s of elaboration and checking (Will may adjust this number). Otherwise mint a receipt.
+- The binder (G1 decision 2) becomes a 3a deliverable. It checks declaration type, imported axioms and exact input identity.
+- Theorems that depend on native evaluation (for example LRAT-Catcher's) are not ordinary theorem warrants. They enter as admitted-checker receipts with explicit native trust, as G1 decisions 2 and 5 require.
+
+**A5. Lean-convergence tracking.** Every gate report from G2.5 onward includes a short convergence section:
+
+- **(a)** the fraction of held claims that also exist as standard-axiom Lean theorems, or could within the A4 budget;
+- **(b)** for each held claim, the GP-specific value that remained, using these tags: `REACH` (computed reach wider or narrower than the request), `CUSTODY` (staleness, retraction or supersession affected it), `COVERAGE` (a coverage or premise obligation was tracked), `EARNED` (surfaced unclaimed), or `NONE`;
+- **(c)** a one-paragraph read of the trend.
+
+If (a) approaches 100% and (b) is mostly `NONE`, report it as a finding. GP may properly become a custody and reach layer over a Lean environment. That is an acceptable and interesting outcome, not a failure.
+
+**A6. Concentration safeguard.**
+- Pin released aggregates (`leanprover/hex` v0.6.0), never `hex-dev`.
+- State GP's admission theorems against Mathlib definitions through Hex's Mathlib bridges. Then any substrate library can be swapped out without changing GP's semantics.
+- `TCB.md` lists which GP guarantees rest on which external library and version.
+- Several adopted libraries are developed largely by AI agents at high velocity. Their authority comes only from the kernel-checked theorems GP actually uses, so admission inspects those exact theorems. A library-level status label is not evidence.
+
+**A7. Comparison arm.** G5's arm (b), Lean plus blueprint, uses the strongest Lean-native tooling available when Phase 5 starts, recorded with versions. This includes Hex tactics, LRAT-Catcher, and current autoformalization agents.
+
+**A8. Outside contact remains Will's.** Candidate threads are recorded in §6 for him; the builder makes no contact.
+
+Source: docs/GP-0.50-POST-G2-ADDENDUM-A.md §1, copied verbatim as that addendum directs.
