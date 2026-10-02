@@ -1,9 +1,10 @@
-# Phase 2 executed slice — checkpoint 14
+# Phase 2 executed slice — checkpoint 15
 
-Forty-six kernel fixtures execute through native resolution, closure and held.
+Fifty-two kernel fixtures execute through native resolution, closure and held.
 
 | Cases | Result | Checked contract |
 |---|---|---|
+| A27 six variants | conditional two ACCEPT / four REFUSE | Bound admission/check premises, GRH scope and full-versus-quotient conclusion |
 | X193–X198 | four REFUSE / two ACCEPT | Native per-dimension recorded-use containment; no component sufficiency claim |
 | A15, A26, X82 | REFUSE | No connecting rule, unknown certificate, digest-only source; complete inert custody |
 | A17, A18, A25b | REFUSE | Unfinished attempt, stale input, wrong selected identity; three accepting replay contrasts |
@@ -22,14 +23,10 @@ Forty-six kernel fixtures execute through native resolution, closure and held.
 | X179, X180 | conditional REFUSE | Valid universal K2; global same-witness point lift unsupported in both premise orders |
 | X177, X178 | conditional ACCEPT / REFUSE | Actual K2 restrictions retain fixed predicates/models; both supplied routes must meet at tight |
 
-Coverage checks recorded construction and conclusion uses per dimension. Empty-use acceptance establishes no real-world completeness or mathematical sufficiency. Labels remain exact.
+Custody supplies no truth. Recorded coverage does not establish real-use discovery or component sufficiency. Conditional harnesses preserve statements, objects and dependencies. K2 cannot change a global point statement's model. A27 assumes named synthetic checker admission/success; it certifies no arithmetic. GRH cannot be dropped; a quotient cannot become equality. Frozen oracle observations remain UNSUPPORTED.
 
-Conditional harnesses preserve selected statements, objects and dependencies. Actual K2 narrows universal properties; it cannot change a global point statement's model. Separate accepting point controls add same-witness TIGHT membership. No Singular execution or production profile adoption is claimed.
+The finite fold is sound, complete and order independent. The ratified conflict demonstration pairs faulty-checker alarms with sound_fold_conflict_has_no_witness; held closure survives release review. Checked lifecycle supplements cover retraction, retries and earned reporting without extra corpus passes. The required early slice is complete.
 
-Custody supplies no truth. X155 rejects cyclic construction without reproducing predecessor findings. The finite fold is sound, complete and order independent. The ratified conflict demonstration combines faulty-checker alarms with sound_fold_conflict_has_no_witness; complete held closure survives release review.
+This integration executes six cases, retaining earlier 46 execution rows verbatim with source checks. Fresh legacy replay preserves all 459 fixtures and 67 protected artifacts.
 
-Checked lifecycle supplements cover retraction, retries and earned reporting without adding corpus passes. The required early slice is complete.
-
-This integration freshly executes six cases and retains the earlier 40 complete execution records verbatim after source checks. Fresh legacy replay preserves all 459 bytes, expectations and outcomes and 67 protected artifacts.
-
-Receipts: [aggregate](PHASE-2-SLICE.json), [coverage](PHASE-2-RECORDED-USE-COVERAGE.json), [integration](PHASE-2-COVERAGE-INTEGRATION.json). G2 remains open.
+Receipts: [aggregate](PHASE-2-SLICE.json), [admission](PHASE-2-CONDITIONAL-ADMISSION-SCOPE.json), [integration](PHASE-2-ADMISSION-INTEGRATION.json). G2 remains open: 27 cases remain.

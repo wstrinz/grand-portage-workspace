@@ -331,6 +331,18 @@ def run(output):
                                     recorded_use_coverage_separate_controls=coverage_record["separate_control_executions"])
     record["recorded_use_coverage_report_sha256"] = hashlib.sha256(coverage_path.read_bytes()).hexdigest()
     assert len({row["id"] for row in record["cases"]}) == record["case_count"]
+    spec = importlib.util.spec_from_file_location("conditional_admission_scope", ROOT / "tools/run-phase2-conditional-admission-scope.py")
+    admission_scope = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(admission_scope)
+    admission_path = ROOT / "reports/PHASE-2-CONDITIONAL-ADMISSION-SCOPE.json"
+    admission_record = admission_scope.run(admission_path)
+    record["cases"].extend(admission_record["cases"])
+    record["case_count"] = len(record["cases"])
+    record["execution_counts"].update(conditional_admission_scope_cases=admission_record["case_count"],
+                                    conditional_admission_scope_folds=admission_record["corpus_executions"],
+                                    conditional_admission_scope_separate_controls=admission_record["separate_control_executions"])
+    record["conditional_admission_scope_report_sha256"] = hashlib.sha256(admission_path.read_bytes()).hexdigest()
+    assert len({row["id"] for row in record["cases"]}) == record["case_count"]
     spec = importlib.util.spec_from_file_location("conflict_demonstration", ROOT / "tools/run-phase2-conflict-demonstration.py")
     conflict = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(conflict)
@@ -341,7 +353,7 @@ def run(output):
     record["remaining_slice_behaviors"].remove("proved-overlap conflict")
     record["complete_ten_case_slice"] = len(record["cases"]) >= 10 and not record["remaining_slice_behaviors"]
     output.write_bytes((json.dumps(record, indent=2) + "\n").encode("utf-8"))
-    print("Native slice: 46 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
+    print("Native slice: 52 unchanged fixtures passed; replay contrasts, branch orders and declaration duplicates checked separately.")
     return record
 
 if __name__ == "__main__":

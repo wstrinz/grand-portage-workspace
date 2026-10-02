@@ -43,3 +43,7 @@ Existing chat01a0eeca-572e-7202-a708-c730d410b901, host local. Turn01a0f8a5-cba0
 Preserve three premise statements/statuses, exact source/target and conditional interpretation; OPEN premises are not discharged. Parent read pinned oracle/history/checkout/tests/test_jc_formalization_transport.py lines96–131. X61 removes ORDER_EIGHT_BOUNDED from consumer edge; X62 changes authority target to RELAXED_SUMMIT_POINT. Keep authority/consumer endpoint distinction.
 
 After A27:18 premise-authority,8 lifecycle,1 stored-binding remain. No new user decision is known to block progress.
+
+## Resolution
+
+Resumed 2026-10-01: the three interrupted validations were rerun once each and passed; A27 was integrated at 52/79. See PHASE-2-ADMISSION-INTEGRATION.json. The GPB X60–X62 assignment remains the next step.
