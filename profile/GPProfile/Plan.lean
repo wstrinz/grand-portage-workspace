@@ -44,9 +44,23 @@ structure Ledger where
   clauses : List Clause := []
   receipts : List Receipt := []
   rules : List RuleInst := []
+  records : List BinderRecord := []
   events : List Event := []
 
-def Ledger.admission (l : Ledger) : Admission := admissionWithRules l.clauses l.receipts l.rules
+def Ledger.admission (l : Ledger) : Admission := admissionWithRules l.clauses l.receipts l.rules l.records
+
+/-- A4: mint a theorem warrant for a claim when the binder bound a theorem for exactly its
+statement and scope. The warrant is filed next to the receipt, through the commit guard. -/
+def Ledger.mintTheorem (l : Ledger) (i : Item) : Except String (Ledger × Option String) := do
+  let b := bindingOf i.stmt i.scope i.extra
+  match l.records.find? fun r => r.statementHash == b.statementHash && r.scopeHash == b.scopeHash with
+  | none => pure (l, none)
+  | some r =>
+    let w : Warrant := ⟨1000 + i.key, i.key, 1, b, .theoremWarrant r.declaration⟩
+    let next := { l with events := l.events ++ [.warrant w] }
+    match fold next.admission next.events with
+    | .ok _ => pure (next, some r.declaration)
+    | .error e => throw s!"commit guard refused theorem warrant: {e}"
 
 /-- File one item. The commit guard lands the append only if the log still folds. -/
 def Ledger.file (l : Ledger) (i : Item) : Except String Ledger := do
@@ -86,10 +100,18 @@ structure Outcome where
   state : RuntimeState
   widened : List (Nat × Scope)
   earned : List Nat
+  theorems : List (Nat × String) := []
 
 /-- Run a plan: file every item, fold, then file the proposer's widenings and report. -/
-def Plan.run (p : Plan) : Except String Outcome := do
-  let ledger ← p.items.foldlM (fun l i => l.file i) ({} : Ledger)
+def Plan.run (p : Plan) (records : List BinderRecord := []) : Except String Outcome := do
+  let ledger ← p.items.foldlM (fun l i => l.file i) ({ records } : Ledger)
+  -- A4: theorem warrants next to receipts wherever the binder bound one.
+  let (ledger, theorems) ← p.items.foldlM (fun (acc : Ledger × List (Nat × String)) i => do
+      match i.support with
+      | .receipt _ none =>
+        let (l, d) ← acc.1.mintTheorem i
+        pure (l, acc.2 ++ (d.map (i.key, ·)).toList)
+      | _ => pure acc) (ledger, [])
   let state ← fold ledger.admission ledger.events
   let accepted := p.elaboration.isNone && !p.requested.isEmpty && p.requested.all (held state)
   let base := (p.items.map (·.key)).foldl max 0 + 1
@@ -105,6 +127,6 @@ def Plan.run (p : Plan) : Except String Outcome := do
         | none => pure acc
       | _ => pure acc) (ledger, [], base)
   let final ← fold ledger.admission ledger.events
-  pure ⟨accepted, final, widened, (Queries.earned final (p.items.map (·.key)) [] []).map (·.claim)⟩
+  pure ⟨accepted, final, widened, (Queries.earned final (p.items.map (·.key)) [] []).map (·.claim), theorems⟩
 
 end GPProfile

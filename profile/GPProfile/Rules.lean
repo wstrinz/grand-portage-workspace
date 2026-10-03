@@ -141,10 +141,24 @@ def acceptsRule (clauses : List Clause) (rules : List RuleInst) (w : Warrant)
         | none => false
     | _, _ => false
 
-/-- Receipts, rules and narrowing together. -/
-def admissionWithRules (clauses : List Clause) (receipts : List Receipt) (rules : List RuleInst) :
-    Admission :=
-  Semantic.withNarrowing ops clauses
-    { Admission.refuseAll with receipt := accepts clauses receipts, rule := acceptsRule clauses rules }
+/-- A binder record (G1 decision 2): a named theorem warrant bound to an exact canonical
+statement and scope by the binding package's binder, which checked its type and axioms. -/
+structure BinderRecord where
+  declaration : String
+  statementHash : String
+  scopeHash : String
+  deriving Repr, DecidableEq
+
+/-- Theorem warrants are accepted only against a binder record for the exact bound clause. -/
+def acceptsProof (clauses : List Clause) (records : List BinderRecord) (w : Warrant) (decl : String) : Bool :=
+  (Semantic.boundClause ops clauses w).isSome &&
+  records.any fun r => r.declaration == decl && r.statementHash == w.binding.statementHash &&
+    r.scopeHash == w.binding.scopeHash
+
+/-- Receipts, rules, bound theorems and narrowing together. -/
+def admissionWithRules (clauses : List Clause) (receipts : List Receipt) (rules : List RuleInst)
+    (records : List BinderRecord := []) : Admission :=
+  let base : Admission := { receipt := accepts clauses receipts, proof := acceptsProof clauses records, rule := acceptsRule clauses rules, narrow := fun _ _ => false }
+  Semantic.withNarrowing ops clauses base
 
 end GPProfile

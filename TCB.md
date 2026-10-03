@@ -111,3 +111,9 @@ The §3.6a shadow theorems (`binding/GPBinding/Shadow`) rest on Mathlib `85e3a25
 | The proofs describe the executable that runs | Lean compiler and runtime, including GMP-backed `Rat`/`Int` |
 
 Overlapping tool (§1.7): Mathlib's `linear_combination` checks the same identities but computes no reach. The §3.6a shadow slice measured it at 19–25 s per claim. The frontend's infix parser stays untrusted and echoes the canonical form.
+
+## Phase 3a binder and theorem warrants — 2026-10-03
+
+Theorem warrants (A4) are generated for held claims of supported shapes (`tools/gen-warrants.py`: C1 emptiness over Q with integer statement coefficients). Each states `Warranted stmt scope`: the explicit statement holds in every field of the scope. `means_of_warranted` proves, on standard axioms, that this gives the Kernel's `Means` for well-formed statements; it uses `meaning_eq_elabQ`, which relates the Hex meaning to the explicit monomial sum. No Hex code is evaluated in the kernel.
+
+The binder (`binding/GPBinding/Binder/Export.lean`) checks each registry theorem's axioms and the statement's arity and avoided primes, and writes records keyed on the exact canonical statement and scope. The profile's proof validator accepts a theorem warrant only against such a record. Trusted: the binder's export, run in the binding environment, faithfully reporting the registry it was compiled against. This is the theorem-warrant counterpart of the receipt path's trust in the compiled checker.

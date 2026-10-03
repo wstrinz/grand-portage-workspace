@@ -30,7 +30,8 @@ def itemJson (state : RuntimeState) (i : Item) : Json :=
     | .receipt cert none => [("check", toJson (checkName (check i.stmt i.scope cert)))]
     | _ => [])
 
-def runCase (label : String) (case : Json) (params : List (String × Nat)) : Json :=
+def runCase (label : String) (case : Json) (params : List (String × Nat))
+    (records : List BinderRecord := []) : Json :=
   let expected := (do (← (← case.getObjVal? "expected").getObjVal? "verdict").getStr?).toOption
   let base : List (String × Json) := [("id", toJson label), ("expected", toJson expected)]
   match Families.plan case params with
@@ -40,7 +41,7 @@ def runCase (label : String) (case : Json) (params : List (String × Nat)) : Jso
     | some e => Json.mkObj (base ++ [("observed", Json.str "REFUSE"), ("mechanism", Json.str "elaboration"),
         ("elaboration", toJson e)])
     | none =>
-      match p.run with
+      match p.run records with
       | .error e => Json.mkObj (base ++ [("observed", Json.str "MALFORMED"), ("error", toJson e)])
       | .ok o =>
         let refused := p.items.filter fun i => p.requested.contains i.key && !held o.state i.key
@@ -54,9 +55,55 @@ def runCase (label : String) (case : Json) (params : List (String × Nat)) : Jso
           ("requested", toJson p.requested),
           ("items", toJson (p.items.map (itemJson o.state))),
           ("widened", toJson (o.widened.map (·.1))),
-          ("earned", toJson o.earned)])
+          ("earned", toJson o.earned),
+          ("theorem_warrants", toJson (o.theorems.map fun (k, d) =>
+            Json.mkObj [("key", toJson k), ("declaration", toJson d),
+              ("supported", toJson (o.state.supports.contains (1000 + k)))]))])
 
-def run (root : System.FilePath) (manifest : Json) : IO Json := do
+/-! ## Lean literals of canonical inputs (for the binder's warrant generator) -/
+
+def ratLit (c : Rat) : String := if c.den == 1 then s!"({c.num} : Rat)" else s!"({c.num}/{c.den} : Rat)"
+def sparseLit (p : Sparse) : String :=
+  "[" ++ ", ".intercalate (p.map fun (e, c) => s!"({e}, {ratLit c})") ++ "]"
+def sparsesLit (ps : List Sparse) : String := "[" ++ ", ".intercalate (ps.map sparseLit) ++ "]"
+def kindLit : Kind → String
+  | .empty => ".empty" | .nonempty => ".nonempty"
+  | .inIdeal h => s!"(.inIdeal {sparseLit h})" | .vanishesOn h => s!"(.vanishesOn {sparseLit h})"
+  | .notInIdeal h => s!"(.notInIdeal {sparseLit h})" | .nonunit h => s!"(.nonunit {sparseLit h})"
+  | .cover _ => ".cover []"
+def stmtLit (s : Stmt) : String :=
+  s!"⟨{repr s.vars}, {sparsesLit s.eqs}, {sparsesLit s.guards}, {kindLit s.kind}⟩"
+def scopeLit (s : Scope) : String :=
+  match s.primes with
+  | .finite ps => s!"⟨{s.char0}, .finite {ps}⟩"
+  | .cofinite e => s!"⟨{s.char0}, .cofinite {e}⟩"
+
+/-- Held receipt items with their exact canonical inputs, as Lean literals. -/
+def candidates (label : String) (case : Json) (params : List (String × Nat)) : List Json :=
+  match Families.plan case params with
+  | .error _ => []
+  | .ok p =>
+    match p.run with
+    | .error _ => []
+    | .ok o =>
+      p.items.filterMap fun i => match i.support with
+        | .receipt cert none =>
+          if !held o.state i.key then none else
+          let certJ := match cert with
+            | .ideal f qs m k => Json.mkObj [("type", "ideal"), ("field", toJson (reprStr f)),
+                ("cofactors", toJson (qs.map sparseLit)), ("m", toJson m), ("k", toJson k)]
+            | .point f vs => Json.mkObj [("type", "point"), ("field", toJson (reprStr f)),
+                ("values", toJson (vs.map ratLit))]
+            | .cover .. => Json.mkObj [("type", "cover")]
+          some (Json.mkObj [("case", toJson label), ("key", toJson i.key), ("vars", toJson i.stmt.vars),
+            ("stmt", toJson (stmtLit i.stmt)), ("scope", toJson (scopeLit i.scope)),
+            ("kind", toJson (kindName i.stmt.kind)), ("eqs", toJson (i.stmt.eqs.map sparseLit)),
+            ("guards", toJson (i.stmt.guards.map sparseLit)), ("cert", certJ),
+            ("statementHash", toJson (reprStr i.stmt)), ("scopeHash", toJson (reprStr i.scope))])
+        | _ => none
+
+def run (root : System.FilePath) (manifest : Json) (records : List BinderRecord := []) :
+    IO Json := do
   let entries ← IO.ofExcept ((← IO.ofExcept (manifest.getObjVal? "cases")).getArr?)
   let rows ← entries.toList.mapM fun entry => do
     let path : String ← IO.ofExcept (do (← entry.getObjVal? "path").getStr?)
@@ -66,7 +113,7 @@ def run (root : System.FilePath) (manifest : Json) : IO Json := do
     let params := match entry.getObjVal? "parameters" with
       | .ok (.obj kvs) => kvs.toList.filterMap fun (k, v) => (v.getNat?.toOption).map (k, ·)
       | _ => []
-    pure (runCase label case params)
+    pure (runCase label case params records)
   let outcome (r : Json) := (r.getObjVal? "observed").toOption
   let agree := rows.filter fun r => (r.getObjVal? "expected").toOption == outcome r
   let losses := rows.filter fun r => outcome r == some (Json.str "EXPRESSIVENESS_LOSS")
@@ -77,8 +124,32 @@ end GPProfile.Corpus
 
 def main (args : List String) : IO UInt32 := do
   match args with
+  | [root, manifestPath, "--candidates"] =>
+    let manifest ← IO.ofExcept (Lean.Json.parse (← IO.FS.readFile manifestPath))
+    let entries ← IO.ofExcept ((← IO.ofExcept (manifest.getObjVal? "cases")).getArr?)
+    let rows ← entries.toList.mapM fun entry => do
+      let path : String ← IO.ofExcept (do (← entry.getObjVal? "path").getStr?)
+      let case ← IO.ofExcept (Lean.Json.parse (← IO.FS.readFile (System.FilePath.mk root / path)))
+      let id := (do (← case.getObjVal? "id").getStr?).toOption.getD path
+      let label := (do (← entry.getObjVal? "label").getStr?).toOption.getD id
+      let params := match entry.getObjVal? "parameters" with
+        | .ok (.obj kvs) => kvs.toList.filterMap fun (k, v) => (v.getNat?.toOption).map (k, ·)
+        | _ => []
+      pure (GPProfile.Corpus.candidates label case params)
+    IO.println (Lean.toJson rows.flatten).pretty
+    return 0
   | [root, manifestPath] =>
     let manifest ← IO.ofExcept (Lean.Json.parse (← IO.FS.readFile manifestPath))
     IO.println (← GPProfile.Corpus.run root manifest).pretty
+    return 0
+  | [root, manifestPath, "--binder", recordsPath] =>
+    let manifest ← IO.ofExcept (Lean.Json.parse (← IO.FS.readFile manifestPath))
+    let recJson ← IO.ofExcept (Lean.Json.parse (← IO.FS.readFile recordsPath))
+    let rows ← IO.ofExcept ((← IO.ofExcept (recJson.getObjVal? "records")).getArr?)
+    let field (r : Lean.Json) (k : String) : Option String := (r.getObjVal? k >>= Lean.Json.getStr?).toOption
+    let records : List GPProfile.BinderRecord := rows.toList.filterMap fun r => do
+      if (r.getObjVal? "bound").toOption != some (Lean.Json.bool true) then none else
+      pure ⟨← field r "declaration", ← field r "statementHash", ← field r "scopeHash"⟩
+    IO.println (← GPProfile.Corpus.run root manifest records).pretty
     return 0
   | _ => IO.eprintln "usage: gp_corpus_run <repo-root> <manifest.json>"; return 2
