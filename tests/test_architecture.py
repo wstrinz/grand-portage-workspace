@@ -112,10 +112,14 @@ def test_every_marked_release_boundary_in_root_docs_is_current():
     }
     seen = dict((key, 0) for key in expected)
     wrong = []
-    for name in sorted(os.listdir(ROOT)):
+    # The v0.37 README and review brief live in HISTORY/ since the 0.50 merge.
+    docs = [ROOT / name for name in sorted(os.listdir(ROOT))]
+    docs += sorted((ROOT / "HISTORY").glob("*.md"))
+    for path in docs:
+        name = path.name
         if not name.endswith(".md"):
             continue
-        text = (ROOT / name).read_text(encoding="utf-8")
+        text = path.read_text(encoding="utf-8")
         for key, value in expected.items():
             pattern = r"<!--%s-->([^<]+)<!--/%s-->" % (key, key)
             for match in re.finditer(pattern, text):
