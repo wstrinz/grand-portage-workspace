@@ -91,6 +91,7 @@ def widenCert (stmt : Stmt) (scope : Scope) (cert : Cert) : Option (Scope × Cer
   let withField : Cert → Field → Cert
     | .ideal _ qs m k, f => .ideal f qs m k
     | .point _ vs, f => .point f vs
+    | .proper _ a b, f => .proper f a b
     | c, _ => c
   let candidates := [cert, withField cert .rat].eraseDups.filterMap fun c => (reach stmt c).map (·, c)
   let wider := candidates.filter fun (r, _) => scope.le r && !r.le scope

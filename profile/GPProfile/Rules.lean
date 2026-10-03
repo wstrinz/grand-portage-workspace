@@ -77,6 +77,9 @@ inductive RuleData where
   | map (phi : List Sparse) (eqCerts guardCerts : List Cert)
   /-- R4: object cover by the structural split on `h`. -/
   | split (h : Sparse)
+  /-- Bridge (G3a review §2, §6): NONEMPTY on the system with `h` added as a guard gives
+  NOT_IN_IDEAL(h); NONEMPTY gives NOT_IN_IDEAL(1), geometric nonemptiness, on the same system. -/
+  | witness
   deriving Repr, DecidableEq
 
 /-- Primes dividing a denominator in the rule's own data (the map `φ`). -/
@@ -116,6 +119,10 @@ def ruleReach (C : Stmt) (Ps : List Stmt) : RuleData → Option Scope
       | .inIdeal _ => (idealInclusionObligations C P eqCerts guardCerts).bind reachAll
       -- NONEMPTY moves tight → loose: the premise is T, the conclusion L.
       | .nonempty => (inclusionObligations P C eqCerts guardCerts).bind reachAll
+      -- NOT_IN_IDEAL(1), geometric nonemptiness, moves tight → loose too (review §6(ii)).
+      | .notInIdeal h =>
+        if h == oneP C.vars.length then (inclusionObligations P C eqCerts guardCerts).bind reachAll
+        else none
       -- The refutation and cover kinds have no inclusion transport.
       | _ => none
     | _ => none
@@ -132,11 +139,26 @@ def ruleReach (C : Stmt) (Ps : List Stmt) : RuleData → Option Scope
         if compose C.vars.length phi P.vars.length h == some h' then
           (mapObligations C P phi eqCerts guardCerts).bind reachAll
         else none
+      -- NOT_IN_IDEAL(1) moves S → T like NONEMPTY (review §6(ii)).
+      | .notInIdeal h, .notInIdeal h' =>
+        if h == oneP P.vars.length && h' == oneP C.vars.length then
+          (mapObligations P C phi eqCerts guardCerts).bind reachAll
+        else none
       -- IN_IDEAL(h) on T gives IN_IDEAL(h ∘ φ) on S, with ideal-level equation obligations.
       | .inIdeal h, .inIdeal h' =>
         if compose C.vars.length phi P.vars.length h == some h' then
           (idealMapObligations C P phi eqCerts guardCerts).bind reachAll
         else none
+      | _, _ => none
+    | _ => none
+  | .witness =>
+    match Ps with
+    | [P] =>
+      match P.kind, C.kind with
+      | .nonempty, .notInIdeal h =>
+        if P.vars == C.vars && P.eqs == C.eqs &&
+            (P.guards == C.guards ++ [h] || (P.guards == C.guards && h == oneP C.vars.length))
+        then some Scope.all else none
       | _, _ => none
     | _ => none
   | .split h =>

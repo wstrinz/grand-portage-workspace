@@ -21,7 +21,6 @@ def kindCanon : Kind → Json
   | .inIdeal h => Json.arr #["IN_IDEAL", sparseCanon h]
   | .vanishesOn h => Json.arr #["VANISHES_ON", sparseCanon h]
   | .notInIdeal h => Json.arr #["NOT_IN_IDEAL", sparseCanon h]
-  | .nonunit h => Json.arr #["NONUNIT", sparseCanon h]
   | .cover bs => Json.arr #["COVER", Json.arr (bs.map fun (e, g) =>
       Json.arr #[Json.arr (e.map sparseCanon).toArray, Json.arr (g.map sparseCanon).toArray]).toArray]
 

@@ -56,4 +56,32 @@ private def along : RuleData :=
 -- The conclusion must be the composed target: IN_IDEAL(t³ − t) with the wrong sign is refused.
 #guard ruleReach { source with kind := .inIdeal (p ["t"] "t^3 - t") } [target] along == none
 
+/-! ### Geometric nonemptiness (G3a review §2, §6)
+
+The `proper` base checker: `a² − 3` takes different values at 0 and 1 in every characteristic, so
+`(a² − 3)` is proper everywhere. `a² − a` is sampled at 0 and 2, which agree mod 2: the reach is
+conservative there (`a² − a` is non-constant over F₂ too), and sound. A constant is refused. -/
+
+private def univ (m : String) : Stmt := ⟨["a"], [p ["a"] m], [], .notInIdeal (oneP 1)⟩
+
+#guard reach (univ "a^2 - 3") (.proper .rat [0] [1]) == some Scope.all
+#guard reach (univ "a^2 - a") (.proper .rat [0] [2]) == some (Scope.outside [2])
+#guard reach (univ "5") (.proper .rat [0] [1]) == none
+
+-- The bridge: a point with x ≠ 0 on {x² = 1} gives NOT_IN_IDEAL(x); a point gives NOT_IN_IDEAL(1).
+private def circle (g : List Sparse) (k : Kind) : Stmt := ⟨["x"], [p ["x"] "x^2 - 1"], g, k⟩
+#guard ruleReach (circle [] (.notInIdeal (p ["x"] "x"))) [circle [p ["x"] "x"] .nonempty] .witness == some Scope.all
+#guard ruleReach (circle [] (.notInIdeal (oneP 1))) [circle [] .nonempty] .witness == some Scope.all
+-- The witness system must carry `h` as a guard.
+#guard ruleReach (circle [] (.notInIdeal (p ["x"] "x"))) [circle [] .nonempty] .witness == none
+
+-- R2 moves NOT_IN_IDEAL(1) tight → loose: the origin lies on {xy = 0}; xy = y·x on {x = y = 0}.
+#guard ruleReach ⟨xy, [p xy "x*y"], [], .notInIdeal (oneP 2)⟩
+  [⟨xy, [p xy "x", p xy "y"], [], .notInIdeal (oneP 2)⟩]
+  (.inclusion [.ideal .rat [p xy "y", []] 1 0] []) == some Scope.all
+-- …but not loose → tight.
+#guard ruleReach ⟨xy, [p xy "x", p xy "y"], [], .notInIdeal (oneP 2)⟩
+  [⟨xy, [p xy "x*y"], [], .notInIdeal (oneP 2)⟩]
+  (.inclusion [.ideal .rat [p xy "y", []] 1 0] []) == none
+
 end GPProfile.RuleChecks

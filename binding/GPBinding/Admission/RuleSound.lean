@@ -1,4 +1,5 @@
 import GPBinding.Admission.Profile
+import GPBinding.Binder.Elab
 import GPProfile.Rules
 import GP50.CoverProofs
 
@@ -95,6 +96,35 @@ theorem r1_sound {P C : Stmt} {r : Scope} (h : ruleReach C [P] .r1 = some r) (hP
   · exact hv
   · exact absurd (pow_eq_zero_iff'.mp hv).1 (eval_guards_ne_zero hx)
 
+/-! ## Bridge: a witness point refutes ideal membership -/
+
+theorem witness_sound {P C : Stmt} {r : Scope} (h : ruleReach C [P] .witness = some r)
+    (hP : Holds K P) : Holds K C := by
+  obtain ⟨vP, eP, gP, kP⟩ := P
+  obtain ⟨vC, eC, gC, kC⟩ := C
+  simp only [ruleReach] at h
+  cases kP <;> cases kC <;> simp only at h <;> try contradiction
+  rename_i hC
+  split_ifs at h with hs
+  simp only [Bool.and_eq_true, Bool.or_eq_true, beq_iff_eq] at hs
+  obtain ⟨⟨rfl, rfl⟩, hg⟩ := hs
+  obtain ⟨x, hxe, hxg⟩ := hP
+  rintro ⟨k, hk⟩
+  have h0 := eval_span_zero hk fun b hb => by
+    obtain ⟨e', he', rfl⟩ := List.mem_map.mp hb
+    exact hxe e' he'
+  rw [map_mul, map_pow] at h0
+  rcases mul_eq_zero.mp h0 with hv | hv
+  · rcases hg with rfl | ⟨rfl, rfl⟩
+    · exact hxg _ (List.mem_append_right _ (List.mem_singleton_self _)) hv
+    · rw [GPBinding.Binder.toK_meaning_one, map_one] at hv
+      exact one_ne_zero hv
+  · refine (eval_prod_ne_zero x _ fun b hb => ?_) (pow_eq_zero_iff'.mp hv).1
+    obtain ⟨g', hg', rfl⟩ := List.mem_map.mp hb
+    rcases hg with rfl | ⟨rfl, -⟩
+    · exact hxg g' (List.mem_append_left _ hg')
+    · exact hxg g' hg'
+
 /-! ## R4: object cover by a structural split -/
 
 theorem r4_sound {B₁ B₂ C : Stmt} {h : Sparse} {r : Scope}
@@ -132,7 +162,7 @@ theorem r4_sound {B₁ B₂ C : Stmt} {h : Sparse} {r : Scope}
     · exact h₂ x hx
   | nonempty => simp at hkind
   | inIdeal _ => simp at hkind
-  | notInIdeal _ | nonunit _ | cover _ => simp at hkind
+  | notInIdeal _ | cover _ => simp at hkind
 
 /-! ## C4 inclusion: the tight locus lies in the loose locus -/
 
@@ -198,6 +228,64 @@ theorem span_append_single {R : Type*} [CommRing R] {E : List R} {y x : R}
   obtain ⟨a, z, hz, rfl⟩ := hx
   exact ⟨a, by simpa using hz⟩
 
+/-- If the loose equations `E` are nilpotent and the loose guards `Gs` units in `R[1/G]/I`, then
+`(∏ Gs)^k ∈ ⟨E⟩` makes the localized quotient the zero ring: a power of `G` lies in `I`. -/
+theorem radical_transport {R : Type*} [CommRing R] {I : Ideal R} {G : R} {E Gs : List R}
+    (hE : ∀ e ∈ E, ∃ m k, e ^ m * G ^ k ∈ I) (hG : ∀ g ∈ Gs, ∃ k a, G ^ k - a * g ∈ I)
+    (hL : ∃ k, Gs.prod ^ k ∈ Ideal.span {f | f ∈ E}) : ∃ j, G ^ j ∈ I := by
+  obtain ⟨M, Q, hM⟩ := guards_unit Gs hG
+  obtain ⟨k₀, hk₀⟩ := hL
+  have hrad : ∀ e ∈ E, e * G ∈ I.radical := by
+    intro e he
+    obtain ⟨m, k, hmk⟩ := hE e he
+    refine ⟨m + k, ?_⟩
+    have e' : (e * G) ^ (m + k) = e ^ m * G ^ k * (e ^ k * G ^ m) := by ring
+    rw [e']
+    exact I.mul_mem_right _ hmk
+  obtain ⟨n, hn⟩ : Gs.prod ^ k₀ * G ∈ I.radical := span_mul_mem hrad hk₀
+  have h2 : (G ^ M) ^ (k₀ * n) - (Gs.prod * Q) ^ (k₀ * n) ∈ I := by
+    rw [← Ideal.Quotient.eq] at hM ⊢
+    simp only [map_pow] at hM ⊢
+    rw [hM]
+  refine ⟨M * (k₀ * n) + n, ?_⟩
+  have e : G ^ (M * (k₀ * n) + n) = G ^ n * ((G ^ M) ^ (k₀ * n) - (Gs.prod * Q) ^ (k₀ * n)) +
+      Q ^ (k₀ * n) * (Gs.prod ^ k₀ * G) ^ n := by
+    rw [pow_add, pow_mul]; ring
+  rw [e]
+  exact I.add_mem (I.mul_mem_left _ h2) (I.mul_mem_left _ hn)
+
+/-- The C4 inclusion obligations, read at the ideal level in `K`. -/
+theorem inclusion_ideal_facts {T L : Stmt} {eqCerts guardCerts : List Cert}
+    {obs : List (Stmt × Cert)} {rr : Scope}
+    (h : inclusionObligations T L eqCerts guardCerts = some obs) (hr : reachAll obs = some rr)
+    (hK : rr.mem K) :
+    T.vars = L.vars ∧
+      (∀ e ∈ L.eqs, ∃ m k, toK (K := K) (meaning T.vars.length e) ^ m *
+          (T.guards.map fun g => toK (K := K) (meaning T.vars.length g)).prod ^ k ∈
+        Ideal.span {f | f ∈ T.eqs.map fun e => toK (K := K) (meaning T.vars.length e)}) ∧
+      (∀ g ∈ L.guards, ∃ k a, (T.guards.map fun g => toK (K := K) (meaning T.vars.length g)).prod ^ k -
+          a * toK (K := K) (meaning T.vars.length g) ∈
+        Ideal.span {f | f ∈ T.eqs.map fun e => toK (K := K) (meaning T.vars.length e)}) := by
+  unfold inclusionObligations at h
+  split_ifs at h with hc
+  simp only [Bool.or_eq_true, bne_iff_ne, ne_eq, not_or, not_not] at hc
+  obtain ⟨⟨hv, he⟩, hg⟩ := hc
+  simp only [Option.some.injEq] at h
+  subst h
+  refine ⟨hv, fun e heq => ?_, fun g hgm => ?_⟩
+  · obtain ⟨c, hc⟩ := mem_zip_of_mem he.symm heq
+    obtain ⟨r, hreach, hrK⟩ :=
+      reachAll_each hr hK _ (List.mem_append_left _ (List.mem_map.mpr ⟨(e, c), hc, rfl⟩))
+    obtain ⟨m, k, hk⟩ := reach_vanishes_ideal (s := ⟨T.vars, T.eqs, T.guards, .vanishesOn e⟩) rfl hreach hrK
+    exact ⟨m, k, hk⟩
+  · obtain ⟨c, hc⟩ := mem_zip_of_mem hg.symm hgm
+    obtain ⟨r, hreach, hrK⟩ :=
+      reachAll_each hr hK _ (List.mem_append_right _ (List.mem_map.mpr ⟨(g, c), hc, rfl⟩))
+    obtain ⟨k, hk⟩ := reach_empty_ideal rfl hreach hrK
+    simp only [List.map_append, List.map_cons, List.map_nil] at hk
+    obtain ⟨a, ha⟩ := span_append_single hk
+    exact ⟨k, a, ha⟩
+
 theorem idealInclusion_facts {T L : Stmt} {eqCerts guardCerts : List Cert}
     {obs : List (Stmt × Cert)} {rr : Scope}
     (h : idealInclusionObligations T L eqCerts guardCerts = some obs) (hr : reachAll obs = some rr)
@@ -240,7 +328,28 @@ theorem r2_sound {P C : Stmt} {eqCerts guardCerts : List Cert} {r : Scope}
   subst hk
   simp only [bne_self_eq_false, Bool.false_eq_true, ite_false] at h
   cases kP with
-  | notInIdeal _ | nonunit _ | cover _ => simp at h
+  | cover _ => simp at h
+  | notInIdeal f =>
+    simp only at h
+    split_ifs at h with hone
+    cases ho : inclusionObligations ⟨vP, eP, gP, .notInIdeal f⟩ ⟨vC, eC, gC, .notInIdeal f⟩
+        eqCerts guardCerts with
+    | none => simp [ho] at h
+    | some obs =>
+      simp only [ho, Option.bind_some] at h
+      obtain ⟨hv, hE, hG⟩ := inclusion_ideal_facts ho h hK
+      simp only at hv hE hG
+      subst hv
+      simp only [beq_iff_eq] at hone
+      subst hone
+      rintro ⟨k, hk⟩
+      rw [GPBinding.Binder.toK_meaning_one, one_mul] at hk
+      apply hP
+      obtain ⟨j, hj⟩ := radical_transport (E := eC.map fun e => toK (K := K) (meaning vP.length e))
+        (Gs := gC.map fun g => toK (K := K) (meaning vP.length g))
+        (fun e he => by obtain ⟨e', he', rfl⟩ := List.mem_map.mp he; exact hE e' he')
+        (fun g hg => by obtain ⟨g', hg', rfl⟩ := List.mem_map.mp hg; exact hG g' hg') ⟨k, hk⟩
+      exact ⟨j, by rw [GPBinding.Binder.toK_meaning_one, one_mul]; exact hj⟩
   | empty =>
     cases ho : inclusionObligations ⟨vC, eC, gC, .empty⟩ ⟨vP, eP, gP, .empty⟩ eqCerts guardCerts with
     | none => simp [ho] at h
@@ -458,6 +567,49 @@ theorem map_locus {S T : Stmt} {phi : List Sparse} {eqCerts guardCerts : List Ce
         · exact hx.1 e' he'
         · rw [List.mem_singleton.mp he']; exact hz
 
+/-- The C4 map obligations, read at the ideal level in `K`. -/
+theorem map_ideal_facts {S T : Stmt} {phi : List Sparse} {eqCerts guardCerts : List Cert}
+    {obs : List (Stmt × Cert)} {rr : Scope}
+    (h : mapObligations S T phi eqCerts guardCerts = some obs) (hr : reachAll obs = some rr)
+    (hK : rr.mem K) :
+    ∃ ceqs cgs, T.eqs.mapM (compose S.vars.length phi T.vars.length) = some ceqs ∧
+      T.guards.mapM (compose S.vars.length phi T.vars.length) = some cgs ∧
+      (∀ e ∈ ceqs, ∃ m k, toK (K := K) (meaning S.vars.length e) ^ m *
+          (S.guards.map fun g => toK (K := K) (meaning S.vars.length g)).prod ^ k ∈
+        Ideal.span {f | f ∈ S.eqs.map fun e => toK (K := K) (meaning S.vars.length e)}) ∧
+      (∀ g ∈ cgs, ∃ k a, (S.guards.map fun g => toK (K := K) (meaning S.vars.length g)).prod ^ k -
+          a * toK (K := K) (meaning S.vars.length g) ∈
+        Ideal.span {f | f ∈ S.eqs.map fun e => toK (K := K) (meaning S.vars.length e)}) := by
+  unfold mapObligations at h
+  split_ifs at h with hc
+  simp only [Bool.or_eq_true, bne_iff_ne, ne_eq, not_or, not_not] at hc
+  obtain ⟨⟨-, he⟩, hg⟩ := hc
+  cases hE : T.eqs.mapM (compose S.vars.length phi T.vars.length) with
+  | none => simp [hE] at h
+  | some ceqs =>
+    cases hG : T.guards.mapM (compose S.vars.length phi T.vars.length) with
+    | none => simp [hE, hG] at h
+    | some cgs =>
+      simp only [hE, hG, Option.bind_eq_bind, Option.bind_some, Option.pure_def,
+        Option.some.injEq] at h
+      subst h
+      have FE := mapM_forall₂ hE
+      have FG := mapM_forall₂ hG
+      refine ⟨ceqs, cgs, rfl, rfl, fun e heq => ?_, fun g hgm => ?_⟩
+      · obtain ⟨c, hc⟩ := mem_zip_of_mem (FE.length_eq.symm.trans he.symm) heq
+        obtain ⟨r, hreach, hrK⟩ :=
+          reachAll_each hr hK _ (List.mem_append_left _ (List.mem_map.mpr ⟨(e, c), hc, rfl⟩))
+        obtain ⟨m, k, hk⟩ :=
+          reach_vanishes_ideal (s := ⟨S.vars, S.eqs, S.guards, .vanishesOn e⟩) rfl hreach hrK
+        exact ⟨m, k, hk⟩
+      · obtain ⟨c, hc⟩ := mem_zip_of_mem (FG.length_eq.symm.trans hg.symm) hgm
+        obtain ⟨r, hreach, hrK⟩ :=
+          reachAll_each hr hK _ (List.mem_append_right _ (List.mem_map.mpr ⟨(g, c), hc, rfl⟩))
+        obtain ⟨k, hk⟩ := reach_empty_ideal rfl hreach hrK
+        simp only [List.map_append, List.map_cons, List.map_nil] at hk
+        obtain ⟨a, ha⟩ := span_append_single hk
+        exact ⟨k, a, ha⟩
+
 theorem stmt_good {s : Stmt} (h : Avoids K s.primes) : GoodAll K s.polys :=
   fun p hp c hc => good_of_avoids h (List.mem_flatMap.mpr ⟨p, hp, hc⟩)
 
@@ -510,6 +662,40 @@ theorem r3_sound {P C : Stmt} {phi : List Sparse} {eqCerts guardCerts : List Cer
       intro x hx
       rw [compose_value (beq_iff_eq.mp hcomp) hphi hf]
       exact hP _ (map_locus ho (reachAll_sound h hK) hphi gP x hx)
+  · -- NOT_IN_IDEAL(1) moves S → T: were 1 in the target's localized ideal, pushing the identity
+    -- through `Ψ = bind₁ φ` would make the source's localized quotient the zero ring.
+    rename_i f f' hkP hkC
+    split_ifs at h with hone
+    simp only [Bool.and_eq_true, beq_iff_eq] at hone
+    obtain ⟨rfl, rfl⟩ := hone
+    cases ho : mapObligations P C phi eqCerts guardCerts with
+    | none => simp [ho] at h
+    | some obs =>
+      simp only [ho, Option.bind_some] at h
+      obtain ⟨ceqs, cgs, hE, hG, hEo, hGo⟩ := map_ideal_facts ho h hK
+      unfold Holds at hP ⊢
+      rw [hkP] at hP; rw [hkC]
+      rintro ⟨k, hk⟩
+      rw [GPBinding.Binder.toK_meaning_one, one_mul] at hk
+      have hm := Ideal.mem_map_of_mem
+        (bind₁ (fun i : Fin C.vars.length => toK (K := K) (meaning P.vars.length (phi.getD i.val [])))) hk
+      rw [Ideal.map_span, image_list, map_pow, map_list_prod,
+        compose_map_eq hphi (mapM_forall₂ hG) fun p hp => gC p (List.mem_append_right _ hp),
+        compose_map_eq hphi (mapM_forall₂ hE) fun p hp => gC p (List.mem_append_left _ hp)] at hm
+      have hE' : ∀ e ∈ ceqs.map (fun e => toK (K := K) (meaning P.vars.length e)), ∃ m k,
+          e ^ m * (P.guards.map fun g => toK (K := K) (meaning P.vars.length g)).prod ^ k ∈
+            Ideal.span {f | f ∈ P.eqs.map fun e => toK (K := K) (meaning P.vars.length e)} := by
+        intro e he
+        obtain ⟨e', he', rfl⟩ := List.mem_map.mp he
+        exact hEo e' he'
+      have hG' : ∀ g ∈ cgs.map (fun g => toK (K := K) (meaning P.vars.length g)), ∃ k a,
+          (P.guards.map fun g => toK (K := K) (meaning P.vars.length g)).prod ^ k - a * g ∈
+            Ideal.span {f | f ∈ P.eqs.map fun e => toK (K := K) (meaning P.vars.length e)} := by
+        intro g hg
+        obtain ⟨g', hg', rfl⟩ := List.mem_map.mp hg
+        exact hGo g' hg'
+      obtain ⟨j, hj⟩ := radical_transport hE' hG' ⟨k, hm⟩
+      exact hP ⟨j, by rw [GPBinding.Binder.toK_meaning_one, one_mul]; exact hj⟩
   · -- IN_IDEAL(h) on the target gives IN_IDEAL(h ∘ φ) on the source: push the premise through
     -- `Ψ = bind₁ φ`, then transport as in R2.
     rename_i f f' hkP hkC
@@ -564,6 +750,10 @@ theorem reach_two_map {C P Q : Stmt} {phi : List Sparse} {a b : List Cert} {rr :
     (h : ruleReach C [P, Q] (.map phi a b) = some rr) : False := by
   simp [ruleReach] at h
 
+theorem reach_two_witness {C P Q : Stmt} {rr : Scope} (h : ruleReach C [P, Q] .witness = some rr) :
+    False := by
+  simp [ruleReach] at h
+
 open GP50 GPBinding.Spike in
 theorem acceptsRule_claim_meaning (clauses : List GPProfile.Clause) (rules : List RuleInst)
     (w : Warrant) (premises : List Warrant) (name : String)
@@ -613,6 +803,7 @@ theorem acceptsRule_claim_meaning (clauses : List GPProfile.Clause) (rules : Lis
                   (List.mem_flatMap.mpr ⟨f, hf, hc'⟩)
               exact r3_sound hR hrrK h₁ hphi (hPg p₁ List.mem_cons_self) hCg
             | split h => rw [hd] at hR; exact (reach_one_split hR).elim
+            | witness => rw [hd] at hR; exact witness_sound hR h₁
           · cases hd : r.data with
             | split h =>
               rw [hd] at hR
@@ -621,6 +812,7 @@ theorem acceptsRule_claim_meaning (clauses : List GPProfile.Clause) (rules : Lis
             | r1 => rw [hd] at hR; exact (reach_two_r1 hR).elim
             | inclusion _ _ => rw [hd] at hR; exact (reach_two_inclusion hR).elim
             | map _ _ _ => rw [hd] at hR; exact (reach_two_map hR).elim
+            | witness => rw [hd] at hR; exact (reach_two_witness hR).elim
           · exact (reach_many hR).elim
         refine ⟨⟨c, present, key⟩, fun c' hc' hkey' => ?_⟩
         have := key_unique_of_nodup clauses (·.key) unique c' c hc' present (hkey'.trans key.symm)

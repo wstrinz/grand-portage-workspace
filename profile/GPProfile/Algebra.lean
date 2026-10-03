@@ -17,10 +17,10 @@ inductive Kind where
   | empty | nonempty
   | inIdeal (h : Sparse)
   | vanishesOn (h : Sparse)
-  /-- `h` is not in the ideal of the equations in `K[x][1/∏ guards]` (refuted membership). -/
+  /-- `h` is not in the ideal of the equations in `K[x][1/∏ guards]`. NOT_IN_IDEAL(1) is geometric
+  nonemptiness; "h is not a unit" is NOT_IN_IDEAL(1) with `h` added as an equation (one encoding,
+  G3a review §2). -/
   | notInIdeal (h : Sparse)
-  /-- `h` is not a unit of `K[x][1/∏ guards]/⟨eqs⟩`. -/
-  | nonunit (h : Sparse)
   /-- Every point of the locus lies in one of the branches (equations, guards). -/
   | cover (branches : List (List Sparse × List Sparse))
   deriving Repr, DecidableEq
@@ -32,8 +32,11 @@ structure Stmt where
   kind : Kind
   deriving Repr, DecidableEq
 
+/-- The constant polynomial 1 in `n` variables. -/
+def oneP (n : Nat) : Sparse := [(List.replicate n 0, 1)]
+
 def Kind.target? : Kind → Option Sparse
-  | .inIdeal h | .vanishesOn h | .notInIdeal h | .nonunit h => some h
+  | .inIdeal h | .vanishesOn h | .notInIdeal h => some h
   | _ => none
 
 def Kind.branchPolys : Kind → List Sparse
@@ -108,18 +111,22 @@ inductive Cert where
   | ideal (field : Field) (cofactors : List Sparse) (m k : Nat)
   /-- C2: a point of the locus. -/
   | point (field : Field) (values : List Rat)
+  /-- Geometric nonemptiness of `{m = 0}` (G3a review §6(iii)): the single equation takes different
+  values at two rational points, so it is non-constant, hence not a unit: `(m)` is proper. -/
+  | proper (field : Field) (a b : List Rat)
   /-- COVER: the whole locus lies in branch `branch`, by a C4 inclusion whose obligations are
   C1/C3 certificates. -/
   | cover (branch : Nat) (eqCerts guardCerts : List IdealCert)
   deriving Repr, DecidableEq
 
 def Cert.field : Cert → Field
-  | .ideal f .. | .point f _ => f
+  | .ideal f .. | .point f _ | .proper f _ _ => f
   | .cover .. => .rat
 
 def Cert.primes : Cert → List Nat
   | .ideal _ qs .. => denominatorPrimes (qs.flatMap Sparse.coeffs)
   | .point _ vs => denominatorPrimes vs
+  | .proper _ a b => denominatorPrimes (a ++ b)
   | .cover .. => []
 
 /-- Exponents beyond this bound are refused rather than expanded. -/
@@ -197,16 +204,19 @@ def reachBase (s : Stmt) (c : Cert) : Option Scope :=
     | .prime p =>
       if !isPrime p || bad.contains p then none
       else if ev.all (zeroMod p) && gv.all (unitMod p) then some (.only p) else none
+  | .proper field a b =>
+    if s.kind != .notInIdeal (oneP n) || !s.guards.isEmpty || a.length != n || b.length != n then none
+    else
+      match pointValues n s a, pointValues n s b with
+      | some ([va], _), some ([vb], _) =>
+        match field with
+        | .rat => if va - vb != 0 then some (.outside (union bad (primeFactors (va - vb).num.natAbs)))
+          else none
+        | .prime p =>
+          if !isPrime p || bad.contains p then none
+          else if unitMod p (va - vb) then some (.only p) else none
+      | _, _ => none
   | .cover .. => none
-
-/-- The witness system of a point-certified kind: NOT_IN_IDEAL(h) adds `h` as a guard,
-NONUNIT(h) adds `h` as an equation, NONEMPTY is itself. -/
-def witnessSystem (s : Stmt) : Option Stmt :=
-  match s.kind with
-  | .nonempty => some s
-  | .notInIdeal h => some ⟨s.vars, s.eqs, s.guards ++ [h], .nonempty⟩
-  | .nonunit h => some ⟨s.vars, s.eqs ++ [h], s.guards, .nonempty⟩
-  | _ => none
 
 /-- C4 inclusion `locus_T ⊆ locus_L` as C1/C3 obligations on the tight system. -/
 def inclusionObligations (T L : Stmt) (eqCerts guardCerts : List Cert) :
@@ -223,7 +233,8 @@ def reachAllBase (obs : List (Stmt × Cert)) : Option (List Scope) :=
 /-- The computed reach of a certificate for a statement, or `none` when replay fails. -/
 def reach (s : Stmt) (c : Cert) : Option Scope :=
   match c with
-  | .point .. => do reachBase (← witnessSystem s) c
+  -- Points certify NONEMPTY only; NOT_IN_IDEAL comes from NONEMPTY by the bridge rule.
+  | .point .. | .proper .. => reachBase s c
   | .cover i eqCerts guardCerts =>
     match s.kind with
     | .cover bs => do
@@ -254,8 +265,7 @@ def kindContra : Kind → Kind → Bool
   | .inIdeal h, .notInIdeal h' => h == h'
   | _, _ => false
 
-/-- A filed counterexample: NONEMPTY on the system with `h` added as a guard (the witness system
-of NOT_IN_IDEAL(h)) is a point of the locus where `h` does not vanish, refuting VANISHES_ON(h). -/
+/-- A filed counterexample: NONEMPTY on the system with `h` added as a guard is a point of the locus where `h` does not vanish, refuting VANISHES_ON(h). -/
 def witnessContra (a b : Stmt) : Bool :=
   match a.kind, b.kind with
   | .vanishesOn h, .nonempty => b.guards == a.guards ++ [h]

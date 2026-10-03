@@ -10,14 +10,14 @@ open Lean GP50 GPProfile
 
 def kindName : Kind → String
   | .empty => "EMPTY" | .nonempty => "NONEMPTY" | .inIdeal _ => "IN_IDEAL" | .vanishesOn _ => "VANISHES_ON"
-  | .notInIdeal _ => "NOT_IN_IDEAL" | .nonunit _ => "NONUNIT" | .cover _ => "COVER"
+  | .notInIdeal _ => "NOT_IN_IDEAL" | .cover _ => "COVER"
 
 def supportName : Support → String
   | .none => "none"
   | .receipt _ none => "receipt"
   | .receipt _ (some _) => "receipt bound to original"
   | .rule d _ => match d with
-    | .r1 => "rule R1" | .inclusion .. => "rule R2" | .map .. => "rule R3" | .split _ => "rule R4"
+    | .r1 => "rule R1" | .inclusion .. => "rule R2" | .map .. => "rule R3" | .split _ => "rule R4" | .witness => "rule bridge"
 
 def checkName : Check → String
   | .accepted _ => "accepted" | .notCanonical => "not canonical" | .illFormed _ => "ill-formed"
@@ -72,7 +72,7 @@ def sparsesLit (ps : List Sparse) : String := "[" ++ ", ".intercalate (ps.map sp
 def kindLit : Kind → String
   | .empty => ".empty" | .nonempty => ".nonempty"
   | .inIdeal h => s!"(.inIdeal {sparseLit h})" | .vanishesOn h => s!"(.vanishesOn {sparseLit h})"
-  | .notInIdeal h => s!"(.notInIdeal {sparseLit h})" | .nonunit h => s!"(.nonunit {sparseLit h})"
+  | .notInIdeal h => s!"(.notInIdeal {sparseLit h})"
   | .cover _ => ".cover []"
 def stmtLit (s : Stmt) : String :=
   s!"⟨{repr s.vars}, {sparsesLit s.eqs}, {sparsesLit s.guards}, {kindLit s.kind}⟩"
@@ -97,6 +97,8 @@ def candidates (label : String) (case : Json) (params : List (String × Nat)) : 
                 ("cofactors", toJson (qs.map sparseLit)), ("m", toJson m), ("k", toJson k)]
             | .point f vs => Json.mkObj [("type", "point"), ("field", toJson (reprStr f)),
                 ("values", toJson (vs.map ratLit))]
+            | .proper f a b => Json.mkObj [("type", "proper"), ("field", toJson (reprStr f)),
+                ("a", toJson (a.map ratLit)), ("b", toJson (b.map ratLit))]
             | .cover .. => Json.mkObj [("type", "cover")]
           some (Json.mkObj [("case", toJson label), ("key", toJson i.key), ("vars", toJson i.stmt.vars),
             ("stmt", toJson (stmtLit i.stmt)), ("scope", toJson (scopeLit i.scope)),

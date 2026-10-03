@@ -7,3 +7,4 @@ import GPProfile.Plan
 import GPProfile.Families
 import GPProfile.Canonical
 import GPProfile.RuleChecks
+import GPProfile.Univariate

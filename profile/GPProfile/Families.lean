@@ -1,5 +1,6 @@
 import GPProfile.Frontend
 import GPProfile.Plan
+import GPProfile.Univariate
 
 /-!
 Family adapters of the shared case-to-profile frontend (post-G2 §1.8). Each adapter reads one
@@ -34,7 +35,7 @@ def scopeField (inputs : Json) : Except String (Scope × Field) := do
 
 def P (vars : List String) (t : String) : Except String Sparse := parse vars t
 
-def one (n : Nat) : Sparse := [(List.replicate n 0, 1)]
+def one (n : Nat) : Sparse := oneP n
 
 def mkItem (key : Nat) (stmt : Stmt) (scope : Scope) (support : Support) (extra : List String := []) : Item :=
   { key, stmt, scope, extra, support }
@@ -314,6 +315,98 @@ def cancelFamily (inputs : Json) : Except String Plan := do
       (.receipt (.point .rat (← ratPoint vars pt)))
     pure { items := [claim, witness], requested := [1] }
 
+/-! ## Points over `ℚ[a]/(m)` (G3a review §6) -/
+
+/-- A certificate every checker rejects: the adapter's honest "none found". -/
+def noCert : Cert := .ideal .rat [] 0 0
+
+/-- A point with coordinates in `ℚ[a]/(m)`: geometric nonemptiness of the source `(a; {m})` by a
+`proper` receipt, carried to the target by R3 along the coordinates. The adapter proposes the
+obligation certificates by univariate division (equations) and the extended Euclidean algorithm
+(guards); where none exists it proposes `noCert`, so every refusal is a checker's. -/
+def extensionPoint (sym : String) (m : Sparse) (vars : List String) (eqs guards : List Sparse)
+    (phi : List Sparse) (kind : Kind) : Except String Plan := do
+  let mu := Uni.ofSparse m
+  if mu.length < 2 then throw "the field polynomial must be nonconstant"
+  let n := vars.length
+  let v₀ := Uni.eval mu 0
+  let b ← need ((List.range mu.length).find? fun i => Uni.eval mu ((i + 1 : Nat) : Rat) != v₀)
+    "the field polynomial is constant on the sample points"
+  let eqCert (e : Sparse) : Cert := match compose 1 phi n e with
+    | some ce =>
+      let (q, r) := Uni.divMod (Uni.ofSparse ce) mu
+      if r.isEmpty then .ideal .rat [Uni.toSparse q] 1 0 else noCert
+    | none => noCert
+  let guardCert (g : Sparse) : Cert := match compose 1 phi n g with
+    | some cg =>
+      let (d, s, t) := Uni.xgcd mu (Uni.ofSparse cg)
+      match d with
+      | [c] => .ideal .rat [Uni.toSparse (Uni.scale c⁻¹ s), Uni.toSparse (Uni.scale c⁻¹ t)] 0 0
+      | _ => noCert
+    | none => noCert
+  let source : Stmt := ⟨[sym], [m], [], .notInIdeal (oneP 1)⟩
+  let items := [mkItem 1 source .char0Only (.receipt (.proper .rat [0] [((b + 1 : Nat) : Rat)])),
+    mkItem 2 ⟨vars, eqs, guards, kind⟩ .char0Only (.rule (.map phi (eqs.map eqCert) (guards.map guardCert)) [1])]
+  pure { items, requested := [2] }
+
+/-- A coordinate in `ℚ[a]/(m)`: a polynomial in the symbol, or a quotient whose denominator must be
+invertible modulo `m` (otherwise the map is undefined, an elaboration refusal). -/
+def coordPoly (sym : String) (m : Sparse) (j : Json) : Except String Sparse := do
+  match obj? j "numerator", obj? j "denominator" with
+  | some nj, some dj =>
+    let num ← P [sym] (← text nj)
+    let den ← P [sym] (← text dj)
+    let mu := Uni.ofSparse m
+    match Uni.xgcd mu (Uni.ofSparse den) with
+    | ([c], _, t) => pure (Uni.toSparse (Uni.divMod (Uni.mul (Uni.ofSparse num) (Uni.scale c⁻¹ t)) mu).2)
+    | _ => throw "undefined map: a coordinate's denominator is not invertible modulo the field polynomial"
+  | _, _ => P [sym] (← text j)
+
+/-- The single symbol of a field polynomial. -/
+def fieldSymbol (mText : String) : Except String String :=
+  match identifiers mText with
+  | [s] => pure s
+  | _ => throw "the field polynomial must have exactly one symbol"
+
+/-- Receipt currency of a point over `ℚ[a]/(m)` under a proposed change: new equations or open
+conditions, a base-field point universe (NONEMPTY, which this witness cannot give), or forged
+coordinates. With no change proposed there is nothing to check, and the case decodes to nothing. -/
+def extensionWitnessFamily (inputs : Json) : Except String Plan := do
+  let vars ← strs inputs "variables"
+  let mText ← need (str? inputs "field_polynomial") "no field polynomial"
+  let sym ← fieldSymbol mText
+  let m ← P [sym] mText
+  let coord ← need (obj? inputs "coordinate") "no coordinate"
+  let change := (obj? inputs "proposed_change").getD (.obj {})
+  -- An explicit null change carries no 3a content. (Its two corpus instances differ only in data
+  -- outside their inputs; decoding them to nothing keeps the run free of a false ACCEPT.)
+  if change == .null then throw "receipt currency with no proposed change has no 3a content"
+  -- A list replaces the coordinates; an object replaces equations, open conditions or universe.
+  let coords ← match change with
+    | .arr cs => pure cs.toList
+    | _ => pure [coord]
+  let pick (key fallback : String) : Except String (List String) :=
+    if has change key then strs change key else strs inputs fallback
+  let gens ← pick "generators" "generators"
+  let opens ← pick "open_conditions" "guards"
+  let pointUniverse := (str? change "point_universe").getD ((str? inputs "point_universe").getD "")
+  let kind := if pointUniverse == "BASE" then Kind.nonempty else .notInIdeal (oneP vars.length)
+  extensionPoint sym m vars (← gens.mapM (P vars)) (← opens.mapM (P vars))
+    (← coords.mapM (coordPoly sym m)) kind
+
+/-- A displayed point over a simple extension `ℚ[s]/(m)` for a system with nonzero guards. -/
+def extensionPointFamily (inputs : Json) : Except String Plan := do
+  let vars ← strs inputs "variables"
+  let wf ← need (obj? inputs "witness_field") "no witness field"
+  let sym ← need (str? wf "symbol") "no symbol"
+  let mText ← need (str? wf "minimal_polynomial") "no minimal polynomial"
+  if (← fieldSymbol mText) != sym then throw "the minimal polynomial is not in the field symbol"
+  let m ← P [sym] mText
+  let pt ← need (obj? inputs "point") "no point"
+  let phi ← vars.mapM fun v => do coordPoly sym m (← need (obj? pt v) s!"point lacks {v}")
+  extensionPoint sym m vars (← (← strs inputs "equations").mapM (P vars))
+    (← (← strs inputs "nonzero_guards").mapM (P vars)) phi (.notInIdeal (oneP vars.length))
+
 /-- Rewriting a point predicate through a translation: the case's control names the map used. -/
 def translationFamily (inputs : Json) : Except String Plan := do
   let ctrl ← need (str? inputs "control") "no control"
@@ -346,9 +439,14 @@ def elementFamily (case inputs : Json) : Except String Plan := do
   let eqs ← (← strs inputs "generators").mapM (P vars)
   let el ← P vars (← need (str? inputs "element") "no element")
   let ptOf (k : String) : Except String (List Rat) := do ratPoint vars (← need (obj? inputs k) s!"no {k}")
-  let items := [mkItem 1 ⟨vars, eqs, [], .notInIdeal el⟩ .char0Only (.receipt (.point .rat (← ptOf "nonzero_point"))),
-    mkItem 2 ⟨vars, eqs, [], .nonunit el⟩ .char0Only (.receipt (.point .rat (← ptOf "zero_point")))]
-  pure { items, requested := [1, 2] }
+  -- The points certify the stronger NONEMPTY claims; NOT_IN_IDEAL comes by the bridge rule, and
+  -- "not a unit" is canonically NOT_IN_IDEAL(1) with the element added as an equation.
+  let items := [
+    mkItem 1 ⟨vars, eqs, [el], .nonempty⟩ .char0Only (.receipt (.point .rat (← ptOf "nonzero_point"))),
+    mkItem 2 ⟨vars, eqs, [], .notInIdeal el⟩ .char0Only (.rule .witness [1]),
+    mkItem 3 ⟨vars, eqs ++ [el], [], .nonempty⟩ .char0Only (.receipt (.point .rat (← ptOf "zero_point"))),
+    mkItem 4 ⟨vars, eqs ++ [el], [], .notInIdeal (oneP vars.length)⟩ .char0Only (.rule .witness [3])]
+  pure { items, requested := [2, 4] }
 
 /-- An object cover. The proposer looks for a branch whose equations and guards occur literally
 in the parent's and supplies the canonical inclusion certificates (no search); with no such
@@ -421,7 +519,8 @@ def plan (case : Json) (params : List (String × Nat)) : Except String Plan := d
     match r with
     | .ok p => .ok p
     | .error e =>
-      if e.startsWith "undeclared variable" || e.startsWith "incomplete map" then
+      if e.startsWith "undeclared variable" || e.startsWith "incomplete map" ||
+          e.startsWith "undefined map" then
         .ok { items := [], requested := [], elaboration := some e }
       else .error e
   let k := onlyKeys inputs
@@ -469,6 +568,22 @@ def plan (case : Json) (params : List (String × Nat)) : Except String Plan := d
   if has inputs "excluded_fiber_generators" && k ["variables", "parent_equations", "excluded_base",
       "excluded_fiber_generators", "parent_point"] then
     return ← fiberFamily inputs
+  if has inputs "field_polynomial" && k ["variables", "generators", "guards", "point_universe",
+      "field_polynomial", "coordinate", "proposed_change"] &&
+      (str? inputs "point_universe" |>.all (· == "ALGEBRAIC_CLOSURE")) &&
+      ((obj? inputs "proposed_change").all fun c =>
+        c == .null || (match c with | .arr _ => true | _ => false) ||
+        onlyKeys c ["generators", "open_conditions", "point_universe"]) then
+    return ← elabOr (extensionWitnessFamily inputs)
+  -- The combinatorial context keys (object, vertices, classes, edges) describe the system only.
+  if has inputs "witness_field" && k ["object", "vertices", "classes", "edges", "coefficient_domain",
+      "point_universe", "variables", "equations", "point", "witness_field", "nonzero_guards",
+      "interpretation_limit"] &&
+      str? inputs "coefficient_domain" == some "Q" && str? inputs "point_universe" == some "ALGEBRAIC_CLOSURE" &&
+      nestedOk inputs "witness_field" ["kind", "base", "symbol", "minimal_polynomial"] &&
+      (obj? inputs "witness_field").any (fun w => str? w "kind" == some "simple_number_field_v1" &&
+        str? w "base" == some "Q") then
+    return ← extensionPointFamily inputs
   if has inputs "cancelled_conclusion" && k ["variables", "product", "cancelled_conclusion", "point",
       "unit_witness"] then
     return ← cancelFamily inputs

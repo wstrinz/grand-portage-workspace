@@ -294,3 +294,17 @@ If all three hold, recommend the Lean-native ledger pivot (keep `Kernel` and the
 8. The v0.50.0-alpha is prepared but held until binding identity moves from reprStr to canonical JSON.
 
 2026-10-03 3a.1 builder note (contra extension, review §2). The Kernel's `contra_sound` is per context, and EMPTY vs NOT_IN_IDEAL(h) is not contradictory in a single non-closed field (x²+1 over Q). The 3a profile's context truth is therefore "holds in every field of this characteristic"; `Means` is unchanged (`means_iff`), since scope membership depends only on the characteristic. The EMPTY/NOT_IN_IDEAL proof passes to the algebraic closure and uses Mathlib's Nullstellensatz. 3b must revisit this: an R scope atom is not characteristic-determined. Counterexamples are filed as held claims, and a refused claim contradicted by one is reported as refuted (X124 via VANISHES_ON(h) vs NONEMPTY with guard h, X128 via EMPTY vs NONEMPTY).
+
+2026-10-03 3a.1 step 4 builder notes (review §2, §6).
+- NONUNIT is no longer a kind. NONUNIT(h) on (E, G) is written as NOT_IN_IDEAL(1) on (E+[h], G).
+- Point certificates support NONEMPTY only. NOT_IN_IDEAL(h) comes by the bridge rule from NONEMPTY with h added as a guard, and NOT_IN_IDEAL(1) from NONEMPTY on the same system.
+- NOT_IN_IDEAL(1) moves tight→loose (R2) and S→T (R3) under the existing C4 obligations, by the radical argument.
+- The base checker (iii) is a `proper` certificate: two rational points where the single equation takes different values. The equation is then non-constant, so (m) is proper; this avoids leading-coefficient reasoning on sparse forms.
+- Points over Q[a]/(m) are R3 maps from (a; {m}). The adapter proposes obligation certificates by univariate division and extended Euclid, and every refusal comes from replay.
+- A non-invertible denominator in a coordinate is an elaboration refusal ("undefined map").
+
+For Will: GP-X45 (ACCEPT) and GP-X49 (REFUSE) have byte-identical inputs. X49's distinguishing fact, an unrecognized verifier version, appears only in its title and sources. Both are 3a-owned, so G3a cannot pass both without a ruling. Both currently decode to nothing, so neither can be a false ACCEPT.
+- Recommendation: an instantiation fixture for X49 under ruling 6's sidecar, proposed_change {"verifier_version": <unrecognized>}, refused as custody (the binding's authority version).
+- Alternative: reassign X49 to campaign-op.
+
+Also proposed: GP-X22–X24 (3b) are ruling 2's shape and now pass through the same family, so they should move to 3a.

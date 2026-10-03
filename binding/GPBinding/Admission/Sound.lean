@@ -1,4 +1,6 @@
 import GPBinding.Admission.Semantics
+import GPBinding.Binder.Elab
+import Mathlib.Algebra.MvPolynomial.Nilpotent
 
 /-!
 Reach soundness for C1/C2/C3 (post-G2 §3.3): when `reach s c = some r`, the statement holds
@@ -198,7 +200,7 @@ theorem reach_ideal_identity {s : Stmt} {field : Field} {qs : List Sparse}
         simp only [Sparse.coeffs, List.map_cons, List.map_nil, List.mem_singleton] at hcp
         subst hcp
         simp [primeFactors_one] at hxc
-      | nonempty | notInIdeal _ | nonunit _ | cover _ => simp [hk] at ht
+      | nonempty | notInIdeal _ | cover _ => simp [hk] at ht
       | inIdeal h0 =>
         simp only [hk] at ht; split_ifs at ht; simp only [Option.some.injEq] at ht; subst ht
         exact stmt_poly_primes hS (by simp [Stmt.polys, hk, Kind.target?]) hcp hxc
@@ -229,7 +231,7 @@ theorem reach_ideal_sound {s : Stmt} {field : Field} {qs : List Sparse}
     obtain ⟨h0, hG⟩ := locusEval x hx
     rw [I, map_mul, map_pow, map_pow, pow_zero, one_mul] at h0
     exact hG (pow_eq_zero_iff'.mp h0).1
-  | nonempty | notInIdeal _ | nonunit _ | cover _ => simp [hk] at ht
+  | nonempty | notInIdeal _ | cover _ => simp [hk] at ht
   | inIdeal h0 =>
     simp only [hk] at ht; split_ifs at ht with hm
     simp only [beq_iff_eq] at hm; subst hm
@@ -254,7 +256,8 @@ theorem reach_empty_ideal {s : Stmt} {c : Cert} {r : Scope} (hs : s.kind = .empt
     ∃ k : ℕ, (s.guards.map fun g => toK (K := K) (meaning s.vars.length g)).prod ^ k ∈
       Ideal.span {f | f ∈ s.eqs.map fun e => toK (K := K) (meaning s.vars.length e)} := by
   cases c with
-  | point f vs => simp [reach, witnessSystem, hs] at hr
+  | point f vs => simp [reach, reachBase, hs] at hr
+  | proper f a b => simp [reach, reachBase, hs] at hr
   | cover i a b => simp [reach, hs] at hr
   | ideal field qs m k =>
     obtain ⟨h, ht, I⟩ := reach_ideal_identity hr hK
@@ -269,6 +272,24 @@ theorem reach_empty_ideal {s : Stmt} {c : Cert} {r : Scope} (hs : s.kind = .empt
       rw [pow_zero, one_mul]
     rw [e, ← I]
     exact zipWith_sum_mem_span _ _
+
+/-- An accepted VANISHES_ON(h) certificate is ideal-level: `h^m·(∏ guards)^k` lies in the ideal. -/
+theorem reach_vanishes_ideal {s : Stmt} {c : Cert} {r : Scope} {h : Sparse}
+    (hs : s.kind = .vanishesOn h) (hr : reach s c = some r) (hK : r.mem K) :
+    ∃ m k : ℕ, toK (K := K) (meaning s.vars.length h) ^ m *
+        (s.guards.map fun g => toK (K := K) (meaning s.vars.length g)).prod ^ k ∈
+      Ideal.span {f | f ∈ s.eqs.map fun e => toK (K := K) (meaning s.vars.length e)} := by
+  cases c with
+  | point f vs => simp [reach, reachBase, hs] at hr
+  | proper f a b => simp [reach, reachBase, hs] at hr
+  | cover i a b => simp [reach, hs] at hr
+  | ideal field qs m k =>
+    obtain ⟨h', ht, I⟩ := reach_ideal_identity hr hK
+    simp only [idealTarget, hs] at ht
+    split_ifs at ht
+    simp only [Option.some.injEq] at ht
+    subst ht
+    exact ⟨m, k, I ▸ zipWith_sum_mem_span _ _⟩
 
 theorem eval_toK_cast {n : ℕ} {P : MvPolynomial (Fin n) Rat}
     (hP : P ∈ GoodPoly K (Fin n)) {a : Fin n → Rat} (ha : ∀ i, a i ∈ Good K) :
@@ -365,6 +386,112 @@ theorem reachBase_point_sound {s : Stmt} {field : Field} {vs : List Rat}
     rw [hgv']
     exact List.mem_map.mpr ⟨g, hg, rfl⟩
 
+theorem reachBase_proper_spec {s : Stmt} {field : Field} {a b : List Rat}
+    {r : Scope} (hr : reachBase s (.proper field a b) = some r) (hK : r.mem K) :
+    s.kind = .notInIdeal (oneP s.vars.length) ∧ s.guards = [] ∧
+      ∃ va vb ga gb, pointValues s.vars.length s a = some ([va], ga) ∧
+        pointValues s.vars.length s b = some ([vb], gb) ∧
+        Avoids K (union s.primes (denominatorPrimes (a ++ b))) ∧
+        (va - vb ∈ Good K → ((va - vb : Rat) : K) ≠ 0) := by
+  simp only [reachBase, Cert.primes] at hr
+  split_ifs at hr with h1
+  simp only [Bool.or_eq_true, bne_iff_ne, ne_eq, not_or, not_not] at h1
+  obtain ⟨⟨⟨hk, hg⟩, -⟩, -⟩ := h1
+  split at hr
+  · rename_i va ga vb gb hA hB
+    refine ⟨hk, by simpa using hg, va, vb, ga, gb, hA, hB, ?_⟩
+    cases field with
+    | rat =>
+      simp only at hr
+      split_ifs at hr with hd
+      simp only [bne_iff_ne, ne_eq] at hd
+      simp only [Option.some.injEq] at hr
+      subst hr
+      have hL := mem_outside hK
+      refine ⟨hL.mono fun x hx => mem_union_left hx, fun hgd => ?_⟩
+      rw [Rat.cast_def]
+      refine div_ne_zero (intCast_ne_zero_of_primes (Rat.num_ne_zero.mpr hd) ?_) hgd
+      intro q hq hdq
+      exact hL.ne hq (mem_union_right (mem_primeFactors hq
+        (Int.natAbs_pos.mpr (Rat.num_ne_zero.mpr hd)) hdq))
+    | prime p =>
+      simp at hr
+      obtain ⟨⟨hpr, hnb⟩, hu, rfl⟩ := hr
+      have hc := mem_only hK
+      refine ⟨Or.inr ⟨hc ▸ (isPrime_iff p).mp hpr, hc ▸ hnb⟩, fun _ => ?_⟩
+      simp only [unitMod, Bool.and_eq_true, bne_iff_ne, ne_eq] at hu
+      rw [Rat.cast_def]
+      refine div_ne_zero ?_ ?_
+      · intro hn
+        have := (CharP.intCast_eq_zero_iff K (ringChar K) (va - vb).num).mp hn
+        rw [hc] at this
+        exact hu.2 (Int.emod_eq_zero_of_dvd this)
+      · intro hd
+        have := (ringChar.spec K (va - vb).den).mp hd
+        rw [hc] at this
+        exact hu.1 (Nat.mod_eq_zero_of_dvd this)
+  · simp at hr
+
+theorem pointFn_good {vs : List Rat} {n : ℕ} {bad : List ℕ} (havoid : Avoids K bad)
+    (hsub : ∀ x ∈ denominatorPrimes vs, x ∈ bad) : ∀ i, pointFn vs n i ∈ Good K := by
+  intro i
+  unfold pointFn
+  by_cases hi : i.val < vs.length
+  · rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hi, Option.getD_some]
+    exact good_of_avoids (havoid.mono hsub) (List.getElem_mem hi)
+  · rw [List.getD_eq_getElem?_getD, List.getElem?_eq_none (by omega), Option.getD_none]
+    exact (Good K).zero_mem
+
+/-- A `proper` certificate: the equation is non-constant in `K`, so it is not a unit and `(m)` is a
+proper ideal: NOT_IN_IDEAL(1), geometric nonemptiness. -/
+theorem reach_proper_sound {s : Stmt} {field : Field} {a b : List Rat}
+    {r : Scope} (hr : reach s (.proper field a b) = some r) (hK : r.mem K) : Holds K s := by
+  simp only [reach] at hr
+  obtain ⟨hk, hg, va, vb, ga, gb, hA, hB, havoid, hd⟩ := reachBase_proper_spec hr hK
+  obtain ⟨ea, -⟩ := pointValues_meaning hA
+  obtain ⟨eb, -⟩ := pointValues_meaning hB
+  obtain ⟨v, e, g, kd⟩ := s
+  simp only at hk hg ea eb havoid
+  subst hk hg
+  cases e with
+  | nil => simp at ea
+  | cons m rest =>
+    cases rest with
+    | cons _ _ => simp at ea
+    | nil =>
+      simp only [List.map_cons, List.map_nil, List.cons.injEq, and_true] at ea eb
+      have hS : Avoids K (denominatorPrimes ((Stmt.polys ⟨v, [m], [], .notInIdeal (oneP v.length)⟩).flatMap
+          Sparse.coeffs)) := havoid.mono fun x hx => mem_union_left hx
+      have mGood : meaning v.length m ∈ GoodPoly K (Fin v.length) :=
+        meaning_good fun c hc => good_of_avoids hS (List.mem_flatMap.mpr ⟨m, by simp [Stmt.polys], hc⟩)
+      have ha := pointFn_good (n := v.length) havoid fun x hx =>
+        mem_union_right (by
+          obtain ⟨c, hc, h⟩ := mem_denominatorPrimes_iff.mp hx
+          exact mem_denominatorPrimes_iff.mpr ⟨c, List.mem_append_left _ hc, h⟩)
+      have hb := pointFn_good (n := v.length) havoid fun x hx =>
+        mem_union_right (by
+          obtain ⟨c, hc, h⟩ := mem_denominatorPrimes_iff.mp hx
+          exact mem_denominatorPrimes_iff.mpr ⟨c, List.mem_append_right _ hc, h⟩)
+      obtain ⟨hA', gA⟩ := eval_toK_cast mGood ha
+      obtain ⟨hB', gB⟩ := eval_toK_cast mGood hb
+      unfold Holds
+      rintro ⟨k, hk'⟩
+      simp only [List.map_nil, List.prod_nil, one_pow, mul_one, GPBinding.Binder.toK_meaning_one,
+        List.map_cons, List.mem_singleton, Set.ofPred_eq_eq_singleton] at hk'
+      have hu : IsUnit (toK (K := K) (meaning v.length m)) :=
+        isUnit_of_dvd_one (Ideal.mem_span_singleton.mp hk')
+      obtain ⟨c, -, hc⟩ := MvPolynomial.isUnit_iff_eq_C_of_isReduced.mp hu
+      have heq : eval (fun i => ((pointFn a v.length i : Rat) : K)) (toK (meaning v.length m)) =
+          eval (fun i => ((pointFn b v.length i : Rat) : K)) (toK (meaning v.length m)) := by
+        rw [hc, eval_C, eval_C]
+      rw [hA', hB', ← ea, ← eb] at heq
+      have gA' : va ∈ Good K := by rw [ea]; exact gA
+      have gB' : vb ∈ Good K := by rw [eb]; exact gB
+      apply hd ((Good K).sub_mem gA' gB')
+      have hsub : ((va - vb : Rat) : K) = (va : K) - (vb : K) :=
+        map_sub (castGood K) (⟨va, gA'⟩ : Good K) ⟨vb, gB'⟩
+      rw [hsub, heq, sub_self]
+
 theorem eval_span_zero' {n : ℕ} {x : Fin n → K} {l : List (MvPolynomial (Fin n) K)}
     {f : MvPolynomial (Fin n) K} (hf : f ∈ Ideal.span {g | g ∈ l}) (hl : ∀ g ∈ l, eval x g = 0) :
     eval x f = 0 := by
@@ -372,46 +499,11 @@ theorem eval_span_zero' {n : ℕ} {x : Fin n → K} {l : List (MvPolynomial (Fin
     Ideal.span_le.mpr fun g hg => (RingHom.mem_ker).mpr (hl g hg)
   exact (RingHom.mem_ker).mp (hle hf)
 
-/-- Point certificates for NONEMPTY, NOT_IN_IDEAL and NONUNIT replay on the witness system. -/
+/-- Point certificates support NONEMPTY only (G3a review §2). -/
 theorem reach_point_sound {s : Stmt} {field : Field} {vs : List Rat}
     {r : Scope} (hr : reach s (.point field vs) = some r) (hK : r.mem K) : Holds K s := by
   simp only [reach] at hr
-  cases hw : witnessSystem s with
-  | none => simp [hw] at hr
-  | some ws =>
-    simp only [hw, Option.bind_eq_bind, Option.bind_some] at hr
-    have hws := reachBase_point_sound hr hK
-    obtain ⟨v, e, g, k⟩ := s
-    unfold witnessSystem at hw
-    cases k with
-    | nonempty => simp at hw; subst hw; exact hws
-    | notInIdeal h =>
-      simp only [Option.some.injEq] at hw
-      subst hw
-      obtain ⟨x, he, hg⟩ := hws
-      rintro ⟨kk, hkk⟩
-      have h0 := eval_span_zero' hkk fun b hb => by
-        obtain ⟨e', he', rfl⟩ := List.mem_map.mp hb; exact he e' he'
-      rw [map_mul, map_pow] at h0
-      rcases mul_eq_zero.mp h0 with hv | hv
-      · exact hg h (List.mem_append_right _ (List.mem_singleton_self h)) hv
-      · exact eval_prod_ne_zero x _ (fun b hb => by
-          obtain ⟨g', hg', rfl⟩ := List.mem_map.mp hb
-          exact hg g' (List.mem_append_left _ hg')) (pow_eq_zero_iff'.mp hv).1
-    | nonunit h =>
-      simp only [Option.some.injEq] at hw
-      subst hw
-      obtain ⟨x, he, hg⟩ := hws
-      rintro ⟨q, kk, hkk⟩
-      have h0 := eval_span_zero' hkk fun b hb => by
-        obtain ⟨e', he', rfl⟩ := List.mem_map.mp hb; exact he e' (List.mem_append_left _ he')
-      have hh : eval x (toK (K := K) (meaning v.length h)) = 0 :=
-        he h (List.mem_append_right _ (List.mem_singleton_self h))
-      rw [map_sub, map_mul, map_pow, hh, zero_mul, zero_sub, neg_eq_zero] at h0
-      exact eval_prod_ne_zero x _ (fun b hb => by
-        obtain ⟨g', hg', rfl⟩ := List.mem_map.mp hb
-        exact hg g' hg') (pow_eq_zero_iff'.mp h0).1
-    | empty | inIdeal _ | vanishesOn _ | cover _ => simp at hw
+  exact reachBase_point_sound hr hK
 
 /-! ## C4 inclusion and covers -/
 
@@ -531,6 +623,7 @@ theorem reach_sound {s : Stmt} {c : Cert} {r : Scope}
   cases c with
   | ideal field qs m k => exact reach_ideal_sound hr hK
   | point field vs => exact reach_point_sound hr hK
+  | proper field a b => exact reach_proper_sound hr hK
   | cover i eqCerts guardCerts => exact reach_cover_sound hr hK
 
 /-- An accepted receipt check: the statement holds throughout the requested scope. -/
