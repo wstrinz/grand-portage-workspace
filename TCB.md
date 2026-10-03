@@ -95,7 +95,7 @@ Every package uses Lean `v4.34.0-rc2`, a release candidate adopted for Hex v0.6.
 | GP guarantee | Rests on |
 |---|---|
 | Fold, custody, narrowing, cover and conflict soundness (Kernel) | Lean `v4.34.0-rc2` only; no Mathlib, no Hex |
-| Executable profile arithmetic (none certified yet) | `HexMvPoly`, `HexModArith`, `HexPoly`, `HexArith`, `HexBasic` at v0.6.0 |
+| Executable profile arithmetic: 3a reach-slice checkers (not yet admitted) | `HexMvPoly`, `HexPoly`, `HexBasic` at v0.6.0; F_p via core `Fin p` (A3 deviation, no native externs); Lean `Rat` |
 | Field contexts and characteristic scopes (binding spike) | Mathlib `85e3a25e`: `ModelTheory/Bundled`, `ModelTheory/Algebra/Field/Basic`, `Algebra/CharP` |
 
 No GP claim yet depends on a Hex theorem. When 3a admits one, it is listed here by exact declaration, not by library status (A6).
