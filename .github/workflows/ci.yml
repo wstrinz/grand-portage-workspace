@@ -54,7 +54,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.12"  # requirements-dev.txt pins need Python >= 3.11
       - name: Install elan (each package's lean-toolchain selects Lean)
         run: |
           curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
