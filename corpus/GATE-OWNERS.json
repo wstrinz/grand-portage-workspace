@@ -1,0 +1,1243 @@
+{
+  "schema": "gp-gate-owners/v1",
+  "policy": "post-G2 §1.11 and §3.7. Nullstellensatz regime → 3a; ordered/SOS, number field, selected root/embedding and section → 3b; census → census; named campaign operations → campaign-op. Ambiguous cases carry a proposed owner and stay pending until Will rules (external review first). Case bytes and expectations are unchanged.",
+  "source": "corpus/LAYER-TAGS.json (primary_layer = profile)",
+  "case_count": 239,
+  "counts": {
+    "3a": 118,
+    "ambiguous": 33,
+    "3b": 40,
+    "campaign-op": 47,
+    "census": 1
+  },
+  "cases": [
+    {
+      "id": "GP-A02",
+      "owner": "3a",
+      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport"
+    },
+    {
+      "id": "GP-A03a",
+      "owner": "3a",
+      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport"
+    },
+    {
+      "id": "GP-A03b",
+      "owner": "3a",
+      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport"
+    },
+    {
+      "id": "GP-A04",
+      "owner": "3a",
+      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport"
+    },
+    {
+      "id": "GP-A05",
+      "owner": "3a",
+      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport"
+    },
+    {
+      "id": "GP-A06",
+      "owner": "ambiguous",
+      "proposed_owner": "3b",
+      "basis": "isolated-region cover may be semialgebraic, or an R4 object cover"
+    },
+    {
+      "id": "GP-A07a",
+      "owner": "3b",
+      "basis": "field-class flags, SOS reach, selected embeddings"
+    },
+    {
+      "id": "GP-A07b",
+      "owner": "3b",
+      "basis": "field-class flags, SOS reach, selected embeddings"
+    },
+    {
+      "id": "GP-A08b",
+      "owner": "3a",
+      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport"
+    },
+    {
+      "id": "GP-A08c",
+      "owner": "3a",
+      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport"
+    },
+    {
+      "id": "GP-A09",
+      "owner": "3a",
+      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport"
+    },
+    {
+      "id": "GP-A10-C",
+      "owner": "3b",
+      "basis": "field-class flags, SOS reach, selected embeddings"
+    },
+    {
+      "id": "GP-A10-Q",
+      "owner": "3b",
+      "basis": "field-class flags, SOS reach, selected embeddings"
+    },
+    {
+      "id": "GP-A10-R",
+      "owner": "3b",
+      "basis": "field-class flags, SOS reach, selected embeddings"
+    },
+    {
+      "id": "GP-A11a",
+      "owner": "3b",
+      "basis": "field-class flags, SOS reach, selected embeddings"
+    },
+    {
+      "id": "GP-A11b",
+      "owner": "3a",
+      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport"
+    },
+    {
+      "id": "GP-A12",
+      "owner": "3a",
+      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport"
+    },
+    {
+      "id": "GP-A13-ambient",
+      "owner": "3a",
+      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport"
+    },
+    {
+      "id": "GP-A13-derived",
+      "owner": "3a",
+      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport"
+    },
+    {
+      "id": "GP-A20b",
+      "owner": "3a",
+      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport"
+    },
+    {
+      "id": "GP-A21",
+      "owner": "campaign-op",
+      "basis": "Laurent lowering"
+    },
+    {
+      "id": "GP-A22",
+      "owner": "ambiguous",
+      "proposed_owner": "campaign-op",
+      "basis": "capped lift: dm4-style cap or a general 3a necessary condition"
+    },
+    {
+      "id": "GP-A23",
+      "owner": "3a",
+      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport"
+    },
+    {
+      "id": "GP-A24",
+      "owner": "3a",
+      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport"
+    },
+    {
+      "id": "GP-C01",
+      "owner": "3a",
+      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport"
+    },
+    {
+      "id": "GP-C02",
+      "owner": "3a",
+      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport"
+    },
+    {
+      "id": "GP-X01",
+      "owner": "3b",
+      "basis": "SOS, extension-valued witnesses, selected signs, closure vs base field"
+    },
+    {
+      "id": "GP-X02",
+      "owner": "3b",
+      "basis": "SOS, extension-valued witnesses, selected signs, closure vs base field"
+    },
+    {
+      "id": "GP-X03",
+      "owner": "3a",
+      "basis": "ideal identities, localization, polynomial-map pullback (C3/C4)"
+    },
+    {
+      "id": "GP-X05",
+      "owner": "ambiguous",
+      "proposed_owner": "3a",
+      "basis": "point-surjectivity and predicate typing"
+    },
+    {
+      "id": "GP-X06",
+      "owner": "ambiguous",
+      "proposed_owner": "3a",
+      "basis": "closure of lifted predicates (constructible sets?)"
+    },
+    {
+      "id": "GP-X07",
+      "owner": "ambiguous",
+      "proposed_owner": "3a",
+      "basis": "exact contraction vs geometric closure"
+    },
+    {
+      "id": "GP-X08",
+      "owner": "3a",
+      "basis": "ideal identities, localization, polynomial-map pullback (C3/C4)"
+    },
+    {
+      "id": "GP-X10",
+      "owner": "ambiguous",
+      "proposed_owner": "3b",
+      "basis": "different point universes: field-class flags or 3a scope"
+    },
+    {
+      "id": "GP-X11",
+      "owner": "ambiguous",
+      "proposed_owner": "3b",
+      "basis": "different point universes: field-class flags or 3a scope"
+    },
+    {
+      "id": "GP-X117",
+      "owner": "ambiguous",
+      "proposed_owner": "3b",
+      "basis": "K-point on a campaign branch: number field or campaign-op"
+    },
+    {
+      "id": "GP-X118",
+      "owner": "campaign-op",
+      "basis": "recurrence and jump schedules"
+    },
+    {
+      "id": "GP-X119",
+      "owner": "3a",
+      "basis": "unit/saturation certificates, substitution, elimination"
+    },
+    {
+      "id": "GP-X12",
+      "owner": "ambiguous",
+      "proposed_owner": "3b",
+      "basis": "different point universes: field-class flags or 3a scope"
+    },
+    {
+      "id": "GP-X120",
+      "owner": "3a",
+      "basis": "unit/saturation certificates, substitution, elimination"
+    },
+    {
+      "id": "GP-X121",
+      "owner": "ambiguous",
+      "proposed_owner": "campaign-op",
+      "basis": "rank-two affine coefficient block"
+    },
+    {
+      "id": "GP-X122",
+      "owner": "ambiguous",
+      "proposed_owner": "campaign-op",
+      "basis": "affine compatibility solution"
+    },
+    {
+      "id": "GP-X123",
+      "owner": "3a",
+      "basis": "unit/saturation certificates, substitution, elimination"
+    },
+    {
+      "id": "GP-X124",
+      "owner": "3a",
+      "basis": "unit/saturation certificates, substitution, elimination"
+    },
+    {
+      "id": "GP-X125",
+      "owner": "3a",
+      "basis": "unit/saturation certificates, substitution, elimination"
+    },
+    {
+      "id": "GP-X126",
+      "owner": "3a",
+      "basis": "unit/saturation certificates, substitution, elimination"
+    },
+    {
+      "id": "GP-X127",
+      "owner": "3a",
+      "basis": "unit/saturation certificates, substitution, elimination"
+    },
+    {
+      "id": "GP-X128",
+      "owner": "3a",
+      "basis": "unit/saturation certificates, substitution, elimination"
+    },
+    {
+      "id": "GP-X129",
+      "owner": "3a",
+      "basis": "unit/saturation certificates, substitution, elimination"
+    },
+    {
+      "id": "GP-X13",
+      "owner": "3a",
+      "basis": "ideal identities, localization, polynomial-map pullback (C3/C4)"
+    },
+    {
+      "id": "GP-X130",
+      "owner": "3a",
+      "basis": "unit/saturation certificates, substitution, elimination"
+    },
+    {
+      "id": "GP-X132",
+      "owner": "3a",
+      "basis": "unit/saturation certificates, substitution, elimination"
+    },
+    {
+      "id": "GP-X133",
+      "owner": "3a",
+      "basis": "unit/saturation certificates, substitution, elimination"
+    },
+    {
+      "id": "GP-X134",
+      "owner": "3a",
+      "basis": "unit/saturation certificates, substitution, elimination"
+    },
+    {
+      "id": "GP-X135",
+      "owner": "3a",
+      "basis": "unit/saturation certificates, substitution, elimination"
+    },
+    {
+      "id": "GP-X136",
+      "owner": "3a",
+      "basis": "unit/saturation certificates, substitution, elimination"
+    },
+    {
+      "id": "GP-X137",
+      "owner": "3a",
+      "basis": "unit/saturation certificates, substitution, elimination"
+    },
+    {
+      "id": "GP-X138",
+      "owner": "3a",
+      "basis": "unit/saturation certificates, substitution, elimination"
+    },
+    {
+      "id": "GP-X141",
+      "owner": "3a",
+      "basis": "unit/saturation certificates, substitution, elimination"
+    },
+    {
+      "id": "GP-X15",
+      "owner": "3a",
+      "basis": "ideal identities, localization, polynomial-map pullback (C3/C4)"
+    },
+    {
+      "id": "GP-X16",
+      "owner": "3a",
+      "basis": "ideal identities, localization, polynomial-map pullback (C3/C4)"
+    },
+    {
+      "id": "GP-X17",
+      "owner": "3a",
+      "basis": "ideal identities, localization, polynomial-map pullback (C3/C4)"
+    },
+    {
+      "id": "GP-X18",
+      "owner": "3a",
+      "basis": "ideal identities, localization, polynomial-map pullback (C3/C4)"
+    },
+    {
+      "id": "GP-X19",
+      "owner": "3a",
+      "basis": "ideal identities, localization, polynomial-map pullback (C3/C4)"
+    },
+    {
+      "id": "GP-X20",
+      "owner": "3a",
+      "basis": "ideal identities, localization, polynomial-map pullback (C3/C4)"
+    },
+    {
+      "id": "GP-X21",
+      "owner": "3a",
+      "basis": "ideal identities, localization, polynomial-map pullback (C3/C4)"
+    },
+    {
+      "id": "GP-X22",
+      "owner": "3b",
+      "basis": "SOS, extension-valued witnesses, selected signs, closure vs base field"
+    },
+    {
+      "id": "GP-X222",
+      "owner": "3a",
+      "basis": "C1/C3 cofactor replay and its custody"
+    },
+    {
+      "id": "GP-X223",
+      "owner": "3a",
+      "basis": "C1/C3 cofactor replay and its custody"
+    },
+    {
+      "id": "GP-X224",
+      "owner": "3a",
+      "basis": "C1/C3 cofactor replay and its custody"
+    },
+    {
+      "id": "GP-X225",
+      "owner": "3a",
+      "basis": "C1/C3 cofactor replay and its custody"
+    },
+    {
+      "id": "GP-X228",
+      "owner": "3a",
+      "basis": "C1/C3 cofactor replay and its custody"
+    },
+    {
+      "id": "GP-X23",
+      "owner": "3b",
+      "basis": "SOS, extension-valued witnesses, selected signs, closure vs base field"
+    },
+    {
+      "id": "GP-X24",
+      "owner": "3b",
+      "basis": "SOS, extension-valued witnesses, selected signs, closure vs base field"
+    },
+    {
+      "id": "GP-X25",
+      "owner": "campaign-op",
+      "basis": "dm4 caps"
+    },
+    {
+      "id": "GP-X255",
+      "owner": "3b",
+      "basis": "section receipts and selected-root covers"
+    },
+    {
+      "id": "GP-X256",
+      "owner": "3b",
+      "basis": "section receipts and selected-root covers"
+    },
+    {
+      "id": "GP-X257",
+      "owner": "3b",
+      "basis": "section receipts and selected-root covers"
+    },
+    {
+      "id": "GP-X258",
+      "owner": "3b",
+      "basis": "section receipts and selected-root covers"
+    },
+    {
+      "id": "GP-X259",
+      "owner": "3b",
+      "basis": "section receipts and selected-root covers"
+    },
+    {
+      "id": "GP-X26",
+      "owner": "campaign-op",
+      "basis": "dm4 caps"
+    },
+    {
+      "id": "GP-X260",
+      "owner": "3b",
+      "basis": "section receipts and selected-root covers"
+    },
+    {
+      "id": "GP-X261",
+      "owner": "3b",
+      "basis": "section receipts and selected-root covers"
+    },
+    {
+      "id": "GP-X262",
+      "owner": "3b",
+      "basis": "section receipts and selected-root covers"
+    },
+    {
+      "id": "GP-X263",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X264",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X265",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X266",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X267",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X268",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X269",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X27",
+      "owner": "campaign-op",
+      "basis": "coefficient-row packing"
+    },
+    {
+      "id": "GP-X270",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X271",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X272",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X273",
+      "owner": "3b",
+      "basis": "section receipts and selected-root covers"
+    },
+    {
+      "id": "GP-X274",
+      "owner": "3b",
+      "basis": "section receipts and selected-root covers"
+    },
+    {
+      "id": "GP-X275",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X276",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X277",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X278",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X279",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X28",
+      "owner": "campaign-op",
+      "basis": "coefficient-row packing"
+    },
+    {
+      "id": "GP-X280",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X284",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X285",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X286",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X287",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X288",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X289",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X29",
+      "owner": "campaign-op",
+      "basis": "coefficient-row packing"
+    },
+    {
+      "id": "GP-X290",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X291",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X292",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X293",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X296",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X297",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X298",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X299",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X30",
+      "owner": "campaign-op",
+      "basis": "coefficient-row packing"
+    },
+    {
+      "id": "GP-X300",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X301",
+      "owner": "3a",
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+    },
+    {
+      "id": "GP-X308",
+      "owner": "3b",
+      "basis": "ordered proofs, number-field points, selected roots, closure covers"
+    },
+    {
+      "id": "GP-X309",
+      "owner": "3b",
+      "basis": "ordered proofs, number-field points, selected roots, closure covers"
+    },
+    {
+      "id": "GP-X31",
+      "owner": "campaign-op",
+      "basis": "coefficient-row packing"
+    },
+    {
+      "id": "GP-X310",
+      "owner": "3b",
+      "basis": "ordered proofs, number-field points, selected roots, closure covers"
+    },
+    {
+      "id": "GP-X311",
+      "owner": "3b",
+      "basis": "ordered proofs, number-field points, selected roots, closure covers"
+    },
+    {
+      "id": "GP-X312",
+      "owner": "campaign-op",
+      "basis": "matrix rows, named fibers, rank-two necessary blocks"
+    },
+    {
+      "id": "GP-X313",
+      "owner": "campaign-op",
+      "basis": "matrix rows, named fibers, rank-two necessary blocks"
+    },
+    {
+      "id": "GP-X314",
+      "owner": "campaign-op",
+      "basis": "matrix rows, named fibers, rank-two necessary blocks"
+    },
+    {
+      "id": "GP-X315",
+      "owner": "ambiguous",
+      "proposed_owner": "3a",
+      "basis": "upper target inclusion vs exact contraction"
+    },
+    {
+      "id": "GP-X316",
+      "owner": "ambiguous",
+      "proposed_owner": "3a",
+      "basis": "upper target inclusion vs exact contraction"
+    },
+    {
+      "id": "GP-X317",
+      "owner": "ambiguous",
+      "proposed_owner": "3a",
+      "basis": "both inclusions give exact contraction"
+    },
+    {
+      "id": "GP-X318",
+      "owner": "campaign-op",
+      "basis": "recurrence and jump schedules"
+    },
+    {
+      "id": "GP-X319",
+      "owner": "3a",
+      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+    },
+    {
+      "id": "GP-X32",
+      "owner": "campaign-op",
+      "basis": "coefficient-row packing"
+    },
+    {
+      "id": "GP-X320",
+      "owner": "3a",
+      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+    },
+    {
+      "id": "GP-X321",
+      "owner": "campaign-op",
+      "basis": "recurrence and jump schedules"
+    },
+    {
+      "id": "GP-X322",
+      "owner": "campaign-op",
+      "basis": "matrix rows, named fibers, rank-two necessary blocks"
+    },
+    {
+      "id": "GP-X323",
+      "owner": "campaign-op",
+      "basis": "matrix rows, named fibers, rank-two necessary blocks"
+    },
+    {
+      "id": "GP-X324",
+      "owner": "campaign-op",
+      "basis": "matrix rows, named fibers, rank-two necessary blocks"
+    },
+    {
+      "id": "GP-X325",
+      "owner": "campaign-op",
+      "basis": "matrix rows, named fibers, rank-two necessary blocks"
+    },
+    {
+      "id": "GP-X326",
+      "owner": "campaign-op",
+      "basis": "matrix rows, named fibers, rank-two necessary blocks"
+    },
+    {
+      "id": "GP-X327",
+      "owner": "campaign-op",
+      "basis": "matrix rows, named fibers, rank-two necessary blocks"
+    },
+    {
+      "id": "GP-X328",
+      "owner": "campaign-op",
+      "basis": "matrix rows, named fibers, rank-two necessary blocks"
+    },
+    {
+      "id": "GP-X33",
+      "owner": "campaign-op",
+      "basis": "coefficient-row packing"
+    },
+    {
+      "id": "GP-X330",
+      "owner": "campaign-op",
+      "basis": "matrix rows, named fibers, rank-two necessary blocks"
+    },
+    {
+      "id": "GP-X331",
+      "owner": "ambiguous",
+      "proposed_owner": "campaign-op",
+      "basis": "no-inversion ledger"
+    },
+    {
+      "id": "GP-X332",
+      "owner": "3a",
+      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+    },
+    {
+      "id": "GP-X333",
+      "owner": "3a",
+      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+    },
+    {
+      "id": "GP-X334",
+      "owner": "3a",
+      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+    },
+    {
+      "id": "GP-X335",
+      "owner": "3a",
+      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+    },
+    {
+      "id": "GP-X336",
+      "owner": "3a",
+      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+    },
+    {
+      "id": "GP-X339",
+      "owner": "campaign-op",
+      "basis": "recurrence and jump schedules"
+    },
+    {
+      "id": "GP-X34",
+      "owner": "campaign-op",
+      "basis": "coefficient-row packing"
+    },
+    {
+      "id": "GP-X340",
+      "owner": "campaign-op",
+      "basis": "recurrence and jump schedules"
+    },
+    {
+      "id": "GP-X341",
+      "owner": "ambiguous",
+      "proposed_owner": "campaign-op",
+      "basis": "zero-chart polynomiality"
+    },
+    {
+      "id": "GP-X342",
+      "owner": "ambiguous",
+      "proposed_owner": "campaign-op",
+      "basis": "zero-chart polynomiality"
+    },
+    {
+      "id": "GP-X343",
+      "owner": "ambiguous",
+      "proposed_owner": "3a",
+      "basis": "route audit earns no emptiness premise"
+    },
+    {
+      "id": "GP-X345",
+      "owner": "3b",
+      "basis": "ordered proofs, number-field points, selected roots, closure covers"
+    },
+    {
+      "id": "GP-X347",
+      "owner": "3b",
+      "basis": "ordered proofs, number-field points, selected roots, closure covers"
+    },
+    {
+      "id": "GP-X348",
+      "owner": "3b",
+      "basis": "ordered proofs, number-field points, selected roots, closure covers"
+    },
+    {
+      "id": "GP-X349",
+      "owner": "3b",
+      "basis": "ordered proofs, number-field points, selected roots, closure covers"
+    },
+    {
+      "id": "GP-X350",
+      "owner": "3b",
+      "basis": "ordered proofs, number-field points, selected roots, closure covers"
+    },
+    {
+      "id": "GP-X351",
+      "owner": "3b",
+      "basis": "ordered proofs, number-field points, selected roots, closure covers"
+    },
+    {
+      "id": "GP-X352",
+      "owner": "3b",
+      "basis": "ordered proofs, number-field points, selected roots, closure covers"
+    },
+    {
+      "id": "GP-X353",
+      "owner": "3b",
+      "basis": "ordered proofs, number-field points, selected roots, closure covers"
+    },
+    {
+      "id": "GP-X354",
+      "owner": "3b",
+      "basis": "ordered proofs, number-field points, selected roots, closure covers"
+    },
+    {
+      "id": "GP-X355",
+      "owner": "3a",
+      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+    },
+    {
+      "id": "GP-X356",
+      "owner": "ambiguous",
+      "proposed_owner": "3a",
+      "basis": "Fin4: cancellation needs no zero divisors (ring vs field)"
+    },
+    {
+      "id": "GP-X357",
+      "owner": "3a",
+      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+    },
+    {
+      "id": "GP-X358",
+      "owner": "3a",
+      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+    },
+    {
+      "id": "GP-X359",
+      "owner": "3a",
+      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+    },
+    {
+      "id": "GP-X360",
+      "owner": "3a",
+      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+    },
+    {
+      "id": "GP-X361",
+      "owner": "3a",
+      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+    },
+    {
+      "id": "GP-X362",
+      "owner": "3a",
+      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+    },
+    {
+      "id": "GP-X363",
+      "owner": "3a",
+      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+    },
+    {
+      "id": "GP-X364",
+      "owner": "3a",
+      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+    },
+    {
+      "id": "GP-X365",
+      "owner": "3a",
+      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+    },
+    {
+      "id": "GP-X366",
+      "owner": "3a",
+      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+    },
+    {
+      "id": "GP-X367",
+      "owner": "3a",
+      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+    },
+    {
+      "id": "GP-X368",
+      "owner": "3b",
+      "basis": "ordered proofs, number-field points, selected roots, closure covers"
+    },
+    {
+      "id": "GP-X369",
+      "owner": "3b",
+      "basis": "ordered proofs, number-field points, selected roots, closure covers"
+    },
+    {
+      "id": "GP-X401",
+      "owner": "census",
+      "basis": "typed COUNT disposition and family coverage debt"
+    },
+    {
+      "id": "GP-X404",
+      "owner": "3b",
+      "basis": "SOS, extension-valued witnesses, selected signs, closure vs base field"
+    },
+    {
+      "id": "GP-X405",
+      "owner": "3b",
+      "basis": "SOS, extension-valued witnesses, selected signs, closure vs base field"
+    },
+    {
+      "id": "GP-X406",
+      "owner": "campaign-op",
+      "basis": "Cramer clearing"
+    },
+    {
+      "id": "GP-X407",
+      "owner": "campaign-op",
+      "basis": "Cramer clearing"
+    },
+    {
+      "id": "GP-X408",
+      "owner": "ambiguous",
+      "proposed_owner": "3a",
+      "basis": "evaluation lift: map certificate or campaign lift"
+    },
+    {
+      "id": "GP-X409",
+      "owner": "ambiguous",
+      "proposed_owner": "3a",
+      "basis": "evaluation lift: map certificate or campaign lift"
+    },
+    {
+      "id": "GP-X410",
+      "owner": "3a",
+      "basis": "C2 witnesses and open guards"
+    },
+    {
+      "id": "GP-X411",
+      "owner": "3a",
+      "basis": "C2 witnesses and open guards"
+    },
+    {
+      "id": "GP-X412",
+      "owner": "3a",
+      "basis": "C2 witnesses and open guards"
+    },
+    {
+      "id": "GP-X45",
+      "owner": "3a",
+      "basis": "C2/C1 receipts, staleness, relaxation, localized emptiness"
+    },
+    {
+      "id": "GP-X46",
+      "owner": "3a",
+      "basis": "C2/C1 receipts, staleness, relaxation, localized emptiness"
+    },
+    {
+      "id": "GP-X47",
+      "owner": "3a",
+      "basis": "C2/C1 receipts, staleness, relaxation, localized emptiness"
+    },
+    {
+      "id": "GP-X48",
+      "owner": "3b",
+      "basis": "SOS, extension-valued witnesses, selected signs, closure vs base field"
+    },
+    {
+      "id": "GP-X49",
+      "owner": "3a",
+      "basis": "C2/C1 receipts, staleness, relaxation, localized emptiness"
+    },
+    {
+      "id": "GP-X50",
+      "owner": "3a",
+      "basis": "C2/C1 receipts, staleness, relaxation, localized emptiness"
+    },
+    {
+      "id": "GP-X51",
+      "owner": "ambiguous",
+      "proposed_owner": "3a",
+      "basis": "provenance forgetting: forward map (R3) or custody"
+    },
+    {
+      "id": "GP-X52",
+      "owner": "ambiguous",
+      "proposed_owner": "3a",
+      "basis": "reverse realization: R3 refusal"
+    },
+    {
+      "id": "GP-X53",
+      "owner": "ambiguous",
+      "proposed_owner": "campaign-op",
+      "basis": "dimension credit"
+    },
+    {
+      "id": "GP-X54",
+      "owner": "campaign-op",
+      "basis": "campaign lifts, transfer towers, frozen boundaries"
+    },
+    {
+      "id": "GP-X55",
+      "owner": "campaign-op",
+      "basis": "campaign lifts, transfer towers, frozen boundaries"
+    },
+    {
+      "id": "GP-X56",
+      "owner": "3b",
+      "basis": "SOS, extension-valued witnesses, selected signs, closure vs base field"
+    },
+    {
+      "id": "GP-X57",
+      "owner": "campaign-op",
+      "basis": "campaign lifts, transfer towers, frozen boundaries"
+    },
+    {
+      "id": "GP-X58",
+      "owner": "campaign-op",
+      "basis": "campaign lifts, transfer towers, frozen boundaries"
+    },
+    {
+      "id": "GP-X59",
+      "owner": "3a",
+      "basis": "C2/C1 receipts, staleness, relaxation, localized emptiness"
+    },
+    {
+      "id": "GP-X63",
+      "owner": "3a",
+      "basis": "C2/C1 receipts, staleness, relaxation, localized emptiness"
+    },
+    {
+      "id": "GP-X64",
+      "owner": "3a",
+      "basis": "C2/C1 receipts, staleness, relaxation, localized emptiness"
+    },
+    {
+      "id": "GP-X66",
+      "owner": "3a",
+      "basis": "C2/C1 receipts, staleness, relaxation, localized emptiness"
+    },
+    {
+      "id": "GP-X67",
+      "owner": "3a",
+      "basis": "C2/C1 receipts, staleness, relaxation, localized emptiness"
+    },
+    {
+      "id": "GP-X68",
+      "owner": "3a",
+      "basis": "C2/C1 receipts, staleness, relaxation, localized emptiness"
+    },
+    {
+      "id": "GP-X69",
+      "owner": "3a",
+      "basis": "C2/C1 receipts, staleness, relaxation, localized emptiness"
+    },
+    {
+      "id": "GP-X70",
+      "owner": "3a",
+      "basis": "C2/C1 receipts, staleness, relaxation, localized emptiness"
+    },
+    {
+      "id": "GP-X71",
+      "owner": "3a",
+      "basis": "C2/C1 receipts, staleness, relaxation, localized emptiness"
+    },
+    {
+      "id": "GP-X73",
+      "owner": "ambiguous",
+      "proposed_owner": "campaign-op",
+      "basis": "graded-face affine translations, or 3a C4 map certificates"
+    },
+    {
+      "id": "GP-X74",
+      "owner": "ambiguous",
+      "proposed_owner": "campaign-op",
+      "basis": "graded-face normalization, or 3a localization"
+    },
+    {
+      "id": "GP-X75",
+      "owner": "ambiguous",
+      "proposed_owner": "campaign-op",
+      "basis": "triangular solution"
+    },
+    {
+      "id": "GP-X76",
+      "owner": "ambiguous",
+      "proposed_owner": "campaign-op",
+      "basis": "face isomorphism, or 3a C4"
+    },
+    {
+      "id": "GP-X77",
+      "owner": "ambiguous",
+      "proposed_owner": "campaign-op",
+      "basis": "face isomorphism, or 3a C4"
+    },
+    {
+      "id": "GP-X78",
+      "owner": "ambiguous",
+      "proposed_owner": "campaign-op",
+      "basis": "boundary translation, or 3a C4 with a guard"
+    },
+    {
+      "id": "GP-X79",
+      "owner": "ambiguous",
+      "proposed_owner": "campaign-op",
+      "basis": "discriminant branch, or 3a structural split"
+    },
+    {
+      "id": "GP-X80",
+      "owner": "ambiguous",
+      "proposed_owner": "campaign-op",
+      "basis": "boundary certificate, or 3a C4"
+    },
+    {
+      "id": "GP-X81",
+      "owner": "ambiguous",
+      "proposed_owner": "campaign-op",
+      "basis": "boundary map, or 3a C4"
+    },
+    {
+      "id": "GP-X83",
+      "owner": "campaign-op",
+      "basis": "campaign lifts, transfer towers, frozen boundaries"
+    },
+    {
+      "id": "GP-X84",
+      "owner": "campaign-op",
+      "basis": "triangular chains"
+    },
+    {
+      "id": "GP-X85",
+      "owner": "campaign-op",
+      "basis": "triangular chains"
+    },
+    {
+      "id": "GP-X86",
+      "owner": "campaign-op",
+      "basis": "triangular chains"
+    },
+    {
+      "id": "GP-X87",
+      "owner": "campaign-op",
+      "basis": "triangular chains"
+    },
+    {
+      "id": "GP-X88",
+      "owner": "campaign-op",
+      "basis": "triangular chains"
+    },
+    {
+      "id": "GP-X89",
+      "owner": "campaign-op",
+      "basis": "triangular chains"
+    },
+    {
+      "id": "GP-X90",
+      "owner": "campaign-op",
+      "basis": "graded face extraction"
+    },
+    {
+      "id": "GP-X91",
+      "owner": "campaign-op",
+      "basis": "graded face extraction"
+    },
+    {
+      "id": "GP-X92",
+      "owner": "campaign-op",
+      "basis": "graded face extraction"
+    },
+    {
+      "id": "GP-X93",
+      "owner": "campaign-op",
+      "basis": "graded face extraction"
+    },
+    {
+      "id": "GP-X94",
+      "owner": "campaign-op",
+      "basis": "graded face extraction"
+    },
+    {
+      "id": "GP-X95",
+      "owner": "campaign-op",
+      "basis": "graded face extraction"
+    },
+    {
+      "id": "GP-X96",
+      "owner": "campaign-op",
+      "basis": "graded face extraction"
+    }
+  ]
+}
