@@ -8,6 +8,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 PROFILE = ROOT / "profile"
 RECEIPT = ROOT / "reports/PHASE-3A-CORPUS.json"
+SAFETY = ROOT / "reports/PHASE-3A-SAFETY.json"
 TOOLCHAIN = Path.home() / ".elan/toolchains" / (PROFILE / "lean-toolchain").read_text(
     encoding="utf-8").strip().replace("/", "--").replace(":", "---")
 
@@ -21,6 +22,10 @@ class Corpus3aTests(unittest.TestCase):
         out = subprocess.run([str(PROFILE / ".lake/build/bin/gp_corpus_run.exe"), str(ROOT),
                               str(PROFILE / "slice/corpus-3a.json")], check=True, capture_output=True, text=True)
         cls.fresh = json.loads(out.stdout)
+        safety = subprocess.run([str(PROFILE / ".lake/build/bin/gp_corpus_run.exe"), str(ROOT),
+                                 str(PROFILE / "slice/safety-all-profile.json")], check=True,
+                                capture_output=True, text=True)
+        cls.safety = json.loads(safety.stdout)
 
     def test_matches_committed_receipt(self):
         self.assertEqual(self.fresh, json.loads(RECEIPT.read_text(encoding="utf-8")))
@@ -30,6 +35,15 @@ class Corpus3aTests(unittest.TestCase):
         for case in self.fresh["cases"]:
             with self.subTest(case=case["id"]):
                 self.assertEqual(case["observed"], case["expected"])
+
+
+    def test_global_safety_has_no_false_accept(self):
+        self.assertEqual(self.safety, json.loads(SAFETY.read_text(encoding="utf-8")))
+        self.assertEqual(self.safety["case_count"], 239)
+        for case in self.safety["cases"]:
+            if case["observed"] == "ACCEPT":
+                with self.subTest(case=case["id"]):
+                    self.assertEqual(case["expected"], "ACCEPT")
 
 
 if __name__ == "__main__":

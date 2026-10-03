@@ -320,6 +320,31 @@ def attemptFamily (inputs : Json) (case : Json) : Except String Plan := do
     pure { items, requested := [2] }
   else pure (single i.stmt i.scope (.receipt i.cert))
 
+/-- A family applies only when every input key is one it reads (or ignores as provenance) and
+the fixed fields it requires have the stated values. Anything else is an expressiveness loss:
+the frontend never guesses past a key it does not understand. -/
+def onlyKeys (inputs : Json) (allowed : List String) : Bool :=
+  match inputs with
+  | .obj kvs => kvs.toList.all fun (k, _) => allowed.contains k
+  | _ => false
+
+def questionIs (inputs : Json) (qs : List String) : Bool :=
+  match str? inputs "question" with
+  | some q => qs.contains q
+  | none => true
+
+/-- A scalar factor is a constant or a declared unit. -/
+def scalarOk (inputs : Json) (scalar : Option String) : Except String Bool := do
+  let some sc := scalar | return true
+  let units ← strs inputs "declared_units"
+  let ids := identifiers sc
+  pure (ids.all units.contains)
+
+def legacyKeys : List String :=
+  ["variables", "generators", "cofactors", "target", "characteristic", "target_characteristic",
+    "guards", "exponent", "point", "reduced_point", "identity", "source_ideal", "cofactor",
+    "source_context", "target_context"]
+
 /-- Dispatch on input keys. -/
 def plan (case : Json) (params : List (String × Nat)) : Except String Plan := do
   let inputs ← case.getObjVal? "inputs"
@@ -330,28 +355,64 @@ def plan (case : Json) (params : List (String × Nat)) : Except String Plan := d
       if e.startsWith "undeclared variable" || e.startsWith "incomplete map" then
         .ok { items := [], requested := [], elaboration := some e }
       else .error e
-  if has inputs "membership_target" then return ← localizedFamily inputs
-  if has inputs "model" && has inputs "identity" then return ← modelIdentity inputs
-  if has inputs "lhs" || has inputs "power_identity" ||
-      (has inputs "identity" && (obj? inputs "identity").any (fun j => has j "equation")) then
+  let k := onlyKeys inputs
+  if has inputs "membership_target" && k ["variables", "generators", "guards", "numerator",
+      "denominator_powers", "localization_powers", "membership_target", "cofactors", "coefficient_field",
+      "point_universe", "chart", "cite", "proposed_change", "parent_generators", "characteristic"] &&
+      (str? inputs "point_universe" |>.all (· == "ALGEBRAIC_CLOSURE")) &&
+      ((obj? inputs "proposed_change").all fun c => onlyKeys c ["generators", "open_conditions", "chart", "cite"] || c == .null) then
+    return ← localizedFamily inputs
+  if has inputs "model" && k ["model", "identity", "cofactors", "local_backend", "historical_identity",
+      "raw_artifact", "question"] && questionIs inputs ["exact_identity_current"] then
+    return ← modelIdentity inputs
+  if k ["lhs", "rhs", "variables", "characteristic"] && has inputs "lhs" then
     return ← ambientFamily inputs
-  if has inputs "images" then return ← elabOr (substitution inputs)
-  if has inputs "point_forward" || (has inputs "forward" && has inputs "inverse" && has inputs "generators") then
+  if has inputs "power_identity" && k ["variables", "characteristic", "declared_units", "exponent_limit",
+      "power_identity", "question"] && questionIs inputs ["check_power_identity"] &&
+      (← scalarOk inputs ((obj? inputs "power_identity").bind (str? · "scalar"))) then
+    return ← ambientFamily inputs
+  if (obj? inputs "identity").any (fun j => has j "equation") && k ["variables", "characteristic",
+      "declared_units", "identity", "parent_equations", "open_guards", "question"] &&
+      questionIs inputs ["check_identity"] && has inputs "question" &&
+      (← scalarOk inputs ((obj? inputs "identity").bind (str? · "scalar"))) then
+    return ← ambientFamily inputs
+  if has inputs "images" && k ["variables", "expression", "images", "proposed"] then
+    return ← elabOr (substitution inputs)
+  if has inputs "point_forward" && k ["source", "target", "point_forward", "point_inverse",
+      "target_pullback_rows", "source_pullback_rows", "question"] then
     return ← ringMapFamily inputs
-  if has inputs "target_ideal" then return ← elabOr (idealsFamily inputs)
-  if has inputs "nonzero_guards" then return ← pointFamily inputs
-  if has inputs "target_variables" || has inputs "eliminated" then return ← elabOr (eliminationFamily inputs)
-  if has inputs "excluded_fiber_generators" then return ← fiberFamily inputs
-  if has inputs "cancelled_conclusion" then return ← cancelFamily inputs
-  if has inputs "source_predicate" then return ← translationFamily inputs
-  if has inputs "attempt" then return ← attemptFamily inputs case
+  if has inputs "forward_cofactors" && k ["variables", "generators", "forward", "inverse",
+      "forward_cofactors", "inverse_cofactors"] then
+    return ← ringMapFamily inputs
+  if has inputs "target_ideal" && k ["variables", "source_ideal", "target_ideal", "identity", "origin",
+      "point", "point_containment_proof", "identity_difference", "target_cofactors"] then
+    return ← elabOr (idealsFamily inputs)
+  if has inputs "nonzero_guards" && k ["coefficient_domain", "point_universe", "variables", "equations",
+      "nonzero_guards", "point"] && (str? inputs "point_universe").all (· == "rational points") then
+    return ← pointFamily inputs
+  if (has inputs "target_variables" && k ["source_variables", "target_variables", "identity"]) ||
+      (has inputs "eliminated" && k ["built_generators", "eliminated"]) then
+    return ← elabOr (eliminationFamily inputs)
+  if has inputs "excluded_fiber_generators" && k ["variables", "parent_equations", "excluded_base",
+      "excluded_fiber_generators", "parent_point"] then
+    return ← fiberFamily inputs
+  if has inputs "cancelled_conclusion" && k ["variables", "product", "cancelled_conclusion", "point",
+      "unit_witness"] then
+    return ← cancelFamily inputs
+  if has inputs "source_predicate" && k ["control", "source_point", "target_point", "forward", "backward",
+      "source_predicate"] && (str? inputs "control").any (["backward_rewrite", "wrong_forward_rewrite"].contains ·) then
+    return ← translationFamily inputs
+  if has inputs "attempt" && k ["variables", "generators", "characteristic", "point", "attempt"] then
+    return ← attemptFamily inputs case
   if let some (.arr ids) := obj? inputs "identity" then
-    -- An identity written in one context and copied into another context's signature.
-    let sides ← ids.toList.mapM text
-    let vars := (sides.flatMap identifiers).eraseDups
-    let (scope, field) ← scopeField inputs
-    return ← ambient vars (sides.getD 0 "0") (sides.getD 1 "0") scope field
-  let i ← elabOr (do let i ← frontend case params; pure (single i.stmt i.scope (.receipt i.cert)))
-  pure i
+    if k ["identity", "source_context", "target_context"] then
+      -- An identity written in one context and copied into another context's signature.
+      let sides ← ids.toList.mapM text
+      let vars := (sides.flatMap identifiers).eraseDups
+      let (scope, field) ← scopeField inputs
+      return ← ambient vars (sides.getD 0 "0") (sides.getD 1 "0") scope field
+  if k legacyKeys then
+    return ← elabOr (do let i ← frontend case params; pure (single i.stmt i.scope (.receipt i.cert)))
+  throw "inputs fit no 3a frontend family"
 
 end GPProfile.Families
