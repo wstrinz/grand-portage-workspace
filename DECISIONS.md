@@ -278,3 +278,7 @@ If all three hold, recommend the Lean-native ledger pivot (keep `Kernel` and the
 2026-10-02 G2.5 ratified by Will (reports/PHASE-2.5-REPORT.md). KERNEL-PIN.json is frozen at commit c9ccf86; later Kernel changes are logged in PROMOTIONS.md. Phase 3a opens with the §3.6 receipt reach slice.
 
 2026-10-02 A3 deviation (Will): F_p replay in the 3a profile uses core Lean `Fin p`, not HexModArith. HexModArith's FFI needs `cc` and gmp.h, which the Windows toolchain lacks; `Fin` arithmetic has no native externs, and Mathlib's `ZMod (k+1)` is definitionally `Fin (k+1)`. HexModArith may return later via a WSL build. HexMvPoly remains the polynomial substrate.
+
+2026-10-02 G3a-0 decided by Will: continue (no Lean-native ledger pivot), per reports/G3A-0-CHECKPOINT.md. Next: C1–C3 admission, the binder with A4 theorem warrants, GATE-OWNERS.json, broad corpus runs.
+
+2026-10-02 A3 deviation refined: the 3a checkers run every replay as exact rational arithmetic on HexMvPoly. An F_p replay is the rational residual vanishing mod p (all inputs p-integral, every residual coefficient divisible by p), equivalent because reduction mod p is a ring hom on p-integral rationals. No F_p arithmetic library is used, and one Mathlib soundness path covers Q and F_p.

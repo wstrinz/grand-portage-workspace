@@ -95,20 +95,30 @@ def Cert.primes : Cert → List Nat
 /-- Exponents beyond this bound are refused rather than expanded. -/
 def maxExponent : Nat := 64
 
-section Replay
-variable {R : Type} [Zero R] [One R] [Add R] [Neg R] [Mul R] [DecidableEq R]
+/-- Total-degree budget for `h^m · (∏ guards)^k`; larger right-hand sides are refused, not expanded. -/
+def maxRhsDegree : Nat := 256
 
-/-- `Σ qᵢ·eqᵢ − h^m·(∏ guards)^k = 0`, computed with HexMvPoly arithmetic. -/
-def identityHolds (n : Nat) (coeff : Rat → Option R) (s : Stmt) (qs : List Sparse)
-    (h : Sparse) (m k : Nat) : Bool :=
-  match s.eqs.mapM (toHex n coeff), s.guards.mapM (toHex n coeff), qs.mapM (toHex n coeff),
-      toHex n coeff h with
+def Sparse.degree (p : Sparse) : Nat := p.foldl (fun d (e, _) => max d (e.foldl (· + ·) 0)) 0
+
+def rhsDegree (s : Stmt) (h : Sparse) (m k : Nat) : Nat :=
+  m * h.degree + k * (s.guards.foldl (fun d g => d + g.degree) 0)
+
+/-- `Σ qᵢ·eqᵢ − h^m·(∏ guards)^k`, computed exactly over ℚ with HexMvPoly arithmetic. -/
+def residual (n : Nat) (s : Stmt) (qs : List Sparse) (h : Sparse) (m k : Nat) : Option (P n Rat) :=
+  match s.eqs.mapM (toHex n some), s.guards.mapM (toHex n some), qs.mapM (toHex n some),
+      toHex n some h with
   | some eqs, some guards, some qs, some h =>
-    eqs.length == qs.length &&
-      ((qs.zip eqs).foldl (fun acc (q, e) => acc + q * e) 0 -
-        h ^ m * (if k == 0 then 1 else guards.foldl (· * ·) 1 ^ k)) == 0
-  | _, _, _, _ => false
-end Replay
+    if eqs.length == qs.length then
+      some ((List.zipWith (· * ·) qs eqs).sum - h ^ m * (if k = 0 then 1 else guards.prod ^ k))
+    else none
+  | _, _, _, _ => none
+
+/-- A rational that is zero modulo `p`: `p`-integral with numerator divisible by `p`.
+Reduction mod `p` is a ring hom on `p`-integral rationals, so an F_p replay is an exact ℚ
+replay whose residual vanishes mod `p`; no F_p arithmetic is needed (A3 deviation). -/
+def zeroMod (p : Nat) (c : Rat) : Bool := c.den % p != 0 && c.num % p == 0
+
+def unitMod (p : Nat) (c : Rat) : Bool := c.den % p != 0 && c.num % p != 0
 
 /-- The polynomial whose multiple must lie in the ideal, and the exponent `m` it needs. -/
 def idealTarget (s : Stmt) (m : Nat) : Option Sparse :=
@@ -118,23 +128,14 @@ def idealTarget (s : Stmt) (m : Nat) : Option Sparse :=
   | .vanishesOn h => if 1 ≤ m then some h else none
   | .nonempty => none
 
-/-- C2 over a coefficient ring: equations vanish and guards do not. -/
-def pointHolds {R : Type} [Lean.Grind.Semiring R] [DecidableEq R]
-    (n : Nat) (coeff : Rat → Option R) (s : Stmt) (x : Fin n → R) : Bool :=
-  match s.eqs.mapM (toHex n coeff), s.guards.mapM (toHex n coeff) with
-  | some eqs, some guards =>
-    eqs.all (fun e => MvPoly.eval x e == 0) && guards.all (fun g => !(MvPoly.eval x g == 0))
-  | _, _ => false
-
-def pointFn {R : Type} [Zero R] (values : List R) (n : Nat) : Fin n → R :=
+def pointFn (values : List Rat) (n : Nat) : Fin n → Rat :=
   fun i => values.getD i.val 0
 
-/-- Primes dividing the numerator of some guard value at a rational point (GP-X410). -/
-def guardPrimes (n : Nat) (s : Stmt) (values : List Rat) : List Nat :=
-  match s.guards.mapM (toHex n some) with
-  | some guards => guards.foldl (fun acc g =>
-      union acc (primeFactors (MvPoly.eval (pointFn values n) g).num.natAbs)) []
-  | none => []
+/-- Equation and guard values at a rational point, by HexMvPoly evaluation. -/
+def pointValues (n : Nat) (s : Stmt) (values : List Rat) : Option (List Rat × List Rat) := do
+  let eqs ← s.eqs.mapM (toHex n some)
+  let guards ← s.guards.mapM (toHex n some)
+  pure (eqs.map (MvPoly.eval (pointFn values n)), guards.map (MvPoly.eval (pointFn values n)))
 
 /-- The computed reach of a certificate for a statement, or `none` when replay fails. -/
 def reach (s : Stmt) (c : Cert) : Option Scope :=
@@ -144,24 +145,25 @@ def reach (s : Stmt) (c : Cert) : Option Scope :=
   | .ideal field qs m k =>
     if m > maxExponent || k > maxExponent then none else do
     let h ← idealTarget s m
+    if rhsDegree s h m k > maxRhsDegree then none else
+    let r ← residual n s qs h m k
     match field with
-    | .rat => if identityHolds n some s qs h m k then some (.outside bad) else none
-    | .prime (p + 1) =>
-      if !isPrime (p + 1) || bad.contains (p + 1) then none
-      else if identityHolds n (ratFin p) s qs h m k then some (.only (p + 1)) else none
-    | .prime 0 => none
+    | .rat => if r == 0 then some (.outside bad) else none
+    | .prime p =>
+      if !isPrime p || bad.contains p then none
+      else if r.termsList.all (fun t => zeroMod p t.2) then some (.only p) else none
   | .point field values =>
-    if s.kind != .nonempty || values.length != n then none else
+    if s.kind != .nonempty || values.length != n then none else do
+    let (ev, gv) ← pointValues n s values
     match field with
     | .rat =>
-      if pointHolds n some s (pointFn values n)
-      then some (.outside (union bad (guardPrimes n s values))) else none
-    | .prime (p + 1) =>
-      if !isPrime (p + 1) || bad.contains (p + 1) then none else
-      match values.mapM (ratFin p) with
-      | some xs => if pointHolds n (ratFin p) s (pointFn xs n) then some (.only (p + 1)) else none
-      | none => none
-    | .prime 0 => none
+      if ev.all (· == 0) && gv.all (· != 0) then
+        -- A guard value whose numerator a prime divides vanishes there (GP-X410).
+        some (.outside (gv.foldl (fun acc g => union acc (primeFactors g.num.natAbs)) bad))
+      else none
+    | .prime p =>
+      if !isPrime p || bad.contains p then none
+      else if ev.all (zeroMod p) && gv.all (unitMod p) then some (.only p) else none
 
 /-! ## Profile operations and receipt admission -/
 

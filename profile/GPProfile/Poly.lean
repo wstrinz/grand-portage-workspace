@@ -17,8 +17,8 @@ abbrev Sparse := List (List Nat × Rat)
 def isPrime (n : Nat) : Bool :=
   2 ≤ n && (List.range (n.sqrt + 1)).all fun d => d < 2 || n % d != 0
 
-/-- Distinct prime factors, ascending, by trial division. -/
-def primeFactors (n : Nat) : List Nat :=
+/-- Candidate prime factors, ascending, by trial division (unverified). -/
+def trialFactors (n : Nat) : List Nat :=
   go n 2 n
 where
   go (m d : Nat) : Nat → List Nat
@@ -26,13 +26,27 @@ where
     | fuel + 1 =>
       if m ≤ 1 then []
       else if d * d > m then [m]
-      else if m % d == 0 then
-        let rest := go (strip m d m) (d + 1) fuel
-        d :: rest
+      else if m % d == 0 then d :: go (strip m d m) (d + 1) fuel
       else go m (d + 1) fuel
   strip (m d : Nat) : Nat → Nat
     | 0 => m
     | fuel + 1 => if d ≥ 2 && m % d == 0 then strip (m / d) d fuel else m
+
+/-- The exponent of `p` in `n` (for `p ≥ 2`, `n ≥ 1`). -/
+def multiplicity (p n : Nat) : Nat :=
+  go n n
+where
+  go (m : Nat) : Nat → Nat
+    | 0 => 0
+    | fuel + 1 => if p ≥ 2 && m != 0 && m % p == 0 then go (m / p) fuel + 1 else 0
+
+/-- Distinct prime factors, ascending. The trial-division result is certified (every entry
+prime, and the prime powers multiply back to `n`); otherwise an exhaustive filter is used.
+Completeness is what reach soundness needs, and it follows from either branch. -/
+def primeFactors (n : Nat) : List Nat :=
+  let fs := trialFactors n
+  if fs.all isPrime && (fs.map fun p => p ^ multiplicity p n).prod == n then fs
+  else (List.range (n + 1)).filter fun p => isPrime p && n % p == 0
 
 def union (a b : List Nat) : List Nat := (a ++ b).eraseDups.mergeSort (· ≤ ·)
 
@@ -59,25 +73,6 @@ def ofHex {n : Nat} (p : P n Rat) : Sparse :=
 
 def canonical (n : Nat) (p : Sparse) : Option Sparse :=
   ofHex <$> toHex (R := Rat) n some p
-
-/-! ## Residues modulo a prime -/
-
-def modInv (a p : Nat) : Option Nat :=
-  let rec go (r0 r1 : Int) (s0 s1 : Int) : Nat → Option Int
-    | 0 => none
-    | fuel + 1 => if r1 == 0 then (if r0 == 1 then some s0 else none)
-      else let q := r0 / r1; go r1 (r0 - q * r1) s1 (s0 - q * s1) fuel
-  (go (a % p) p 1 0 (2 * p + 2)).map fun s => (s % (p : Int)).toNat
-
-/-- `c mod p` for a p-integral rational; `none` when `p` divides the denominator. -/
-def ratMod (p : Nat) (c : Rat) : Option Nat := do
-  let inv ← modInv (c.den % p) p
-  pure (((c.num % p).toNat * inv) % p)
-
-/-- `c` in `Fin (k+1)`, i.e. modulo `p = k + 1`; `none` when `p` divides the denominator.
-Core `Fin` arithmetic is used instead of HexModArith (A3 deviation, DECISIONS 2026-10-02). -/
-def ratFin (k : Nat) (c : Rat) : Option (Fin (k + 1)) :=
-  (ratMod (k + 1) c).map fun r => ⟨r % (k + 1), Nat.mod_lt _ (Nat.succ_pos k)⟩
 
 /-! ## Infix parser (untrusted adapter, §3.1): Singular/Macaulay2-style input to `Sparse` -/
 
