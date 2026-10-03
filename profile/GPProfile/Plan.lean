@@ -1,0 +1,109 @@
+import GP50.Queries
+import GPProfile.Rules
+
+/-!
+Case plans (post-G2 §1.8–1.9). A family adapter turns a case into profile inputs only:
+statements, scopes, certificate and rule data. The untrusted proposer files each item through
+the commit guard; the Kernel fold decides; the case is ACCEPT only when every requested claim
+is held. Authority never comes from the plan itself.
+-/
+
+namespace GPProfile
+open Lean GP50
+
+/-- How an item is offered support. A receipt may be bound to a different (original)
+statement and binding inputs: that is how custody of a receipt under a proposed change is
+expressed, and the Kernel's exact binding check decides it. -/
+inductive Support where
+  | none
+  | receipt (cert : Cert) (boundTo : Option (Stmt × List String) := none)
+  | rule (data : RuleData) (premises : List Nat)
+  deriving Repr
+
+structure Item where
+  key : Nat
+  stmt : Stmt
+  scope : Scope
+  /-- Binding inputs beyond the statement, e.g. a chart or a source citation. -/
+  extra : List String := []
+  support : Support
+  deriving Repr
+
+structure Plan where
+  items : List Item
+  requested : List Nat
+  /-- Refusals decided while elaborating the case (signature, malformed maps). -/
+  elaboration : Option String := none
+  deriving Repr
+
+def bindingOf (stmt : Stmt) (scope : Scope) (extra : List String) : Binding :=
+  { statementHash := reprStr stmt, scopeHash := reprStr scope, modelHash := "gp-profile-3a/v1"
+    inputHashes := extra, authority := "3a-corpus", authorityVersion := 1, kernelVersion := 1 }
+
+structure Ledger where
+  clauses : List Clause := []
+  receipts : List Receipt := []
+  rules : List RuleInst := []
+  events : List Event := []
+
+def Ledger.admission (l : Ledger) : Admission := admissionWithRules l.clauses l.receipts l.rules
+
+/-- File one item. The commit guard lands the append only if the log still folds. -/
+def Ledger.file (l : Ledger) (i : Item) : Except String Ledger := do
+  let b := bindingOf i.stmt i.scope i.extra
+  let clause : Clause := ⟨i.key, 1, b, i.stmt, i.scope⟩
+  let declare := [Event.declareClaim i.key, .current ⟨i.key, 1, b⟩]
+  let base : Ledger := { l with clauses := l.clauses ++ [clause], events := l.events ++ declare }
+  let next : Ledger := match i.support with
+    | .none => base
+    | .receipt cert boundTo =>
+      let rb := match boundTo with
+        | some (s, m) => bindingOf s i.scope m
+        | none => b
+      let name := s!"receipt-{i.key}"
+      let w : Warrant := ⟨i.key, i.key, 1, b, .receipt name⟩
+      { base with receipts := l.receipts ++ [⟨name, i.key, 1, rb, cert⟩], events := base.events ++ [.warrant w] }
+    | .rule data premises =>
+      let name := s!"rule-{i.key}"
+      let w : Warrant := ⟨i.key, i.key, 1, b, .derived premises name⟩
+      { base with rules := l.rules ++ [⟨name, i.key, premises, data⟩], events := base.events ++ [.warrant w] }
+  match fold next.admission next.events with
+  | .ok _ => pure next
+  | .error e => throw s!"commit guard refused append: {e}"
+
+/-- The widest strictly wider reach among re-replays of a held receipt's certificate. -/
+def widenCert (stmt : Stmt) (scope : Scope) (cert : Cert) : Option (Scope × Cert) :=
+  let withField : Cert → Field → Cert
+    | .ideal _ qs m k, f => .ideal f qs m k
+    | .point _ vs, f => .point f vs
+  let candidates := [cert, withField cert .rat].eraseDups.filterMap fun c => (reach stmt c).map (·, c)
+  let wider := candidates.filter fun (r, _) => scope.le r && !r.le scope
+  (wider.find? fun (r, _) => wider.all fun (r', _) => r'.le r).orElse fun _ => wider.head?
+
+structure Outcome where
+  accepted : Bool
+  state : RuntimeState
+  widened : List (Nat × Scope)
+  earned : List Nat
+
+/-- Run a plan: file every item, fold, then file the proposer's widenings and report. -/
+def Plan.run (p : Plan) : Except String Outcome := do
+  let ledger ← p.items.foldlM (fun l i => l.file i) ({} : Ledger)
+  let state ← fold ledger.admission ledger.events
+  let accepted := p.elaboration.isNone && !p.requested.isEmpty && p.requested.all (held state)
+  let base := (p.items.map (·.key)).foldl max 0 + 1
+  let (ledger, widened, _) ← p.items.foldlM (fun (acc : Ledger × List (Nat × Scope) × Nat) i => do
+      let (l, ws, next) := acc
+      match i.support with
+      | .receipt cert none =>
+        if !held state i.key then pure acc else
+        match widenCert i.stmt i.scope cert with
+        | some (r, c) =>
+          let item : Item := { key := next, stmt := i.stmt, scope := r, extra := i.extra, support := .receipt c }
+          pure (← l.file item, ws ++ [(i.key, r)], next + 1)
+        | none => pure acc
+      | _ => pure acc) (ledger, [], base)
+  let final ← fold ledger.admission ledger.events
+  pure ⟨accepted, final, widened, (Queries.earned final (p.items.map (·.key)) [] []).map (·.claim)⟩
+
+end GPProfile

@@ -3,3 +3,5 @@ import GPProfile.Poly
 import GPProfile.Algebra
 import GPProfile.Frontend
 import GPProfile.Rules
+import GPProfile.Plan
+import GPProfile.Families

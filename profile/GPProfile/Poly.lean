@@ -94,6 +94,7 @@ where
       else if c.isAlpha || c == '_' then
         let name := (c :: cs).takeWhile fun d => d.isAlphanum || d == '_'
         go ((c :: cs).drop name.length) (.ident (String.ofList name) :: acc) fuel
+      else if c == '*' && cs.head? == some '*' then go cs.tail (.op '^' :: acc) fuel
       else if "+-*/^()".toList.contains c then go cs (.op c :: acc) fuel
       else .error s!"unexpected character '{c}'"
 

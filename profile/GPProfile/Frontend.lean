@@ -30,10 +30,17 @@ def strings (json : Json) : Except String (List String) := do
 
 def field? (json : Json) (key : String) : Option Json := (json.getObjVal? key).toOption
 
+/-- A named coefficient field or context: the rationals and the complex numbers are char 0. -/
+def fieldChar? (name : String) : Option Nat :=
+  if ["Q", "QQ", "C", "CC", "R", "RR"].contains name then some 0 else none
+
 def characteristic (inputs : Json) (params : List (String × Nat)) : Except String Nat := do
-  let raw ← match field? inputs "characteristic", field? inputs "target_characteristic" with
-    | some v, _ | none, some v => pure v
-    | none, none => throw "no characteristic"
+  let named := ["target_context", "coefficient_field", "coefficient_domain", "field"].findSome? fun k =>
+    (field? inputs k).bind fun v => (v.getStr?.toOption).bind fieldChar?
+  let raw ← match field? inputs "characteristic", field? inputs "target_characteristic", named with
+    | some v, _, _ | none, some v, _ => pure v
+    | none, none, some c => pure (toJson c)
+    | none, none, none => pure (toJson (0 : Nat))
   match raw.getNat?, raw.getStr? with
   | .ok n, _ => pure n
   | _, .ok s => match params.lookup s with
@@ -83,7 +90,7 @@ def frontend (case : Json) (params : List (String × Nat)) : Except String Input
     let qs := if cofactors.isEmpty then ["1"] else cofactors
     return ⟨⟨vars, ← eqs.mapM parse', guardsP, .inIdeal (← parse' h)⟩, scope,
       .ideal field (← qs.mapM parse') 1 0⟩
-  if !generators.isEmpty && !cofactors.isEmpty then
+  if (field? inputs "generators").isSome && (field? inputs "cofactors").isSome then
     let t ← parse' target
     let k := ((field? inputs "exponent").bind (·.getNat?.toOption)).getD 0
     let kind := if t == one then Kind.empty else .inIdeal t

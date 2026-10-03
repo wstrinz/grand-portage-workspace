@@ -1,0 +1,83 @@
+import GPProfile.Families
+
+/-!
+The 3a corpus run (post-G2 §3.7): every listed case through the shared frontend and the Kernel
+fold. One aggregate receipt per run (§8). Expected verdicts are read for reporting only.
+-/
+
+namespace GPProfile.Corpus
+open Lean GP50 GPProfile
+
+def kindName : Kind → String
+  | .empty => "EMPTY" | .nonempty => "NONEMPTY" | .inIdeal _ => "IN_IDEAL" | .vanishesOn _ => "VANISHES_ON"
+
+def supportName : Support → String
+  | .none => "none"
+  | .receipt _ none => "receipt"
+  | .receipt _ (some _) => "receipt bound to original"
+  | .rule d _ => match d with
+    | .r1 => "rule R1" | .inclusion .. => "rule R2" | .map .. => "rule R3" | .split _ => "rule R4"
+
+def checkName : Check → String
+  | .accepted _ => "accepted" | .notCanonical => "not canonical" | .illFormed _ => "ill-formed"
+  | .replayFailed => "replay failed" | .outsideReach _ => "outside reach"
+
+def itemJson (state : RuntimeState) (i : Item) : Json :=
+  let base : List (String × Json) := [("key", toJson i.key), ("kind", toJson (kindName i.stmt.kind)),
+    ("support", toJson (supportName i.support)), ("held", toJson (held state i.key))]
+  Json.mkObj (base ++ match i.support with
+    | .receipt cert none => [("check", toJson (checkName (check i.stmt i.scope cert)))]
+    | _ => [])
+
+def runCase (label : String) (case : Json) (params : List (String × Nat)) : Json :=
+  let expected := (do (← (← case.getObjVal? "expected").getObjVal? "verdict").getStr?).toOption
+  let base : List (String × Json) := [("id", toJson label), ("expected", toJson expected)]
+  match Families.plan case params with
+  | .error e => Json.mkObj (base ++ [("observed", Json.str "EXPRESSIVENESS_LOSS"), ("frontend_error", toJson e)])
+  | .ok p =>
+    match p.elaboration with
+    | some e => Json.mkObj (base ++ [("observed", Json.str "REFUSE"), ("mechanism", Json.str "elaboration"),
+        ("elaboration", toJson e)])
+    | none =>
+      match p.run with
+      | .error e => Json.mkObj (base ++ [("observed", Json.str "MALFORMED"), ("error", toJson e)])
+      | .ok o =>
+        let refused := p.items.filter fun i => p.requested.contains i.key && !held o.state i.key
+        let mechanism := refused.map fun i => match i.support with
+          | .none => "unsupported"
+          | .receipt _ (some _) => "custody (stale binding)"
+          | .receipt c none => s!"checker ({checkName (check i.stmt i.scope c)})"
+          | .rule .. => "rule refused"
+        Json.mkObj (base ++ [("mechanism", toJson mechanism.eraseDups),
+          ("observed", Json.str (if o.accepted then "ACCEPT" else "REFUSE")),
+          ("requested", toJson p.requested),
+          ("items", toJson (p.items.map (itemJson o.state))),
+          ("widened", toJson (o.widened.map (·.1))),
+          ("earned", toJson o.earned)])
+
+def run (root : System.FilePath) (manifest : Json) : IO Json := do
+  let entries ← IO.ofExcept ((← IO.ofExcept (manifest.getObjVal? "cases")).getArr?)
+  let rows ← entries.toList.mapM fun entry => do
+    let path : String ← IO.ofExcept (do (← entry.getObjVal? "path").getStr?)
+    let case ← IO.ofExcept (Json.parse (← IO.FS.readFile (root / path)))
+    let id := (do (← case.getObjVal? "id").getStr?).toOption.getD path
+    let label := (do (← entry.getObjVal? "label").getStr?).toOption.getD id
+    let params := match entry.getObjVal? "parameters" with
+      | .ok (.obj kvs) => kvs.toList.filterMap fun (k, v) => (v.getNat?.toOption).map (k, ·)
+      | _ => []
+    pure (runCase label case params)
+  let outcome (r : Json) := (r.getObjVal? "observed").toOption
+  let agree := rows.filter fun r => (r.getObjVal? "expected").toOption == outcome r
+  let losses := rows.filter fun r => outcome r == some (Json.str "EXPRESSIVENESS_LOSS")
+  return Json.mkObj [("schema", "gp-3a-corpus/v1"), ("case_count", toJson rows.length),
+    ("agree", toJson agree.length), ("losses", toJson losses.length), ("cases", toJson rows)]
+
+end GPProfile.Corpus
+
+def main (args : List String) : IO UInt32 := do
+  match args with
+  | [root, manifestPath] =>
+    let manifest ← IO.ofExcept (Lean.Json.parse (← IO.FS.readFile manifestPath))
+    IO.println (← GPProfile.Corpus.run root manifest).pretty
+    return 0
+  | _ => IO.eprintln "usage: gp_corpus_run <repo-root> <manifest.json>"; return 2
