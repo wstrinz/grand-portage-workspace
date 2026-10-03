@@ -317,3 +317,5 @@ Also proposed: GP-X22–X24 (3b) are ruling 2's shape and now pass through the s
 - 3a by signed fixture: X121, X51, X52, A22, X73–X81.
 - Campaign-op: X05–X07, X117, X315–X317, X331, X341, X342, X408, X409, X53.
 - 3b: X343.
+
+2026-10-03 G3a ratified by Will (reports/PHASE-3A-REPORT.md): "let's head that way and we can merge and revise later". Next: merge to master, prepare v0.50.0-alpha (publication still needs Will's approval), then Phase 4 (census).
