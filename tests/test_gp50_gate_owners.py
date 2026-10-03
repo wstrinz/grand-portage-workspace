@@ -4,7 +4,7 @@ from pathlib import Path
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-OWNERS = {"3a", "3b", "census", "campaign-op"}
+OWNERS = {"3a", "3b", "census", "campaign-op", "admission-control"}
 
 
 class GateOwnerTests(unittest.TestCase):

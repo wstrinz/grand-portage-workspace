@@ -282,3 +282,13 @@ If all three hold, recommend the Lean-native ledger pivot (keep `Kernel` and the
 2026-10-02 G3a-0 decided by Will: continue (no Lean-native ledger pivot), per reports/G3A-0-CHECKPOINT.md. Next: C1–C3 admission, the binder with A4 theorem warrants, GATE-OWNERS.json, broad corpus runs.
 
 2026-10-02 A3 deviation refined: the 3a checkers run every replay as exact rational arithmetic on HexMvPoly. An F_p replay is the rational residual vanishing mod p (all inputs p-integral, every residual coefficient divisible by p), equivalent because reduction mod p is a ring hom on p-integral rationals. No F_p arithmetic library is used, and one Mathlib soundness path covers Q and F_p.
+
+2026-10-03 G3a review rulings (Will adopted docs/GP-0.50-G3A-REVIEW.md as written):
+1. Ownership rule: 0.50 checks, never constructs. Checking a supplied object (map, point, certificate) is profile-owned; the constructing operation is campaign-op. X69 returns to 3a; A24 and X45-X50 return to 3a via geometric nonemptiness; X319-X336 and X275-X280 stay 3b; operation contracts stay campaign-op; the 33 ambiguous cases get a try-as-3a pass and Will rules on the residue.
+2. Geometric nonemptiness is a statement kind (NOT_IN_IDEAL(1)), not a scope flag: rule NONEMPTY => NOT_IN_IDEAL(1); NOT_IN_IDEAL(1) moves tight->loose (R2) and S->T (R3); base checker: a univariate polynomial with unit leading coefficient generates a proper ideal. Points over Q[a]/(m) are R3 maps from (a; {m}).
+3. No ring contexts in any profile. X355/X356 become admission controls; X357-X363 campaign-op; X366/X367 census.
+4. NONUNIT is canonicalized to NOT_IN_IDEAL(1) on the augmented system; NOT_IN_IDEAL is derived from the stronger witness claim by a bridge rule.
+5. R2 IN_IDEAL transport uses the sound condition (loose equations IN_IDEAL on the tight system with its guards, any k; loose guards nonvanishing on the tight locus); R3 gains an IN_IDEAL row. Remaining conservatism is logged in KNOWN-CONSERVATISM.md.
+6. Schematic cases: A11b, A12, A23, C02, X59 get instantiation fixtures (sidecar keyed by id and case hash, signed in corpus/CHANGES.md, false conclusions for REFUSE). X03, X120, X141 to campaign-op; X13 to census; X138 stays 3a with typed non-evidence.
+7. Fano corpus intake signed.
+8. The v0.50.0-alpha is prepared but held until binding identity moves from reprStr to canonical JSON.
