@@ -1,5 +1,6 @@
 import GP50.Queries
 import GPProfile.Rules
+import GPProfile.Canonical
 
 /-!
 Case plans (post-G2 §1.8–1.9). A family adapter turns a case into profile inputs only:
@@ -37,7 +38,7 @@ structure Plan where
   deriving Repr
 
 def bindingOf (stmt : Stmt) (scope : Scope) (extra : List String) : Binding :=
-  { statementHash := reprStr stmt, scopeHash := reprStr scope, modelHash := "gp-profile-3a/v1"
+  { statementHash := stmtCanon stmt, scopeHash := scopeCanon scope, modelHash := "gp-profile-3a/v1"
     inputHashes := extra, authority := "3a-corpus", authorityVersion := 1, kernelVersion := 1 }
 
 structure Ledger where

@@ -1,5 +1,6 @@
 import GP50.Queries
 import GPProfile.Frontend
+import GPProfile.Canonical
 
 /-!
 The §3.6 receipt reach slice. Per case: the shared frontend builds profile inputs; the
@@ -14,7 +15,7 @@ open Lean GP50
 /-! ## Proposer (untrusted) -/
 
 def bindingFor (stmt : Stmt) (scope : Scope) (field : Field) : Binding :=
-  { statementHash := reprStr stmt, scopeHash := reprStr scope, modelHash := "gp-profile-3a/v1"
+  { statementHash := stmtCanon stmt, scopeHash := scopeCanon scope, modelHash := "gp-profile-3a/v1"
     inputHashes := [reprStr field], authority := "3a-reach-slice", authorityVersion := 1,
     kernelVersion := 1 }
 

@@ -460,15 +460,53 @@ theorem acceptsRule_claim_meaning (clauses : List GPProfile.Clause) (rules : Lis
         exact this ▸ means
 
 open GP50 in
+private theorem binding_beq_eq (a b : Binding) : instBEqBinding.beq a b = true → a = b := by
+  cases a; cases b
+  simp [instBEqBinding.beq, Bool.and_eq_true, beq_iff_eq]
+
+open GP50 in
+/-- The binder trust assumption, stated semantically: a binder record matching a clause's
+binding identities comes with that clause's meaning (the binder's checks plus
+`means_of_warranted` supply it; with no records it holds trivially). -/
+def RecordsSound (clauses : List GPProfile.Clause) (records : List BinderRecord) : Prop :=
+  ∀ c ∈ clauses, ∀ r ∈ records, r.statementHash = c.binding.statementHash →
+    r.scopeHash = c.binding.scopeHash → Semantic.Means profile c.stmt c.scope
+
+open GP50 in
+theorem acceptsProof_claim_meaning (clauses : List GPProfile.Clause) (records : List BinderRecord)
+    (hrec : RecordsSound clauses records) (w : Warrant) (decl : String)
+    (accepted : acceptsProof clauses records w decl = true) :
+    Semantic.ClaimMeaning profile clauses w.claim := by
+  unfold acceptsProof at accepted
+  simp only [Bool.and_eq_true, Option.isSome_iff_exists, List.any_eq_true, beq_iff_eq] at accepted
+  obtain ⟨⟨c, hc⟩, r, hr, ⟨-, hsh⟩, hsc⟩ := accepted
+  rcases Semantic.boundClause_registered profile clauses w c hc with ⟨unique, present, key⟩
+  have hb : c.binding = w.binding := by
+    unfold Semantic.boundClause at hc
+    split at hc
+    · contradiction
+    · have m := List.find?_some (p := fun c' : Semantic.Clause ops =>
+        c'.key == w.claim && c'.version == w.version && c'.binding == w.binding) hc
+      simp only [Bool.and_eq_true, beq_iff_eq] at m
+      exact binding_beq_eq _ _ m.2
+  have means := hrec c present r hr (hsh.trans (congrArg Binding.statementHash hb).symm)
+    (hsc.trans (congrArg Binding.scopeHash hb).symm)
+  refine ⟨⟨c, present, key⟩, fun c' hc' hkey' => ?_⟩
+  have := key_unique_of_nodup clauses (·.key) unique c' c hc' present (hkey'.trans key.symm)
+  exact this ▸ means
+
+open GP50 in
 theorem base_validator_sound_rules (clauses : List GPProfile.Clause) (receipts : List Receipt)
-    (rules : List RuleInst) (snapshot : Snapshot) (unique : (snapshot.warrants.map (·.id)).Nodup) :
+    (rules : List RuleInst) (records : List BinderRecord) (hrec : RecordsSound clauses records)
+    (snapshot : Snapshot) (unique : (snapshot.warrants.map (·.id)).Nodup) :
     Semantic.BaseValidatorSound profile clauses
-      { Admission.refuseAll with receipt := accepts clauses receipts, rule := acceptsRule clauses rules }
-      snapshot := by
+      { receipt := accepts clauses receipts, proof := acceptsProof clauses records,
+        rule := acceptsRule clauses rules, narrow := fun _ _ => false } snapshot := by
   constructor
   · intro w member name accepted
     exact ⟨w, member, rfl, accepts_claim_meaning clauses receipts w name accepted⟩
-  · intros; contradiction
+  · intro w member decl accepted
+    exact ⟨w, member, rfl, acceptsProof_claim_meaning clauses records hrec w decl accepted⟩
   · intro w present premises name accepted members supported
     refine ⟨w, present, rfl, ?_⟩
     apply acceptsRule_claim_meaning clauses rules w premises name accepted
@@ -477,11 +515,13 @@ theorem base_validator_sound_rules (clauses : List GPProfile.Clause) (receipts :
       (supported premise hp)
 
 open GP50 GPBinding.Spike in
-/-- Fold soundness with K3 rules: every held claim means its registered statement in every
-field its scope denotes, whether supported by receipts, rules, narrowing, or a mixture. -/
+/-- Fold soundness with K3 rules and bound theorem warrants: every held claim means its
+registered statement in every field its scope denotes, whether supported by receipts, rules,
+theorem warrants, narrowing, or a mixture. Theorem warrants rest on `RecordsSound`. -/
 theorem fold_held_meaning_rules (clauses : List GPProfile.Clause) (receipts : List Receipt)
-    (rules : List RuleInst) (events : List Event) (state : RuntimeState) (claim : Nat)
-    (folded : fold (admissionWithRules clauses receipts rules) events = .ok state)
+    (rules : List RuleInst) (records : List BinderRecord) (hrec : RecordsSound clauses records)
+    (events : List Event) (state : RuntimeState) (claim : Nat)
+    (folded : fold (admissionWithRules clauses receipts rules records) events = .ok state)
     (heldClaim : held state claim = true) :
     (∃ c ∈ clauses, c.key = claim) ∧
     ∀ c ∈ clauses, c.key = claim → ∀ K : FieldCtx, Scope.mem K.carrier c.scope →
@@ -492,12 +532,24 @@ theorem fold_held_meaning_rules (clauses : List GPProfile.Clause) (receipts : Li
     | error message => simp [resolved] at folded
     | ok snapshot =>
       rw [resolved] at folded
-      have stateEq : evaluate (admissionWithRules clauses receipts rules) snapshot = state :=
+      have stateEq : evaluate (admissionWithRules clauses receipts rules records) snapshot = state :=
         Except.ok.inj folded
       subst state
       exact resolve_warrant_ids_nodup events snapshot resolved
   exact Semantic.fold_held_meaning profile clauses _ events state claim
-    (base_validator_sound_rules clauses receipts rules state.snapshot unique) folded heldClaim
+    (base_validator_sound_rules clauses receipts rules records hrec state.snapshot unique) folded heldClaim
+
+open GP50 in
+/-- Without binder records, receipts and rules alone. -/
+theorem fold_held_meaning_receipts_rules (clauses : List GPProfile.Clause) (receipts : List Receipt)
+    (rules : List RuleInst) (events : List Event) (state : RuntimeState) (claim : Nat)
+    (folded : fold (admissionWithRules clauses receipts rules []) events = .ok state)
+    (heldClaim : held state claim = true) :
+    (∃ c ∈ clauses, c.key = claim) ∧
+    ∀ c ∈ clauses, c.key = claim → ∀ K : GPBinding.Spike.FieldCtx, Scope.mem K.carrier c.scope →
+      Holds K.carrier c.stmt :=
+  fold_held_meaning_rules clauses receipts rules [] (fun _ _ _ hr => by simp at hr) events state claim
+    folded heldClaim
 
 end GPBinding.Admission
 
