@@ -20,16 +20,17 @@ def Locus (s : Stmt) (x : Fin s.vars.length → K) : Prop :=
   (∀ e ∈ s.eqs, value _ e x = 0) ∧ (∀ g ∈ s.guards, value _ g x ≠ 0)
 
 variable (K) in
-/-- Truth of a 3a statement in `K`. IN_IDEAL is ideal membership in `K[x][1/∏ guards]`. -/
+/-- Truth of a 3a statement in `K`. IN_IDEAL is ideal membership in `K[x][1/∏ guards]`:
+some `h·(∏ guards)^k` lies in the ideal of the equations. -/
 def Holds (s : Stmt) : Prop :=
   match s.kind with
   | .empty => ∀ x, ¬ Locus (K := K) s x
   | .nonempty => ∃ x, Locus (K := K) s x
   | .vanishesOn h => ∀ x, Locus (K := K) s x → value _ h x = 0
-  | .inIdeal h => ∃ (k : ℕ) (q : List (MvPolynomial (Fin s.vars.length) K)),
-      q.length = s.eqs.length ∧
-      toK (meaning _ h) * (s.guards.map fun g => toK (K := K) (meaning _ g)).prod ^ k =
-        (List.zipWith (· * ·) q (s.eqs.map fun e => toK (K := K) (meaning _ e))).sum
+  | .inIdeal h => ∃ k : ℕ,
+      toK (K := K) (meaning s.vars.length h) *
+          (s.guards.map fun g => toK (K := K) (meaning s.vars.length g)).prod ^ k ∈
+        Ideal.span {f | f ∈ s.eqs.map fun e => toK (K := K) (meaning s.vars.length e)}
 
 /-- The characteristics a scope denotes. -/
 def _root_.GPProfile.Scope.den (sc : Scope) : Set ℕ :=

@@ -58,6 +58,15 @@ theorem eval_prod_ne_zero {n : ℕ} (x : Fin n → K) :
     exact mul_ne_zero (h g List.mem_cons_self)
       (eval_prod_ne_zero x l fun c hc => h c (List.mem_cons_of_mem _ hc))
 
+theorem zipWith_sum_mem_span {R : Type*} [CommRing R] :
+    ∀ (A B : List R), (List.zipWith (· * ·) A B).sum ∈ Ideal.span {f | f ∈ B}
+  | [], _ => by simp
+  | _ :: _, [] => by simp
+  | a :: A, b :: B => by
+    simp only [List.zipWith_cons_cons, List.sum_cons]
+    refine Ideal.add_mem _ (Ideal.mul_mem_left _ _ (Ideal.subset_span List.mem_cons_self)) ?_
+    exact Ideal.span_mono (fun f hf => List.mem_cons_of_mem _ hf) (zipWith_sum_mem_span A B)
+
 /-! ## The identity in `K[x]` -/
 
 /-- Every coefficient of every listed sparse polynomial is good in `K`. -/
@@ -215,7 +224,9 @@ theorem reach_ideal_sound {s : Stmt} {field : Field} {qs : List Sparse}
     simp only [hk] at ht; split_ifs at ht with hm
     simp only [beq_iff_eq] at hm; subst hm
     simp only [Option.some.injEq] at ht; subst ht
-    exact ⟨k, qs.map fun q => toK (meaning _ q), by simp [hlen], by rw [I, pow_one]⟩
+    refine ⟨k, ?_⟩
+    rw [← pow_one (toK (meaning _ h0)), ← I]
+    exact zipWith_sum_mem_span _ _
   | vanishesOn h0 =>
     simp only [hk] at ht; split_ifs at ht with hm
     simp only [Option.some.injEq] at ht; subst ht
