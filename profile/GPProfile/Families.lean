@@ -407,6 +407,25 @@ def extensionPointFamily (inputs : Json) : Except String Plan := do
   extensionPoint sym m vars (← (← strs inputs "equations").mapM (P vars))
     (← (← strs inputs "nonzero_guards").mapM (P vars)) phi (.notInIdeal (oneP vars.length))
 
+/-- A bounded saturation search (G3a review §7): the attempted claim, that the built generator lies
+outside the saturation of the source by the variables of the monomial quotient, is filed with the
+search as typed non-evidence. Nothing admits it, so the refusal is "no certificate". -/
+def searchFamily (inputs : Json) : Except String Plan := do
+  let src ← strs inputs "source_generators"
+  let built ← strs inputs "built_generators"
+  let vars := (src ++ built).flatMap identifiers |>.eraseDups
+  let srcP ← src.mapM (P vars)
+  let builtP ← built.mapM (P vars)
+  let bound := (← nats inputs "searched_exponents").length
+  match srcP, builtP with
+  | [[(es, _)]], [[(eb, cb)]] =>
+    if es.length != eb.length || (es.zip eb).any fun (a, c) => a < c then
+      throw "the built generator does not divide the source generator"
+    -- Saturating by a monomial is localizing at its variables.
+    let g : Sparse := [((es.zip eb).map fun (a, c) => if a > c then 1 else 0, 1)]
+    pure (single ⟨vars, srcP, [g], .notInIdeal [(eb, cb)]⟩ .char0Only (.searched bound))
+  | _, _ => throw "a saturation search is decoded only for monomial generators"
+
 /-- Rewriting a point predicate through a translation: the case's control names the map used. -/
 def translationFamily (inputs : Json) : Except String Plan := do
   let ctrl ← need (str? inputs "control") "no control"
@@ -484,7 +503,8 @@ the fixed fields it requires have the stated values. Anything else is an express
 the frontend never guesses past a key it does not understand. -/
 def onlyKeys (inputs : Json) (allowed : List String) : Bool :=
   match inputs with
-  | .obj kvs => kvs.toList.all fun (k, _) => allowed.contains k
+  -- `meta` is the explicit ignored namespace for provenance notes (G3a review §4).
+  | .obj kvs => kvs.toList.all fun (k, _) => k == "meta" || allowed.contains k
   | _ => false
 
 /-- A nested model object: only these keys, and a rational field when one is named. -/
@@ -568,6 +588,8 @@ def plan (case : Json) (params : List (String × Nat)) : Except String Plan := d
   if has inputs "excluded_fiber_generators" && k ["variables", "parent_equations", "excluded_base",
       "excluded_fiber_generators", "parent_point"] then
     return ← fiberFamily inputs
+  if has inputs "searched_exponents" && k ["built_generators", "source_generators", "searched_exponents"] then
+    return ← searchFamily inputs
   if has inputs "field_polynomial" && k ["variables", "generators", "guards", "point_universe",
       "field_polynomial", "coordinate", "proposed_change"] &&
       (str? inputs "point_universe" |>.all (· == "ALGEBRAIC_CLOSURE")) &&

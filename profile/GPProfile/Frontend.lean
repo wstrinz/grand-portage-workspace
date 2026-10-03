@@ -34,6 +34,12 @@ def field? (json : Json) (key : String) : Option Json := (json.getObjVal? key).t
 def fieldChar? (name : String) : Option Nat :=
   if ["Q", "QQ", "C", "CC", "R", "RR"].contains name then some 0 else none
 
+/-- The field a case names. R/RR and C/CC are read as "every characteristic-0 field", which only
+strengthens the claim (G3a review §4); the corpus run tags rows that pass that way. -/
+def namedField? (inputs : Json) : Option String :=
+  ["target_context", "coefficient_field", "coefficient_domain", "field"].findSome? fun k =>
+    (field? inputs k).bind fun v => v.getStr?.toOption
+
 def characteristic (inputs : Json) (params : List (String × Nat)) : Except String Nat := do
   let named := ["target_context", "coefficient_field", "coefficient_domain", "field"].findSome? fun k =>
     (field? inputs k).bind fun v => (v.getStr?.toOption).bind fieldChar?

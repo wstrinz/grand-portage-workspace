@@ -16,6 +16,7 @@ def supportName : Support → String
   | .none => "none"
   | .receipt _ none => "receipt"
   | .receipt _ (some _) => "receipt bound to original"
+  | .searched n => s!"searched (non-evidence, {n} exponents)"
   | .rule d _ => match d with
     | .r1 => "rule R1" | .inclusion .. => "rule R2" | .map .. => "rule R3" | .split _ => "rule R4" | .witness => "rule bridge"
     | .byCover => "rule R4 (cover)"
@@ -39,7 +40,7 @@ def runCase (label : String) (case : Json) (params : List (String × Nat))
   | .error e => Json.mkObj (base ++ [("observed", Json.str "EXPRESSIVENESS_LOSS"), ("frontend_error", toJson e)])
   | .ok p =>
     match p.elaboration with
-    | some e => Json.mkObj (base ++ [("observed", Json.str "REFUSE"), ("mechanism", Json.str "elaboration"),
+    | some e => Json.mkObj (base ++ [("observed", Json.str "REFUSE"), ("mechanism", toJson ["elaboration"]),
         ("elaboration", toJson e)])
     | none =>
       match p.run records with
@@ -51,10 +52,18 @@ def runCase (label : String) (case : Json) (params : List (String × Nat))
         let mechanism := refused.map fun i => match refuter i, i.support with
           | some j, _ => s!"refuted (contra with held claim {j})"
           | none, .none => "unsupported"
+          | none, .searched _ => "no certificate (a bounded search is not evidence)"
           | none, .receipt _ (some _) => "custody (stale binding)"
           | none, .receipt c none => s!"checker ({checkName (check i.stmt i.scope c)})"
           | none, .rule .. => "rule refused"
-        Json.mkObj (base ++ [("mechanism", toJson mechanism.eraseDups),
+        let inputs := (case.getObjVal? "inputs").toOption.getD .null
+        let named := (namedField? inputs).orElse fun _ =>
+          (inputs.getObjVal? "model").toOption.bind namedField?
+        let requestsPoint := p.items.any fun i => p.requested.contains i.key && i.stmt.kind == .nonempty
+        let strengthened := named.filter fun f =>
+          ["R", "RR"].contains f || (["C", "CC"].contains f && requestsPoint)
+        Json.mkObj (base ++ (strengthened.map fun f => ("field_strengthened", toJson f)).toList ++
+          [("mechanism", toJson mechanism.eraseDups),
           ("observed", Json.str (if o.accepted then "ACCEPT" else "REFUSE")),
           ("requested", toJson p.requested),
           ("items", toJson (p.items.map (itemJson o.state))),
@@ -91,8 +100,10 @@ def candidates (label : String) (case : Json) (params : List (String × Nat)) : 
     | .error _ => []
     | .ok o =>
       p.items.filterMap fun i => match i.support with
-        | .receipt cert none =>
+        | .receipt cert0 none =>
           if !held o.state i.key then none else
+          -- Warrants are generated at the receipt's widest computed reach (G3a review §5).
+          let (scope, cert) := (widenCert i.stmt i.scope cert0).getD (i.scope, cert0)
           let certJ := match cert with
             | .ideal f qs m k => Json.mkObj [("type", "ideal"), ("field", toJson (reprStr f)),
                 ("cofactors", toJson (qs.map sparseLit)), ("m", toJson m), ("k", toJson k)]
@@ -102,10 +113,10 @@ def candidates (label : String) (case : Json) (params : List (String × Nat)) : 
                 ("a", toJson (a.map ratLit)), ("b", toJson (b.map ratLit))]
             | .cover .. => Json.mkObj [("type", "cover")]
           some (Json.mkObj [("case", toJson label), ("key", toJson i.key), ("vars", toJson i.stmt.vars),
-            ("stmt", toJson (stmtLit i.stmt)), ("scope", toJson (scopeLit i.scope)),
+            ("stmt", toJson (stmtLit i.stmt)), ("scope", toJson (scopeLit scope)),
             ("kind", toJson (kindName i.stmt.kind)), ("eqs", toJson (i.stmt.eqs.map sparseLit)),
             ("guards", toJson (i.stmt.guards.map sparseLit)), ("cert", certJ),
-            ("statementHash", toJson (stmtCanon i.stmt)), ("scopeHash", toJson (scopeCanon i.scope))])
+            ("statementHash", toJson (stmtCanon i.stmt)), ("scopeHash", toJson (scopeCanon scope))])
         | _ => none
 
 def run (root : System.FilePath) (manifest : Json) (records : List BinderRecord := []) :

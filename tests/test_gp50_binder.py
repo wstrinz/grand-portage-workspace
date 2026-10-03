@@ -79,7 +79,12 @@ class BinderTests(unittest.TestCase):
         records = {r["declaration"]: r for r in json.loads(RECORDS.read_text(encoding="utf-8"))["records"]}
         c01 = records["GPBinding.Warrants.w_GP_C01_1"]
         self.assertEqual(c01["statementHash"], '[["x"],[[[[1],"1/1"]],[[[0],"1/1"],[[1],"-1/1"]]],[],["EMPTY"]]')
-        self.assertEqual(c01["scopeHash"], '[true,"finite",[]]')
+        self.assertEqual(c01["scopeHash"], '[true,"cofinite",[]]')
+
+    def test_warrants_are_minted_at_computed_reach(self):
+        # G3a review §5: warrants cover the receipt's reach, not only characteristic 0.
+        records = {r["declaration"]: r for r in json.loads(RECORDS.read_text(encoding="utf-8"))["records"]}
+        self.assertEqual(records["GPBinding.Warrants.w_GP_X125_1"]["scopeHash"], '[true,"cofinite",[2,23]]')
 
     def test_minted_theorem_warrants_support_their_claims(self):
         out = run(PROFILE / "slice/manifest.json", "--binder", RECORDS)
