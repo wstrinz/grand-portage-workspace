@@ -11,7 +11,7 @@ Updated 2026-10-02. Authority: [post-G2 handoff](docs/GP-0.50-POST-G2-HANDOFF.md
 
 **Validation.** A fresh full run at rc2 passes all 386 tests/1,130 subtests. Every Kernel module passes `leanchecker`, and all 1,054 Kernel constants use only standard axioms. All 79 and 459 legacy cases are unchanged. Kernel logic is 382 lines against 500.
 
-**Next.** Will chose to continue at G3a-0 ([checkpoint](reports/G3A-0-CHECKPOINT.md)). In progress: C1–C3 admission (Mathlib soundness theorems), then the binder, `GATE-OWNERS.json` and broad corpus runs. Heartbeats remain paused.
+**Next.** Phase 3a is built and in external review ([report](reports/PHASE-3A-REPORT.md)): 68 of 78 provisional 3a cases pass, zero false ACCEPTs in all 239 profile cases. Rulings pending on ownership, schematic cases and rings. Heartbeats paused.
 
 - [Phase 2.5 report](reports/PHASE-2.5-REPORT.md)
 - [Executed slice](reports/PHASE-2-SLICE.md)
