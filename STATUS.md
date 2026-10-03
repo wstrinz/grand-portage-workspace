@@ -1,5 +1,5 @@
 # Grand Portage status
-Updated 2026-10-02. Authority: [post-G2 handoff](docs/GP-0.50-POST-G2-HANDOFF.md), [Addendum A](docs/GP-0.50-POST-G2-ADDENDUM-A.md) and [decisions](DECISIONS.md).
+Updated 2026-10-03. Authority: [post-G2 handoff](docs/GP-0.50-POST-G2-HANDOFF.md), [Addendum A](docs/GP-0.50-POST-G2-ADDENDUM-A.md) and [decisions](DECISIONS.md).
 
 **Where things stand.** Phases 0–2 are complete (G2 ratified 2026-10-02). Phase 2.5 is complete (G2.5 ratified 2026-10-02): the Lean package is split into a pinned 22-module `Kernel`, `Stub` and `Run`; profiles are split into executable `ProfileOps` and a universe-polymorphic `Profile`; all packages use Lean `v4.34.0-rc2`, Hex v0.6.0 and Mathlib `85e3a25e`.
 
@@ -9,9 +9,9 @@ Updated 2026-10-02. Authority: [post-G2 handoff](docs/GP-0.50-POST-G2-HANDOFF.md
 
 **Not claimed.** No production profile, checker admission, census, field or class-group mathematics is certified. Conditional harnesses assume named premises; OPEN premises stay open.
 
-**Validation.** A fresh full run at rc2 passes all 386 tests/1,130 subtests. Every Kernel module passes `leanchecker`, and all 1,054 Kernel constants use only standard axioms. All 79 and 459 legacy cases are unchanged. Kernel logic is 382 lines against 500.
+**Validation.** A full run on 2026-10-03 at rc2 passed 408 of 410 tests (1,674 subtests). The two failures were layer-tag corpus counts made stale by the Fano intake; they were fixed and re-run green. Every Kernel module passes `leanchecker`, and all 1,054 Kernel constants use only standard axioms; the Kernel pin is unchanged. The corpus has 462 cases (the 459 legacy cases unchanged, plus the Fano intake GP-X413–X415). Kernel logic is 382 lines against 500.
 
-**Next.** Phase 3a is built and in external review ([report](reports/PHASE-3A-REPORT.md)): 68 of 78 provisional 3a cases pass, zero false ACCEPTs in all 239 profile cases. Rulings pending on ownership, schematic cases and rings. Heartbeats paused.
+**Next.** Phase 3a is built and the 3a.1 patch is in ([report](reports/PHASE-3A-REPORT.md)). All 105 3a-owned cases agree, on 106 rows with no losses, 19 of them through signed instantiation fixtures. There are zero false ACCEPTs across all 242 profile cases. Nine generated theorem warrants are bound at their computed reach. G3a awaits Will's ratification; on pass come the merge to master, `v0.50.0-alpha` prep (publication needs approval) and Phase 4. Heartbeats paused.
 
 - [Phase 2.5 report](reports/PHASE-2.5-REPORT.md)
 - [Executed slice](reports/PHASE-2-SLICE.md)

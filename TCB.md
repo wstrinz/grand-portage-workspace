@@ -104,6 +104,14 @@ The §3.6a shadow theorems (`binding/GPBinding/Shadow`) rest on Mathlib `85e3a25
 
 `binding/GPBinding/Admission` proves, on standard axioms and replayed by `leanchecker`, that the executable checkers are sound. `check_sound` shows that an accepted receipt check gives the statement in every field `K` with `ringChar K` in the requested scope, where rational coefficients mean their `Rat.cast`. `fold_held_meaning` shows that every claim the Kernel fold holds under `GPProfile.admission` has that meaning (contexts are `FieldCtx`).
 
+3a.1 additions, under the same proofs:
+- the `proper` base checker (`reach_proper_sound`);
+- COVER split trees (`tree_locus`);
+- the bridge rule and R4 by cover;
+- R2/R3 for IN_IDEAL and NOT_IN_IDEAL(1).
+
+A context's truth is truth in every field of its characteristic (`means_iff`), so `Means` is unchanged. `contra` for EMPTY vs NOT_IN_IDEAL uses Mathlib's Nullstellensatz (`MvPolynomial.vanishingIdeal_zeroLocus_eq_radical`) over `AlgebraicClosure`.
+
 | Guarantee | Rests on |
 |---|---|
 | Replay arithmetic agrees with Mathlib `MvPolynomial` | `HexMvPolyMathlib` v0.6.0 `toMvPolynomial`, `coeff_toMvPolynomial`, `aeval_apply` (theorems, re-checked) |
@@ -117,3 +125,10 @@ Overlapping tool (§1.7): Mathlib's `linear_combination` checks the same identit
 Theorem warrants (A4) are generated for held claims of supported shapes (`tools/gen-warrants.py`: C1 emptiness over Q with integer statement coefficients). Each states `Warranted stmt scope`: the explicit statement holds in every field of the scope. `means_of_warranted` proves, on standard axioms, that this gives the Kernel's `Means` for well-formed statements; it uses `meaning_eq_elabQ`, which relates the Hex meaning to the explicit monomial sum. No Hex code is evaluated in the kernel.
 
 The binder (`binding/GPBinding/Binder/Export.lean`) checks each registry theorem's axioms and the statement's arity and avoided primes, and writes records keyed on the exact canonical statement and scope. The profile's proof validator accepts a theorem warrant only against such a record. Trusted: the binder's export, run in the binding environment, faithfully reporting the registry it was compiled against. This is the theorem-warrant counterpart of the receipt path's trust in the compiled checker.
+
+3a.1 (G3a review §5). The binder holes are closed:
+- **(a)** axioms are collected on the `registry` value itself, whose term contains every entry's proof, and each entry's proof must be literally the named theorem;
+- **(b)** identities are canonical JSON (`GPProfile.Canonical`), not `repr`;
+- **(c)** the receipt (schema `gp-binder/v2`) carries an environment block: toolchain, Mathlib pin, binding commit, and the FNV-1a of `Warrants/Generated.lean`. The runtime drops every record from a different environment and reports `binder_refused`.
+
+In the binding, `fold_held_meaning_rules` takes the binder's guarantee as the explicit hypothesis `RecordsSound`. Warrants are generated at the receipt's widest computed reach.

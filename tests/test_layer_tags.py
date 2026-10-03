@@ -121,13 +121,13 @@ class LayerTagsTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             gen.generate(self.cases)
 
-    def test_real_registry_accounts_for_all_459_without_mutation(self):
+    def test_real_registry_accounts_for_all_462_without_mutation(self):
         actual_dir = ROOT / "corpus/must"
         before = {p.name: p.read_bytes() for p in actual_dir.glob("*.json")}
-        generated = gen.generate(actual_dir, expected_count=459)
+        generated = gen.generate(actual_dir, expected_count=462)
         saved = json.loads((ROOT / "corpus/LAYER-TAGS.json").read_text(encoding="utf-8"))
         self.assertEqual(generated, saved)
-        self.assertEqual(check.validate(saved, actual_dir)["case_count"], 459)
+        self.assertEqual(check.validate(saved, actual_dir)["case_count"], 462)
         self.assertEqual(before, {p.name: p.read_bytes() for p in actual_dir.glob("*.json")})
 
 
@@ -178,7 +178,7 @@ class LayerTagsTests(unittest.TestCase):
     def test_missing_reviewed_id_has_no_numeric_default(self):
         original = gen.CATALOG.pop("GP-X412")
         try:
-            generated = gen.generate(ROOT / "corpus/must", expected_count=459)
+            generated = gen.generate(ROOT / "corpus/must", expected_count=462)
             row = next(r for r in generated["cases"] if r["id"] == "GP-X412")
             self.assertIsNone(row["primary_layer"])
             self.assertIsNone(row["g2_kernel_eligible"])

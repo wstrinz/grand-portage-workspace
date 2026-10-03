@@ -713,7 +713,7 @@ def plan (case : Json) (params : List (String × Nat)) : Except String Plan := d
       "denominator_powers", "localization_powers", "membership_target", "cofactors", "coefficient_field",
       "point_universe", "chart", "cite", "proposed_change", "parent_generators", "characteristic"] &&
       (str? inputs "point_universe" |>.all (· == "ALGEBRAIC_CLOSURE")) &&
-      ((obj? inputs "proposed_change").all fun c => onlyKeys c ["generators", "open_conditions", "chart", "cite"] || c == .null) then
+      ((obj? inputs "proposed_change").all fun c => onlyKeys c ["generators", "open_conditions", "chart", "cite", "point_universe"] || c == .null) then
     return ← localizedFamily inputs
   if has inputs "model" && k ["model", "identity", "cofactors", "local_backend", "historical_identity",
       "raw_artifact", "question"] && questionIs inputs ["exact_identity_current"] &&

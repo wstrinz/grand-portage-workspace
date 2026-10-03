@@ -79,6 +79,8 @@ def catalog():
         "The complete unchanged fixture requires mathematical interpretation, exact arithmetic/certificate replay, point/cover validation or a concrete mathematical counterexample.", [{"layer":"kernel","duty":"Bind admitted results to their exact model, context, premises and scope; an identity-only refusal is not a complete fixture pass."}])
     put("GP-A02 GP-A03a GP-A03b GP-A04 GP-A05 GP-A06 GP-A07a GP-A07b GP-A08b GP-A08c GP-A09 GP-A10-C GP-A10-Q GP-A10-R GP-A11a GP-A11b GP-A12 GP-A13-ambient GP-A13-derived GP-A20b GP-A21 GP-A22 GP-A23 GP-A24 GP-C01 GP-C02", "profile", "base-mathematical-language",
         "The complete fixture requires mathematical statement, region, expression equality or certificate semantics.", [{"layer":"kernel","duty":"Preserve context, object identity and scope when admitting the mathematical result."}])
+    put("GP-X413 GP-X414 GP-X415", "profile", "base-mathematical-language",
+        "The complete fixture requires mathematical statement, region, expression equality or certificate semantics.", [{"layer":"kernel","duty":"Preserve context, object identity and scope when admitting the mathematical result."}])
     return rows
 
 CATALOG = catalog()
@@ -120,7 +122,7 @@ def main():
     p.add_argument("--case-dir", type=Path, default=REPO / "corpus/must")
     p.add_argument("--output", type=Path, default=REPO / "corpus/LAYER-TAGS.json")
     args = p.parse_args()
-    data = generate(args.case_dir, expected_count=459)
+    data = generate(args.case_dir, expected_count=462)
     args.output.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"tagged {data['case_count']} unchanged cases -> {args.output}")
 if __name__ == "__main__":

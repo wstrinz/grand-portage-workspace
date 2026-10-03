@@ -4,10 +4,9 @@
   "source": "corpus/LAYER-TAGS.json (primary_layer = profile)",
   "case_count": 242,
   "counts": {
-    "3a": 92,
-    "3b": 50,
-    "campaign-op": 67,
-    "ambiguous": 27,
+    "3a": 105,
+    "3b": 51,
+    "campaign-op": 80,
     "census": 4,
     "admission-control": 2
   },
@@ -124,11 +123,12 @@
     },
     {
       "id": "GP-A22",
-      "owner": "ambiguous",
+      "owner": "3a",
       "proposed_owner": "campaign-op",
-      "basis": "capped lift: dm4-style cap or a general 3a necessary condition",
-      "proposed": "3a",
-      "proposed_basis": "fixture on the explicit surface: EMPTY of the capped system by the supplied obligation cofactors; the data is concrete but the key set is one case"
+      "basis": "fixture on the explicit surface: EMPTY of the capped system by the supplied obligation cofactors; the data is concrete but the key set is one case",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass",
+      "fixture": "corpus/INSTANTIATIONS.json (signed 2026-10-03)"
     },
     {
       "id": "GP-A23",
@@ -172,27 +172,27 @@
     },
     {
       "id": "GP-X05",
-      "owner": "ambiguous",
+      "owner": "campaign-op",
       "proposed_owner": "3a",
-      "basis": "point-surjectivity and predicate typing",
-      "proposed": "campaign-op",
-      "proposed_basis": "boolean premise flags only; 0.50 enforces rule premises structurally"
+      "basis": "boolean premise flags only; 0.50 enforces rule premises structurally",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass"
     },
     {
       "id": "GP-X06",
-      "owner": "ambiguous",
+      "owner": "campaign-op",
       "proposed_owner": "3a",
-      "basis": "closure of lifted predicates (constructible sets?)",
-      "proposed": "campaign-op",
-      "proposed_basis": "boolean premise flags only; 0.50 enforces rule premises structurally"
+      "basis": "boolean premise flags only; 0.50 enforces rule premises structurally",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass"
     },
     {
       "id": "GP-X07",
-      "owner": "ambiguous",
+      "owner": "campaign-op",
       "proposed_owner": "3a",
-      "basis": "exact contraction vs geometric closure",
-      "proposed": "campaign-op",
-      "proposed_basis": "boolean premise flags only; 0.50 enforces rule premises structurally"
+      "basis": "boolean premise flags only; 0.50 enforces rule premises structurally",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass"
     },
     {
       "id": "GP-X08",
@@ -217,11 +217,11 @@
     },
     {
       "id": "GP-X117",
-      "owner": "ambiguous",
+      "owner": "campaign-op",
       "proposed_owner": "3b",
-      "basis": "K-point on a campaign branch: number field or campaign-op",
-      "proposed": "campaign-op",
-      "proposed_basis": "equations given by name only (C, C2); a projection contract of a campaign artifact"
+      "basis": "equations given by name only (C, C2); a projection contract of a campaign artifact",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass"
     },
     {
       "id": "GP-X118",
@@ -250,11 +250,12 @@
     },
     {
       "id": "GP-X121",
-      "owner": "ambiguous",
+      "owner": "3a",
       "proposed_owner": "campaign-op",
-      "basis": "rank-two affine coefficient block",
-      "proposed": "3a",
-      "proposed_basis": "fixture: the attempted existence claim is not in the inputs; add \"attempt\": \"nonempty\" (X128 shape), so the supplied unit certificate refutes it by contra"
+      "basis": "fixture: the attempted existence claim is not in the inputs; add \"attempt\": \"nonempty\" (X128 shape), so the supplied unit certificate refutes it by contra",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass",
+      "fixture": "corpus/INSTANTIATIONS.json (signed 2026-10-03)"
     },
     {
       "id": "GP-X122",
@@ -735,27 +736,27 @@
     },
     {
       "id": "GP-X315",
-      "owner": "ambiguous",
+      "owner": "campaign-op",
       "proposed_owner": "3a",
-      "basis": "upper target inclusion vs exact contraction",
-      "proposed": "campaign-op",
-      "proposed_basis": "elimination completeness and ideal equality (as X03, X141)"
+      "basis": "elimination completeness and ideal equality (as X03, X141)",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass"
     },
     {
       "id": "GP-X316",
-      "owner": "ambiguous",
+      "owner": "campaign-op",
       "proposed_owner": "3a",
-      "basis": "upper target inclusion vs exact contraction",
-      "proposed": "campaign-op",
-      "proposed_basis": "elimination completeness and ideal equality (as X03, X141)"
+      "basis": "elimination completeness and ideal equality (as X03, X141)",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass"
     },
     {
       "id": "GP-X317",
-      "owner": "ambiguous",
+      "owner": "campaign-op",
       "proposed_owner": "3a",
-      "basis": "both inclusions give exact contraction",
-      "proposed": "campaign-op",
-      "proposed_basis": "elimination completeness and ideal equality (as X03, X141)"
+      "basis": "elimination completeness and ideal equality (as X03, X141)",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass"
     },
     {
       "id": "GP-X318",
@@ -831,11 +832,11 @@
     },
     {
       "id": "GP-X331",
-      "owner": "ambiguous",
+      "owner": "campaign-op",
       "proposed_owner": "campaign-op",
-      "basis": "no-inversion ledger",
-      "proposed": "campaign-op",
-      "proposed_basis": "a mutation of an external artifact named by hash"
+      "basis": "a mutation of an external artifact named by hash",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass"
     },
     {
       "id": "GP-X332",
@@ -884,27 +885,27 @@
     },
     {
       "id": "GP-X341",
-      "owner": "ambiguous",
+      "owner": "campaign-op",
       "proposed_owner": "campaign-op",
-      "basis": "zero-chart polynomiality",
-      "proposed": "campaign-op",
-      "proposed_basis": "equations by name only (G1-G3) over Q(y); a document audit"
+      "basis": "equations by name only (G1-G3) over Q(y); a document audit",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass"
     },
     {
       "id": "GP-X342",
-      "owner": "ambiguous",
+      "owner": "campaign-op",
       "proposed_owner": "campaign-op",
-      "basis": "zero-chart polynomiality",
-      "proposed": "campaign-op",
-      "proposed_basis": "equations by name only (G1-G3) over Q(y); a document audit"
+      "basis": "equations by name only (G1-G3) over Q(y); a document audit",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass"
     },
     {
       "id": "GP-X343",
-      "owner": "ambiguous",
+      "owner": "3b",
       "proposed_owner": "3a",
-      "basis": "route audit earns no emptiness premise",
-      "proposed": "3b",
-      "proposed_basis": "R EMPTY by an ordered SOS certificate"
+      "basis": "R EMPTY by an ordered SOS certificate",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass"
     },
     {
       "id": "GP-X345",
@@ -1074,19 +1075,19 @@
     },
     {
       "id": "GP-X408",
-      "owner": "ambiguous",
+      "owner": "campaign-op",
       "proposed_owner": "3a",
-      "basis": "evaluation lift: map certificate or campaign lift",
-      "proposed": "campaign-op",
-      "proposed_basis": "abstract validity predicates over Z rather than field semantics (the review expected 3a)"
+      "basis": "abstract validity predicates over Z rather than field semantics (the review expected 3a)",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass"
     },
     {
       "id": "GP-X409",
-      "owner": "ambiguous",
+      "owner": "campaign-op",
       "proposed_owner": "3a",
-      "basis": "evaluation lift: map certificate or campaign lift",
-      "proposed": "campaign-op",
-      "proposed_basis": "abstract validity predicates over Z rather than field semantics (the review expected 3a)"
+      "basis": "abstract validity predicates over Z rather than field semantics (the review expected 3a)",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass"
     },
     {
       "id": "GP-X410",
@@ -1146,27 +1147,29 @@
     },
     {
       "id": "GP-X51",
-      "owner": "ambiguous",
+      "owner": "3a",
       "proposed_owner": "3a",
-      "basis": "provenance forgetting: forward map (R3) or custody",
-      "proposed": "3a",
-      "proposed_basis": "fixture in X59's shape: NONEMPTY moves tight to loose (ALONG)"
+      "basis": "fixture in X59's shape: NONEMPTY moves tight to loose (ALONG)",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass",
+      "fixture": "corpus/INSTANTIATIONS.json (signed 2026-10-03)"
     },
     {
       "id": "GP-X52",
-      "owner": "ambiguous",
+      "owner": "3a",
       "proposed_owner": "3a",
-      "basis": "reverse realization: R3 refusal",
-      "proposed": "3a",
-      "proposed_basis": "fixture in X59's shape: NONEMPTY against the direction table (AGAINST)"
+      "basis": "fixture in X59's shape: NONEMPTY against the direction table (AGAINST)",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass",
+      "fixture": "corpus/INSTANTIATIONS.json (signed 2026-10-03)"
     },
     {
       "id": "GP-X53",
-      "owner": "ambiguous",
+      "owner": "campaign-op",
       "proposed_owner": "campaign-op",
-      "basis": "dimension credit",
-      "proposed": "campaign-op",
-      "proposed_basis": "dimension credit has no kind and no consumer"
+      "basis": "dimension credit has no kind and no consumer",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass"
     },
     {
       "id": "GP-X54",
@@ -1243,75 +1246,84 @@
     },
     {
       "id": "GP-X73",
-      "owner": "ambiguous",
+      "owner": "3a",
       "proposed_owner": "campaign-op",
-      "basis": "graded-face affine translations, or 3a C4 map certificates",
-      "proposed": "3a",
-      "proposed_basis": "fixture: the triangular chain as mutual R2 IN_IDEAL inclusions with guard t (data present)"
+      "basis": "fixture: the triangular chain as mutual R2 IN_IDEAL inclusions with guard t (data present)",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass",
+      "fixture": "corpus/INSTANTIATIONS.json (signed 2026-10-03)"
     },
     {
       "id": "GP-X74",
-      "owner": "ambiguous",
+      "owner": "3a",
       "proposed_owner": "campaign-op",
-      "basis": "graded-face normalization, or 3a localization",
-      "proposed": "3a",
-      "proposed_basis": "fixture: as X73, t inverted by the normalization 15t^3+1"
+      "basis": "fixture: as X73, t inverted by the normalization 15t^3+1",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass",
+      "fixture": "corpus/INSTANTIATIONS.json (signed 2026-10-03)"
     },
     {
       "id": "GP-X75",
-      "owner": "ambiguous",
+      "owner": "3a",
       "proposed_owner": "campaign-op",
-      "basis": "triangular solution",
-      "proposed": "3a",
-      "proposed_basis": "fixture with the mutated data: inputs equal X73's and the mutation is only a label"
+      "basis": "fixture with the mutated data: inputs equal X73's and the mutation is only a label",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass",
+      "fixture": "corpus/INSTANTIATIONS.json (signed 2026-10-03)"
     },
     {
       "id": "GP-X76",
-      "owner": "ambiguous",
+      "owner": "3a",
       "proposed_owner": "campaign-op",
-      "basis": "face isomorphism, or 3a C4",
-      "proposed": "3a",
-      "proposed_basis": "fixture with the mutated data: inputs equal X74's and the mutation is only a label"
+      "basis": "fixture with the mutated data: inputs equal X74's and the mutation is only a label",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass",
+      "fixture": "corpus/INSTANTIATIONS.json (signed 2026-10-03)"
     },
     {
       "id": "GP-X77",
-      "owner": "ambiguous",
+      "owner": "3a",
       "proposed_owner": "campaign-op",
-      "basis": "face isomorphism, or 3a C4",
-      "proposed": "3a",
-      "proposed_basis": "fixture with the mutated data: inputs equal X73's and the mutation is only a label"
+      "basis": "fixture with the mutated data: inputs equal X73's and the mutation is only a label",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass",
+      "fixture": "corpus/INSTANTIATIONS.json (signed 2026-10-03)"
     },
     {
       "id": "GP-X78",
-      "owner": "ambiguous",
+      "owner": "3a",
       "proposed_owner": "campaign-op",
-      "basis": "boundary translation, or 3a C4 with a guard",
-      "proposed": "3a",
-      "proposed_basis": "fixture: beta and the certificate are absent from the inputs"
+      "basis": "fixture: beta and the certificate are absent from the inputs",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass",
+      "fixture": "corpus/INSTANTIATIONS.json (signed 2026-10-03)"
     },
     {
       "id": "GP-X79",
-      "owner": "ambiguous",
+      "owner": "3a",
       "proposed_owner": "campaign-op",
-      "basis": "discriminant branch, or 3a structural split",
-      "proposed": "3a",
-      "proposed_basis": "fixture: beta and the certificate are absent from the inputs"
+      "basis": "fixture: beta and the certificate are absent from the inputs",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass",
+      "fixture": "corpus/INSTANTIATIONS.json (signed 2026-10-03)"
     },
     {
       "id": "GP-X80",
-      "owner": "ambiguous",
+      "owner": "3a",
       "proposed_owner": "campaign-op",
-      "basis": "boundary certificate, or 3a C4",
-      "proposed": "3a",
-      "proposed_basis": "fixture: beta, the certificate and the mutation are absent from the inputs"
+      "basis": "fixture: beta, the certificate and the mutation are absent from the inputs",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass",
+      "fixture": "corpus/INSTANTIATIONS.json (signed 2026-10-03)"
     },
     {
       "id": "GP-X81",
-      "owner": "ambiguous",
+      "owner": "3a",
       "proposed_owner": "campaign-op",
-      "basis": "boundary map, or 3a C4",
-      "proposed": "3a",
-      "proposed_basis": "fixture: beta, the certificate and the mutation are absent from the inputs"
+      "basis": "fixture: beta, the certificate and the mutation are absent from the inputs",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 Will, residue of the try-as-3a pass",
+      "fixture": "corpus/INSTANTIATIONS.json (signed 2026-10-03)"
     },
     {
       "id": "GP-X83",

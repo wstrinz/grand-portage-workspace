@@ -1,78 +1,95 @@
-# Phase 3a report
+# Phase 3a report (G3a)
 
-Authority: post-G2 handoff §3 and Addendum A §3. Will continued past G3a-0 on 2026-10-02. This report is for external review; several rulings are pending (see the last section).
+Authority: post-G2 handoff §3 and Addendum A §3. Will continued past G3a-0 on 2026-10-02. The external review ([docs/GP-0.50-G3A-REVIEW.md](../docs/GP-0.50-G3A-REVIEW.md)) came back on 2026-10-03; Will adopted all eight rulings, and the 3a.1 patch below implements them. Every residue ruling is recorded in [DECISIONS.md](../DECISIONS.md). This report asks Will to ratify G3a.
 
 ## What exists
 
-**Profile** (`profile/`, Mathlib-free, on HexMvPoly). It has:
-- the canonical statement AST, with kinds EMPTY, NONEMPTY, IN_IDEAL, VANISHES_ON, NOT_IN_IDEAL, NONUNIT and COVER;
-- characteristic-set scopes;
-- the C1, C2 and C3 checkers, with computed reach, run as exact rational replay (an F_p replay is the rational residual vanishing mod p);
-- the K3 rules R1–R4 with C4 relation certificates (carry kind 3);
-- a plan engine, family adapters and an untrusted proposer behind the commit guard.
+**Profile** (`profile/`, Mathlib-free, on HexMvPoly):
+- **AST.** The canonical statement AST has kinds EMPTY, NONEMPTY, IN_IDEAL, VANISHES_ON, NOT_IN_IDEAL and COVER, over characteristic-set scopes. NONUNIT is gone: it is NOT_IN_IDEAL(1) on the system with the element added as an equation.
+- **Checkers**, each with computed reach, run as exact rational replay:
+  - C1/C3 ideal certificates;
+  - C2 points, for NONEMPTY only;
+  - the `proper` base checker for geometric nonemptiness;
+  - COVER split trees.
+- **K3 rules** (carry kind 3):
+  - R1;
+  - R2 and R3 with C4 obligations, including IN_IDEAL under the sound condition and NOT_IN_IDEAL(1);
+  - R4, and R4 by cover;
+  - the bridge NONEMPTY ⇒ NOT_IN_IDEAL.
+- **Frontend.** A plan engine, strict-key family adapters (with `meta` ignored), an explicit statement surface, the instantiation-fixture loader, and the untrusted proposer behind the commit guard.
 
 **Binding** (`binding/`, Mathlib `85e3a25e`):
-- **soundness:** `check_sound`, rule soundness, and `fold_held_meaning_rules`, which says every claim the Kernel fold holds means its statement in every field of its scope;
-- **binder:** the explicit statement form, `means_of_warranted`, the binder export, and generated theorem warrants.
+- **Soundness.** `fold_held_meaning_rules`: every claim the Kernel fold holds, through receipts, rules, narrowing or bound theorem warrants, means its statement in every field of its scope. Theorem warrants rest on the `RecordsSound` hypothesis.
+- **Context truth.** A context's truth is truth in every field of its characteristic (`means_iff`). This makes `contra` sound for EMPTY vs NOT_IN_IDEAL via the Nullstellensatz over the algebraic closure.
+- **Binder.** The binder export (schema v2):
+  - collects axioms on the registry's proof terms;
+  - checks each entry's proof is the theorem it names;
+  - keys records on canonical JSON identity;
+  - stamps an environment block that the runtime checks.
 
-Everything uses standard axioms only and is replayed by `leanchecker`. The Kernel pin is unchanged since G2.5.
+Every listed theorem uses only `propext`, `Classical.choice` and `Quot.sound`. The Kernel pin is unchanged since G2.5.
 
 ## G3a conditions
 
 | Condition | Status |
 |---|---|
-| 3a-owned cases through the shared frontend | **68 of 78** (provisional ownership): 69 rows agree, 0 losses among those run. 10 wait on rulings |
-| Zero false ACCEPTs across all 239 profile cases | **Met.** Strict input keys turned 9 earlier false ACCEPTs into losses |
-| Reach slice, including Fano and an earned widening | Met (reach slice, 19/19) |
-| Checkers admitted | Met: soundness, adversarial controls, TCB entries, overlapping tool named (`linear_combination`) |
-| K3 rules: carry kind and proved direction tables | Met (`r1_sound` … `r4_sound`) |
-| Binder; A4 costs measured and policy applied | Binder exists. Theorem warrants are minted for C1 emptiness over ℚ, at 0.6–5.7 s each above imports, and support their claims; other shapes stay receipt-only |
-| Oracle disagreements triaged | 25 inferences, **0 disagreements** |
-| Kernel cases re-executed | 14, all schematic. Each is recorded with its proved profile analogue |
+| 100% of 3a-owned cases | **Met: 105 cases, 106 rows, 106 agree, 0 losses** ([corpus](PHASE-3A-CORPUS.json)). 19 run through signed instantiation fixtures |
+| Zero false ACCEPTs across all profile cases | **Met: 0 in 242** ([safety](PHASE-3A-SAFETY.json)) |
+| Reach slice, including Fano and an earned widening | Met (19/19, [slice](PHASE-3A-SLICE.json)). The Fano cases are now corpus cases GP-X413–X415 |
+| Checkers admitted | Met: soundness proofs, adversarial controls, build-time `#guard` instances (`GPProfile.RuleChecks`), TCB entries |
+| K3 rules carry `carry_kind`, with proved direction tables | Met: `r1_sound`, `r2_sound`, `r3_sound`, `r4_sound`, `cover_rule_sound`, `witness_sound` |
+| Binder; A4 policy applied | Met: 9 generated warrants, all bound at their computed reach ([binder](PHASE-3A-BINDER.json)). The runtime refuses a receipt from another environment |
+| Oracle disagreements triaged | 25 inferences, 0 disagreements ([differential](PHASE-3A-DIFFERENTIAL.json)) |
+| Kernel cases re-executed | 14, all schematic, each recorded with its proved profile analogue ([re-exec](PHASE-3A-KERNEL-REEXEC.json)) |
+| Kernel pin unchanged | Met |
 
-Receipts:
-- [PHASE-3A-CORPUS.json](PHASE-3A-CORPUS.json)
-- [PHASE-3A-SAFETY.json](PHASE-3A-SAFETY.json)
-- [PHASE-3A-SLICE.json](PHASE-3A-SLICE.json)
-- [PHASE-3A-BINDER.json](PHASE-3A-BINDER.json)
-- [PHASE-3A-DIFFERENTIAL.json](PHASE-3A-DIFFERENTIAL.json)
-- [PHASE-3A-KERNEL-REEXEC.json](PHASE-3A-KERNEL-REEXEC.json)
-- [PHASE-3A-EXPRESSIVENESS.json](PHASE-3A-EXPRESSIVENESS.json)
+Owners after the rulings: 105 3a, 51 3b, 80 campaign-op, 4 census, 2 admission-control; none ambiguous ([expressiveness](PHASE-3A-EXPRESSIVENESS.json)).
+
+## The 3a.1 patch (review rulings 1–8)
+
+1. **Binder holes.** Canonical JSON identity (no `reprStr`); a registry-level axiom audit plus a named-constant check; environment-stamped receipts refused when foreign. The alpha's identity condition is met.
+2. **`contra`.** Three pairs:
+   - IN_IDEAL(h) vs NOT_IN_IDEAL(h);
+   - EMPTY vs NOT_IN_IDEAL(h), by the Nullstellensatz;
+   - VANISHES_ON(h) vs NONEMPTY with guard h.
+   X124 and X128 file their counterexamples, and a contradicted claim is reported as refuted.
+3. **R2/R3 IN_IDEAL** under the sound condition, with a generic `ideal_transport` lemma. Remaining conservatism is in [KNOWN-CONSERVATISM.md](../KNOWN-CONSERVATISM.md).
+4. **Geometric nonemptiness.** NONUNIT removed. The bridge rule. NOT_IN_IDEAL(1) under R2/R3 by the radical argument. The `proper` base checker: two rational points with different values, so the equation is non-constant and its ideal proper. Points over ℚ[a]/(m) are R3 maps from (a; {m}).
+5. **COVER split trees** and R4 by cover.
+6. **Smaller items.**
+   - Typed non-evidence: X138's bounded search.
+   - Warrants minted at the full computed reach.
+   - ℝ/ℂ field-strengthening tags; none apply today, since C01 is EMPTY over ℂ, which is exact.
+   - `meta` keys are ignored, and `mechanism` is always a list.
+7. **Instantiation fixtures**, signed in `corpus/CHANGES.md`:
+   - A11b, A12, A23, C02 and X59 as the review proposed;
+   - X49: an unrecognized verifier version, refused as custody;
+   - X121, X51, X52 and A22 on the explicit surface;
+   - X73–X81 compiled by the v0.37 ladder and depth-6 adapters, with the v0.37 tests' mutations as data.
+8. **Owners and intake.** The try-as-3a pass and Will's residue ruling; the Fano intake.
 
 ## Findings
 
-- **About half of the title-assigned 3a cases are not Nullstellensatz claims over fields.** Of 118:
-  - 20 need 3b features: extension-field points, number-field fixtures and point universes;
-  - 10 use ring contexts: ℤ, ℤ[i] and the zero algebra;
-  - 10 test v0.37 operation contracts;
-  - 7 are schematic, with no data;
-  - 8 needed new statement kinds.
-- **The frontend must never read past a key it doesn't understand.** The first safety run accepted 8 must-REFUSE cases, a ninth later, because adapters ignored keys such as `equations`, `question` or a nested `selected_real_interval`. Families now declare their exact keys at every level.
-- **Characteristic scopes are absolute.** A char-0 claim in 3a covers every char-0 field. The ML8 base-extension errors the oracle retrodicts can't occur in 3a, but neither can the correct base-field-only claims be stated. They belong to 3b.
-- **Kernel replay of the checker doesn't scale.** `decide +kernel` on X125 exceeded 24 GB. Warrants come from generated `linear_combination` proofs instead.
+- **Inputs often omit the mathematics.** Fourteen 3a-owned cases needed a fixture:
+  - X45 and X49 have byte-identical inputs but opposite verdicts;
+  - X75–X77 equal their ACCEPT siblings, so the refusal lived only in a label for the old harness;
+  - several attempts never appear in the inputs.
+  Fixtures make each case a soundness test of supplied data, and a stale fixture fails closed.
+- **One semantic choice is 3a-specific.** The binding reads context truth as "every field of this characteristic". That is sound only because 3a scopes are closed under algebraic closure. 3b's ℝ atom breaks this, and 3b must revisit it (DECISIONS.md, 3a.1 builder note).
+- **The frontend must never read past a key it does not understand.** This is still the most important safety property. Families declare exact keys at every level.
+- **Kernel replay of Hex checkers does not scale.** Warrants come from generated `linear_combination` proofs.
 
 ## Convergence (A5)
 
-Over the 3a corpus run:
-- **(a)** 34 cases ACCEPT, with 44 held requested claims. 3 of them also carry standard-axiom theorem warrants: the C1 shapes the generator covers. The rest are receipt-backed, though most could be warranted within budget once the generator covers C2, C3 and the new kinds.
-- **(b)** The 44 held claims, by kind: 31 IN_IDEAL (mostly ambient identities and custody), 5 NONEMPTY, 3 EMPTY, 3 COVER, and 1 each of NOT_IN_IDEAL and NONUNIT. Widenings were filed in 40 cases (EARNED). The custody cases are CUSTODY by construction.
-- **(c)** Theorem cost stays small, so the Lean-theorem share is limited by generator coverage, not by cost. GP's distinct contributions remain computed reach, refusal at elaboration and strict well-formedness, custody, and the earned surface.
+Over the 3a corpus run with the binder receipt:
+- **(a) What accepts.** 46 rows accept, holding 234 requested claims. Most are receipt-backed IN_IDEAL obligations of iso bundles; 7 are rule-derived (R2, R3, bridge).
+- **(b) Theorem warrants.** Eight rows also carry standard-axiom warrants for their C1 claims: A08b, C01, X125, X64, X413, A23, C02 and X121.
+- **(c) Widenings and kinds.** 71 rows file earned widenings. Held claims by kind: 214 IN_IDEAL, 8 NONEMPTY, 5 EMPTY, 4 NOT_IN_IDEAL, 3 COVER.
+- **(d) What limits Lean-theorem coverage** is the generator, which covers C1 over ℚ, not proof cost. GP's distinct contributions remain computed reach, refusal at elaboration and strict well-formedness, custody, and the earned surface.
 
-## Decisions taken (provisional, for review)
+## Next
 
-- **Ownership moves:** 20 cases to 3b, 10 to campaign-op; ring-context cases pending.
-- **AST extensions:** NOT_IN_IDEAL, NONUNIT and COVER.
-- **IN_IDEAL** means some h·G^k lies in `Ideal.span` of the equations. Its R2 transport needs an ideal-level inclusion with identical guards.
-- **Unnamed fields default to ℚ.** COVER certificates are built by literal branch inclusion.
-- **Elaboration refusals** (undeclared variable, incomplete map) count as refusals.
-- **The binder trusts its export** of the registry it was compiled against (see the TCB entry).
-
-## Pending rulings
-
-1. The 33 + 10 ambiguous gate owners, and the provisional moves.
-2. Instantiation fixtures for the 7 schematic cases.
-3. X120 (non-zerodivisor), X141 (completeness) and X138 (no saturating element).
-4. Whether rings are in scope for any profile.
-5. Fano corpus intake (`corpus/CHANGES.md`, proposed).
-
-On pass, `v0.50.0-alpha` prep follows §1.12; publication needs your approval.
+On ratification:
+- merge to `master`, classifying the new paths in the snapshot;
+- prepare `v0.50.0-alpha` per §1.12 (publication needs Will's approval);
+- open Phase 4 (census).

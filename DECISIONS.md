@@ -312,3 +312,8 @@ Also proposed: GP-X22–X24 (3b) are ruling 2's shape and now pass through the s
 2026-10-03 Will, on the step-4 report:
 - X49 gets an instantiation fixture whose proposed change is an unrecognized verifier version, refused as custody (stale authority binding). It is built with the step-7 fixtures.
 - X22–X24 move from 3b to 3a (ruling 2's shape).
+
+2026-10-03 Will ruled on the ambiguous-case residue (reports/PHASE-3A-AMBIGUOUS-PASS.md), adopting every recommendation:
+- 3a by signed fixture: X121, X51, X52, A22, X73–X81.
+- Campaign-op: X05–X07, X117, X315–X317, X331, X341, X342, X408, X409, X53.
+- 3b: X343.
