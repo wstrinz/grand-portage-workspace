@@ -17,33 +17,6 @@ variable {K : Type*} [Field K]
 
 /-! ## Scope meets and certificate obligations -/
 
-theorem meet_den {a b : Scope} {c : ℕ} (h : c ∈ (a.meet b).den) : c ∈ a.den ∧ c ∈ b.den := by
-  obtain ⟨ca, pa⟩ := a
-  obtain ⟨cb, pb⟩ := b
-  rcases h with ⟨rfl, h0⟩ | ⟨hp, hm⟩
-  · simp only [Scope.meet, Bool.and_eq_true] at h0
-    exact ⟨Or.inl ⟨rfl, h0.1⟩, Or.inl ⟨rfl, h0.2⟩⟩
-  · cases pa <;> cases pb <;>
-      simp_all [Scope.meet, Scope.den, List.mem_filter, mem_union]
-
-theorem foldl_meet_den :
-    ∀ (rs : List Scope) (a : Scope) {c : ℕ}, c ∈ (rs.foldl Scope.meet a).den →
-      c ∈ a.den ∧ ∀ r ∈ rs, c ∈ r.den
-  | [], _, _, h => ⟨h, by simp⟩
-  | r :: rs, a, c, h => by
-    obtain ⟨h1, h2⟩ := foldl_meet_den rs (a.meet r) h
-    obtain ⟨ha, hr⟩ := meet_den h1
-    exact ⟨ha, fun r' hr' => (List.mem_cons.mp hr').elim (fun e => e ▸ hr) (h2 r')⟩
-
-theorem forall₂_exists_right {α β : Type} {R : α → β → Prop} :
-    ∀ {l : List α} {l' : List β}, List.Forall₂ R l l' → ∀ a ∈ l, ∃ b ∈ l', R a b
-  | [], [], .nil, _, ha => by simp at ha
-  | _ :: _, b :: _, .cons hab rest, a, ha => by
-    rcases List.mem_cons.mp ha with rfl | ha
-    · exact ⟨b, List.mem_cons_self, hab⟩
-    · obtain ⟨b', hb', h⟩ := forall₂_exists_right rest a ha
-      exact ⟨b', List.mem_cons_of_mem _ hb', h⟩
-
 theorem reachAll_sound {obs : List (Stmt × Cert)} {rr : Scope} (h : reachAll obs = some rr)
     (hK : rr.mem K) : ∀ o ∈ obs, Holds K o.1 := by
   unfold reachAll at h
@@ -154,37 +127,9 @@ theorem r4_sound {B₁ B₂ C : Stmt} {h : Sparse} {r : Scope}
     · exact h₂ x hx
   | nonempty => simp at hkind
   | inIdeal _ => simp at hkind
+  | notInIdeal _ | nonunit _ | cover _ => simp at hkind
 
 /-! ## C4 inclusion: the tight locus lies in the loose locus -/
-
-theorem mem_zip_of_mem {α β : Type} {l : List α} {l' : List β} (hlen : l.length = l'.length)
-    {a : α} (ha : a ∈ l) : ∃ b, (a, b) ∈ l.zip l' := by
-  obtain ⟨i, hi, rfl⟩ := List.mem_iff_getElem.mp ha
-  exact ⟨l'[i]'(hlen ▸ hi), List.mem_iff_getElem.mpr ⟨i, by simp [hi, hlen ▸ hi], by simp⟩⟩
-
-theorem inclusion_locus {T L : Stmt} {eqCerts guardCerts : List Cert} {obs : List (Stmt × Cert)}
-    (h : inclusionObligations T L eqCerts guardCerts = some obs)
-    (hobs : ∀ o ∈ obs, Holds K o.1) :
-    T.vars = L.vars ∧ ∀ x, Locus (K := K) T x →
-      (∀ e ∈ L.eqs, value T.vars.length e x = 0) ∧ (∀ g ∈ L.guards, value T.vars.length g x ≠ 0) := by
-  unfold inclusionObligations at h
-  split_ifs at h with hc
-  simp only [Bool.or_eq_true, bne_iff_ne, ne_eq, not_or, not_not] at hc
-  obtain ⟨⟨hv, he⟩, hg⟩ := hc
-  simp only [Option.some.injEq] at h
-  subst h
-  refine ⟨hv, fun x hx => ⟨fun e heq => ?_, fun g hgq => ?_⟩⟩
-  · obtain ⟨c, hc⟩ := mem_zip_of_mem he.symm heq
-    have := hobs _ (List.mem_append_left _ (List.mem_map.mpr ⟨(e, c), hc, rfl⟩))
-    exact this x hx
-  · obtain ⟨c, hc⟩ := mem_zip_of_mem hg.symm hgq
-    have := hobs _ (List.mem_append_right _ (List.mem_map.mpr ⟨(g, c), hc, rfl⟩))
-    intro hz
-    apply this x
-    refine ⟨fun e' he' => ?_, hx.2⟩
-    rcases List.mem_append.mp he' with he' | he'
-    · exact hx.1 e' he'
-    · rw [List.mem_singleton.mp he']; exact hz
 
 theorem idealInclusion_span {T L : Stmt} {eqCerts : List Cert} {obs : List (Stmt × Cert)}
     (h : idealInclusionObligations T L eqCerts = some obs) (hobs : ∀ o ∈ obs, Holds K o.1) :
@@ -216,6 +161,7 @@ theorem r2_sound {P C : Stmt} {eqCerts guardCerts : List Cert} {r : Scope}
   subst hk
   simp only [bne_self_eq_false, Bool.false_eq_true, ite_false] at h
   cases kP with
+  | notInIdeal _ | nonunit _ | cover _ => simp at h
   | empty =>
     cases ho : inclusionObligations ⟨vC, eC, gC, .empty⟩ ⟨vP, eP, gP, .empty⟩ eqCerts guardCerts with
     | none => simp [ho] at h

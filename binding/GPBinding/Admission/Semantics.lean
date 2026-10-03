@@ -31,6 +31,16 @@ def Holds (s : Stmt) : Prop :=
       toK (K := K) (meaning s.vars.length h) *
           (s.guards.map fun g => toK (K := K) (meaning s.vars.length g)).prod ^ k ∈
         Ideal.span {f | f ∈ s.eqs.map fun e => toK (K := K) (meaning s.vars.length e)}
+  | .notInIdeal h => ¬ ∃ k : ℕ,
+      toK (K := K) (meaning s.vars.length h) *
+          (s.guards.map fun g => toK (K := K) (meaning s.vars.length g)).prod ^ k ∈
+        Ideal.span {f | f ∈ s.eqs.map fun e => toK (K := K) (meaning s.vars.length e)}
+  | .nonunit h => ¬ ∃ (q : MvPolynomial (Fin s.vars.length) K) (k : ℕ),
+      toK (K := K) (meaning s.vars.length h) * q -
+          (s.guards.map fun g => toK (K := K) (meaning s.vars.length g)).prod ^ k ∈
+        Ideal.span {f | f ∈ s.eqs.map fun e => toK (K := K) (meaning s.vars.length e)}
+  | .cover bs => ∀ x, Locus (K := K) s x → ∃ b ∈ bs,
+      (∀ e ∈ b.1, value s.vars.length e x = 0) ∧ (∀ g ∈ b.2, value s.vars.length g x ≠ 0)
 
 /-- The characteristics a scope denotes. -/
 def _root_.GPProfile.Scope.den (sc : Scope) : Set ℕ :=

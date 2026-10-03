@@ -10,6 +10,7 @@ open Lean GP50 GPProfile
 
 def kindName : Kind → String
   | .empty => "EMPTY" | .nonempty => "NONEMPTY" | .inIdeal _ => "IN_IDEAL" | .vanishesOn _ => "VANISHES_ON"
+  | .notInIdeal _ => "NOT_IN_IDEAL" | .nonunit _ => "NONUNIT" | .cover _ => "COVER"
 
 def supportName : Support → String
   | .none => "none"

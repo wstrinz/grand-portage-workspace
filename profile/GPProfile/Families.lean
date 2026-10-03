@@ -320,6 +320,57 @@ def attemptFamily (inputs : Json) (case : Json) : Except String Plan := do
     pure { items, requested := [2] }
   else pure (single i.stmt i.scope (.receipt i.cert))
 
+/-- Ring-element properties refuted by witness points: NOT_IN_IDEAL (a locus point where the
+element is nonzero) and NONUNIT (a locus point where it vanishes). Non-zerodivisor claims have no
+3a kind and stay expressiveness losses. -/
+def elementFamily (case inputs : Json) : Except String Plan := do
+  let claim := (str? case "attempted_conclusion").getD ""
+  if (claim.splitOn "nonzerodivisor").length > 1 then throw "non-zerodivisor claims have no 3a statement kind"
+  let vars ← strs inputs "variables"
+  let eqs ← (← strs inputs "generators").mapM (P vars)
+  let el ← P vars (← need (str? inputs "element") "no element")
+  let ptOf (k : String) : Except String (List Rat) := do
+    let pt ← need (obj? inputs k) s!"no {k}"
+    vars.mapM fun v => do
+      match ← parse [] (← text (← need (obj? pt v) s!"point lacks {v}")) with
+      | [] => pure (0 : Rat)
+      | [([], c)] => pure c
+      | _ => throw "point coordinate is not a constant"
+  let items := [mkItem 1 ⟨vars, eqs, [], .notInIdeal el⟩ .char0Only (.receipt (.point .rat (← ptOf "nonzero_point"))),
+    mkItem 2 ⟨vars, eqs, [], .nonunit el⟩ .char0Only (.receipt (.point .rat (← ptOf "zero_point")))]
+  pure { items, requested := [1, 2] }
+
+/-- An object cover. The proposer looks for a branch whose equations and guards occur literally
+in the parent's and supplies the canonical inclusion certificates (no search); with no such
+branch the cover claim is unsupported. -/
+def coverFamily (inputs : Json) : Except String Plan := do
+  let parent ← need (obj? inputs "parent") "no parent"
+  let vars ← strs parent "variables"
+  let n := vars.length
+  let eqs ← (← strs parent "equations").mapM (P vars)
+  let guards ← (← strs parent "nonzero").mapM (P vars)
+  let branches ← match obj? inputs "branches" with
+    | some (.arr bs) => bs.toList.mapM fun b => do
+        pure ((← (← strs b "equations").mapM (P vars)), (← (← strs b "nonzero").mapM (P vars)))
+    | _ => throw "no branches"
+  let stmt : Stmt := ⟨vars, eqs, guards, .cover branches⟩
+  let zero : Sparse := []
+  -- Loose equation `e` equal to parent equation `j`: VANISHES_ON e with cofactor 1 at `j`.
+  let eqCert (e : Sparse) : Option IdealCert := do
+    let j ← eqs.idxOf? e
+    pure ⟨.rat, eqs.mapIdx fun i _ => if i == j then one n else zero, 1, 0⟩
+  -- Loose guard `g` equal to parent guard `j`: {eqs, g = 0, guards} is empty, since
+  -- ∏ guards = (∏ other guards) · g; cofactor ∏ other guards at the new equation.
+  let guardCert (g : Sparse) : Option IdealCert := do
+    let j ← guards.idxOf? g
+    let others ← (guards.eraseIdx j).foldlM (fun acc h => mulS n acc h) (one n)
+    pure ⟨.rat, eqs.map (fun _ => zero) ++ [others], 0, 1⟩
+  let found := branches.zipIdx.findSome? fun ((be, bg), i) => do
+    let ec ← be.mapM eqCert
+    let gc ← bg.mapM guardCert
+    pure (Cert.cover i ec gc)
+  pure (single stmt .char0Only (match found with | some c => .receipt c | none => .none))
+
 /-- A family applies only when every input key is one it reads (or ignores as provenance) and
 the fixed fields it requires have the stated values. Anything else is an expressiveness loss:
 the frontend never guesses past a key it does not understand. -/
@@ -327,6 +378,14 @@ def onlyKeys (inputs : Json) (allowed : List String) : Bool :=
   match inputs with
   | .obj kvs => kvs.toList.all fun (k, _) => allowed.contains k
   | _ => false
+
+/-- A nested model object: only these keys, and a rational field when one is named. -/
+def modelOk (j : Json) : Bool :=
+  onlyKeys j ["field", "variables", "equations", "nonzero"] &&
+    (str? j "field").all fun f => (fieldChar? f).isSome && f != "R" && f != "RR"
+
+def nestedOk (inputs : Json) (key : String) (allowed : List String) : Bool :=
+  (obj? inputs key).all fun j => onlyKeys j allowed
 
 def questionIs (inputs : Json) (qs : List String) : Bool :=
   match str? inputs "question" with
@@ -363,23 +422,27 @@ def plan (case : Json) (params : List (String × Nat)) : Except String Plan := d
       ((obj? inputs "proposed_change").all fun c => onlyKeys c ["generators", "open_conditions", "chart", "cite"] || c == .null) then
     return ← localizedFamily inputs
   if has inputs "model" && k ["model", "identity", "cofactors", "local_backend", "historical_identity",
-      "raw_artifact", "question"] && questionIs inputs ["exact_identity_current"] then
+      "raw_artifact", "question"] && questionIs inputs ["exact_identity_current"] &&
+      (obj? inputs "model").all modelOk && nestedOk inputs "identity" ["left", "right"] then
     return ← modelIdentity inputs
   if k ["lhs", "rhs", "variables", "characteristic"] && has inputs "lhs" then
     return ← ambientFamily inputs
   if has inputs "power_identity" && k ["variables", "characteristic", "declared_units", "exponent_limit",
       "power_identity", "question"] && questionIs inputs ["check_power_identity"] &&
+      nestedOk inputs "power_identity" ["equation", "scalar", "base", "exponent"] &&
       (← scalarOk inputs ((obj? inputs "power_identity").bind (str? · "scalar"))) then
     return ← ambientFamily inputs
   if (obj? inputs "identity").any (fun j => has j "equation") && k ["variables", "characteristic",
       "declared_units", "identity", "parent_equations", "open_guards", "question"] &&
       questionIs inputs ["check_identity"] && has inputs "question" &&
+      nestedOk inputs "identity" ["equation", "scalar", "left", "right"] &&
       (← scalarOk inputs ((obj? inputs "identity").bind (str? · "scalar"))) then
     return ← ambientFamily inputs
   if has inputs "images" && k ["variables", "expression", "images", "proposed"] then
     return ← elabOr (substitution inputs)
   if has inputs "point_forward" && k ["source", "target", "point_forward", "point_inverse",
-      "target_pullback_rows", "source_pullback_rows", "question"] then
+      "target_pullback_rows", "source_pullback_rows", "question"] &&
+      (obj? inputs "source").all modelOk && (obj? inputs "target").all modelOk then
     return ← ringMapFamily inputs
   if has inputs "forward_cofactors" && k ["variables", "generators", "forward", "inverse",
       "forward_cofactors", "inverse_cofactors"] then
@@ -402,6 +465,12 @@ def plan (case : Json) (params : List (String × Nat)) : Except String Plan := d
   if has inputs "source_predicate" && k ["control", "source_point", "target_point", "forward", "backward",
       "source_predicate"] && (str? inputs "control").any (["backward_rewrite", "wrong_forward_rewrite"].contains ·) then
     return ← translationFamily inputs
+  if has inputs "element" && k ["variables", "generators", "element", "annihilator", "cofactors",
+      "nonzero_point", "zero_point"] then
+    return ← elementFamily case inputs
+  if has inputs "branches" && k ["parent", "branches"] && (obj? inputs "parent").all modelOk &&
+      (match obj? inputs "branches" with | some (.arr bs) => bs.all modelOk | _ => false) then
+    return ← coverFamily inputs
   if has inputs "attempt" && k ["variables", "generators", "characteristic", "point", "attempt"] then
     return ← attemptFamily inputs case
   if let some (.arr ids) := obj? inputs "identity" then

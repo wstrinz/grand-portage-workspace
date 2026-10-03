@@ -17,6 +17,12 @@ inductive Kind where
   | empty | nonempty
   | inIdeal (h : Sparse)
   | vanishesOn (h : Sparse)
+  /-- `h` is not in the ideal of the equations in `K[x][1/∏ guards]` (refuted membership). -/
+  | notInIdeal (h : Sparse)
+  /-- `h` is not a unit of `K[x][1/∏ guards]/⟨eqs⟩`. -/
+  | nonunit (h : Sparse)
+  /-- Every point of the locus lies in one of the branches (equations, guards). -/
+  | cover (branches : List (List Sparse × List Sparse))
   deriving Repr, DecidableEq
 
 structure Stmt where
@@ -27,10 +33,15 @@ structure Stmt where
   deriving Repr, DecidableEq
 
 def Kind.target? : Kind → Option Sparse
-  | .inIdeal h | .vanishesOn h => some h
+  | .inIdeal h | .vanishesOn h | .notInIdeal h | .nonunit h => some h
   | _ => none
 
-def Stmt.polys (s : Stmt) : List Sparse := s.eqs ++ s.guards ++ s.kind.target?.toList
+def Kind.branchPolys : Kind → List Sparse
+  | .cover bs => bs.flatMap fun b => b.1 ++ b.2
+  | _ => []
+
+def Stmt.polys (s : Stmt) : List Sparse :=
+  s.eqs ++ s.guards ++ s.kind.target?.toList ++ s.kind.branchPolys
 
 /-- Every polynomial is canonical and has the declared arity. -/
 def Stmt.canonical (s : Stmt) : Bool :=
@@ -67,6 +78,12 @@ def Scope.avoids (s : Scope) (bad : List Nat) : Bool :=
   | .finite ps => ps.all fun p => !isPrime p || !bad.contains p
   | .cofinite e => bad.all fun p => e.contains p
 
+def meetPrimes : PrimeSet → PrimeSet → PrimeSet
+  | .finite xs, .finite ys => .finite (xs.filter ys.contains)
+  | .finite xs, .cofinite e => .finite (xs.filter fun x => !e.contains x)
+  | .cofinite e, .finite ys => .finite (ys.filter fun y => !e.contains y)
+  | .cofinite e₁, .cofinite e₂ => .cofinite (union e₁ e₂)
+
 def Scope.only (p : Nat) : Scope := ⟨false, .finite [p]⟩
 def Scope.char0Only : Scope := ⟨true, .finite []⟩
 def Scope.outside (bad : List Nat) : Scope := ⟨true, .cofinite bad⟩
@@ -78,19 +95,32 @@ inductive Field where
   | prime (p : Nat)
   deriving Repr, DecidableEq
 
+/-- A C1/C3 certificate as data: `h^m · (∏ guards)^k = Σ qᵢ·eqᵢ`. -/
+structure IdealCert where
+  field : Field
+  cofactors : List Sparse
+  m : Nat
+  k : Nat
+  deriving Repr, DecidableEq
+
 inductive Cert where
   /-- C1/C3: `h^m · (∏ guards)^k = Σ qᵢ·eqᵢ` (C1 has `h = 1`). -/
   | ideal (field : Field) (cofactors : List Sparse) (m k : Nat)
   /-- C2: a point of the locus. -/
   | point (field : Field) (values : List Rat)
+  /-- COVER: the whole locus lies in branch `branch`, by a C4 inclusion whose obligations are
+  C1/C3 certificates. -/
+  | cover (branch : Nat) (eqCerts guardCerts : List IdealCert)
   deriving Repr, DecidableEq
 
 def Cert.field : Cert → Field
   | .ideal f .. | .point f _ => f
+  | .cover .. => .rat
 
 def Cert.primes : Cert → List Nat
   | .ideal _ qs .. => denominatorPrimes (qs.flatMap Sparse.coeffs)
   | .point _ vs => denominatorPrimes vs
+  | .cover .. => []
 
 /-- Exponents beyond this bound are refused rather than expanded. -/
 def maxExponent : Nat := 64
@@ -129,7 +159,7 @@ def idealTarget (s : Stmt) (m : Nat) : Option Sparse :=
   | .empty => if m == 0 then some [(List.replicate s.vars.length 0, 1)] else none
   | .inIdeal h => if m == 1 then some h else none
   | .vanishesOn h => if 1 ≤ m then some h else none
-  | .nonempty => none
+  | _ => none
 
 def pointFn (values : List Rat) (n : Nat) : Fin n → Rat :=
   fun i => values.getD i.val 0
@@ -140,8 +170,8 @@ def pointValues (n : Nat) (s : Stmt) (values : List Rat) : Option (List Rat × L
   let guards ← s.guards.mapM (toHexQ n)
   pure (eqs.map (MvPoly.eval (pointFn values n)), guards.map (MvPoly.eval (pointFn values n)))
 
-/-- The computed reach of a certificate for a statement, or `none` when replay fails. -/
-def reach (s : Stmt) (c : Cert) : Option Scope :=
+/-- The computed reach of a C1/C2/C3 certificate, or `none` when replay fails. -/
+def reachBase (s : Stmt) (c : Cert) : Option Scope :=
   let n := s.vars.length
   let bad := union s.primes c.primes
   match c with
@@ -167,6 +197,44 @@ def reach (s : Stmt) (c : Cert) : Option Scope :=
     | .prime p =>
       if !isPrime p || bad.contains p then none
       else if ev.all (zeroMod p) && gv.all (unitMod p) then some (.only p) else none
+  | .cover .. => none
+
+/-- The witness system of a point-certified kind: NOT_IN_IDEAL(h) adds `h` as a guard,
+NONUNIT(h) adds `h` as an equation, NONEMPTY is itself. -/
+def witnessSystem (s : Stmt) : Option Stmt :=
+  match s.kind with
+  | .nonempty => some s
+  | .notInIdeal h => some ⟨s.vars, s.eqs, s.guards ++ [h], .nonempty⟩
+  | .nonunit h => some ⟨s.vars, s.eqs ++ [h], s.guards, .nonempty⟩
+  | _ => none
+
+/-- C4 inclusion `locus_T ⊆ locus_L` as C1/C3 obligations on the tight system. -/
+def inclusionObligations (T L : Stmt) (eqCerts guardCerts : List Cert) :
+    Option (List (Stmt × Cert)) :=
+  if T.vars != L.vars || eqCerts.length != L.eqs.length || guardCerts.length != L.guards.length
+  then none
+  else some ((L.eqs.zip eqCerts).map (fun (e, c) => (⟨T.vars, T.eqs, T.guards, .vanishesOn e⟩, c)) ++
+    (L.guards.zip guardCerts).map (fun (g, c) => (⟨T.vars, T.eqs ++ [g], T.guards, .empty⟩, c)))
+
+/-- The meet of the reaches of C1/C3 obligations. -/
+def reachAllBase (obs : List (Stmt × Cert)) : Option (List Scope) :=
+  obs.mapM fun o => reachBase o.1 o.2
+
+/-- The computed reach of a certificate for a statement, or `none` when replay fails. -/
+def reach (s : Stmt) (c : Cert) : Option Scope :=
+  match c with
+  | .point .. => do reachBase (← witnessSystem s) c
+  | .cover i eqCerts guardCerts =>
+    match s.kind with
+    | .cover bs => do
+      let (eqs, guards) ← bs[i]?
+      let asCert := fun (c : IdealCert) => Cert.ideal c.field c.cofactors c.m c.k
+      let obs ← inclusionObligations s ⟨s.vars, eqs, guards, .empty⟩ (eqCerts.map asCert)
+        (guardCerts.map asCert)
+      let rs ← reachAllBase obs
+      pure (rs.foldl (fun a b => ⟨a.char0 && b.char0, meetPrimes a.primes b.primes⟩) (.outside []))
+    | _ => none
+  | .ideal .. => reachBase s c
 
 /-! ## Profile operations and receipt admission -/
 

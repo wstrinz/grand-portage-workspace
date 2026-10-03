@@ -135,7 +135,7 @@ theorem reach_ideal_spec {s : Stmt} {field : Field} {qs : List Sparse}
     ∃ h R, idealTarget s m = some h ∧ residual s.vars.length s qs h m k = some R ∧
       Avoids K (union s.primes (denominatorPrimes (qs.flatMap Sparse.coeffs))) ∧
       toK (K := K) (toMvPolynomial R) = 0 := by
-  simp only [reach, Cert.primes] at hr
+  simp only [reach, reachBase, Cert.primes] at hr
   split_ifs at hr with h1
   cases ht : idealTarget s m with
   | none => simp [ht] at hr
@@ -193,7 +193,7 @@ theorem reach_ideal_sound {s : Stmt} {field : Field} {qs : List Sparse}
         simp only [Sparse.coeffs, List.map_cons, List.map_nil, List.mem_singleton] at hcp
         subst hcp
         simp [primeFactors_one] at hxc
-      | nonempty => simp [hk] at ht
+      | nonempty | notInIdeal _ | nonunit _ | cover _ => simp [hk] at ht
       | inIdeal h0 =>
         simp only [hk] at ht; split_ifs at ht; simp only [Option.some.injEq] at ht; subst ht
         exact stmt_poly_primes hS (by simp [Stmt.polys, hk, Kind.target?]) hcp hxc
@@ -219,7 +219,7 @@ theorem reach_ideal_sound {s : Stmt} {field : Field} {qs : List Sparse}
     obtain ⟨h0, hG⟩ := locusEval x hx
     rw [I, map_mul, map_pow, map_pow, pow_zero, one_mul] at h0
     exact hG (pow_eq_zero_iff'.mp h0).1
-  | nonempty => simp [hk] at ht
+  | nonempty | notInIdeal _ | nonunit _ | cover _ => simp [hk] at ht
   | inIdeal h0 =>
     simp only [hk] at ht; split_ifs at ht with hm
     simp only [beq_iff_eq] at hm; subst hm
@@ -249,12 +249,12 @@ theorem eval_toK_cast {n : ℕ} {P : MvPolynomial (Fin n) Rat}
   rw [hPK, hx, eval_map, ← eval₂_comp, hv]
   exact ⟨rfl, (eval a' P').2⟩
 
-theorem reach_point_spec {s : Stmt} {field : Field} {vs : List Rat}
-    {r : Scope} (hr : reach s (.point field vs) = some r) (hK : r.mem K) :
+theorem reachBase_point_spec {s : Stmt} {field : Field} {vs : List Rat}
+    {r : Scope} (hr : reachBase s (.point field vs) = some r) (hK : r.mem K) :
     s.kind = .nonempty ∧ ∃ ev gv, pointValues s.vars.length s vs = some (ev, gv) ∧
       Avoids K (union s.primes (denominatorPrimes vs)) ∧
       (∀ v ∈ ev, (v : K) = 0) ∧ (∀ v ∈ gv, v ∈ Good K → (v : K) ≠ 0) := by
-  simp only [reach, Cert.primes] at hr
+  simp only [reachBase, Cert.primes] at hr
   split_ifs at hr with h1
   simp only [Bool.or_eq_true, bne_iff_ne, ne_eq, not_or, not_not] at h1
   cases hv : pointValues s.vars.length s vs with
@@ -298,9 +298,9 @@ theorem reach_point_spec {s : Stmt} {field : Field} {vs : List Rat}
           rw [hc] at this
           exact hu.1 (Nat.mod_eq_zero_of_dvd this)
 
-theorem reach_point_sound {s : Stmt} {field : Field} {vs : List Rat}
-    {r : Scope} (hr : reach s (.point field vs) = some r) (hK : r.mem K) : Holds K s := by
-  obtain ⟨hk, ev, gv, hv, havoid, hev, hgv⟩ := reach_point_spec hr hK
+theorem reachBase_point_sound {s : Stmt} {field : Field} {vs : List Rat}
+    {r : Scope} (hr : reachBase s (.point field vs) = some r) (hK : r.mem K) : Holds K s := by
+  obtain ⟨hk, ev, gv, hv, havoid, hev, hgv⟩ := reachBase_point_spec hr hK
   obtain ⟨hev', hgv'⟩ := pointValues_meaning hv
   have ha : ∀ i, pointFn vs s.vars.length i ∈ Good K := by
     intro i
@@ -332,12 +332,173 @@ theorem reach_point_sound {s : Stmt} {field : Field} {vs : List Rat}
     rw [hgv']
     exact List.mem_map.mpr ⟨g, hg, rfl⟩
 
+theorem eval_span_zero' {n : ℕ} {x : Fin n → K} {l : List (MvPolynomial (Fin n) K)}
+    {f : MvPolynomial (Fin n) K} (hf : f ∈ Ideal.span {g | g ∈ l}) (hl : ∀ g ∈ l, eval x g = 0) :
+    eval x f = 0 := by
+  have hle : Ideal.span {g | g ∈ l} ≤ RingHom.ker (eval x) :=
+    Ideal.span_le.mpr fun g hg => (RingHom.mem_ker).mpr (hl g hg)
+  exact (RingHom.mem_ker).mp (hle hf)
+
+/-- Point certificates for NONEMPTY, NOT_IN_IDEAL and NONUNIT replay on the witness system. -/
+theorem reach_point_sound {s : Stmt} {field : Field} {vs : List Rat}
+    {r : Scope} (hr : reach s (.point field vs) = some r) (hK : r.mem K) : Holds K s := by
+  simp only [reach] at hr
+  cases hw : witnessSystem s with
+  | none => simp [hw] at hr
+  | some ws =>
+    simp only [hw, Option.bind_eq_bind, Option.bind_some] at hr
+    have hws := reachBase_point_sound hr hK
+    obtain ⟨v, e, g, k⟩ := s
+    unfold witnessSystem at hw
+    cases k with
+    | nonempty => simp at hw; subst hw; exact hws
+    | notInIdeal h =>
+      simp only [Option.some.injEq] at hw
+      subst hw
+      obtain ⟨x, he, hg⟩ := hws
+      rintro ⟨kk, hkk⟩
+      have h0 := eval_span_zero' hkk fun b hb => by
+        obtain ⟨e', he', rfl⟩ := List.mem_map.mp hb; exact he e' he'
+      rw [map_mul, map_pow] at h0
+      rcases mul_eq_zero.mp h0 with hv | hv
+      · exact hg h (List.mem_append_right _ (List.mem_singleton_self h)) hv
+      · exact eval_prod_ne_zero x _ (fun b hb => by
+          obtain ⟨g', hg', rfl⟩ := List.mem_map.mp hb
+          exact hg g' (List.mem_append_left _ hg')) (pow_eq_zero_iff'.mp hv).1
+    | nonunit h =>
+      simp only [Option.some.injEq] at hw
+      subst hw
+      obtain ⟨x, he, hg⟩ := hws
+      rintro ⟨q, kk, hkk⟩
+      have h0 := eval_span_zero' hkk fun b hb => by
+        obtain ⟨e', he', rfl⟩ := List.mem_map.mp hb; exact he e' (List.mem_append_left _ he')
+      have hh : eval x (toK (K := K) (meaning v.length h)) = 0 :=
+        he h (List.mem_append_right _ (List.mem_singleton_self h))
+      rw [map_sub, map_mul, map_pow, hh, zero_mul, zero_sub, neg_eq_zero] at h0
+      exact eval_prod_ne_zero x _ (fun b hb => by
+        obtain ⟨g', hg', rfl⟩ := List.mem_map.mp hb
+        exact hg g' hg') (pow_eq_zero_iff'.mp h0).1
+    | empty | inIdeal _ | vanishesOn _ | cover _ => simp at hw
+
+/-! ## C4 inclusion and covers -/
+
+theorem forall₂_exists_right {α β : Type} {R : α → β → Prop} :
+    ∀ {l : List α} {l' : List β}, List.Forall₂ R l l' → ∀ a ∈ l, ∃ b ∈ l', R a b
+  | [], [], .nil, _, ha => by simp at ha
+  | _ :: _, b :: _, .cons hab rest, a, ha => by
+    rcases List.mem_cons.mp ha with rfl | ha
+    · exact ⟨b, List.mem_cons_self, hab⟩
+    · obtain ⟨b', hb', h⟩ := forall₂_exists_right rest a ha
+      exact ⟨b', List.mem_cons_of_mem _ hb', h⟩
+
+theorem mem_zip_of_mem {α β : Type} {l : List α} {l' : List β} (hlen : l.length = l'.length)
+    {a : α} (ha : a ∈ l) : ∃ b, (a, b) ∈ l.zip l' := by
+  obtain ⟨i, hi, rfl⟩ := List.mem_iff_getElem.mp ha
+  exact ⟨l'[i]'(hlen ▸ hi), List.mem_iff_getElem.mpr ⟨i, by simp [hi, hlen ▸ hi], by simp⟩⟩
+
+theorem inclusion_locus {T L : Stmt} {eqCerts guardCerts : List Cert} {obs : List (Stmt × Cert)}
+    (h : inclusionObligations T L eqCerts guardCerts = some obs)
+    (hobs : ∀ o ∈ obs, Holds K o.1) :
+    T.vars = L.vars ∧ ∀ x, Locus (K := K) T x →
+      (∀ e ∈ L.eqs, value T.vars.length e x = 0) ∧ (∀ g ∈ L.guards, value T.vars.length g x ≠ 0) := by
+  unfold inclusionObligations at h
+  split_ifs at h with hc
+  simp only [Bool.or_eq_true, bne_iff_ne, ne_eq, not_or, not_not] at hc
+  obtain ⟨⟨hv, he⟩, hg⟩ := hc
+  simp only [Option.some.injEq] at h
+  subst h
+  refine ⟨hv, fun x hx => ⟨fun e heq => ?_, fun g hgq => ?_⟩⟩
+  · obtain ⟨c, hc⟩ := mem_zip_of_mem he.symm heq
+    have := hobs _ (List.mem_append_left _ (List.mem_map.mpr ⟨(e, c), hc, rfl⟩))
+    exact this x hx
+  · obtain ⟨c, hc⟩ := mem_zip_of_mem hg.symm hgq
+    have := hobs _ (List.mem_append_right _ (List.mem_map.mpr ⟨(g, c), hc, rfl⟩))
+    intro hz
+    apply this x
+    refine ⟨fun e' he' => ?_, hx.2⟩
+    rcases List.mem_append.mp he' with he' | he'
+    · exact hx.1 e' he'
+    · rw [List.mem_singleton.mp he']; exact hz
+
+theorem meet_den {a b : Scope} {c : ℕ}
+    (h : c ∈ (⟨a.char0 && b.char0, meetPrimes a.primes b.primes⟩ : Scope).den) :
+    c ∈ a.den ∧ c ∈ b.den := by
+  obtain ⟨ca, pa⟩ := a
+  obtain ⟨cb, pb⟩ := b
+  rcases h with ⟨rfl, h0⟩ | ⟨hp, hm⟩
+  · simp only [Bool.and_eq_true] at h0
+    exact ⟨Or.inl ⟨rfl, h0.1⟩, Or.inl ⟨rfl, h0.2⟩⟩
+  · cases pa <;> cases pb <;> simp_all [meetPrimes, Scope.den, List.mem_filter, mem_union]
+
+theorem foldl_meet_den :
+    ∀ (rs : List Scope) (a : Scope) {c : ℕ},
+      c ∈ (rs.foldl (fun a b => (⟨a.char0 && b.char0, meetPrimes a.primes b.primes⟩ : Scope)) a).den →
+      c ∈ a.den ∧ ∀ r ∈ rs, c ∈ r.den
+  | [], _, _, h => ⟨h, by simp⟩
+  | r :: rs, a, c, h => by
+    obtain ⟨h1, h2⟩ := foldl_meet_den rs _ h
+    obtain ⟨ha, hr⟩ := meet_den h1
+    exact ⟨ha, fun r' hr' => (List.mem_cons.mp hr').elim (fun e => e ▸ hr) (h2 r')⟩
+
+theorem inclusion_certs_ideal {T L : Stmt} {eqCerts guardCerts : List IdealCert}
+    {obs : List (Stmt × Cert)}
+    (h : inclusionObligations T L (eqCerts.map fun c => Cert.ideal c.field c.cofactors c.m c.k)
+      (guardCerts.map fun c => Cert.ideal c.field c.cofactors c.m c.k) = some obs) :
+    ∀ o ∈ obs, ∃ c : IdealCert, o.2 = Cert.ideal c.field c.cofactors c.m c.k := by
+  unfold inclusionObligations at h
+  split_ifs at h
+  simp only [Option.some.injEq] at h
+  subst h
+  intro o ho
+  rcases List.mem_append.mp ho with h' | h'
+  · obtain ⟨⟨e', c⟩, hc, rfl⟩ := List.mem_map.mp h'
+    obtain ⟨c', -, rfl⟩ := List.mem_map.mp (List.of_mem_zip hc).2
+    exact ⟨c', rfl⟩
+  · obtain ⟨⟨g', c⟩, hc, rfl⟩ := List.mem_map.mp h'
+    obtain ⟨c', -, rfl⟩ := List.mem_map.mp (List.of_mem_zip hc).2
+    exact ⟨c', rfl⟩
+
+theorem reach_cover_sound {s : Stmt} {i : ℕ} {eqCerts guardCerts : List IdealCert} {r : Scope}
+    (hr : reach s (.cover i eqCerts guardCerts) = some r) (hK : r.mem K) : Holds K s := by
+  obtain ⟨v, e, g, k⟩ := s
+  cases k with
+  | cover bs =>
+    simp only [reach] at hr
+    cases hb : bs[i]? with
+    | none => simp [hb] at hr
+    | some b =>
+      obtain ⟨be, bg⟩ := b
+      simp only [hb, Option.bind_eq_bind, Option.bind_some] at hr
+      cases ho : inclusionObligations ⟨v, e, g, .cover bs⟩ ⟨v, be, bg, .empty⟩
+          (eqCerts.map fun c => Cert.ideal c.field c.cofactors c.m c.k)
+          (guardCerts.map fun c => Cert.ideal c.field c.cofactors c.m c.k) with
+      | none => simp [ho] at hr
+      | some obs =>
+        simp only [ho, Option.bind_some] at hr
+        cases hrs : reachAllBase obs with
+        | none => simp [hrs] at hr
+        | some rs =>
+          simp only [hrs, Option.bind_some, Option.pure_def, Option.some.injEq] at hr
+          subst hr
+          have hobs : ∀ o ∈ obs, Holds K o.1 := by
+            intro o ho'
+            obtain ⟨r', hr', hreach⟩ := forall₂_exists_right (mapM_forall₂ hrs) o ho'
+            have hmem := (foldl_meet_den rs (.outside []) hK).2 r' hr'
+            obtain ⟨c, hc⟩ := inclusion_certs_ideal ho o ho'
+            rw [hc] at hreach
+            exact reach_ideal_sound (r := r') (by simpa [reach] using hreach) hmem
+          obtain ⟨-, hloc⟩ := inclusion_locus ho hobs
+          intro x hx
+          exact ⟨(be, bg), List.mem_of_getElem? hb, hloc x hx⟩
+  | _ => simp [reach] at hr
+
 /-- Reach soundness: a certificate's computed reach holds in every field it denotes. -/
 theorem reach_sound {s : Stmt} {c : Cert} {r : Scope}
     (hr : reach s c = some r) (hK : r.mem K) : Holds K s := by
   cases c with
   | ideal field qs m k => exact reach_ideal_sound hr hK
   | point field vs => exact reach_point_sound hr hK
+  | cover i eqCerts guardCerts => exact reach_cover_sound hr hK
 
 /-- An accepted receipt check: the statement holds throughout the requested scope. -/
 theorem check_sound {s : Stmt} {scope : Scope} {c : Cert} {r : Scope}

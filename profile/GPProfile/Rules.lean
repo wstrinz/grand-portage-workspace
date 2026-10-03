@@ -13,13 +13,7 @@ open Hex GP50
 
 /-! ## Scope intersection -/
 
-def Scope.meet (a b : Scope) : Scope :=
-  ⟨a.char0 && b.char0,
-    match a.primes, b.primes with
-    | .finite xs, .finite ys => .finite (xs.filter ys.contains)
-    | .finite xs, .cofinite e => .finite (xs.filter fun x => !e.contains x)
-    | .cofinite e, .finite ys => .finite (ys.filter fun y => !e.contains y)
-    | .cofinite e₁, .cofinite e₂ => .cofinite (union e₁ e₂)⟩
+def Scope.meet (a b : Scope) : Scope := ⟨a.char0 && b.char0, meetPrimes a.primes b.primes⟩
 
 def Scope.all : Scope := .outside []
 
@@ -28,15 +22,6 @@ def reachAll (obs : List (Stmt × Cert)) : Option Scope :=
   (obs.mapM fun o => reach o.1 o.2).map fun rs => rs.foldl Scope.meet Scope.all
 
 /-! ## C4 relation certificates -/
-
-/-- `locus_T ⊆ locus_L`: each loose equation vanishes on the tight locus (C3), and each loose
-guard is nonvanishing there (C1 on the tight system plus that guard as an equation). -/
-def inclusionObligations (T L : Stmt) (eqCerts guardCerts : List Cert) :
-    Option (List (Stmt × Cert)) :=
-  if T.vars != L.vars || eqCerts.length != L.eqs.length || guardCerts.length != L.guards.length
-  then none
-  else some ((L.eqs.zip eqCerts).map (fun (e, c) => (⟨T.vars, T.eqs, T.guards, .vanishesOn e⟩, c)) ++
-    (L.guards.zip guardCerts).map (fun (g, c) => (⟨T.vars, T.eqs ++ [g], T.guards, .empty⟩, c)))
 
 /-- Ideal-level inclusion (IN_IDEAL transport): every loose equation lies in the ideal of the
 tight equations, ambiently (C3 with `m = 1` and no guards), and the guards are identical. -/
@@ -115,6 +100,8 @@ def ruleReach (C : Stmt) (Ps : List Stmt) : RuleData → Option Scope
         if guardCerts.isEmpty then (idealInclusionObligations C P eqCerts).bind reachAll else none
       -- NONEMPTY moves tight → loose: the premise is T, the conclusion L.
       | .nonempty => (inclusionObligations P C eqCerts guardCerts).bind reachAll
+      -- The refutation and cover kinds have no inclusion transport.
+      | _ => none
     | _ => none
   | .map phi eqCerts guardCerts =>
     match Ps with

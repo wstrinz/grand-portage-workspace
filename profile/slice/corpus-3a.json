@@ -2,15 +2,6 @@
   "schema": "gp-3a-corpus-manifest/v1",
   "cases": [
     {
-      "path": "corpus/must/GP-A02.json"
-    },
-    {
-      "path": "corpus/must/GP-A03a.json"
-    },
-    {
-      "path": "corpus/must/GP-A03b.json"
-    },
-    {
       "path": "corpus/must/GP-A04.json",
       "parameters": {
         "p": 3
@@ -23,6 +14,15 @@
         "p": 5
       },
       "label": "GP-A04[p=5]"
+    },
+    {
+      "path": "corpus/must/GP-A02.json"
+    },
+    {
+      "path": "corpus/must/GP-A03a.json"
+    },
+    {
+      "path": "corpus/must/GP-A03b.json"
     },
     {
       "path": "corpus/must/GP-A05.json"
@@ -50,6 +50,9 @@
     },
     {
       "path": "corpus/must/GP-X08.json"
+    },
+    {
+      "path": "corpus/must/GP-X119.json"
     },
     {
       "path": "corpus/must/GP-X123.json"
@@ -146,6 +149,18 @@
     },
     {
       "path": "corpus/must/GP-X268.json"
+    },
+    {
+      "path": "corpus/must/GP-X269.json"
+    },
+    {
+      "path": "corpus/must/GP-X270.json"
+    },
+    {
+      "path": "corpus/must/GP-X271.json"
+    },
+    {
+      "path": "corpus/must/GP-X272.json"
     },
     {
       "path": "corpus/must/GP-X289.json"
