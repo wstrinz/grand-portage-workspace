@@ -421,11 +421,10 @@ theorem acceptsRule_claim_meaning (clauses : List GPProfile.Clause) (rules : Lis
         have premiseMeans := Semantic.boundClauses_mapM_means profile clauses premises ps hps truth
         rcases Semantic.boundClause_registered profile clauses w c hc with ⟨unique, present, key⟩
         have means : Semantic.Means profile c.stmt c.scope := by
-          intro (K : FieldCtx) (hK : Scope.mem K.carrier c.scope)
-          change Holds K.carrier c.stmt
+          refine means_iff.mpr fun K hK => ?_
           have hrrK : rr.mem K.carrier := Scope.le_den hrr hK
           have hpK : ∀ p ∈ ps, Holds K.carrier p.stmt :=
-            fun p hp => premiseMeans p hp K (Scope.le_den (hle p hp) hK)
+            fun p hp => means_iff.mp (premiseMeans p hp) K (Scope.le_den (hle p hp) hK)
           have hav := avoids_mem havoid hK
           have hCg : GoodAll K.carrier c.stmt.polys := stmt_good (hav.mono fun x hx => mem_union_left hx)
           have hPg : ∀ p ∈ ps, GoodAll K.carrier p.stmt.polys := fun p hp =>
@@ -536,8 +535,9 @@ theorem fold_held_meaning_rules (clauses : List GPProfile.Clause) (receipts : Li
         Except.ok.inj folded
       subst state
       exact resolve_warrant_ids_nodup events snapshot resolved
-  exact Semantic.fold_held_meaning profile clauses _ events state claim
+  have h := Semantic.fold_held_meaning profile clauses _ events state claim
     (base_validator_sound_rules clauses receipts rules records hrec state.snapshot unique) folded heldClaim
+  exact ⟨h.1, fun c hc hk => means_iff.mp (h.2 c hc hk)⟩
 
 open GP50 in
 /-- Without binder records, receipts and rules alone. -/

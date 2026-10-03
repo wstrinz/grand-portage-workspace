@@ -36,6 +36,14 @@ class Corpus3aTests(unittest.TestCase):
             with self.subTest(case=case["id"]):
                 self.assertEqual(case["observed"], case["expected"])
 
+    def test_supplied_counterexamples_refute_by_contra(self):
+        # G3a review §4: the frontend files the counterexample; `contra` does the refusing.
+        cases = {c["id"]: c for c in self.fresh["cases"]}
+        for case_id in ["GP-X124", "GP-X128"]:
+            with self.subTest(case=case_id):
+                self.assertEqual(cases[case_id]["observed"], "REFUSE")
+                self.assertEqual(len(cases[case_id]["mechanism"]), 1)
+                self.assertTrue(cases[case_id]["mechanism"][0].startswith("refuted (contra"))
 
     def test_global_safety_has_no_false_accept(self):
         self.assertEqual(self.safety, json.loads(SAFETY.read_text(encoding="utf-8")))

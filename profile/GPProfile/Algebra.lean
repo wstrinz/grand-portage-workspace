@@ -238,9 +238,33 @@ def reach (s : Stmt) (c : Cert) : Option Scope :=
 
 /-! ## Profile operations and receipt admission -/
 
+/-- Whether two scopes share a characteristic (reporting only; cofinite sets always meet). -/
+def Scope.overlaps (a b : Scope) : Bool :=
+  (a.char0 && b.char0) || match a.primes, b.primes with
+    | .finite ps, .finite qs => ps.any qs.contains
+    | .finite ps, .cofinite e | .cofinite e, .finite ps => ps.any fun p => !e.contains p
+    | .cofinite _, .cofinite _ => true
+
+/-- Kinds that cannot both hold on one system in one characteristic (G3a review §2): EMPTY vs
+NONEMPTY; IN_IDEAL(h) vs NOT_IN_IDEAL(h); EMPTY vs NOT_IN_IDEAL(h), since geometric emptiness puts
+a power of the guard product in the ideal (Nullstellensatz), hence every `h`. -/
+def kindContra : Kind → Kind → Bool
+  | .empty, .nonempty => true
+  | .empty, .notInIdeal _ => true
+  | .inIdeal h, .notInIdeal h' => h == h'
+  | _, _ => false
+
+/-- A filed counterexample: NONEMPTY on the system with `h` added as a guard (the witness system
+of NOT_IN_IDEAL(h)) is a point of the locus where `h` does not vanish, refuting VANISHES_ON(h). -/
+def witnessContra (a b : Stmt) : Bool :=
+  match a.kind, b.kind with
+  | .vanishesOn h, .nonempty => b.guards == a.guards ++ [h]
+  | _, _ => false
+
 def contra (a b : Stmt) : Bool :=
-  a.vars == b.vars && a.eqs == b.eqs && a.guards == b.guards &&
-    ((a.kind == .empty && b.kind == .nonempty) || (a.kind == .nonempty && b.kind == .empty))
+  a.vars == b.vars && a.eqs == b.eqs &&
+    ((a.guards == b.guards && (kindContra a.kind b.kind || kindContra b.kind a.kind)) ||
+      witnessContra a b || witnessContra b a)
 
 def ops : Semantic.ProfileOps where
   Stmt := Stmt

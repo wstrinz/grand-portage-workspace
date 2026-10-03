@@ -167,8 +167,7 @@ open GP50 GPBinding.Spike in
 theorem means_of_warranted {s : GPProfile.Stmt} {scope : GPProfile.Scope} (harity : stmtArityOk s = true)
     (hav : scope.avoids s.primes = true) (h : Warranted s scope) :
     Semantic.Means profile s scope := by
-  intro (K : FieldCtx) (hK : Scope.mem K.carrier scope)
-  change Holds K.carrier s
+  refine means_iff.mpr fun K hK => ?_
   exact (holds_iff_holdsE harity (stmt_good (avoids_mem hav hK))).mpr (h K hK)
 
 /-! ## Evaluation of explicit polynomials (simp set for warrant proofs) -/

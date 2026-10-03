@@ -291,12 +291,28 @@ def fiberFamily (inputs : Json) : Except String Plan := do
     mkItem 2 parent .char0Only (.rule (.split h) [1])]
   pure { items, requested := [2] }
 
-/-- Cancelling a factor that is not proved invertible: VANISHES_ON(x) on `{z·x = 0}`. -/
+/-- A rational point given as `{variable: constant}`, in variable order. -/
+def ratPoint (vars : List String) (pt : Json) : Except String (List Rat) :=
+  vars.mapM fun v => do
+    match ← parse [] (← text (← need (obj? pt v) s!"point lacks {v}")) with
+    | [] => pure (0 : Rat)
+    | [([], c)] => pure c
+    | _ => throw "point coordinate is not a constant"
+
+/-- Cancelling a factor that is not proved invertible: VANISHES_ON(x) on `{z·x = 0}`. A supplied
+point is filed as the counterexample (NONEMPTY with the conclusion as a guard), so the refusal is
+`contra`'s, not mere lack of support (G3a review §4). -/
 def cancelFamily (inputs : Json) : Except String Plan := do
   let vars ← strs inputs "variables"
   let prod ← P vars (← need (str? inputs "product") "no product")
   let conc ← P vars (← need (str? inputs "cancelled_conclusion") "no conclusion")
-  pure (single ⟨vars, [prod], [], .vanishesOn conc⟩ .char0Only .none)
+  let claim := mkItem 1 ⟨vars, [prod], [], .vanishesOn conc⟩ .char0Only .none
+  match obj? inputs "point" with
+  | none => pure { items := [claim], requested := [1] }
+  | some pt =>
+    let witness := mkItem 2 ⟨vars, [prod], [conc], .nonempty⟩ .char0Only
+      (.receipt (.point .rat (← ratPoint vars pt)))
+    pure { items := [claim, witness], requested := [1] }
 
 /-- Rewriting a point predicate through a translation: the case's control names the map used. -/
 def translationFamily (inputs : Json) : Except String Plan := do
@@ -329,13 +345,7 @@ def elementFamily (case inputs : Json) : Except String Plan := do
   let vars ← strs inputs "variables"
   let eqs ← (← strs inputs "generators").mapM (P vars)
   let el ← P vars (← need (str? inputs "element") "no element")
-  let ptOf (k : String) : Except String (List Rat) := do
-    let pt ← need (obj? inputs k) s!"no {k}"
-    vars.mapM fun v => do
-      match ← parse [] (← text (← need (obj? pt v) s!"point lacks {v}")) with
-      | [] => pure (0 : Rat)
-      | [([], c)] => pure c
-      | _ => throw "point coordinate is not a constant"
+  let ptOf (k : String) : Except String (List Rat) := do ratPoint vars (← need (obj? inputs k) s!"no {k}")
   let items := [mkItem 1 ⟨vars, eqs, [], .notInIdeal el⟩ .char0Only (.receipt (.point .rat (← ptOf "nonzero_point"))),
     mkItem 2 ⟨vars, eqs, [], .nonunit el⟩ .char0Only (.receipt (.point .rat (← ptOf "zero_point")))]
   pure { items, requested := [1, 2] }

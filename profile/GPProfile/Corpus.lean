@@ -45,11 +45,14 @@ def runCase (label : String) (case : Json) (params : List (String × Nat))
       | .error e => Json.mkObj (base ++ [("observed", Json.str "MALFORMED"), ("error", toJson e)])
       | .ok o =>
         let refused := p.items.filter fun i => p.requested.contains i.key && !held o.state i.key
-        let mechanism := refused.map fun i => match i.support with
-          | .none => "unsupported"
-          | .receipt _ (some _) => "custody (stale binding)"
-          | .receipt c none => s!"checker ({checkName (check i.stmt i.scope c)})"
-          | .rule .. => "rule refused"
+        let refuter (i : Item) : Option Nat := (p.items.find? fun j => held o.state j.key &&
+          ops.contra i.stmt j.stmt && i.scope.overlaps j.scope).map (·.key)
+        let mechanism := refused.map fun i => match refuter i, i.support with
+          | some j, _ => s!"refuted (contra with held claim {j})"
+          | none, .none => "unsupported"
+          | none, .receipt _ (some _) => "custody (stale binding)"
+          | none, .receipt c none => s!"checker ({checkName (check i.stmt i.scope c)})"
+          | none, .rule .. => "rule refused"
         Json.mkObj (base ++ [("mechanism", toJson mechanism.eraseDups),
           ("observed", Json.str (if o.accepted then "ACCEPT" else "REFUSE")),
           ("requested", toJson p.requested),
