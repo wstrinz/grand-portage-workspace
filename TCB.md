@@ -99,3 +99,15 @@ Every package uses Lean `v4.34.0-rc2`, a release candidate adopted for Hex v0.6.
 | Field contexts and characteristic scopes (binding spike) | Mathlib `85e3a25e`: `ModelTheory/Bundled`, `ModelTheory/Algebra/Field/Basic`, `Algebra/CharP` |
 
 The §3.6a shadow theorems (`binding/GPBinding/Shadow`) rest on Mathlib `85e3a25e` only; AutoGeneralization `07ed6f9` is used as an untrusted proposer of weaker assumptions, and its outputs are re-elaborated, not trusted. No GP claim yet depends on a Hex theorem. When 3a admits one, it is listed here by exact declaration, not by library status (A6).
+
+## Phase 3a checker admission (C1–C3) — 2026-10-02
+
+`binding/GPBinding/Admission` proves, on standard axioms and replayed by `leanchecker`, that the executable checkers are sound. `check_sound` shows that an accepted receipt check gives the statement in every field `K` with `ringChar K` in the requested scope, where rational coefficients mean their `Rat.cast`. `fold_held_meaning` shows that every claim the Kernel fold holds under `GPProfile.admission` has that meaning (contexts are `FieldCtx`).
+
+| Guarantee | Rests on |
+|---|---|
+| Replay arithmetic agrees with Mathlib `MvPolynomial` | `HexMvPolyMathlib` v0.6.0 `toMvPolynomial`, `coeff_toMvPolynomial`, `aeval_apply` (theorems, re-checked) |
+| Prime factors are complete | `isPrime_iff`, `mem_primeFactors` (trial division certified at runtime, exhaustive fallback) |
+| The proofs describe the executable that runs | Lean compiler and runtime, including GMP-backed `Rat`/`Int` |
+
+Overlapping tool (§1.7): Mathlib's `linear_combination` checks the same identities but computes no reach. The §3.6a shadow slice measured it at 19–25 s per claim. The frontend's infix parser stays untrusted and echoes the canonical form.

@@ -103,10 +103,13 @@ def Sparse.degree (p : Sparse) : Nat := p.foldl (fun d (e, _) => max d (e.foldl 
 def rhsDegree (s : Stmt) (h : Sparse) (m k : Nat) : Nat :=
   m * h.degree + k * (s.guards.foldl (fun d g => d + g.degree) 0)
 
+/-- The rational HexMvPoly of a sparse polynomial; the binding package states meaning through it. -/
+def toHexQ (n : Nat) (p : Sparse) : Option (P n Rat) := toHex n some p
+
 /-- `Σ qᵢ·eqᵢ − h^m·(∏ guards)^k`, computed exactly over ℚ with HexMvPoly arithmetic. -/
 def residual (n : Nat) (s : Stmt) (qs : List Sparse) (h : Sparse) (m k : Nat) : Option (P n Rat) :=
-  match s.eqs.mapM (toHex n some), s.guards.mapM (toHex n some), qs.mapM (toHex n some),
-      toHex n some h with
+  match s.eqs.mapM (toHexQ n), s.guards.mapM (toHexQ n), qs.mapM (toHexQ n),
+      toHexQ n h with
   | some eqs, some guards, some qs, some h =>
     if eqs.length == qs.length then
       some ((List.zipWith (· * ·) qs eqs).sum - h ^ m * (if k = 0 then 1 else guards.prod ^ k))
@@ -133,8 +136,8 @@ def pointFn (values : List Rat) (n : Nat) : Fin n → Rat :=
 
 /-- Equation and guard values at a rational point, by HexMvPoly evaluation. -/
 def pointValues (n : Nat) (s : Stmt) (values : List Rat) : Option (List Rat × List Rat) := do
-  let eqs ← s.eqs.mapM (toHex n some)
-  let guards ← s.guards.mapM (toHex n some)
+  let eqs ← s.eqs.mapM (toHexQ n)
+  let guards ← s.guards.mapM (toHexQ n)
   pure (eqs.map (MvPoly.eval (pointFn values n)), guards.map (MvPoly.eval (pointFn values n)))
 
 /-- The computed reach of a certificate for a statement, or `none` when replay fails. -/
