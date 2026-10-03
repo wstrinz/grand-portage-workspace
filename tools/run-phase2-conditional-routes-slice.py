@@ -5,9 +5,10 @@ import hashlib
 import json
 from pathlib import Path
 import subprocess
+EXE_SUFFIX = ".exe" if __import__("os").name == "nt" else ""
 ROOT = Path(__file__).resolve().parents[1]
 SCRATCH = ROOT / "tmp/phase2-conditional-routes"
-EXE = ROOT / "phase2/lean/.lake/build/bin/gp_conditional_routes_fixture.exe"
+EXE = ROOT / ("phase2/lean/.lake/build/bin/gp_conditional_routes_fixture" + EXE_SUFFIX)
 CASES = ("GP-X177", "GP-X178")
 PIN = "ac4155787207e2847d248cffed7be871d5dcd577"
 SOURCE = "tests/test_adversarial.py"

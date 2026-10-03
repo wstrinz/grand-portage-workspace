@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import unittest
 
+EXE_SUFFIX = ".exe" if __import__("os").name == "nt" else ""
 ROOT=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location("recorded_coverage",ROOT/"tools/run-phase2-recorded-use-coverage.py")
 m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
@@ -89,7 +90,7 @@ class RecordedUseCoverageTests(unittest.TestCase):
     def test_cache_binds_source_olean_and_toolchain(self):
         b=self.report["build"];inputs=b["build_input_hashes"]
         self.assertTrue(m.cache_matches(b,inputs,b["harness_sha256"]))
-        for suffix in (".lean",".olean","lean.exe","lake.exe","leanchecker.exe"):
+        for suffix in (".lean",".olean",("lean" + EXE_SUFFIX),("lake" + EXE_SUFFIX),("leanchecker" + EXE_SUFFIX)):
             key=next(k for k in inputs if k.endswith(suffix))
             changed=dict(inputs);changed[key]="tampered"
             with self.subTest(dependency=key):

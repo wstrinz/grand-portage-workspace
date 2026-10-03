@@ -8,14 +8,16 @@ import re
 import subprocess
 import time
 
+EXE_SUFFIX = ".exe" if __import__("os").name == "nt" else ""
+ELAN_HOME = Path(__import__("os").environ.get("ELAN_HOME") or Path.home() / ".elan")
 ROOT=Path(__file__).resolve().parents[1]
 PACKAGE=ROOT/"phase2/lean"
 HARNESS=PACKAGE/"Tests/LifecycleProperties.lean"
 SCRATCH=ROOT/"tmp/phase2-lifecycle-properties"
-TOOLCHAIN=Path.home()/".elan"/"toolchains"/(ROOT/"phase2/lean/lean-toolchain").read_text(encoding="utf-8").strip().replace("/","--").replace(":","---")
-LAKE=TOOLCHAIN/"bin/lake.exe"
-LEAN=TOOLCHAIN/"bin/lean.exe"
-CHECKER=TOOLCHAIN/"bin/leanchecker.exe"
+TOOLCHAIN=ELAN_HOME/"toolchains"/(ROOT/"phase2/lean/lean-toolchain").read_text(encoding="utf-8").strip().replace("/","--").replace(":","---")
+LAKE=TOOLCHAIN/("bin/lake" + EXE_SUFFIX)
+LEAN=TOOLCHAIN/("bin/lean" + EXE_SUFFIX)
+CHECKER=TOOLCHAIN/("bin/leanchecker" + EXE_SUFFIX)
 OLEAN=SCRATCH/"Tests/LifecycleProperties.olean"
 WRAPPER=SCRATCH/"Run.lean"
 DECLARATIONS=("retract_reachable_iff","retract_closure_iff","retracted_not_supported","avoiding_reachable",

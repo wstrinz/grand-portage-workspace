@@ -6,9 +6,10 @@ import json
 from pathlib import Path
 import subprocess
 
+EXE_SUFFIX = ".exe" if __import__("os").name == "nt" else ""
 ROOT = Path(__file__).resolve().parents[1]
 SCRATCH = ROOT / "tmp/phase2-conditional-partition"
-EXE = ROOT / "phase2/lean/.lake/build/bin/gp_conditional_partition_fixture.exe"
+EXE = ROOT / ("phase2/lean/.lake/build/bin/gp_conditional_partition_fixture" + EXE_SUFFIX)
 CASES = ("GP-X183", "GP-X184", "GP-X186")
 PIN = "ac4155787207e2847d248cffed7be871d5dcd577"
 SOURCE = "tests/test_adversarial.py"

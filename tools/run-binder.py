@@ -9,9 +9,11 @@ from pathlib import Path
 import subprocess
 import sys
 
+EXE_SUFFIX = ".exe" if __import__("os").name == "nt" else ""
+ELAN_HOME = Path(__import__("os").environ.get("ELAN_HOME") or Path.home() / ".elan")
 ROOT = Path(__file__).resolve().parents[1]
 BINDING = ROOT / "binding"
-TOOLCHAIN = Path.home() / ".elan/toolchains" / (BINDING / "lean-toolchain").read_text(
+TOOLCHAIN = ELAN_HOME / "toolchains" / (BINDING / "lean-toolchain").read_text(
     encoding="utf-8").strip().replace("/", "--").replace(":", "---")
 
 
@@ -22,7 +24,7 @@ def main():
     env = dict(os.environ, PATH=str(TOOLCHAIN / "bin") + os.pathsep + os.environ["PATH"],
                GP_BINDING_COMMIT=commit, XDG_CACHE_HOME=str(BINDING / "cache"),
                MATHLIB_CACHE_DIR=str(BINDING / "cache/mathlib"), TEMP=str(BINDING / "tmp"), TMP=str(BINDING / "tmp"))
-    lake = str(TOOLCHAIN / "bin/lake.exe")
+    lake = str(TOOLCHAIN / ("bin/lake" + EXE_SUFFIX))
     subprocess.run([lake, "build", "GPBinding"], cwd=BINDING, env=env, check=True, capture_output=True)
     result = subprocess.run([lake, "env", "lean", "GPBinding/Binder/Export.lean"], cwd=BINDING, env=env,
                             check=True, capture_output=True, text=True, encoding="utf-8")

@@ -2267,15 +2267,15 @@
     "boundary": "Execute the literal fixture abstraction and its stated conditional conclusion; no predecessor graph reconstruction or renderer claim."
   },
   "registry_sha256": {
-    "layer_tags": "aff18aba0d92f0e43d89e75d7b19a63a4876bbd812fa1a18dc9f6dc0114ac752",
-    "routes": "36b842bb574d54cf6a320fab8070600c104d1155c817dba0987bd01488d30729",
+    "layer_tags": "046b353edf02f2e6972d00c2ee4fe974cb3bef1fc7062cede0d36ec4c1c83838",
+    "routes": "5e66d807591f8f9dc5e6eda0de2dfbed6364fbcdba50d0d3d2da9f384c9f5648",
     "baseline": "49eb8148d87fee918e311fa51694e353a297d03e4431fb4d4b45105a0a8c42f9",
     "pin": "9bb807c3034e045927dfc277f9ac268317ae2fdf7c07fd77c1643749794ee11f"
   },
   "runner_path": "F:\\repos\\grandportage-0.50\\phase2\\lean\\.lake\\build\\bin\\gp_conditional_partition_fixture.exe",
-  "runner_sha256": "573739651f4d7e285f1dcdff746b27c927a6593bcc349ef21948ba551d89732b",
-  "adapter_sha256": "0da3d278b014ca93fccc84d5df7ecc504691d5de5b693ef6c8796d47262568b3",
-  "harness_sha256": "7c8da69d72059cee97f5c3e1cb263ccb5d41ce2396ac6f185f5b73a6bfb2b433",
+  "runner_sha256": "451edc2c6d0d362103992d9670297b3f5eb38ecd45107d871a22ad32302708a0",
+  "adapter_sha256": "3eff48f0e972f9745803729ea5e15d1bd64094e79b70e9abc8cf559590f25ed2",
+  "harness_sha256": "eaccf4bd739c67879eea2f6d231bee8e8cbfca684a82a228680ae052bf1344a4",
   "test_source_sha256": "b7155eae95880d38358f955eae82861e987bcea004e42d0b166aeae1a069d401",
   "kernel_source_sha256": {
     "Events": "1e3d7497baaff4015d4706bccef0a62bdbf99d92ae64d7e2069907a221d091f3",
@@ -2283,7 +2283,7 @@
     "Closure": "623d2368841f8278a007129faac79d498c1010523e9552a1dd2d3fa0201f5403",
     "Decoder": "de8460f9839582d8df489266fe2e8306d327257520fb562262a995a337e0ea51",
     "AdmissionProofs": "7947e809e5e2978c33ae77ee86e9aab550c0e755dcefb58889695321ceaaf6f6",
-    "SpanSoundnessProofs": "de333cacb65fc1a705250995b6bebc1365d6a676325df2873e60cfdb40b17906"
+    "SpanSoundnessProofs": "64090f5391df269067e2b2fc0989da9c16bcabc96d90434ab98ec478b2693a08"
   },
   "proofs": [
     "ConditionalPartition.partition_composition_sound",

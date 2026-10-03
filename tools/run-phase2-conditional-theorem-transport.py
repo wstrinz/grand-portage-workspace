@@ -9,14 +9,16 @@ import re
 import subprocess
 import time
 
+EXE_SUFFIX = ".exe" if __import__("os").name == "nt" else ""
+ELAN_HOME = Path(__import__("os").environ.get("ELAN_HOME") or Path.home() / ".elan")
 ROOT=Path(__file__).resolve().parents[1]
 PACKAGE=ROOT/"phase2/lean"
 HARNESS=PACKAGE/"Tests/ConditionalTheoremTransport.lean"
 SCRATCH=ROOT/"tmp/phase2-conditional-theorem-transport"
-TOOLCHAIN=Path.home()/".elan"/"toolchains"/(ROOT/"phase2/lean/lean-toolchain").read_text(encoding="utf-8").strip().replace("/","--").replace(":","---")
-LAKE=TOOLCHAIN/"bin/lake.exe"
-LEAN=TOOLCHAIN/"bin/lean.exe"
-CHECKER=TOOLCHAIN/"bin/leanchecker.exe"
+TOOLCHAIN=ELAN_HOME/"toolchains"/(ROOT/"phase2/lean/lean-toolchain").read_text(encoding="utf-8").strip().replace("/","--").replace(":","---")
+LAKE=TOOLCHAIN/("bin/lake" + EXE_SUFFIX)
+LEAN=TOOLCHAIN/("bin/lean" + EXE_SUFFIX)
+CHECKER=TOOLCHAIN/("bin/leanchecker" + EXE_SUFFIX)
 OLEAN=SCRATCH/"Tests/ConditionalTheoremTransport.olean"
 WRAPPER=SCRATCH/"Run.lean"
 HISTORY="7991c9052f13e8dcaa78b5eae36f31663e080c1e"

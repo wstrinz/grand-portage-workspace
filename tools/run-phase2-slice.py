@@ -7,8 +7,9 @@ import json
 from pathlib import Path
 import subprocess
 
+EXE_SUFFIX = ".exe" if __import__("os").name == "nt" else ""
 ROOT = Path(__file__).resolve().parents[1]
-EXE = ROOT / "phase2/lean/.lake/build/bin/gp_span_runner.exe"
+EXE = ROOT / ("phase2/lean/.lake/build/bin/gp_span_runner" + EXE_SUFFIX)
 SCRATCH = ROOT / "tmp/phase2-slice"
 POLYNOMIALS = {
     "x": [{"exp": 1, "num": 1, "den": 1}],

@@ -25,12 +25,12 @@
     "boundary": "Replay the unchanged fixture declarations, not a reconstruction of predecessor MODEL_A/MODEL_B or EDGE_AB."
   },
   "registry_sha256": {
-    "layer_tags": "aff18aba0d92f0e43d89e75d7b19a63a4876bbd812fa1a18dc9f6dc0114ac752",
-    "routes": "36b842bb574d54cf6a320fab8070600c104d1155c817dba0987bd01488d30729",
+    "layer_tags": "046b353edf02f2e6972d00c2ee4fe974cb3bef1fc7062cede0d36ec4c1c83838",
+    "routes": "5e66d807591f8f9dc5e6eda0de2dfbed6364fbcdba50d0d3d2da9f384c9f5648",
     "pin": "9bb807c3034e045927dfc277f9ac268317ae2fdf7c07fd77c1643749794ee11f"
   },
   "runner_path": "F:\\repos\\grandportage-0.50\\phase2\\lean\\.lake\\build\\bin\\gp_lifecycle_runner.exe",
-  "runner_sha256": "3864574664dae66eb178a0af7fe6997a610daac16b5d2a7282e46bfefe0c2fa1",
+  "runner_sha256": "4affc188563f818aad3c798a4b49b0ccd25438c12a16cfd9283d9789f1128ab3",
   "runner_source_sha256": "612c1ec3a7a42dda2f44953be7c2f2f42065b817a4253b691132823eb4e86121",
   "kernel_source_sha256": {
     "phase2\\lean\\GP50\\Events.lean": "1e3d7497baaff4015d4706bccef0a62bdbf99d92ae64d7e2069907a221d091f3",
@@ -38,7 +38,7 @@
     "phase2\\lean\\GP50\\Decoder.lean": "de8460f9839582d8df489266fe2e8306d327257520fb562262a995a337e0ea51",
     "phase2\\lean\\GP50\\Closure.lean": "623d2368841f8278a007129faac79d498c1010523e9552a1dd2d3fa0201f5403"
   },
-  "adapter_sha256": "a1343f59f03c60e57bd6aa3bd973ed64edcc1d7b50a51ae685332613c363787d",
+  "adapter_sha256": "c0deb2bca90c511b9e986aba3b59c80630b1eeab7017dcfbb4de517c38a283d1",
   "test_source_sha256": "598c3814d31315d9e36c283ed321f2f00633ffc9dfc955918b721e3b23d6793f",
   "cases": [
     {

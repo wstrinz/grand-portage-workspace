@@ -8,10 +8,11 @@ import json
 from pathlib import Path
 import subprocess
 
+EXE_SUFFIX = ".exe" if __import__("os").name == "nt" else ""
 ROOT=Path(__file__).resolve().parents[1]
 SCRATCH=ROOT/"tmp/phase2-missing-authority"
 BIN=ROOT/"phase2/lean/.lake/build/bin"
-RUNNERS={"span":BIN/"gp_span_runner.exe","lifecycle":BIN/"gp_lifecycle_runner.exe"}
+RUNNERS={"span":BIN/("gp_span_runner" + EXE_SUFFIX),"lifecycle":BIN/("gp_lifecycle_runner" + EXE_SUFFIX)}
 PIN="ac4155787207e2847d248cffed7be871d5dcd577"
 HISTORY_PIN="7991c9052f13e8dcaa78b5eae36f31663e080c1e"
 CASES=("GP-A15","GP-A26","GP-X82")

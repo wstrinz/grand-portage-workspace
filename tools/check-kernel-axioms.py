@@ -13,13 +13,15 @@ from pathlib import Path
 import subprocess
 import time
 
+EXE_SUFFIX = ".exe" if __import__("os").name == "nt" else ""
+ELAN_HOME = Path(__import__("os").environ.get("ELAN_HOME") or Path.home() / ".elan")
 ROOT = Path(__file__).resolve().parents[1]
 PACKAGE = ROOT / "phase2/lean"
 SCRATCH = ROOT / "tmp/kernel-axioms"
 TOOLCHAIN_NAME = (PACKAGE / "lean-toolchain").read_text(encoding="utf-8").strip()
-TOOLCHAIN = Path.home() / ".elan" / "toolchains" / TOOLCHAIN_NAME.replace("/", "--").replace(":", "---")
-LAKE = TOOLCHAIN / "bin/lake.exe"
-CHECKER = TOOLCHAIN / "bin/leanchecker.exe"
+TOOLCHAIN = ELAN_HOME / "toolchains" / TOOLCHAIN_NAME.replace("/", "--").replace(":", "---")
+LAKE = TOOLCHAIN / ("bin/lake" + EXE_SUFFIX)
+CHECKER = TOOLCHAIN / ("bin/leanchecker" + EXE_SUFFIX)
 STANDARD = {"propext", "Quot.sound", "Classical.choice"}
 
 spec = importlib.util.spec_from_file_location("kernel_pin", ROOT / "tools/kernel-pin.py")

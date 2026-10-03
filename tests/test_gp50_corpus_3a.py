@@ -5,11 +5,13 @@ from pathlib import Path
 import subprocess
 import unittest
 
+EXE_SUFFIX = ".exe" if __import__("os").name == "nt" else ""
+ELAN_HOME = Path(__import__("os").environ.get("ELAN_HOME") or Path.home() / ".elan")
 ROOT = Path(__file__).resolve().parents[1]
 PROFILE = ROOT / "profile"
 RECEIPT = ROOT / "reports/PHASE-3A-CORPUS.json"
 SAFETY = ROOT / "reports/PHASE-3A-SAFETY.json"
-TOOLCHAIN = Path.home() / ".elan/toolchains" / (PROFILE / "lean-toolchain").read_text(
+TOOLCHAIN = ELAN_HOME / "toolchains" / (PROFILE / "lean-toolchain").read_text(
     encoding="utf-8").strip().replace("/", "--").replace(":", "---")
 
 
@@ -18,12 +20,12 @@ class Corpus3aTests(unittest.TestCase):
     def setUpClass(cls):
         env = dict(os.environ, PATH=str(TOOLCHAIN / "bin") + os.pathsep + os.environ["PATH"])
         # GPProfile.RuleChecks evaluates the IN_IDEAL rule instances with #guard at build time.
-        subprocess.run([str(TOOLCHAIN / "bin/lake.exe"), "build", "gp_corpus_run", "GPProfile.RuleChecks"], cwd=PROFILE,
+        subprocess.run([str(TOOLCHAIN / ("bin/lake" + EXE_SUFFIX)), "build", "gp_corpus_run", "GPProfile.RuleChecks"], cwd=PROFILE,
                        env=env, check=True, capture_output=True)
-        out = subprocess.run([str(PROFILE / ".lake/build/bin/gp_corpus_run.exe"), str(ROOT),
+        out = subprocess.run([str(PROFILE / (".lake/build/bin/gp_corpus_run" + EXE_SUFFIX)), str(ROOT),
                               str(PROFILE / "slice/corpus-3a.json")], check=True, capture_output=True, text=True)
         cls.fresh = json.loads(out.stdout)
-        safety = subprocess.run([str(PROFILE / ".lake/build/bin/gp_corpus_run.exe"), str(ROOT),
+        safety = subprocess.run([str(PROFILE / (".lake/build/bin/gp_corpus_run" + EXE_SUFFIX)), str(ROOT),
                                  str(PROFILE / "slice/safety-all-profile.json")], check=True,
                                 capture_output=True, text=True)
         cls.safety = json.loads(safety.stdout)
