@@ -98,4 +98,4 @@ Every package uses Lean `v4.34.0-rc2`, a release candidate adopted for Hex v0.6.
 | Executable profile arithmetic: 3a reach-slice checkers (not yet admitted) | `HexMvPoly`, `HexPoly`, `HexBasic` at v0.6.0; F_p via core `Fin p` (A3 deviation, no native externs); Lean `Rat` |
 | Field contexts and characteristic scopes (binding spike) | Mathlib `85e3a25e`: `ModelTheory/Bundled`, `ModelTheory/Algebra/Field/Basic`, `Algebra/CharP` |
 
-No GP claim yet depends on a Hex theorem. When 3a admits one, it is listed here by exact declaration, not by library status (A6).
+The §3.6a shadow theorems (`binding/GPBinding/Shadow`) rest on Mathlib `85e3a25e` only; AutoGeneralization `07ed6f9` is used as an untrusted proposer of weaker assumptions, and its outputs are re-elaborated, not trusted. No GP claim yet depends on a Hex theorem. When 3a admits one, it is listed here by exact declaration, not by library status (A6).

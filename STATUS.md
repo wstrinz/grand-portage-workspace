@@ -11,7 +11,7 @@ Updated 2026-10-02. Authority: [post-G2 handoff](docs/GP-0.50-POST-G2-HANDOFF.md
 
 **Validation.** A fresh full run at rc2 passes all 386 tests/1,130 subtests. Every Kernel module passes `leanchecker`, and all 1,054 Kernel constants use only standard axioms. All 79 and 459 legacy cases are unchanged. Kernel logic is 382 lines against 500.
 
-**Next.** The §3.6 reach slice is done ([report](reports/PHASE-3A-SLICE.md)): 19/19 rows agree. In progress: the §3.6a Lean-native shadow slice, then a stop at G3a-0 to report against the pivot rule (Addendum A, amendment 1). Heartbeats remain paused.
+**Next.** Stopped at G3a-0 for Will's pivot decision ([checkpoint](reports/G3A-0-CHECKPOINT.md)). The reach slice (19/19) and Lean shadow slice are done. Pivot conditions 2 and 3 fail; the recommendation is to continue. Heartbeats remain paused.
 
 - [Phase 2.5 report](reports/PHASE-2.5-REPORT.md)
 - [Executed slice](reports/PHASE-2-SLICE.md)

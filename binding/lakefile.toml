@@ -21,3 +21,8 @@ rev = "v0.6.0"
 
 [[lean_lib]]
 name = "GPBinding"
+
+[[require]]
+name = "AutoGeneralization"
+git = "https://github.com/pelicanhere/AutoGeneralization.git"
+rev = "07ed6f917b2cc8b0c29ef6dcb852e8beb9fbd2d1"
