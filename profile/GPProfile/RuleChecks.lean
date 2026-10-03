@@ -84,4 +84,29 @@ private def circle (g : List Sparse) (k : Kind) : Stmt := ⟨["x"], [p ["x"] "x^
   [⟨xy, [p xy "x*y"], [], .notInIdeal (oneP 2)⟩]
   (.inclusion [.ideal .rat [p xy "y", []] 1 0] []) == none
 
+/-! ### COVER split trees and generalized R4 (G3a review §2)
+
+`{x² = x}` is covered by `{x = 0}` and `{x = 1}`, but lies in neither branch alone: depth 0 fails
+and a depth-1 tree splitting on `x` succeeds. -/
+
+private def px (t : String) : Sparse := p ["x"] t
+private def bothBranches : List (List Sparse × List Sparse) := [([px "x"], []), ([px "x - 1"], [])]
+private def idem (k : Kind) (eqs : List Sparse := []) : Stmt := ⟨["x"], [px "x^2 - x"] ++ eqs, [], k⟩
+
+-- {x² = x, x = 0} ⊆ {x = 0}: x = 0·(x² − x) + 1·x.  {x² = x, x ≠ 0} ⊆ {x = 1}: (x − 1)·x = x² − x.
+private def tree : SplitTree := .split (px "x")
+  (.leaf 0 [⟨.rat, [[], px "1"], 1, 0⟩] [])
+  (.leaf 1 [⟨.rat, [px "1"], 1, 1⟩] [])
+
+#guard reach (idem (.cover bothBranches)) (.cover tree) == some Scope.all
+#guard reach (idem (.cover bothBranches)) (.cover (.leaf 0 [⟨.rat, [px "1"], 1, 0⟩] [])) == none
+
+-- R4 by cover: VANISHES_ON(x³ − x) on each branch subsystem gives it on {x² = x}.
+private def h3 : Kind := .vanishesOn (px "x^3 - x")
+#guard ruleReach ⟨["x"], [px "x^2 - x"], [], h3⟩
+  [idem (.cover bothBranches), idem h3 [px "x"], idem h3 [px "x - 1"]] .byCover == some Scope.all
+-- Every branch needs its premise.
+#guard ruleReach ⟨["x"], [px "x^2 - x"], [], h3⟩
+  [idem (.cover bothBranches), idem h3 [px "x"]] .byCover == none
+
 end GPProfile.RuleChecks

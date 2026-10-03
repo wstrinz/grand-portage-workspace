@@ -476,7 +476,7 @@ def coverFamily (inputs : Json) : Except String Plan := do
   let found := branches.zipIdx.findSome? fun ((be, bg), i) => do
     let ec ← be.mapM eqCert
     let gc ← bg.mapM guardCert
-    pure (Cert.cover i ec gc)
+    pure (Cert.cover (.leaf i ec gc))
   pure (single stmt .char0Only (match found with | some c => .receipt c | none => .none))
 
 /-- A family applies only when every input key is one it reads (or ignores as provenance) and

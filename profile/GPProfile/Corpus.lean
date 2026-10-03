@@ -18,6 +18,7 @@ def supportName : Support → String
   | .receipt _ (some _) => "receipt bound to original"
   | .rule d _ => match d with
     | .r1 => "rule R1" | .inclusion .. => "rule R2" | .map .. => "rule R3" | .split _ => "rule R4" | .witness => "rule bridge"
+    | .byCover => "rule R4 (cover)"
 
 def checkName : Check → String
   | .accepted _ => "accepted" | .notCanonical => "not canonical" | .illFormed _ => "ill-formed"

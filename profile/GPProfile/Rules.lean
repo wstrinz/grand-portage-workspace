@@ -80,6 +80,9 @@ inductive RuleData where
   /-- Bridge (G3a review §2, §6): NONEMPTY on the system with `h` added as a guard gives
   NOT_IN_IDEAL(h); NONEMPTY gives NOT_IN_IDEAL(1), geometric nonemptiness, on the same system. -/
   | witness
+  /-- R4 generalized (G3a review §2): a COVER premise plus, for each branch, the conclusion's
+  EMPTY or VANISHES_ON claim on the branch subsystem gives the claim on the whole system. -/
+  | byCover
   deriving Repr, DecidableEq
 
 /-- Primes dividing a denominator in the rule's own data (the map `φ`). -/
@@ -161,6 +164,17 @@ def ruleReach (C : Stmt) (Ps : List Stmt) : RuleData → Option Scope
         then some Scope.all else none
       | _, _ => none
     | _ => none
+  | .byCover =>
+    match Ps with
+    | P :: Qs =>
+      match P.kind with
+      | .cover bs =>
+        let kindOk := match C.kind with | .empty | .vanishesOn _ => true | _ => false
+        if kindOk && sameSystem P C && Qs.length == bs.length &&
+            (bs.zip Qs).all (fun (b, Q) => Q == { C with eqs := C.eqs ++ b.1, guards := C.guards ++ b.2 })
+        then some Scope.all else none
+      | _ => none
+    | [] => none
   | .split h =>
     match Ps with
     | [B₁, B₂] =>

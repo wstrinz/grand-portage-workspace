@@ -258,7 +258,7 @@ theorem reach_empty_ideal {s : Stmt} {c : Cert} {r : Scope} (hs : s.kind = .empt
   cases c with
   | point f vs => simp [reach, reachBase, hs] at hr
   | proper f a b => simp [reach, reachBase, hs] at hr
-  | cover i a b => simp [reach, hs] at hr
+  | cover t => simp [reach, hs] at hr
   | ideal field qs m k =>
     obtain ⟨h, ht, I⟩ := reach_ideal_identity hr hK
     simp only [idealTarget, hs] at ht
@@ -282,7 +282,7 @@ theorem reach_vanishes_ideal {s : Stmt} {c : Cert} {r : Scope} {h : Sparse}
   cases c with
   | point f vs => simp [reach, reachBase, hs] at hr
   | proper f a b => simp [reach, reachBase, hs] at hr
-  | cover i a b => simp [reach, hs] at hr
+  | cover t => simp [reach, hs] at hr
   | ideal field qs m k =>
     obtain ⟨h', ht, I⟩ := reach_ideal_identity hr hK
     simp only [idealTarget, hs] at ht
@@ -567,9 +567,8 @@ theorem foldl_meet_den :
 
 theorem inclusion_certs_ideal {T L : Stmt} {eqCerts guardCerts : List IdealCert}
     {obs : List (Stmt × Cert)}
-    (h : inclusionObligations T L (eqCerts.map fun c => Cert.ideal c.field c.cofactors c.m c.k)
-      (guardCerts.map fun c => Cert.ideal c.field c.cofactors c.m c.k) = some obs) :
-    ∀ o ∈ obs, ∃ c : IdealCert, o.2 = Cert.ideal c.field c.cofactors c.m c.k := by
+    (h : inclusionObligations T L (eqCerts.map IdealCert.toCert) (guardCerts.map IdealCert.toCert) = some obs) :
+    ∀ o ∈ obs, ∃ c : IdealCert, o.2 = c.toCert := by
   unfold inclusionObligations at h
   split_ifs at h
   simp only [Option.some.injEq] at h
@@ -583,38 +582,103 @@ theorem inclusion_certs_ideal {T L : Stmt} {eqCerts guardCerts : List IdealCert}
     obtain ⟨c', -, rfl⟩ := List.mem_map.mp (List.of_mem_zip hc).2
     exact ⟨c', rfl⟩
 
-theorem reach_cover_sound {s : Stmt} {i : ℕ} {eqCerts guardCerts : List IdealCert} {r : Scope}
-    (hr : reach s (.cover i eqCerts guardCerts) = some r) (hK : r.mem K) : Holds K s := by
+theorem treeObligations_ideal {v : List String} {bs : List (List Sparse × List Sparse)} :
+    ∀ (t : SplitTree) {E G : List Sparse} {obs : List (Stmt × Cert)},
+      treeObligations v bs E G t = some obs → ∀ o ∈ obs, ∃ c : IdealCert, o.2 = c.toCert
+  | .leaf i eqC gC, E, G, obs, h => by
+    simp only [treeObligations] at h
+    cases hb : bs[i]? with
+    | none => simp [hb] at h
+    | some b =>
+      simp only [hb, Option.bind_eq_bind, Option.bind_some] at h
+      exact inclusion_certs_ideal h
+  | .empty c, E, G, obs, h => by
+    simp only [treeObligations, Option.some.injEq] at h
+    subst h
+    intro o ho
+    rw [List.mem_singleton.mp ho]
+    exact ⟨c, rfl⟩
+  | .split h t₀ t₁, E, G, obs, hh => by
+    simp only [treeObligations] at hh
+    cases h₀ : treeObligations v bs (E ++ [h]) G t₀ with
+    | none => simp [h₀] at hh
+    | some a =>
+      cases h₁ : treeObligations v bs E (G ++ [h]) t₁ with
+      | none => simp [h₀, h₁] at hh
+      | some b =>
+        simp only [h₀, h₁, Option.bind_eq_bind, Option.bind_some, Option.pure_def,
+          Option.some.injEq] at hh
+        subst hh
+        intro o ho
+        rcases List.mem_append.mp ho with ho | ho
+        · exact treeObligations_ideal t₀ h₀ o ho
+        · exact treeObligations_ideal t₁ h₁ o ho
+
+/-- A split tree whose obligations hold puts every point of the subsystem in some branch. -/
+theorem tree_locus {v : List String} {bs : List (List Sparse × List Sparse)} :
+    ∀ (t : SplitTree) {E G : List Sparse} {obs : List (Stmt × Cert)},
+      treeObligations v bs E G t = some obs → (∀ o ∈ obs, Holds K o.1) →
+      ∀ x, Locus (K := K) (⟨v, E, G, .empty⟩ : Stmt) x → ∃ b ∈ bs,
+        (∀ e ∈ b.1, value v.length e x = 0) ∧ (∀ g ∈ b.2, value v.length g x ≠ 0)
+  | .leaf i eqC gC, E, G, obs, h, hobs, x, hx => by
+    simp only [treeObligations] at h
+    cases hb : bs[i]? with
+    | none => simp [hb] at h
+    | some b =>
+      simp only [hb, Option.bind_eq_bind, Option.bind_some] at h
+      obtain ⟨-, hloc⟩ := inclusion_locus h hobs
+      exact ⟨b, List.mem_of_getElem? hb, hloc x hx⟩
+  | .empty c, E, G, obs, h, hobs, x, hx => by
+    simp only [treeObligations, Option.some.injEq] at h
+    subst h
+    exact absurd hx (hobs _ List.mem_cons_self x)
+  | .split h t₀ t₁, E, G, obs, hh, hobs, x, hx => by
+    simp only [treeObligations] at hh
+    cases h₀ : treeObligations v bs (E ++ [h]) G t₀ with
+    | none => simp [h₀] at hh
+    | some a =>
+      cases h₁ : treeObligations v bs E (G ++ [h]) t₁ with
+      | none => simp [h₀, h₁] at hh
+      | some b =>
+        simp only [h₀, h₁, Option.bind_eq_bind, Option.bind_some, Option.pure_def,
+          Option.some.injEq] at hh
+        subst hh
+        by_cases hz : value v.length h x = 0
+        · refine tree_locus t₀ h₀ (fun o ho => hobs o (List.mem_append_left _ ho)) x
+            ⟨fun e he => ?_, hx.2⟩
+          rcases List.mem_append.mp he with he | he
+          · exact hx.1 e he
+          · rw [List.mem_singleton.mp he]; exact hz
+        · refine tree_locus t₁ h₁ (fun o ho => hobs o (List.mem_append_right _ ho)) x
+            ⟨hx.1, fun g hg => ?_⟩
+          rcases List.mem_append.mp hg with hg | hg
+          · exact hx.2 g hg
+          · rw [List.mem_singleton.mp hg]; exact hz
+
+theorem reach_cover_sound {s : Stmt} {t : SplitTree} {r : Scope}
+    (hr : reach s (.cover t) = some r) (hK : r.mem K) : Holds K s := by
   obtain ⟨v, e, g, k⟩ := s
   cases k with
   | cover bs =>
     simp only [reach] at hr
-    cases hb : bs[i]? with
-    | none => simp [hb] at hr
-    | some b =>
-      obtain ⟨be, bg⟩ := b
-      simp only [hb, Option.bind_eq_bind, Option.bind_some] at hr
-      cases ho : inclusionObligations ⟨v, e, g, .cover bs⟩ ⟨v, be, bg, .empty⟩
-          (eqCerts.map fun c => Cert.ideal c.field c.cofactors c.m c.k)
-          (guardCerts.map fun c => Cert.ideal c.field c.cofactors c.m c.k) with
-      | none => simp [ho] at hr
-      | some obs =>
-        simp only [ho, Option.bind_some] at hr
-        cases hrs : reachAllBase obs with
-        | none => simp [hrs] at hr
-        | some rs =>
-          simp only [hrs, Option.bind_some, Option.pure_def, Option.some.injEq] at hr
-          subst hr
-          have hobs : ∀ o ∈ obs, Holds K o.1 := by
-            intro o ho'
-            obtain ⟨r', hr', hreach⟩ := forall₂_exists_right (mapM_forall₂ hrs) o ho'
-            have hmem := (foldl_meet_den rs (.outside []) hK).2 r' hr'
-            obtain ⟨c, hc⟩ := inclusion_certs_ideal ho o ho'
-            rw [hc] at hreach
-            exact reach_ideal_sound (r := r') (by simpa [reach] using hreach) hmem
-          obtain ⟨-, hloc⟩ := inclusion_locus ho hobs
-          intro x hx
-          exact ⟨(be, bg), List.mem_of_getElem? hb, hloc x hx⟩
+    split_ifs at hr
+    cases ho : treeObligations v bs e g t with
+    | none => simp [ho] at hr
+    | some obs =>
+      simp only [ho, Option.bind_eq_bind, Option.bind_some] at hr
+      cases hrs : reachAllBase obs with
+      | none => simp [hrs] at hr
+      | some rs =>
+        simp only [hrs, Option.bind_some, Option.pure_def, Option.some.injEq] at hr
+        subst hr
+        have hobs : ∀ o ∈ obs, Holds K o.1 := by
+          intro o ho'
+          obtain ⟨r', hr', hreach⟩ := forall₂_exists_right (mapM_forall₂ hrs) o ho'
+          have hmem := (foldl_meet_den rs (.outside []) hK).2 r' hr'
+          obtain ⟨c, hc⟩ := treeObligations_ideal t ho o ho'
+          rw [hc] at hreach
+          exact reach_ideal_sound (r := r') (by simpa [reach, IdealCert.toCert] using hreach) hmem
+        exact tree_locus t ho hobs
   | _ => simp [reach] at hr
 
 /-- Reach soundness: a certificate's computed reach holds in every field it denotes. -/
@@ -624,7 +688,7 @@ theorem reach_sound {s : Stmt} {c : Cert} {r : Scope}
   | ideal field qs m k => exact reach_ideal_sound hr hK
   | point field vs => exact reach_point_sound hr hK
   | proper field a b => exact reach_proper_sound hr hK
-  | cover i eqCerts guardCerts => exact reach_cover_sound hr hK
+  | cover t => exact reach_cover_sound hr hK
 
 /-- An accepted receipt check: the statement holds throughout the requested scope. -/
 theorem check_sound {s : Stmt} {scope : Scope} {c : Cert} {r : Scope}

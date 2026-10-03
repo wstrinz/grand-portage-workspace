@@ -308,3 +308,7 @@ For Will: GP-X45 (ACCEPT) and GP-X49 (REFUSE) have byte-identical inputs. X49's 
 - Alternative: reassign X49 to campaign-op.
 
 Also proposed: GP-X22–X24 (3b) are ruling 2's shape and now pass through the same family, so they should move to 3a.
+
+2026-10-03 Will, on the step-4 report:
+- X49 gets an instantiation fixture whose proposed change is an unrecognized verifier version, refused as custody (stale authority binding). It is built with the step-7 fixtures.
+- X22–X24 move from 3b to 3a (ruling 2's shape).

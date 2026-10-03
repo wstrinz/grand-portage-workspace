@@ -106,6 +106,23 @@ structure IdealCert where
   k : Nat
   deriving Repr, DecidableEq
 
+/-- A split-tree certificate for COVER (G3a review §2): `split h` covers the current subsystem by
+`{h = 0}` (equation added) and `{h ≠ 0}` (guard added); a `leaf` puts its subsystem inside one
+branch by C4 inclusion; `empty` discharges an empty subsystem by C1. Depth 0 is a single-branch
+inclusion, depth 1 the R4 structural split. -/
+inductive SplitTree where
+  | leaf (branch : Nat) (eqCerts guardCerts : List IdealCert)
+  | empty (cert : IdealCert)
+  | split (h : Sparse) (zero nonzero : SplitTree)
+  deriving Repr, DecidableEq
+
+def SplitTree.size : SplitTree → Nat
+  | .leaf .. | .empty _ => 1
+  | .split _ a b => a.size + b.size + 1
+
+/-- Split trees beyond this many nodes are refused rather than replayed. -/
+def maxTreeSize : Nat := 255
+
 inductive Cert where
   /-- C1/C3: `h^m · (∏ guards)^k = Σ qᵢ·eqᵢ` (C1 has `h = 1`). -/
   | ideal (field : Field) (cofactors : List Sparse) (m k : Nat)
@@ -114,10 +131,11 @@ inductive Cert where
   /-- Geometric nonemptiness of `{m = 0}` (G3a review §6(iii)): the single equation takes different
   values at two rational points, so it is non-constant, hence not a unit: `(m)` is proper. -/
   | proper (field : Field) (a b : List Rat)
-  /-- COVER: the whole locus lies in branch `branch`, by a C4 inclusion whose obligations are
-  C1/C3 certificates. -/
-  | cover (branch : Nat) (eqCerts guardCerts : List IdealCert)
+  /-- COVER: every point of the locus lies in some branch, by a split tree. -/
+  | cover (tree : SplitTree)
   deriving Repr, DecidableEq
+
+def IdealCert.toCert (c : IdealCert) : Cert := .ideal c.field c.cofactors c.m c.k
 
 def Cert.field : Cert → Field
   | .ideal f .. | .point f _ | .proper f _ _ => f
@@ -226,6 +244,19 @@ def inclusionObligations (T L : Stmt) (eqCerts guardCerts : List Cert) :
   else some ((L.eqs.zip eqCerts).map (fun (e, c) => (⟨T.vars, T.eqs, T.guards, .vanishesOn e⟩, c)) ++
     (L.guards.zip guardCerts).map (fun (g, c) => (⟨T.vars, T.eqs ++ [g], T.guards, .empty⟩, c)))
 
+/-- The C1/C3 obligations of a split tree for the subsystem `(E, G)`. -/
+def treeObligations (v : List String) (bs : List (List Sparse × List Sparse)) :
+    List Sparse → List Sparse → SplitTree → Option (List (Stmt × Cert))
+  | E, G, .leaf i eqC gC => do
+    let b ← bs[i]?
+    inclusionObligations ⟨v, E, G, .empty⟩ ⟨v, b.1, b.2, .empty⟩ (eqC.map IdealCert.toCert)
+      (gC.map IdealCert.toCert)
+  | E, G, .empty c => some [(⟨v, E, G, .empty⟩, c.toCert)]
+  | E, G, .split h t₀ t₁ => do
+    let a ← treeObligations v bs (E ++ [h]) G t₀
+    let b ← treeObligations v bs E (G ++ [h]) t₁
+    pure (a ++ b)
+
 /-- The meet of the reaches of C1/C3 obligations. -/
 def reachAllBase (obs : List (Stmt × Cert)) : Option (List Scope) :=
   obs.mapM fun o => reachBase o.1 o.2
@@ -235,13 +266,11 @@ def reach (s : Stmt) (c : Cert) : Option Scope :=
   match c with
   -- Points certify NONEMPTY only; NOT_IN_IDEAL comes from NONEMPTY by the bridge rule.
   | .point .. | .proper .. => reachBase s c
-  | .cover i eqCerts guardCerts =>
+  | .cover t =>
     match s.kind with
     | .cover bs => do
-      let (eqs, guards) ← bs[i]?
-      let asCert := fun (c : IdealCert) => Cert.ideal c.field c.cofactors c.m c.k
-      let obs ← inclusionObligations s ⟨s.vars, eqs, guards, .empty⟩ (eqCerts.map asCert)
-        (guardCerts.map asCert)
+      if t.size > maxTreeSize then none else
+      let obs ← treeObligations s.vars bs s.eqs s.guards t
       let rs ← reachAllBase obs
       pure (rs.foldl (fun a b => ⟨a.char0 && b.char0, meetPrimes a.primes b.primes⟩) (.outside []))
     | _ => none

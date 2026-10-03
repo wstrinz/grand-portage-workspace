@@ -125,6 +125,47 @@ theorem witness_sound {P C : Stmt} {r : Scope} (h : ruleReach C [P] .witness = s
     · exact hxg g' (List.mem_append_left _ hg')
     · exact hxg g' hg'
 
+/-! ## R4 generalized: a COVER premise and per-branch claims -/
+
+theorem cover_rule_sound {P C : Stmt} {Qs : List Stmt} {r : Scope}
+    (h : ruleReach C (P :: Qs) .byCover = some r) (hP : Holds K P) (hQ : ∀ Q ∈ Qs, Holds K Q) :
+    Holds K C := by
+  obtain ⟨vP, eP, gP, kP⟩ := P
+  obtain ⟨vC, eC, gC, kC⟩ := C
+  simp only [ruleReach] at h
+  cases kP with
+  | cover bs =>
+    simp only at h
+    split_ifs at h with hc
+    simp only [Bool.and_eq_true, sameSystem, beq_iff_eq, List.all_eq_true] at hc
+    obtain ⟨⟨⟨hk, ⟨⟨rfl, rfl⟩, rfl⟩⟩, hlen⟩, hall⟩ := hc
+    have hcov : ∀ x, Locus (K := K) (⟨vP, eP, gP, kC⟩ : Stmt) x → ∃ b ∈ bs,
+        (⟨vP, eP ++ b.1, gP ++ b.2, kC⟩ : Stmt) ∈ Qs ∧
+          Locus (K := K) (⟨vP, eP ++ b.1, gP ++ b.2, kC⟩ : Stmt) x := by
+      intro x hx
+      obtain ⟨b, hb, hbe, hbg⟩ := hP x hx
+      obtain ⟨Q, hbQ⟩ := mem_zip_of_mem hlen.symm hb
+      have hQe := hall _ hbQ
+      simp only [beq_iff_eq] at hQe
+      refine ⟨b, hb, hQe ▸ (List.of_mem_zip hbQ).2, fun e he => ?_, fun g hg => ?_⟩
+      · rcases List.mem_append.mp he with he | he
+        · exact hx.1 e he
+        · exact hbe e he
+      · rcases List.mem_append.mp hg with hg | hg
+        · exact hx.2 g hg
+        · exact hbg g hg
+    cases kC with
+    | empty =>
+      intro x hx
+      obtain ⟨b, -, hQm, hxQ⟩ := hcov x hx
+      exact hQ _ hQm x hxQ
+    | vanishesOn f =>
+      intro x hx
+      obtain ⟨b, -, hQm, hxQ⟩ := hcov x hx
+      exact hQ _ hQm x hxQ
+    | _ => simp at hk
+  | _ => simp at h
+
 /-! ## R4: object cover by a structural split -/
 
 theorem r4_sound {B₁ B₂ C : Stmt} {h : Sparse} {r : Scope}
@@ -732,8 +773,8 @@ theorem reach_nil {C : Stmt} {d : RuleData} {rr : Scope} (h : ruleReach C [] d =
   cases d <;> simp [ruleReach] at h
 
 theorem reach_many {C P Q R : Stmt} {Ps : List Stmt} {d : RuleData} {rr : Scope}
-    (h : ruleReach C (P :: Q :: R :: Ps) d = some rr) : False := by
-  cases d <;> simp [ruleReach] at h
+    (hd : d ≠ .byCover) (h : ruleReach C (P :: Q :: R :: Ps) d = some rr) : False := by
+  cases d <;> first | exact hd rfl | simp [ruleReach] at h
 
 theorem reach_one_split {C P : Stmt} {f : Sparse} {rr : Scope}
     (h : ruleReach C [P] (.split f) = some rr) : False := by
@@ -790,6 +831,14 @@ theorem acceptsRule_claim_meaning (clauses : List GPProfile.Clause) (rules : Lis
               mem_union_right (mem_union_left (List.mem_flatMap.mpr ⟨p, hp, hx⟩)))
           have hDg : Avoids K.carrier r.data.primes :=
             hav.mono fun x hx => mem_union_right (mem_union_right hx)
+          by_cases hcov : r.data = .byCover
+          · rw [hcov] at hR
+            rcases ps with _ | ⟨p₁, qs⟩
+            · exact (reach_nil hR).elim
+            · have hR' : ruleReach c.stmt (p₁.stmt :: qs.map (·.stmt)) .byCover = some rr := hR
+              exact cover_rule_sound hR' (hpK p₁ List.mem_cons_self) fun Q hQ => by
+                obtain ⟨q, hq, rfl⟩ := List.mem_map.mp hQ
+                exact hpK q (List.mem_cons_of_mem _ hq)
           rcases ps with _ | ⟨p₁, _ | ⟨p₂, _ | ⟨p₃, ps⟩⟩⟩
           · exact (reach_nil hR).elim
           · have h₁ := hpK p₁ List.mem_cons_self
@@ -804,6 +853,7 @@ theorem acceptsRule_claim_meaning (clauses : List GPProfile.Clause) (rules : Lis
               exact r3_sound hR hrrK h₁ hphi (hPg p₁ List.mem_cons_self) hCg
             | split h => rw [hd] at hR; exact (reach_one_split hR).elim
             | witness => rw [hd] at hR; exact witness_sound hR h₁
+            | byCover => exact absurd hd hcov
           · cases hd : r.data with
             | split h =>
               rw [hd] at hR
@@ -813,7 +863,8 @@ theorem acceptsRule_claim_meaning (clauses : List GPProfile.Clause) (rules : Lis
             | inclusion _ _ => rw [hd] at hR; exact (reach_two_inclusion hR).elim
             | map _ _ _ => rw [hd] at hR; exact (reach_two_map hR).elim
             | witness => rw [hd] at hR; exact (reach_two_witness hR).elim
-          · exact (reach_many hR).elim
+            | byCover => exact absurd hd hcov
+          · exact (reach_many hcov hR).elim
         refine ⟨⟨c, present, key⟩, fun c' hc' hkey' => ?_⟩
         have := key_unique_of_nodup clauses (·.key) unique c' c hc' present (hkey'.trans key.symm)
         exact this ▸ means

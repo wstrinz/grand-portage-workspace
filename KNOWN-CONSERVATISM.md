@@ -17,7 +17,9 @@ Sound refusals where a weaker sufficient condition exists. Each entry names the 
 | Where | Refused | Sufficient condition not used | Status |
 |---|---|---|---|
 | R2/R3 IN_IDEAL guard obligations | A loose guard without its own C1 certificate, even when it already occurs among the tight guards | A loose guard in `T.guards` is trivially a unit in `K[x][1/g_T]` | Costs one trivial certificate per shared guard |
-| R2/R3 for NOT_IN_IDEAL(h), h ≠ 1, and COVER | Inclusion or map transport | NOT_IN_IDEAL(h) transports where its witness system does; COVER via the split tree | NOT_IN_IDEAL(1) transports (3a.1 step 4); COVER is step 5 |
+| R2/R3 for NOT_IN_IDEAL(h), h ≠ 1 | Inclusion or map transport | NOT_IN_IDEAL(h) transports where its witness system does | NOT_IN_IDEAL(1) transports (3a.1 step 4) |
+| COVER | R2/R3 transport of a COVER claim | Re-deriving the cover on the new system with a split tree | COVER is consumed by R4-by-cover; it is re-proved, never transported (3a.1 step 5) |
+| COVER split trees | Trees over 255 nodes | A larger budget | Resource bound, like `maxExponent` |
 | `proper` base checker | Characteristics where the two sample points give equal values (a² − a sampled at 0 and 2 is refused in characteristic 2) | Any pair of points where the values differ there, or a leading-coefficient argument | The adapter samples 0 and the first integer giving a different value |
 | R1 | IN_IDEAL ⇒ VANISHES_ON across different systems | R1 composed with R2 on the tight system | Compose explicitly |
 | `contra` | Contradictions between different presentations of one locus (EMPTY on S vs NONEMPTY on S′ with locus S′ ⊆ locus S) | A C4 inclusion certificate inside the conflict check | Only same-system pairs, plus VANISHES_ON(h) vs NONEMPTY with guard h |
