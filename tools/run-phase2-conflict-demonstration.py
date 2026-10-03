@@ -7,10 +7,12 @@ from pathlib import Path
 import re
 import subprocess
 
+EXE_SUFFIX = ".exe" if __import__("os").name == "nt" else ""
+ELAN_HOME = Path(__import__("os").environ.get("ELAN_HOME") or Path.home() / ".elan")
 ROOT = Path(__file__).resolve().parents[1]
 PACKAGE = ROOT / "phase2/lean"
-LAKE = (Path.home()/".elan"/"toolchains"/(ROOT/"phase2/lean/lean-toolchain").read_text(encoding="utf-8").strip().replace("/","--").replace(":","---"))/"bin"/"lake.exe"
-EXE = PACKAGE / ".lake/build/bin/gp_conflict_tests.exe"
+LAKE = (ELAN_HOME/"toolchains"/(ROOT/"phase2/lean/lean-toolchain").read_text(encoding="utf-8").strip().replace("/","--").replace(":","---"))/"bin"/("lake" + EXE_SUFFIX)
+EXE = PACKAGE / (".lake/build/bin/gp_conflict_tests" + EXE_SUFFIX)
 PROOF = "GP50.ConflictSoundnessProofs"
 APPROVAL = "2026-10-01 conflict demonstration ratified: Will directly selected Approve faulty-checker demonstration plus soundness proof."
 

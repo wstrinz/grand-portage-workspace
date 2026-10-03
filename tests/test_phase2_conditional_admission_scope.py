@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import unittest
 
+EXE_SUFFIX = ".exe" if __import__("os").name == "nt" else ""
 ROOT=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location("admission_scope",ROOT/"tools/run-phase2-conditional-admission-scope.py")
 m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
@@ -121,7 +122,7 @@ class ConditionalAdmissionScopeTests(unittest.TestCase):
     def test_cache_binds_local_sources_imports_toolchain(self):
         build=self.report["build"];inputs=build["build_input_hashes"]
         self.assertTrue(m.cache_matches(build,inputs,build["harness_sha256"]))
-        for suffix in (".lean",".olean","lean.exe","lake.exe","leanchecker.exe"):
+        for suffix in (".lean",".olean",("lean" + EXE_SUFFIX),("lake" + EXE_SUFFIX),("leanchecker" + EXE_SUFFIX)):
             key=next(k for k in inputs if k.endswith(suffix));changed=dict(inputs);changed[key]="changed"
             with self.subTest(dependency=key):
                 self.assertFalse(m.cache_matches(build,changed,build["harness_sha256"]))

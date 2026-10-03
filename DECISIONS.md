@@ -319,3 +319,13 @@ Also proposed: GP-X22–X24 (3b) are ruling 2's shape and now pass through the s
 - 3b: X343.
 
 2026-10-03 G3a ratified by Will (reports/PHASE-3A-REPORT.md): "let's head that way and we can merge and revise later". Next: merge to master, prepare v0.50.0-alpha (publication still needs Will's approval), then Phase 4 (census).
+
+2026-10-03 Will, on the alpha plan (reports/PUBLIC-INTEGRATION-PLAN.md): the release gate is G3a; the corpus and source-pinned reports are public at release; the label is v0.50.0-alpha. Prep order: portable harnesses, snapshot manifest v2, freeze parity, public README, then tag and stage the snapshot. Any push to public wstrinz/grandportage still needs Will's explicit approval.
+
+2026-10-03 Alpha prep, portable harnesses (builder note).
+- 34 tools and tests resolve Lean through `$ELAN_HOME` (default `~/.elan`) and use `.exe` only on Windows.
+- Every Phase 2 harness with a writer was re-executed (run-phase2-slice, lifecycle properties, Kernel axioms), and the binder was re-run.
+- A semantic diff shows only bindings, timings and the toolchain path changed. The old receipts predated the A2 move from v4.32.1 to rc2. The Kernel source count is now 40, after the Phase 2.5 extraction.
+- Same 79 cases and statuses; Kernel axioms standard.
+- The hand-assembled PHASE-2-*-INTEGRATION receipts have no writer. They stay as dated records of the harness bytes at integration time, which git keeps reachable.
+- Excluded on purpose: the Phase 1 spike tools and two audits that pin the old repo path.

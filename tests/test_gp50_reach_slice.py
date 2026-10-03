@@ -5,10 +5,12 @@ from pathlib import Path
 import subprocess
 import unittest
 
+EXE_SUFFIX = ".exe" if __import__("os").name == "nt" else ""
+ELAN_HOME = Path(__import__("os").environ.get("ELAN_HOME") or Path.home() / ".elan")
 ROOT = Path(__file__).resolve().parents[1]
 PROFILE = ROOT / "profile"
 RECEIPT = ROOT / "reports/PHASE-3A-SLICE.json"
-TOOLCHAIN = Path.home() / ".elan/toolchains" / (PROFILE / "lean-toolchain").read_text(
+TOOLCHAIN = ELAN_HOME / "toolchains" / (PROFILE / "lean-toolchain").read_text(
     encoding="utf-8").strip().replace("/", "--").replace(":", "---")
 
 
@@ -20,9 +22,9 @@ def strip(receipt):
 
 def run_slice():
     env = dict(os.environ, PATH=str(TOOLCHAIN / "bin") + os.pathsep + os.environ["PATH"])
-    subprocess.run([str(TOOLCHAIN / "bin/lake.exe"), "build", "gp_reach_slice"], cwd=PROFILE,
+    subprocess.run([str(TOOLCHAIN / ("bin/lake" + EXE_SUFFIX)), "build", "gp_reach_slice"], cwd=PROFILE,
                    env=env, check=True, capture_output=True)
-    out = subprocess.run([str(PROFILE / ".lake/build/bin/gp_reach_slice.exe"), str(ROOT),
+    out = subprocess.run([str(PROFILE / (".lake/build/bin/gp_reach_slice" + EXE_SUFFIX)), str(ROOT),
                           str(PROFILE / "slice/manifest.json")], check=True, capture_output=True, text=True)
     return json.loads(out.stdout)
 

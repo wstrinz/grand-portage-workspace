@@ -6,20 +6,20 @@
   "authority_boundary": "Deliberately unsound test admission models a faulty checker; it is not admitted production evidence. Actual fold and release review execute. Sound-fold theorem uses explicit BaseValidatorSound contracts and exact registered clause semantics; confirmed alarms imply their assumptions were breached.",
   "no_gate_relaxation": "79 kernel cases and all other G2 obligations remain unchanged.",
   "source_hashes": {
-    "phase2\\lean\\GP50\\ConflictSoundnessProofs.lean": "1825e50668c6710a99ab79e9d1c855ef20b4408c2e3cdd35f9275d5338dc585c",
-    "phase2\\lean\\GP50\\ConflictProofs.lean": "6d4cc8734ff7d5e48511cd1a168e4fc3214064aa9eeb941ca319b3eef2f16018",
-    "phase2\\lean\\GP50\\Conflict.lean": "e05e82b0bae7b0c2d7a717e89ea28476b9f74a9d1727721818b0d4a17341590c",
-    "phase2\\lean\\Tests\\Conflict.lean": "aeb32e8ea331f3939c7f5ee5a16c1c2a610f9dbe14873c5ad5ba06bf32baa46c"
+    "phase2\\lean\\GP50\\ConflictSoundnessProofs.lean": "084a5fc74b03516853fbb93fecf0133def138c37e0a854410059fc509dabdc34",
+    "phase2\\lean\\GP50\\ConflictProofs.lean": "98b40ee71f9c90f878b20ced1b3186c3bcc4753ad29253dee2c3aad39ef42eac",
+    "phase2\\lean\\GP50\\Conflict.lean": "15747225b8a285c6a0812c003c57ba4306de449acb4d5f6320093776e646a437",
+    "phase2\\lean\\Tests\\Conflict.lean": "62c04943e8d8743e860886e765e513c3970ff04811a9572767e4217ebf955fc8"
   },
-  "adapter_sha256": "7377581be14a9fe58d3ef0e9bb220d0fd7a23135938473ac65edaa71c91cb5eb",
-  "executable_sha256": "a5e552687e3e1f4f113d58baba0fc0242d504a7d492209e6b4830ffbbf8751e0",
+  "adapter_sha256": "e836d8107acd2cdc3f09dcf4917a4bad702fbe25123dfa628eb3c11493a5f6be",
+  "executable_sha256": "7783574e0f90861df20c43af6e5bcf1c56d3dacc164149c78e88bee50e789470",
   "kernel_check_results": {
     "GP50.ConflictSoundnessProofs": "replaying GP50.ConflictSoundnessProofs\n",
     "Tests.Conflict": "replaying Tests.Conflict\n"
   },
   "compiled_proof_sha256": {
-    "GP50.ConflictSoundnessProofs": "7d25d4719d79b08748c211a8c39d091cecb772ca01a61ba578a3fd416f9017a6",
-    "Tests.Conflict": "1ba4201fc6d699ede8735feab3d23b731a718166a5268e8e9b5f2e51e13d6263"
+    "GP50.ConflictSoundnessProofs": "bd63b951b1d65eced82aec6fc441196d65b1e47ada95ecf66a712628be569958",
+    "Tests.Conflict": "bd300a71fbc099a05c99636b76b14c42bbfb1a9764764ab02d6e0ed1aa86998f"
   },
   "axioms": [
     "propext",

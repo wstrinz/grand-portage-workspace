@@ -8,10 +8,11 @@ import json
 from pathlib import Path
 import subprocess
 
+EXE_SUFFIX = ".exe" if __import__("os").name == "nt" else ""
 ROOT = Path(__file__).resolve().parents[1]
 SCRATCH = ROOT / "tmp/phase2-checked-lifecycle-supplement"
 BIN = ROOT / "phase2/lean/.lake/build/bin"
-RUNNERS = {k: BIN / ("gp_" + k + "_runner.exe") for k in ("span", "scoped", "lifecycle")}
+RUNNERS = {k: BIN / ("gp_" + k + ("_runner" + EXE_SUFFIX)) for k in ("span", "scoped", "lifecycle")}
 PIN = "ac4155787207e2847d248cffed7be871d5dcd577"
 CASE_HASH = "3380ad2566475144e05b162f3113e02ead4faf3ea5a92c568f9fa0b5e8a24fed"
 HELPER = ROOT / "tools/run-phase2-slice.py"

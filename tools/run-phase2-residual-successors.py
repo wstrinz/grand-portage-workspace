@@ -7,8 +7,9 @@ import json
 from pathlib import Path
 import subprocess
 
+EXE_SUFFIX = ".exe" if __import__("os").name == "nt" else ""
 ROOT=Path(__file__).resolve().parents[1]
-EXE=ROOT/"phase2/lean/.lake/build/bin/gp_lifecycle_runner.exe"
+EXE=ROOT/("phase2/lean/.lake/build/bin/gp_lifecycle_runner" + EXE_SUFFIX)
 SCRATCH=ROOT/"tmp/phase2-residual-successors"
 PIN="ac4155787207e2847d248cffed7be871d5dcd577"
 CASES=("GP-X159","GP-X161")

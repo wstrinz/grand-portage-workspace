@@ -10,8 +10,9 @@ import json
 from pathlib import Path
 import subprocess
 
+EXE_SUFFIX = ".exe" if __import__("os").name == "nt" else ""
 ROOT = Path(__file__).resolve().parents[1]
-RUNNER = ROOT / "profile/.lake/build/bin/gp_corpus_run.exe"
+RUNNER = ROOT / ("profile/.lake/build/bin/gp_corpus_run" + EXE_SUFFIX)
 
 
 def main():

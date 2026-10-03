@@ -15,9 +15,9 @@
     "fixture_boundary": "Literal unchanged fixture abstraction, not a reconstruction of predecessor object data."
   },
   "runner_path": "F:\\repos\\grandportage-0.50\\phase2\\lean\\.lake\\build\\bin\\gp_lifecycle_runner.exe",
-  "runner_sha256": "3864574664dae66eb178a0af7fe6997a610daac16b5d2a7282e46bfefe0c2fa1",
+  "runner_sha256": "4affc188563f818aad3c798a4b49b0ccd25438c12a16cfd9283d9789f1128ab3",
   "runner_source_sha256": "612c1ec3a7a42dda2f44953be7c2f2f42065b817a4253b691132823eb4e86121",
-  "adapter_sha256": "7f5cf75f825ae11574acfcd64f180a5bb2c194c2b9ca47b3134c4fb70eed4586",
+  "adapter_sha256": "2e08bed23db3662f69d10811641b45718f15d0dea2fbfc8b55875e199c708887",
   "cases": [
     {
       "id": "GP-X144",

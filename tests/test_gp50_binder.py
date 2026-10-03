@@ -7,14 +7,16 @@ import sys
 import tempfile
 import unittest
 
+EXE_SUFFIX = ".exe" if __import__("os").name == "nt" else ""
+ELAN_HOME = Path(__import__("os").environ.get("ELAN_HOME") or Path.home() / ".elan")
 ROOT = Path(__file__).resolve().parents[1]
 PROFILE = ROOT / "profile"
-RUNNER = PROFILE / ".lake/build/bin/gp_corpus_run.exe"
+RUNNER = PROFILE / (".lake/build/bin/gp_corpus_run" + EXE_SUFFIX)
 RECORDS = ROOT / "reports/PHASE-3A-BINDER.json"
 GENERATED = ROOT / "binding/GPBinding/Warrants/Generated.lean"
 STANDARD = {"propext", "Quot.sound", "Classical.choice"}
 BINDING = ROOT / "binding"
-TOOLCHAIN = Path.home() / ".elan/toolchains" / (PROFILE / "lean-toolchain").read_text(
+TOOLCHAIN = ELAN_HOME / "toolchains" / (PROFILE / "lean-toolchain").read_text(
     encoding="utf-8").strip().replace("/", "--").replace(":", "---")
 
 
@@ -34,7 +36,7 @@ class BinderTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         env = dict(os.environ, PATH=str(TOOLCHAIN / "bin") + os.pathsep + os.environ["PATH"])
-        subprocess.run([str(TOOLCHAIN / "bin/lake.exe"), "build", "gp_corpus_run"], cwd=PROFILE,
+        subprocess.run([str(TOOLCHAIN / ("bin/lake" + EXE_SUFFIX)), "build", "gp_corpus_run"], cwd=PROFILE,
                        env=env, check=True, capture_output=True)
 
     def test_generated_warrants_are_current(self):

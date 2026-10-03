@@ -1908,15 +1908,15 @@
     "boundary": "Literal unchanged fixture abstraction, not reconstruction of historical graph statements/routes or renderer behavior."
   },
   "registry_sha256": {
-    "layer_tags": "aff18aba0d92f0e43d89e75d7b19a63a4876bbd812fa1a18dc9f6dc0114ac752",
-    "routes": "36b842bb574d54cf6a320fab8070600c104d1155c817dba0987bd01488d30729",
+    "layer_tags": "046b353edf02f2e6972d00c2ee4fe974cb3bef1fc7062cede0d36ec4c1c83838",
+    "routes": "5e66d807591f8f9dc5e6eda0de2dfbed6364fbcdba50d0d3d2da9f384c9f5648",
     "baseline": "49eb8148d87fee918e311fa51694e353a297d03e4431fb4d4b45105a0a8c42f9",
     "pin": "9bb807c3034e045927dfc277f9ac268317ae2fdf7c07fd77c1643749794ee11f"
   },
   "runner_path": "F:\\repos\\grandportage-0.50\\phase2\\lean\\.lake\\build\\bin\\gp_conditional_routes_fixture.exe",
-  "runner_sha256": "ac3eec6dfcacc95672eab84e796d01246eeaf7c3f1d04bdc5458b418c28f76b1",
-  "adapter_sha256": "e7337132e3e3005542e32d6637dd0dda9fc0b658a9a7a429931a130ac09639cc",
-  "harness_sha256": "1c0ff5fbb25004d38f87c8ac0acddc19a0d3bd32b50e991dd8b05aca9bfeb078",
+  "runner_sha256": "d11b83c6160ec28ef2960ae009bed40b3fae4d1568268a18c502195c3d585c57",
+  "adapter_sha256": "5413c3b85b29809be7b589ae69d7ca98fb498ecc94af9580bddeb46757656731",
+  "harness_sha256": "e014880195c7425431b7fb55a1d47719cd5fd4706757ce315be42f1a4aee2f00",
   "test_source_sha256": "40928efa2384d445538d8c83deb3af2bcb7cbb24f342e363a09da2a8853807ca",
   "proofs": [
     "ConditionalRoutes.subset_sound",

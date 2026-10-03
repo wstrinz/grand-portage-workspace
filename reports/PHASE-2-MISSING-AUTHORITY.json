@@ -82,18 +82,18 @@
   "protected_input_hashes": {
     "F:\\repos\\grandportage-0.50\\oracle\\PIN.json": "9bb807c3034e045927dfc277f9ac268317ae2fdf7c07fd77c1643749794ee11f",
     "F:\\repos\\grandportage-0.50\\oracle\\history\\PIN.json": "4f1c64b8aaa28da4032f9e407dac929083b5436aedf122fba2d98a37c296633a",
-    "F:\\repos\\grandportage-0.50\\oracle\\ROUTES.json": "36b842bb574d54cf6a320fab8070600c104d1155c817dba0987bd01488d30729",
-    "F:\\repos\\grandportage-0.50\\corpus\\LAYER-TAGS.json": "aff18aba0d92f0e43d89e75d7b19a63a4876bbd812fa1a18dc9f6dc0114ac752",
+    "F:\\repos\\grandportage-0.50\\oracle\\ROUTES.json": "5e66d807591f8f9dc5e6eda0de2dfbed6364fbcdba50d0d3d2da9f384c9f5648",
+    "F:\\repos\\grandportage-0.50\\corpus\\LAYER-TAGS.json": "046b353edf02f2e6972d00c2ee4fe974cb3bef1fc7062cede0d36ec4c1c83838",
     "F:\\repos\\grandportage-0.50\\docs\\GP-0.50-REWORK-PACKET.md": "949cc271a0a353e593961974349aa99711d2dd7bde1b26a51a5e8260ed1c2110"
   },
   "executables": {
     "span": {
       "path": "F:\\repos\\grandportage-0.50\\phase2\\lean\\.lake\\build\\bin\\gp_span_runner.exe",
-      "sha256": "b132a3c6161859fcee2ee98ae9c5bb99f385ff8e416a2249325bc49b363a284b"
+      "sha256": "0ff86be251c032a6bc47b211972e81e3beb86fddc59bac0c386d06ee1601b89a"
     },
     "lifecycle": {
       "path": "F:\\repos\\grandportage-0.50\\phase2\\lean\\.lake\\build\\bin\\gp_lifecycle_runner.exe",
-      "sha256": "3864574664dae66eb178a0af7fe6997a610daac16b5d2a7282e46bfefe0c2fa1"
+      "sha256": "4affc188563f818aad3c798a4b49b0ccd25438c12a16cfd9283d9789f1128ab3"
     }
   },
   "native_source_sha256": {
@@ -102,9 +102,9 @@
     "BoundReplay.lean": "07256688ff9214e2f6643a4e0c2868246526eebc333223886dba447650298d3c",
     "PolyStub.lean": "0402ce3056121162d2834f46a6eb58ec90ac5d22f3fd577ff1878d6f9dc19b9f"
   },
-  "reviewed_adapter_sha256": "dfd49a3c62d9a9fd44514b3ec823b1b00df431bde3333e20c6d57539f25240c3",
+  "reviewed_adapter_sha256": "4e06458c4f26d745ad02e6ea169355d18013cc6d9aa3fd900dd1ea373c599939",
   "X164_contrast_source_sha256": "3380ad2566475144e05b162f3113e02ead4faf3ea5a92c568f9fa0b5e8a24fed",
-  "adapter_sha256": "8c7254eb135fa478509ab19bce43d267786b98b960c43d6b974082d4ab8236e8",
+  "adapter_sha256": "21ed5f81438c7b6d26f93ffd958ba21f712b65d5cde457e27d88860d620bb170",
   "tests_sha256": "a2068707e9325bf922400a7ffbc409e8e53319ba8cbef6c3450c5c7ee70631c0",
   "cases": [
     {

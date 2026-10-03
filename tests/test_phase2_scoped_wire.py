@@ -5,11 +5,12 @@ import json
 from pathlib import Path
 import subprocess
 import pytest
+EXE_SUFFIX = ".exe" if __import__("os").name == "nt" else ""
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location("receipt_bridge", ROOT / "tools/run-phase2-slice.py")
 bridge = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(bridge)
-EXE = ROOT / "phase2/lean/.lake/build/bin/gp_scoped_runner.exe"
+EXE = ROOT / ("phase2/lean/.lake/build/bin/gp_scoped_runner" + EXE_SUFFIX)
 
 def prepared():
     registry, events = bridge.prepared([copy.deepcopy(bridge.POLYNOMIALS["x"])],
