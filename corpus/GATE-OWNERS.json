@@ -4,10 +4,10 @@
   "source": "corpus/LAYER-TAGS.json (primary_layer = profile)",
   "case_count": 239,
   "counts": {
-    "3a": 118,
-    "ambiguous": 33,
-    "3b": 40,
-    "campaign-op": 47,
+    "3a": 78,
+    "ambiguous": 43,
+    "3b": 60,
+    "campaign-op": 57,
     "census": 1
   },
   "cases": [
@@ -90,12 +90,14 @@
     {
       "id": "GP-A11b",
       "owner": "3a",
-      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport"
+      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport",
+      "pending": "no concrete data; needs a reviewed instantiation fixture"
     },
     {
       "id": "GP-A12",
       "owner": "3a",
-      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport"
+      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport",
+      "pending": "no concrete data; needs a reviewed instantiation fixture"
     },
     {
       "id": "GP-A13-ambient",
@@ -126,12 +128,14 @@
     {
       "id": "GP-A23",
       "owner": "3a",
-      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport"
+      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport",
+      "pending": "no concrete data; needs a reviewed instantiation fixture"
     },
     {
       "id": "GP-A24",
-      "owner": "3a",
-      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport"
+      "owner": "3b",
+      "basis": "extension-field witness point (Q(i), Q(sqrt 3)) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-C01",
@@ -141,7 +145,8 @@
     {
       "id": "GP-C02",
       "owner": "3a",
-      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport"
+      "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport",
+      "pending": "no concrete data; needs a reviewed instantiation fixture"
     },
     {
       "id": "GP-X01",
@@ -156,7 +161,8 @@
     {
       "id": "GP-X03",
       "owner": "3a",
-      "basis": "ideal identities, localization, polynomial-map pullback (C3/C4)"
+      "basis": "ideal identities, localization, polynomial-map pullback (C3/C4)",
+      "pending": "no concrete data; needs a reviewed instantiation fixture"
     },
     {
       "id": "GP-X05",
@@ -207,7 +213,8 @@
     {
       "id": "GP-X119",
       "owner": "3a",
-      "basis": "unit/saturation certificates, substitution, elimination"
+      "basis": "unit/saturation certificates, substitution, elimination",
+      "pending": "non-membership, non-unit or completeness claim; proposed witness-refuted NOT_IN_IDEAL kind"
     },
     {
       "id": "GP-X12",
@@ -218,7 +225,8 @@
     {
       "id": "GP-X120",
       "owner": "3a",
-      "basis": "unit/saturation certificates, substitution, elimination"
+      "basis": "unit/saturation certificates, substitution, elimination",
+      "pending": "non-membership, non-unit or completeness claim; proposed witness-refuted NOT_IN_IDEAL kind"
     },
     {
       "id": "GP-X121",
@@ -270,7 +278,8 @@
     {
       "id": "GP-X13",
       "owner": "3a",
-      "basis": "ideal identities, localization, polynomial-map pullback (C3/C4)"
+      "basis": "ideal identities, localization, polynomial-map pullback (C3/C4)",
+      "pending": "no concrete data; needs a reviewed instantiation fixture"
     },
     {
       "id": "GP-X130",
@@ -310,12 +319,14 @@
     {
       "id": "GP-X138",
       "owner": "3a",
-      "basis": "unit/saturation certificates, substitution, elimination"
+      "basis": "unit/saturation certificates, substitution, elimination",
+      "pending": "non-membership, non-unit or completeness claim; proposed witness-refuted NOT_IN_IDEAL kind"
     },
     {
       "id": "GP-X141",
       "owner": "3a",
-      "basis": "unit/saturation certificates, substitution, elimination"
+      "basis": "unit/saturation certificates, substitution, elimination",
+      "pending": "non-membership, non-unit or completeness claim; proposed witness-refuted NOT_IN_IDEAL kind"
     },
     {
       "id": "GP-X15",
@@ -475,7 +486,8 @@
     {
       "id": "GP-X269",
       "owner": "3a",
-      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities",
+      "pending": "object cover claim; proposed COVER statement kind"
     },
     {
       "id": "GP-X27",
@@ -485,17 +497,20 @@
     {
       "id": "GP-X270",
       "owner": "3a",
-      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities",
+      "pending": "object cover claim; proposed COVER statement kind"
     },
     {
       "id": "GP-X271",
       "owner": "3a",
-      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities",
+      "pending": "object cover claim; proposed COVER statement kind"
     },
     {
       "id": "GP-X272",
       "owner": "3a",
-      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities",
+      "pending": "object cover claim; proposed COVER statement kind"
     },
     {
       "id": "GP-X273",
@@ -509,28 +524,33 @@
     },
     {
       "id": "GP-X275",
-      "owner": "3a",
-      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+      "owner": "3b",
+      "basis": "point universe BASE vs ALGEBRAIC_CLOSURE (field-class flag) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X276",
-      "owner": "3a",
-      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+      "owner": "3b",
+      "basis": "point universe BASE vs ALGEBRAIC_CLOSURE (field-class flag) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X277",
-      "owner": "3a",
-      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+      "owner": "3b",
+      "basis": "point universe BASE vs ALGEBRAIC_CLOSURE (field-class flag) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X278",
-      "owner": "3a",
-      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+      "owner": "3b",
+      "basis": "point universe BASE vs ALGEBRAIC_CLOSURE (field-class flag) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X279",
-      "owner": "3a",
-      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+      "owner": "3b",
+      "basis": "point universe BASE vs ALGEBRAIC_CLOSURE (field-class flag) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X28",
@@ -539,33 +559,39 @@
     },
     {
       "id": "GP-X280",
-      "owner": "3a",
-      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+      "owner": "3b",
+      "basis": "point universe BASE vs ALGEBRAIC_CLOSURE (field-class flag) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X284",
-      "owner": "3a",
-      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+      "owner": "campaign-op",
+      "basis": "v0.37 tool operation contract (branch construction, declared units, affine pattern) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X285",
-      "owner": "3a",
-      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+      "owner": "campaign-op",
+      "basis": "v0.37 tool operation contract (branch construction, declared units, affine pattern) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X286",
-      "owner": "3a",
-      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+      "owner": "campaign-op",
+      "basis": "v0.37 tool operation contract (branch construction, declared units, affine pattern) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X287",
-      "owner": "3a",
-      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+      "owner": "campaign-op",
+      "basis": "v0.37 tool operation contract (branch construction, declared units, affine pattern) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X288",
-      "owner": "3a",
-      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+      "owner": "campaign-op",
+      "basis": "v0.37 tool operation contract (branch construction, declared units, affine pattern) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X289",
@@ -604,18 +630,21 @@
     },
     {
       "id": "GP-X297",
-      "owner": "3a",
-      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+      "owner": "campaign-op",
+      "basis": "v0.37 tool operation contract (branch construction, declared units, affine pattern) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X298",
-      "owner": "3a",
-      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+      "owner": "campaign-op",
+      "basis": "v0.37 tool operation contract (branch construction, declared units, affine pattern) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X299",
-      "owner": "3a",
-      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+      "owner": "campaign-op",
+      "basis": "v0.37 tool operation contract (branch construction, declared units, affine pattern) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X30",
@@ -624,13 +653,15 @@
     },
     {
       "id": "GP-X300",
-      "owner": "3a",
-      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+      "owner": "campaign-op",
+      "basis": "v0.37 tool operation contract (branch construction, declared units, affine pattern) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X301",
-      "owner": "3a",
-      "basis": "polynomial-map certificates, structural-split covers, K3 direction tables, factor identities"
+      "owner": "campaign-op",
+      "basis": "v0.37 tool operation contract (branch construction, declared units, affine pattern) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X308",
@@ -697,8 +728,9 @@
     },
     {
       "id": "GP-X319",
-      "owner": "3a",
-      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+      "owner": "3b",
+      "basis": "pinned fixture over the number field Q[t]/(15t^3+1) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X32",
@@ -707,8 +739,9 @@
     },
     {
       "id": "GP-X320",
-      "owner": "3a",
-      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+      "owner": "3b",
+      "basis": "pinned fixture over the number field Q[t]/(15t^3+1) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X321",
@@ -768,28 +801,33 @@
     },
     {
       "id": "GP-X332",
-      "owner": "3a",
-      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+      "owner": "3b",
+      "basis": "pinned fixture over the number field Q[t]/(15t^3+1) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X333",
-      "owner": "3a",
-      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+      "owner": "3b",
+      "basis": "pinned fixture over the number field Q[t]/(15t^3+1) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X334",
-      "owner": "3a",
-      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+      "owner": "3b",
+      "basis": "pinned fixture over the number field Q[t]/(15t^3+1) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X335",
-      "owner": "3a",
-      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+      "owner": "3b",
+      "basis": "pinned fixture over the number field Q[t]/(15t^3+1) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X336",
-      "owner": "3a",
-      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+      "owner": "3b",
+      "basis": "pinned fixture over the number field Q[t]/(15t^3+1) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X339",
@@ -871,8 +909,10 @@
     },
     {
       "id": "GP-X355",
-      "owner": "3a",
-      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+      "owner": "ambiguous",
+      "basis": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields; owner pending a decision on ring contexts",
+      "proposed_owner": "campaign-op",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X356",
@@ -882,38 +922,52 @@
     },
     {
       "id": "GP-X357",
-      "owner": "3a",
-      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+      "owner": "ambiguous",
+      "basis": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields; owner pending a decision on ring contexts",
+      "proposed_owner": "campaign-op",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X358",
-      "owner": "3a",
-      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+      "owner": "ambiguous",
+      "basis": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields; owner pending a decision on ring contexts",
+      "proposed_owner": "campaign-op",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X359",
-      "owner": "3a",
-      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+      "owner": "ambiguous",
+      "basis": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields; owner pending a decision on ring contexts",
+      "proposed_owner": "campaign-op",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X360",
-      "owner": "3a",
-      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+      "owner": "ambiguous",
+      "basis": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields; owner pending a decision on ring contexts",
+      "proposed_owner": "campaign-op",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X361",
-      "owner": "3a",
-      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+      "owner": "ambiguous",
+      "basis": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields; owner pending a decision on ring contexts",
+      "proposed_owner": "campaign-op",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X362",
-      "owner": "3a",
-      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+      "owner": "ambiguous",
+      "basis": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields; owner pending a decision on ring contexts",
+      "proposed_owner": "campaign-op",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X363",
-      "owner": "3a",
-      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+      "owner": "ambiguous",
+      "basis": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields; owner pending a decision on ring contexts",
+      "proposed_owner": "campaign-op",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X364",
@@ -927,13 +981,17 @@
     },
     {
       "id": "GP-X366",
-      "owner": "3a",
-      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+      "owner": "ambiguous",
+      "basis": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields; owner pending a decision on ring contexts",
+      "proposed_owner": "campaign-op",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X367",
-      "owner": "3a",
-      "basis": "finite-quotient units, receipt binding, operation maps (R3), localized membership"
+      "owner": "ambiguous",
+      "basis": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields; owner pending a decision on ring contexts",
+      "proposed_owner": "campaign-op",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X368",
@@ -999,18 +1057,21 @@
     },
     {
       "id": "GP-X45",
-      "owner": "3a",
-      "basis": "C2/C1 receipts, staleness, relaxation, localized emptiness"
+      "owner": "3b",
+      "basis": "extension-field witness point (Q(i), Q(sqrt 3)) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X46",
-      "owner": "3a",
-      "basis": "C2/C1 receipts, staleness, relaxation, localized emptiness"
+      "owner": "3b",
+      "basis": "extension-field witness point (Q(i), Q(sqrt 3)) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X47",
-      "owner": "3a",
-      "basis": "C2/C1 receipts, staleness, relaxation, localized emptiness"
+      "owner": "3b",
+      "basis": "extension-field witness point (Q(i), Q(sqrt 3)) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X48",
@@ -1019,13 +1080,15 @@
     },
     {
       "id": "GP-X49",
-      "owner": "3a",
-      "basis": "C2/C1 receipts, staleness, relaxation, localized emptiness"
+      "owner": "3b",
+      "basis": "extension-field witness point (Q(i), Q(sqrt 3)) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X50",
-      "owner": "3a",
-      "basis": "C2/C1 receipts, staleness, relaxation, localized emptiness"
+      "owner": "3b",
+      "basis": "extension-field witness point (Q(i), Q(sqrt 3)) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X51",
@@ -1073,7 +1136,8 @@
     {
       "id": "GP-X59",
       "owner": "3a",
-      "basis": "C2/C1 receipts, staleness, relaxation, localized emptiness"
+      "basis": "C2/C1 receipts, staleness, relaxation, localized emptiness",
+      "pending": "no concrete data; needs a reviewed instantiation fixture"
     },
     {
       "id": "GP-X63",
@@ -1102,8 +1166,9 @@
     },
     {
       "id": "GP-X69",
-      "owner": "3a",
-      "basis": "C2/C1 receipts, staleness, relaxation, localized emptiness"
+      "owner": "3b",
+      "basis": "point universe BASE vs ALGEBRAIC_CLOSURE (field-class flag) (provisional reassignment 2026-10-03, pending review)",
+      "provisional_from": "3a"
     },
     {
       "id": "GP-X70",
