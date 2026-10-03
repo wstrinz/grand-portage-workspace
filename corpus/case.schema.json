@@ -89,7 +89,8 @@
             "enum": [
               "gp-v037",
               "rework-packet",
-              "gp-history"
+              "gp-history",
+              "post-g2-handoff"
             ]
           },
           "commit": {

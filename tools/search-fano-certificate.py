@@ -1,6 +1,8 @@
 """External search for the Fano realization fixtures of the 3a reach slice (post-G2 §3.6).
 
-usage: python tools/search-fano-certificate.py [--out profile/slice]
+usage: python tools/search-fano-certificate.py [--out tmp/fano-search]
+The fixtures it produced were taken into the corpus as GP-X413-X415 (Fano intake, 2026-10-03); its
+output is provenance for that search and is never written over corpus cases.
 Glue only (Addendum A1): sympy searches; GP's Lean checker replays and computes reach.
 
 Encoding: points 1..7, lines 124 235 346 457 561 672 713. Points 1, 2, 3, 6 form a projective
@@ -74,7 +76,7 @@ def case(case_id, title, situation, inputs, conclusion, verdict, reason):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--out", default=str(ROOT / "profile/slice"))
+    parser.add_argument("--out", default=str(ROOT / "tmp/fano-search"))
     out = Path(parser.parse_args().out)
     start = time.time()
     eqs, guards = system()

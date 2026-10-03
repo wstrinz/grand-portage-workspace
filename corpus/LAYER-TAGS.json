@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "policy_version": "phase2-full-contract-layers-v2",
-  "case_count": 459,
+  "case_count": 462,
   "cases": [
     {
       "id": "GP-A01",
@@ -13091,6 +13091,72 @@
           "duty": "Interpret the report's declared mathematical objects, universes and region limits faithfully; no broader mathematical result is licensed."
         }
       ],
+      "evidence_pointers": [
+        "/title",
+        "/inputs",
+        "/attempted_conclusion",
+        "/expected/reason"
+      ]
+    },
+    {
+      "id": "GP-X413",
+      "path": "corpus/must/GP-X413.json",
+      "sha256": "7be68af3d7ac8da960f7bc7bddccadff965d3449ebba7b4da0ce663a4441920b",
+      "primary_layer": "profile",
+      "candidate_layers": [
+        "profile"
+      ],
+      "g2_kernel_eligible": false,
+      "status": "resolved",
+      "rationale": "Reach demonstration: a certificate's denominators decide the characteristics it reaches.",
+      "review_group": "base-mathematical-language",
+      "full_contract_required": true,
+      "secondary_layers": [],
+      "secondary_duties": [],
+      "evidence_pointers": [
+        "/title",
+        "/inputs",
+        "/attempted_conclusion",
+        "/expected/reason"
+      ]
+    },
+    {
+      "id": "GP-X414",
+      "path": "corpus/must/GP-X414.json",
+      "sha256": "2c95674d7bf15547047f7b6ad7c554621f6717d0142155c2d2320f3ada093c0d",
+      "primary_layer": "profile",
+      "candidate_layers": [
+        "profile"
+      ],
+      "g2_kernel_eligible": false,
+      "status": "resolved",
+      "rationale": "Reach demonstration: a certificate's denominators decide the characteristics it reaches.",
+      "review_group": "base-mathematical-language",
+      "full_contract_required": true,
+      "secondary_layers": [],
+      "secondary_duties": [],
+      "evidence_pointers": [
+        "/title",
+        "/inputs",
+        "/attempted_conclusion",
+        "/expected/reason"
+      ]
+    },
+    {
+      "id": "GP-X415",
+      "path": "corpus/must/GP-X415.json",
+      "sha256": "036f23524d3f170754b7557c700d5dac05512a49fb1a3d2875b378f7f15b8ee5",
+      "primary_layer": "profile",
+      "candidate_layers": [
+        "profile"
+      ],
+      "g2_kernel_eligible": false,
+      "status": "resolved",
+      "rationale": "Reach demonstration: a certificate's denominators decide the characteristics it reaches.",
+      "review_group": "base-mathematical-language",
+      "full_contract_required": true,
+      "secondary_layers": [],
+      "secondary_duties": [],
       "evidence_pointers": [
         "/title",
         "/inputs",

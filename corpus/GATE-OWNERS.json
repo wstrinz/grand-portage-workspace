@@ -2,9 +2,9 @@
   "schema": "gp-gate-owners/v1",
   "policy": "post-G2 §1.11 and §3.7. Nullstellensatz regime → 3a; ordered/SOS, number field, selected root/embedding and section → 3b; census → census; named campaign operations → campaign-op. Ambiguous cases carry a proposed owner and stay pending until Will rules (external review first). Case bytes and expectations are unchanged. Rule (2026-10-03): 0.50 checks, never constructs. Owner admission-control marks deleted-premise countermodels of admission theorems.",
   "source": "corpus/LAYER-TAGS.json (primary_layer = profile)",
-  "case_count": 239,
+  "case_count": 242,
   "counts": {
-    "3a": 89,
+    "3a": 92,
     "3b": 50,
     "campaign-op": 67,
     "ambiguous": 27,
@@ -1382,6 +1382,24 @@
       "id": "GP-X96",
       "owner": "campaign-op",
       "basis": "graded face extraction"
+    },
+    {
+      "id": "GP-X413",
+      "owner": "3a",
+      "basis": "Fano reach demonstration (post-G2 §3.6; formerly GP-FANO-C1)",
+      "ruling": "2026-10-03 Fano intake signed (review ruling 7)"
+    },
+    {
+      "id": "GP-X414",
+      "owner": "3a",
+      "basis": "Fano reach demonstration (post-G2 §3.6; formerly GP-FANO-C1-CHAR2)",
+      "ruling": "2026-10-03 Fano intake signed (review ruling 7)"
+    },
+    {
+      "id": "GP-X415",
+      "owner": "3a",
+      "basis": "Fano reach demonstration (post-G2 §3.6; formerly GP-FANO-F2)",
+      "ruling": "2026-10-03 Fano intake signed (review ruling 7)"
     }
   ]
 }

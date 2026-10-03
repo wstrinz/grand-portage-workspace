@@ -22,8 +22,8 @@ def write(name, body):
 
 
 def fano():
-    c1 = json.loads((ROOT / "profile/slice/fano-c1-char0.json").read_text())["inputs"]
-    w = json.loads((ROOT / "profile/slice/fano-witness-f2.json").read_text())["inputs"]
+    c1 = json.loads((ROOT / "corpus/must/GP-X413.json").read_text())["inputs"]
+    w = json.loads((ROOT / "corpus/must/GP-X415.json").read_text())["inputs"]
     vs = c1["variables"]
     hyps = " → ".join(f"{lean(g)} = 0" for g in c1["generators"])
     names = [f"h{i}" for i in range(len(c1["generators"]))]

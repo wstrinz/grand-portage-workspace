@@ -37,13 +37,16 @@
       "path": "corpus/must/GP-X16.json"
     },
     {
-      "path": "profile/slice/fano-c1-char0.json"
+      "path": "corpus/must/GP-X413.json",
+      "label": "GP-FANO-C1"
     },
     {
-      "path": "profile/slice/fano-c1-char2.json"
+      "path": "corpus/must/GP-X414.json",
+      "label": "GP-FANO-C1-CHAR2"
     },
     {
-      "path": "profile/slice/fano-witness-f2.json"
+      "path": "corpus/must/GP-X415.json",
+      "label": "GP-FANO-F2"
     },
     {
       "path": "profile/slice/controls/fp-witness-in-char0.json"

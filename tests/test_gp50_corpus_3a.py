@@ -48,7 +48,7 @@ class Corpus3aTests(unittest.TestCase):
 
     def test_global_safety_has_no_false_accept(self):
         self.assertEqual(self.safety, json.loads(SAFETY.read_text(encoding="utf-8")))
-        self.assertEqual(self.safety["case_count"], 239)
+        self.assertEqual(self.safety["case_count"], 242)
         for case in self.safety["cases"]:
             if case["observed"] == "ACCEPT":
                 with self.subTest(case=case["id"]):

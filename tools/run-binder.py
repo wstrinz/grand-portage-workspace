@@ -26,7 +26,7 @@ def main():
     subprocess.run([lake, "build", "GPBinding"], cwd=BINDING, env=env, check=True, capture_output=True)
     result = subprocess.run([lake, "env", "lean", "GPBinding/Binder/Export.lean"], cwd=BINDING, env=env,
                             check=True, capture_output=True, text=True, encoding="utf-8")
-    out.write_text(result.stdout, encoding="utf-8")
+    out.write_text(result.stdout, encoding="utf-8", newline="\n")
     print(out)
 
 

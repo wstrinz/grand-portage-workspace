@@ -215,6 +215,15 @@
     },
     {
       "path": "corpus/must/GP-X71.json"
+    },
+    {
+      "path": "corpus/must/GP-X413.json"
+    },
+    {
+      "path": "corpus/must/GP-X414.json"
+    },
+    {
+      "path": "corpus/must/GP-X415.json"
     }
   ]
 }
