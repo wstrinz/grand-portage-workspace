@@ -47,6 +47,8 @@
     "docs/PHASE-2-PLAN.md",
     "requirements-dev.txt",
     "tests/test_layer_tags.py",
+    "tests/test_gp50_reach_slice.py",
+    "tools/search-fano-certificate.py",
     "tests/test_gp50_convergence_baseline.py",
     "tests/test_gp50_kernel_pin.py",
     "tests/test_gp50_profile_layout.py",
