@@ -274,3 +274,7 @@ Addendum A, amendment 1 (Will, 2026-10-02). Run §3.6a (the Lean-native shadow s
 3. the A5 tags are only `CUSTODY` or `NONE`.
 
 If all three hold, recommend the Lean-native ledger pivot (keep `Kernel` and the custody surfaces; drop the profile/semantic layer); otherwise recommend continuing. Will decides at G3a-0.
+
+2026-10-02 G2.5 ratified by Will (reports/PHASE-2.5-REPORT.md). KERNEL-PIN.json is frozen at commit c9ccf86; later Kernel changes are logged in PROMOTIONS.md. Phase 3a opens with the §3.6 receipt reach slice.
+
+2026-10-02 A3 deviation (Will): F_p replay in the 3a profile uses core Lean `Fin p`, not HexModArith. HexModArith's FFI needs `cc` and gmp.h, which the Windows toolchain lacks; `Fin` arithmetic has no native externs, and Mathlib's `ZMod (k+1)` is definitionally `Fin (k+1)`. HexModArith may return later via a WSL build. HexMvPoly remains the polynomial substrate.
