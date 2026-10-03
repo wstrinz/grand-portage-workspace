@@ -1,0 +1,348 @@
+{
+  "schema": "gp-instantiation/v1",
+  "policy": "G3a review §7 (ruling 6): minimal instances of schematic cases, keyed by case id and the FNV-1a of the case bytes; case bytes and expectations are unchanged; REFUSE fixtures make the attempted conclusion false. Signed in corpus/CHANGES.md.",
+  "fixtures": [
+    {
+      "id": "GP-A11b",
+      "case_path": "corpus/must/GP-A11b.json",
+      "case_fnv1a": "278014003976938479",
+      "note": "review §7: T = (w, x; x^2-w-1), h = x^4-(w+1)^2 with cofactor x^2+w+1, carried by phi = (w -> -7-w, x -> -x) to S = (x^2+w+6). The R3 IN_IDEAL row; the embedding part is 3b.",
+      "inputs": {
+        "claims": [
+          {
+            "key": 1,
+            "variables": [
+              "w",
+              "x"
+            ],
+            "equations": [
+              "x^2-w-1"
+            ],
+            "kind": "IN_IDEAL",
+            "target": "x^4-(w+1)^2",
+            "certificate": {
+              "type": "ideal",
+              "cofactors": [
+                "x^2+w+1"
+              ],
+              "m": 1,
+              "k": 0
+            }
+          },
+          {
+            "key": 2,
+            "variables": [
+              "w",
+              "x"
+            ],
+            "equations": [
+              "x^2+w+6"
+            ],
+            "kind": "IN_IDEAL",
+            "target": "x^4-(w+6)^2",
+            "premises": [
+              1
+            ],
+            "rule": {
+              "type": "map",
+              "map": {
+                "w": "-7-w",
+                "x": "-x"
+              },
+              "eq_certificates": [
+                {
+                  "cofactors": [
+                    "1"
+                  ],
+                  "m": 1,
+                  "k": 0
+                }
+              ],
+              "guard_certificates": []
+            }
+          }
+        ],
+        "requested": [
+          2
+        ]
+      }
+    },
+    {
+      "id": "GP-A12",
+      "case_path": "corpus/must/GP-A12.json",
+      "case_fnv1a": "8062772420037759038",
+      "note": "review §7: (x) vs (x^2) under the identity map, with an m = 2 (point-level) certificate. The attempted IN_IDEAL(x) on (x^2) is false.",
+      "inputs": {
+        "claims": [
+          {
+            "key": 1,
+            "variables": [
+              "x"
+            ],
+            "equations": [
+              "x"
+            ],
+            "kind": "IN_IDEAL",
+            "target": "x",
+            "certificate": {
+              "type": "ideal",
+              "cofactors": [
+                "1"
+              ],
+              "m": 1,
+              "k": 0
+            }
+          },
+          {
+            "key": 2,
+            "variables": [
+              "x"
+            ],
+            "equations": [
+              "x^2"
+            ],
+            "kind": "IN_IDEAL",
+            "target": "x",
+            "premises": [
+              1
+            ],
+            "rule": {
+              "type": "inclusion",
+              "eq_certificates": [
+                {
+                  "cofactors": [
+                    "1"
+                  ],
+                  "m": 2,
+                  "k": 0
+                }
+              ],
+              "guard_certificates": []
+            }
+          }
+        ],
+        "requested": [
+          2
+        ]
+      }
+    },
+    {
+      "id": "GP-A23",
+      "case_path": "corpus/must/GP-A23.json",
+      "case_fnv1a": "6747573500051472129",
+      "note": "review §7: the chart (x; guard x) is EMPTY by 1*x = x^1. The attempted EMPTY on the parent (x) is false at x = 0; the split on x lacks its closed branch.",
+      "inputs": {
+        "claims": [
+          {
+            "key": 1,
+            "variables": [
+              "x"
+            ],
+            "equations": [
+              "x"
+            ],
+            "nonzero": [
+              "x"
+            ],
+            "kind": "EMPTY",
+            "certificate": {
+              "type": "ideal",
+              "cofactors": [
+                "1"
+              ],
+              "m": 0,
+              "k": 1
+            }
+          },
+          {
+            "key": 2,
+            "variables": [
+              "x"
+            ],
+            "equations": [
+              "x"
+            ],
+            "kind": "EMPTY",
+            "premises": [
+              1
+            ],
+            "rule": {
+              "type": "split",
+              "on": "x"
+            }
+          }
+        ],
+        "requested": [
+          2
+        ]
+      }
+    },
+    {
+      "id": "GP-C02",
+      "case_path": "corpus/must/GP-C02.json",
+      "case_fnv1a": "13392614956355170707",
+      "note": "review §7: L = (x, y; {x, x-1}) is EMPTY by the integral certificate x - (x-1) = 1; inclusion into T = (x, y; {x, x-1, y}) gives EMPTY in every field (an earned widening).",
+      "inputs": {
+        "claims": [
+          {
+            "key": 1,
+            "variables": [
+              "x",
+              "y"
+            ],
+            "equations": [
+              "x",
+              "x-1"
+            ],
+            "kind": "EMPTY",
+            "certificate": {
+              "type": "ideal",
+              "cofactors": [
+                "1",
+                "-1"
+              ],
+              "m": 0,
+              "k": 0
+            }
+          },
+          {
+            "key": 2,
+            "variables": [
+              "x",
+              "y"
+            ],
+            "equations": [
+              "x",
+              "x-1",
+              "y"
+            ],
+            "kind": "EMPTY",
+            "premises": [
+              1
+            ],
+            "rule": {
+              "type": "inclusion",
+              "guard_certificates": [],
+              "eq_certificates": [
+                {
+                  "cofactors": [
+                    "1",
+                    "0",
+                    "0"
+                  ],
+                  "m": 1,
+                  "k": 0
+                },
+                {
+                  "cofactors": [
+                    "0",
+                    "1",
+                    "0"
+                  ],
+                  "m": 1,
+                  "k": 0
+                }
+              ]
+            }
+          }
+        ],
+        "requested": [
+          2
+        ]
+      }
+    },
+    {
+      "id": "GP-X59",
+      "case_path": "corpus/must/GP-X59.json",
+      "case_fnv1a": "2952564612782857304",
+      "note": "review §7: VANISHES_ON(y) holds on (x, y; {x, y}). The attempt on the relaxation (x) is false at (0, 1): its obligation VANISHES_ON(y) on (x) has no certificate.",
+      "inputs": {
+        "claims": [
+          {
+            "key": 1,
+            "variables": [
+              "x",
+              "y"
+            ],
+            "equations": [
+              "x",
+              "y"
+            ],
+            "kind": "VANISHES_ON",
+            "target": "y",
+            "certificate": {
+              "type": "ideal",
+              "cofactors": [
+                "0",
+                "1"
+              ],
+              "m": 1,
+              "k": 0
+            }
+          },
+          {
+            "key": 2,
+            "variables": [
+              "x",
+              "y"
+            ],
+            "equations": [
+              "x"
+            ],
+            "kind": "VANISHES_ON",
+            "target": "y",
+            "premises": [
+              1
+            ],
+            "rule": {
+              "type": "inclusion",
+              "guard_certificates": [],
+              "eq_certificates": [
+                {
+                  "cofactors": [
+                    "1"
+                  ],
+                  "m": 1,
+                  "k": 0
+                },
+                {
+                  "cofactors": [
+                    "1"
+                  ],
+                  "m": 1,
+                  "k": 0
+                }
+              ]
+            }
+          }
+        ],
+        "requested": [
+          2
+        ]
+      }
+    },
+    {
+      "id": "GP-X49",
+      "case_path": "corpus/must/GP-X49.json",
+      "case_fnv1a": "18138849496660415519",
+      "note": "Will 2026-10-03: X49's inputs are X45's; its distinguishing fact (an unrecognized verifier version) is stated only in its title and sources. The fixture states it as a proposed change.",
+      "inputs": {
+        "variables": [
+          "x"
+        ],
+        "generators": [
+          "x^2+1"
+        ],
+        "guards": [
+          "x"
+        ],
+        "point_universe": "ALGEBRAIC_CLOSURE",
+        "field_polynomial": "a^2+1",
+        "coordinate": "a",
+        "proposed_change": {
+          "verifier_version": "gp-witness/v0"
+        }
+      }
+    }
+  ]
+}

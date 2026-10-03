@@ -4,9 +4,9 @@
   "source": "corpus/LAYER-TAGS.json (primary_layer = profile)",
   "case_count": 239,
   "counts": {
-    "3a": 81,
+    "3a": 84,
     "ambiguous": 32,
-    "3b": 53,
+    "3b": 50,
     "campaign-op": 67,
     "census": 4,
     "admission-control": 2
@@ -92,13 +92,13 @@
       "id": "GP-A11b",
       "owner": "3a",
       "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport",
-      "pending": "no concrete data; needs a reviewed instantiation fixture"
+      "fixture": "corpus/INSTANTIATIONS.json (review ruling 6, signed 2026-10-03)"
     },
     {
       "id": "GP-A12",
       "owner": "3a",
       "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport",
-      "pending": "no concrete data; needs a reviewed instantiation fixture"
+      "fixture": "corpus/INSTANTIATIONS.json (review ruling 6, signed 2026-10-03)"
     },
     {
       "id": "GP-A13-ambient",
@@ -130,7 +130,7 @@
       "id": "GP-A23",
       "owner": "3a",
       "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport",
-      "pending": "no concrete data; needs a reviewed instantiation fixture"
+      "fixture": "corpus/INSTANTIATIONS.json (review ruling 6, signed 2026-10-03)"
     },
     {
       "id": "GP-A24",
@@ -148,7 +148,7 @@
       "id": "GP-C02",
       "owner": "3a",
       "basis": "base language: signature, reach, ideal vs locus, K2/K3 transport",
-      "pending": "no concrete data; needs a reviewed instantiation fixture"
+      "fixture": "corpus/INSTANTIATIONS.json (review ruling 6, signed 2026-10-03)"
     },
     {
       "id": "GP-X01",
@@ -322,7 +322,7 @@
       "id": "GP-X138",
       "owner": "3a",
       "basis": "unit/saturation certificates, substitution, elimination",
-      "pending": "non-membership, non-unit or completeness claim; proposed witness-refuted NOT_IN_IDEAL kind"
+      "resolved": "typed non-evidence: a bounded search with no admission path (review ruling 6)"
     },
     {
       "id": "GP-X141",
@@ -367,8 +367,10 @@
     },
     {
       "id": "GP-X22",
-      "owner": "3b",
-      "basis": "SOS, extension-valued witnesses, selected signs, closure vs base field"
+      "owner": "3a",
+      "basis": "geometric nonemptiness via an R3 map from Q[a]/(a^2+1) (review ruling 2)",
+      "provisional_from": "3b",
+      "ruling": "2026-10-03 (Will, on the 3a.1 step-4 report)"
     },
     {
       "id": "GP-X222",
@@ -397,13 +399,17 @@
     },
     {
       "id": "GP-X23",
-      "owner": "3b",
-      "basis": "SOS, extension-valued witnesses, selected signs, closure vs base field"
+      "owner": "3a",
+      "basis": "geometric nonemptiness via an R3 map from Q[a]/(a^2+1) (review ruling 2)",
+      "provisional_from": "3b",
+      "ruling": "2026-10-03 (Will, on the 3a.1 step-4 report)"
     },
     {
       "id": "GP-X24",
-      "owner": "3b",
-      "basis": "SOS, extension-valued witnesses, selected signs, closure vs base field"
+      "owner": "3a",
+      "basis": "geometric nonemptiness via an R3 map from Q[a]/(a^2+1) (review ruling 2)",
+      "provisional_from": "3b",
+      "ruling": "2026-10-03 (Will, on the 3a.1 step-4 report)"
     },
     {
       "id": "GP-X25",
@@ -1088,7 +1094,8 @@
       "owner": "3a",
       "basis": "geometric nonemptiness via an R3 map from Q[a]/(a^2+1) (review ruling 2)",
       "provisional_from": "3a",
-      "ruling": "2026-10-03"
+      "ruling": "2026-10-03",
+      "fixture": "corpus/INSTANTIATIONS.json (Will, 2026-10-03)"
     },
     {
       "id": "GP-X50",
@@ -1144,7 +1151,7 @@
       "id": "GP-X59",
       "owner": "3a",
       "basis": "C2/C1 receipts, staleness, relaxation, localized emptiness",
-      "pending": "no concrete data; needs a reviewed instantiation fixture"
+      "fixture": "corpus/INSTANTIATIONS.json (review ruling 6, signed 2026-10-03)"
     },
     {
       "id": "GP-X63",

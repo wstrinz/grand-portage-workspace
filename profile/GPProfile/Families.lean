@@ -325,7 +325,7 @@ def noCert : Cert := .ideal .rat [] 0 0
 obligation certificates by univariate division (equations) and the extended Euclidean algorithm
 (guards); where none exists it proposes `noCert`, so every refusal is a checker's. -/
 def extensionPoint (sym : String) (m : Sparse) (vars : List String) (eqs guards : List Sparse)
-    (phi : List Sparse) (kind : Kind) : Except String Plan := do
+    (phi : List Sparse) (kind : Kind) (staleVerifier : Option String := none) : Except String Plan := do
   let mu := Uni.ofSparse m
   if mu.length < 2 then throw "the field polynomial must be nonconstant"
   let n := vars.length
@@ -345,9 +345,14 @@ def extensionPoint (sym : String) (m : Sparse) (vars : List String) (eqs guards 
       | _ => noCert
     | none => noCert
   let source : Stmt := ⟨[sym], [m], [], .notInIdeal (oneP 1)⟩
-  let items := [mkItem 1 source .char0Only (.receipt (.proper .rat [0] [((b + 1 : Nat) : Rat)])),
+  let cert : Cert := .proper .rat [0] [((b + 1 : Nat) : Rat)]
+  -- A receipt issued under another verifier is bound to that verifier: custody makes it stale.
+  let receipt : Support := match staleVerifier with
+    | some v => .receipt cert (some (source, [s!"verifier:{v}"]))
+    | none => .receipt cert
+  let items := [mkItem 1 source .char0Only receipt,
     mkItem 2 ⟨vars, eqs, guards, kind⟩ .char0Only (.rule (.map phi (eqs.map eqCert) (guards.map guardCert)) [1])]
-  pure { items, requested := [2] }
+  pure { items, requested := if staleVerifier.isSome then [1, 2] else [2] }
 
 /-- A coordinate in `ℚ[a]/(m)`: a polynomial in the symbol, or a quotient whose denominator must be
 invertible modulo `m` (otherwise the map is undefined, an elaboration refusal). -/
@@ -377,10 +382,9 @@ def extensionWitnessFamily (inputs : Json) : Except String Plan := do
   let sym ← fieldSymbol mText
   let m ← P [sym] mText
   let coord ← need (obj? inputs "coordinate") "no coordinate"
-  let change := (obj? inputs "proposed_change").getD (.obj {})
-  -- An explicit null change carries no 3a content. (Its two corpus instances differ only in data
-  -- outside their inputs; decoding them to nothing keeps the run free of a false ACCEPT.)
-  if change == .null then throw "receipt currency with no proposed change has no 3a content"
+  let change := match (obj? inputs "proposed_change").getD .null with
+    | .null => Json.mkObj []
+    | c => c
   -- A list replaces the coordinates; an object replaces equations, open conditions or universe.
   let coords ← match change with
     | .arr cs => pure cs.toList
@@ -392,7 +396,7 @@ def extensionWitnessFamily (inputs : Json) : Except String Plan := do
   let pointUniverse := (str? change "point_universe").getD ((str? inputs "point_universe").getD "")
   let kind := if pointUniverse == "BASE" then Kind.nonempty else .notInIdeal (oneP vars.length)
   extensionPoint sym m vars (← gens.mapM (P vars)) (← opens.mapM (P vars))
-    (← coords.mapM (coordPoly sym m)) kind
+    (← coords.mapM (coordPoly sym m)) kind (str? change "verifier_version")
 
 /-- A displayed point over a simple extension `ℚ[s]/(m)` for a system with nonzero guards. -/
 def extensionPointFamily (inputs : Json) : Except String Plan := do
@@ -532,6 +536,88 @@ def legacyKeys : List String :=
     "guards", "exponent", "point", "reduced_point", "identity", "source_ideal", "cofactor",
     "source_context", "target_context"]
 
+/-! ## The explicit statement surface (instantiation fixtures, G3a review §7)
+
+Claims written as systems, kinds, certificates and rule instances, with nothing inferred. -/
+
+def canonP (vars : List String) (t : String) : Except String Sparse := do
+  let p ← P vars t
+  pure ((canonical vars.length p).getD p)
+
+def natField (j : Json) (k : String) : Nat := ((obj? j k).bind (·.getNat?.toOption)).getD 0
+
+def surfaceKind (vars : List String) (c : Json) : Except String Kind := do
+  let tgt : Except String Sparse := do canonP vars (← need (str? c "target") "no target")
+  match ← need (str? c "kind") "no kind" with
+  | "EMPTY" => pure .empty
+  | "NONEMPTY" => pure .nonempty
+  | "IN_IDEAL" => pure (.inIdeal (← tgt))
+  | "VANISHES_ON" => pure (.vanishesOn (← tgt))
+  | "NOT_IN_IDEAL" => pure (.notInIdeal (← tgt))
+  | k => throw s!"unknown kind {k}"
+
+def surfaceIdealCert (vars : List String) (c : Json) : Except String IdealCert := do
+  if !onlyKeys c ["type", "cofactors", "m", "k", "characteristic"] then throw "unknown certificate key"
+  let field := match (obj? c "characteristic").bind (·.getNat?.toOption) with
+    | some p => Field.prime p
+    | none => .rat
+  pure ⟨field, ← (← strs c "cofactors").mapM (canonP vars), natField c "m", natField c "k"⟩
+
+def surfaceCerts (vars : List String) (rule : Json) (k : String) : Except String (List Cert) := do
+  match obj? rule k with
+  | some (.arr cs) => cs.toList.mapM fun c => do pure (← surfaceIdealCert vars c).toCert
+  | none => pure []
+  | _ => throw s!"{k} must be a list"
+
+def surfaceFamily (inputs : Json) : Except String Plan := do
+  let claims ← match obj? inputs "claims" with
+    | some (.arr cs) => pure cs.toList
+    | _ => throw "no claims"
+  let requested ← nats inputs "requested"
+  let items ← claims.foldlM (fun (acc : List Item) c => do
+    if !onlyKeys c ["key", "variables", "equations", "nonzero", "kind", "target", "characteristic",
+        "certificate", "rule", "premises"] then throw "unknown claim key"
+    let key ← need ((obj? c "key").bind (·.getNat?.toOption)) "claim without key"
+    let vars ← strs c "variables"
+    let stmt : Stmt := ⟨vars, ← (← strs c "equations").mapM (canonP vars),
+      ← (← strs c "nonzero").mapM (canonP vars), ← surfaceKind vars c⟩
+    let scope : Scope := match (obj? c "characteristic").bind (·.getNat?.toOption) with
+      | some p => .only p
+      | none => .char0Only
+    let premises ← nats c "premises"
+    let support ← match obj? c "certificate", obj? c "rule" with
+      | some cert, none =>
+        let ty := (str? cert "type").getD ""
+        if ty == "ideal" then pure (Support.receipt (← surfaceIdealCert vars cert).toCert)
+        else if ty == "point" then
+          pure (.receipt (.point .rat (← ratPoint vars (← need (obj? cert "point") "no point"))))
+        else throw "unknown certificate type"
+      | none, some rule =>
+        let prem ← need (premises.head?.bind fun k => (acc.find? (·.key == k)).map (·.stmt))
+          "a rule needs its premises filed first"
+        -- Map obligations live on the source: the premise for NONEMPTY / NOT_IN_IDEAL, else the
+        -- conclusion.
+        let forward := match stmt.kind with | .nonempty | .notInIdeal _ => true | _ => false
+        let (srcVars, tgtVars) := if forward then (prem.vars, vars) else (vars, prem.vars)
+        let data ← match (str? rule "type").getD "" with
+          | "r1" => pure RuleData.r1
+          | "bridge" => pure .witness
+          | "cover" => pure .byCover
+          | "split" => pure (.split (← canonP vars (← need (str? rule "on") "no split polynomial")))
+          | "inclusion" =>
+            pure (.inclusion (← surfaceCerts vars rule "eq_certificates") (← surfaceCerts vars rule "guard_certificates"))
+          | "map" =>
+            let m ← need (obj? rule "map") "no map"
+            let phi ← tgtVars.mapM fun v => do
+              canonP srcVars (← text (← need (obj? m v) s!"incomplete map: no image for {v}"))
+            pure (.map phi (← surfaceCerts srcVars rule "eq_certificates") (← surfaceCerts srcVars rule "guard_certificates"))
+          | _ => throw "unknown rule type"
+        pure (.rule data premises)
+      | none, none => pure .none
+      | _, _ => throw "a claim has a certificate or a rule, not both"
+    pure (acc ++ [mkItem key stmt scope support])) []
+  pure { items, requested }
+
 /-- Dispatch on input keys. -/
 def plan (case : Json) (params : List (String × Nat)) : Except String Plan := do
   let inputs ← case.getObjVal? "inputs"
@@ -588,6 +674,8 @@ def plan (case : Json) (params : List (String × Nat)) : Except String Plan := d
   if has inputs "excluded_fiber_generators" && k ["variables", "parent_equations", "excluded_base",
       "excluded_fiber_generators", "parent_point"] then
     return ← fiberFamily inputs
+  if has inputs "claims" && k ["claims", "requested"] then
+    return ← elabOr (surfaceFamily inputs)
   if has inputs "searched_exponents" && k ["built_generators", "source_generators", "searched_exponents"] then
     return ← searchFamily inputs
   if has inputs "field_polynomial" && k ["variables", "generators", "guards", "point_universe",
@@ -595,7 +683,7 @@ def plan (case : Json) (params : List (String × Nat)) : Except String Plan := d
       (str? inputs "point_universe" |>.all (· == "ALGEBRAIC_CLOSURE")) &&
       ((obj? inputs "proposed_change").all fun c =>
         c == .null || (match c with | .arr _ => true | _ => false) ||
-        onlyKeys c ["generators", "open_conditions", "point_universe"]) then
+        onlyKeys c ["generators", "open_conditions", "point_universe", "verifier_version"]) then
     return ← elabOr (extensionWitnessFamily inputs)
   -- The combinatorial context keys (object, vertices, classes, edges) describe the system only.
   if has inputs "witness_field" && k ["object", "vertices", "classes", "edges", "coefficient_domain",

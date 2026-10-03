@@ -32,10 +32,30 @@ def itemJson (state : RuntimeState) (i : Item) : Json :=
     | .receipt cert none => [("check", toJson (checkName (check i.stmt i.scope cert)))]
     | _ => [])
 
+/-- Instantiation fixtures (G3a review §7): a sidecar keyed by case id and the FNV-1a of the case
+bytes, signed in corpus/CHANGES.md. A fixture replaces a schematic case's inputs; a fixture whose
+hash no longer matches its case is an error, never silently skipped. -/
+def loadCase (root : System.FilePath) (path : String) : IO Json := do
+  let bytes ← IO.FS.readBinFile (root / path)
+  let case ← IO.ofExcept (Json.parse (← IO.FS.readFile (root / path)))
+  let id := (do (← case.getObjVal? "id").getStr?).toOption.getD ""
+  let fx ← IO.ofExcept (Json.parse (← IO.FS.readFile (root / "corpus" / "INSTANTIATIONS.json")))
+  let entries := ((fx.getObjVal? "fixtures") >>= Json.getArr?).toOption.getD #[]
+  match entries.find? fun e => (e.getObjVal? "id").toOption == some (Json.str id) with
+  | none => pure case
+  | some e =>
+    let h := (do (← e.getObjVal? "case_fnv1a").getStr?).toOption.getD ""
+    if h != toString (fnv1a bytes) then
+      throw (IO.userError s!"stale instantiation fixture for {id}: the case bytes changed")
+    let inputs ← IO.ofExcept (e.getObjVal? "inputs")
+    pure ((case.setObjVal! "inputs" inputs).setObjVal! "instantiated" (Json.bool true))
+
 def runCase (label : String) (case : Json) (params : List (String × Nat))
     (records : List BinderRecord := []) : Json :=
   let expected := (do (← (← case.getObjVal? "expected").getObjVal? "verdict").getStr?).toOption
-  let base : List (String × Json) := [("id", toJson label), ("expected", toJson expected)]
+  let base : List (String × Json) := [("id", toJson label), ("expected", toJson expected)] ++
+    (if (case.getObjVal? "instantiated").toOption == some (Json.bool true) then [("instantiated", Json.bool true)]
+     else [])
   match Families.plan case params with
   | .error e => Json.mkObj (base ++ [("observed", Json.str "EXPRESSIVENESS_LOSS"), ("frontend_error", toJson e)])
   | .ok p =>
@@ -124,7 +144,7 @@ def run (root : System.FilePath) (manifest : Json) (records : List BinderRecord 
   let entries ← IO.ofExcept ((← IO.ofExcept (manifest.getObjVal? "cases")).getArr?)
   let rows ← entries.toList.mapM fun entry => do
     let path : String ← IO.ofExcept (do (← entry.getObjVal? "path").getStr?)
-    let case ← IO.ofExcept (Json.parse (← IO.FS.readFile (root / path)))
+    let case ← loadCase root path
     let id := (do (← case.getObjVal? "id").getStr?).toOption.getD path
     let label := (do (← entry.getObjVal? "label").getStr?).toOption.getD id
     let params := match entry.getObjVal? "parameters" with
@@ -146,7 +166,7 @@ def main (args : List String) : IO UInt32 := do
     let entries ← IO.ofExcept ((← IO.ofExcept (manifest.getObjVal? "cases")).getArr?)
     let rows ← entries.toList.mapM fun entry => do
       let path : String ← IO.ofExcept (do (← entry.getObjVal? "path").getStr?)
-      let case ← IO.ofExcept (Lean.Json.parse (← IO.FS.readFile (System.FilePath.mk root / path)))
+      let case ← GPProfile.Corpus.loadCase (System.FilePath.mk root) path
       let id := (do (← case.getObjVal? "id").getStr?).toOption.getD path
       let label := (do (← entry.getObjVal? "label").getStr?).toOption.getD id
       let params := match entry.getObjVal? "parameters" with
