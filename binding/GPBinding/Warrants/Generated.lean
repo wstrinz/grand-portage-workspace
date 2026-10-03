@@ -7,9 +7,21 @@ import Mathlib.Tactic.NormNum.Prime
 namespace GPBinding.Warrants
 open GPProfile GPBinding.Binder MvPolynomial
 
+theorem w_GP_A08b_1 :
+    Warranted ⟨["x"], [[([1], (2 : Rat))], [([0], (1 : Rat)), ([1], (-2 : Rat))]], [], .empty⟩
+      ⟨true, .cofinite []⟩ := by
+  intro K hK x hx
+  have e0 := hx.1 _ (List.mem_cons_self)
+  have e1 := hx.1 _ (List.mem_cons_of_mem _ (List.mem_cons_self))
+  simp only [valueE_eq, List.map_cons, List.map_nil, List.sum_cons, List.sum_nil, List.length_cons, List.length_nil, Fin.prod_univ_succ, Fin.prod_univ_zero, List.getD_cons_zero, List.getD_cons_succ, List.getD_nil, Fin.val_zero, Fin.val_succ, pow_zero, pow_one, mul_one, add_zero, Rat.cast_ofNat, Rat.cast_one, Rat.cast_neg, Rat.cast_intCast, Rat.cast_natCast, Rat.cast_zero] at e0 e1
+  have hD : ((1 : ℕ) : K.carrier) ≠ 0 := by simp
+  apply hD
+  simp only [Nat.cast_ofNat, Nat.cast_one]
+  linear_combination (((1 : K.carrier))) * e0 + (((1 : K.carrier))) * e1
+
 theorem w_GP_X125_1 :
     Warranted ⟨["x", "y"], [[([0, 0], (-1 : Rat)), ([0, 2], (1 : Rat)), ([1, 0], (1 : Rat)), ([3, 0], (-1 : Rat))], [([0, 0], (-1 : Rat)), ([2, 0], (3 : Rat))], [([0, 1], (2 : Rat))]], [], .empty⟩
-      ⟨true, .finite []⟩ := by
+      ⟨true, .cofinite [2, 23]⟩ := by
   intro K hK x hx
   have e0 := hx.1 _ (List.mem_cons_self)
   have e1 := hx.1 _ (List.mem_cons_of_mem _ (List.mem_cons_self))
@@ -23,7 +35,7 @@ theorem w_GP_X125_1 :
 
 theorem w_GP_FANO_C1_1 :
     Warranted ⟨["x5", "y4", "z4", "z5", "y7", "z7"], [[([0, 0, 1, 0, 0, 0], (1 : Rat))], [([1, 0, 0, 0, 0, 0], (1 : Rat))], [([0, 0, 0, 0, 0, 0], (1 : Rat)), ([0, 1, 0, 0, 0, 0], (-1 : Rat))], [([0, 0, 0, 0, 0, 1], (1 : Rat)), ([0, 0, 0, 1, 1, 0], (-1 : Rat)), ([0, 0, 1, 0, 0, 0], (-1 : Rat)), ([0, 1, 0, 1, 0, 0], (1 : Rat)), ([1, 0, 1, 0, 1, 0], (1 : Rat)), ([1, 1, 0, 0, 0, 1], (-1 : Rat))], [([0, 0, 0, 0, 0, 0], (1 : Rat)), ([0, 0, 0, 1, 0, 0], (-1 : Rat))], [([0, 0, 0, 0, 0, 0], (1 : Rat)), ([0, 0, 0, 0, 0, 1], (-1 : Rat))], [([0, 0, 0, 0, 1, 0], (-1 : Rat))]], [[([0, 0, 0, 1, 0, 0], (1 : Rat))], [([0, 0, 0, 0, 0, 1], (1 : Rat))], [([0, 1, 0, 0, 0, 0], (-1 : Rat))], [([0, 0, 1, 0, 0, 0], (-1 : Rat)), ([0, 1, 0, 1, 0, 0], (1 : Rat))], [([0, 0, 1, 0, 0, 0], (-1 : Rat)), ([0, 1, 0, 0, 0, 0], (1 : Rat))], [([0, 0, 1, 0, 1, 0], (-1 : Rat)), ([0, 1, 0, 0, 0, 1], (1 : Rat))], [([0, 0, 0, 0, 0, 1], (1 : Rat)), ([0, 0, 0, 1, 1, 0], (-1 : Rat))], [([0, 0, 0, 0, 0, 1], (1 : Rat)), ([0, 0, 0, 0, 1, 0], (-1 : Rat))], [([0, 0, 0, 1, 0, 0], (-1 : Rat)), ([1, 0, 1, 0, 0, 0], (1 : Rat))], [([0, 0, 0, 0, 0, 0], (-1 : Rat)), ([0, 0, 1, 0, 0, 0], (1 : Rat))], [([0, 0, 0, 0, 0, 1], (-1 : Rat)), ([0, 0, 1, 0, 0, 0], (1 : Rat))], [([0, 0, 0, 1, 0, 0], (1 : Rat)), ([1, 0, 0, 0, 0, 0], (-1 : Rat))], [([0, 0, 0, 1, 0, 0], (1 : Rat)), ([1, 0, 0, 0, 0, 1], (-1 : Rat))], [([0, 0, 0, 0, 0, 0], (1 : Rat)), ([1, 1, 0, 0, 0, 0], (-1 : Rat))], [([0, 0, 0, 0, 1, 0], (1 : Rat)), ([0, 1, 0, 0, 0, 0], (-1 : Rat))], [([0, 0, 0, 0, 0, 0], (-1 : Rat)), ([1, 0, 0, 0, 0, 0], (1 : Rat))], [([0, 0, 0, 0, 0, 0], (-1 : Rat)), ([1, 0, 0, 0, 1, 0], (1 : Rat))], [([0, 0, 0, 0, 0, 0], (-1 : Rat)), ([0, 0, 0, 0, 1, 0], (1 : Rat))], [([0, 0, 0, 0, 0, 0], (1 : Rat)), ([0, 0, 0, 1, 0, 0], (-1 : Rat)), ([0, 0, 1, 0, 0, 0], (-1 : Rat)), ([0, 1, 0, 1, 0, 0], (1 : Rat)), ([1, 0, 1, 0, 0, 0], (1 : Rat)), ([1, 1, 0, 0, 0, 0], (-1 : Rat))], [([0, 0, 0, 0, 0, 1], (1 : Rat)), ([0, 0, 0, 0, 1, 0], (-1 : Rat)), ([0, 0, 1, 0, 0, 0], (-1 : Rat)), ([0, 0, 1, 0, 1, 0], (1 : Rat)), ([0, 1, 0, 0, 0, 0], (1 : Rat)), ([0, 1, 0, 0, 0, 1], (-1 : Rat))], [([0, 0, 0, 0, 0, 0], (1 : Rat)), ([0, 0, 0, 0, 0, 1], (-1 : Rat)), ([0, 0, 0, 1, 0, 0], (-1 : Rat)), ([0, 0, 0, 1, 1, 0], (1 : Rat)), ([1, 0, 0, 0, 0, 1], (1 : Rat)), ([1, 0, 0, 0, 1, 0], (-1 : Rat))]], .empty⟩
-      ⟨true, .finite []⟩ := by
+      ⟨true, .cofinite [2]⟩ := by
   intro K hK x hx
   have e0 := hx.1 _ (List.mem_cons_self)
   have e1 := hx.1 _ (List.mem_cons_of_mem _ (List.mem_cons_self))
@@ -62,7 +74,7 @@ theorem w_GP_FANO_C1_1 :
 
 theorem w_CTRL_HIDDEN_DENOMINATOR_Q_1 :
     Warranted ⟨["x"], [[([0], (3 : Rat))]], [], .empty⟩
-      ⟨true, .finite []⟩ := by
+      ⟨true, .cofinite [3]⟩ := by
   intro K hK x hx
   have e0 := hx.1 _ (List.mem_cons_self)
   simp only [valueE_eq, List.map_cons, List.map_nil, List.sum_cons, List.sum_nil, List.length_cons, List.length_nil, Fin.prod_univ_succ, Fin.prod_univ_zero, List.getD_cons_zero, List.getD_cons_succ, List.getD_nil, Fin.val_zero, Fin.val_succ, pow_zero, pow_one, mul_one, add_zero, Rat.cast_ofNat, Rat.cast_one, Rat.cast_neg, Rat.cast_intCast, Rat.cast_natCast, Rat.cast_zero] at e0
@@ -74,7 +86,7 @@ theorem w_CTRL_HIDDEN_DENOMINATOR_Q_1 :
 
 theorem w_GP_C01_1 :
     Warranted ⟨["x"], [[([1], (1 : Rat))], [([0], (1 : Rat)), ([1], (-1 : Rat))]], [], .empty⟩
-      ⟨true, .finite []⟩ := by
+      ⟨true, .cofinite []⟩ := by
   intro K hK x hx
   have e0 := hx.1 _ (List.mem_cons_self)
   have e1 := hx.1 _ (List.mem_cons_of_mem _ (List.mem_cons_self))
@@ -86,7 +98,7 @@ theorem w_GP_C01_1 :
 
 theorem w_GP_X64_1 :
     Warranted ⟨["p", "t", "c9_11", "I4"], [[([0, 0, 0, 0], (1 : Rat)), ([0, 3, 0, 0], (15 : Rat))], [([0, 1, 1, 0], (10 : Rat)), ([1, 2, 0, 0], (15 : Rat))], [([0, 0, 2, 0], (5 : Rat)), ([1, 1, 1, 0], (10 : Rat)), ([2, 2, 0, 0], (5 : Rat))]], [[([1, 0, 0, 0], (1 : Rat))], [([0, 1, 0, 0], (1 : Rat))]], .empty⟩
-      ⟨true, .finite []⟩ := by
+      ⟨true, .cofinite [5]⟩ := by
   intro K hK x hx
   have e0 := hx.1 _ (List.mem_cons_self)
   have e1 := hx.1 _ (List.mem_cons_of_mem _ (List.mem_cons_self))
@@ -100,12 +112,53 @@ theorem w_GP_X64_1 :
   simp only [Nat.cast_ofNat, Nat.cast_one]
   linear_combination (((-2 : K.carrier) * x 0 ^ 2 * x (Fin.succ 0) ^ 1 * x (Fin.succ (Fin.succ 0)) ^ 1) + ((-1 : K.carrier) * x 0 ^ 3 * x (Fin.succ 0) ^ 2)) * e1 + (((4 : K.carrier) * x 0 ^ 2 * x (Fin.succ 0) ^ 2)) * e2
 
+theorem w_GP_A23_1 :
+    Warranted ⟨["x"], [[([1], (1 : Rat))]], [[([1], (1 : Rat))]], .empty⟩
+      ⟨true, .cofinite []⟩ := by
+  intro K hK x hx
+  have e0 := hx.1 _ (List.mem_cons_self)
+  have g0 := hx.2 _ (List.mem_cons_self)
+  simp only [valueE_eq, List.map_cons, List.map_nil, List.sum_cons, List.sum_nil, List.length_cons, List.length_nil, Fin.prod_univ_succ, Fin.prod_univ_zero, List.getD_cons_zero, List.getD_cons_succ, List.getD_nil, Fin.val_zero, Fin.val_succ, pow_zero, pow_one, mul_one, add_zero, Rat.cast_ofNat, Rat.cast_one, Rat.cast_neg, Rat.cast_intCast, Rat.cast_natCast, Rat.cast_zero] at e0 g0
+  have hD : ((1 : ℕ) : K.carrier) ≠ 0 := by simp
+  refine mul_ne_zero hD (pow_ne_zero 1 (g0)) ?_
+  simp only [Nat.cast_ofNat, Nat.cast_one]
+  linear_combination (((1 : K.carrier))) * e0
+
+theorem w_GP_C02_1 :
+    Warranted ⟨["x", "y"], [[([1, 0], (1 : Rat))], [([0, 0], (-1 : Rat)), ([1, 0], (1 : Rat))]], [], .empty⟩
+      ⟨true, .cofinite []⟩ := by
+  intro K hK x hx
+  have e0 := hx.1 _ (List.mem_cons_self)
+  have e1 := hx.1 _ (List.mem_cons_of_mem _ (List.mem_cons_self))
+  simp only [valueE_eq, List.map_cons, List.map_nil, List.sum_cons, List.sum_nil, List.length_cons, List.length_nil, Fin.prod_univ_succ, Fin.prod_univ_zero, List.getD_cons_zero, List.getD_cons_succ, List.getD_nil, Fin.val_zero, Fin.val_succ, pow_zero, pow_one, mul_one, add_zero, Rat.cast_ofNat, Rat.cast_one, Rat.cast_neg, Rat.cast_intCast, Rat.cast_natCast, Rat.cast_zero] at e0 e1
+  have hD : ((1 : ℕ) : K.carrier) ≠ 0 := by simp
+  apply hD
+  simp only [Nat.cast_ofNat, Nat.cast_one]
+  linear_combination (((1 : K.carrier))) * e0 + (((-1 : K.carrier))) * e1
+
+theorem w_GP_X121_1 :
+    Warranted ⟨["x", "y"], [[([1, 0], (1 : Rat))], [([0, 1], (1 : Rat))], [([0, 0], (-1 : Rat)), ([1, 0], (1 : Rat))]], [], .empty⟩
+      ⟨true, .cofinite []⟩ := by
+  intro K hK x hx
+  have e0 := hx.1 _ (List.mem_cons_self)
+  have e1 := hx.1 _ (List.mem_cons_of_mem _ (List.mem_cons_self))
+  have e2 := hx.1 _ (List.mem_cons_of_mem _ (List.mem_cons_of_mem _ (List.mem_cons_self)))
+  simp only [valueE_eq, List.map_cons, List.map_nil, List.sum_cons, List.sum_nil, List.length_cons, List.length_nil, Fin.prod_univ_succ, Fin.prod_univ_zero, List.getD_cons_zero, List.getD_cons_succ, List.getD_nil, Fin.val_zero, Fin.val_succ, pow_zero, pow_one, mul_one, add_zero, Rat.cast_ofNat, Rat.cast_one, Rat.cast_neg, Rat.cast_intCast, Rat.cast_natCast, Rat.cast_zero] at e0 e1 e2
+  have hD : ((1 : ℕ) : K.carrier) ≠ 0 := by simp
+  apply hD
+  simp only [Nat.cast_ofNat, Nat.cast_one]
+  linear_combination (((1 : K.carrier))) * e0 + (((-1 : K.carrier))) * e2
+
 /-- Every generated warrant, for the binder. -/
 def registry : List Bound := [
-  ⟨"w_GP_X125_1", ⟨["x", "y"], [[([0, 0], (-1 : Rat)), ([0, 2], (1 : Rat)), ([1, 0], (1 : Rat)), ([3, 0], (-1 : Rat))], [([0, 0], (-1 : Rat)), ([2, 0], (3 : Rat))], [([0, 1], (2 : Rat))]], [], .empty⟩, ⟨true, .finite []⟩, w_GP_X125_1⟩,
-  ⟨"w_GP_FANO_C1_1", ⟨["x5", "y4", "z4", "z5", "y7", "z7"], [[([0, 0, 1, 0, 0, 0], (1 : Rat))], [([1, 0, 0, 0, 0, 0], (1 : Rat))], [([0, 0, 0, 0, 0, 0], (1 : Rat)), ([0, 1, 0, 0, 0, 0], (-1 : Rat))], [([0, 0, 0, 0, 0, 1], (1 : Rat)), ([0, 0, 0, 1, 1, 0], (-1 : Rat)), ([0, 0, 1, 0, 0, 0], (-1 : Rat)), ([0, 1, 0, 1, 0, 0], (1 : Rat)), ([1, 0, 1, 0, 1, 0], (1 : Rat)), ([1, 1, 0, 0, 0, 1], (-1 : Rat))], [([0, 0, 0, 0, 0, 0], (1 : Rat)), ([0, 0, 0, 1, 0, 0], (-1 : Rat))], [([0, 0, 0, 0, 0, 0], (1 : Rat)), ([0, 0, 0, 0, 0, 1], (-1 : Rat))], [([0, 0, 0, 0, 1, 0], (-1 : Rat))]], [[([0, 0, 0, 1, 0, 0], (1 : Rat))], [([0, 0, 0, 0, 0, 1], (1 : Rat))], [([0, 1, 0, 0, 0, 0], (-1 : Rat))], [([0, 0, 1, 0, 0, 0], (-1 : Rat)), ([0, 1, 0, 1, 0, 0], (1 : Rat))], [([0, 0, 1, 0, 0, 0], (-1 : Rat)), ([0, 1, 0, 0, 0, 0], (1 : Rat))], [([0, 0, 1, 0, 1, 0], (-1 : Rat)), ([0, 1, 0, 0, 0, 1], (1 : Rat))], [([0, 0, 0, 0, 0, 1], (1 : Rat)), ([0, 0, 0, 1, 1, 0], (-1 : Rat))], [([0, 0, 0, 0, 0, 1], (1 : Rat)), ([0, 0, 0, 0, 1, 0], (-1 : Rat))], [([0, 0, 0, 1, 0, 0], (-1 : Rat)), ([1, 0, 1, 0, 0, 0], (1 : Rat))], [([0, 0, 0, 0, 0, 0], (-1 : Rat)), ([0, 0, 1, 0, 0, 0], (1 : Rat))], [([0, 0, 0, 0, 0, 1], (-1 : Rat)), ([0, 0, 1, 0, 0, 0], (1 : Rat))], [([0, 0, 0, 1, 0, 0], (1 : Rat)), ([1, 0, 0, 0, 0, 0], (-1 : Rat))], [([0, 0, 0, 1, 0, 0], (1 : Rat)), ([1, 0, 0, 0, 0, 1], (-1 : Rat))], [([0, 0, 0, 0, 0, 0], (1 : Rat)), ([1, 1, 0, 0, 0, 0], (-1 : Rat))], [([0, 0, 0, 0, 1, 0], (1 : Rat)), ([0, 1, 0, 0, 0, 0], (-1 : Rat))], [([0, 0, 0, 0, 0, 0], (-1 : Rat)), ([1, 0, 0, 0, 0, 0], (1 : Rat))], [([0, 0, 0, 0, 0, 0], (-1 : Rat)), ([1, 0, 0, 0, 1, 0], (1 : Rat))], [([0, 0, 0, 0, 0, 0], (-1 : Rat)), ([0, 0, 0, 0, 1, 0], (1 : Rat))], [([0, 0, 0, 0, 0, 0], (1 : Rat)), ([0, 0, 0, 1, 0, 0], (-1 : Rat)), ([0, 0, 1, 0, 0, 0], (-1 : Rat)), ([0, 1, 0, 1, 0, 0], (1 : Rat)), ([1, 0, 1, 0, 0, 0], (1 : Rat)), ([1, 1, 0, 0, 0, 0], (-1 : Rat))], [([0, 0, 0, 0, 0, 1], (1 : Rat)), ([0, 0, 0, 0, 1, 0], (-1 : Rat)), ([0, 0, 1, 0, 0, 0], (-1 : Rat)), ([0, 0, 1, 0, 1, 0], (1 : Rat)), ([0, 1, 0, 0, 0, 0], (1 : Rat)), ([0, 1, 0, 0, 0, 1], (-1 : Rat))], [([0, 0, 0, 0, 0, 0], (1 : Rat)), ([0, 0, 0, 0, 0, 1], (-1 : Rat)), ([0, 0, 0, 1, 0, 0], (-1 : Rat)), ([0, 0, 0, 1, 1, 0], (1 : Rat)), ([1, 0, 0, 0, 0, 1], (1 : Rat)), ([1, 0, 0, 0, 1, 0], (-1 : Rat))]], .empty⟩, ⟨true, .finite []⟩, w_GP_FANO_C1_1⟩,
-  ⟨"w_CTRL_HIDDEN_DENOMINATOR_Q_1", ⟨["x"], [[([0], (3 : Rat))]], [], .empty⟩, ⟨true, .finite []⟩, w_CTRL_HIDDEN_DENOMINATOR_Q_1⟩,
-  ⟨"w_GP_C01_1", ⟨["x"], [[([1], (1 : Rat))], [([0], (1 : Rat)), ([1], (-1 : Rat))]], [], .empty⟩, ⟨true, .finite []⟩, w_GP_C01_1⟩,
-  ⟨"w_GP_X64_1", ⟨["p", "t", "c9_11", "I4"], [[([0, 0, 0, 0], (1 : Rat)), ([0, 3, 0, 0], (15 : Rat))], [([0, 1, 1, 0], (10 : Rat)), ([1, 2, 0, 0], (15 : Rat))], [([0, 0, 2, 0], (5 : Rat)), ([1, 1, 1, 0], (10 : Rat)), ([2, 2, 0, 0], (5 : Rat))]], [[([1, 0, 0, 0], (1 : Rat))], [([0, 1, 0, 0], (1 : Rat))]], .empty⟩, ⟨true, .finite []⟩, w_GP_X64_1⟩]
+  ⟨"w_GP_A08b_1", ⟨["x"], [[([1], (2 : Rat))], [([0], (1 : Rat)), ([1], (-2 : Rat))]], [], .empty⟩, ⟨true, .cofinite []⟩, w_GP_A08b_1⟩,
+  ⟨"w_GP_X125_1", ⟨["x", "y"], [[([0, 0], (-1 : Rat)), ([0, 2], (1 : Rat)), ([1, 0], (1 : Rat)), ([3, 0], (-1 : Rat))], [([0, 0], (-1 : Rat)), ([2, 0], (3 : Rat))], [([0, 1], (2 : Rat))]], [], .empty⟩, ⟨true, .cofinite [2, 23]⟩, w_GP_X125_1⟩,
+  ⟨"w_GP_FANO_C1_1", ⟨["x5", "y4", "z4", "z5", "y7", "z7"], [[([0, 0, 1, 0, 0, 0], (1 : Rat))], [([1, 0, 0, 0, 0, 0], (1 : Rat))], [([0, 0, 0, 0, 0, 0], (1 : Rat)), ([0, 1, 0, 0, 0, 0], (-1 : Rat))], [([0, 0, 0, 0, 0, 1], (1 : Rat)), ([0, 0, 0, 1, 1, 0], (-1 : Rat)), ([0, 0, 1, 0, 0, 0], (-1 : Rat)), ([0, 1, 0, 1, 0, 0], (1 : Rat)), ([1, 0, 1, 0, 1, 0], (1 : Rat)), ([1, 1, 0, 0, 0, 1], (-1 : Rat))], [([0, 0, 0, 0, 0, 0], (1 : Rat)), ([0, 0, 0, 1, 0, 0], (-1 : Rat))], [([0, 0, 0, 0, 0, 0], (1 : Rat)), ([0, 0, 0, 0, 0, 1], (-1 : Rat))], [([0, 0, 0, 0, 1, 0], (-1 : Rat))]], [[([0, 0, 0, 1, 0, 0], (1 : Rat))], [([0, 0, 0, 0, 0, 1], (1 : Rat))], [([0, 1, 0, 0, 0, 0], (-1 : Rat))], [([0, 0, 1, 0, 0, 0], (-1 : Rat)), ([0, 1, 0, 1, 0, 0], (1 : Rat))], [([0, 0, 1, 0, 0, 0], (-1 : Rat)), ([0, 1, 0, 0, 0, 0], (1 : Rat))], [([0, 0, 1, 0, 1, 0], (-1 : Rat)), ([0, 1, 0, 0, 0, 1], (1 : Rat))], [([0, 0, 0, 0, 0, 1], (1 : Rat)), ([0, 0, 0, 1, 1, 0], (-1 : Rat))], [([0, 0, 0, 0, 0, 1], (1 : Rat)), ([0, 0, 0, 0, 1, 0], (-1 : Rat))], [([0, 0, 0, 1, 0, 0], (-1 : Rat)), ([1, 0, 1, 0, 0, 0], (1 : Rat))], [([0, 0, 0, 0, 0, 0], (-1 : Rat)), ([0, 0, 1, 0, 0, 0], (1 : Rat))], [([0, 0, 0, 0, 0, 1], (-1 : Rat)), ([0, 0, 1, 0, 0, 0], (1 : Rat))], [([0, 0, 0, 1, 0, 0], (1 : Rat)), ([1, 0, 0, 0, 0, 0], (-1 : Rat))], [([0, 0, 0, 1, 0, 0], (1 : Rat)), ([1, 0, 0, 0, 0, 1], (-1 : Rat))], [([0, 0, 0, 0, 0, 0], (1 : Rat)), ([1, 1, 0, 0, 0, 0], (-1 : Rat))], [([0, 0, 0, 0, 1, 0], (1 : Rat)), ([0, 1, 0, 0, 0, 0], (-1 : Rat))], [([0, 0, 0, 0, 0, 0], (-1 : Rat)), ([1, 0, 0, 0, 0, 0], (1 : Rat))], [([0, 0, 0, 0, 0, 0], (-1 : Rat)), ([1, 0, 0, 0, 1, 0], (1 : Rat))], [([0, 0, 0, 0, 0, 0], (-1 : Rat)), ([0, 0, 0, 0, 1, 0], (1 : Rat))], [([0, 0, 0, 0, 0, 0], (1 : Rat)), ([0, 0, 0, 1, 0, 0], (-1 : Rat)), ([0, 0, 1, 0, 0, 0], (-1 : Rat)), ([0, 1, 0, 1, 0, 0], (1 : Rat)), ([1, 0, 1, 0, 0, 0], (1 : Rat)), ([1, 1, 0, 0, 0, 0], (-1 : Rat))], [([0, 0, 0, 0, 0, 1], (1 : Rat)), ([0, 0, 0, 0, 1, 0], (-1 : Rat)), ([0, 0, 1, 0, 0, 0], (-1 : Rat)), ([0, 0, 1, 0, 1, 0], (1 : Rat)), ([0, 1, 0, 0, 0, 0], (1 : Rat)), ([0, 1, 0, 0, 0, 1], (-1 : Rat))], [([0, 0, 0, 0, 0, 0], (1 : Rat)), ([0, 0, 0, 0, 0, 1], (-1 : Rat)), ([0, 0, 0, 1, 0, 0], (-1 : Rat)), ([0, 0, 0, 1, 1, 0], (1 : Rat)), ([1, 0, 0, 0, 0, 1], (1 : Rat)), ([1, 0, 0, 0, 1, 0], (-1 : Rat))]], .empty⟩, ⟨true, .cofinite [2]⟩, w_GP_FANO_C1_1⟩,
+  ⟨"w_CTRL_HIDDEN_DENOMINATOR_Q_1", ⟨["x"], [[([0], (3 : Rat))]], [], .empty⟩, ⟨true, .cofinite [3]⟩, w_CTRL_HIDDEN_DENOMINATOR_Q_1⟩,
+  ⟨"w_GP_C01_1", ⟨["x"], [[([1], (1 : Rat))], [([0], (1 : Rat)), ([1], (-1 : Rat))]], [], .empty⟩, ⟨true, .cofinite []⟩, w_GP_C01_1⟩,
+  ⟨"w_GP_X64_1", ⟨["p", "t", "c9_11", "I4"], [[([0, 0, 0, 0], (1 : Rat)), ([0, 3, 0, 0], (15 : Rat))], [([0, 1, 1, 0], (10 : Rat)), ([1, 2, 0, 0], (15 : Rat))], [([0, 0, 2, 0], (5 : Rat)), ([1, 1, 1, 0], (10 : Rat)), ([2, 2, 0, 0], (5 : Rat))]], [[([1, 0, 0, 0], (1 : Rat))], [([0, 1, 0, 0], (1 : Rat))]], .empty⟩, ⟨true, .cofinite [5]⟩, w_GP_X64_1⟩,
+  ⟨"w_GP_A23_1", ⟨["x"], [[([1], (1 : Rat))]], [[([1], (1 : Rat))]], .empty⟩, ⟨true, .cofinite []⟩, w_GP_A23_1⟩,
+  ⟨"w_GP_C02_1", ⟨["x", "y"], [[([1, 0], (1 : Rat))], [([0, 0], (-1 : Rat)), ([1, 0], (1 : Rat))]], [], .empty⟩, ⟨true, .cofinite []⟩, w_GP_C02_1⟩,
+  ⟨"w_GP_X121_1", ⟨["x", "y"], [[([1, 0], (1 : Rat))], [([0, 1], (1 : Rat))], [([0, 0], (-1 : Rat)), ([1, 0], (1 : Rat))]], [], .empty⟩, ⟨true, .cofinite []⟩, w_GP_X121_1⟩]
 
 end GPBinding.Warrants

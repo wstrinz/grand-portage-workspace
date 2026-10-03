@@ -22,7 +22,7 @@ def pointer_exists(value, pointer):
     except (KeyError, IndexError, TypeError, ValueError):
         return False
 
-def validate(registry, case_dir: Path, expected_count=459):
+def validate(registry, case_dir: Path, expected_count=462):
     if not isinstance(registry, dict) or (type(registry.get("schema_version")) is not int or registry.get("schema_version") != 1):
         raise ValueError("invalid registry schema")
     if registry.get("policy_version") != _generator.POLICY_VERSION:
@@ -103,7 +103,7 @@ def validate(registry, case_dir: Path, expected_count=459):
             "unresolved": [r["id"] for r in rows if r["primary_layer"] is None],
             "g2_pending": [r["id"] for r in rows if r["g2_kernel_eligible"] is None]}
 
-def kernel_case_ids(registry, case_dir, expected_count=459):
+def kernel_case_ids(registry, case_dir, expected_count=462):
     summary = validate(registry, case_dir, expected_count)
     if summary["g2_pending"]:
         raise ValueError("G2 kernel selection blocked by unresolved kernel candidates: " + ", ".join(summary["g2_pending"]))

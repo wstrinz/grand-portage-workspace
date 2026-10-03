@@ -1,5 +1,6 @@
 import GP50.Queries
 import GPProfile.Rules
+import GPProfile.Canonical
 
 /-!
 Case plans (post-G2 §1.8–1.9). A family adapter turns a case into profile inputs only:
@@ -18,6 +19,9 @@ inductive Support where
   | none
   | receipt (cert : Cert) (boundTo : Option (Stmt × List String) := none)
   | rule (data : RuleData) (premises : List Nat)
+  /-- A recorded bounded search (G3a review §7, the TIMEOUT-as-non-evidence lineage): kept for
+  provenance, with no admission path. -/
+  | searched (bound : Nat)
   deriving Repr
 
 structure Item where
@@ -37,7 +41,7 @@ structure Plan where
   deriving Repr
 
 def bindingOf (stmt : Stmt) (scope : Scope) (extra : List String) : Binding :=
-  { statementHash := reprStr stmt, scopeHash := reprStr scope, modelHash := "gp-profile-3a/v1"
+  { statementHash := stmtCanon stmt, scopeHash := scopeCanon scope, modelHash := "gp-profile-3a/v1"
     inputHashes := extra, authority := "3a-corpus", authorityVersion := 1, kernelVersion := 1 }
 
 structure Ledger where
@@ -69,7 +73,7 @@ def Ledger.file (l : Ledger) (i : Item) : Except String Ledger := do
   let declare := [Event.declareClaim i.key, .current ⟨i.key, 1, b⟩]
   let base : Ledger := { l with clauses := l.clauses ++ [clause], events := l.events ++ declare }
   let next : Ledger := match i.support with
-    | .none => base
+    | .none | .searched _ => base
     | .receipt cert boundTo =>
       let rb := match boundTo with
         | some (s, m) => bindingOf s i.scope m
@@ -90,6 +94,7 @@ def widenCert (stmt : Stmt) (scope : Scope) (cert : Cert) : Option (Scope × Cer
   let withField : Cert → Field → Cert
     | .ideal _ qs m k, f => .ideal f qs m k
     | .point _ vs, f => .point f vs
+    | .proper _ a b, f => .proper f a b
     | c, _ => c
   let candidates := [cert, withField cert .rat].eraseDups.filterMap fun c => (reach stmt c).map (·, c)
   let wider := candidates.filter fun (r, _) => scope.le r && !r.le scope
@@ -126,6 +131,12 @@ def Plan.run (p : Plan) (records : List BinderRecord := []) : Except String Outc
           pure (← l.file item, ws ++ [(i.key, r)], next + 1)
         | none => pure acc
       | _ => pure acc) (ledger, [], base)
+  -- A4 at the computed reach: theorem warrants for the widened claims.
+  let widenedItems := (widened.zip (List.range widened.length)).filterMap fun ((k, r), j) =>
+    (p.items.find? (·.key == k)).map fun i => ({ i with key := base + j, scope := r } : Item)
+  let (ledger, theorems) ← widenedItems.foldlM (fun (acc : Ledger × List (Nat × String)) i => do
+      let (l, d) ← acc.1.mintTheorem i
+      pure (l, acc.2 ++ (d.map (i.key, ·)).toList)) (ledger, theorems)
   let final ← fold ledger.admission ledger.events
   pure ⟨accepted, final, widened, (Queries.earned final (p.items.map (·.key)) [] []).map (·.claim), theorems⟩
 

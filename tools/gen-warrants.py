@@ -113,9 +113,11 @@ def main():
     seen, blocks, entries = set(), [], []
     for c in cands:
         name, block = theorem(c)
-        if name in seen:
+        # One warrant per (statement, scope): a case filed under two labels mints one theorem.
+        if name in seen or (c["stmt"], c["scope"]) in seen:
             continue
         seen.add(name)
+        seen.add((c["stmt"], c["scope"]))
         blocks.append(block)
         entries.append(f'  ⟨"{name}", {c["stmt"]}, {c["scope"]}, {name}⟩')
     header = ("import GPBinding.Binder.Registry\nimport Mathlib.Tactic.LinearCombination\n"

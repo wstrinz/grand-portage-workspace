@@ -1,597 +1,2352 @@
 {
-  "schema": "gp-3a-expressiveness/v1",
-  "date": "2026-10-03",
-  "status": "provisional; Will approved this direction pending external review",
+  "schema": "gp-3a-expressiveness/v2",
+  "source": "corpus/GATE-OWNERS.json, reports/PHASE-3A-SAFETY.json",
+  "outcomes_by_owner": {
+    "3a": {
+      "agree": 105
+    },
+    "3b": {
+      "loss": 50,
+      "agree": 1
+    },
+    "admission-control": {
+      "loss": 2
+    },
+    "campaign-op": {
+      "loss": 80
+    },
+    "census": {
+      "loss": 4
+    }
+  },
+  "convergence": {
+    "accepting_rows": 46,
+    "held_requested_claims": 234,
+    "held_by_kind": {
+      "NONEMPTY": 8,
+      "EMPTY": 5,
+      "IN_IDEAL": 214,
+      "NOT_IN_IDEAL": 4,
+      "COVER": 3
+    },
+    "held_by_support": {
+      "receipt": 227,
+      "rule bridge": 2,
+      "rule R3": 3,
+      "rule R2": 2
+    },
+    "rows_with_widening": 71,
+    "rows_with_theorem_warrants": [
+      "GP-A08b",
+      "GP-C01",
+      "GP-X125",
+      "GP-X64",
+      "GP-X413",
+      "GP-A23",
+      "GP-C02",
+      "GP-X121"
+    ],
+    "binder_refused": null
+  },
   "cases": [
     {
       "id": "GP-A02",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (replay failed)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-A03a",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "rule refused"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-A03b",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
-      "id": "GP-A04",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "id": "GP-A04[p=3]",
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (outside reach)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-A05",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (ill-formed)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-A06",
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "rule refused"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-A07a",
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-A07b",
+      "owner": "3b",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-A08b",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-A08c",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-A09",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "elaboration"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-A10-C",
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-A10-Q",
+      "owner": "3b",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-A10-R",
+      "owner": "3b",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-A11a",
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-A11b",
-      "category": "schematic",
-      "note": "no concrete data; needs a reviewed instantiation fixture"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": true,
+      "field_strengthened": null
     },
     {
       "id": "GP-A12",
-      "category": "schematic",
-      "note": "no concrete data; needs a reviewed instantiation fixture"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "rule refused"
+      ],
+      "instantiated": true,
+      "field_strengthened": null
     },
     {
       "id": "GP-A13-ambient",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-A13-derived",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (replay failed)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-A20b",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-A21",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-A22",
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "refuted (contra with held claim 1)"
+      ],
+      "instantiated": true,
+      "field_strengthened": null
     },
     {
       "id": "GP-A23",
-      "category": "schematic",
-      "note": "no concrete data; needs a reviewed instantiation fixture"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "rule refused"
+      ],
+      "instantiated": true,
+      "field_strengthened": null
     },
     {
       "id": "GP-A24",
-      "category": "needs-3b",
-      "note": "extension-field witness point (Q(i), Q(sqrt 3))"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "rule refused"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-C01",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-C02",
-      "category": "schematic",
-      "note": "no concrete data; needs a reviewed instantiation fixture"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": true,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X01",
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X02",
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X03",
-      "category": "schematic",
-      "note": "no concrete data; needs a reviewed instantiation fixture"
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X05",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X06",
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X07",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X08",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X10",
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "rule refused"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X11",
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "rule refused"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X117",
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X118",
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X119",
-      "category": "needs-negative-kind",
-      "note": "non-membership, non-unit or completeness claim; proposed witness-refuted NOT_IN_IDEAL kind"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X12",
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "elaboration"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X120",
-      "category": "needs-negative-kind",
-      "note": "non-membership, non-unit or completeness claim; proposed witness-refuted NOT_IN_IDEAL kind"
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X121",
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "refuted (contra with held claim 1)"
+      ],
+      "instantiated": true,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X122",
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X123",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "rule refused"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X124",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "refuted (contra with held claim 2)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X125",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X126",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (outside reach)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X127",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X128",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "refuted (contra with held claim 1)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X129",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X13",
-      "category": "schematic",
-      "note": "no concrete data; needs a reviewed instantiation fixture"
+      "owner": "census",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X130",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (replay failed)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X132",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X133",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (replay failed)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X134",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "elaboration"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X135",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X136",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (replay failed)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X137",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "elaboration"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X138",
-      "category": "needs-negative-kind",
-      "note": "non-membership, non-unit or completeness claim; proposed witness-refuted NOT_IN_IDEAL kind"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "no certificate (a bounded search is not evidence)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X141",
-      "category": "needs-negative-kind",
-      "note": "non-membership, non-unit or completeness claim; proposed witness-refuted NOT_IN_IDEAL kind"
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X15",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X16",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (replay failed)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X17",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X18",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (replay failed)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X19",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (replay failed)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X20",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X21",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (replay failed)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X22",
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X222",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X223",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X224",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X225",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (replay failed)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X228",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X23",
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "rule refused"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X24",
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "elaboration"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X25",
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X255",
+      "owner": "3b",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X256",
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X257",
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X258",
+      "owner": "3b",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X259",
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X26",
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X260",
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X261",
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X262",
+      "owner": "3b",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X263",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X264",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X265",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (replay failed)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X266",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (replay failed)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X267",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (replay failed)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X268",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (replay failed)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X269",
-      "category": "needs-cover-kind",
-      "note": "object cover claim; proposed COVER statement kind"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X27",
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X270",
-      "category": "needs-cover-kind",
-      "note": "object cover claim; proposed COVER statement kind"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "unsupported"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X271",
-      "category": "needs-cover-kind",
-      "note": "object cover claim; proposed COVER statement kind"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X272",
-      "category": "needs-cover-kind",
-      "note": "object cover claim; proposed COVER statement kind"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X273",
+      "owner": "3b",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X274",
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X275",
-      "category": "needs-3b",
-      "note": "point universe BASE vs ALGEBRAIC_CLOSURE (field-class flag)"
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X276",
-      "category": "needs-3b",
-      "note": "point universe BASE vs ALGEBRAIC_CLOSURE (field-class flag)"
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X277",
-      "category": "needs-3b",
-      "note": "point universe BASE vs ALGEBRAIC_CLOSURE (field-class flag)"
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X278",
-      "category": "needs-3b",
-      "note": "point universe BASE vs ALGEBRAIC_CLOSURE (field-class flag)"
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X279",
-      "category": "needs-3b",
-      "note": "point universe BASE vs ALGEBRAIC_CLOSURE (field-class flag)"
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X28",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X280",
-      "category": "needs-3b",
-      "note": "point universe BASE vs ALGEBRAIC_CLOSURE (field-class flag)"
+      "owner": "3b",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X284",
-      "category": "operation-contract",
-      "note": "v0.37 tool operation contract (branch construction, declared units, affine pattern)"
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X285",
-      "category": "operation-contract",
-      "note": "v0.37 tool operation contract (branch construction, declared units, affine pattern)"
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X286",
-      "category": "operation-contract",
-      "note": "v0.37 tool operation contract (branch construction, declared units, affine pattern)"
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X287",
-      "category": "operation-contract",
-      "note": "v0.37 tool operation contract (branch construction, declared units, affine pattern)"
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X288",
-      "category": "operation-contract",
-      "note": "v0.37 tool operation contract (branch construction, declared units, affine pattern)"
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X289",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X29",
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X290",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X291",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (replay failed)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X292",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X293",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X296",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X297",
-      "category": "operation-contract",
-      "note": "v0.37 tool operation contract (branch construction, declared units, affine pattern)"
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X298",
-      "category": "operation-contract",
-      "note": "v0.37 tool operation contract (branch construction, declared units, affine pattern)"
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X299",
-      "category": "operation-contract",
-      "note": "v0.37 tool operation contract (branch construction, declared units, affine pattern)"
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X30",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X300",
-      "category": "operation-contract",
-      "note": "v0.37 tool operation contract (branch construction, declared units, affine pattern)"
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X301",
-      "category": "operation-contract",
-      "note": "v0.37 tool operation contract (branch construction, declared units, affine pattern)"
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X308",
+      "owner": "3b",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X309",
+      "owner": "3b",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X31",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X310",
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X311",
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X312",
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X313",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X314",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X315",
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X316",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X317",
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X318",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X319",
-      "category": "needs-3b",
-      "note": "pinned fixture over the number field Q[t]/(15t^3+1)"
+      "owner": "3b",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X32",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X320",
-      "category": "needs-3b",
-      "note": "pinned fixture over the number field Q[t]/(15t^3+1)"
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X321",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X322",
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X323",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X324",
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X325",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X326",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X327",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X328",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X33",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X330",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X331",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X332",
-      "category": "needs-3b",
-      "note": "pinned fixture over the number field Q[t]/(15t^3+1)"
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X333",
-      "category": "needs-3b",
-      "note": "pinned fixture over the number field Q[t]/(15t^3+1)"
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X334",
-      "category": "needs-3b",
-      "note": "pinned fixture over the number field Q[t]/(15t^3+1)"
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X335",
-      "category": "needs-3b",
-      "note": "pinned fixture over the number field Q[t]/(15t^3+1)"
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X336",
-      "category": "needs-3b",
-      "note": "pinned fixture over the number field Q[t]/(15t^3+1)"
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X339",
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X34",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X340",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X341",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X342",
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X343",
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X345",
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X347",
+      "owner": "3b",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X348",
+      "owner": "3b",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X349",
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X350",
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X351",
+      "owner": "3b",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X352",
+      "owner": "3b",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X353",
+      "owner": "3b",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X354",
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X355",
-      "category": "ring-not-field",
-      "note": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields"
+      "owner": "admission-control",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X356",
+      "owner": "admission-control",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X357",
-      "category": "ring-not-field",
-      "note": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields"
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X358",
-      "category": "ring-not-field",
-      "note": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields"
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X359",
-      "category": "ring-not-field",
-      "note": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields"
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X360",
-      "category": "ring-not-field",
-      "note": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields"
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X361",
-      "category": "ring-not-field",
-      "note": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields"
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X362",
-      "category": "ring-not-field",
-      "note": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields"
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X363",
-      "category": "ring-not-field",
-      "note": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields"
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X364",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X365",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (replay failed)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X366",
-      "category": "ring-not-field",
-      "note": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields"
+      "owner": "census",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X367",
-      "category": "ring-not-field",
-      "note": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields"
+      "owner": "census",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X368",
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X369",
+      "owner": "3b",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X401",
+      "owner": "census",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X404",
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X405",
+      "owner": "3b",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X406",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X407",
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X408",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X409",
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X410",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (replay failed)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X411",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (replay failed)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X412",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X45",
-      "category": "needs-3b",
-      "note": "extension-field witness point (Q(i), Q(sqrt 3))"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X46",
-      "category": "needs-3b",
-      "note": "extension-field witness point (Q(i), Q(sqrt 3))"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "rule refused"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X47",
-      "category": "needs-3b",
-      "note": "extension-field witness point (Q(i), Q(sqrt 3))"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "rule refused"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X48",
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "rule refused"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X49",
-      "category": "needs-3b",
-      "note": "extension-field witness point (Q(i), Q(sqrt 3))"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "custody (stale binding)",
+        "rule refused"
+      ],
+      "instantiated": true,
+      "field_strengthened": null
     },
     {
       "id": "GP-X50",
-      "category": "needs-3b",
-      "note": "extension-field witness point (Q(i), Q(sqrt 3))"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "rule refused"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X51",
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": true,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X52",
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "rule refused"
+      ],
+      "instantiated": true,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X53",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X54",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X55",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X56",
+      "owner": "3b",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X57",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X58",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X59",
-      "category": "schematic",
-      "note": "no concrete data; needs a reviewed instantiation fixture"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "rule refused"
+      ],
+      "instantiated": true,
+      "field_strengthened": null
     },
     {
       "id": "GP-X63",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X64",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "rule refused"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X66",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X67",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "custody (stale binding)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X68",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "custody (stale binding)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X69",
-      "category": "needs-3b",
-      "note": "point universe BASE vs ALGEBRAIC_CLOSURE (field-class flag)"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "custody (stale binding)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X70",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "custody (stale binding)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
     },
     {
       "id": "GP-X71",
-      "category": "expressible",
-      "note": "generic family adapter into the 3a profile"
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "custody (stale binding)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X73",
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": true,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X74",
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": true,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X75",
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (replay failed)"
+      ],
+      "instantiated": true,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X76",
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (replay failed)"
+      ],
+      "instantiated": true,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X77",
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (replay failed)"
+      ],
+      "instantiated": true,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X78",
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": true,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X79",
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": true,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X80",
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (replay failed)"
+      ],
+      "instantiated": true,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X81",
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (replay failed)"
+      ],
+      "instantiated": true,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X83",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X84",
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X85",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X86",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X87",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X88",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X89",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X90",
+      "owner": "campaign-op",
+      "expected": "ACCEPT",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X91",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X92",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X93",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X94",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X95",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X96",
+      "owner": "campaign-op",
+      "expected": "REFUSE",
+      "observed": "EXPRESSIVENESS_LOSS",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X413",
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X414",
+      "owner": "3a",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "mechanism": [
+        "checker (outside reach)"
+      ],
+      "instantiated": false,
+      "field_strengthened": null
+    },
+    {
+      "id": "GP-X415",
+      "owner": "3a",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "mechanism": [],
+      "instantiated": false,
+      "field_strengthened": null
     }
   ]
 }

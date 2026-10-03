@@ -2963,6 +2963,27 @@
         "tests/test_adversarial.py": "1150aa49c0596af1a9816a71f44694838e6fef17370a2fc8337b453b3d43c9f8"
       },
       "limitation": "Pinned point_witness decision branch exercised with the existing literal-value test helper. Native verdict remains null: no Singular execution, parser validation, native receipt or held authority."
+    },
+    "GP-X413": {
+      "kind": "unsupported_neutral_contract",
+      "layer": "profile",
+      "case_sha256": "7be68af3d7ac8da960f7bc7bddccadff965d3449ebba7b4da0ce663a4441920b",
+      "reason": "New 0.50 profile case (post-G2 handoff \u00a73.6, Fano intake signed by Will 2026-10-03); the frozen v0.37 oracle has no projection for it. Checked by the 3a profile runner.",
+      "limitation": "Formerly the reach-slice fixture GP-FANO-C1."
+    },
+    "GP-X414": {
+      "kind": "unsupported_neutral_contract",
+      "layer": "profile",
+      "case_sha256": "2c95674d7bf15547047f7b6ad7c554621f6717d0142155c2d2320f3ada093c0d",
+      "reason": "New 0.50 profile case (post-G2 handoff \u00a73.6, Fano intake signed by Will 2026-10-03); the frozen v0.37 oracle has no projection for it. Checked by the 3a profile runner.",
+      "limitation": "Formerly the reach-slice fixture GP-FANO-C1-CHAR2."
+    },
+    "GP-X415": {
+      "kind": "unsupported_neutral_contract",
+      "layer": "profile",
+      "case_sha256": "036f23524d3f170754b7557c700d5dac05512a49fb1a3d2875b378f7f15b8ee5",
+      "reason": "New 0.50 profile case (post-G2 handoff \u00a73.6, Fano intake signed by Will 2026-10-03); the frozen v0.37 oracle has no projection for it. Checked by the 3a profile runner.",
+      "limitation": "Formerly the reach-slice fixture GP-FANO-F2."
     }
   }
 }

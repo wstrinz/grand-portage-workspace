@@ -10,14 +10,16 @@ open Lean GP50 GPProfile
 
 def kindName : Kind → String
   | .empty => "EMPTY" | .nonempty => "NONEMPTY" | .inIdeal _ => "IN_IDEAL" | .vanishesOn _ => "VANISHES_ON"
-  | .notInIdeal _ => "NOT_IN_IDEAL" | .nonunit _ => "NONUNIT" | .cover _ => "COVER"
+  | .notInIdeal _ => "NOT_IN_IDEAL" | .cover _ => "COVER"
 
 def supportName : Support → String
   | .none => "none"
   | .receipt _ none => "receipt"
   | .receipt _ (some _) => "receipt bound to original"
+  | .searched n => s!"searched (non-evidence, {n} exponents)"
   | .rule d _ => match d with
-    | .r1 => "rule R1" | .inclusion .. => "rule R2" | .map .. => "rule R3" | .split _ => "rule R4"
+    | .r1 => "rule R1" | .inclusion .. => "rule R2" | .map .. => "rule R3" | .split _ => "rule R4" | .witness => "rule bridge"
+    | .byCover => "rule R4 (cover)"
 
 def checkName : Check → String
   | .accepted _ => "accepted" | .notCanonical => "not canonical" | .illFormed _ => "ill-formed"
@@ -30,27 +32,58 @@ def itemJson (state : RuntimeState) (i : Item) : Json :=
     | .receipt cert none => [("check", toJson (checkName (check i.stmt i.scope cert)))]
     | _ => [])
 
+/-- Instantiation fixtures (G3a review §7): a sidecar keyed by case id and the FNV-1a of the case
+bytes, signed in corpus/CHANGES.md. A fixture replaces a schematic case's inputs; a fixture whose
+hash no longer matches its case is an error, never silently skipped. -/
+def loadCase (root : System.FilePath) (path : String) : IO Json := do
+  let bytes ← IO.FS.readBinFile (root / path)
+  let case ← IO.ofExcept (Json.parse (← IO.FS.readFile (root / path)))
+  let id := (do (← case.getObjVal? "id").getStr?).toOption.getD ""
+  let fx ← IO.ofExcept (Json.parse (← IO.FS.readFile (root / "corpus" / "INSTANTIATIONS.json")))
+  let entries := ((fx.getObjVal? "fixtures") >>= Json.getArr?).toOption.getD #[]
+  match entries.find? fun e => (e.getObjVal? "id").toOption == some (Json.str id) with
+  | none => pure case
+  | some e =>
+    let h := (do (← e.getObjVal? "case_fnv1a").getStr?).toOption.getD ""
+    if h != toString (fnv1a bytes) then
+      throw (IO.userError s!"stale instantiation fixture for {id}: the case bytes changed")
+    let inputs ← IO.ofExcept (e.getObjVal? "inputs")
+    pure ((case.setObjVal! "inputs" inputs).setObjVal! "instantiated" (Json.bool true))
+
 def runCase (label : String) (case : Json) (params : List (String × Nat))
     (records : List BinderRecord := []) : Json :=
   let expected := (do (← (← case.getObjVal? "expected").getObjVal? "verdict").getStr?).toOption
-  let base : List (String × Json) := [("id", toJson label), ("expected", toJson expected)]
+  let base : List (String × Json) := [("id", toJson label), ("expected", toJson expected)] ++
+    (if (case.getObjVal? "instantiated").toOption == some (Json.bool true) then [("instantiated", Json.bool true)]
+     else [])
   match Families.plan case params with
   | .error e => Json.mkObj (base ++ [("observed", Json.str "EXPRESSIVENESS_LOSS"), ("frontend_error", toJson e)])
   | .ok p =>
     match p.elaboration with
-    | some e => Json.mkObj (base ++ [("observed", Json.str "REFUSE"), ("mechanism", Json.str "elaboration"),
+    | some e => Json.mkObj (base ++ [("observed", Json.str "REFUSE"), ("mechanism", toJson ["elaboration"]),
         ("elaboration", toJson e)])
     | none =>
       match p.run records with
       | .error e => Json.mkObj (base ++ [("observed", Json.str "MALFORMED"), ("error", toJson e)])
       | .ok o =>
         let refused := p.items.filter fun i => p.requested.contains i.key && !held o.state i.key
-        let mechanism := refused.map fun i => match i.support with
-          | .none => "unsupported"
-          | .receipt _ (some _) => "custody (stale binding)"
-          | .receipt c none => s!"checker ({checkName (check i.stmt i.scope c)})"
-          | .rule .. => "rule refused"
-        Json.mkObj (base ++ [("mechanism", toJson mechanism.eraseDups),
+        let refuter (i : Item) : Option Nat := (p.items.find? fun j => held o.state j.key &&
+          ops.contra i.stmt j.stmt && i.scope.overlaps j.scope).map (·.key)
+        let mechanism := refused.map fun i => match refuter i, i.support with
+          | some j, _ => s!"refuted (contra with held claim {j})"
+          | none, .none => "unsupported"
+          | none, .searched _ => "no certificate (a bounded search is not evidence)"
+          | none, .receipt _ (some _) => "custody (stale binding)"
+          | none, .receipt c none => s!"checker ({checkName (check i.stmt i.scope c)})"
+          | none, .rule .. => "rule refused"
+        let inputs := (case.getObjVal? "inputs").toOption.getD .null
+        let named := (namedField? inputs).orElse fun _ =>
+          (inputs.getObjVal? "model").toOption.bind namedField?
+        let requestsPoint := p.items.any fun i => p.requested.contains i.key && i.stmt.kind == .nonempty
+        let strengthened := named.filter fun f =>
+          ["R", "RR"].contains f || (["C", "CC"].contains f && requestsPoint)
+        Json.mkObj (base ++ (strengthened.map fun f => ("field_strengthened", toJson f)).toList ++
+          [("mechanism", toJson mechanism.eraseDups),
           ("observed", Json.str (if o.accepted then "ACCEPT" else "REFUSE")),
           ("requested", toJson p.requested),
           ("items", toJson (p.items.map (itemJson o.state))),
@@ -69,7 +102,7 @@ def sparsesLit (ps : List Sparse) : String := "[" ++ ", ".intercalate (ps.map sp
 def kindLit : Kind → String
   | .empty => ".empty" | .nonempty => ".nonempty"
   | .inIdeal h => s!"(.inIdeal {sparseLit h})" | .vanishesOn h => s!"(.vanishesOn {sparseLit h})"
-  | .notInIdeal h => s!"(.notInIdeal {sparseLit h})" | .nonunit h => s!"(.nonunit {sparseLit h})"
+  | .notInIdeal h => s!"(.notInIdeal {sparseLit h})"
   | .cover _ => ".cover []"
 def stmtLit (s : Stmt) : String :=
   s!"⟨{repr s.vars}, {sparsesLit s.eqs}, {sparsesLit s.guards}, {kindLit s.kind}⟩"
@@ -87,19 +120,23 @@ def candidates (label : String) (case : Json) (params : List (String × Nat)) : 
     | .error _ => []
     | .ok o =>
       p.items.filterMap fun i => match i.support with
-        | .receipt cert none =>
+        | .receipt cert0 none =>
           if !held o.state i.key then none else
+          -- Warrants are generated at the receipt's widest computed reach (G3a review §5).
+          let (scope, cert) := (widenCert i.stmt i.scope cert0).getD (i.scope, cert0)
           let certJ := match cert with
             | .ideal f qs m k => Json.mkObj [("type", "ideal"), ("field", toJson (reprStr f)),
                 ("cofactors", toJson (qs.map sparseLit)), ("m", toJson m), ("k", toJson k)]
             | .point f vs => Json.mkObj [("type", "point"), ("field", toJson (reprStr f)),
                 ("values", toJson (vs.map ratLit))]
+            | .proper f a b => Json.mkObj [("type", "proper"), ("field", toJson (reprStr f)),
+                ("a", toJson (a.map ratLit)), ("b", toJson (b.map ratLit))]
             | .cover .. => Json.mkObj [("type", "cover")]
           some (Json.mkObj [("case", toJson label), ("key", toJson i.key), ("vars", toJson i.stmt.vars),
-            ("stmt", toJson (stmtLit i.stmt)), ("scope", toJson (scopeLit i.scope)),
+            ("stmt", toJson (stmtLit i.stmt)), ("scope", toJson (scopeLit scope)),
             ("kind", toJson (kindName i.stmt.kind)), ("eqs", toJson (i.stmt.eqs.map sparseLit)),
             ("guards", toJson (i.stmt.guards.map sparseLit)), ("cert", certJ),
-            ("statementHash", toJson (reprStr i.stmt)), ("scopeHash", toJson (reprStr i.scope))])
+            ("statementHash", toJson (stmtCanon i.stmt)), ("scopeHash", toJson (scopeCanon scope))])
         | _ => none
 
 def run (root : System.FilePath) (manifest : Json) (records : List BinderRecord := []) :
@@ -107,7 +144,7 @@ def run (root : System.FilePath) (manifest : Json) (records : List BinderRecord 
   let entries ← IO.ofExcept ((← IO.ofExcept (manifest.getObjVal? "cases")).getArr?)
   let rows ← entries.toList.mapM fun entry => do
     let path : String ← IO.ofExcept (do (← entry.getObjVal? "path").getStr?)
-    let case ← IO.ofExcept (Json.parse (← IO.FS.readFile (root / path)))
+    let case ← loadCase root path
     let id := (do (← case.getObjVal? "id").getStr?).toOption.getD path
     let label := (do (← entry.getObjVal? "label").getStr?).toOption.getD id
     let params := match entry.getObjVal? "parameters" with
@@ -129,7 +166,7 @@ def main (args : List String) : IO UInt32 := do
     let entries ← IO.ofExcept ((← IO.ofExcept (manifest.getObjVal? "cases")).getArr?)
     let rows ← entries.toList.mapM fun entry => do
       let path : String ← IO.ofExcept (do (← entry.getObjVal? "path").getStr?)
-      let case ← IO.ofExcept (Lean.Json.parse (← IO.FS.readFile (System.FilePath.mk root / path)))
+      let case ← GPProfile.Corpus.loadCase (System.FilePath.mk root) path
       let id := (do (← case.getObjVal? "id").getStr?).toOption.getD path
       let label := (do (← entry.getObjVal? "label").getStr?).toOption.getD id
       let params := match entry.getObjVal? "parameters" with
@@ -147,9 +184,24 @@ def main (args : List String) : IO UInt32 := do
     let recJson ← IO.ofExcept (Lean.Json.parse (← IO.FS.readFile recordsPath))
     let rows ← IO.ofExcept ((← IO.ofExcept (recJson.getObjVal? "records")).getArr?)
     let field (r : Lean.Json) (k : String) : Option String := (r.getObjVal? k >>= Lean.Json.getStr?).toOption
-    let records : List GPProfile.BinderRecord := rows.toList.filterMap fun r => do
-      if (r.getObjVal? "bound").toOption != some (Lean.Json.bool true) then none else
-      pure ⟨← field r "declaration", ← field r "statementHash", ← field r "scopeHash"⟩
-    IO.println (← GPProfile.Corpus.run root manifest records).pretty
+    -- The binder receipt must come from this environment (G3a review §5c).
+    let recEnv := (recJson.getObjVal? "environment").toOption.getD Lean.Json.null
+    let bindingDir := System.FilePath.mk root / "binding"
+    let module ← IO.FS.readBinFile (bindingDir / "GPBinding" / "Warrants" / "Generated.lean")
+    let bManifest ← IO.ofExcept (Lean.Json.parse (← IO.FS.readFile (bindingDir / "lake-manifest.json")))
+    let pkgs := ((bManifest.getObjVal? "packages") >>= Lean.Json.getArr?).toOption.getD #[]
+    let mathlib := (pkgs.find? fun p => (p.getObjVal? "name").toOption == some (Lean.Json.str "mathlib")).bind
+      fun m => (m.getObjVal? "rev" >>= Lean.Json.getStr?).toOption
+    let mismatches := ([("toolchain", some Lean.versionString), ("mathlib", mathlib),
+        ("warrantModuleFnv1a", some (toString (GPProfile.fnv1a module)))] : List (String × Option String)).filter
+      fun (k, v) => field recEnv k != v
+    let records : List GPProfile.BinderRecord := if !mismatches.isEmpty then [] else
+      rows.toList.filterMap fun r => do
+        if (r.getObjVal? "bound").toOption != some (Lean.Json.bool true) then none else
+        pure ⟨← field r "declaration", ← field r "statementHash", ← field r "scopeHash"⟩
+    let out ← GPProfile.Corpus.run root manifest records
+    let out := if mismatches.isEmpty then out else
+      out.setObjVal! "binder_refused" (Lean.toJson (mismatches.map (·.1)))
+    IO.println out.pretty
     return 0
   | _ => IO.eprintln "usage: gp_corpus_run <repo-root> <manifest.json>"; return 2
