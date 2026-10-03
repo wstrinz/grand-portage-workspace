@@ -1,0 +1,42 @@
+{"schema": "gp-binder/v1",
+ "records":
+ [{"wellFormed": true,
+   "statementHash":
+   "{ vars := [\"x\", \"y\"],\n  eqs := [[([0, 0], -1), ([0, 2], 1), ([1, 0], 1), ([3, 0], -1)], [([0, 0], -1), ([2, 0], 3)], [([0, 1], 2)]],\n  guards := [],\n  kind := GPProfile.Kind.empty }",
+   "scopeHash": "{ char0 := true, primes := GPProfile.PrimeSet.finite [] }",
+   "declaration": "GPBinding.Warrants.w_GP_X125_1",
+   "bound": true,
+   "axiomsOk": true,
+   "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+  {"wellFormed": true,
+   "statementHash":
+   "{ vars := [\"x5\", \"y4\", \"z4\", \"z5\", \"y7\", \"z7\"],\n  eqs := [[([0, 0, 1, 0, 0, 0], 1)],\n          [([1, 0, 0, 0, 0, 0], 1)],\n          [([0, 0, 0, 0, 0, 0], 1), ([0, 1, 0, 0, 0, 0], -1)],\n          [([0, 0, 0, 0, 0, 1], 1),\n           ([0, 0, 0, 1, 1, 0], -1),\n           ([0, 0, 1, 0, 0, 0], -1),\n           ([0, 1, 0, 1, 0, 0], 1),\n           ([1, 0, 1, 0, 1, 0], 1),\n           ([1, 1, 0, 0, 0, 1], -1)],\n          [([0, 0, 0, 0, 0, 0], 1), ([0, 0, 0, 1, 0, 0], -1)],\n          [([0, 0, 0, 0, 0, 0], 1), ([0, 0, 0, 0, 0, 1], -1)],\n          [([0, 0, 0, 0, 1, 0], -1)]],\n  guards := [[([0, 0, 0, 1, 0, 0], 1)],\n             [([0, 0, 0, 0, 0, 1], 1)],\n             [([0, 1, 0, 0, 0, 0], -1)],\n             [([0, 0, 1, 0, 0, 0], -1), ([0, 1, 0, 1, 0, 0], 1)],\n             [([0, 0, 1, 0, 0, 0], -1), ([0, 1, 0, 0, 0, 0], 1)],\n             [([0, 0, 1, 0, 1, 0], -1), ([0, 1, 0, 0, 0, 1], 1)],\n             [([0, 0, 0, 0, 0, 1], 1), ([0, 0, 0, 1, 1, 0], -1)],\n             [([0, 0, 0, 0, 0, 1], 1), ([0, 0, 0, 0, 1, 0], -1)],\n             [([0, 0, 0, 1, 0, 0], -1), ([1, 0, 1, 0, 0, 0], 1)],\n             [([0, 0, 0, 0, 0, 0], -1), ([0, 0, 1, 0, 0, 0], 1)],\n             [([0, 0, 0, 0, 0, 1], -1), ([0, 0, 1, 0, 0, 0], 1)],\n             [([0, 0, 0, 1, 0, 0], 1), ([1, 0, 0, 0, 0, 0], -1)],\n             [([0, 0, 0, 1, 0, 0], 1), ([1, 0, 0, 0, 0, 1], -1)],\n             [([0, 0, 0, 0, 0, 0], 1), ([1, 1, 0, 0, 0, 0], -1)],\n             [([0, 0, 0, 0, 1, 0], 1), ([0, 1, 0, 0, 0, 0], -1)],\n             [([0, 0, 0, 0, 0, 0], -1), ([1, 0, 0, 0, 0, 0], 1)],\n             [([0, 0, 0, 0, 0, 0], -1), ([1, 0, 0, 0, 1, 0], 1)],\n             [([0, 0, 0, 0, 0, 0], -1), ([0, 0, 0, 0, 1, 0], 1)],\n             [([0, 0, 0, 0, 0, 0], 1),\n              ([0, 0, 0, 1, 0, 0], -1),\n              ([0, 0, 1, 0, 0, 0], -1),\n              ([0, 1, 0, 1, 0, 0], 1),\n              ([1, 0, 1, 0, 0, 0], 1),\n              ([1, 1, 0, 0, 0, 0], -1)],\n             [([0, 0, 0, 0, 0, 1], 1),\n              ([0, 0, 0, 0, 1, 0], -1),\n              ([0, 0, 1, 0, 0, 0], -1),\n              ([0, 0, 1, 0, 1, 0], 1),\n              ([0, 1, 0, 0, 0, 0], 1),\n              ([0, 1, 0, 0, 0, 1], -1)],\n             [([0, 0, 0, 0, 0, 0], 1),\n              ([0, 0, 0, 0, 0, 1], -1),\n              ([0, 0, 0, 1, 0, 0], -1),\n              ([0, 0, 0, 1, 1, 0], 1),\n              ([1, 0, 0, 0, 0, 1], 1),\n              ([1, 0, 0, 0, 1, 0], -1)]],\n  kind := GPProfile.Kind.empty }",
+   "scopeHash": "{ char0 := true, primes := GPProfile.PrimeSet.finite [] }",
+   "declaration": "GPBinding.Warrants.w_GP_FANO_C1_1",
+   "bound": true,
+   "axiomsOk": true,
+   "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+  {"wellFormed": true,
+   "statementHash":
+   "{ vars := [\"x\"], eqs := [[([0], 3)]], guards := [], kind := GPProfile.Kind.empty }",
+   "scopeHash": "{ char0 := true, primes := GPProfile.PrimeSet.finite [] }",
+   "declaration": "GPBinding.Warrants.w_CTRL_HIDDEN_DENOMINATOR_Q_1",
+   "bound": true,
+   "axiomsOk": true,
+   "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+  {"wellFormed": true,
+   "statementHash":
+   "{ vars := [\"x\"], eqs := [[([1], 1)], [([0], 1), ([1], -1)]], guards := [], kind := GPProfile.Kind.empty }",
+   "scopeHash": "{ char0 := true, primes := GPProfile.PrimeSet.finite [] }",
+   "declaration": "GPBinding.Warrants.w_GP_C01_1",
+   "bound": true,
+   "axiomsOk": true,
+   "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+  {"wellFormed": true,
+   "statementHash":
+   "{ vars := [\"p\", \"t\", \"c9_11\", \"I4\"],\n  eqs := [[([0, 0, 0, 0], 1), ([0, 3, 0, 0], 15)],\n          [([0, 1, 1, 0], 10), ([1, 2, 0, 0], 15)],\n          [([0, 0, 2, 0], 5), ([1, 1, 1, 0], 10), ([2, 2, 0, 0], 5)]],\n  guards := [[([1, 0, 0, 0], 1)], [([0, 1, 0, 0], 1)]],\n  kind := GPProfile.Kind.empty }",
+   "scopeHash": "{ char0 := true, primes := GPProfile.PrimeSet.finite [] }",
+   "declaration": "GPBinding.Warrants.w_GP_X64_1",
+   "bound": true,
+   "axiomsOk": true,
+   "axioms": ["propext", "Classical.choice", "Quot.sound"]}]}

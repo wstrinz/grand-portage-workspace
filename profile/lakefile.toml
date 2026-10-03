@@ -26,3 +26,7 @@ root = "GPProfile.Layout"
 [[lean_exe]]
 name = "gp_reach_slice"
 root = "GPProfile.Slice"
+
+[[lean_exe]]
+name = "gp_corpus_run"
+root = "GPProfile.Corpus"

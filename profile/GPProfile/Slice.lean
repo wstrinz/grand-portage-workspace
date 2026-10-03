@@ -43,6 +43,7 @@ def Ledger.file (l : Ledger) (key : Nat) (stmt : Stmt) (scope : Scope) (cert : C
 def _root_.GPProfile.Cert.withField : Cert → Field → Cert
   | .ideal _ qs m k, f => .ideal f qs m k
   | .point _ vs, f => .point f vs
+  | c, _ => c
 
 /-- The widest strictly wider reach among re-replays of a held receipt's certificate. -/
 def widen (stmt : Stmt) (scope : Scope) (cert : Cert) : Option (Scope × Cert) :=
@@ -64,6 +65,9 @@ def kindJson (vars : List String) : Kind → Json
   | .empty => "EMPTY" | .nonempty => "NONEMPTY"
   | .inIdeal h => Json.mkObj [("IN_IDEAL", sparseJson vars h)]
   | .vanishesOn h => Json.mkObj [("VANISHES_ON", sparseJson vars h)]
+  | .notInIdeal h => Json.mkObj [("NOT_IN_IDEAL", sparseJson vars h)]
+  | .nonunit h => Json.mkObj [("NONUNIT", sparseJson vars h)]
+  | .cover bs => Json.mkObj [("COVER", toJson bs.length)]
 
 def stmtJson (s : Stmt) : Json := Json.mkObj [
   ("vars", toJson s.vars), ("eqs", toJson (s.eqs.map (sparseJson s.vars))),

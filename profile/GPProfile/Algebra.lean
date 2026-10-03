@@ -17,6 +17,12 @@ inductive Kind where
   | empty | nonempty
   | inIdeal (h : Sparse)
   | vanishesOn (h : Sparse)
+  /-- `h` is not in the ideal of the equations in `K[x][1/∏ guards]` (refuted membership). -/
+  | notInIdeal (h : Sparse)
+  /-- `h` is not a unit of `K[x][1/∏ guards]/⟨eqs⟩`. -/
+  | nonunit (h : Sparse)
+  /-- Every point of the locus lies in one of the branches (equations, guards). -/
+  | cover (branches : List (List Sparse × List Sparse))
   deriving Repr, DecidableEq
 
 structure Stmt where
@@ -27,10 +33,15 @@ structure Stmt where
   deriving Repr, DecidableEq
 
 def Kind.target? : Kind → Option Sparse
-  | .inIdeal h | .vanishesOn h => some h
+  | .inIdeal h | .vanishesOn h | .notInIdeal h | .nonunit h => some h
   | _ => none
 
-def Stmt.polys (s : Stmt) : List Sparse := s.eqs ++ s.guards ++ s.kind.target?.toList
+def Kind.branchPolys : Kind → List Sparse
+  | .cover bs => bs.flatMap fun b => b.1 ++ b.2
+  | _ => []
+
+def Stmt.polys (s : Stmt) : List Sparse :=
+  s.eqs ++ s.guards ++ s.kind.target?.toList ++ s.kind.branchPolys
 
 /-- Every polynomial is canonical and has the declared arity. -/
 def Stmt.canonical (s : Stmt) : Bool :=
@@ -67,6 +78,12 @@ def Scope.avoids (s : Scope) (bad : List Nat) : Bool :=
   | .finite ps => ps.all fun p => !isPrime p || !bad.contains p
   | .cofinite e => bad.all fun p => e.contains p
 
+def meetPrimes : PrimeSet → PrimeSet → PrimeSet
+  | .finite xs, .finite ys => .finite (xs.filter ys.contains)
+  | .finite xs, .cofinite e => .finite (xs.filter fun x => !e.contains x)
+  | .cofinite e, .finite ys => .finite (ys.filter fun y => !e.contains y)
+  | .cofinite e₁, .cofinite e₂ => .cofinite (union e₁ e₂)
+
 def Scope.only (p : Nat) : Scope := ⟨false, .finite [p]⟩
 def Scope.char0Only : Scope := ⟨true, .finite []⟩
 def Scope.outside (bad : List Nat) : Scope := ⟨true, .cofinite bad⟩
@@ -78,37 +95,63 @@ inductive Field where
   | prime (p : Nat)
   deriving Repr, DecidableEq
 
+/-- A C1/C3 certificate as data: `h^m · (∏ guards)^k = Σ qᵢ·eqᵢ`. -/
+structure IdealCert where
+  field : Field
+  cofactors : List Sparse
+  m : Nat
+  k : Nat
+  deriving Repr, DecidableEq
+
 inductive Cert where
   /-- C1/C3: `h^m · (∏ guards)^k = Σ qᵢ·eqᵢ` (C1 has `h = 1`). -/
   | ideal (field : Field) (cofactors : List Sparse) (m k : Nat)
   /-- C2: a point of the locus. -/
   | point (field : Field) (values : List Rat)
+  /-- COVER: the whole locus lies in branch `branch`, by a C4 inclusion whose obligations are
+  C1/C3 certificates. -/
+  | cover (branch : Nat) (eqCerts guardCerts : List IdealCert)
   deriving Repr, DecidableEq
 
 def Cert.field : Cert → Field
   | .ideal f .. | .point f _ => f
+  | .cover .. => .rat
 
 def Cert.primes : Cert → List Nat
   | .ideal _ qs .. => denominatorPrimes (qs.flatMap Sparse.coeffs)
   | .point _ vs => denominatorPrimes vs
+  | .cover .. => []
 
 /-- Exponents beyond this bound are refused rather than expanded. -/
 def maxExponent : Nat := 64
 
-section Replay
-variable {R : Type} [Zero R] [One R] [Add R] [Neg R] [Mul R] [DecidableEq R]
+/-- Total-degree budget for `h^m · (∏ guards)^k`; larger right-hand sides are refused, not expanded. -/
+def maxRhsDegree : Nat := 256
 
-/-- `Σ qᵢ·eqᵢ − h^m·(∏ guards)^k = 0`, computed with HexMvPoly arithmetic. -/
-def identityHolds (n : Nat) (coeff : Rat → Option R) (s : Stmt) (qs : List Sparse)
-    (h : Sparse) (m k : Nat) : Bool :=
-  match s.eqs.mapM (toHex n coeff), s.guards.mapM (toHex n coeff), qs.mapM (toHex n coeff),
-      toHex n coeff h with
+def Sparse.degree (p : Sparse) : Nat := p.foldl (fun d (e, _) => max d (e.foldl (· + ·) 0)) 0
+
+def rhsDegree (s : Stmt) (h : Sparse) (m k : Nat) : Nat :=
+  m * h.degree + k * (s.guards.foldl (fun d g => d + g.degree) 0)
+
+/-- The rational HexMvPoly of a sparse polynomial; the binding package states meaning through it. -/
+def toHexQ (n : Nat) (p : Sparse) : Option (P n Rat) := toHex n some p
+
+/-- `Σ qᵢ·eqᵢ − h^m·(∏ guards)^k`, computed exactly over ℚ with HexMvPoly arithmetic. -/
+def residual (n : Nat) (s : Stmt) (qs : List Sparse) (h : Sparse) (m k : Nat) : Option (P n Rat) :=
+  match s.eqs.mapM (toHexQ n), s.guards.mapM (toHexQ n), qs.mapM (toHexQ n),
+      toHexQ n h with
   | some eqs, some guards, some qs, some h =>
-    eqs.length == qs.length &&
-      ((qs.zip eqs).foldl (fun acc (q, e) => acc + q * e) 0 -
-        h ^ m * (if k == 0 then 1 else guards.foldl (· * ·) 1 ^ k)) == 0
-  | _, _, _, _ => false
-end Replay
+    if eqs.length == qs.length then
+      some ((List.zipWith (· * ·) qs eqs).sum - h ^ m * (if k = 0 then 1 else guards.prod ^ k))
+    else none
+  | _, _, _, _ => none
+
+/-- A rational that is zero modulo `p`: `p`-integral with numerator divisible by `p`.
+Reduction mod `p` is a ring hom on `p`-integral rationals, so an F_p replay is an exact ℚ
+replay whose residual vanishes mod `p`; no F_p arithmetic is needed (A3 deviation). -/
+def zeroMod (p : Nat) (c : Rat) : Bool := c.den % p != 0 && c.num % p == 0
+
+def unitMod (p : Nat) (c : Rat) : Bool := c.den % p != 0 && c.num % p != 0
 
 /-- The polynomial whose multiple must lie in the ideal, and the exponent `m` it needs. -/
 def idealTarget (s : Stmt) (m : Nat) : Option Sparse :=
@@ -116,52 +159,82 @@ def idealTarget (s : Stmt) (m : Nat) : Option Sparse :=
   | .empty => if m == 0 then some [(List.replicate s.vars.length 0, 1)] else none
   | .inIdeal h => if m == 1 then some h else none
   | .vanishesOn h => if 1 ≤ m then some h else none
-  | .nonempty => none
+  | _ => none
 
-/-- C2 over a coefficient ring: equations vanish and guards do not. -/
-def pointHolds {R : Type} [Lean.Grind.Semiring R] [DecidableEq R]
-    (n : Nat) (coeff : Rat → Option R) (s : Stmt) (x : Fin n → R) : Bool :=
-  match s.eqs.mapM (toHex n coeff), s.guards.mapM (toHex n coeff) with
-  | some eqs, some guards =>
-    eqs.all (fun e => MvPoly.eval x e == 0) && guards.all (fun g => !(MvPoly.eval x g == 0))
-  | _, _ => false
-
-def pointFn {R : Type} [Zero R] (values : List R) (n : Nat) : Fin n → R :=
+def pointFn (values : List Rat) (n : Nat) : Fin n → Rat :=
   fun i => values.getD i.val 0
 
-/-- Primes dividing the numerator of some guard value at a rational point (GP-X410). -/
-def guardPrimes (n : Nat) (s : Stmt) (values : List Rat) : List Nat :=
-  match s.guards.mapM (toHex n some) with
-  | some guards => guards.foldl (fun acc g =>
-      union acc (primeFactors (MvPoly.eval (pointFn values n) g).num.natAbs)) []
-  | none => []
+/-- Equation and guard values at a rational point, by HexMvPoly evaluation. -/
+def pointValues (n : Nat) (s : Stmt) (values : List Rat) : Option (List Rat × List Rat) := do
+  let eqs ← s.eqs.mapM (toHexQ n)
+  let guards ← s.guards.mapM (toHexQ n)
+  pure (eqs.map (MvPoly.eval (pointFn values n)), guards.map (MvPoly.eval (pointFn values n)))
 
-/-- The computed reach of a certificate for a statement, or `none` when replay fails. -/
-def reach (s : Stmt) (c : Cert) : Option Scope :=
+/-- The computed reach of a C1/C2/C3 certificate, or `none` when replay fails. -/
+def reachBase (s : Stmt) (c : Cert) : Option Scope :=
   let n := s.vars.length
   let bad := union s.primes c.primes
   match c with
   | .ideal field qs m k =>
     if m > maxExponent || k > maxExponent then none else do
     let h ← idealTarget s m
+    if rhsDegree s h m k > maxRhsDegree then none else
+    let r ← residual n s qs h m k
     match field with
-    | .rat => if identityHolds n some s qs h m k then some (.outside bad) else none
-    | .prime (p + 1) =>
-      if !isPrime (p + 1) || bad.contains (p + 1) then none
-      else if identityHolds n (ratFin p) s qs h m k then some (.only (p + 1)) else none
-    | .prime 0 => none
+    | .rat => if r == 0 then some (.outside bad) else none
+    | .prime p =>
+      if !isPrime p || bad.contains p then none
+      else if r.termsList.all (fun t => zeroMod p t.2) then some (.only p) else none
   | .point field values =>
-    if s.kind != .nonempty || values.length != n then none else
+    if s.kind != .nonempty || values.length != n then none else do
+    let (ev, gv) ← pointValues n s values
     match field with
     | .rat =>
-      if pointHolds n some s (pointFn values n)
-      then some (.outside (union bad (guardPrimes n s values))) else none
-    | .prime (p + 1) =>
-      if !isPrime (p + 1) || bad.contains (p + 1) then none else
-      match values.mapM (ratFin p) with
-      | some xs => if pointHolds n (ratFin p) s (pointFn xs n) then some (.only (p + 1)) else none
-      | none => none
-    | .prime 0 => none
+      if ev.all (· == 0) && gv.all (· != 0) then
+        -- A guard value whose numerator a prime divides vanishes there (GP-X410).
+        some (.outside (gv.foldl (fun acc g => union acc (primeFactors g.num.natAbs)) bad))
+      else none
+    | .prime p =>
+      if !isPrime p || bad.contains p then none
+      else if ev.all (zeroMod p) && gv.all (unitMod p) then some (.only p) else none
+  | .cover .. => none
+
+/-- The witness system of a point-certified kind: NOT_IN_IDEAL(h) adds `h` as a guard,
+NONUNIT(h) adds `h` as an equation, NONEMPTY is itself. -/
+def witnessSystem (s : Stmt) : Option Stmt :=
+  match s.kind with
+  | .nonempty => some s
+  | .notInIdeal h => some ⟨s.vars, s.eqs, s.guards ++ [h], .nonempty⟩
+  | .nonunit h => some ⟨s.vars, s.eqs ++ [h], s.guards, .nonempty⟩
+  | _ => none
+
+/-- C4 inclusion `locus_T ⊆ locus_L` as C1/C3 obligations on the tight system. -/
+def inclusionObligations (T L : Stmt) (eqCerts guardCerts : List Cert) :
+    Option (List (Stmt × Cert)) :=
+  if T.vars != L.vars || eqCerts.length != L.eqs.length || guardCerts.length != L.guards.length
+  then none
+  else some ((L.eqs.zip eqCerts).map (fun (e, c) => (⟨T.vars, T.eqs, T.guards, .vanishesOn e⟩, c)) ++
+    (L.guards.zip guardCerts).map (fun (g, c) => (⟨T.vars, T.eqs ++ [g], T.guards, .empty⟩, c)))
+
+/-- The meet of the reaches of C1/C3 obligations. -/
+def reachAllBase (obs : List (Stmt × Cert)) : Option (List Scope) :=
+  obs.mapM fun o => reachBase o.1 o.2
+
+/-- The computed reach of a certificate for a statement, or `none` when replay fails. -/
+def reach (s : Stmt) (c : Cert) : Option Scope :=
+  match c with
+  | .point .. => do reachBase (← witnessSystem s) c
+  | .cover i eqCerts guardCerts =>
+    match s.kind with
+    | .cover bs => do
+      let (eqs, guards) ← bs[i]?
+      let asCert := fun (c : IdealCert) => Cert.ideal c.field c.cofactors c.m c.k
+      let obs ← inclusionObligations s ⟨s.vars, eqs, guards, .empty⟩ (eqCerts.map asCert)
+        (guardCerts.map asCert)
+      let rs ← reachAllBase obs
+      pure (rs.foldl (fun a b => ⟨a.char0 && b.char0, meetPrimes a.primes b.primes⟩) (.outside []))
+    | _ => none
+  | .ideal .. => reachBase s c
 
 /-! ## Profile operations and receipt admission -/
 

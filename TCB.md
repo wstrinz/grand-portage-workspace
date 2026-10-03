@@ -95,7 +95,25 @@ Every package uses Lean `v4.34.0-rc2`, a release candidate adopted for Hex v0.6.
 | GP guarantee | Rests on |
 |---|---|
 | Fold, custody, narrowing, cover and conflict soundness (Kernel) | Lean `v4.34.0-rc2` only; no Mathlib, no Hex |
-| Executable profile arithmetic: 3a reach-slice checkers (not yet admitted) | `HexMvPoly`, `HexPoly`, `HexBasic` at v0.6.0; F_p via core `Fin p` (A3 deviation, no native externs); Lean `Rat` |
+| Executable profile arithmetic: 3a reach-slice checkers (not yet admitted) | `HexMvPoly`, `HexPoly`, `HexBasic` at v0.6.0; F_p as rational replay with mod-p residuals (A3 deviation, no native externs); Lean `Rat` |
 | Field contexts and characteristic scopes (binding spike) | Mathlib `85e3a25e`: `ModelTheory/Bundled`, `ModelTheory/Algebra/Field/Basic`, `Algebra/CharP` |
 
 The §3.6a shadow theorems (`binding/GPBinding/Shadow`) rest on Mathlib `85e3a25e` only; AutoGeneralization `07ed6f9` is used as an untrusted proposer of weaker assumptions, and its outputs are re-elaborated, not trusted. No GP claim yet depends on a Hex theorem. When 3a admits one, it is listed here by exact declaration, not by library status (A6).
+
+## Phase 3a checker admission (C1–C3) — 2026-10-02
+
+`binding/GPBinding/Admission` proves, on standard axioms and replayed by `leanchecker`, that the executable checkers are sound. `check_sound` shows that an accepted receipt check gives the statement in every field `K` with `ringChar K` in the requested scope, where rational coefficients mean their `Rat.cast`. `fold_held_meaning` shows that every claim the Kernel fold holds under `GPProfile.admission` has that meaning (contexts are `FieldCtx`).
+
+| Guarantee | Rests on |
+|---|---|
+| Replay arithmetic agrees with Mathlib `MvPolynomial` | `HexMvPolyMathlib` v0.6.0 `toMvPolynomial`, `coeff_toMvPolynomial`, `aeval_apply` (theorems, re-checked) |
+| Prime factors are complete | `isPrime_iff`, `mem_primeFactors` (trial division certified at runtime, exhaustive fallback) |
+| The proofs describe the executable that runs | Lean compiler and runtime, including GMP-backed `Rat`/`Int` |
+
+Overlapping tool (§1.7): Mathlib's `linear_combination` checks the same identities but computes no reach. The §3.6a shadow slice measured it at 19–25 s per claim. The frontend's infix parser stays untrusted and echoes the canonical form.
+
+## Phase 3a binder and theorem warrants — 2026-10-03
+
+Theorem warrants (A4) are generated for held claims of supported shapes (`tools/gen-warrants.py`: C1 emptiness over Q with integer statement coefficients). Each states `Warranted stmt scope`: the explicit statement holds in every field of the scope. `means_of_warranted` proves, on standard axioms, that this gives the Kernel's `Means` for well-formed statements; it uses `meaning_eq_elabQ`, which relates the Hex meaning to the explicit monomial sum. No Hex code is evaluated in the kernel.
+
+The binder (`binding/GPBinding/Binder/Export.lean`) checks each registry theorem's axioms and the statement's arity and avoided primes, and writes records keyed on the exact canonical statement and scope. The profile's proof validator accepts a theorem warrant only against such a record. Trusted: the binder's export, run in the binding environment, faithfully reporting the registry it was compiled against. This is the theorem-warrant counterpart of the receipt path's trust in the compiled checker.

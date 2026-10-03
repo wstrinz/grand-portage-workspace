@@ -1,0 +1,597 @@
+{
+  "schema": "gp-3a-expressiveness/v1",
+  "date": "2026-10-03",
+  "status": "provisional; Will approved this direction pending external review",
+  "cases": [
+    {
+      "id": "GP-A02",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-A03a",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-A03b",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-A04",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-A05",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-A08b",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-A08c",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-A09",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-A11b",
+      "category": "schematic",
+      "note": "no concrete data; needs a reviewed instantiation fixture"
+    },
+    {
+      "id": "GP-A12",
+      "category": "schematic",
+      "note": "no concrete data; needs a reviewed instantiation fixture"
+    },
+    {
+      "id": "GP-A13-ambient",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-A13-derived",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-A20b",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-A23",
+      "category": "schematic",
+      "note": "no concrete data; needs a reviewed instantiation fixture"
+    },
+    {
+      "id": "GP-A24",
+      "category": "needs-3b",
+      "note": "extension-field witness point (Q(i), Q(sqrt 3))"
+    },
+    {
+      "id": "GP-C01",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-C02",
+      "category": "schematic",
+      "note": "no concrete data; needs a reviewed instantiation fixture"
+    },
+    {
+      "id": "GP-X03",
+      "category": "schematic",
+      "note": "no concrete data; needs a reviewed instantiation fixture"
+    },
+    {
+      "id": "GP-X08",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X119",
+      "category": "needs-negative-kind",
+      "note": "non-membership, non-unit or completeness claim; proposed witness-refuted NOT_IN_IDEAL kind"
+    },
+    {
+      "id": "GP-X120",
+      "category": "needs-negative-kind",
+      "note": "non-membership, non-unit or completeness claim; proposed witness-refuted NOT_IN_IDEAL kind"
+    },
+    {
+      "id": "GP-X123",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X124",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X125",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X126",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X127",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X128",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X129",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X13",
+      "category": "schematic",
+      "note": "no concrete data; needs a reviewed instantiation fixture"
+    },
+    {
+      "id": "GP-X130",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X132",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X133",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X134",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X135",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X136",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X137",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X138",
+      "category": "needs-negative-kind",
+      "note": "non-membership, non-unit or completeness claim; proposed witness-refuted NOT_IN_IDEAL kind"
+    },
+    {
+      "id": "GP-X141",
+      "category": "needs-negative-kind",
+      "note": "non-membership, non-unit or completeness claim; proposed witness-refuted NOT_IN_IDEAL kind"
+    },
+    {
+      "id": "GP-X15",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X16",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X17",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X18",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X19",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X20",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X21",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X222",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X223",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X224",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X225",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X228",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X263",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X264",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X265",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X266",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X267",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X268",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X269",
+      "category": "needs-cover-kind",
+      "note": "object cover claim; proposed COVER statement kind"
+    },
+    {
+      "id": "GP-X270",
+      "category": "needs-cover-kind",
+      "note": "object cover claim; proposed COVER statement kind"
+    },
+    {
+      "id": "GP-X271",
+      "category": "needs-cover-kind",
+      "note": "object cover claim; proposed COVER statement kind"
+    },
+    {
+      "id": "GP-X272",
+      "category": "needs-cover-kind",
+      "note": "object cover claim; proposed COVER statement kind"
+    },
+    {
+      "id": "GP-X275",
+      "category": "needs-3b",
+      "note": "point universe BASE vs ALGEBRAIC_CLOSURE (field-class flag)"
+    },
+    {
+      "id": "GP-X276",
+      "category": "needs-3b",
+      "note": "point universe BASE vs ALGEBRAIC_CLOSURE (field-class flag)"
+    },
+    {
+      "id": "GP-X277",
+      "category": "needs-3b",
+      "note": "point universe BASE vs ALGEBRAIC_CLOSURE (field-class flag)"
+    },
+    {
+      "id": "GP-X278",
+      "category": "needs-3b",
+      "note": "point universe BASE vs ALGEBRAIC_CLOSURE (field-class flag)"
+    },
+    {
+      "id": "GP-X279",
+      "category": "needs-3b",
+      "note": "point universe BASE vs ALGEBRAIC_CLOSURE (field-class flag)"
+    },
+    {
+      "id": "GP-X280",
+      "category": "needs-3b",
+      "note": "point universe BASE vs ALGEBRAIC_CLOSURE (field-class flag)"
+    },
+    {
+      "id": "GP-X284",
+      "category": "operation-contract",
+      "note": "v0.37 tool operation contract (branch construction, declared units, affine pattern)"
+    },
+    {
+      "id": "GP-X285",
+      "category": "operation-contract",
+      "note": "v0.37 tool operation contract (branch construction, declared units, affine pattern)"
+    },
+    {
+      "id": "GP-X286",
+      "category": "operation-contract",
+      "note": "v0.37 tool operation contract (branch construction, declared units, affine pattern)"
+    },
+    {
+      "id": "GP-X287",
+      "category": "operation-contract",
+      "note": "v0.37 tool operation contract (branch construction, declared units, affine pattern)"
+    },
+    {
+      "id": "GP-X288",
+      "category": "operation-contract",
+      "note": "v0.37 tool operation contract (branch construction, declared units, affine pattern)"
+    },
+    {
+      "id": "GP-X289",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X290",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X291",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X292",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X293",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X296",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X297",
+      "category": "operation-contract",
+      "note": "v0.37 tool operation contract (branch construction, declared units, affine pattern)"
+    },
+    {
+      "id": "GP-X298",
+      "category": "operation-contract",
+      "note": "v0.37 tool operation contract (branch construction, declared units, affine pattern)"
+    },
+    {
+      "id": "GP-X299",
+      "category": "operation-contract",
+      "note": "v0.37 tool operation contract (branch construction, declared units, affine pattern)"
+    },
+    {
+      "id": "GP-X300",
+      "category": "operation-contract",
+      "note": "v0.37 tool operation contract (branch construction, declared units, affine pattern)"
+    },
+    {
+      "id": "GP-X301",
+      "category": "operation-contract",
+      "note": "v0.37 tool operation contract (branch construction, declared units, affine pattern)"
+    },
+    {
+      "id": "GP-X319",
+      "category": "needs-3b",
+      "note": "pinned fixture over the number field Q[t]/(15t^3+1)"
+    },
+    {
+      "id": "GP-X320",
+      "category": "needs-3b",
+      "note": "pinned fixture over the number field Q[t]/(15t^3+1)"
+    },
+    {
+      "id": "GP-X332",
+      "category": "needs-3b",
+      "note": "pinned fixture over the number field Q[t]/(15t^3+1)"
+    },
+    {
+      "id": "GP-X333",
+      "category": "needs-3b",
+      "note": "pinned fixture over the number field Q[t]/(15t^3+1)"
+    },
+    {
+      "id": "GP-X334",
+      "category": "needs-3b",
+      "note": "pinned fixture over the number field Q[t]/(15t^3+1)"
+    },
+    {
+      "id": "GP-X335",
+      "category": "needs-3b",
+      "note": "pinned fixture over the number field Q[t]/(15t^3+1)"
+    },
+    {
+      "id": "GP-X336",
+      "category": "needs-3b",
+      "note": "pinned fixture over the number field Q[t]/(15t^3+1)"
+    },
+    {
+      "id": "GP-X355",
+      "category": "ring-not-field",
+      "note": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields"
+    },
+    {
+      "id": "GP-X357",
+      "category": "ring-not-field",
+      "note": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields"
+    },
+    {
+      "id": "GP-X358",
+      "category": "ring-not-field",
+      "note": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields"
+    },
+    {
+      "id": "GP-X359",
+      "category": "ring-not-field",
+      "note": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields"
+    },
+    {
+      "id": "GP-X360",
+      "category": "ring-not-field",
+      "note": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields"
+    },
+    {
+      "id": "GP-X361",
+      "category": "ring-not-field",
+      "note": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields"
+    },
+    {
+      "id": "GP-X362",
+      "category": "ring-not-field",
+      "note": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields"
+    },
+    {
+      "id": "GP-X363",
+      "category": "ring-not-field",
+      "note": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields"
+    },
+    {
+      "id": "GP-X364",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X365",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X366",
+      "category": "ring-not-field",
+      "note": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields"
+    },
+    {
+      "id": "GP-X367",
+      "category": "ring-not-field",
+      "note": "ideals in Z, Z->Z[i], zero algebra or finite sets; 3a contexts are fields"
+    },
+    {
+      "id": "GP-X410",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X411",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X412",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X45",
+      "category": "needs-3b",
+      "note": "extension-field witness point (Q(i), Q(sqrt 3))"
+    },
+    {
+      "id": "GP-X46",
+      "category": "needs-3b",
+      "note": "extension-field witness point (Q(i), Q(sqrt 3))"
+    },
+    {
+      "id": "GP-X47",
+      "category": "needs-3b",
+      "note": "extension-field witness point (Q(i), Q(sqrt 3))"
+    },
+    {
+      "id": "GP-X49",
+      "category": "needs-3b",
+      "note": "extension-field witness point (Q(i), Q(sqrt 3))"
+    },
+    {
+      "id": "GP-X50",
+      "category": "needs-3b",
+      "note": "extension-field witness point (Q(i), Q(sqrt 3))"
+    },
+    {
+      "id": "GP-X59",
+      "category": "schematic",
+      "note": "no concrete data; needs a reviewed instantiation fixture"
+    },
+    {
+      "id": "GP-X63",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X64",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X66",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X67",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X68",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X69",
+      "category": "needs-3b",
+      "note": "point universe BASE vs ALGEBRAIC_CLOSURE (field-class flag)"
+    },
+    {
+      "id": "GP-X70",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    },
+    {
+      "id": "GP-X71",
+      "category": "expressible",
+      "note": "generic family adapter into the 3a profile"
+    }
+  ]
+}
