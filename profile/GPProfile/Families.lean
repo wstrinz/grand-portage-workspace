@@ -35,6 +35,11 @@ def scopeField (inputs : Json) : Except String (Scope × Field) := do
 
 def P (vars : List String) (t : String) : Except String Sparse := parse vars t
 
+/-- A parsed polynomial in canonical form. -/
+def canonP (vars : List String) (t : String) : Except String Sparse := do
+  let p ← P vars t
+  pure ((canonical vars.length p).getD p)
+
 def one (n : Nat) : Sparse := oneP n
 
 def mkItem (key : Nat) (stmt : Stmt) (scope : Scope) (support : Support) (extra : List String := []) : Item :=
@@ -430,6 +435,84 @@ def searchFamily (inputs : Json) : Except String Plan := do
     pure (single ⟨vars, srcP, [g], .notInIdeal [(eb, cb)]⟩ .char0Only (.searched bound))
   | _, _ => throw "a saturation search is decoded only for monomial generators"
 
+/-! ## The try-as-3a pass (G3a review §1) -/
+
+/-- An offered rational point on a system with no guards: NONEMPTY by a C2 receipt. -/
+def displayedPointFamily (inputs : Json) : Except String Plan := do
+  let vars ← strs inputs "variables"
+  let eqs ← (← strs inputs "equations").mapM (P vars)
+  let pt ← ratPoint vars (← need (obj? inputs "point") "no point")
+  pure (single ⟨vars, eqs, [], .nonempty⟩ .char0Only (.receipt (.point .rat pt)))
+
+/-- The 3a statement of a point universe: BASE is a rational point (NONEMPTY), ALGEBRAIC_CLOSURE
+is geometric nonemptiness (NOT_IN_IDEAL(1)). -/
+def universeKind (n : Nat) (u : Json) : Except String Kind :=
+  match u with
+  | .str "BASE" => pure .nonempty
+  | .str "ALGEBRAIC_CLOSURE" => pure (.notInIdeal (oneP n))
+  | _ => throw "incomplete map: no point universe on one side of the identity substitution"
+
+/-- One system, two point universes, and the identity substitution offered as a point equivalence:
+the target universe's claim by R3 along the identity from the source universe's claim. The
+direction table decides; a missing universe is an incomplete map. -/
+def universesFamily (inputs : Json) : Except String Plan := do
+  let vars ← strs inputs "variables"
+  let n := vars.length
+  let eqs ← (← strs inputs "generators").mapM (canonP vars)
+  let sk ← universeKind n (← need (obj? inputs "source_universe") "no source universe")
+  let tk ← universeKind n (← need (obj? inputs "target_universe") "no target universe")
+  -- Geometric nonemptiness of a single univariate equation has a `proper` receipt.
+  let sourceSupport : Support := match sk, vars, eqs with
+    | .notInIdeal _, [_], [m] =>
+      let mu := Uni.ofSparse m
+      match (List.range mu.length).find? fun i => Uni.eval mu ((i + 1 : Nat) : Rat) != Uni.eval mu 0 with
+      | some b => .receipt (.proper .rat [0] [((b + 1 : Nat) : Rat)])
+      | none => .none
+    | _, _, _ => .none
+  let identity := (List.range n).map fun i => [((List.range n).map fun j => if i == j then 1 else 0, (1 : Rat))]
+  let selfCert (i : Nat) : Cert := .ideal .rat (eqs.mapIdx fun j _ => if i == j then oneP n else []) 1 0
+  let items := [mkItem 1 ⟨vars, eqs, [], sk⟩ .char0Only sourceSupport,
+    mkItem 2 ⟨vars, eqs, [], tk⟩ .char0Only
+      (.rule (.map identity ((List.range eqs.length).map selfCert) []) [1])]
+  pure { items, requested := [2] }
+
+/-- A point `(a₁, …)` in a set literal `{(a₁, …)}`. -/
+def regionPoint (vars : List String) (region : String) : Except String (List Rat) := do
+  if (region.toList.filter (· == '(')).length != 1 then throw "only a single-point region is decoded"
+  let body := String.ofList (region.toList.filter fun c => !"{}() ".toList.contains c)
+  let coords := body.splitOn ","
+  if coords.length != vars.length then throw "region point has the wrong arity"
+  coords.mapM fun c => do
+    match ← parse [] c with
+    | [] => pure (0 : Rat)
+    | [([], q)] => pure q
+    | _ => throw "region coordinate is not a constant"
+
+/-- A predicate known on a region, offered for the whole system: VANISHES_ON(h) on the region
+(the system plus the point's coordinate equations) holds for an affine `h` vanishing there; the
+attempt carries it loose-ward by R2, against the direction table. -/
+def regionalFamily (inputs : Json) : Except String Plan := do
+  let vars ← strs inputs "variables"
+  let n := vars.length
+  let eqs ← (← strs inputs "equations").mapM (canonP vars)
+  let pt ← regionPoint vars (← need (str? inputs "region") "no region")
+  let (l, r) ← splitEq (← need (str? inputs "predicate") "no predicate")
+  let h ← canonP vars s!"({l})-({r})"
+  if h.any (fun (e, _) => e.foldl (· + ·) 0 > 1) then throw "only affine predicates are decoded"
+  -- h = Σ cᵢ (xᵢ − aᵢ) when h(a) = 0: cofactor cᵢ at the i-th coordinate equation.
+  let coeffOf (i : Nat) : Rat := (h.filter fun (e, _) => e.getD i 0 == 1).foldl (fun s (_, c) => s + c) 0
+  let constant := (h.filter fun (e, _) => e.all (· == 0)).foldl (fun s (_, c) => s + c) 0
+  let atPoint := constant + (List.range n).foldl (fun s i => s + coeffOf i * pt.getD i 0) 0
+  if atPoint != 0 then throw "the predicate does not hold at the region point"
+  let coordEqs ← (List.range n).mapM fun i => canonP vars s!"{vars.getD i ""}-({pt.getD i 0})"
+  let region : Stmt := ⟨vars, eqs ++ coordEqs, [], .vanishesOn h⟩
+  let cofs := eqs.map (fun _ => ([] : Sparse)) ++ (List.range n).map fun i =>
+    if coeffOf i == 0 then [] else [(List.replicate n 0, coeffOf i)]
+  let items := [mkItem 1 region .char0Only (.receipt (.ideal .rat cofs 1 0)),
+    mkItem 2 ⟨vars, eqs, [], .vanishesOn h⟩ .char0Only
+      (.rule (.inclusion (region.eqs.map fun _ => noCert) []) [1])]
+  pure { items, requested := [2] }
+
 /-- Rewriting a point predicate through a translation: the case's control names the map used. -/
 def translationFamily (inputs : Json) : Except String Plan := do
   let ctrl ← need (str? inputs "control") "no control"
@@ -539,10 +622,6 @@ def legacyKeys : List String :=
 /-! ## The explicit statement surface (instantiation fixtures, G3a review §7)
 
 Claims written as systems, kinds, certificates and rule instances, with nothing inferred. -/
-
-def canonP (vars : List String) (t : String) : Except String Sparse := do
-  let p ← P vars t
-  pure ((canonical vars.length p).getD p)
 
 def natField (j : Json) (k : String) : Nat := ((obj? j k).bind (·.getNat?.toOption)).getD 0
 
@@ -674,6 +753,13 @@ def plan (case : Json) (params : List (String × Nat)) : Except String Plan := d
   if has inputs "excluded_fiber_generators" && k ["variables", "parent_equations", "excluded_base",
       "excluded_fiber_generators", "parent_point"] then
     return ← fiberFamily inputs
+  if k ["variables", "equations", "point"] && has inputs "point" && has inputs "equations" then
+    return ← displayedPointFamily inputs
+  if has inputs "source_universe" && k ["variables", "generators", "coefficient_domain", "source_universe",
+      "target_universe"] && str? inputs "coefficient_domain" == some "Q" then
+    return ← elabOr (universesFamily inputs)
+  if has inputs "region" && k ["variables", "equations", "region", "predicate"] then
+    return ← regionalFamily inputs
   if has inputs "claims" && k ["claims", "requested"] then
     return ← elabOr (surfaceFamily inputs)
   if has inputs "searched_exponents" && k ["built_generators", "source_generators", "searched_exponents"] then

@@ -4,10 +4,10 @@
   "source": "corpus/LAYER-TAGS.json (primary_layer = profile)",
   "case_count": 239,
   "counts": {
-    "3a": 84,
-    "ambiguous": 32,
+    "3a": 89,
     "3b": 50,
     "campaign-op": 67,
+    "ambiguous": 27,
     "census": 4,
     "admission-control": 2
   },
@@ -39,9 +39,11 @@
     },
     {
       "id": "GP-A06",
-      "owner": "ambiguous",
+      "owner": "3a",
       "proposed_owner": "3b",
-      "basis": "isolated-region cover may be semialgebraic, or an R4 object cover"
+      "basis": "regional predicate vs whole system: R2 against the direction table",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 try-as-3a pass (review ruling 1)"
     },
     {
       "id": "GP-A07a",
@@ -124,7 +126,9 @@
       "id": "GP-A22",
       "owner": "ambiguous",
       "proposed_owner": "campaign-op",
-      "basis": "capped lift: dm4-style cap or a general 3a necessary condition"
+      "basis": "capped lift: dm4-style cap or a general 3a necessary condition",
+      "proposed": "3a",
+      "proposed_basis": "fixture on the explicit surface: EMPTY of the capped system by the supplied obligation cofactors; the data is concrete but the key set is one case"
     },
     {
       "id": "GP-A23",
@@ -170,19 +174,25 @@
       "id": "GP-X05",
       "owner": "ambiguous",
       "proposed_owner": "3a",
-      "basis": "point-surjectivity and predicate typing"
+      "basis": "point-surjectivity and predicate typing",
+      "proposed": "campaign-op",
+      "proposed_basis": "boolean premise flags only; 0.50 enforces rule premises structurally"
     },
     {
       "id": "GP-X06",
       "owner": "ambiguous",
       "proposed_owner": "3a",
-      "basis": "closure of lifted predicates (constructible sets?)"
+      "basis": "closure of lifted predicates (constructible sets?)",
+      "proposed": "campaign-op",
+      "proposed_basis": "boolean premise flags only; 0.50 enforces rule premises structurally"
     },
     {
       "id": "GP-X07",
       "owner": "ambiguous",
       "proposed_owner": "3a",
-      "basis": "exact contraction vs geometric closure"
+      "basis": "exact contraction vs geometric closure",
+      "proposed": "campaign-op",
+      "proposed_basis": "boolean premise flags only; 0.50 enforces rule premises structurally"
     },
     {
       "id": "GP-X08",
@@ -191,21 +201,27 @@
     },
     {
       "id": "GP-X10",
-      "owner": "ambiguous",
+      "owner": "3a",
       "proposed_owner": "3b",
-      "basis": "different point universes: field-class flags or 3a scope"
+      "basis": "point universes as kinds (BASE = NONEMPTY, closure = NOT_IN_IDEAL(1)) along the identity map",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 try-as-3a pass (review ruling 1)"
     },
     {
       "id": "GP-X11",
-      "owner": "ambiguous",
+      "owner": "3a",
       "proposed_owner": "3b",
-      "basis": "different point universes: field-class flags or 3a scope"
+      "basis": "point universes as kinds (BASE = NONEMPTY, closure = NOT_IN_IDEAL(1)) along the identity map",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 try-as-3a pass (review ruling 1)"
     },
     {
       "id": "GP-X117",
       "owner": "ambiguous",
       "proposed_owner": "3b",
-      "basis": "K-point on a campaign branch: number field or campaign-op"
+      "basis": "K-point on a campaign branch: number field or campaign-op",
+      "proposed": "campaign-op",
+      "proposed_basis": "equations given by name only (C, C2); a projection contract of a campaign artifact"
     },
     {
       "id": "GP-X118",
@@ -220,9 +236,11 @@
     },
     {
       "id": "GP-X12",
-      "owner": "ambiguous",
+      "owner": "3a",
       "proposed_owner": "3b",
-      "basis": "different point universes: field-class flags or 3a scope"
+      "basis": "point universes: a missing universe is an incomplete map",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 try-as-3a pass (review ruling 1)"
     },
     {
       "id": "GP-X120",
@@ -234,13 +252,17 @@
       "id": "GP-X121",
       "owner": "ambiguous",
       "proposed_owner": "campaign-op",
-      "basis": "rank-two affine coefficient block"
+      "basis": "rank-two affine coefficient block",
+      "proposed": "3a",
+      "proposed_basis": "fixture: the attempted existence claim is not in the inputs; add \"attempt\": \"nonempty\" (X128 shape), so the supplied unit certificate refutes it by contra"
     },
     {
       "id": "GP-X122",
-      "owner": "ambiguous",
+      "owner": "3a",
       "proposed_owner": "campaign-op",
-      "basis": "affine compatibility solution"
+      "basis": "displayed rational point (C2)",
+      "provisional_from": "ambiguous",
+      "ruling": "2026-10-03 try-as-3a pass (review ruling 1)"
     },
     {
       "id": "GP-X123",
@@ -715,19 +737,25 @@
       "id": "GP-X315",
       "owner": "ambiguous",
       "proposed_owner": "3a",
-      "basis": "upper target inclusion vs exact contraction"
+      "basis": "upper target inclusion vs exact contraction",
+      "proposed": "campaign-op",
+      "proposed_basis": "elimination completeness and ideal equality (as X03, X141)"
     },
     {
       "id": "GP-X316",
       "owner": "ambiguous",
       "proposed_owner": "3a",
-      "basis": "upper target inclusion vs exact contraction"
+      "basis": "upper target inclusion vs exact contraction",
+      "proposed": "campaign-op",
+      "proposed_basis": "elimination completeness and ideal equality (as X03, X141)"
     },
     {
       "id": "GP-X317",
       "owner": "ambiguous",
       "proposed_owner": "3a",
-      "basis": "both inclusions give exact contraction"
+      "basis": "both inclusions give exact contraction",
+      "proposed": "campaign-op",
+      "proposed_basis": "elimination completeness and ideal equality (as X03, X141)"
     },
     {
       "id": "GP-X318",
@@ -805,7 +833,9 @@
       "id": "GP-X331",
       "owner": "ambiguous",
       "proposed_owner": "campaign-op",
-      "basis": "no-inversion ledger"
+      "basis": "no-inversion ledger",
+      "proposed": "campaign-op",
+      "proposed_basis": "a mutation of an external artifact named by hash"
     },
     {
       "id": "GP-X332",
@@ -856,19 +886,25 @@
       "id": "GP-X341",
       "owner": "ambiguous",
       "proposed_owner": "campaign-op",
-      "basis": "zero-chart polynomiality"
+      "basis": "zero-chart polynomiality",
+      "proposed": "campaign-op",
+      "proposed_basis": "equations by name only (G1-G3) over Q(y); a document audit"
     },
     {
       "id": "GP-X342",
       "owner": "ambiguous",
       "proposed_owner": "campaign-op",
-      "basis": "zero-chart polynomiality"
+      "basis": "zero-chart polynomiality",
+      "proposed": "campaign-op",
+      "proposed_basis": "equations by name only (G1-G3) over Q(y); a document audit"
     },
     {
       "id": "GP-X343",
       "owner": "ambiguous",
       "proposed_owner": "3a",
-      "basis": "route audit earns no emptiness premise"
+      "basis": "route audit earns no emptiness premise",
+      "proposed": "3b",
+      "proposed_basis": "R EMPTY by an ordered SOS certificate"
     },
     {
       "id": "GP-X345",
@@ -1040,13 +1076,17 @@
       "id": "GP-X408",
       "owner": "ambiguous",
       "proposed_owner": "3a",
-      "basis": "evaluation lift: map certificate or campaign lift"
+      "basis": "evaluation lift: map certificate or campaign lift",
+      "proposed": "campaign-op",
+      "proposed_basis": "abstract validity predicates over Z rather than field semantics (the review expected 3a)"
     },
     {
       "id": "GP-X409",
       "owner": "ambiguous",
       "proposed_owner": "3a",
-      "basis": "evaluation lift: map certificate or campaign lift"
+      "basis": "evaluation lift: map certificate or campaign lift",
+      "proposed": "campaign-op",
+      "proposed_basis": "abstract validity predicates over Z rather than field semantics (the review expected 3a)"
     },
     {
       "id": "GP-X410",
@@ -1108,19 +1148,25 @@
       "id": "GP-X51",
       "owner": "ambiguous",
       "proposed_owner": "3a",
-      "basis": "provenance forgetting: forward map (R3) or custody"
+      "basis": "provenance forgetting: forward map (R3) or custody",
+      "proposed": "3a",
+      "proposed_basis": "fixture in X59's shape: NONEMPTY moves tight to loose (ALONG)"
     },
     {
       "id": "GP-X52",
       "owner": "ambiguous",
       "proposed_owner": "3a",
-      "basis": "reverse realization: R3 refusal"
+      "basis": "reverse realization: R3 refusal",
+      "proposed": "3a",
+      "proposed_basis": "fixture in X59's shape: NONEMPTY against the direction table (AGAINST)"
     },
     {
       "id": "GP-X53",
       "owner": "ambiguous",
       "proposed_owner": "campaign-op",
-      "basis": "dimension credit"
+      "basis": "dimension credit",
+      "proposed": "campaign-op",
+      "proposed_basis": "dimension credit has no kind and no consumer"
     },
     {
       "id": "GP-X54",
@@ -1199,55 +1245,73 @@
       "id": "GP-X73",
       "owner": "ambiguous",
       "proposed_owner": "campaign-op",
-      "basis": "graded-face affine translations, or 3a C4 map certificates"
+      "basis": "graded-face affine translations, or 3a C4 map certificates",
+      "proposed": "3a",
+      "proposed_basis": "fixture: the triangular chain as mutual R2 IN_IDEAL inclusions with guard t (data present)"
     },
     {
       "id": "GP-X74",
       "owner": "ambiguous",
       "proposed_owner": "campaign-op",
-      "basis": "graded-face normalization, or 3a localization"
+      "basis": "graded-face normalization, or 3a localization",
+      "proposed": "3a",
+      "proposed_basis": "fixture: as X73, t inverted by the normalization 15t^3+1"
     },
     {
       "id": "GP-X75",
       "owner": "ambiguous",
       "proposed_owner": "campaign-op",
-      "basis": "triangular solution"
+      "basis": "triangular solution",
+      "proposed": "3a",
+      "proposed_basis": "fixture with the mutated data: inputs equal X73's and the mutation is only a label"
     },
     {
       "id": "GP-X76",
       "owner": "ambiguous",
       "proposed_owner": "campaign-op",
-      "basis": "face isomorphism, or 3a C4"
+      "basis": "face isomorphism, or 3a C4",
+      "proposed": "3a",
+      "proposed_basis": "fixture with the mutated data: inputs equal X74's and the mutation is only a label"
     },
     {
       "id": "GP-X77",
       "owner": "ambiguous",
       "proposed_owner": "campaign-op",
-      "basis": "face isomorphism, or 3a C4"
+      "basis": "face isomorphism, or 3a C4",
+      "proposed": "3a",
+      "proposed_basis": "fixture with the mutated data: inputs equal X73's and the mutation is only a label"
     },
     {
       "id": "GP-X78",
       "owner": "ambiguous",
       "proposed_owner": "campaign-op",
-      "basis": "boundary translation, or 3a C4 with a guard"
+      "basis": "boundary translation, or 3a C4 with a guard",
+      "proposed": "3a",
+      "proposed_basis": "fixture: beta and the certificate are absent from the inputs"
     },
     {
       "id": "GP-X79",
       "owner": "ambiguous",
       "proposed_owner": "campaign-op",
-      "basis": "discriminant branch, or 3a structural split"
+      "basis": "discriminant branch, or 3a structural split",
+      "proposed": "3a",
+      "proposed_basis": "fixture: beta and the certificate are absent from the inputs"
     },
     {
       "id": "GP-X80",
       "owner": "ambiguous",
       "proposed_owner": "campaign-op",
-      "basis": "boundary certificate, or 3a C4"
+      "basis": "boundary certificate, or 3a C4",
+      "proposed": "3a",
+      "proposed_basis": "fixture: beta, the certificate and the mutation are absent from the inputs"
     },
     {
       "id": "GP-X81",
       "owner": "ambiguous",
       "proposed_owner": "campaign-op",
-      "basis": "boundary map, or 3a C4"
+      "basis": "boundary map, or 3a C4",
+      "proposed": "3a",
+      "proposed_basis": "fixture: beta, the certificate and the mutation are absent from the inputs"
     },
     {
       "id": "GP-X83",
