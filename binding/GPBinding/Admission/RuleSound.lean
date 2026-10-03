@@ -17,8 +17,8 @@ variable {K : Type*} [Field K]
 
 /-! ## Scope meets and certificate obligations -/
 
-theorem reachAll_sound {obs : List (Stmt × Cert)} {rr : Scope} (h : reachAll obs = some rr)
-    (hK : rr.mem K) : ∀ o ∈ obs, Holds K o.1 := by
+theorem reachAll_each {obs : List (Stmt × Cert)} {rr : Scope} (h : reachAll obs = some rr)
+    (hK : rr.mem K) : ∀ o ∈ obs, ∃ r, reach o.1 o.2 = some r ∧ r.mem K := by
   unfold reachAll at h
   cases hm : obs.mapM (fun o => reach o.1 o.2) with
   | none => simp [hm] at h
@@ -27,7 +27,12 @@ theorem reachAll_sound {obs : List (Stmt × Cert)} {rr : Scope} (h : reachAll ob
     subst h
     intro o ho
     obtain ⟨r, hr, hreach⟩ := forall₂_exists_right (mapM_forall₂ hm) o ho
-    exact reach_sound hreach ((foldl_meet_den rs Scope.all hK).2 r hr)
+    exact ⟨r, hreach, (foldl_meet_den rs Scope.all hK).2 r hr⟩
+
+theorem reachAll_sound {obs : List (Stmt × Cert)} {rr : Scope} (h : reachAll obs = some rr)
+    (hK : rr.mem K) : ∀ o ∈ obs, Holds K o.1 := fun o ho =>
+  let ⟨_, hreach, hr⟩ := reachAll_each h hK o ho
+  reach_sound hreach hr
 
 /-! ## Scopes that avoid primes -/
 
@@ -131,21 +136,95 @@ theorem r4_sound {B₁ B₂ C : Stmt} {h : Sparse} {r : Scope}
 
 /-! ## C4 inclusion: the tight locus lies in the loose locus -/
 
-theorem idealInclusion_span {T L : Stmt} {eqCerts : List Cert} {obs : List (Stmt × Cert)}
-    (h : idealInclusionObligations T L eqCerts = some obs) (hobs : ∀ o ∈ obs, Holds K o.1) :
-    T.vars = L.vars ∧ T.guards = L.guards ∧
-      ∀ e ∈ L.eqs, toK (K := K) (meaning T.vars.length e) ∈
-        Ideal.span {f | f ∈ T.eqs.map fun e => toK (K := K) (meaning T.vars.length e)} := by
+/-! ### Ideal transport (G3a review §3), in any commutative ring -/
+
+theorem uniform_pow {R : Type*} [CommRing R] {I : Ideal R} {G : R} :
+    ∀ E : List R, (∀ e ∈ E, ∃ k, e * G ^ k ∈ I) → ∃ N, ∀ e ∈ E, e * G ^ N ∈ I
+  | [], _ => ⟨0, by simp⟩
+  | e :: E, h => by
+    obtain ⟨k, hk⟩ := h e List.mem_cons_self
+    obtain ⟨N, hN⟩ := uniform_pow E fun e' he' => h e' (List.mem_cons_of_mem _ he')
+    refine ⟨k + N, fun e' he' => ?_⟩
+    rcases List.mem_cons.mp he' with rfl | he'
+    · rw [pow_add, ← mul_assoc]; exact I.mul_mem_right _ hk
+    · rw [add_comm, pow_add, ← mul_assoc]; exact I.mul_mem_right _ (hN e' he')
+
+theorem span_mul_mem {R : Type*} [CommRing R] {S : Set R} {I : Ideal R} {c : R}
+    (h : ∀ s ∈ S, s * c ∈ I) {f : R} (hf : f ∈ Ideal.span S) : f * c ∈ I := by
+  induction hf using Submodule.span_induction with
+  | mem x hx => exact h x hx
+  | zero => simp
+  | add x y _ _ hx hy => rw [add_mul]; exact I.add_mem hx hy
+  | smul a x _ hx => rw [smul_eq_mul, mul_assoc]; exact I.mul_mem_left a hx
+
+theorem guards_unit {R : Type*} [CommRing R] {I : Ideal R} {G : R} :
+    ∀ Gs : List R, (∀ g ∈ Gs, ∃ k a, G ^ k - a * g ∈ I) → ∃ M Q, G ^ M - Gs.prod * Q ∈ I
+  | [], _ => ⟨0, 1, by simp⟩
+  | g :: Gs, h => by
+    obtain ⟨k, a, hk⟩ := h g List.mem_cons_self
+    obtain ⟨M, Q, hM⟩ := guards_unit Gs fun g' hg' => h g' (List.mem_cons_of_mem _ hg')
+    refine ⟨k + M, a * Q, ?_⟩
+    have e : G ^ (k + M) - (g :: Gs).prod * (a * Q) =
+        G ^ k * (G ^ M - Gs.prod * Q) + Gs.prod * Q * (G ^ k - a * g) := by
+      simp only [List.prod_cons]; ring
+    rw [e]
+    exact I.add_mem (I.mul_mem_left _ hM) (I.mul_mem_left _ hk)
+
+/-- If the loose equations `E` vanish and the loose guards `Gs` are units in `R[1/G]/I`, then
+`h·(∏ Gs)^k ∈ ⟨E⟩` puts `h·G^j` in `I`. -/
+theorem ideal_transport {R : Type*} [CommRing R] {I : Ideal R} {G h : R} {E Gs : List R}
+    (hE : ∀ e ∈ E, ∃ k, e * G ^ k ∈ I) (hG : ∀ g ∈ Gs, ∃ k a, G ^ k - a * g ∈ I)
+    (hP : ∃ k, h * Gs.prod ^ k ∈ Ideal.span {f | f ∈ E}) : ∃ k, h * G ^ k ∈ I := by
+  obtain ⟨N, hN⟩ := uniform_pow E hE
+  obtain ⟨M, Q, hM⟩ := guards_unit Gs hG
+  obtain ⟨k₀, hk₀⟩ := hP
+  have h1 : h * Gs.prod ^ k₀ * G ^ N ∈ I := span_mul_mem (fun e he => hN e he) hk₀
+  have h2 : (G ^ M) ^ k₀ - (Gs.prod * Q) ^ k₀ ∈ I := by
+    rw [← Ideal.Quotient.eq] at hM ⊢
+    simp only [map_pow] at hM ⊢
+    rw [hM]
+  refine ⟨M * k₀ + N, ?_⟩
+  have e : h * G ^ (M * k₀ + N) =
+      h * G ^ N * ((G ^ M) ^ k₀ - (Gs.prod * Q) ^ k₀) + Q ^ k₀ * (h * Gs.prod ^ k₀ * G ^ N) := by
+    rw [pow_add, pow_mul]; ring
+  rw [e]
+  exact I.add_mem (I.mul_mem_left _ h2) (I.mul_mem_left _ h1)
+
+theorem span_append_single {R : Type*} [CommRing R] {E : List R} {y x : R}
+    (hx : x ∈ Ideal.span {f | f ∈ E ++ [y]}) : ∃ a, x - a * y ∈ Ideal.span {f | f ∈ E} := by
+  have hset : {f | f ∈ E ++ [y]} = insert y {f | f ∈ E} := by
+    ext f; simp [or_comm]
+  rw [hset, Ideal.mem_span_insert] at hx
+  obtain ⟨a, z, hz, rfl⟩ := hx
+  exact ⟨a, by simpa using hz⟩
+
+theorem idealInclusion_facts {T L : Stmt} {eqCerts guardCerts : List Cert}
+    {obs : List (Stmt × Cert)} {rr : Scope}
+    (h : idealInclusionObligations T L eqCerts guardCerts = some obs) (hr : reachAll obs = some rr)
+    (hK : rr.mem K) :
+    T.vars = L.vars ∧
+      (∀ e ∈ L.eqs, ∃ k, toK (K := K) (meaning T.vars.length e) *
+          (T.guards.map fun g => toK (K := K) (meaning T.vars.length g)).prod ^ k ∈
+        Ideal.span {f | f ∈ T.eqs.map fun e => toK (K := K) (meaning T.vars.length e)}) ∧
+      (∀ g ∈ L.guards, ∃ k a, (T.guards.map fun g => toK (K := K) (meaning T.vars.length g)).prod ^ k -
+          a * toK (K := K) (meaning T.vars.length g) ∈
+        Ideal.span {f | f ∈ T.eqs.map fun e => toK (K := K) (meaning T.vars.length e)}) := by
   unfold idealInclusionObligations at h
   split_ifs at h with hc
   simp only [Bool.or_eq_true, bne_iff_ne, ne_eq, not_or, not_not] at hc
-  obtain ⟨⟨hv, hg⟩, he⟩ := hc
+  obtain ⟨⟨hv, he⟩, hg⟩ := hc
   simp only [Option.some.injEq] at h
   subst h
-  refine ⟨hv, hg, fun e heq => ?_⟩
-  obtain ⟨c, hc⟩ := mem_zip_of_mem he.symm heq
-  obtain ⟨k, hk⟩ := hobs _ (List.mem_map.mpr ⟨(e, c), hc, rfl⟩)
-  simpa using hk
+  refine ⟨hv, fun e heq => ?_, fun g hgm => ?_⟩
+  · obtain ⟨c, hc⟩ := mem_zip_of_mem he.symm heq
+    exact reachAll_sound hr hK _ (List.mem_append_left _ (List.mem_map.mpr ⟨(e, c), hc, rfl⟩))
+  · obtain ⟨c, hc⟩ := mem_zip_of_mem hg.symm hgm
+    obtain ⟨r, hreach, hrK⟩ :=
+      reachAll_each hr hK _ (List.mem_append_right _ (List.mem_map.mpr ⟨(g, c), hc, rfl⟩))
+    obtain ⟨k, hk⟩ := reach_empty_ideal rfl hreach hrK
+    simp only [List.map_append, List.map_cons, List.map_nil] at hk
+    obtain ⟨a, ha⟩ := span_append_single hk
+    exact ⟨k, a, ha⟩
 
 /-! ## R2: inclusion, by the direction table -/
 
@@ -195,22 +274,22 @@ theorem r2_sound {P C : Stmt} {eqCerts guardCerts : List Cert} {r : Scope}
       obtain ⟨x, hx⟩ := hP
       exact ⟨x, hloc x hx⟩
   | inIdeal f =>
-    simp only at h
-    split at h
-    swap
-    · simp at h
-    cases ho : idealInclusionObligations ⟨vC, eC, gC, .inIdeal f⟩ ⟨vP, eP, gP, .inIdeal f⟩ eqCerts with
+    cases ho : idealInclusionObligations ⟨vC, eC, gC, .inIdeal f⟩ ⟨vP, eP, gP, .inIdeal f⟩
+        eqCerts guardCerts with
     | none => simp [ho] at h
     | some obs =>
       simp only [ho, Option.bind_some] at h
-      obtain ⟨hv, hgg, hspan⟩ := idealInclusion_span ho (reachAll_sound h hK)
-      simp only at hv hgg
-      subst hv hgg
-      obtain ⟨k, hk⟩ := hP
-      refine ⟨k, Ideal.span_le.mpr ?_ hk⟩
-      intro g hg'
-      obtain ⟨e, he, rfl⟩ := List.mem_map.mp hg'
-      exact hspan e he
+      obtain ⟨hv, hE, hG⟩ := idealInclusion_facts ho h hK
+      simp only at hv hE hG
+      subst hv
+      refine ideal_transport (E := eP.map fun e => toK (K := K) (meaning vC.length e))
+        (Gs := gP.map fun g => toK (K := K) (meaning vC.length g)) ?_ ?_ hP
+      · intro e he
+        obtain ⟨e', he', rfl⟩ := List.mem_map.mp he
+        exact hE e' he'
+      · intro g hg
+        obtain ⟨g', hg', rfl⟩ := List.mem_map.mp hg
+        exact hG g' hg'
 
 /-! ## Composition (R3) -/
 
@@ -266,10 +345,11 @@ theorem compose_meaning {nS nT : ℕ} {phi : List Sparse} {p q : Sparse}
 /-- Good coefficients for every listed sparse polynomial (in `K`). -/
 def GoodAll (K : Type*) [Field K] (ps : List Sparse) : Prop := ∀ p ∈ ps, ∀ c ∈ p.coeffs, c ∈ Good K
 
-theorem compose_value {nS nT : ℕ} {phi : List Sparse} {p q : Sparse}
-    (h : compose nS phi nT p = some q) (hphi : GoodAll K phi) (hp : ∀ c ∈ p.coeffs, c ∈ Good K)
-    (x : Fin nS → K) :
-    value nS q x = value nT p (fun i => value nS (phi.getD i.val []) x) := by
+/-- Composition in `K`: `p ∘ φ` is the substitution `Ψ = bind₁ φ` applied to `p`. -/
+theorem compose_toK {nS nT : ℕ} {phi : List Sparse} {p q : Sparse}
+    (h : compose nS phi nT p = some q) (hphi : GoodAll K phi) (hp : ∀ c ∈ p.coeffs, c ∈ Good K) :
+    toK (K := K) (meaning nS q) =
+      bind₁ (fun i : Fin nT => toK (K := K) (meaning nS (phi.getD i.val []))) (toK (meaning nT p)) := by
   obtain ⟨hl, hm⟩ := compose_meaning h
   have hgood : ∀ i : Fin nT, meaning nS (phi.getD i.val []) ∈ GoodPoly K (Fin nS) := by
     intro i
@@ -277,8 +357,68 @@ theorem compose_value {nS nT : ℕ} {phi : List Sparse} {p q : Sparse}
     have hi : i.val < phi.length := hl ▸ i.2
     rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hi, Option.getD_some]
     exact hphi _ (List.getElem_mem hi)
+  rw [hm, toK_bind₁ _ _ hgood (meaning_good hp)]
+
+theorem compose_value {nS nT : ℕ} {phi : List Sparse} {p q : Sparse}
+    (h : compose nS phi nT p = some q) (hphi : GoodAll K phi) (hp : ∀ c ∈ p.coeffs, c ∈ Good K)
+    (x : Fin nS → K) :
+    value nS q x = value nT p (fun i => value nS (phi.getD i.val []) x) := by
   unfold value
-  rw [hm, toK_bind₁ _ _ hgood (meaning_good hp), eval_bind₁]
+  rw [compose_toK h hphi hp, eval_bind₁]
+
+theorem compose_map_eq {nS nT : ℕ} {phi : List Sparse} (hphi : GoodAll K phi) {ps qs : List Sparse}
+    (hF : List.Forall₂ (fun p q => compose nS phi nT p = some q) ps qs) (hg : GoodAll K ps) :
+    (ps.map fun p => toK (K := K) (meaning nT p)).map
+        (bind₁ (fun i : Fin nT => toK (K := K) (meaning nS (phi.getD i.val [])))) =
+      qs.map fun q => toK (K := K) (meaning nS q) := by
+  induction hF with
+  | nil => rfl
+  | cons h _ ih =>
+    simp only [List.map_cons, List.cons.injEq]
+    exact ⟨(compose_toK h hphi (hg _ List.mem_cons_self)).symm,
+      ih fun p hp => hg p (List.mem_cons_of_mem _ hp)⟩
+
+theorem image_list {α β : Type*} (f : α → β) (L : List α) : f '' {x | x ∈ L} = {y | y ∈ L.map f} := by
+  ext y
+  simp only [Set.mem_image, Set.mem_setOf_eq, List.mem_map]
+
+theorem idealMap_facts {S T : Stmt} {phi : List Sparse} {eqCerts guardCerts : List Cert}
+    {obs : List (Stmt × Cert)} {rr : Scope}
+    (h : idealMapObligations S T phi eqCerts guardCerts = some obs) (hr : reachAll obs = some rr)
+    (hK : rr.mem K) :
+    ∃ ceqs cgs, T.eqs.mapM (compose S.vars.length phi T.vars.length) = some ceqs ∧
+      T.guards.mapM (compose S.vars.length phi T.vars.length) = some cgs ∧
+      (∀ e ∈ ceqs, ∃ k, toK (K := K) (meaning S.vars.length e) *
+          (S.guards.map fun g => toK (K := K) (meaning S.vars.length g)).prod ^ k ∈
+        Ideal.span {f | f ∈ S.eqs.map fun e => toK (K := K) (meaning S.vars.length e)}) ∧
+      (∀ g ∈ cgs, ∃ k a, (S.guards.map fun g => toK (K := K) (meaning S.vars.length g)).prod ^ k -
+          a * toK (K := K) (meaning S.vars.length g) ∈
+        Ideal.span {f | f ∈ S.eqs.map fun e => toK (K := K) (meaning S.vars.length e)}) := by
+  unfold idealMapObligations at h
+  split_ifs at h with hc
+  simp only [Bool.or_eq_true, bne_iff_ne, ne_eq, not_or, not_not] at hc
+  obtain ⟨⟨-, he⟩, hg⟩ := hc
+  cases hE : T.eqs.mapM (compose S.vars.length phi T.vars.length) with
+  | none => simp [hE] at h
+  | some ceqs =>
+    cases hG : T.guards.mapM (compose S.vars.length phi T.vars.length) with
+    | none => simp [hE, hG] at h
+    | some cgs =>
+      simp only [hE, hG, Option.bind_eq_bind, Option.bind_some, Option.pure_def,
+        Option.some.injEq] at h
+      subst h
+      have FE := mapM_forall₂ hE
+      have FG := mapM_forall₂ hG
+      refine ⟨ceqs, cgs, rfl, rfl, fun e heq => ?_, fun g hgm => ?_⟩
+      · obtain ⟨c, hc⟩ := mem_zip_of_mem (FE.length_eq.symm.trans he.symm) heq
+        exact reachAll_sound hr hK _ (List.mem_append_left _ (List.mem_map.mpr ⟨(e, c), hc, rfl⟩))
+      · obtain ⟨c, hc⟩ := mem_zip_of_mem (FG.length_eq.symm.trans hg.symm) hgm
+        obtain ⟨r, hreach, hrK⟩ :=
+          reachAll_each hr hK _ (List.mem_append_right _ (List.mem_map.mpr ⟨(g, c), hc, rfl⟩))
+        obtain ⟨k, hk⟩ := reach_empty_ideal rfl hreach hrK
+        simp only [List.map_append, List.map_cons, List.map_nil] at hk
+        obtain ⟨a, ha⟩ := span_append_single hk
+        exact ⟨k, a, ha⟩
 
 theorem map_locus {S T : Stmt} {phi : List Sparse} {eqCerts guardCerts : List Cert}
     {obs : List (Stmt × Cert)} (h : mapObligations S T phi eqCerts guardCerts = some obs)
@@ -370,6 +510,34 @@ theorem r3_sound {P C : Stmt} {phi : List Sparse} {eqCerts guardCerts : List Cer
       intro x hx
       rw [compose_value (beq_iff_eq.mp hcomp) hphi hf]
       exact hP _ (map_locus ho (reachAll_sound h hK) hphi gP x hx)
+  · -- IN_IDEAL(h) on the target gives IN_IDEAL(h ∘ φ) on the source: push the premise through
+    -- `Ψ = bind₁ φ`, then transport as in R2.
+    rename_i f f' hkP hkC
+    split_ifs at h with hcomp
+    cases ho : idealMapObligations C P phi eqCerts guardCerts with
+    | none => simp [ho] at h
+    | some obs =>
+      simp only [ho, Option.bind_some] at h
+      have hf : ∀ c ∈ f.coeffs, c ∈ Good K :=
+        hPg f (by simp [Stmt.polys, hkP, Kind.target?])
+      obtain ⟨ceqs, cgs, hE, hG, hEo, hGo⟩ := idealMap_facts ho h hK
+      unfold Holds at hP ⊢
+      rw [hkP] at hP; rw [hkC]
+      obtain ⟨k₀, hk₀⟩ := hP
+      have hm := Ideal.mem_map_of_mem
+        (bind₁ (fun i : Fin P.vars.length => toK (K := K) (meaning C.vars.length (phi.getD i.val [])))) hk₀
+      rw [Ideal.map_span, image_list, map_mul, map_pow, map_list_prod,
+        ← compose_toK (beq_iff_eq.mp hcomp) hphi hf,
+        compose_map_eq hphi (mapM_forall₂ hG) fun p hp => gP p (List.mem_append_right _ hp),
+        compose_map_eq hphi (mapM_forall₂ hE) fun p hp => gP p (List.mem_append_left _ hp)] at hm
+      refine ideal_transport (E := ceqs.map fun e => toK (K := K) (meaning C.vars.length e))
+        (Gs := cgs.map fun g => toK (K := K) (meaning C.vars.length g)) ?_ ?_ ⟨k₀, hm⟩
+      · intro e he
+        obtain ⟨e', he', rfl⟩ := List.mem_map.mp he
+        exact hEo e' he'
+      · intro g hg
+        obtain ⟨g', hg', rfl⟩ := List.mem_map.mp hg
+        exact hGo g' hg'
   · simp at h
 
 /-! ## Rule admission is sound -/

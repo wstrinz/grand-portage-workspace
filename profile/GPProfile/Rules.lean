@@ -23,11 +23,16 @@ def reachAll (obs : List (Stmt × Cert)) : Option Scope :=
 
 /-! ## C4 relation certificates -/
 
-/-- Ideal-level inclusion (IN_IDEAL transport): every loose equation lies in the ideal of the
-tight equations, ambiently (C3 with `m = 1` and no guards), and the guards are identical. -/
-def idealInclusionObligations (T L : Stmt) (eqCerts : List Cert) : Option (List (Stmt × Cert)) :=
-  if T.vars != L.vars || T.guards != L.guards || eqCerts.length != L.eqs.length then none
-  else some ((L.eqs.zip eqCerts).map fun (e, c) => (⟨T.vars, T.eqs, [], .inIdeal e⟩, c))
+/-- IN_IDEAL transport `L → T` by the sound condition (G3a review §3): each loose equation is
+IN_IDEAL on the tight system with its guards (any `k`), and each loose guard is nonvanishing on the
+tight locus (C1 on the augmented system, as in `inclusionObligations`). In `K[x][1/g_T]/I_T` the
+loose equations vanish and the loose guards are units, so `h·g_Lʲ ∈ I_L` puts `h` in `I_T`. -/
+def idealInclusionObligations (T L : Stmt) (eqCerts guardCerts : List Cert) :
+    Option (List (Stmt × Cert)) :=
+  if T.vars != L.vars || eqCerts.length != L.eqs.length || guardCerts.length != L.guards.length
+  then none
+  else some ((L.eqs.zip eqCerts).map (fun (e, c) => (⟨T.vars, T.eqs, T.guards, .inIdeal e⟩, c)) ++
+    (L.guards.zip guardCerts).map (fun (g, c) => (⟨T.vars, T.eqs ++ [g], T.guards, .empty⟩, c)))
 
 /-- `p ∘ φ`: substitute the source polynomials `φ` for the target variables. -/
 def compose (nS : Nat) (phi : List Sparse) (nT : Nat) (p : Sparse) : Option Sparse := do
@@ -47,6 +52,18 @@ def mapObligations (S T : Stmt) (phi : List Sparse) (eqCerts guardCerts : List C
   let eqs ← T.eqs.mapM (compose S.vars.length phi T.vars.length)
   let guards ← T.guards.mapM (compose S.vars.length phi T.vars.length)
   pure ((eqs.zip eqCerts).map (fun (e, c) => (⟨S.vars, S.eqs, S.guards, .vanishesOn e⟩, c)) ++
+    (guards.zip guardCerts).map (fun (g, c) => (⟨S.vars, S.eqs ++ [g], S.guards, .empty⟩, c)))
+
+/-- IN_IDEAL along `φ : locus_S → locus_T` (G3a review §3, the R3 IN_IDEAL row): each composed
+target equation is IN_IDEAL on the source system with its guards; each composed target guard is
+nonvanishing on the source locus (C1, as in `mapObligations`). -/
+def idealMapObligations (S T : Stmt) (phi : List Sparse) (eqCerts guardCerts : List Cert) :
+    Option (List (Stmt × Cert)) := do
+  if phi.length != T.vars.length || eqCerts.length != T.eqs.length ||
+      guardCerts.length != T.guards.length then none else
+  let eqs ← T.eqs.mapM (compose S.vars.length phi T.vars.length)
+  let guards ← T.guards.mapM (compose S.vars.length phi T.vars.length)
+  pure ((eqs.zip eqCerts).map (fun (e, c) => (⟨S.vars, S.eqs, S.guards, .inIdeal e⟩, c)) ++
     (guards.zip guardCerts).map (fun (g, c) => (⟨S.vars, S.eqs ++ [g], S.guards, .empty⟩, c)))
 
 /-! ## Rules -/
@@ -95,9 +112,8 @@ def ruleReach (C : Stmt) (Ps : List Stmt) : RuleData → Option Scope
       match C.kind with
       -- EMPTY and VANISHES_ON move loose → tight: the premise is L, the conclusion T.
       | .empty | .vanishesOn _ => (inclusionObligations C P eqCerts guardCerts).bind reachAll
-      -- IN_IDEAL moves loose → tight only with an ideal-level inclusion.
-      | .inIdeal _ =>
-        if guardCerts.isEmpty then (idealInclusionObligations C P eqCerts).bind reachAll else none
+      -- IN_IDEAL moves loose → tight with ideal-level equation obligations.
+      | .inIdeal _ => (idealInclusionObligations C P eqCerts guardCerts).bind reachAll
       -- NONEMPTY moves tight → loose: the premise is T, the conclusion L.
       | .nonempty => (inclusionObligations P C eqCerts guardCerts).bind reachAll
       -- The refutation and cover kinds have no inclusion transport.
@@ -115,6 +131,11 @@ def ruleReach (C : Stmt) (Ps : List Stmt) : RuleData → Option Scope
       | .vanishesOn h, .vanishesOn h' =>
         if compose C.vars.length phi P.vars.length h == some h' then
           (mapObligations C P phi eqCerts guardCerts).bind reachAll
+        else none
+      -- IN_IDEAL(h) on T gives IN_IDEAL(h ∘ φ) on S, with ideal-level equation obligations.
+      | .inIdeal h, .inIdeal h' =>
+        if compose C.vars.length phi P.vars.length h == some h' then
+          (idealMapObligations C P phi eqCerts guardCerts).bind reachAll
         else none
       | _, _ => none
     | _ => none

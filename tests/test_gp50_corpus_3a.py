@@ -17,7 +17,8 @@ class Corpus3aTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         env = dict(os.environ, PATH=str(TOOLCHAIN / "bin") + os.pathsep + os.environ["PATH"])
-        subprocess.run([str(TOOLCHAIN / "bin/lake.exe"), "build", "gp_corpus_run"], cwd=PROFILE,
+        # GPProfile.RuleChecks evaluates the IN_IDEAL rule instances with #guard at build time.
+        subprocess.run([str(TOOLCHAIN / "bin/lake.exe"), "build", "gp_corpus_run", "GPProfile.RuleChecks"], cwd=PROFILE,
                        env=env, check=True, capture_output=True)
         out = subprocess.run([str(PROFILE / ".lake/build/bin/gp_corpus_run.exe"), str(ROOT),
                               str(PROFILE / "slice/corpus-3a.json")], check=True, capture_output=True, text=True)

@@ -167,9 +167,14 @@ theorem stmt_poly_primes {s : Stmt} {bad : List ℕ}
     (hc : c ∈ p.coeffs) {x : ℕ} (hx : x ∈ primeFactors c.den) : x ∈ bad :=
   hsub x (mem_denominatorPrimes_iff.mpr ⟨c, List.mem_flatMap.mpr ⟨p, hp, hc⟩, hx⟩)
 
-theorem reach_ideal_sound {s : Stmt} {field : Field} {qs : List Sparse}
+/-- The identity an accepted ideal certificate establishes in `K[x]`. -/
+theorem reach_ideal_identity {s : Stmt} {field : Field} {qs : List Sparse}
     {m k : ℕ} {r : Scope} (hr : reach s (.ideal field qs m k) = some r) (hK : r.mem K) :
-    Holds K s := by
+    ∃ h, idealTarget s m = some h ∧
+      (List.zipWith (· * ·) (qs.map fun q => toK (K := K) (meaning s.vars.length q))
+        (s.eqs.map fun e => toK (K := K) (meaning s.vars.length e))).sum =
+        toK (meaning s.vars.length h) ^ m *
+          (s.guards.map fun g => toK (K := K) (meaning s.vars.length g)).prod ^ k := by
   obtain ⟨h, R, ht, hres, havoid, hzero⟩ := reach_ideal_spec hr hK
   have hS : ∀ x ∈ s.primes, x ∈ union s.primes (denominatorPrimes (qs.flatMap Sparse.coeffs)) :=
     fun x hx => mem_union_left hx
@@ -200,7 +205,12 @@ theorem reach_ideal_sound {s : Stmt} {field : Field} {qs : List Sparse}
       | vanishesOn h0 =>
         simp only [hk] at ht; split_ifs at ht; simp only [Option.some.injEq] at ht; subst ht
         exact stmt_poly_primes hS (by simp [Stmt.polys, hk, Kind.target?]) hcp hxc
-  obtain ⟨hlen, I⟩ := identity_in_K hres hgood hzero
+  exact ⟨h, ht, (identity_in_K hres hgood hzero).2⟩
+
+theorem reach_ideal_sound {s : Stmt} {field : Field} {qs : List Sparse}
+    {m k : ℕ} {r : Scope} (hr : reach s (.ideal field qs m k) = some r) (hK : r.mem K) :
+    Holds K s := by
+  obtain ⟨h, ht, I⟩ := reach_ideal_identity hr hK
   have locusEval : ∀ x, Locus (K := K) s x →
       eval x (List.zipWith (· * ·) (qs.map fun q => toK (K := K) (meaning _ q))
         (s.eqs.map fun e => toK (K := K) (meaning _ e))).sum = 0 ∧
@@ -236,6 +246,29 @@ theorem reach_ideal_sound {s : Stmt} {field : Field} {qs : List Sparse}
     rcases mul_eq_zero.mp h0 with hv | hv
     · exact pow_eq_zero_iff (by omega) |>.mp hv
     · exact absurd (pow_eq_zero_iff'.mp hv).1 hG
+
+/-- An accepted EMPTY certificate is ideal-level in every field of its reach: a power of the guard
+product lies in the ideal of the equations (EMPTY ≡ IN_IDEAL(1) by certificate). -/
+theorem reach_empty_ideal {s : Stmt} {c : Cert} {r : Scope} (hs : s.kind = .empty)
+    (hr : reach s c = some r) (hK : r.mem K) :
+    ∃ k : ℕ, (s.guards.map fun g => toK (K := K) (meaning s.vars.length g)).prod ^ k ∈
+      Ideal.span {f | f ∈ s.eqs.map fun e => toK (K := K) (meaning s.vars.length e)} := by
+  cases c with
+  | point f vs => simp [reach, witnessSystem, hs] at hr
+  | cover i a b => simp [reach, hs] at hr
+  | ideal field qs m k =>
+    obtain ⟨h, ht, I⟩ := reach_ideal_identity hr hK
+    simp only [idealTarget, hs] at ht
+    split_ifs at ht with hm
+    simp only [beq_iff_eq] at hm
+    subst hm
+    refine ⟨k, ?_⟩
+    have e : (s.guards.map fun g => toK (K := K) (meaning s.vars.length g)).prod ^ k =
+        toK (meaning s.vars.length h) ^ 0 *
+          (s.guards.map fun g => toK (K := K) (meaning s.vars.length g)).prod ^ k := by
+      rw [pow_zero, one_mul]
+    rw [e, ← I]
+    exact zipWith_sum_mem_span _ _
 
 theorem eval_toK_cast {n : ℕ} {P : MvPolynomial (Fin n) Rat}
     (hP : P ∈ GoodPoly K (Fin n)) {a : Fin n → Rat} (ha : ∀ i, a i ∈ Good K) :
