@@ -44,20 +44,20 @@ statements. Preserve the historical evidence files.
 
 ## Workspaces and source custody
 
-- GP: `C:/Users/wstri/dev/grand-portage`.
+- GP: `$DEV/grand-portage`.
   At handoff preparation: branch `master`, HEAD
   `fa5644dd6f50cf904ad2c1be5f37e7371fe9bf0d` (v0.31.2), with Phase A in the
   working tree. The release later froze that work at `cca5b05` (v0.32.0).
-- DK: `C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction`.
+- DK: `$DEV/math-research/campaigns/dk-retrodiction`.
   Pinned commit `b876fe4ed5c8963a0e8c19e18c829821c0686654`.
   Its tracked worktree remained clean. Treat campaign inputs as immutable.
   Read `followup/README.md`, `followup/06-field-class.md`, the field-class-probe
   directory, `followup/01-transports-verbatim.md`, `followup/04-adjacency.md`,
   `transports/`, `misuse/`, and the fixture README.
-- Lane Watch: `C:/Users/wstri/dev/math-research/infrastructure/agent-observer`.
+- Lane Watch: `$DEV/math-research/infrastructure/agent-observer`.
   Separate repository, six changed/new files listed below.
 - Original packet attachment:
-  `C:/Users/wstri/.codex/attachments/b11bfb14-08d7-441f-8cb5-55968e552880/pasted-text.txt`.
+  `$HOME/.codex/attachments/b11bfb14-08d7-441f-8cb5-55968e552880/pasted-text.txt`.
 
 At handoff preparation, no cfg23 or configuration-23-4 files were edited and no
 coordinator message, live directive, math campaign action, service restart,
@@ -140,7 +140,7 @@ python scripts/replay_guard_fixtures.py --live --output tmp/guard-replay-next.js
 python -m grandportage.cli docs
 python -m pip wheel . --no-deps --no-build-isolation --no-cache-dir --wheel-dir tmp/v032-dist
 # From GP/lean:
-$env:ELAN_HOME='C:/Users/wstri/.elan'
+$env:ELAN_HOME='$ELAN_HOME'
 lake build
 ```
 
@@ -149,7 +149,7 @@ pins Singular and companion packages to `1:4.2.1-p3+ds-1`. WSL/live tools needed
 sandbox escalation here. Pip's user cache was inaccessible; `--no-cache-dir`
 succeeded. PowerShell aliases `gp`; use `python -m grandportage.cli` for reliable
 invocation. DK git reads may need per-command
-`-c safe.directory=C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction`.
+`-c safe.directory=$DEV/math-research/campaigns/dk-retrodiction`.
 
 ## Independent Lane Watch implementation
 
@@ -244,7 +244,7 @@ This is the next design work, not a reason to reopen settled Phase A choices.
 ## Suggested opening instruction for the next task/session
 
 > Continue the approved Grand Portage work using
-> `C:/Users/wstri/dev/grand-portage/review/v0.32/SOL-HANDOFF.md` as your starting
+> `$DEV/grand-portage/review/v0.32/SOL-HANDOFF.md` as your starting
 > point and `DESIGN_DIRECTION.md` for the current sequencing rationale. Phase A
 > v0.33.0 is released with Match4 hardening and the output-preserving
 > authority-binding nucleus. Preserve that boundary, the accepted preflight

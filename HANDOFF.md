@@ -660,15 +660,15 @@ of a coincidence. `CL-KSYZ-ID` was confirmed `AMBIENT` by re-running
 | know what to run next | `TESTPLAN.md` — 7 tests, pass conditions declared in advance |
 | see how it behaves in real use | `docs/first-run/` — the user's own report, the maths, the graph |
 | see what an audit found | `docs/first-run/T2-SYNTHESIS.md` — **start here if you only read one thing** |
-| run the blind test (T1) | `cd C:\Users\wstri\dev\gamma-delta4 && claude` — see §6 |
-| work on the tool | `cd C:\Users\wstri\dev\grand-portage && python -m pytest` (<!--checks-->1811<!--/checks--> checks, ~300 s on the current development machine) |
+| run the blind test (T1) | `cd $DEV/gamma-delta4 && claude` — see §6 |
+| work on the tool | `cd $DEV/grand-portage && python -m pytest` (<!--checks-->1811<!--/checks--> checks, ~300 s on the current development machine) |
 
 ---
 
 ## 3. Where things live
 
 ```
-C:\Users\wstri\dev\
+$DEV/
   grand-portage\    THE TOOL.  git@github.com:wstrinz/grand-portage.git (PRIVATE)
                     HEAD 0d24d35, clean, pushed.  171 checks green.
                     Installed editable (`pip install -e .`), so `gp` is on PATH
@@ -938,11 +938,11 @@ build it.
 
 ## 6. What is staged and ready: T1, the blind run
 
-`C:\Users\wstri\dev\gamma-delta4\` — clean directory, own pinned submodule,
+`$DEV/gamma-delta4/` — clean directory, own pinned submodule,
 campaign graph and baseline carried forward, MCP + hook wired, `TASK.md` and
 nothing else.
 
-**To run it:** `cd C:\Users\wstri\dev\gamma-delta4` then `claude`. MCP servers
+**To run it:** `cd $DEV/gamma-delta4` then `claude`. MCP servers
 register at session start, so this only works from that directory — starting
 anywhere else points `GP_ROOT` at the wrong campaign.
 
@@ -1587,7 +1587,7 @@ only authored the packet and did not contaminate or simulate the cold return.
 
 ## 2026-08-04 - v0.23 public stable refresh
 
-The public mirror at `C:\Users\wstri\dev\grand-portage-public` is refreshed
+The public mirror at `$DEV/grand-portage-public` is refreshed
 from a tracked-files-only archive rather than from the private working tree.
 The publish boundary now includes the package, tests, fixtures, docs, examples,
 exact experiment adapters, Lean contracts, and review packets, plus the public
