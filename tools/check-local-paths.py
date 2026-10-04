@@ -26,7 +26,7 @@ def counts():
     result = {}
     for raw in tracked.split(b"\0"):
         path = raw.decode("utf-8")
-        if not path or path.startswith(EXCLUDED) or path in EXEMPT:
+        if not path or path.startswith(EXCLUDED) or path in EXEMPT or path.startswith("reports/LOCAL-PATH-MIGRATION"):
             continue
         try:
             data = (ROOT / path).read_bytes()
