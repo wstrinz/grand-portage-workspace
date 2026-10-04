@@ -97,8 +97,8 @@
     "Reference arithmetic uses local SymPy 1.14.0; no native predecessor rational-lift checker, Lean compilation, external campaign execution, or graph authority."
   ],
   "sha256": {
-    "reports/oracle-runs/20260928T220044757918Z.json": "428184e63176cab9cfa911bbb4dc9686d281c6b84ed04af6e0bb8af4374b9bf9",
-    "reports/oracle-runs/20260928T224802105393Z.json": "e70d6176f214fdc9d1bba3ee41345c483824cbdd21c499fa9ff7aabf31f0ef23",
+    "reports/oracle-runs/20260928T220044757918Z.json": "9cfc329bd086d63a470af593423daec34a822a8d9dfda332cfb0bc1d09d79be4",
+    "reports/oracle-runs/20260928T224802105393Z.json": "c0a28dd6b4885a5928068a656a5273f29d10ac6f3bb5d4b380e4c20724cd46c7",
     "oracle/ROUTES.json": "275563d422d73da9eebe2531f3283980e6910cd4722c07c6d5615cc1da169324",
     "tools/check-corpus.py": "f1663d5ae0ee4a0884389925c15bb60e3174448e653b75a7b8f107e619d53c7c",
     "tools/dm4_zero_chart_probes.py": "c9fc3e8fc4ea5e3ecfa8c1e614631dca52ba8d5d842f41eab62e1259418009a1",

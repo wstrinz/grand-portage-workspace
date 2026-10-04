@@ -1,5 +1,5 @@
 param(
-    [string]$SourceRepo = 'C:\Users\wstri\dev\grand-portage',
+    [string]$SourceRepo = '$DEV/grand-portage',
     [string]$Commit = 'ac4155787207e2847d248cffed7be871d5dcd577'
 )
 $ErrorActionPreference = 'Stop'

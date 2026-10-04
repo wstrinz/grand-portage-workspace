@@ -2,7 +2,7 @@
 
 Completed all six named full reads; none was absent. Followed exactly five concrete pointers: final RESULTS, the accepted M13 source correction, the accepted realization-triage correction, v0.26 live acceptance r2, and publication-readiness closeout. This pass produced only these Markdown/JSON reports on F:. No campaign code, tests, CAS, GP or Lean was executed; no harvest, commit, case/route/tracker edit, external read/message or delegation occurred.
 
-Source root: `C:/Users/wstri/dev/math-research/campaigns/arr15`. Source HEAD: `619744193411d40a0f37f01b76e4f0c9bf96c86a`. Checkpoint tag `arr15-checkpoint-2026-08-23` resolves to `ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e`. All commands used `F:/repos/grandportage-0.50` explicitly. A24 was not reopened and no approval was assumed.
+Source root: `$DEV/math-research/campaigns/arr15`. Source HEAD: `619744193411d40a0f37f01b76e4f0c9bf96c86a`. Checkpoint tag `arr15-checkpoint-2026-08-23` resolves to `ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e`. All commands used `$WORKSPACE` explicitly. A24 was not reopened and no approval was assumed.
 
 Thirteen proposal rows distinguish own claim corrections, attributed literature findings, prevented framing errors, operational defects and historical GP/backend issues. They are not thirteen independent mathematical incidents. All core fields, incident-specific costs and wrong-shipping/reliance values remain null. Shipping means publication or a handoff for reliance; a private commit, push or publication-preparation state alone is insufficient. README lines 31–33 states no public repository, archive, DOI or release is represented as existing.
 
@@ -40,7 +40,7 @@ Concrete own-campaign near miss with recovery. Source records a stronger inbound
 
 GP catch: Conditional: a full determinant-pattern binding plus checkable bridge could refuse promotion; exact ideal arithmetic alone would not diagnose missing modeling conditions.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\arr15\results\accepted\2026-08-22-n15-realization-triage.md`, lines 46–68 (raw SHA/history in source table and JSON); `C:\Users\wstri\dev\math-research\campaigns\arr15\FRONTIER.md`, lines 135–141 (raw SHA/history in source table and JSON).
+Evidence: `$DEV/math-research/campaigns/arr15/results/accepted/2026-08-22-n15-realization-triage.md`, lines 46–68 (raw SHA/history in source table and JSON); `$DEV/math-research/campaigns/arr15/FRONTIER.md`, lines 135–141 (raw SHA/history in source table and JSON).
 
 ### ARR-C02 — Proper Q ideal promoted to Q-rational point
 
@@ -56,7 +56,7 @@ Separate error dimension within one triage episode; do not add an independent in
 
 GP catch: Conditional: explicit point universe and verified field-valued witness/reach would prevent the promotion; coefficient ring Q alone is insufficient.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\arr15\results\accepted\2026-08-22-n15-realization-triage.md`, lines 53–65 (raw SHA/history in source table and JSON).
+Evidence: `$DEV/math-research/campaigns/arr15/results/accepted/2026-08-22-n15-realization-triage.md`, lines 53–65 (raw SHA/history in source table and JSON).
 
 ### ARR-C03 — M13^1 printed source entry gives different incidences
 
@@ -72,7 +72,7 @@ One mismatch-to-forensics-to-correction episode. Worker did not read TeX, PDF, d
 
 GP catch: Source reports ordinary identity checks on corrected lines succeeded, while additive typed erratum custody was unavailable. Conditional semantic/presentation checks can expose mismatch; GP cannot itself establish publisher provenance.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\arr15\results\accepted\2026-08-22-m13-1-source-discrepancy.md`, lines 22–49 (raw SHA/history in source table and JSON); `C:\Users\wstri\dev\math-research\campaigns\arr15\FRONTIER.md`, lines 114–147 (raw SHA/history in source table and JSON).
+Evidence: `$DEV/math-research/campaigns/arr15/results/accepted/2026-08-22-m13-1-source-discrepancy.md`, lines 22–49 (raw SHA/history in source table and JSON); `$DEV/math-research/campaigns/arr15/FRONTIER.md`, lines 114–147 (raw SHA/history in source table and JSON).
 
 ### ARR-C04 — Calibration source names conflated
 
@@ -88,7 +88,7 @@ Attribution correction grounded only in summary, no new theorem or independent p
 
 GP catch: Source identity and primary reading needed; no GP arithmetic catch claimed.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\arr15\FRONTIER.md`, lines 430–450 (raw SHA/history in source table and JSON).
+Evidence: `$DEV/math-research/campaigns/arr15/FRONTIER.md`, lines 430–450 (raw SHA/history in source table and JSON).
 
 ### ARR-C05 — Proposition disposition confused with divisional freeness
 
@@ -104,7 +104,7 @@ Recorded corrective warning, not evidence of a wrong public census. Different pr
 
 GP catch: Conditional: typed proposition, universe and theorem hypotheses might prevent conflation; storage of numerical totals alone cannot.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\arr15\FRONTIER.md`, lines 247–257 (raw SHA/history in source table and JSON); `C:\Users\wstri\dev\math-research\campaigns\arr15\RESULTS_SO_FAR.md`, lines 27–31 (raw SHA/history in source table and JSON); `C:\Users\wstri\dev\math-research\campaigns\arr15\RESULTS_SO_FAR.md`, lines 175–186 (raw SHA/history in source table and JSON); `C:\Users\wstri\dev\math-research\campaigns\arr15\results\accepted\2026-08-22-n15-realization-triage.md`, lines 30–44 (raw SHA/history in source table and JSON).
+Evidence: `$DEV/math-research/campaigns/arr15/FRONTIER.md`, lines 247–257 (raw SHA/history in source table and JSON); `$DEV/math-research/campaigns/arr15/RESULTS_SO_FAR.md`, lines 27–31 (raw SHA/history in source table and JSON); `$DEV/math-research/campaigns/arr15/RESULTS_SO_FAR.md`, lines 175–186 (raw SHA/history in source table and JSON); `$DEV/math-research/campaigns/arr15/results/accepted/2026-08-22-n15-realization-triage.md`, lines 30–44 (raw SHA/history in source table and JSON).
 
 ### ARR-C06 — Classical summit reconstruction treated as new arrangement
 
@@ -120,7 +120,7 @@ Preventive novelty correction; no source shows the wrong new-arrangement claim p
 
 GP catch: No unconditional GP novelty catch: incidence identity could be checked if supplied, but literature completeness and historical attribution remain separate.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\arr15\FRONTIER.md`, lines 378–400 (raw SHA/history in source table and JSON); `C:\Users\wstri\dev\math-research\campaigns\arr15\RESULTS_SO_FAR.md`, lines 117–138 (raw SHA/history in source table and JSON); `C:\Users\wstri\dev\math-research\campaigns\arr15\RESULTS.md`, lines 63–79 (raw SHA/history in source table and JSON); `C:\Users\wstri\dev\math-research\campaigns\arr15\CHECKPOINT.md`, lines 61–70 (raw SHA/history in source table and JSON).
+Evidence: `$DEV/math-research/campaigns/arr15/FRONTIER.md`, lines 378–400 (raw SHA/history in source table and JSON); `$DEV/math-research/campaigns/arr15/RESULTS_SO_FAR.md`, lines 117–138 (raw SHA/history in source table and JSON); `$DEV/math-research/campaigns/arr15/RESULTS.md`, lines 63–79 (raw SHA/history in source table and JSON); `$DEV/math-research/campaigns/arr15/CHECKPOINT.md`, lines 61–70 (raw SHA/history in source table and JSON).
 
 ### ARR-C07 — Fine/coarse gap overframed as Bresciani/H1 obstruction
 
@@ -136,7 +136,7 @@ Concrete framing near miss, not refutation of the direct gap or of Bresciani's t
 
 GP catch: Conditional: an explicit theorem-application obligation ledger would keep missing hypotheses visible; no GP native catch asserted.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\arr15\results\accepted\2026-08-23-publication-readiness-closeout.md`, lines 31–35 (raw SHA/history in source table and JSON); `C:\Users\wstri\dev\math-research\campaigns\arr15\results\accepted\2026-08-23-publication-readiness-closeout.md`, lines 81–94 (raw SHA/history in source table and JSON); `C:\Users\wstri\dev\math-research\campaigns\arr15\FRONTIER.md`, lines 402–409 (raw SHA/history in source table and JSON).
+Evidence: `$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-publication-readiness-closeout.md`, lines 31–35 (raw SHA/history in source table and JSON); `$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-publication-readiness-closeout.md`, lines 81–94 (raw SHA/history in source table and JSON); `$DEV/math-research/campaigns/arr15/FRONTIER.md`, lines 402–409 (raw SHA/history in source table and JSON).
 
 ### ARR-O08 — Wrong packet input digest kept as cold-trial failure
 
@@ -152,7 +152,7 @@ Concrete packet identity defect; failing literal trial and passing wrapper asser
 
 GP catch: Conditional: exact source-byte/base binding catches mismatch; no mathematical theorem inference follows from later successful subchecks.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\arr15\CHECKPOINT.md`, lines 86–96 (raw SHA/history in source table and JSON); `C:\Users\wstri\dev\math-research\campaigns\arr15\results\accepted\2026-08-23-publication-readiness-closeout.md`, lines 69–77 (raw SHA/history in source table and JSON); `C:\Users\wstri\dev\math-research\campaigns\arr15\REPRODUCIBILITY.md`, lines 25–27 (raw SHA/history in source table and JSON).
+Evidence: `$DEV/math-research/campaigns/arr15/CHECKPOINT.md`, lines 86–96 (raw SHA/history in source table and JSON); `$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-publication-readiness-closeout.md`, lines 69–77 (raw SHA/history in source table and JSON); `$DEV/math-research/campaigns/arr15/REPRODUCIBILITY.md`, lines 25–27 (raw SHA/history in source table and JSON).
 
 ### ARR-G09 — Ordinary witness ignored open guards, including equation-free models
 
@@ -168,7 +168,7 @@ Hostile probes discovered a literal historical implementation defect; not an act
 
 GP catch: Must bind/enforce every guard even with generators=[]; conditional on actual replay, not a claim about current oracle.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\arr15\FRONTIER.md`, lines 199–213 (raw SHA/history in source table and JSON); `C:\Users\wstri\dev\math-research\campaigns\arr15\FRONTIER.md`, lines 504–509 (raw SHA/history in source table and JSON); `C:\Users\wstri\dev\math-research\campaigns\arr15\results\accepted\2026-08-23-gp-v026-live-acceptance-r2.md`, lines 14–19 (raw SHA/history in source table and JSON).
+Evidence: `$DEV/math-research/campaigns/arr15/FRONTIER.md`, lines 199–213 (raw SHA/history in source table and JSON); `$DEV/math-research/campaigns/arr15/FRONTIER.md`, lines 504–509 (raw SHA/history in source table and JSON); `$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-gp-v026-live-acceptance-r2.md`, lines 14–19 (raw SHA/history in source table and JSON).
 
 ### ARR-G10 — Large localized route crash and stale16-guard packaging cap
 
@@ -184,7 +184,7 @@ Two related but not proven-identical failure mechanisms; do not deduplicate as o
 
 GP catch: Conditional resource/custody contracts should report bounded failure honestly; mathematical core refusal alone does not fix packaging.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\arr15\FRONTIER.md`, lines 199–213 (raw SHA/history in source table and JSON); `C:\Users\wstri\dev\math-research\campaigns\arr15\results\accepted\2026-08-23-gp-v026-live-acceptance-r2.md`, lines 14–26 (raw SHA/history in source table and JSON); `C:\Users\wstri\dev\math-research\campaigns\arr15\CHECKPOINT.md`, lines 134–144 (raw SHA/history in source table and JSON).
+Evidence: `$DEV/math-research/campaigns/arr15/FRONTIER.md`, lines 199–213 (raw SHA/history in source table and JSON); `$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-gp-v026-live-acceptance-r2.md`, lines 14–26 (raw SHA/history in source table and JSON); `$DEV/math-research/campaigns/arr15/CHECKPOINT.md`, lines 134–144 (raw SHA/history in source table and JSON).
 
 ### ARR-G11 — Stored NONSQUARE_CLASS certificate checker-invisible
 
@@ -200,7 +200,7 @@ Product acceptance with qualified extended-row refutation, not mathematical nons
 
 GP catch: Conditional authority gating must make certificate verification or debt/documentary status explicit. Storage alone provides no catch.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\arr15\results\accepted\2026-08-23-gp-v026-live-acceptance-r2.md`, lines 8–26 (raw SHA/history in source table and JSON); `C:\Users\wstri\dev\math-research\campaigns\arr15\RESULTS_SO_FAR.md`, lines 151–157 (raw SHA/history in source table and JSON); `C:\Users\wstri\dev\math-research\campaigns\arr15\CHECKPOINT.md`, lines 134–144 (raw SHA/history in source table and JSON).
+Evidence: `$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-gp-v026-live-acceptance-r2.md`, lines 8–26 (raw SHA/history in source table and JSON); `$DEV/math-research/campaigns/arr15/RESULTS_SO_FAR.md`, lines 151–157 (raw SHA/history in source table and JSON); `$DEV/math-research/campaigns/arr15/CHECKPOINT.md`, lines 134–144 (raw SHA/history in source table and JSON).
 
 ### ARR-O12 — Environment and custody friction were not mathematical failures
 
@@ -216,7 +216,7 @@ Grouped operational dispositions with distinct subepisode keys: native-cas-host,
 
 GP catch: Build/backend identity, independent provenance, and migration/merge contracts may catch specific custody errors; no core mathematical detection claimed.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\arr15\FRONTIER.md`, lines 31–70 (raw SHA/history in source table and JSON); `C:\Users\wstri\dev\math-research\campaigns\arr15\FRONTIER.md`, lines 149–159 (raw SHA/history in source table and JSON); `C:\Users\wstri\dev\math-research\campaigns\arr15\FRONTIER.md`, lines 313–320 (raw SHA/history in source table and JSON); `C:\Users\wstri\dev\math-research\campaigns\arr15\FRONTIER.md`, lines 490–501 (raw SHA/history in source table and JSON).
+Evidence: `$DEV/math-research/campaigns/arr15/FRONTIER.md`, lines 31–70 (raw SHA/history in source table and JSON); `$DEV/math-research/campaigns/arr15/FRONTIER.md`, lines 149–159 (raw SHA/history in source table and JSON); `$DEV/math-research/campaigns/arr15/FRONTIER.md`, lines 313–320 (raw SHA/history in source table and JSON); `$DEV/math-research/campaigns/arr15/FRONTIER.md`, lines 490–501 (raw SHA/history in source table and JSON).
 
 ### ARR-T13 — High-generator Singular D(A) outputs rejected
 
@@ -232,7 +232,7 @@ Source-reported tool-output issue, not ten verified mathematical mistakes or pro
 
 GP catch: Conditional independent checks plus coefficient-domain/result typing can contain error; GP product implementation and exact bad-output cause remain unknown.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\arr15\FRONTIER.md`, lines 215–225 (raw SHA/history in source table and JSON); `C:\Users\wstri\dev\math-research\campaigns\arr15\FRONTIER.md`, lines 495–499 (raw SHA/history in source table and JSON).
+Evidence: `$DEV/math-research/campaigns/arr15/FRONTIER.md`, lines 215–225 (raw SHA/history in source table and JSON); `$DEV/math-research/campaigns/arr15/FRONTIER.md`, lines 495–499 (raw SHA/history in source table and JSON).
 
 ## Repeated episodes and unknown metadata
 
@@ -244,13 +244,13 @@ Incident discovery/recovery runtime, token spend and monetary cost are unrecorde
 
 ## No-distinct-incident dispositions
 
-- **Bounded classification / coarse keys / obstruction cover:** 924 coarse keys explicitly non-certified before exact13082 class certification; bounded173-seed universe retained. No all-n15 census claim or computational failure newly identified. Evidence: `C:\Users\wstri\dev\math-research\campaigns\arr15\FRONTIER.md`, lines 96–112; `C:\Users\wstri\dev\math-research\campaigns\arr15\RESULTS.md`, lines 6–41.
-- **Rational realizations, universal Fitting and cyclotomic geometry:** Historical accepted positive results with field/chart/module hypotheses. No new proof audit, algebraic decomposition, Lean run or theorem certification undertaken. Evidence: `C:\Users\wstri\dev\math-research\campaigns\arr15\RESULTS_SO_FAR.md`, lines 47–144; `C:\Users\wstri\dev\math-research\campaigns\arr15\RESULTS.md`, lines 43–104.
-- **Q(sqrt5) refutation contrasted with Q(zeta10) witness:** Field-specific failed candidate is an honest mathematical negative result, not false characteristic-zero emptiness. Quartic witness and Galois/torus geometry are reported later positive contrast. Evidence: `C:\Users\wstri\dev\math-research\campaigns\arr15\FRONTIER.md`, lines 291–312; `C:\Users\wstri\dev\math-research\campaigns\arr15\RESULTS_SO_FAR.md`, lines 76–104.
-- **M11 reduced fiber versus nilpotent thickening:** Source reports Fitt0=(4), reduced(2) and GP graph-effectNONE inability to represent arithmetic scheme/narrowing; expressibility limit rather than proved false accepted theorem. Evidence: `C:\Users\wstri\dev\math-research\campaigns\arr15\FRONTIER.md`, lines 75–94; `C:\Users\wstri\dev\math-research\campaigns\arr15\FRONTIER.md`, lines 452–466.
-- **M12/E10 module variation controls:** Calibration and module-profile variation do not imply freeness variation. No deliberate probe outcome or error episode beyond summarized source/custody corrections is invented. Evidence: `C:\Users\wstri\dev\math-research\campaigns\arr15\FRONTIER.md`, lines 31–53; `C:\Users\wstri\dev\math-research\campaigns\arr15\FRONTIER.md`, lines 443–450; `C:\Users\wstri\dev\math-research\campaigns\arr15\EVIDENCE_POLICY.md`, lines 33–47.
-- **Cuntz supplement / novelty:** Source reports zero overlap against1318 entries and two qualified incidence candidates; no supplement/code read by worker. Absence from one database is not global novelty; exponent-formula primary location remains a source-reported limit. Evidence: `C:\Users\wstri\dev\math-research\campaigns\arr15\results\accepted\2026-08-23-publication-readiness-closeout.md`, lines 18–30; `C:\Users\wstri\dev\math-research\campaigns\arr15\results\accepted\2026-08-23-publication-readiness-closeout.md`, lines 40–67; `C:\Users\wstri\dev\math-research\campaigns\arr15\results\accepted\2026-08-23-publication-readiness-closeout.md`, lines 79–85.
-- **Capped vectors and deferred work:** Honest unresolved work: four(6,8) vectors, all(7,7), positive characteristic, n16 and broader module stratification. Not incidents and not commissioned next work. Evidence: `C:\Users\wstri\dev\math-research\campaigns\arr15\CHECKPOINT.md`, lines 98–116; `C:\Users\wstri\dev\math-research\campaigns\arr15\RESULTS_SO_FAR.md`, lines 146–171.
+- **Bounded classification / coarse keys / obstruction cover:** 924 coarse keys explicitly non-certified before exact13082 class certification; bounded173-seed universe retained. No all-n15 census claim or computational failure newly identified. Evidence: `$DEV/math-research/campaigns/arr15/FRONTIER.md`, lines 96–112; `$DEV/math-research/campaigns/arr15/RESULTS.md`, lines 6–41.
+- **Rational realizations, universal Fitting and cyclotomic geometry:** Historical accepted positive results with field/chart/module hypotheses. No new proof audit, algebraic decomposition, Lean run or theorem certification undertaken. Evidence: `$DEV/math-research/campaigns/arr15/RESULTS_SO_FAR.md`, lines 47–144; `$DEV/math-research/campaigns/arr15/RESULTS.md`, lines 43–104.
+- **Q(sqrt5) refutation contrasted with Q(zeta10) witness:** Field-specific failed candidate is an honest mathematical negative result, not false characteristic-zero emptiness. Quartic witness and Galois/torus geometry are reported later positive contrast. Evidence: `$DEV/math-research/campaigns/arr15/FRONTIER.md`, lines 291–312; `$DEV/math-research/campaigns/arr15/RESULTS_SO_FAR.md`, lines 76–104.
+- **M11 reduced fiber versus nilpotent thickening:** Source reports Fitt0=(4), reduced(2) and GP graph-effectNONE inability to represent arithmetic scheme/narrowing; expressibility limit rather than proved false accepted theorem. Evidence: `$DEV/math-research/campaigns/arr15/FRONTIER.md`, lines 75–94; `$DEV/math-research/campaigns/arr15/FRONTIER.md`, lines 452–466.
+- **M12/E10 module variation controls:** Calibration and module-profile variation do not imply freeness variation. No deliberate probe outcome or error episode beyond summarized source/custody corrections is invented. Evidence: `$DEV/math-research/campaigns/arr15/FRONTIER.md`, lines 31–53; `$DEV/math-research/campaigns/arr15/FRONTIER.md`, lines 443–450; `$DEV/math-research/campaigns/arr15/EVIDENCE_POLICY.md`, lines 33–47.
+- **Cuntz supplement / novelty:** Source reports zero overlap against1318 entries and two qualified incidence candidates; no supplement/code read by worker. Absence from one database is not global novelty; exponent-formula primary location remains a source-reported limit. Evidence: `$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-publication-readiness-closeout.md`, lines 18–30; `$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-publication-readiness-closeout.md`, lines 40–67; `$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-publication-readiness-closeout.md`, lines 79–85.
+- **Capped vectors and deferred work:** Honest unresolved work: four(6,8) vectors, all(7,7), positive characteristic, n16 and broader module stratification. Not incidents and not commissioned next work. Evidence: `$DEV/math-research/campaigns/arr15/CHECKPOINT.md`, lines 98–116; `$DEV/math-research/campaigns/arr15/RESULTS_SO_FAR.md`, lines 146–171.
 
 The proper field-specific refutation over Q(sqrt(5)), later cyclotomic witness, bounded search exhaustion distinctions and graph-effect NONE limitations are honest outcomes, not errors inferred from a red verdict. Positive controls and Lean theorem statements remain historical source reports. This pass neither audits the whole mathematical package nor endorses its theorem-level opening independently.
 
@@ -268,11 +268,11 @@ FRONTIER reports successive graphs364/397/416/418/447/452 events and associated 
 
 At most five existing receipt/export paths are selected for parent private harvest. No files were copied. The first four were fully read and pinned in the source table; the fifth was only located by filename inventory:
 
-- `C:/Users/wstri/dev/math-research/campaigns/arr15/results/accepted/2026-08-22-m13-1-source-discrepancy.md` — accepted correction receipt fully read; raw/hash/history in sources.
-- `C:/Users/wstri/dev/math-research/campaigns/arr15/results/accepted/2026-08-22-n15-realization-triage.md` — accepted scope-correction receipt fully read; artifact hash list retained as source report.
-- `C:/Users/wstri/dev/math-research/campaigns/arr15/results/accepted/2026-08-23-gp-v026-live-acceptance-r2.md` — accepted GP receipt fully read; binds base/lane/build and points to detailed artifacts.
-- `C:/Users/wstri/dev/math-research/campaigns/arr15/results/accepted/2026-08-23-publication-readiness-closeout.md` — accepted closeout receipt fully read; external source/checker SHA retained as reported values.
-- `C:/Users/wstri/dev/math-research/campaigns/arr15/artifacts/publication-positioning/cold-trial/ledger.json` — existing filename located; content/hash not read; cold-trial disposition from accepted receipt.
+- `$DEV/math-research/campaigns/arr15/results/accepted/2026-08-22-m13-1-source-discrepancy.md` — accepted correction receipt fully read; raw/hash/history in sources.
+- `$DEV/math-research/campaigns/arr15/results/accepted/2026-08-22-n15-realization-triage.md` — accepted scope-correction receipt fully read; artifact hash list retained as source report.
+- `$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-gp-v026-live-acceptance-r2.md` — accepted GP receipt fully read; binds base/lane/build and points to detailed artifacts.
+- `$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-publication-readiness-closeout.md` — accepted closeout receipt fully read; external source/checker SHA retained as reported values.
+- `$DEV/math-research/campaigns/arr15/artifacts/publication-positioning/cold-trial/ledger.json` — existing filename located; content/hash not read; cold-trial disposition from accepted receipt.
 
 ## Finite stop boundary
 

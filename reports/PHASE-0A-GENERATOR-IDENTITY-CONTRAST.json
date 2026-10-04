@@ -138,7 +138,7 @@
       "nonce_bound_artifact_fingerprint": "sha256:81575ff4e2ac59a515f9abd902f55c4560b6314da7eed526f5e90353ad0f5f8a",
       "nonce_bound_text_normalized": "ring GP_R = 0,(x),dp;\n\"@@GP-ID:<nonce>\";\nsystem(\"--version\");\n\"@@GP-ID-END:<nonce>\";\nshort=0;\nideal GP_I = x;\n\"@@GP_I:\";\nGP_I;\n\"@@GP-END:<nonce>\";\nquit;\n",
       "graph_log_sha256": "45a6e9b4564c4a9d80ef006590deed4c021ab5df9974e2983b680e3b072743c0",
-      "scratch_graph": "F:/repos/grandportage-0.50/tmp/generator-identity-ynel1gug/matching/.portage/graph.jsonl"
+      "scratch_graph": "tmp/generator-identity-ynel1gug/matching/.portage/graph.jsonl"
     },
     {
       "label": "changed",
@@ -173,7 +173,7 @@
       "nonce_bound_artifact_fingerprint": "sha256:7fa0075efdec5e0ab60870120bc23c6ed714cd03e089ecffb4ec3e8ae7ef6556",
       "nonce_bound_text_normalized": "ring GP_R = 0,(x),dp;\n\"@@GP-ID:<nonce>\";\nsystem(\"--version\");\n\"@@GP-ID-END:<nonce>\";\nshort=0;\nideal GP_I = x;\n\"@@GP_I:\";\nGP_I;\n\"@@GP-END:<nonce>\";\nquit;\n",
       "graph_log_sha256": "7a82f3a3558a4dc5d3cf48e6de5ac221fc4de19a6e5845e40d57d962008ede9f",
-      "scratch_graph": "F:/repos/grandportage-0.50/tmp/generator-identity-ynel1gug/changed/.portage/graph.jsonl"
+      "scratch_graph": "tmp/generator-identity-ynel1gug/changed/.portage/graph.jsonl"
     }
   ],
   "comparison": {

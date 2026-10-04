@@ -6,7 +6,7 @@
   "scope_or_region": "REGION",
   "sources": [
     {
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+      "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
       "lines": [
         393,
         398
@@ -14,7 +14,7 @@
       "sha256": "006cd2976fae0457e5162411668791b98d52611a9c98a1235f27960f7e66cf2a"
     },
     {
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+      "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
       "lines": [
         25,
         112
@@ -22,7 +22,7 @@
       "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
     },
     {
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+      "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
       "lines": [
         405,
         413
@@ -49,12 +49,12 @@
   "original_pointer": {
     "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
     "pointer": "/rows/66",
-    "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+    "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
     "review_date": "2026-09-29",
     "date_kind": "retained report review date; not incident date or source publication date"
   },
   "source": {
-    "repo": "F:/repos/grandportage-0.50",
+    "repo": "$WORKSPACE",
     "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/rows/66",
     "date": "2026-09-29",
     "review_date": "2026-09-29",
@@ -79,7 +79,7 @@
       "qualifications": "Historical source correction not independently re-executed; later P1 is a probe repeating the same boundary, not a second wrong mathematical result.",
       "source": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
           "lines": [
             393,
             398
@@ -87,7 +87,7 @@
           "sha256": "006cd2976fae0457e5162411668791b98d52611a9c98a1235f27960f7e66cf2a"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             25,
             112
@@ -95,7 +95,7 @@
           "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
           "lines": [
             405,
             413
@@ -106,7 +106,7 @@
       "pointer": {
         "report": "reports/PHASE-0B-PIGEON-RIVER-PARENT-INTAKE.json",
         "pointer": "/dispositions/14",
-        "sha256": "7caa351bb5c7b4897affa48c4a45637b1db86b97adc570a7e74b9bb9ccc58e1a",
+        "sha256": "fda1430feb9c8900c7a239f168d1cd1f132e9796ee51ab68746dff7dc6ff85dc",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       }
@@ -120,7 +120,7 @@
     "scope_or_region": "REGION",
     "sources": [
       {
-        "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
         "lines": [
           393,
           398
@@ -128,7 +128,7 @@
         "sha256": "006cd2976fae0457e5162411668791b98d52611a9c98a1235f27960f7e66cf2a"
       },
       {
-        "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+        "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
         "lines": [
           25,
           112
@@ -136,7 +136,7 @@
         "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
       },
       {
-        "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
         "lines": [
           405,
           413
@@ -166,7 +166,7 @@
     "related_occurrence_limit": "The campaign draft explicitly calls later P1 a probe repeating the literal-versus-normalized boundary. Retain PR-T15's historical replay incident as owner; P1 remains an adapter-gap challenge. Exact full attempted conclusion/premise/failure equivalence is unestablished, so no independent mathematical incident and no claim of exact implementation reuse.",
     "source_pointer": {
       "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
-      "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+      "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
       "pointer": "/rows/66"
     },
     "observed_vs_attributed": "Existing source-attributed campaign draft only; no new campaign/source content or execution.",
@@ -176,7 +176,7 @@
   "evidence_level": "retained source-backed report; no new source read, execution, or authentication",
   "parent_integration": {
     "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-    "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+    "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
     "register": "incident/correction/group"
   }
 }

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "purpose": "Phase 0a source coverage inventory, not extracted cases or oracle verdicts",
-  "source_repo": "C:\\Users\\wstri\\dev\\grand-portage",
+  "source_repo": "$DEV/grand-portage",
   "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
   "generated_at_utc": "2026-09-27T19:08:51.0891845Z",
   "coverage_note": "Pinned tree only. Partial means source-pointed slices have been extracted, not that the whole file or all regressions have been reviewed. See REVIEW-COVERAGE.json for history and deleted-path gaps.",

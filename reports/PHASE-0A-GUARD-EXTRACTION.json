@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "status": "focused_offline_frozen_guard_probe",
-  "oracle_checkout": "F:\\repos\\grandportage-0.50\\oracle\\checkout",
+  "oracle_checkout": "oracle/checkout",
   "fixture_manifest_source_commit": "b876fe4ed5c8963a0e8c19e18c829821c0686654",
   "fixture_hashes": {
     "fixtures/D1-inference-on-family-claim/input.json": {

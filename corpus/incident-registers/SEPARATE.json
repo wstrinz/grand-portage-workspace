@@ -10,7 +10,7 @@
       "scope_or_region": "N/A",
       "sources": [
         {
-          "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
           "lines": "510-548;594-597",
           "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
         }
@@ -34,12 +34,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
         "pointer": "/rows/31",
-        "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+        "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/rows/31",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -63,14 +63,14 @@
           "decision": "accept attributed recorded correction/defect for extraction; unknowns retained",
           "qualifications": "One staged validation repair series with distinct listed subfindings; not independent incident counts for every mutation. Design/handoff artifact, not implemented GP proof.",
           "source": {
-            "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+            "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
             "lines": "510-548;594-597",
             "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
           },
           "pointer": {
             "report": "reports/PHASE-0B-DK-PARENT-INTAKE.json",
             "pointer": "/campaign_dispositions/17",
-            "sha256": "e453b2e932a95a7a6cf1b7ab91282cbf7958f8ed6fdfdb879ca507f1f04bc67d",
+            "sha256": "17c06b0a3f80acf6296d6465253b8a9c1fef99ace2cf34824313a5a397abfc2f",
             "review_date": "2026-09-29",
             "date_kind": "retained report review date; not incident date or source publication date"
           }
@@ -84,7 +84,7 @@
         "scope_or_region": "N/A",
         "sources": [
           {
-            "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+            "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
             "lines": "510-548;594-597",
             "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
           }
@@ -112,7 +112,7 @@
         "related_occurrence_limit": "Embedding RFC fixture/map authenticity repair is a separate existing design/handoff episode, explicitly not implemented GP proof. Do not merge map validation with false descent or field/model scope admission.",
         "source_pointer": {
           "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
-          "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+          "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
           "pointer": "/rows/31"
         },
         "observed_vs_attributed": "Existing source-attributed campaign draft only; no new campaign/source content or execution.",
@@ -122,7 +122,7 @@
       "evidence_level": "retained source-backed report; no new source read, execution, or authentication",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -134,7 +134,7 @@
       "scope_or_region": "N/A",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\PRC-ERRATUM.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/PRC-ERRATUM.md",
           "lines": [
             19,
             22
@@ -142,7 +142,7 @@
           "sha256": "b05c3144ad0d35642a95512b0aaace66a2b7893452a18b18f2357942e961b158"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-11-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-11-CLOSEOUT.md",
           "lines": [
             38,
             44
@@ -150,7 +150,7 @@
           "sha256": "916af9c821dfa20a169e2c21ce606cf111efd3533c9ed783009ad39f29d96e96"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             3,
             8
@@ -158,7 +158,7 @@
           "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\coordination\\PRG-E11-CLOSEOUT-REVIEW.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/coordination/PRG-E11-CLOSEOUT-REVIEW.md",
           "lines": [
             32,
             35
@@ -185,12 +185,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
         "pointer": "/rows/55",
-        "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+        "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/rows/55",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -215,7 +215,7 @@
           "qualifications": "No copying/folding of event stream here. Receipt before/after hashes are not hashes of current authoritative graph. No wrong mathematical license established.",
           "source": [
             {
-              "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\PRC-ERRATUM.md",
+              "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/PRC-ERRATUM.md",
               "lines": [
                 19,
                 22
@@ -223,7 +223,7 @@
               "sha256": "b05c3144ad0d35642a95512b0aaace66a2b7893452a18b18f2357942e961b158"
             },
             {
-              "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-11-CLOSEOUT.md",
+              "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-11-CLOSEOUT.md",
               "lines": [
                 38,
                 44
@@ -231,7 +231,7 @@
               "sha256": "916af9c821dfa20a169e2c21ce606cf111efd3533c9ed783009ad39f29d96e96"
             },
             {
-              "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+              "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
               "lines": [
                 3,
                 8
@@ -239,7 +239,7 @@
               "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
             },
             {
-              "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\coordination\\PRG-E11-CLOSEOUT-REVIEW.md",
+              "path": "$DEV/math-research/campaigns/ac-2gen/coordination/PRG-E11-CLOSEOUT-REVIEW.md",
               "lines": [
                 32,
                 35
@@ -250,7 +250,7 @@
           "pointer": {
             "report": "reports/PHASE-0B-PIGEON-RIVER-PARENT-INTAKE.json",
             "pointer": "/dispositions/1",
-            "sha256": "7caa351bb5c7b4897affa48c4a45637b1db86b97adc570a7e74b9bb9ccc58e1a",
+            "sha256": "fda1430feb9c8900c7a239f168d1cd1f132e9796ee51ab68746dff7dc6ff85dc",
             "review_date": "2026-09-29",
             "date_kind": "retained report review date; not incident date or source publication date"
           }
@@ -264,7 +264,7 @@
         "scope_or_region": "N/A",
         "sources": [
           {
-            "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\PRC-ERRATUM.md",
+            "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/PRC-ERRATUM.md",
             "lines": [
               19,
               22
@@ -272,7 +272,7 @@
             "sha256": "b05c3144ad0d35642a95512b0aaace66a2b7893452a18b18f2357942e961b158"
           },
           {
-            "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-11-CLOSEOUT.md",
+            "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-11-CLOSEOUT.md",
             "lines": [
               38,
               44
@@ -280,7 +280,7 @@
             "sha256": "916af9c821dfa20a169e2c21ce606cf111efd3533c9ed783009ad39f29d96e96"
           },
           {
-            "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+            "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
             "lines": [
               3,
               8
@@ -288,7 +288,7 @@
             "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
           },
           {
-            "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\coordination\\PRG-E11-CLOSEOUT-REVIEW.md",
+            "path": "$DEV/math-research/campaigns/ac-2gen/coordination/PRG-E11-CLOSEOUT-REVIEW.md",
             "lines": [
               32,
               35
@@ -320,7 +320,7 @@
         "related_occurrence_limit": "Same source assay contains unauthorized producer append, but the attempted authorized campaign state is distinct from licensed conclusions or withdrawal semantics. Preserve PR-O02 as sole owner; do not count receipt mention twice.",
         "source_pointer": {
           "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
-          "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+          "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
           "pointer": "/rows/55"
         },
         "observed_vs_attributed": "Existing source-attributed campaign draft only; no new campaign/source content or execution.",
@@ -330,7 +330,7 @@
       "evidence_level": "retained source-backed report; no new source read, execution, or authentication",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -418,12 +418,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/0",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/0",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -442,7 +442,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -517,12 +517,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/1",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/1",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -541,7 +541,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -618,12 +618,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/2",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/2",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -642,7 +642,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -719,12 +719,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/3",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/3",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -743,7 +743,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -823,12 +823,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/4",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/4",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -847,7 +847,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -932,12 +932,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/5",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/5",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -956,7 +956,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -1038,12 +1038,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/6",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/6",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -1062,7 +1062,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -1147,12 +1147,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/7",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/7",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -1171,7 +1171,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -1249,12 +1249,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/8",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/8",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -1275,7 +1275,7 @@
         "pointer": {
           "report": "reports/PHASE-0A-CLOSEOUT-PARENT-REVIEW.json",
           "pointer": "/stale_labels_resolved/58.3a",
-          "sha256": "bac53f76359c7623d4c95552d6425a79bdd5acba868a33e76e51cc3141cb91d3",
+          "sha256": "4019b3bd56044bf374c13cec6801ea1e9519673fe130eaa8a8e9b409bb78b0a5",
           "review_date": "2026-09-29",
           "date_kind": "retained review-report date, not incident date"
         },
@@ -1283,7 +1283,7 @@
       },
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -1368,12 +1368,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/9",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/9",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -1392,7 +1392,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -1472,12 +1472,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/10",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/10",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -1496,7 +1496,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -1576,12 +1576,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/11",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/11",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -1600,7 +1600,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -1675,12 +1675,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/12",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/12",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -1699,7 +1699,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -1775,12 +1775,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/13",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/13",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -1799,7 +1799,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -1874,12 +1874,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/14",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/14",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -1898,7 +1898,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -1984,12 +1984,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/15",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/15",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -2008,7 +2008,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -2085,12 +2085,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/16",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/16",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -2109,7 +2109,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -2191,12 +2191,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/17",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/17",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -2215,7 +2215,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -2302,12 +2302,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/18",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/18",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -2326,7 +2326,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -2404,12 +2404,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/19",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/19",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -2428,7 +2428,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -2506,12 +2506,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/20",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/20",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -2530,7 +2530,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -2607,12 +2607,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/21",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/21",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -2631,7 +2631,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -2711,12 +2711,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/22",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/22",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -2735,7 +2735,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -2823,12 +2823,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/23",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/23",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -2847,7 +2847,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -2929,12 +2929,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/24",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/24",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -2953,7 +2953,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -3037,12 +3037,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/25",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/25",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -3061,7 +3061,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -3146,12 +3146,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/26",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/26",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -3172,7 +3172,7 @@
         "pointer": {
           "report": "reports/PHASE-0A-CLOSEOUT-PARENT-REVIEW.json",
           "pointer": "/stale_labels_resolved/76.7",
-          "sha256": "bac53f76359c7623d4c95552d6425a79bdd5acba868a33e76e51cc3141cb91d3",
+          "sha256": "4019b3bd56044bf374c13cec6801ea1e9519673fe130eaa8a8e9b409bb78b0a5",
           "review_date": "2026-09-29",
           "date_kind": "retained review-report date, not incident date"
         },
@@ -3180,7 +3180,7 @@
       },
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -3263,12 +3263,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/27",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/27",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -3287,7 +3287,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -3371,12 +3371,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/operational_entries/28",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/operational_entries/28",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -3395,7 +3395,7 @@
       "notes": "Qualified retained operational diagnostic. Retained unsafe/robustness behavior is not evidence GP catches its own implementation defect. No false-held mathematical conclusion inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -3419,7 +3419,7 @@
       "grouping_limit": "Two deliberate probes, not two observed wrong campaign mathematical incidents.",
       "sources": [
         {
-          "path": "C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction/REPORT.md",
+          "path": "$DEV/math-research/campaigns/dk-retrodiction/REPORT.md",
           "lines": "113-170",
           "sha256": "c56fe65d9e246bd06c525e9da5c642c24fa378681525d602679cd37e88228153",
           "reading_status": "Campaign pointer/hash inherited from accepted bounded reconciliation; not newly read or independently verified this pass."
@@ -3428,12 +3428,12 @@
       "report_evidence": [
         {
           "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-          "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+          "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
           "pointer": "/named_row_register/6"
         },
         {
           "report": "reports/PHASE-0B-GP-REUSE-PARENT-REVIEW.json",
-          "sha256": "612ef2f46ba54f67abd47e226c26b0d0fe591afbd6692ea5906cfbff21c5c1cf",
+          "sha256": "6ed2cc1f7b9b4236c3d6e62a463c51784ef92f43a1695959be9571d584ec82d7",
           "pointer": "/limits"
         }
       ],
@@ -3455,7 +3455,7 @@
           "source_disposition_id": "DK-GP07/X2c-order-to-C",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/12"
           },
           "disposition": "related_rule_control",
@@ -3502,7 +3502,7 @@
           "source_disposition_id": "DK-GP07/legacy-field-Q-R-C-R",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/13"
           },
           "disposition": "related_rule_control",
@@ -3542,12 +3542,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/named_gp_source_groups/6",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/named_gp_source_groups/6",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -3567,7 +3567,7 @@
       "notes": "Qualified retained deliberate control. Two deliberate probes, not two observed wrong campaign mathematical incidents. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -3591,7 +3591,7 @@
       "grouping_limit": "One intentional probe consequence; do not infer an actual theorem error.",
       "sources": [
         {
-          "path": "C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction/REPORT.md",
+          "path": "$DEV/math-research/campaigns/dk-retrodiction/REPORT.md",
           "lines": "172-188",
           "sha256": "c56fe65d9e246bd06c525e9da5c642c24fa378681525d602679cd37e88228153",
           "reading_status": "Campaign pointer/hash inherited from accepted bounded reconciliation; not newly read or independently verified this pass."
@@ -3600,12 +3600,12 @@
       "report_evidence": [
         {
           "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-          "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+          "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
           "pointer": "/named_row_register/7"
         },
         {
           "report": "reports/PHASE-0B-GP-REUSE-PARENT-REVIEW.json",
-          "sha256": "612ef2f46ba54f67abd47e226c26b0d0fe591afbd6692ea5906cfbff21c5c1cf",
+          "sha256": "6ed2cc1f7b9b4236c3d6e62a463c51784ef92f43a1695959be9571d584ec82d7",
           "pointer": "/limits"
         }
       ],
@@ -3627,7 +3627,7 @@
           "source_disposition_id": "DK-GP08/X6-capped-search",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/14"
           },
           "disposition": "related_rule_control",
@@ -3675,12 +3675,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/named_gp_source_groups/7",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/named_gp_source_groups/7",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -3700,7 +3700,7 @@
       "notes": "Qualified retained deliberate control. One intentional probe consequence; do not infer an actual theorem error. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -3725,7 +3725,7 @@
       "grouping_limit": "Nine dispositions include one product capability gap, authority/control limits, two hostile probes and four source-positive labels; not nine incidents.",
       "sources": [
         {
-          "path": "C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction/REPORT.md",
+          "path": "$DEV/math-research/campaigns/dk-retrodiction/REPORT.md",
           "lines": "192-219;271-291;295-320",
           "sha256": "c56fe65d9e246bd06c525e9da5c642c24fa378681525d602679cd37e88228153",
           "reading_status": "Campaign pointer/hash inherited from accepted bounded reconciliation; not newly read or independently verified this pass."
@@ -3734,12 +3734,12 @@
       "report_evidence": [
         {
           "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-          "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+          "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
           "pointer": "/named_row_register/8"
         },
         {
           "report": "reports/PHASE-0B-GP-REUSE-PARENT-REVIEW.json",
-          "sha256": "612ef2f46ba54f67abd47e226c26b0d0fe591afbd6692ea5906cfbff21c5c1cf",
+          "sha256": "6ed2cc1f7b9b4236c3d6e62a463c51784ef92f43a1695959be9571d584ec82d7",
           "pointer": "/limits"
         }
       ],
@@ -3761,7 +3761,7 @@
           "source_disposition_id": "DK-GP09/X5-valid-conjugation",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/15"
           },
           "disposition": "design_backlog",
@@ -3801,7 +3801,7 @@
           "source_disposition_id": "DK-GP09/X9-authority-not-carried",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/16"
           },
           "disposition": "retained_diagnostic_observation",
@@ -3847,7 +3847,7 @@
           "source_disposition_id": "DK-GP09/E5-declared-exclusions",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/17"
           },
           "disposition": "related_rule_control",
@@ -3889,7 +3889,7 @@
           "source_disposition_id": "DK-GP09/false-total",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/18"
           },
           "disposition": "related_rule_control",
@@ -3929,7 +3929,7 @@
           "source_disposition_id": "DK-GP09/overbroad-nonEMPTY-scope",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/19"
           },
           "disposition": "related_rule_control",
@@ -3973,7 +3973,7 @@
           "source_disposition_id": "DK-GP09/X1-positive",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/20"
           },
           "disposition": "retained_diagnostic_observation",
@@ -4004,7 +4004,7 @@
           "source_disposition_id": "DK-GP09/X3-positive",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/21"
           },
           "disposition": "retained_diagnostic_observation",
@@ -4035,7 +4035,7 @@
           "source_disposition_id": "DK-GP09/X7-positive",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/22"
           },
           "disposition": "retained_diagnostic_observation",
@@ -4066,7 +4066,7 @@
           "source_disposition_id": "DK-GP09/X10-positive",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/23"
           },
           "disposition": "retained_diagnostic_observation",
@@ -4107,12 +4107,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/named_gp_source_groups/8",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/named_gp_source_groups/8",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -4132,7 +4132,7 @@
       "notes": "Qualified retained deliberate control. Nine dispositions include one product capability gap, authority/control limits, two hostile probes and four source-positive labels; not nine incidents. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -4156,7 +4156,7 @@
       "grouping_limit": "Presentation ambiguity only; distinct from actual counted-object error DK-B026.",
       "sources": [
         {
-          "path": "C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction/REPORT.md",
+          "path": "$DEV/math-research/campaigns/dk-retrodiction/REPORT.md",
           "lines": "475-508;549-553",
           "sha256": "c56fe65d9e246bd06c525e9da5c642c24fa378681525d602679cd37e88228153",
           "reading_status": "Campaign pointer/hash inherited from accepted bounded reconciliation; not newly read or independently verified this pass."
@@ -4165,12 +4165,12 @@
       "report_evidence": [
         {
           "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-          "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+          "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
           "pointer": "/named_row_register/9"
         },
         {
           "report": "reports/PHASE-0B-GP-REUSE-PARENT-REVIEW.json",
-          "sha256": "612ef2f46ba54f67abd47e226c26b0d0fe591afbd6692ea5906cfbff21c5c1cf",
+          "sha256": "6ed2cc1f7b9b4236c3d6e62a463c51784ef92f43a1695959be9571d584ec82d7",
           "pointer": "/limits"
         }
       ],
@@ -4199,7 +4199,7 @@
           "source_disposition_id": "DK-GP10/layer-count-adjacency",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/24"
           },
           "disposition": "design_backlog",
@@ -4234,12 +4234,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/named_gp_source_groups/9",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/named_gp_source_groups/9",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -4259,7 +4259,7 @@
       "notes": "Qualified retained design. Presentation ambiguity only; distinct from actual counted-object error DK-B026. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -4283,7 +4283,7 @@
       "grouping_limit": "No false algebraic acceptance; presentation diagnostic is separate from an incident.",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             61,
             71
@@ -4292,7 +4292,7 @@
           "reading_status": "Campaign pointer/hash inherited from accepted bounded reconciliation; not newly read or independently verified this pass."
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             137,
             150
@@ -4301,7 +4301,7 @@
           "reading_status": "Campaign pointer/hash inherited from accepted bounded reconciliation; not newly read or independently verified this pass."
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/match4/CHECKPOINT.md",
           "lines": [
             49,
             53
@@ -4313,12 +4313,12 @@
       "report_evidence": [
         {
           "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-          "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+          "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
           "pointer": "/named_row_register/10"
         },
         {
           "report": "reports/PHASE-0B-GP-REUSE-PARENT-REVIEW.json",
-          "sha256": "612ef2f46ba54f67abd47e226c26b0d0fe591afbd6692ea5906cfbff21c5c1cf",
+          "sha256": "6ed2cc1f7b9b4236c3d6e62a463c51784ef92f43a1695959be9571d584ec82d7",
           "pointer": "/limits"
         }
       ],
@@ -4340,7 +4340,7 @@
           "source_disposition_id": "CQ-G01/unit-quotient-wording",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/25"
           },
           "disposition": "retained_diagnostic_observation",
@@ -4384,12 +4384,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/named_gp_source_groups/10",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/named_gp_source_groups/10",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -4409,7 +4409,7 @@
       "notes": "Qualified retained operational diagnostic. No false algebraic acceptance; presentation diagnostic is separate from an incident. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -4433,7 +4433,7 @@
       "grouping_limit": "One diagnostic observation on the existing deliberate flex control, not another wrong-math episode.",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             112,
             118
@@ -4442,7 +4442,7 @@
           "reading_status": "Campaign pointer/hash inherited from accepted bounded reconciliation; not newly read or independently verified this pass."
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             167,
             173
@@ -4454,12 +4454,12 @@
       "report_evidence": [
         {
           "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-          "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+          "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
           "pointer": "/named_row_register/12"
         },
         {
           "report": "reports/PHASE-0B-GP-REUSE-PARENT-REVIEW.json",
-          "sha256": "612ef2f46ba54f67abd47e226c26b0d0fe591afbd6692ea5906cfbff21c5c1cf",
+          "sha256": "6ed2cc1f7b9b4236c3d6e62a463c51784ef92f43a1695959be9571d584ec82d7",
           "pointer": "/limits"
         }
       ],
@@ -4481,7 +4481,7 @@
           "source_disposition_id": "CQ-G03/undeclared-t-parse",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/27"
           },
           "disposition": "retained_diagnostic_observation",
@@ -4516,12 +4516,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/named_gp_source_groups/12",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/named_gp_source_groups/12",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -4542,7 +4542,7 @@
       "shared_episode_owner": "CQ-P08",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -4567,7 +4567,7 @@
       "grouping_limit": "Four distinct subepisodes with mixed host/tool/authoring responsibility; no mathematical failure or independent incident count inferred.",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             31,
             70
@@ -4577,7 +4577,7 @@
           "reading_status": "Campaign pointer/hash inherited from accepted bounded reconciliation; not newly read or independently verified this pass."
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             149,
             159
@@ -4587,7 +4587,7 @@
           "reading_status": "Campaign pointer/hash inherited from accepted bounded reconciliation; not newly read or independently verified this pass."
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             313,
             320
@@ -4597,7 +4597,7 @@
           "reading_status": "Campaign pointer/hash inherited from accepted bounded reconciliation; not newly read or independently verified this pass."
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             490,
             501
@@ -4610,12 +4610,12 @@
       "report_evidence": [
         {
           "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-          "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+          "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
           "pointer": "/named_row_register/16"
         },
         {
           "report": "reports/PHASE-0B-GP-REUSE-PARENT-REVIEW.json",
-          "sha256": "612ef2f46ba54f67abd47e226c26b0d0fe591afbd6692ea5906cfbff21c5c1cf",
+          "sha256": "6ed2cc1f7b9b4236c3d6e62a463c51784ef92f43a1695959be9571d584ec82d7",
           "pointer": "/limits"
         }
       ],
@@ -4637,7 +4637,7 @@
           "source_disposition_id": "ARR-O12/native-cas-host",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/33"
           },
           "disposition": "retained_diagnostic_observation",
@@ -4678,7 +4678,7 @@
           "source_disposition_id": "ARR-O12/e10-encoding-conflicts",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/34"
           },
           "disposition": "related_rule_control",
@@ -4723,7 +4723,7 @@
           "source_disposition_id": "ARR-O12/old-manifest-schema",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/35"
           },
           "disposition": "related_rule_control",
@@ -4765,7 +4765,7 @@
           "source_disposition_id": "ARR-O12/mac-v026-binding",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/36"
           },
           "disposition": "historical_defect_not_reproduced",
@@ -4820,12 +4820,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/named_gp_source_groups/16",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/named_gp_source_groups/16",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -4845,7 +4845,7 @@
       "notes": "Qualified retained operational diagnostic. Four distinct subepisodes with mixed host/tool/authoring responsibility; no mathematical failure or independent incident count inferred. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     },
@@ -4871,7 +4871,7 @@
       "grouping_limit": "Six pairs,11unchanged-license exercises and5removal attempts are assay bookkeeping, not independent wrong-math incidents or earned-license revocations.",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             10,
             224
@@ -4880,7 +4880,7 @@
           "reading_status": "Campaign pointer/hash inherited from accepted bounded reconciliation; not newly read or independently verified this pass."
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             227,
             378
@@ -4889,7 +4889,7 @@
           "reading_status": "Campaign pointer/hash inherited from accepted bounded reconciliation; not newly read or independently verified this pass."
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             381,
             559
@@ -4898,7 +4898,7 @@
           "reading_status": "Campaign pointer/hash inherited from accepted bounded reconciliation; not newly read or independently verified this pass."
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             562,
             713
@@ -4907,7 +4907,7 @@
           "reading_status": "Campaign pointer/hash inherited from accepted bounded reconciliation; not newly read or independently verified this pass."
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             715,
             832
@@ -4916,7 +4916,7 @@
           "reading_status": "Campaign pointer/hash inherited from accepted bounded reconciliation; not newly read or independently verified this pass."
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             835,
             1081
@@ -4925,7 +4925,7 @@
           "reading_status": "Campaign pointer/hash inherited from accepted bounded reconciliation; not newly read or independently verified this pass."
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\coordination\\PRG-E11-CLOSEOUT-REVIEW.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/coordination/PRG-E11-CLOSEOUT-REVIEW.md",
           "lines": [
             18,
             30
@@ -4937,12 +4937,12 @@
       "report_evidence": [
         {
           "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-          "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+          "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
           "pointer": "/named_row_register/17"
         },
         {
           "report": "reports/PHASE-0B-GP-REUSE-PARENT-REVIEW.json",
-          "sha256": "612ef2f46ba54f67abd47e226c26b0d0fe591afbd6692ea5906cfbff21c5c1cf",
+          "sha256": "6ed2cc1f7b9b4236c3d6e62a463c51784ef92f43a1695959be9571d584ec82d7",
           "pointer": "/limits"
         }
       ],
@@ -4995,7 +4995,7 @@
           "source_disposition_id": "PR-G14/P2-missing-certificate",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/37"
           },
           "disposition": "related_rule_control",
@@ -5040,7 +5040,7 @@
           "source_disposition_id": "PR-G14/P4-missing-certificate",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/38"
           },
           "disposition": "related_rule_control",
@@ -5085,7 +5085,7 @@
           "source_disposition_id": "PR-G14/P5-missing-certificate",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/39"
           },
           "disposition": "related_rule_control",
@@ -5130,7 +5130,7 @@
           "source_disposition_id": "PR-G14/P1-literal-normalized",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/40"
           },
           "disposition": "design_backlog",
@@ -5162,7 +5162,7 @@
           "source_disposition_id": "PR-G14/P3-quotient-exact-distance",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/41"
           },
           "disposition": "design_backlog",
@@ -5194,7 +5194,7 @@
           "source_disposition_id": "PR-G14/P6-bridge-without-suffix",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/42"
           },
           "disposition": "design_backlog",
@@ -5231,7 +5231,7 @@
           "source_disposition_id": "PR-G14/P1-witness-removal",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/43"
           },
           "disposition": "retained_diagnostic_observation",
@@ -5263,7 +5263,7 @@
           "source_disposition_id": "PR-G14/P3-witness-removal",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/44"
           },
           "disposition": "retained_diagnostic_observation",
@@ -5295,7 +5295,7 @@
           "source_disposition_id": "PR-G14/eleven-exercises",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/45"
           },
           "disposition": "retained_diagnostic_observation",
@@ -5327,7 +5327,7 @@
           "source_disposition_id": "PR-G14/baseline-zero-six",
           "source_pointer": {
             "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-            "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+            "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
             "pointer": "/dispositions/46"
           },
           "disposition": "retained_diagnostic_observation",
@@ -5360,7 +5360,7 @@
           "id": "GP-QUAL-PR-REMOVAL-ACCOUNTING",
           "source": {
             "report": "reports/PHASE-0B-GP-REUSE-PARENT-REVIEW.json",
-            "sha256": "612ef2f46ba54f67abd47e226c26b0d0fe591afbd6692ea5906cfbff21c5c1cf",
+            "sha256": "6ed2cc1f7b9b4236c3d6e62a463c51784ef92f43a1695959be9571d584ec82d7",
             "pointer": "/parent_overlay/1"
           },
           "total_removal_attempts": 5,
@@ -5384,12 +5384,12 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
         "pointer": "/named_gp_source_groups/17",
-        "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+        "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/named_gp_source_groups/17",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -5409,7 +5409,7 @@
       "notes": "Qualified retained deliberate control. Six pairs,11unchanged-license exercises and5removal attempts are assay bookkeeping, not independent wrong-math incidents or earned-license revocations. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
       "parent_integration": {
         "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-        "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+        "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
         "register": "separate main disposition"
       }
     }
@@ -5428,7 +5428,7 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
         "pointer": "/excluded_or_separate_register/0",
-        "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+        "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -5436,14 +5436,14 @@
         "id": "DK-B016",
         "disposition": "retain summary-supported defect lead with exact-output/version limit; not reproduced counterexample",
         "source": {
-          "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
           "lines": "71-83",
           "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
         },
         "limit": "Grouped certificate-repair lead with three concrete defect types. Summary-supported; detailed counterexamples unknown, no claim42 closed."
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/excluded_or_separate_register/0",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -5451,7 +5451,7 @@
       },
       "sources": [
         {
-          "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
           "lines": "71-83",
           "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
         }
@@ -5476,7 +5476,7 @@
       "parent_evidence": {
         "report": "reports/PHASE-0B-DK-PARENT-INTAKE.json",
         "pointer": "/campaign_dispositions/15",
-        "sha256": "e453b2e932a95a7a6cf1b7ab91282cbf7958f8ed6fdfdb879ca507f1f04bc67d",
+        "sha256": "17c06b0a3f80acf6296d6465253b8a9c1fef99ace2cf34824313a5a397abfc2f",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -5496,7 +5496,7 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
         "pointer": "/excluded_or_separate_register/1",
-        "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+        "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -5504,14 +5504,14 @@
         "id": "DK-B017",
         "disposition": "retain summary-supported defect lead with exact-output/version limit; not reproduced counterexample",
         "source": {
-          "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
           "lines": "302-318",
           "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
         },
         "limit": "Recorded backend-unsoundness lead, not independently reproduced here. Exact false output/source identity needs bounded later source extraction; no accusation about arbitrary library releases."
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/excluded_or_separate_register/1",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -5519,7 +5519,7 @@
       },
       "sources": [
         {
-          "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
           "lines": "302-318",
           "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
         }
@@ -5544,7 +5544,7 @@
       "parent_evidence": {
         "report": "reports/PHASE-0B-DK-PARENT-INTAKE.json",
         "pointer": "/campaign_dispositions/16",
-        "sha256": "e453b2e932a95a7a6cf1b7ab91282cbf7958f8ed6fdfdb879ca507f1f04bc67d",
+        "sha256": "17c06b0a3f80acf6296d6465253b8a9c1fef99ace2cf34824313a5a397abfc2f",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -5564,7 +5564,7 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
         "pointer": "/excluded_or_separate_register/2",
-        "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+        "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -5572,14 +5572,14 @@
         "id": "DK-B029",
         "disposition": "retain documented positional-binding trap and rejected reasoning; exact actual wrong-instance outcome unestablished, no incident count yet",
         "source": {
-          "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/cfg23/FRONTIER.md",
           "lines": "246-255",
           "sha256": "122718f3c2313f334fa8b9e6b00c64e7eb90c1cc181182f1bad5d0a5faa54e34"
         },
         "limit": "Summary-supported source-binding lead only. Reject one-contact-conic-coincidence explanation as separate unsupported reasoning subfinding, not automatic separate incident."
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/excluded_or_separate_register/2",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -5587,7 +5587,7 @@
       },
       "sources": [
         {
-          "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/cfg23/FRONTIER.md",
           "lines": "246-255",
           "sha256": "122718f3c2313f334fa8b9e6b00c64e7eb90c1cc181182f1bad5d0a5faa54e34"
         }
@@ -5612,7 +5612,7 @@
       "parent_evidence": {
         "report": "reports/PHASE-0B-DK-PARENT-INTAKE.json",
         "pointer": "/campaign_dispositions/28",
-        "sha256": "e453b2e932a95a7a6cf1b7ab91282cbf7958f8ed6fdfdb879ca507f1f04bc67d",
+        "sha256": "17c06b0a3f80acf6296d6465253b8a9c1fef99ace2cf34824313a5a397abfc2f",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -5632,7 +5632,7 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
         "pointer": "/excluded_or_separate_register/3",
-        "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+        "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -5643,7 +5643,7 @@
         "category": "deliberate misuse control; not wrong campaign claim"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/excluded_or_separate_register/3",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -5651,7 +5651,7 @@
       },
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\packets\\founding\\cq-scouting.md",
+          "path": "$DEV/math-research/campaigns/match4/packets/founding/cq-scouting.md",
           "lines": [
             221,
             257
@@ -5659,7 +5659,7 @@
           "sha256": "22ef379cb247595c62740a539b2997d7276aa0733a7b228af32b5aea7a44fcaa"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\fixtures\\gp-miniatures\\M5.json",
+          "path": "$DEV/math-research/campaigns/match4/fixtures/gp-miniatures/M5.json",
           "lines": [
             8,
             48
@@ -5667,7 +5667,7 @@
           "sha256": "08cc7b1b2b114f6be9557c1c2ff38e6b917f85bc7fc2bbedd1b4b30ee4ba974d"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             103,
             110
@@ -5695,7 +5695,7 @@
       "parent_evidence": {
         "report": "reports/PHASE-0B-CLOQUET-PARENT-INTAKE.json",
         "pointer": "/dispositions/4",
-        "sha256": "2b729e13a6841b29f56f3cff165e287188ed9d4de24355c7076cba862d4af57c",
+        "sha256": "c4933f1e0d357603d81e0221edf2a78b5d51943f4b1e6db95720fbdd0375847d",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -5715,7 +5715,7 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
         "pointer": "/excluded_or_separate_register/4",
-        "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+        "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -5726,7 +5726,7 @@
         "category": "deliberate misuse control; not wrong campaign claim"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/excluded_or_separate_register/4",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -5734,7 +5734,7 @@
       },
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\packets\\founding\\gp-cq-read.md",
+          "path": "$DEV/math-research/campaigns/match4/packets/founding/gp-cq-read.md",
           "lines": [
             191,
             219
@@ -5742,7 +5742,7 @@
           "sha256": "385150a7cbb557efea315780acca1f7d5fc82ecd7fa2f35615ed7144fcd9623a"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             89,
             101
@@ -5770,7 +5770,7 @@
       "parent_evidence": {
         "report": "reports/PHASE-0B-CLOQUET-PARENT-INTAKE.json",
         "pointer": "/dispositions/5",
-        "sha256": "2b729e13a6841b29f56f3cff165e287188ed9d4de24355c7076cba862d4af57c",
+        "sha256": "c4933f1e0d357603d81e0221edf2a78b5d51943f4b1e6db95720fbdd0375847d",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -5790,7 +5790,7 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
         "pointer": "/excluded_or_separate_register/5",
-        "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+        "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -5801,7 +5801,7 @@
         "category": "deliberate misuse control; not wrong campaign claim"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/excluded_or_separate_register/5",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -5809,7 +5809,7 @@
       },
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\packets\\founding\\gp-cq-read.md",
+          "path": "$DEV/math-research/campaigns/match4/packets/founding/gp-cq-read.md",
           "lines": [
             235,
             289
@@ -5817,7 +5817,7 @@
           "sha256": "385150a7cbb557efea315780acca1f7d5fc82ecd7fa2f35615ed7144fcd9623a"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             80,
             87
@@ -5845,7 +5845,7 @@
       "parent_evidence": {
         "report": "reports/PHASE-0B-CLOQUET-PARENT-INTAKE.json",
         "pointer": "/dispositions/6",
-        "sha256": "2b729e13a6841b29f56f3cff165e287188ed9d4de24355c7076cba862d4af57c",
+        "sha256": "c4933f1e0d357603d81e0221edf2a78b5d51943f4b1e6db95720fbdd0375847d",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -5865,7 +5865,7 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
         "pointer": "/excluded_or_separate_register/6",
-        "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+        "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -5876,7 +5876,7 @@
         "category": "deliberate misuse control; not wrong campaign claim"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/excluded_or_separate_register/6",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -5884,7 +5884,7 @@
       },
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\packets\\founding\\cq-scouting.md",
+          "path": "$DEV/math-research/campaigns/match4/packets/founding/cq-scouting.md",
           "lines": [
             361,
             367
@@ -5892,7 +5892,7 @@
           "sha256": "22ef379cb247595c62740a539b2997d7276aa0733a7b228af32b5aea7a44fcaa"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\packets\\founding\\gp-cq-read.md",
+          "path": "$DEV/math-research/campaigns/match4/packets/founding/gp-cq-read.md",
           "lines": [
             306,
             314
@@ -5900,7 +5900,7 @@
           "sha256": "385150a7cbb557efea315780acca1f7d5fc82ecd7fa2f35615ed7144fcd9623a"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             112,
             118
@@ -5928,7 +5928,7 @@
       "parent_evidence": {
         "report": "reports/PHASE-0B-CLOQUET-PARENT-INTAKE.json",
         "pointer": "/dispositions/7",
-        "sha256": "2b729e13a6841b29f56f3cff165e287188ed9d4de24355c7076cba862d4af57c",
+        "sha256": "c4933f1e0d357603d81e0221edf2a78b5d51943f4b1e6db95720fbdd0375847d",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -5948,7 +5948,7 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
         "pointer": "/excluded_or_separate_register/7",
-        "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+        "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -5959,7 +5959,7 @@
         "category": "deliberate misuse control; not wrong campaign claim"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/excluded_or_separate_register/7",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -5967,7 +5967,7 @@
       },
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\packets\\founding\\CQ-PLAN.md",
+          "path": "$DEV/math-research/campaigns/match4/packets/founding/CQ-PLAN.md",
           "lines": [
             229,
             235
@@ -5975,7 +5975,7 @@
           "sha256": "b7bd2ef6f7f934855af47e8ccc0d37c314addc522f4003e56ad196cfb5acf080"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             120,
             129
@@ -5983,7 +5983,7 @@
           "sha256": "2e0f9e5028cacf0a93150a566b6b86d85c8378e4d7cdabcafa00da5f5fd80736"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             175,
             179
@@ -6011,7 +6011,7 @@
       "parent_evidence": {
         "report": "reports/PHASE-0B-CLOQUET-PARENT-INTAKE.json",
         "pointer": "/dispositions/8",
-        "sha256": "2b729e13a6841b29f56f3cff165e287188ed9d4de24355c7076cba862d4af57c",
+        "sha256": "c4933f1e0d357603d81e0221edf2a78b5d51943f4b1e6db95720fbdd0375847d",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -6031,7 +6031,7 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
         "pointer": "/excluded_or_separate_register/8",
-        "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+        "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -6042,7 +6042,7 @@
         "category": "GP historical observation"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/excluded_or_separate_register/8",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -6050,7 +6050,7 @@
       },
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             61,
             71
@@ -6058,7 +6058,7 @@
           "sha256": "2e0f9e5028cacf0a93150a566b6b86d85c8378e4d7cdabcafa00da5f5fd80736"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             137,
             150
@@ -6066,7 +6066,7 @@
           "sha256": "2e0f9e5028cacf0a93150a566b6b86d85c8378e4d7cdabcafa00da5f5fd80736"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/match4/CHECKPOINT.md",
           "lines": [
             49,
             53
@@ -6094,7 +6094,7 @@
       "parent_evidence": {
         "report": "reports/PHASE-0B-CLOQUET-PARENT-INTAKE.json",
         "pointer": "/dispositions/9",
-        "sha256": "2b729e13a6841b29f56f3cff165e287188ed9d4de24355c7076cba862d4af57c",
+        "sha256": "c4933f1e0d357603d81e0221edf2a78b5d51943f4b1e6db95720fbdd0375847d",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -6114,7 +6114,7 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
         "pointer": "/excluded_or_separate_register/9",
-        "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+        "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -6125,7 +6125,7 @@
         "category": "GP historical observation"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/excluded_or_separate_register/9",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -6133,7 +6133,7 @@
       },
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             73,
             78
@@ -6141,7 +6141,7 @@
           "sha256": "2e0f9e5028cacf0a93150a566b6b86d85c8378e4d7cdabcafa00da5f5fd80736"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             152,
             165
@@ -6149,7 +6149,7 @@
           "sha256": "2e0f9e5028cacf0a93150a566b6b86d85c8378e4d7cdabcafa00da5f5fd80736"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/match4/CHECKPOINT.md",
           "lines": [
             49,
             53
@@ -6177,7 +6177,7 @@
       "parent_evidence": {
         "report": "reports/PHASE-0B-CLOQUET-PARENT-INTAKE.json",
         "pointer": "/dispositions/10",
-        "sha256": "2b729e13a6841b29f56f3cff165e287188ed9d4de24355c7076cba862d4af57c",
+        "sha256": "c4933f1e0d357603d81e0221edf2a78b5d51943f4b1e6db95720fbdd0375847d",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -6197,7 +6197,7 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
         "pointer": "/excluded_or_separate_register/10",
-        "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+        "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -6208,7 +6208,7 @@
         "category": "GP historical observation"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/excluded_or_separate_register/10",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -6216,7 +6216,7 @@
       },
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             112,
             118
@@ -6224,7 +6224,7 @@
           "sha256": "2e0f9e5028cacf0a93150a566b6b86d85c8378e4d7cdabcafa00da5f5fd80736"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             167,
             173
@@ -6252,7 +6252,7 @@
       "parent_evidence": {
         "report": "reports/PHASE-0B-CLOQUET-PARENT-INTAKE.json",
         "pointer": "/dispositions/11",
-        "sha256": "2b729e13a6841b29f56f3cff165e287188ed9d4de24355c7076cba862d4af57c",
+        "sha256": "c4933f1e0d357603d81e0221edf2a78b5d51943f4b1e6db95720fbdd0375847d",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -6272,7 +6272,7 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
         "pointer": "/excluded_or_separate_register/11",
-        "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+        "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -6282,7 +6282,7 @@
         "category": "historical GP/tool subepisodes require finite GP consolidation"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/excluded_or_separate_register/11",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -6290,7 +6290,7 @@
       },
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             199,
             213
@@ -6299,7 +6299,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             504,
             509
@@ -6308,7 +6308,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-23-gp-v026-live-acceptance-r2.md",
+          "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-gp-v026-live-acceptance-r2.md",
           "lines": [
             14,
             19
@@ -6337,7 +6337,7 @@
       "parent_evidence": {
         "report": "reports/PHASE-0B-ARR15-PARENT-INTAKE.json",
         "pointer": "/dispositions/8",
-        "sha256": "bfec81762d273a6023a2d4c4684ca9a76318224f0df504e4db0fd52565a5134f",
+        "sha256": "b0f5939999ceecf8ad1b62f268c73245cc103bfabea4e5299204d22f1ea21df8",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -6357,7 +6357,7 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
         "pointer": "/excluded_or_separate_register/12",
-        "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+        "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -6367,7 +6367,7 @@
         "category": "historical GP/tool subepisodes require finite GP consolidation"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/excluded_or_separate_register/12",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -6375,7 +6375,7 @@
       },
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             199,
             213
@@ -6384,7 +6384,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-23-gp-v026-live-acceptance-r2.md",
+          "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-gp-v026-live-acceptance-r2.md",
           "lines": [
             14,
             26
@@ -6393,7 +6393,7 @@
           "latest_path_history": "791f962c778bb77584a1984482728bdd8169d5f9|2026-08-23T09:12:44-05:00|Accept cyclotomic summit and close post-68 intake"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/arr15/CHECKPOINT.md",
           "lines": [
             134,
             144
@@ -6422,7 +6422,7 @@
       "parent_evidence": {
         "report": "reports/PHASE-0B-ARR15-PARENT-INTAKE.json",
         "pointer": "/dispositions/9",
-        "sha256": "bfec81762d273a6023a2d4c4684ca9a76318224f0df504e4db0fd52565a5134f",
+        "sha256": "b0f5939999ceecf8ad1b62f268c73245cc103bfabea4e5299204d22f1ea21df8",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -6442,7 +6442,7 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
         "pointer": "/excluded_or_separate_register/13",
-        "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+        "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -6452,7 +6452,7 @@
         "category": "historical GP/tool subepisodes require finite GP consolidation"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/excluded_or_separate_register/13",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -6460,7 +6460,7 @@
       },
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-23-gp-v026-live-acceptance-r2.md",
+          "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-gp-v026-live-acceptance-r2.md",
           "lines": [
             8,
             26
@@ -6469,7 +6469,7 @@
           "latest_path_history": "791f962c778bb77584a1984482728bdd8169d5f9|2026-08-23T09:12:44-05:00|Accept cyclotomic summit and close post-68 intake"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\RESULTS_SO_FAR.md",
+          "path": "$DEV/math-research/campaigns/arr15/RESULTS_SO_FAR.md",
           "lines": [
             151,
             157
@@ -6478,7 +6478,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/arr15/CHECKPOINT.md",
           "lines": [
             134,
             144
@@ -6507,7 +6507,7 @@
       "parent_evidence": {
         "report": "reports/PHASE-0B-ARR15-PARENT-INTAKE.json",
         "pointer": "/dispositions/10",
-        "sha256": "bfec81762d273a6023a2d4c4684ca9a76318224f0df504e4db0fd52565a5134f",
+        "sha256": "b0f5939999ceecf8ad1b62f268c73245cc103bfabea4e5299204d22f1ea21df8",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -6527,7 +6527,7 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
         "pointer": "/excluded_or_separate_register/14",
-        "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+        "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -6537,7 +6537,7 @@
         "category": "historical GP/tool subepisodes require finite GP consolidation"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/excluded_or_separate_register/14",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -6545,7 +6545,7 @@
       },
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             31,
             70
@@ -6554,7 +6554,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             149,
             159
@@ -6563,7 +6563,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             313,
             320
@@ -6572,7 +6572,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             490,
             501
@@ -6601,7 +6601,7 @@
       "parent_evidence": {
         "report": "reports/PHASE-0B-ARR15-PARENT-INTAKE.json",
         "pointer": "/dispositions/11",
-        "sha256": "bfec81762d273a6023a2d4c4684ca9a76318224f0df504e4db0fd52565a5134f",
+        "sha256": "b0f5939999ceecf8ad1b62f268c73245cc103bfabea4e5299204d22f1ea21df8",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -6621,7 +6621,7 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
         "pointer": "/excluded_or_separate_register/15",
-        "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+        "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -6631,7 +6631,7 @@
         "category": "refuted design candidate"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/excluded_or_separate_register/15",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -6639,7 +6639,7 @@
       },
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e7-symbolic-quotient-v1\\PRC-REVIEW.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e7-symbolic-quotient-v1/PRC-REVIEW.md",
           "lines": [
             3,
             35
@@ -6647,7 +6647,7 @@
           "sha256": "9c5f3f36959134dca381defeb5bb3b2603f61f2a140f2a98cc59c95aadae969d"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-7-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-7-CLOSEOUT.md",
           "lines": [
             68,
             87
@@ -6655,7 +6655,7 @@
           "sha256": "6e458537eac2f2fbbd007c6db50064b712cc8f97be51f8833bd211d6d9dcc6dd"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             381,
             483
@@ -6683,7 +6683,7 @@
       "parent_evidence": {
         "report": "reports/PHASE-0B-PIGEON-RIVER-PARENT-INTAKE.json",
         "pointer": "/dispositions/2",
-        "sha256": "7caa351bb5c7b4897affa48c4a45637b1db86b97adc570a7e74b9bb9ccc58e1a",
+        "sha256": "fda1430feb9c8900c7a239f168d1cd1f132e9796ee51ab68746dff7dc6ff85dc",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -6703,7 +6703,7 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
         "pointer": "/excluded_or_separate_register/16",
-        "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+        "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -6713,7 +6713,7 @@
         "category": "intentional GP assay; no earned license"
       },
       "source": {
-        "repo": "F:/repos/grandportage-0.50",
+        "repo": "$WORKSPACE",
         "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/excluded_or_separate_register/16",
         "date": "2026-09-29",
         "review_date": "2026-09-29",
@@ -6721,7 +6721,7 @@
       },
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             10,
             224
@@ -6729,7 +6729,7 @@
           "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             227,
             378
@@ -6737,7 +6737,7 @@
           "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             381,
             559
@@ -6745,7 +6745,7 @@
           "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             562,
             713
@@ -6753,7 +6753,7 @@
           "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             715,
             832
@@ -6761,7 +6761,7 @@
           "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             835,
             1081
@@ -6769,7 +6769,7 @@
           "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\coordination\\PRG-E11-CLOSEOUT-REVIEW.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/coordination/PRG-E11-CLOSEOUT-REVIEW.md",
           "lines": [
             18,
             30
@@ -6797,7 +6797,7 @@
       "parent_evidence": {
         "report": "reports/PHASE-0B-PIGEON-RIVER-PARENT-INTAKE.json",
         "pointer": "/dispositions/13",
-        "sha256": "7caa351bb5c7b4897affa48c4a45637b1db86b97adc570a7e74b9bb9ccc58e1a",
+        "sha256": "fda1430feb9c8900c7a239f168d1cd1f132e9796ee51ab68746dff7dc6ff85dc",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident/source date"
       },
@@ -6812,7 +6812,7 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-JC-PARENT-ADJUDICATION.json",
         "pointer": "/dispositions/12",
-        "sha256": "6b949509c3660671b79886bf2b9ea33c9007b19ddcd47743f78b3b5ea65e4736",
+        "sha256": "83ef1d579eb45ba0cf1ec934902678545beab0fbc5cb4c5355b1a750b3ca912e",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
@@ -6824,7 +6824,7 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-ARR15-PARENT-INTAKE.json",
         "pointer": "/dispositions/1",
-        "sha256": "bfec81762d273a6023a2d4c4684ca9a76318224f0df504e4db0fd52565a5134f",
+        "sha256": "b0f5939999ceecf8ad1b62f268c73245cc103bfabea4e5299204d22f1ea21df8",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
@@ -6838,7 +6838,7 @@
       "new_inventory_row": false,
       "original_pointer": {
         "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
-        "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+        "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
         "pointer": "/rows/31"
       },
       "related_gp_ids": [
@@ -6853,7 +6853,7 @@
       "new_inventory_row": false,
       "original_pointer": {
         "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
-        "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+        "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
         "pointer": "/rows/54"
       },
       "related_gp_ids": [
@@ -6867,7 +6867,7 @@
       "new_inventory_row": false,
       "original_pointer": {
         "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
-        "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+        "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
         "pointer": "/rows/55"
       },
       "related_gp_ids": [
@@ -6881,7 +6881,7 @@
       "new_inventory_row": false,
       "original_pointer": {
         "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
-        "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+        "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
         "pointer": "/rows/66"
       },
       "related_gp_ids": [
@@ -6942,5 +6942,5 @@
   ],
   "counting_limit": "39separate main records are part of115;17auxiliary pointers include8aliases and9leads/controls/designs, not17additional main records. Children and four GP cross-occurrences retain named owners.",
   "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-  "worker_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d"
+  "worker_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849"
 }

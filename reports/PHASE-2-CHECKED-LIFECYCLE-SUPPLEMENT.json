@@ -39,25 +39,25 @@
     "boundary": "Pinned M:(x), C:x=0 selected identities; native exact Rat replay replaces fabricated predecessor backend metadata. No predecessor execution is claimed."
   },
   "protected_input_hashes": {
-    "F:\\repos\\grandportage-0.50\\oracle\\PIN.json": "9bb807c3034e045927dfc277f9ac268317ae2fdf7c07fd77c1643749794ee11f",
-    "F:\\repos\\grandportage-0.50\\oracle\\ROUTES.json": "5e66d807591f8f9dc5e6eda0de2dfbed6364fbcdba50d0d3d2da9f384c9f5648",
-    "F:\\repos\\grandportage-0.50\\corpus\\LAYER-TAGS.json": "046b353edf02f2e6972d00c2ee4fe974cb3bef1fc7062cede0d36ec4c1c83838"
+    "oracle/PIN.json": "180d920db790d5b5e318ce318b7b7e1467e6b11fd44e05e759e8b7cc7f4459db",
+    "oracle/ROUTES.json": "cce1e91123d58b6c3a452cd911b129a21e6d4fad3e9042b1d0ff43e73e6e7750",
+    "corpus/LAYER-TAGS.json": "046b353edf02f2e6972d00c2ee4fe974cb3bef1fc7062cede0d36ec4c1c83838"
   },
-  "reviewed_adapter_path": "F:\\repos\\grandportage-0.50\\tools\\run-phase2-slice.py",
+  "reviewed_adapter_path": "tools/run-phase2-slice.py",
   "reviewed_adapter_sha256": "4e06458c4f26d745ad02e6ea169355d18013cc6d9aa3fd900dd1ea373c599939",
   "adapter_sha256": "021e6269c1eca0bf82b15922c460b9e702f4a2e83e3b04bc868e2df2bbcceb71",
   "tests_sha256": "68b6f7ed84c1e7aecc4788b85198da29552892e406fea24d77596cc0f0683d6b",
   "executables": {
     "span": {
-      "path": "F:\\repos\\grandportage-0.50\\phase2\\lean\\.lake\\build\\bin\\gp_span_runner.exe",
+      "path": "phase2/lean/.lake/build/bin/gp_span_runner.exe",
       "sha256": "0ff86be251c032a6bc47b211972e81e3beb86fddc59bac0c386d06ee1601b89a"
     },
     "scoped": {
-      "path": "F:\\repos\\grandportage-0.50\\phase2\\lean\\.lake\\build\\bin\\gp_scoped_runner.exe",
+      "path": "phase2/lean/.lake/build/bin/gp_scoped_runner.exe",
       "sha256": "a1abd71fa6d9019c518778768ade8e9fcf69a7427455bbbc425a269a7847de92"
     },
     "lifecycle": {
-      "path": "F:\\repos\\grandportage-0.50\\phase2\\lean\\.lake\\build\\bin\\gp_lifecycle_runner.exe",
+      "path": "phase2/lean/.lake/build/bin/gp_lifecycle_runner.exe",
       "sha256": "4affc188563f818aad3c798a4b49b0ccd25438c12a16cfd9283d9789f1128ab3"
     }
   },

@@ -4138,8 +4138,8 @@
     }
   ],
   "frozen_artifacts": {
-    "oracle/PIN.json": "9bb807c3034e045927dfc277f9ac268317ae2fdf7c07fd77c1643749794ee11f",
-    "reports/ORACLE-RESULTS.json": "77321d0f86e5160ef0f78f13498092061718a7b829256548cc430b1d19f302df"
+    "oracle/PIN.json": "180d920db790d5b5e318ce318b7b7e1467e6b11fd44e05e759e8b7cc7f4459db",
+    "reports/ORACLE-RESULTS.json": "0996858153e6f1fec40aad3fe1d71a70cff72b39972cd78937646818214be04d"
   },
   "markdown_accounting": "Count added words from baseline, including verbatim handoff/decisions; target 10000, tripwire 15000. Generated JSON excluded.",
   "heartbeat": "PAUSED"

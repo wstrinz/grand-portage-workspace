@@ -3,27 +3,27 @@
   "manifests": [
     {
       "path": "reports/PHASE-0B-ARR15-HARVEST-MANIFEST.json",
-      "sha256": "2b2d191e16e3935c5391da383f4088b7bd6f6b456aa57f032b3b13fe4674b48e",
+      "sha256": "df332a364fbb0609eb8cbad99b228fe6dd932d40421d812fb37bb5707447f7c1",
       "entries": 12
     },
     {
       "path": "reports/PHASE-0B-CLOQUET-HARVEST-MANIFEST.json",
-      "sha256": "69622a12e6519f41e39756c6d0a92540e51a17b72eb0059f817bf12571abb2cc",
+      "sha256": "bc4aadf6f21888c8c1833f10ffaa2af19d3a80e5277447c31be874cd92890305",
       "entries": 19
     },
     {
       "path": "reports/PHASE-0B-DK-HARVEST-MANIFEST.json",
-      "sha256": "67c5a5f81c7749413c06bfd19c240aef9268165d20598af58aecc4a534c8a99c",
+      "sha256": "be4f35b8020eaebb63d87901730f7a63e4518fb3daf6a4d05e31c1abd3932a14",
       "entries": 22
     },
     {
       "path": "reports/PHASE-0B-JC-HARVEST-MANIFEST.json",
-      "sha256": "7eaa0a0288064417a29b95819e340b72a8b1340de5894f2e562026833ffad2a0",
+      "sha256": "600731aa50e7cbc2f275b42b2257fea8e04fd57daed1524d1761298d95ccbf4b",
       "entries": 20
     },
     {
       "path": "reports/PHASE-0B-PIGEON-RIVER-HARVEST-MANIFEST.json",
-      "sha256": "9b7cd3ee603be05c19b2b7e3ea071b37ffce8c59fb654c043f692a2c3d5e18b0",
+      "sha256": "3afeee7cc520115cb841b2d93b088e62555f0de6d3e81efa76aaaa5b97ac1e5c",
       "entries": 16
     }
   ],

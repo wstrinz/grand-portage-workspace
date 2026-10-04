@@ -111,8 +111,8 @@
     "No Lean compilation, external native checker, campaign sweep, kernel authority, or graph effect."
   ],
   "sha256": {
-    "reports/oracle-runs/20260928T211311262604Z.json": "32f96c898277030075779d09d3ec7644b8f3ad2c7eb5036413ff189f806af85b",
-    "reports/oracle-runs/20260928T220044757918Z.json": "428184e63176cab9cfa911bbb4dc9686d281c6b84ed04af6e0bb8af4374b9bf9",
+    "reports/oracle-runs/20260928T211311262604Z.json": "02a18337674b39ae1322b413d7c546a5c20763f2393fe2dcec6bc36279cf1af1",
+    "reports/oracle-runs/20260928T220044757918Z.json": "9cfc329bd086d63a470af593423daec34a822a8d9dfda332cfb0bc1d09d79be4",
     "oracle/ROUTES.json": "826293121b7db78ff73c30bc40533c3cc624de101a5f8334a16de979df2b9c41",
     "tools/check-corpus.py": "6d2452a26c1cb288ac1dec173cf216d82a4559340abcf33d36aa2088432f4548",
     "tools/zero_regime_probes.py": "0c4bfb95fce47b06fccce650542116d84f972c19f39bcb431cc10c7149b979b5",

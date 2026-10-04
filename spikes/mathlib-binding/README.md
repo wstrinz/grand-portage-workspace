@@ -16,7 +16,7 @@ trivial-ring and characteristic-three controls. Validate.ps1 checks the final
 axiom output and the original case hashes. Failed and narrower preliminary
 runs are retained in logs and are not final audit evidence.
 
-Run from F:/repos/grandportage-0.50/spikes/mathlib-binding:
+Run from spikes/mathlib-binding:
 
 ```powershell
 . ./environment.ps1

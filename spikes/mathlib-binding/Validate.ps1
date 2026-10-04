@@ -1,5 +1,5 @@
 $ErrorActionPreference='Stop'
-Set-Location -LiteralPath 'F:/repos/grandportage-0.50/spikes/mathlib-binding'
+Set-Location -LiteralPath 'spikes/mathlib-binding'
 $expectedHashes=@{'GP-A08b'='6a390a0fbd25371e8aca0cf64fb69d892c694cb0a142a21787d4c179abf745bd';'GP-A05'='469b5e4060a64295eaaa170e8957d282404d6fc68445408e9255a430fa6170a4'}
 foreach($id in $expectedHashes.Keys){if((Get-FileHash -LiteralPath "../../corpus/must/$id.json" -Algorithm SHA256).Hash.ToLower() -ne $expectedHashes[$id]){throw "Case bytes changed: $id"}}
 $fragmentBinding=Get-Content -LiteralPath 'Binding.lean' -Raw

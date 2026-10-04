@@ -2,7 +2,7 @@
   "schema_version": 1,
   "commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
   "pinned_descendant": "ac4155787207e2847d248cffed7be871d5dcd577",
-  "source_repository": "C:/Users/wstri/dev/grand-portage",
+  "source_repository": "$DEV/grand-portage",
   "mode": "Verbatim historical GP oracle inputs only; not rework implementation or a companion-campaign harvest.",
   "files": [
     {

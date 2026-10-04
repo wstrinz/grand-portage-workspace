@@ -2,7 +2,7 @@
   "schema_version": 1,
   "script_sha256": "416455d00b439d01561d5780334fae3b101007404eecf895e6b2ca7db682fec0",
   "oracle_commit": "ac4155787207e2847d248cffed7be871d5dcd577",
-  "historical_manifest_sha256": "4f1c64b8aaa28da4032f9e407dac929083b5436aedf122fba2d98a37c296633a",
+  "historical_manifest_sha256": "2ca0a95db90819ac44928ecd8564cc0ddcfbcdb63c897c921355447106545d2c",
   "scope": "Diagnostic calibration, not a false held-claim reproduction and not a change to any corpus expectation.",
   "records": [
     {

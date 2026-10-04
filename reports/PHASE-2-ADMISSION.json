@@ -56,8 +56,8 @@
     },
     "scratch_replay_sha256": "e6c3b8651ae097625d6b5c425bec7b8a0ca95d678cc741eb1e5b469dacfc91f9",
     "all_case_bytes_expectations_and_outcomes_preserved": true,
-    "immutable_latest_sha256": "77321d0f86e5160ef0f78f13498092061718a7b829256548cc430b1d19f302df",
-    "oracle_pin_sha256": "9bb807c3034e045927dfc277f9ac268317ae2fdf7c07fd77c1643749794ee11f"
+    "immutable_latest_sha256": "0996858153e6f1fec40aad3fe1d71a70cff72b39972cd78937646818214be04d",
+    "oracle_pin_sha256": "180d920db790d5b5e318ce318b7b7e1467e6b11fd44e05e759e8b7cc7f4459db"
   },
   "guarantees": [
     "actual runtime truth under validator and claim-projection contracts",

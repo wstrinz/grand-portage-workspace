@@ -152,7 +152,7 @@
         "sha256": "e543b5dc49bacf8f33aa973e93776a4fe255bab861e3ab9db94f64a99dad792d"
       }
     ],
-    "sha256": "805458e620ead99cfe3ef023908392d509dd14ff3c61aa73bfc4fcbfbb6f8d48"
+    "sha256": "7eda5077c9d6244c070c110ad4208eb0681c0ffcda3f61ea7a60d2998f0db55a"
   },
   "blocked_fetches": [
     "LMFDB rcs.source.ec.q access challenge",

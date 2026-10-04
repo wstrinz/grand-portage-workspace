@@ -24,7 +24,7 @@
       "core_would_refuse": null,
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\packets\\founding\\cq-scouting.md",
+          "path": "$DEV/math-research/campaigns/match4/packets/founding/cq-scouting.md",
           "lines": [
             259,
             327
@@ -32,7 +32,7 @@
           "sha256": "22ef379cb247595c62740a539b2997d7276aa0733a7b228af32b5aea7a44fcaa"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\literature\\READS.md",
+          "path": "$DEV/math-research/campaigns/match4/literature/READS.md",
           "lines": [
             25,
             77
@@ -40,7 +40,7 @@
           "sha256": "e8687934f4e7176d42ccdcb5feb88402b526ecdadf1f71485ba734f8a78eaec5"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/match4/CHECKPOINT.md",
           "lines": [
             41,
             45
@@ -60,7 +60,7 @@
       "core_would_refuse": null,
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\literature\\READS.md",
+          "path": "$DEV/math-research/campaigns/match4/literature/READS.md",
           "lines": [
             81,
             108
@@ -68,7 +68,7 @@
           "sha256": "e8687934f4e7176d42ccdcb5feb88402b526ecdadf1f71485ba734f8a78eaec5"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\literature\\READS.md",
+          "path": "$DEV/math-research/campaigns/match4/literature/READS.md",
           "lines": [
             354,
             363
@@ -76,7 +76,7 @@
           "sha256": "e8687934f4e7176d42ccdcb5feb88402b526ecdadf1f71485ba734f8a78eaec5"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/match4/CHECKPOINT.md",
           "lines": [
             41,
             45
@@ -96,7 +96,7 @@
       "core_would_refuse": null,
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\packets\\founding\\CQ-PLAN.md",
+          "path": "$DEV/math-research/campaigns/match4/packets/founding/CQ-PLAN.md",
           "lines": [
             108,
             112
@@ -104,7 +104,7 @@
           "sha256": "b7bd2ef6f7f934855af47e8ccc0d37c314addc522f4003e56ad196cfb5acf080"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\literature\\READS.md",
+          "path": "$DEV/math-research/campaigns/match4/literature/READS.md",
           "lines": [
             110,
             129
@@ -112,7 +112,7 @@
           "sha256": "e8687934f4e7176d42ccdcb5feb88402b526ecdadf1f71485ba734f8a78eaec5"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\literature\\READS.md",
+          "path": "$DEV/math-research/campaigns/match4/literature/READS.md",
           "lines": [
             364,
             368
@@ -120,7 +120,7 @@
           "sha256": "e8687934f4e7176d42ccdcb5feb88402b526ecdadf1f71485ba734f8a78eaec5"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/match4/CHECKPOINT.md",
           "lines": [
             41,
             45
@@ -140,7 +140,7 @@
       "core_would_refuse": null,
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\packets\\founding\\cq-scouting.md",
+          "path": "$DEV/math-research/campaigns/match4/packets/founding/cq-scouting.md",
           "lines": [
             36,
             60
@@ -148,7 +148,7 @@
           "sha256": "22ef379cb247595c62740a539b2997d7276aa0733a7b228af32b5aea7a44fcaa"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\literature\\READS.md",
+          "path": "$DEV/math-research/campaigns/match4/literature/READS.md",
           "lines": [
             279,
             350
@@ -156,7 +156,7 @@
           "sha256": "e8687934f4e7176d42ccdcb5feb88402b526ecdadf1f71485ba734f8a78eaec5"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\literature\\READS.md",
+          "path": "$DEV/math-research/campaigns/match4/literature/READS.md",
           "lines": [
             369,
             375
@@ -164,7 +164,7 @@
           "sha256": "e8687934f4e7176d42ccdcb5feb88402b526ecdadf1f71485ba734f8a78eaec5"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/match4/CHECKPOINT.md",
           "lines": [
             41,
             45
@@ -184,7 +184,7 @@
       "core_would_refuse": null,
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\packets\\founding\\cq-scouting.md",
+          "path": "$DEV/math-research/campaigns/match4/packets/founding/cq-scouting.md",
           "lines": [
             221,
             257
@@ -192,7 +192,7 @@
           "sha256": "22ef379cb247595c62740a539b2997d7276aa0733a7b228af32b5aea7a44fcaa"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\fixtures\\gp-miniatures\\M5.json",
+          "path": "$DEV/math-research/campaigns/match4/fixtures/gp-miniatures/M5.json",
           "lines": [
             8,
             48
@@ -200,7 +200,7 @@
           "sha256": "08cc7b1b2b114f6be9557c1c2ff38e6b917f85bc7fc2bbedd1b4b30ee4ba974d"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             103,
             110
@@ -220,7 +220,7 @@
       "core_would_refuse": null,
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\packets\\founding\\gp-cq-read.md",
+          "path": "$DEV/math-research/campaigns/match4/packets/founding/gp-cq-read.md",
           "lines": [
             191,
             219
@@ -228,7 +228,7 @@
           "sha256": "385150a7cbb557efea315780acca1f7d5fc82ecd7fa2f35615ed7144fcd9623a"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             89,
             101
@@ -248,7 +248,7 @@
       "core_would_refuse": null,
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\packets\\founding\\gp-cq-read.md",
+          "path": "$DEV/math-research/campaigns/match4/packets/founding/gp-cq-read.md",
           "lines": [
             235,
             289
@@ -256,7 +256,7 @@
           "sha256": "385150a7cbb557efea315780acca1f7d5fc82ecd7fa2f35615ed7144fcd9623a"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             80,
             87
@@ -276,7 +276,7 @@
       "core_would_refuse": null,
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\packets\\founding\\cq-scouting.md",
+          "path": "$DEV/math-research/campaigns/match4/packets/founding/cq-scouting.md",
           "lines": [
             361,
             367
@@ -284,7 +284,7 @@
           "sha256": "22ef379cb247595c62740a539b2997d7276aa0733a7b228af32b5aea7a44fcaa"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\packets\\founding\\gp-cq-read.md",
+          "path": "$DEV/math-research/campaigns/match4/packets/founding/gp-cq-read.md",
           "lines": [
             306,
             314
@@ -292,7 +292,7 @@
           "sha256": "385150a7cbb557efea315780acca1f7d5fc82ecd7fa2f35615ed7144fcd9623a"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             112,
             118
@@ -312,7 +312,7 @@
       "core_would_refuse": null,
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\packets\\founding\\CQ-PLAN.md",
+          "path": "$DEV/math-research/campaigns/match4/packets/founding/CQ-PLAN.md",
           "lines": [
             229,
             235
@@ -320,7 +320,7 @@
           "sha256": "b7bd2ef6f7f934855af47e8ccc0d37c314addc522f4003e56ad196cfb5acf080"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             120,
             129
@@ -328,7 +328,7 @@
           "sha256": "2e0f9e5028cacf0a93150a566b6b86d85c8378e4d7cdabcafa00da5f5fd80736"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             175,
             179
@@ -348,7 +348,7 @@
       "core_would_refuse": null,
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             61,
             71
@@ -356,7 +356,7 @@
           "sha256": "2e0f9e5028cacf0a93150a566b6b86d85c8378e4d7cdabcafa00da5f5fd80736"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             137,
             150
@@ -364,7 +364,7 @@
           "sha256": "2e0f9e5028cacf0a93150a566b6b86d85c8378e4d7cdabcafa00da5f5fd80736"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/match4/CHECKPOINT.md",
           "lines": [
             49,
             53
@@ -384,7 +384,7 @@
       "core_would_refuse": null,
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             73,
             78
@@ -392,7 +392,7 @@
           "sha256": "2e0f9e5028cacf0a93150a566b6b86d85c8378e4d7cdabcafa00da5f5fd80736"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             152,
             165
@@ -400,7 +400,7 @@
           "sha256": "2e0f9e5028cacf0a93150a566b6b86d85c8378e4d7cdabcafa00da5f5fd80736"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/match4/CHECKPOINT.md",
           "lines": [
             49,
             53
@@ -420,7 +420,7 @@
       "core_would_refuse": null,
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             112,
             118
@@ -428,7 +428,7 @@
           "sha256": "2e0f9e5028cacf0a93150a566b6b86d85c8378e4d7cdabcafa00da5f5fd80736"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             167,
             173
@@ -460,7 +460,7 @@
     {
       "item": "Lane D signatures and53 angle scan",
       "source": {
-        "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/match4/CHECKPOINT.md",
         "lines": [
           8,
           20
@@ -472,7 +472,7 @@
     {
       "item": "Gerbracht polynomial and Winkler4x4 checks",
       "source": {
-        "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\literature\\READS.md",
+        "path": "$DEV/math-research/campaigns/match4/literature/READS.md",
         "lines": [
           187,
           246
@@ -484,7 +484,7 @@
     {
       "item": "M3 selected root; M4 nonedge; degeneration controls",
       "source": {
-        "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\packets\\founding\\CQ-PLAN.md",
+        "path": "$DEV/math-research/campaigns/match4/packets/founding/CQ-PLAN.md",
         "lines": [
           142,
           160
@@ -496,7 +496,7 @@
     {
       "item": "Laman/degree/rational-coordinate/uniqueness advice",
       "source": {
-        "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\packets\\founding\\cq-scouting.md",
+        "path": "$DEV/math-research/campaigns/match4/packets/founding/cq-scouting.md",
         "lines": [
           361,
           367
@@ -508,7 +508,7 @@
     {
       "item": "Custody and intake fixes",
       "source": {
-        "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/match4/CHECKPOINT.md",
         "lines": [
           44,
           54
@@ -520,7 +520,7 @@
     {
       "item": "verdict schema promotion clauses",
       "source": {
-        "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\verdicts\\SCHEMA.md",
+        "path": "$DEV/math-research/campaigns/match4/verdicts/SCHEMA.md",
         "lines": [
           17,
           23
@@ -547,7 +547,7 @@
     "lane_graph_identity_reported": {
       "gp": "0.32.0",
       "source": {
-        "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+        "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
         "lines": [
           9,
           34
@@ -565,71 +565,71 @@
     "graph_fence": "Lane G separate graph; root empty by design per checkpoint. New campaign receipts effect NONE until binding/reach review. No campaign root proof inferred from miniatures.",
     "selected_existing_paths_for_parent_private_harvest": [
       {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/match4/lanes/G/.portage/graph.jsonl",
+        "path": "$DEV/math-research/campaigns/match4/lanes/G/.portage/graph.jsonl",
         "status": "path located by filename inventory; contents not read or harvested"
       },
       {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/match4/lanes/G/.portage/work.jsonl",
+        "path": "$DEV/math-research/campaigns/match4/lanes/G/.portage/work.jsonl",
         "status": "path located by filename inventory; contents not read or harvested"
       },
       {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/match4/lanes/G/.portage/artifacts/sha256/",
+        "path": "$DEV/math-research/campaigns/match4/lanes/G/.portage/artifacts/sha256/",
         "status": "path located by filename inventory; contents not read or harvested"
       },
       {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/match4/fixtures/gp-miniatures/M1.json",
+        "path": "$DEV/math-research/campaigns/match4/fixtures/gp-miniatures/M1.json",
         "status": "path located by filename inventory; contents not read or harvested"
       },
       {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/match4/fixtures/gp-miniatures/M2.json",
+        "path": "$DEV/math-research/campaigns/match4/fixtures/gp-miniatures/M2.json",
         "status": "path located by filename inventory; contents not read or harvested"
       },
       {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/match4/fixtures/gp-miniatures/M5.json",
+        "path": "$DEV/math-research/campaigns/match4/fixtures/gp-miniatures/M5.json",
         "status": "content read, SHA in source table"
       },
       {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/match4/fixtures/gp-miniatures/M6.json",
+        "path": "$DEV/math-research/campaigns/match4/fixtures/gp-miniatures/M6.json",
         "status": "path located by filename inventory; contents not read or harvested"
       },
       {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/match4/fixtures/gp-miniatures/M7.json",
+        "path": "$DEV/math-research/campaigns/match4/fixtures/gp-miniatures/M7.json",
         "status": "path located by filename inventory; contents not read or harvested"
       },
       {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/match4/fixtures/gp-miniatures/M8.json",
+        "path": "$DEV/math-research/campaigns/match4/fixtures/gp-miniatures/M8.json",
         "status": "path located by filename inventory; contents not read or harvested"
       },
       {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/match4/data/raw/MANIFEST.json",
+        "path": "$DEV/math-research/campaigns/match4/data/raw/MANIFEST.json",
         "status": "path located by filename inventory; contents not read or harvested"
       },
       {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/match4/data/raw/mikematics_matchstick-graphs-calculator_2019-06-25.htm",
+        "path": "$DEV/math-research/campaigns/match4/data/raw/mikematics_matchstick-graphs-calculator_2019-06-25.htm",
         "status": "path located by filename inventory; contents not read or harvested"
       },
       {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/match4/data/graphs/calculator_records_2019-06-25.json",
+        "path": "$DEV/math-research/campaigns/match4/data/graphs/calculator_records_2019-06-25.json",
         "status": "path located by filename inventory; contents not read or harvested"
       },
       {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/match4/verdicts/INDEX.jsonl",
+        "path": "$DEV/math-research/campaigns/match4/verdicts/INDEX.jsonl",
         "status": "path located by filename inventory; contents not read or harvested"
       },
       {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/match4/results/inbox/p05-source-reads-v1.md",
+        "path": "$DEV/math-research/campaigns/match4/results/inbox/p05-source-reads-v1.md",
         "status": "path located by filename inventory; contents not read or harvested"
       },
       {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/match4/results/inbox/lane-g-tier-ab-v1.md",
+        "path": "$DEV/math-research/campaigns/match4/results/inbox/lane-g-tier-ab-v1.md",
         "status": "path located by filename inventory; contents not read or harvested"
       },
       {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/match4/results/intake/2026-09-11-wave1-intake.md",
+        "path": "$DEV/math-research/campaigns/match4/results/intake/2026-09-11-wave1-intake.md",
         "status": "path located by filename inventory; contents not read or harvested"
       },
       {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/match4/results/intake/2026-09-11-wave1-intake-laneG.md",
+        "path": "$DEV/math-research/campaigns/match4/results/intake/2026-09-11-wave1-intake-laneG.md",
         "status": "path located by filename inventory; contents not read or harvested"
       }
     ],

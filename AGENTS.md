@@ -2,7 +2,7 @@
 
 Read STATUS.md, LIMITS.md, docs/GP-0.50-POST-G2-HANDOFF.md, docs/GP-0.50-POST-G2-ADDENDUM-A.md, DECISIONS.md and SPEC-CORE.md before substantive work. Addendum A (Lean-first, on the Hex substrate) wins over the post-G2 handoff where they conflict. The post-G2 handoff (2026-10-02) authorizes Phase 2.5 and Phase 3a and wins over earlier packets and handoffs where they conflict. Will's 2026-09-30 Phase 2 handoff closes G1 by an explicit coverage exception and authorizes implementation; it supersedes conflicting revision 3 text. Will ratified G2 on 2026-10-02 (all 79 kernel cases execute); Phase 3 follows the handoff's §5. Deferred Phase 2 items are listed in reports/PHASE-2-CLOSEOUT.md. Retained packets and historical reports preserve their original wording.
 
-Use F:/repos/grandportage-0.50 explicitly for commands. Keep practical writes, builds, downloads, caches and scratch on F:. C:/Users/wstri/dev/grand-portage and confirmed campaign sources remain read-only.
+Use $WORKSPACE explicitly for commands. Keep practical writes, builds, downloads, caches and scratch on F:. $DEV/grand-portage and confirmed campaign sources remain read-only.
 
 STATUS.md is the single current human status, with a top summary of at most 300 words. Standing limits live in LIMITS.md. Phase reports cap at 800 words, slice report at 500, decision entries at 150. New Phase 2 Markdown targets 10,000 words; stop at 15,000. Preserve required verbatim source records and count them conservatively.
 

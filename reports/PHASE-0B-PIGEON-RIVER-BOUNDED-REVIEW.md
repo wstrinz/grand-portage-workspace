@@ -2,7 +2,7 @@
 
 Completed all seven named full reads and exactly five incident-pointer full reads. None of the named files was missing. The twelve-document content boundary is exhausted. This worker wrote only this Markdown report and its JSON companion on F:; no campaign, official verifier, GP, CAS or Lean execution, import/install, harvest, commit, case/route/shared-tracker edit, external read/message or delegation occurred.
 
-Source root: `C:/Users/wstri/dev/math-research/campaigns/ac-2gen`. Source HEAD: `9202e7ea12a75dac38eaa980c88008b41a4a16c0`. Every command used `F:/repos/grandportage-0.50` explicitly. Historical source instructions were treated as evidence and did not authorize continuation, publication, submissions or new watches.
+Source root: `$DEV/math-research/campaigns/ac-2gen`. Source HEAD: `9202e7ea12a75dac38eaa980c88008b41a4a16c0`. Every command used `$WORKSPACE` explicitly. Historical source instructions were treated as evidence and did not authorize continuation, publication, submissions or new watches.
 
 The report retains sixteen issue/disposition rows. They are not sixteen independent mathematical incidents: corrected own claims, literal candidate/tool defects, rejected design conjectures, deliberate GP challenges, narrow structural refusals, valid results and unresolved work remain separate. Every incident cost, wrong-shipping/reliance value, GP catch and core field stays null. Conditional discussion is not a verdict. Shipping means publication or handoff for reliance; a local commit or private push alone is insufficient.
 
@@ -43,7 +43,7 @@ Limit: Three defect dimensions in one packaging intake. No mathematical outcome 
 
 GP: No newly executed GP catch is claimed; explicit source/model/scope binding and independent replay would be prerequisites.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e11-consolidation-gp-v1\PRC-ERRATUM.md`, lines 3–17 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\EPOCH-11-CLOSEOUT.md`, lines 36–44 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/PRC-ERRATUM.md`, lines 3–17 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/EPOCH-11-CLOSEOUT.md`, lines 36–44 (raw SHA in table).
 
 ### PR-O02 — Producer assay graph append outside authorized write scope
 
@@ -59,7 +59,7 @@ Limit: No copying/folding of event stream here. Receipt before/after hashes are 
 
 GP: No newly executed GP catch is claimed; explicit source/model/scope binding and independent replay would be prerequisites.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e11-consolidation-gp-v1\PRC-ERRATUM.md`, lines 19–22 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\EPOCH-11-CLOSEOUT.md`, lines 38–44 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e11-consolidation-gp-v1\gp\receipts\six-pair-assay.json`, lines 3–8 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\coordination\PRG-E11-CLOSEOUT-REVIEW.md`, lines 32–35 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/PRC-ERRATUM.md`, lines 19–22 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/EPOCH-11-CLOSEOUT.md`, lines 38–44 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json`, lines 3–8 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/coordination/PRG-E11-CLOSEOUT-REVIEW.md`, lines 32–35 (raw SHA in table).
 
 ### PR-Q03 — Signed-BIG run-length abstraction is not transition faithful
 
@@ -75,7 +75,7 @@ Limit: One candidate-family refutation, not458 independent incidents. It refutes
 
 GP: No newly executed GP catch is claimed; explicit source/model/scope binding and independent replay would be prerequisites.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e7-symbolic-quotient-v1\PRC-REVIEW.md`, lines 3–35 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\EPOCH-7-CLOSEOUT.md`, lines 68–87 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e11-consolidation-gp-v1\gp\receipts\six-pair-assay.json`, lines 381–483 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/ac-2gen/results/inbox/e7-symbolic-quotient-v1/PRC-REVIEW.md`, lines 3–35 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/EPOCH-7-CLOSEOUT.md`, lines 68–87 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json`, lines 381–483 (raw SHA in table).
 
 ### PR-C04 — Budget-limited sieve described as saturation/unreachable
 
@@ -91,7 +91,7 @@ Limit: Repeated prose/erratum/retrospective one episode. Budget null cannot cert
 
 GP: No newly executed GP catch is claimed; explicit source/model/scope binding and independent replay would be prerequisites.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\EPOCH-5-CLOSEOUT.md`, lines 95–112 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\EPOCH-5-CLOSEOUT.md`, lines 153–169 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e11-consolidation-gp-v1\RETROSPECTIVE.md`, lines 59–71 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\EPOCH-6-CLOSEOUT.md`, lines 56–65 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/ac-2gen/EPOCH-5-CLOSEOUT.md`, lines 95–112 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/EPOCH-5-CLOSEOUT.md`, lines 153–169 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/RETROSPECTIVE.md`, lines 59–71 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/EPOCH-6-CLOSEOUT.md`, lines 56–65 (raw SHA in table).
 
 ### PR-C05 — Beam labeled exact DP; exact scheduler not delivered
 
@@ -107,7 +107,7 @@ Limit: Epoch6 method mislabel is one episode; Epoch7 later bounded search is hon
 
 GP: No newly executed GP catch is claimed; explicit source/model/scope binding and independent replay would be prerequisites.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\EPOCH-6-CLOSEOUT.md`, lines 72–100 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e11-consolidation-gp-v1\RETROSPECTIVE.md`, lines 26–32 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\EPOCH-7-CLOSEOUT.md`, lines 95–103 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/ac-2gen/EPOCH-6-CLOSEOUT.md`, lines 72–100 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/RETROSPECTIVE.md`, lines 26–32 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/EPOCH-7-CLOSEOUT.md`, lines 95–103 (raw SHA in table).
 
 ### PR-T06 — A* heuristic not admissible under inversion
 
@@ -123,7 +123,7 @@ Limit: Detailed heuristic/code not among five pointers; no concrete falsely clai
 
 GP: No newly executed GP catch is claimed; explicit source/model/scope binding and independent replay would be prerequisites.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\EPOCH-5-CLOSEOUT.md`, lines 105–112 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\EPOCH-5-CLOSEOUT.md`, lines 128–136 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e11-consolidation-gp-v1\RETROSPECTIVE.md`, lines 26–32 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/ac-2gen/EPOCH-5-CLOSEOUT.md`, lines 105–112 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/EPOCH-5-CLOSEOUT.md`, lines 128–136 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/RETROSPECTIVE.md`, lines 26–32 (raw SHA in table).
 
 ### PR-T07 — Finite SL2 sieve comparison must include inversion classes
 
@@ -139,7 +139,7 @@ Limit: No literal code or bad-output receipt read. Retrospective's Epoch6-draft 
 
 GP: No newly executed GP catch is claimed; explicit source/model/scope binding and independent replay would be prerequisites.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\EPOCH-5-CLOSEOUT.md`, lines 46–59 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e11-consolidation-gp-v1\RETROSPECTIVE.md`, lines 26–32 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/ac-2gen/EPOCH-5-CLOSEOUT.md`, lines 46–59 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/RETROSPECTIVE.md`, lines 26–32 (raw SHA in table).
 
 ### PR-C08 — Relative-HNN convention and unlifted-grid claims overpromoted
 
@@ -155,7 +155,7 @@ Limit: Grouped chronology with two subepisode keys: relative-HNN sign/lift corre
 
 GP: No newly executed GP catch is claimed; explicit source/model/scope binding and independent replay would be prerequisites.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\CHECKPOINT.md`, lines 311–364 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\CHECKPOINT.md`, lines 288–296 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md`, lines 311–364 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md`, lines 288–296 (raw SHA in table).
 
 ### PR-T09 — Noncanonical Britton expressions falsely refuted valid quotient witnesses
 
@@ -171,7 +171,7 @@ Limit: One audit-test error, not three independent mathematical nonconjugacy res
 
 GP: No newly executed GP catch is claimed; explicit source/model/scope binding and independent replay would be prerequisites.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\CHECKPOINT.md`, lines 149–157 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\CHECKPOINT.md`, lines 185–197 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md`, lines 149–157 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md`, lines 185–197 (raw SHA in table).
 
 ### PR-C10 — Incomplete or mislabeled direct rotation/checker matrix
 
@@ -187,7 +187,7 @@ Limit: Distinct n6/n7/multiseam conformance episodes grouped, not one count. Mis
 
 GP: No newly executed GP catch is claimed; explicit source/model/scope binding and independent replay would be prerequisites.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\CHECKPOINT.md`, lines 230–237 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\CHECKPOINT.md`, lines 250–275 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\CHECKPOINT.md`, lines 185–192 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md`, lines 230–237 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md`, lines 250–275 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md`, lines 185–192 (raw SHA in table).
 
 ### PR-C11 — GP prefix-custody missing-row split misstated
 
@@ -203,7 +203,7 @@ Limit: One numeric split correction; no exact literal prefix was in custody, so 
 
 GP: No newly executed GP catch is claimed; explicit source/model/scope binding and independent replay would be prerequisites.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\CHECKPOINT.md`, lines 250–276 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md`, lines 250–276 (raw SHA in table).
 
 ### PR-C12 — Epoch4 source chain misquoted and attribution overstated
 
@@ -219,7 +219,7 @@ Limit: Four source claims in one admitted-receipt erratum. Original primary pape
 
 GP: No newly executed GP catch is claimed; explicit source/model/scope binding and independent replay would be prerequisites.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e4-stable-ak3-intake-v1\PRC-ERRATUM.md`, lines 1–29 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\CHECKPOINT.md`, lines 72–103 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/ac-2gen/results/inbox/e4-stable-ak3-intake-v1/PRC-ERRATUM.md`, lines 1–29 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md`, lines 72–103 (raw SHA in table).
 
 ### PR-C13 — Historical closeout, frontier and fixture scope corrections
 
@@ -235,7 +235,7 @@ Limit: Grouped distinct subepisodes, not an independent incident count. Exact Ep
 
 GP: No newly executed GP catch is claimed; explicit source/model/scope binding and independent replay would be prerequisites.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\EPOCH-5-CLOSEOUT.md`, lines 105–112 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\EPOCH-5-CLOSEOUT.md`, lines 171–173 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\EPOCH-6-CLOSEOUT.md`, lines 89–100 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\EPOCH-7-CLOSEOUT.md`, lines 93–106 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/ac-2gen/EPOCH-5-CLOSEOUT.md`, lines 105–112 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/EPOCH-5-CLOSEOUT.md`, lines 171–173 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/EPOCH-6-CLOSEOUT.md`, lines 89–100 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/EPOCH-7-CLOSEOUT.md`, lines 93–106 (raw SHA in table).
 
 ### PR-G14 — Six-pair assay does not establish AC semantic catch or licensed withdrawal
 
@@ -251,7 +251,7 @@ Limit: Do not promote producer labels ACCEPT_AUTHENTIC/REFUSE_OVERCLAIM to runti
 
 GP: Known recorded catch is structural missing-certificate refusal, not AC semantics. Any AC adapter proof or licensed revocation behavior requires distinct evidence; unknown catch remains null.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e11-consolidation-gp-v1\gp\receipts\six-pair-assay.json`, lines 10–224 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e11-consolidation-gp-v1\gp\receipts\six-pair-assay.json`, lines 227–378 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e11-consolidation-gp-v1\gp\receipts\six-pair-assay.json`, lines 381–559 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e11-consolidation-gp-v1\gp\receipts\six-pair-assay.json`, lines 562–713 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e11-consolidation-gp-v1\gp\receipts\six-pair-assay.json`, lines 715–832 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e11-consolidation-gp-v1\gp\receipts\six-pair-assay.json`, lines 835–1081 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\coordination\PRG-E11-CLOSEOUT-REVIEW.md`, lines 18–30 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json`, lines 10–224 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json`, lines 227–378 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json`, lines 381–559 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json`, lines 562–713 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json`, lines 715–832 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json`, lines 835–1081 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/coordination/PRG-E11-CLOSEOUT-REVIEW.md`, lines 18–30 (raw SHA in table).
 
 ### PR-T15 — Normalized matching identity not literal checkpoint source
 
@@ -267,7 +267,7 @@ Limit: Historical source correction not independently re-executed; later P1 is a
 
 GP: No newly executed GP catch is claimed; explicit source/model/scope binding and independent replay would be prerequisites.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\CHECKPOINT.md`, lines 393–398 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e11-consolidation-gp-v1\gp\receipts\six-pair-assay.json`, lines 25–112 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\CHECKPOINT.md`, lines 405–413 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md`, lines 393–398 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json`, lines 25–112 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md`, lines 405–413 (raw SHA in table).
 
 ### PR-T16 — Loop-erasure and metrics/binding repairs limit completeness claims
 
@@ -283,7 +283,7 @@ Limit: Distinct subepisodes loop-erasure, metered accounting, payload/source bin
 
 GP: No newly executed GP catch is claimed; explicit source/model/scope binding and independent replay would be prerequisites.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\CHECKPOINT.md`, lines 456–466 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\CHECKPOINT.md`, lines 531–558 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md`, lines 456–466 (raw SHA in table); `$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md`, lines 531–558 (raw SHA in table).
 
 ## GP assay: what the actual receipt supports
 
@@ -316,13 +316,13 @@ The checkpoint reports one baseline search at 1,149.58 CPU seconds / 1,244.23 wa
 
 ## Valid results, unresolved work and unexpanded source issues
 
-- **Official submissions, competition standing and bridge positives:** Historical accepted submissions and dated standing attributed, no live board/API read. A valid certificate above record is not invalid; no ordinary/stable/Proof-track promotion inferred. Evidence: `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\EPOCH-6-CLOSEOUT.md`, lines 16–24; `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\EPOCH-6-CLOSEOUT.md`, lines 43–70; `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\CHECKPOINT.md`, lines 436–484.
-- **Arbitrary-mate compiler and priced null panel:** Admitted compiler and73977 official-core replays source-reported.52 already-held paths and1997 NO_WITNESSED_BRIDGE classify only declared frames/q range/held suffix panel. No global nonexistence or new endpoint. Evidence: `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\EPOCH-7-CLOSEOUT.md`, lines 38–59.
-- **Exact211-move tightening:** Source says literal whole-file control at work8558 passes, four moves above frozen207; not known optimal and not uploaded. No wrong claim episode inferred. Evidence: `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\EPOCH-7-CLOSEOUT.md`, lines 61–66.
-- **Fixed-donor exits, C7 and geometry null results:** Scoped quotient obstructions/bounded no-exit results do not settle global AC. C7 consistent on sample; reduced geometry predicate without completeness/export witness cannot establish nonthickenability. Epoch9/10 originals not read. Evidence: `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\EPOCH-5-CLOSEOUT.md`, lines 46–59; `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\EPOCH-6-CLOSEOUT.md`, lines 62–80; `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e11-consolidation-gp-v1\RETROSPECTIVE.md`, lines 34–85.
-- **Wider shear, literature attribution and stable AK3:** Unverified novelty/replay debt and primary attribution gaps remain. Neither lack of retrieved source nor normal-closure witnesses prove or disprove stable AK3. No general proof audit conducted. Evidence: `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e11-consolidation-gp-v1\RETROSPECTIVE.md`, lines 120–144; `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e4-stable-ak3-intake-v1\PRC-ERRATUM.md`, lines 16–29.
-- **Epoch3 interchange mismatch:** Summary-reported fixed-order run loses to baseline; auditor rejects raw1792-versus-submitted366 block mapping and13-versus9 input binding. Preserve as unexpanded custody issue, not a new inspected12th+ dependency or general algorithm refutation. Evidence: `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\CHECKPOINT.md`, lines 117–135.
-- **Other process notices:** Import finder shadowing, stale assay receipt swept by commit-a, Windows path length, stale session/login/reservation and metering issues reported. No mutation/credential/source-log audit or mathematical consequence invented. Evidence: `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\EPOCH-5-CLOSEOUT.md`, lines 105–112; `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\CHECKPOINT.md`, lines 263–283; `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\CHECKPOINT.md`, lines 488–538.
+- **Official submissions, competition standing and bridge positives:** Historical accepted submissions and dated standing attributed, no live board/API read. A valid certificate above record is not invalid; no ordinary/stable/Proof-track promotion inferred. Evidence: `$DEV/math-research/campaigns/ac-2gen/EPOCH-6-CLOSEOUT.md`, lines 16–24; `$DEV/math-research/campaigns/ac-2gen/EPOCH-6-CLOSEOUT.md`, lines 43–70; `$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md`, lines 436–484.
+- **Arbitrary-mate compiler and priced null panel:** Admitted compiler and73977 official-core replays source-reported.52 already-held paths and1997 NO_WITNESSED_BRIDGE classify only declared frames/q range/held suffix panel. No global nonexistence or new endpoint. Evidence: `$DEV/math-research/campaigns/ac-2gen/EPOCH-7-CLOSEOUT.md`, lines 38–59.
+- **Exact211-move tightening:** Source says literal whole-file control at work8558 passes, four moves above frozen207; not known optimal and not uploaded. No wrong claim episode inferred. Evidence: `$DEV/math-research/campaigns/ac-2gen/EPOCH-7-CLOSEOUT.md`, lines 61–66.
+- **Fixed-donor exits, C7 and geometry null results:** Scoped quotient obstructions/bounded no-exit results do not settle global AC. C7 consistent on sample; reduced geometry predicate without completeness/export witness cannot establish nonthickenability. Epoch9/10 originals not read. Evidence: `$DEV/math-research/campaigns/ac-2gen/EPOCH-5-CLOSEOUT.md`, lines 46–59; `$DEV/math-research/campaigns/ac-2gen/EPOCH-6-CLOSEOUT.md`, lines 62–80; `$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/RETROSPECTIVE.md`, lines 34–85.
+- **Wider shear, literature attribution and stable AK3:** Unverified novelty/replay debt and primary attribution gaps remain. Neither lack of retrieved source nor normal-closure witnesses prove or disprove stable AK3. No general proof audit conducted. Evidence: `$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/RETROSPECTIVE.md`, lines 120–144; `$DEV/math-research/campaigns/ac-2gen/results/inbox/e4-stable-ak3-intake-v1/PRC-ERRATUM.md`, lines 16–29.
+- **Epoch3 interchange mismatch:** Summary-reported fixed-order run loses to baseline; auditor rejects raw1792-versus-submitted366 block mapping and13-versus9 input binding. Preserve as unexpanded custody issue, not a new inspected12th+ dependency or general algorithm refutation. Evidence: `$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md`, lines 117–135.
+- **Other process notices:** Import finder shadowing, stale assay receipt swept by commit-a, Windows path length, stale session/login/reservation and metering issues reported. No mutation/credential/source-log audit or mathematical consequence invented. Evidence: `$DEV/math-research/campaigns/ac-2gen/EPOCH-5-CLOSEOUT.md`, lines 105–112; `$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md`, lines 263–283; `$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md`, lines 488–538.
 
 ## Receipt and scope contracts; five private-harvest pointers
 
@@ -336,16 +336,16 @@ These five actual existing paths are selected for parent harvest. Sizes and raw 
 
 | Existing absolute path | Bytes | Raw SHA-256 | Body read |
 |---|---:|---|---|
-| `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e11-consolidation-gp-v1\gp\receipts\six-pair-assay.json` | 53278 | `753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b` | full content read in pointer allowance |
-| `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e11-consolidation-gp-v1\CLAIM-EVIDENCE-MANIFEST.json` | 22884 | `e1595c666091e291196fcf929e73fcf73b10c9055d1b6b98c2d5efd8de982172` | metadata only; content not read |
-| `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e11-consolidation-gp-v1\replay\receipts\run-all-summary.json` | 270 | `ec5c8425513f05cbb58c91e52df10a70121061dba54654ef4672ffd9337d866f` | metadata only; content not read |
-| `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e7-symbolic-quotient-v1\receipts\counterexample-search.json` | 36582 | `c9a771478caec21d6c8c5f15832db34e155f449441ac8067dfbc02ce480d42da` | metadata only; content not read |
-| `C:\Users\wstri\dev\math-research\campaigns\ac-2gen\results\inbox\e4-stable-ak3-intake-v1\receipts\chain.json` | 8441 | `2b67f60cdf10334d9ff409ba6290b68a3385a79ee0b557d4f38a4c36e50e751c` | metadata only; content not read |
+| `$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json` | 53278 | `753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b` | full content read in pointer allowance |
+| `$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/CLAIM-EVIDENCE-MANIFEST.json` | 22884 | `e1595c666091e291196fcf929e73fcf73b10c9055d1b6b98c2d5efd8de982172` | metadata only; content not read |
+| `$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/replay/receipts/run-all-summary.json` | 270 | `ec5c8425513f05cbb58c91e52df10a70121061dba54654ef4672ffd9337d866f` | metadata only; content not read |
+| `$DEV/math-research/campaigns/ac-2gen/results/inbox/e7-symbolic-quotient-v1/receipts/counterexample-search.json` | 36582 | `c9a771478caec21d6c8c5f15832db34e155f449441ac8067dfbc02ce480d42da` | metadata only; content not read |
+| `$DEV/math-research/campaigns/ac-2gen/results/inbox/e4-stable-ak3-intake-v1/receipts/chain.json` | 8441 | `2b67f60cdf10334d9ff409ba6290b68a3385a79ee0b557d4f38a4c36e50e751c` | metadata only; content not read |
 
 ## Finite stop boundary and exact remaining dependencies
 
 - Parent integrates these bounded dispositions and chooses whether grouped summary-only historical corrections need later exact neutral-case evidence. No cases or expectations proposed/admitted here.
-- Exact unread dependency for the Epoch4 bound/residual correction: C:/Users/wstri/dev/math-research/campaigns/ac-2gen/EPOCH-4-CLOSEOUT.md (located by inventory; not read under12-document cap). The Epoch5 summary alone does not identify its exact corrected bound statement. For any independent Epoch2 equality/convention diagnosis, the original checker/body and accepted e2-n6-multiseam-v1 receipt must be scoped separately; they were not opened here.
+- Exact unread dependency for the Epoch4 bound/residual correction: $DEV/math-research/campaigns/ac-2gen/EPOCH-4-CLOSEOUT.md (located by inventory; not read under12-document cap). The Epoch5 summary alone does not identify its exact corrected bound statement. For any independent Epoch2 equality/convention diagnosis, the original checker/body and accepted e2-n6-multiseam-v1 receipt must be scoped separately; they were not opened here.
 - Primary literature texts/versioned indexed abstract are required before upgrading the stableAK3/source-attribution statements beyond attributed erratum. No external fetch/render lead commissioned.
 - Any broader GP semantic or revocation assertion needs an AC interpretation contract, earned license and successful scoped dependency withdrawal; existing assay does not supply them. No rerun or kernel expansion authorized.
 - Parent harvest may use only the five selected pointers with sizes/byte hashes. Costs, reliance and wrong shipping may remain unknown; metadata gaps do not authorize an unbounded followup.

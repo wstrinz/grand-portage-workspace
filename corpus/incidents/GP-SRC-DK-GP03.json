@@ -19,7 +19,7 @@
   "grouping_limit": "Four dispositions: two source-reported defects, one design gap and one unconfirmed retry-selection observation.",
   "sources": [
     {
-      "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+      "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
       "lines": "434-456;916-925",
       "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d",
       "reading_status": "Campaign pointer/hash inherited from accepted bounded reconciliation; not newly read or independently verified this pass."
@@ -28,12 +28,12 @@
   "report_evidence": [
     {
       "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-      "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+      "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
       "pointer": "/named_row_register/2"
     },
     {
       "report": "reports/PHASE-0B-GP-REUSE-PARENT-REVIEW.json",
-      "sha256": "612ef2f46ba54f67abd47e226c26b0d0fe591afbd6692ea5906cfbff21c5c1cf",
+      "sha256": "6ed2cc1f7b9b4236c3d6e62a463c51784ef92f43a1695959be9571d584ec82d7",
       "pointer": "/limits"
     }
   ],
@@ -62,7 +62,7 @@
       "source_disposition_id": "DK-GP03/arbitrary-field-strings",
       "source_pointer": {
         "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-        "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+        "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
         "pointer": "/dispositions/4"
       },
       "disposition": "historical_defect_not_reproduced",
@@ -102,7 +102,7 @@
       "source_disposition_id": "DK-GP03/model-scope-omission",
       "source_pointer": {
         "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-        "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+        "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
         "pointer": "/dispositions/5"
       },
       "disposition": "related_rule_control",
@@ -142,7 +142,7 @@
       "source_disposition_id": "DK-GP03/certificate-content-compatibility",
       "source_pointer": {
         "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-        "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+        "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
         "pointer": "/dispositions/6"
       },
       "disposition": "design_backlog",
@@ -184,7 +184,7 @@
       "source_disposition_id": "DK-GP03/retry-selection",
       "source_pointer": {
         "report": "reports/PHASE-0B-GP-REUSE-CONSOLIDATION.json",
-        "sha256": "7ebbfa70f6d29ef29d93af9ddd6afec3032b55e33e1c33cd640eabc5e4e7ca69",
+        "sha256": "e6c9ff6a6dad54e6933b8cabe9ca6f77765c078f4041bea22101aa9d658e4dc8",
         "pointer": "/dispositions/7"
       },
       "disposition": "historical_defect_not_reproduced",
@@ -224,12 +224,12 @@
   "original_pointer": {
     "report": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json",
     "pointer": "/named_gp_source_groups/2",
-    "sha256": "5108e91ab42501419cc92e574495ebe19a8ac38c3e8f6a5abc94639a865e0bb0",
+    "sha256": "1ea12da51790d7b0f3beb8c26586a921537b120df20a9730c8c8826344a3c55a",
     "review_date": "2026-09-29",
     "date_kind": "retained report review date; not incident date or source publication date"
   },
   "source": {
-    "repo": "F:/repos/grandportage-0.50",
+    "repo": "$WORKSPACE",
     "ref": "reports/PHASE-0B-GP-INVENTORY-SUPPLEMENT-DRAFT.json#/named_gp_source_groups/2",
     "date": "2026-09-29",
     "review_date": "2026-09-29",
@@ -249,7 +249,7 @@
   "notes": "Qualified retained source-attributed correction/group. Four dispositions: two source-reported defects, one design gap and one unconfirmed retry-selection observation. No new source read or execution. Source dates/hashes and attribution are preserved; no independent sample or shipping authentication inferred.",
   "parent_integration": {
     "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-    "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+    "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
     "register": "incident/correction/group"
   }
 }

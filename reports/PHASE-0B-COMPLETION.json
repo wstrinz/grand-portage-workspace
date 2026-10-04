@@ -6,15 +6,15 @@
   "g0_complete": false,
   "confirmed_manifest": {
     "path": "SWEEP-SOURCES.md",
-    "sha256": "a5737f89706d44fa4090b3b59eb6699390e7249f2acd807e3dc5a7edbf3151a2"
+    "sha256": "2f2db4d139fe3132339e7fc30b0f39dc7ee3c438dff8e995d9be4d2eca4f1d34"
   },
   "final_dataset": {
     "path": "corpus/incident-registers/MANIFEST.json",
-    "sha256": "4712b949f9a403e445cb255c6a2d94f7e97fbc52d3303aea8c843b0d352ad331"
+    "sha256": "e8bb858d7cc6a397c56fb76ec7dc669e3600e2142d18e73a537ec89dc6ff260f"
   },
   "parent_review": {
     "path": "reports/PHASE-0B-FINAL-PARENT-REVIEW.json",
-    "sha256": "8ef1197d25cf6d4ab09a29fc507e58c694fb8ca258b191469842531fd91bc23d"
+    "sha256": "76413d901df45e52002c7e538cd0b318eb1313960cab7aad16037f953fa70a83"
   },
   "counts": {
     "unit": "descriptive records, not independent incident samples",

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "title": "Ordinary-point open-guard candidate design",
   "date": "2026-09-29",
-  "workspace": "F:/repos/grandportage-0.50",
+  "workspace": "$WORKSPACE",
   "pinned_commit": "ac4155787207e2847d248cffed7be871d5dcd577",
   "pin_verification": {
     "head_read": "ac4155787207e2847d248cffed7be871d5dcd577",
@@ -28,7 +28,7 @@
     "recorded_behavior": "Historical ordinary verifier ignored open_conditions, including generators=[]. Later0.26 acceptance reports recovery. Neither proves a current frozen outcome.",
     "source_provenance": [
       {
-        "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+        "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
         "lines": [
           199,
           213
@@ -37,7 +37,7 @@
         "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
       },
       {
-        "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+        "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
         "lines": [
           504,
           509
@@ -46,7 +46,7 @@
         "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
       },
       {
-        "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-23-gp-v026-live-acceptance-r2.md",
+        "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-gp-v026-live-acceptance-r2.md",
         "lines": [
           14,
           19
@@ -133,7 +133,7 @@
   "report_case_route_bindings": [
     {
       "path": "reports/PHASE-0B-ARR15-BOUNDED-REVIEW.json",
-      "sha256": "93b08c237be8449e6892eebb05c39f499878ba9760cf3e6cbe29155db930fe66"
+      "sha256": "ad715538a1d68d69d5aedb6586f773b9cbd16dfea45db4113bf4ced8394f4f48"
     },
     {
       "path": "reports/PHASE-0A-GUARD-SNAPSHOT-PARENT-NOTES.json",

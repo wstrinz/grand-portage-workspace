@@ -1,5 +1,5 @@
-$bindingRoot = 'F:/repos/grandportage-0.50/spikes/mathlib-binding'
-$env:PATH = 'C:/Users/wstri/.elan/toolchains/leanprover--lean4---v4.32.1/bin;' + $env:PATH
+$bindingRoot = 'spikes/mathlib-binding'
+$env:PATH = '$ELAN_HOME/toolchains/leanprover--lean4---v4.32.1/bin;' + $env:PATH
 $env:TEMP = "$bindingRoot/tmp"
 $env:TMP = "$bindingRoot/tmp"
 $env:XDG_CACHE_HOME = "$bindingRoot/cache"

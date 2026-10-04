@@ -91,7 +91,7 @@
   "required_early_slice_complete": true,
   "g2_pass": false,
   "legacy_preservation": {
-    "receipt": "F:\\repos\\grandportage-0.50\\tmp\\phase2-supersession-closeout-legacy-preservation.json",
+    "receipt": "tmp/phase2-supersession-closeout-legacy-preservation.json",
     "sha256": "8774e53aa556deddc0f568bcdcbe2d603f75258ccb36d8aa3fbf75ed5237be4f",
     "case_count": 459,
     "summary": {

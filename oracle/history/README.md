@@ -6,7 +6,7 @@ The corpus validator checks every snapshot byte and source anchor before importi
 
 The seam adapter uses the pinned v0.37 evidence module; the formalization ledger uses its kernel. It checks stored bindings and the conditional report boundary; it does not rerun the native reduced-row derivation or prove the missing upstream map. check_native_bindings/check_bindings remain false. No companion-campaign files were read or copied.
 
-Semantic negative probes use the inner manifest validator so the separate outer file hash cannot mask premise checks. The altered-revision probe follows the historical regression by repinning only the scratch fixture digest. A separate probe rejects changed bytes under the original digest. Scratch files stay under F:/repos/grandportage-0.50/tmp.
+Semantic negative probes use the inner manifest validator so the separate outer file hash cannot mask premise checks. The altered-revision probe follows the historical regression by repinning only the scratch fixture digest. A separate probe rejects changed bytes under the original digest. Scratch files stay under tmp.
 
 The formalization snapshot adds direct source pointers for transport, premise and endpoint cases. Stored expected-verdict mismatches (ASY8) are regression diagnostics, not authority refusals. Reports bind the manifest version used for that run; prior versions remain in Git history.
 

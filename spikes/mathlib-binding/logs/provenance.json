@@ -67,7 +67,7 @@
   "files": [
     {
       "path": "README.md",
-      "sha256": "e216aba5f94a4e50e6c84758ba6f99ffcbf3256aef00ea9d3ab41870ec2609d2"
+      "sha256": "21433c36f3a807d73e1a72860555faf3540e5159ef2afc6c5e22f91999e322fa"
     },
     {
       "path": "Binding.lean",
@@ -95,23 +95,23 @@
     },
     {
       "path": "environment.ps1",
-      "sha256": "944195a9c5f9d97261e76edb2112b2d1e68ef4526ffba58ee8855951ea45827f"
+      "sha256": "265bc0d1a1eec2d2c87ca875c64564f193575fc47f4d95d3831e00149afc8fc5"
     },
     {
       "path": "Measure.ps1",
-      "sha256": "ec0cc43ac377c5b56907b89d9a16fb6414187e7c84a2d1fcdc977486ce11d375"
+      "sha256": "0b3d26f67a645f49b8a451f6fa30389a1038a0dd3763f80837a3d46ffded9ccf"
     },
     {
       "path": "MeasureCases.ps1",
-      "sha256": "94ccfb3303781e67d37941798f31ef8cabebedbd259d9252481b63cadd0000cc"
+      "sha256": "47daf6fb7f20869a711147d7e114533102d048feaeaad1f5ee9cd091f23209e1"
     },
     {
       "path": "RecordProvenance.ps1",
-      "sha256": "feb12b69a76543eee2a1df0f3019981d21b66306c4ae3b09199a61dcd2b3ead0"
+      "sha256": "0a457d8922ea5220cd01a39b645b3040a427696b4dd58985844262d09a84003a"
     },
     {
       "path": "Validate.ps1",
-      "sha256": "1fd543ce13320731811752ad736162597c4a42e823c2011506df1f7f556cd8b0"
+      "sha256": "c3903ac52205108b9fcf693a496ca56dddd6c3b1b48eaf2ba7ccbb641b1f73a7"
     },
     {
       "path": ".lake/packages/mathlib/LICENSE",
@@ -158,127 +158,127 @@
       "sha256": "c3d9813f61b6d6276aae8d9e848821331e15cc2ae87223cd3e2d2c0db95a0522"
     },
     {
-      "path": "C:/Users/wstri/.elan/toolchains/leanprover--lean4---v4.32.1/bin/lean.exe",
+      "path": "$ELAN_HOME/toolchains/leanprover--lean4---v4.32.1/bin/lean.exe",
       "sha256": "c3f02a2b739078d1237af9feefd27ec85b943b56870234b42bc0111d6699d54d"
     },
     {
-      "path": "C:/Users/wstri/.elan/toolchains/leanprover--lean4---v4.32.1/bin/lake.exe",
+      "path": "$ELAN_HOME/toolchains/leanprover--lean4---v4.32.1/bin/lake.exe",
       "sha256": "9274b0e4370ef69517f5ad70e2997f6190996d3a1174b295beec8e77b82bbb3c"
     },
     {
-      "path": "C:/Users/wstri/.elan/toolchains/leanprover--lean4---v4.32.1/bin/leanchecker.exe",
+      "path": "$ELAN_HOME/toolchains/leanprover--lean4---v4.32.1/bin/leanchecker.exe",
       "sha256": "c0d4c83407947c26023f10e611e45eda1edbec358140e4217f1edda9aef35265"
     },
     {
-      "path": "C:/Users/wstri/.elan/toolchains/leanprover--lean4---v4.32.1/src/lean/LeanChecker.lean",
+      "path": "$ELAN_HOME/toolchains/leanprover--lean4---v4.32.1/src/lean/LeanChecker.lean",
       "sha256": "eb5dee411837629f09c5c18d63cc833d30335a46048bc586642742e90aa65d5f"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\cache-field-get.log",
+      "path": "spikes/mathlib-binding/logs/cache-field-get.log",
       "sha256": "1d14ffd8ecdd08a43df668024c58385639f0a128fb69433d1ad006d4a0eee93e"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\cache-field-timing.json",
+      "path": "spikes/mathlib-binding/logs/cache-field-timing.json",
       "sha256": "7e00f4079b0061aa69e3a0f6b13673cd00184650c0d0f8cd009dc650121aeef1"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\cache-get-timing.json",
+      "path": "spikes/mathlib-binding/logs/cache-get-timing.json",
       "sha256": "b45ef08283d4423be7f87771289cb483f0782e82c091a16822990859d5138eac"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\cache-get.log",
+      "path": "spikes/mathlib-binding/logs/cache-get.log",
       "sha256": "a810d9979123ff2946995945e8dc64db8fd1082de80668f2f22693f4985213fd"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\case-A05-elaboration.log",
+      "path": "spikes/mathlib-binding/logs/case-A05-elaboration.log",
       "sha256": "bc8148459df59b24b0406268a1efefec15cc3c4a847cbf87e8cd8246d4fb97d5"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\case-A05-kernel.log",
+      "path": "spikes/mathlib-binding/logs/case-A05-kernel.log",
       "sha256": "63d03c8395096ce24591a8bcc2c017ad4bff30286966a01231b7a1a87762eea8"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\case-A08-elaboration.log",
+      "path": "spikes/mathlib-binding/logs/case-A08-elaboration.log",
       "sha256": "6a1a44a33d4b9bf428ee3c8ed74737964dabc034b44fc9dabc9f4cc1d4379001"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\case-A08-kernel.log",
+      "path": "spikes/mathlib-binding/logs/case-A08-kernel.log",
       "sha256": "e5183e9f7a8cc27165de131d810fd84e7059a259305484d362099dc9a14d12d3"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\case-measurements.json",
+      "path": "spikes/mathlib-binding/logs/case-measurements.json",
       "sha256": "9dd1f4f38d944b492b0145911170335aa6ff17a45906263bd994747f02f36bfc"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\clean-package-build.log",
+      "path": "spikes/mathlib-binding/logs/clean-package-build.log",
       "sha256": "8aef2b2b2c072a63f636ea67fbc2a8a855101b82945b8d46180130bb05e8e3c7"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\failed-clean-package-build.log",
-      "sha256": "4b5694d7dd36d867d806278cd8423651abd695fdc93e1d9c0219cfda66245269"
+      "path": "spikes/mathlib-binding/logs/failed-clean-package-build.log",
+      "sha256": "0d27655eb5eb749982ed7db50ff6316a0221b8817ce89c2c6e67b3f555f5cd2b"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\failed-finite-reduction-build.log",
-      "sha256": "7a129190026080585391242b1a6ab40f037e7f6672b963793dba67dd8a0fd2c8"
+      "path": "spikes/mathlib-binding/logs/failed-finite-reduction-build.log",
+      "sha256": "13e8a2a194cfb0bbe867b52ecd914df91f9b371cd8b42017777a0de5d872e873"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\failed-finite-reduction-timing.json",
+      "path": "spikes/mathlib-binding/logs/failed-finite-reduction-timing.json",
       "sha256": "f262e00c06f8e0d239fb78f88861b438f0b2e1ca32e66fe4040bf9aecacfba65"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\failed-measurements.json",
+      "path": "spikes/mathlib-binding/logs/failed-measurements.json",
       "sha256": "8c6f9b3d5e41ffdfef26569ce14d832b4268f657bbe28ef5e92b3aac0b8e9aaf"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\initial-elaboration-timing.json",
+      "path": "spikes/mathlib-binding/logs/initial-elaboration-timing.json",
       "sha256": "55e514a3c68e9a95478d2db051d18c6eba45be3186f393fa95a2b91c9e69c384"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\initial-elaboration.log",
+      "path": "spikes/mathlib-binding/logs/initial-elaboration.log",
       "sha256": "2ec892fd69eb75afbec388804603123fb72c5cd012f48430ef3de7511e9e8a1f"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\kernel-replay-timing.json",
+      "path": "spikes/mathlib-binding/logs/kernel-replay-timing.json",
       "sha256": "485d3dfefd70dcd7bfc384a82a3d25468935c73d5ef75698c33adb12f3db96c6"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\kernel-replay.log",
+      "path": "spikes/mathlib-binding/logs/kernel-replay.log",
       "sha256": "e796e7da0614c00c85a974c933fcc96b4e3a85980228eab198e84bf3c18c540c"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\lake-update-timing.json",
+      "path": "spikes/mathlib-binding/logs/lake-update-timing.json",
       "sha256": "f7921b456ad9f8cf579eee35c3187eb6a3bf23b9232fc2e028faded0ab82b62e"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\lake-update.log",
+      "path": "spikes/mathlib-binding/logs/lake-update.log",
       "sha256": "a1c3c833add40ce1eafc20eab496f41165464aece6a61cf6c099d843e8de9f1a"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\measurements.json",
+      "path": "spikes/mathlib-binding/logs/measurements.json",
       "sha256": "8061ab220fca5621708a106acbf8fbe01d9a245ae2572c363490d8cee7b77fca"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\repaired-elaboration-timing.json",
+      "path": "spikes/mathlib-binding/logs/repaired-elaboration-timing.json",
       "sha256": "2002b8b29ef3f8451362afabc5ce58d972f1a3c651ea1068774ed5d37d6dcef8"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\repaired-elaboration.log",
+      "path": "spikes/mathlib-binding/logs/repaired-elaboration.log",
       "sha256": "249ce6cc4ce708cdf04929f9e920f7586b284eb53946e28b9ad10459863d1929"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\warm-elaboration-1.log",
+      "path": "spikes/mathlib-binding/logs/warm-elaboration-1.log",
       "sha256": "8d64f17ad106fb76f2fbc038cc77b9dc8d0048532d20285e42d89826a40667ef"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\warm-elaboration-2.log",
+      "path": "spikes/mathlib-binding/logs/warm-elaboration-2.log",
       "sha256": "8d64f17ad106fb76f2fbc038cc77b9dc8d0048532d20285e42d89826a40667ef"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\warm-elaboration-3.log",
+      "path": "spikes/mathlib-binding/logs/warm-elaboration-3.log",
       "sha256": "8d64f17ad106fb76f2fbc038cc77b9dc8d0048532d20285e42d89826a40667ef"
     },
     {
-      "path": "F:\\repos\\grandportage-0.50\\spikes\\mathlib-binding\\logs\\warm-noop-build.log",
+      "path": "spikes/mathlib-binding/logs/warm-noop-build.log",
       "sha256": "103613dc9a219fd81182f598db2f867b8fd2b64500e92a2c59277c1e1dae18b7"
     }
   ],

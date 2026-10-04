@@ -14,7 +14,7 @@ Claim: Shifted/window survivors were carried without source liftability conditio
 
 Problem: WINDOW omitted the t=y+1 lattice component; a10_b0000_T1 had no polygon-supported P lift. P-positive slices, lambda row and Q-positive slices witness the gap.
 
-Source: C:/Users/wstri/dev/math-stuff/d2_plane_72_108/GAUGE_LEAK.md:10-31;35-62;68-90. SHA256: e6b932757a9f82b7e59a5af60f856fc5668f321e31fb03ba29e11bfa32d80d8a.
+Source: $DEV/math-stuff/d2_plane_72_108/GAUGE_LEAK.md:10-31;35-62;68-90. SHA256: e6b932757a9f82b7e59a5af60f856fc5668f321e31fb03ba29e11bfa32d80d8a.
 
 History: 7aea53f905c77c54f004695787cfcb8d2aec3229; d24a79c5567987c0eae08dc1cbc45f823eac2fca; 67d5013e51a53cc8518e6ecabb4f513fbebfd4d3; c1f4f2e94ff1b5c636b2c2b37a5ee979a5ffd54b
 
@@ -32,7 +32,7 @@ Claim: Pipeline consumed only M<0 slices of P and Q.
 
 Problem: Necessary conditions on the M>=0 half-line were omitted without a stopping certificate; an ORDER omission, not a j<=5 magnitude cutoff.
 
-Source: C:/Users/wstri/dev/math-stuff/whetstone/MODELLING_GAPS.md:72-79;97-113;399-409;435-447. SHA256: 155804b33a822dcf2d4ae4e2b274f718d01d0ccd1bc740c4aea0147740609dfe.
+Source: $DEV/math-stuff/whetstone/MODELLING_GAPS.md:72-79;97-113;399-409;435-447. SHA256: 155804b33a822dcf2d4ae4e2b274f718d01d0ccd1bc740c4aea0147740609dfe.
 
 History: c1f4f2e94ff1b5c636b2c2b37a5ee979a5ffd54b; 67d5013e51a53cc8518e6ecabb4f513fbebfd4d3
 
@@ -50,7 +50,7 @@ Claim: C08/C20 Q or splitting-field emptiness was consumed as geometric emptines
 
 Problem: KILL authority withdrawn: larger-field points exist and no descent into Q(sqrt17) is established. Source reports 11341 returning states, not a changed independently audited kill.
 
-Source: C:/Users/wstri/dev/math-stuff/d2_plane_72_108/FIELD_SCOPE_AUDIT.md:12-47;76-100. SHA256: 7f1ec681a0a3f61a837ecacc433873bfb9d5e28afb371adc2d61c1254835e605.
+Source: $DEV/math-stuff/d2_plane_72_108/FIELD_SCOPE_AUDIT.md:12-47;76-100. SHA256: 7f1ec681a0a3f61a837ecacc433873bfb9d5e28afb371adc2d61c1254835e605.
 
 History: aa54d4f0b5008bace23615f07b8a7eac5d151428; 2abe5927e2d4699dc0bbe530b2a89f0ebdb61c44
 
@@ -68,7 +68,7 @@ Claim: Full rank/nullity zero was used as the no-Phi-relation criterion.
 
 Problem: Pure G1/G2 syzygy at weight43 lowers rank without a Phi relation; old test misfires on repaired data. Replaced by Phi-column dependence modulo others.
 
-Source: C:/Users/wstri/dev/math-stuff/d2_plane_72_108/PASSPORT_75_125_REPAIR.md:248-278;381-382. SHA256: 4bde9e54296c02bad2fda8417c55a5b89085482dffbe49acf80cc399cd8633d1.
+Source: $DEV/math-stuff/d2_plane_72_108/PASSPORT_75_125_REPAIR.md:248-278;381-382. SHA256: 4bde9e54296c02bad2fda8417c55a5b89085482dffbe49acf80cc399cd8633d1.
 
 History: 2adb92af93871490c924486a942835ab65e42127
 
@@ -86,7 +86,7 @@ Claim: Later lane recommended recomputing an already repaired F2 tower delta.
 
 Problem: Stale prose beneath a banner was consumed instead of repaired module. History says external reviewer inherited the wrong recommendation.
 
-Source: C:/Users/wstri/dev/math-stuff/d2_plane_72_108/F2_TOWER.md:305-312. SHA256: 624b38c92fea86b74e875d77a074f583623e0d12d207787503bc644723ac10b9.
+Source: $DEV/math-stuff/d2_plane_72_108/F2_TOWER.md:305-312. SHA256: 624b38c92fea86b74e875d77a074f583623e0d12d207787503bc644723ac10b9.
 
 History: 60ed3b9c58305870207cfffad5a3400d2c9b91be
 
@@ -104,7 +104,7 @@ Claim: Coprime rational lattices were called incommensurate, overstating obstruc
 
 Problem: July24 correction acknowledges common finite-index refinement and leaves refined-lattice towers open.
 
-Source: C:/Users/wstri/dev/math-stuff/d2_plane_72_108/F2_TOWER.md:123-154. SHA256: 624b38c92fea86b74e875d77a074f583623e0d12d207787503bc644723ac10b9.
+Source: $DEV/math-stuff/d2_plane_72_108/F2_TOWER.md:123-154. SHA256: 624b38c92fea86b74e875d77a074f583623e0d12d207787503bc644723ac10b9.
 
 History: 48c21274dc95b4086aa91a3d67d3cfd5567317bb (file-touch only; correction hunk not inspected)
 
@@ -122,7 +122,7 @@ Claim: Substring check purported to validate reopened residual-gauge status.
 
 Problem: REOPENED matched inside was REOPENED ... now DISSOLVED and misleadingly passed.
 
-Source: C:/Users/wstri/dev/math-stuff/d2_plane_72_108/PASSPORT_75_125_REPAIR.md:164-185. SHA256: 4bde9e54296c02bad2fda8417c55a5b89085482dffbe49acf80cc399cd8633d1.
+Source: $DEV/math-stuff/d2_plane_72_108/PASSPORT_75_125_REPAIR.md:164-185. SHA256: 4bde9e54296c02bad2fda8417c55a5b89085482dffbe49acf80cc399cd8633d1.
 
 History: 2adb92af93871490c924486a942835ab65e42127
 
@@ -140,7 +140,7 @@ Claim: Lower-bound checker asserted A_T_MIN>=1 where 9 was intended.
 
 Problem: Source explicitly records this self-caught weak-bound check.
 
-Source: C:/Users/wstri/dev/math-stuff/whetstone/MODELLING_GAPS.md:146-162. SHA256: 155804b33a822dcf2d4ae4e2b274f718d01d0ccd1bc740c4aea0147740609dfe.
+Source: $DEV/math-stuff/whetstone/MODELLING_GAPS.md:146-162. SHA256: 155804b33a822dcf2d4ae4e2b274f718d01d0ccd1bc740c4aea0147740609dfe.
 
 History: Not found in bounded pass.
 
@@ -158,7 +158,7 @@ Claim: Riemann-Hurwitz test purported to supply discriminating validation.
 
 Problem: Source records the test was an identity for all inputs.
 
-Source: C:/Users/wstri/dev/math-stuff/whetstone/MODELLING_GAPS.md:146-162. SHA256: 155804b33a822dcf2d4ae4e2b274f718d01d0ccd1bc740c4aea0147740609dfe.
+Source: $DEV/math-stuff/whetstone/MODELLING_GAPS.md:146-162. SHA256: 155804b33a822dcf2d4ae4e2b274f718d01d0ccd1bc740c4aea0147740609dfe.
 
 History: Not found in bounded pass.
 
@@ -176,7 +176,7 @@ Claim: Four first-draft Whetstone checks were validation, including false monoto
 
 Problem: Removed checks were tautological/filter-guaranteed or compared scope to itself. MONO-CONTRADICTION also asserted a false claim.
 
-Source: C:/Users/wstri/dev/math-stuff/whetstone/whetstone_dag.py:851-865. SHA256: 627749285c45566edddd05b01ae1f44c2488b29564b1ea98cc663099aad4992c.
+Source: $DEV/math-stuff/whetstone/whetstone_dag.py:851-865. SHA256: 627749285c45566edddd05b01ae1f44c2488b29564b1ea98cc663099aad4992c.
 
 History: 9de8713da76344af0599d8d06e0866affeb48280 (corrected artifact; first-draft history not inspected)
 
@@ -194,7 +194,7 @@ Claim: Modular triage produced UNIT verdicts.
 
 Problem: Source records poly g0 shadowed ring variable and manufactured false UNIT verdicts for months.
 
-Source: C:/Users/wstri/dev/math-stuff/whetstone/whetstone_dag.py:836-842. SHA256: 627749285c45566edddd05b01ae1f44c2488b29564b1ea98cc663099aad4992c.
+Source: $DEV/math-stuff/whetstone/whetstone_dag.py:836-842. SHA256: 627749285c45566edddd05b01ae1f44c2488b29564b1ea98cc663099aad4992c.
 
 History: Not found in bounded pass.
 
@@ -212,7 +212,7 @@ Claim: slice_phi_yplace transferred unshifted divisibility/cascade bounds into s
 
 Problem: Audit records genuine-polynomial control violating shifted bound; this leg not established as written, while unshifted syzygy leg remains.
 
-Source: C:/Users/wstri/dev/math-stuff/d2_plane_72_108/AT_LE9_AUDIT.md:35-68. SHA256: c4be3c3d4272ac32d504e8f2c962b7bdb0eb5662799613541fe95ccd290c176d.
+Source: $DEV/math-stuff/d2_plane_72_108/AT_LE9_AUDIT.md:35-68. SHA256: c4be3c3d4272ac32d504e8f2c962b7bdb0eb5662799613541fe95ccd290c176d.
 
 History: 1870fac8c80e5480d18f67ea09a4c5c656c33c38
 
@@ -230,7 +230,7 @@ Claim: Two a_t<=9 proofs were independent corroboration.
 
 Problem: Same four input equations; only valuation extraction differs. Audit downgrades independence.
 
-Source: C:/Users/wstri/dev/math-stuff/d2_plane_72_108/AT_LE9_AUDIT.md:35-44. SHA256: c4be3c3d4272ac32d504e8f2c962b7bdb0eb5662799613541fe95ccd290c176d.
+Source: $DEV/math-stuff/d2_plane_72_108/AT_LE9_AUDIT.md:35-44. SHA256: c4be3c3d4272ac32d504e8f2c962b7bdb0eb5662799613541fe95ccd290c176d.
 
 History: 1870fac8c80e5480d18f67ea09a4c5c656c33c38
 
@@ -248,7 +248,7 @@ Claim: Frontier reconciliation quoted withdrawn 1090/135 draft figures as commit
 
 Problem: Audit records consistent committed 11341 and stale compiler literal/prose; recomputed column was already correct.
 
-Source: C:/Users/wstri/dev/math-stuff/d2_plane_72_108/FIELD_SCOPE_AUDIT.md:49-74. SHA256: 7f1ec681a0a3f61a837ecacc433873bfb9d5e28afb371adc2d61c1254835e605.
+Source: $DEV/math-stuff/d2_plane_72_108/FIELD_SCOPE_AUDIT.md:49-74. SHA256: 7f1ec681a0a3f61a837ecacc433873bfb9d5e28afb371adc2d61c1254835e605.
 
 History: 2abe5927e2d4699dc0bbe530b2a89f0ebdb61c44 (file-touch only)
 
@@ -263,22 +263,22 @@ Unknowns: Elapsed loss; Publication or relied-on handoff unless expressly record
 ## Grouped, unresolved and excluded dispositions
 
 - **C001-C003:** Keep unchanged. C002 covers corrected constants, degenerate cone, dissolved Galois inputs, residual-free law branch and other suspect same-dictionary corners. C003 covers repeated coprimality-bridge endorsement.
-  Source: C:/Users/wstri/dev/math-stuff/d2_plane_72_108/PASSPORT_75_125_REPAIR.md:116-134;194-244;304-331;409-432; SHA256 4bde9e54296c02bad2fda8417c55a5b89085482dffbe49acf80cc399cd8633d1.
+  Source: $DEV/math-stuff/d2_plane_72_108/PASSPORT_75_125_REPAIR.md:116-134;194-244;304-331;409-432; SHA256 4bde9e54296c02bad2fda8417c55a5b89085482dffbe49acf80cc399cd8633d1.
 - **F2 pure-ansatz branches:** Recorded selection/completeness defect in superseded chart; C002-related witness, not additional current F2 branch count. Corrected chart has no cubic. Wider family effect unknown.
-  Source: C:/Users/wstri/dev/math-stuff/d2_plane_72_108/F2_BRANCH_MANIFEST.md:12-31;46-61;264-269; SHA256 14193b04fcf866d9bf7eea2efa8cc2a5b8da5394d3e44d58ba04d0c54369e4d5.
+  Source: $DEV/math-stuff/d2_plane_72_108/F2_BRANCH_MANIFEST.md:12-31;46-61;264-269; SHA256 14193b04fcf866d9bf7eea2efa8cc2a5b8da5394d3e44d58ba04d0c54369e4d5.
 - **C0 partition 39 vs4690:** Recorded unresolved COVER gap; no established false completeness claim or shipment. Gap disposition only.
-  Source: C:/Users/wstri/dev/math-stuff/whetstone/whetstone_dag.py:830-835; SHA256 627749285c45566edddd05b01ae1f44c2488b29564b1ea98cc663099aad4992c.
+  Source: $DEV/math-stuff/whetstone/whetstone_dag.py:830-835; SHA256 627749285c45566edddd05b01ae1f44c2488b29564b1ea98cc663099aad4992c.
 - **Weak y lattice:** Seven condition miss retained as numerical-strength limit of B001/B002, no extra gauge count.
-  Source: C:/Users/wstri/dev/math-stuff/whetstone/whetstone_dag.py:816-822; SHA256 627749285c45566edddd05b01ae1f44c2488b29564b1ea98cc663099aad4992c.
+  Source: $DEV/math-stuff/whetstone/whetstone_dag.py:816-822; SHA256 627749285c45566edddd05b01ae1f44c2488b29564b1ea98cc663099aad4992c.
 - **3/3 headline:** B001 is one incident/three witnesses; no extra count for corrected independence headline.
-  Source: C:/Users/wstri/dev/math-stuff/whetstone/MODELLING_GAPS.md:487-499;650-652; SHA256 155804b33a822dcf2d4ae4e2b274f718d01d0ccd1bc740c4aea0147740609dfe.
+  Source: $DEV/math-stuff/whetstone/MODELLING_GAPS.md:487-499;650-652; SHA256 155804b33a822dcf2d4ae4e2b274f718d01d0ccd1bc740c4aea0147740609dfe.
 - **QQ1, synthetic infinity, tropical recommendation and gate predictions:** Open premises/controls/proposals, not new incidents.
-  Source: C:/Users/wstri/dev/math-stuff/whetstone/MODELLING_GAPS.md:115-120;411-480; SHA256 155804b33a822dcf2d4ae4e2b274f718d01d0ccd1bc740c4aea0147740609dfe.
+  Source: $DEV/math-stuff/whetstone/MODELLING_GAPS.md:115-120;411-480; SHA256 155804b33a822dcf2d4ae4e2b274f718d01d0ccd1bc740c4aea0147740609dfe.
 - **Recurrence correction in initial review:** No incident pointer in these three summaries. No broad rediscovery; coordinator retains existing 0a/campaign review link.
 
 ## Actual reading and custody
 
-| Source under C:/Users/wstri/dev/math-stuff | Lines read | SHA256 |
+| Source under $DEV/math-stuff | Lines read | SHA256 |
 |---|---|---|
 | d2_plane_72_108/F2_TOWER.md | 1-327 | 624b38c92fea86b74e875d77a074f583623e0d12d207787503bc644723ac10b9 |
 | d2_plane_72_108/PASSPORT_75_125_REPAIR.md | 1-432 | 4bde9e54296c02bad2fda8417c55a5b89085482dffbe49acf80cc399cd8633d1 |
@@ -307,10 +307,10 @@ Top proposed classes: ADAPTER, SCOPE, BINDING; MEANING/COVER and WARRANT subfind
 
 ## Finite next-source list (optional coordinator followup)
 
-- C:/Users/wstri/dev/math-stuff/d2_plane_72_108/c0_partition.py - Check whether case-coverage gap includes an actual withdrawn completeness claim.
-- C:/Users/wstri/dev/math-stuff/d2_plane_72_108/modular_triage.py - Incident-led history to locate shadowing correction and cross-0a identity; no execution.
-- C:/Users/wstri/dev/math-stuff/d2_plane_72_108/FRONTIER_REBUILD.md - Resolve exact stale-draft record/status; no regeneration.
-- C:/Users/wstri/dev/math-stuff/d2_plane_72_108/polygon_reduction_verify.py - Exact substring-check history if required for B007 admission; no execution.
-- C:/Users/wstri/dev/math-stuff/whetstone/WHETSTONE_DAG.md:16 - Follow a retained v0.3.2 release pointer only if present; no external rediscovery.
+- $DEV/math-stuff/d2_plane_72_108/c0_partition.py - Check whether case-coverage gap includes an actual withdrawn completeness claim.
+- $DEV/math-stuff/d2_plane_72_108/modular_triage.py - Incident-led history to locate shadowing correction and cross-0a identity; no execution.
+- $DEV/math-stuff/d2_plane_72_108/FRONTIER_REBUILD.md - Resolve exact stale-draft record/status; no regeneration.
+- $DEV/math-stuff/d2_plane_72_108/polygon_reduction_verify.py - Exact substring-check history if required for B007 admission; no execution.
+- $DEV/math-stuff/whetstone/WHETSTONE_DAG.md:16 - Follow a retained v0.3.2 release pointer only if present; no external rediscovery.
 
 Stop boundary reached. Original bound/Riemann-Hurwitz checkers, exact release/handoff artifacts and recurrence cross-0a linkage remain unknown. No unavailable packets rediscovered; no whole-repository audit proposed.

@@ -13,7 +13,7 @@
   "worker": {
     "report": "reports/PHASE-0E-TRANSFER-REVIEW.json",
     "charge_minutes": 15,
-    "sha256": "483a6c9bf2538d0afc6791bf17d2c87b0488cc3ad0555b6d3b8d1dbcfb1418be"
+    "sha256": "ef3b5f85bae5beae40037b0e377408c120011136dbb3fbd71b18f3a936dd6e88"
   },
   "checks": [
     {

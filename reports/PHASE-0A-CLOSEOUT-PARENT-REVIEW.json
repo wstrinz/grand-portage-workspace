@@ -4,7 +4,7 @@
   "status": "bounded closeout judgments accepted; strict0a remains open for A24",
   "concordance": {
     "path": "reports/PHASE-0A-CLOSEOUT-CONCORDANCE.json",
-    "sha256": "b22508eeadaa1e4056086c19bfafecbec533430523e2e47ca89ce4185e944206",
+    "sha256": "5972d37d4019a782b9bcf17fb373baaf084692b8728897f5ddabdf1a7156dbaf",
     "original_rows_verified": 113,
     "finite_queue_entries_verified": 16,
     "original_text_and_indices_preserved": true,

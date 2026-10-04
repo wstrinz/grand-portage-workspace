@@ -6,7 +6,7 @@
   "scope_or_region": "REGION",
   "sources": [
     {
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-22-n15-realization-triage.md",
+      "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-22-n15-realization-triage.md",
       "lines": [
         46,
         68
@@ -15,7 +15,7 @@
       "latest_path_history": "b78dbc257e0c7c19eba89abea72b94db88a26bfe|2026-08-22T15:59:12-05:00|Accept GP v0.25 and prepare full realization wave"
     },
     {
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+      "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
       "lines": [
         135,
         141
@@ -40,7 +40,7 @@
       "problem": "Proper ideal gives a geometric point after field extension, not necessarily a Q-rational point. The accepted statement uses algebraic closure.",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-22-n15-realization-triage.md",
+          "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-22-n15-realization-triage.md",
           "lines": [
             53,
             65
@@ -60,12 +60,12 @@
   "original_pointer": {
     "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
     "pointer": "/rows/46",
-    "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+    "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
     "review_date": "2026-09-29",
     "date_kind": "retained report review date; not incident date or source publication date"
   },
   "source": {
-    "repo": "F:/repos/grandportage-0.50",
+    "repo": "$WORKSPACE",
     "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/rows/46",
     "date": "2026-09-29",
     "review_date": "2026-09-29",
@@ -90,7 +90,7 @@
       "qualifications": "Concrete own-campaign near miss with recovery. Source records a stronger inbound report; actual downstream reliance unknown. The 64 cases form one flawed formulation episode, not 64 incidents.",
       "source": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-22-n15-realization-triage.md",
+          "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-22-n15-realization-triage.md",
           "lines": [
             46,
             68
@@ -99,7 +99,7 @@
           "latest_path_history": "b78dbc257e0c7c19eba89abea72b94db88a26bfe|2026-08-22T15:59:12-05:00|Accept GP v0.25 and prepare full realization wave"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             135,
             141
@@ -111,7 +111,7 @@
       "pointer": {
         "report": "reports/PHASE-0B-ARR15-PARENT-INTAKE.json",
         "pointer": "/dispositions/0",
-        "sha256": "bfec81762d273a6023a2d4c4684ca9a76318224f0df504e4db0fd52565a5134f",
+        "sha256": "b0f5939999ceecf8ad1b62f268c73245cc103bfabea4e5299204d22f1ea21df8",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       }
@@ -128,14 +128,14 @@
       "original_pointer": {
         "report": "reports/PHASE-0B-ARR15-PARENT-INTAKE.json",
         "pointer": "/dispositions/1",
-        "sha256": "bfec81762d273a6023a2d4c4684ca9a76318224f0df504e4db0fd52565a5134f",
+        "sha256": "b0f5939999ceecf8ad1b62f268c73245cc103bfabea4e5299204d22f1ea21df8",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       },
       "sources": [
         [
           {
-            "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-22-n15-realization-triage.md",
+            "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-22-n15-realization-triage.md",
             "lines": [
               53,
               65
@@ -151,7 +151,7 @@
           "qualifications": "Separate error dimension within one triage episode; do not add an independent incident count.",
           "source": [
             {
-              "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-22-n15-realization-triage.md",
+              "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-22-n15-realization-triage.md",
               "lines": [
                 53,
                 65
@@ -163,7 +163,7 @@
           "pointer": {
             "report": "reports/PHASE-0B-ARR15-PARENT-INTAKE.json",
             "pointer": "/dispositions/1",
-            "sha256": "bfec81762d273a6023a2d4c4684ca9a76318224f0df504e4db0fd52565a5134f",
+            "sha256": "b0f5939999ceecf8ad1b62f268c73245cc103bfabea4e5299204d22f1ea21df8",
             "review_date": "2026-09-29",
             "date_kind": "retained report review date; not incident date or source publication date"
           }
@@ -184,7 +184,7 @@
   "evidence_level": "retained source-backed report; no new source read, execution, or authentication",
   "parent_integration": {
     "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-    "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+    "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
     "register": "incident/correction/group"
   }
 }

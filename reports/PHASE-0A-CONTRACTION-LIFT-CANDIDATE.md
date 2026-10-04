@@ -2,7 +2,7 @@
 
 ## Pinned source
 
-Read `lean/GrandPortage/OperationContract.lean` from read-only predecessor `C:/Users/wstri/dev/grand-portage` at commit `ac4155787207e2847d248cffed7be871d5dcd577`. Blob `c805f85ff1288553f855daf072695578afebde2d`; SHA-256 `7c9afad6ba96f38f352554b778d2e9e01a1cb37f540a477da12e8f2042838196` (829 lines).
+Read `lean/GrandPortage/OperationContract.lean` from read-only predecessor `$DEV/grand-portage` at commit `ac4155787207e2847d248cffed7be871d5dcd577`. Blob `c805f85ff1288553f855daf072695578afebde2d`; SHA-256 `7c9afad6ba96f38f352554b778d2e9e01a1cb37f540a477da12e8f2042838196` (829 lines).
 
 - Lines 182-185 define exact contraction as `J g ↔ I (embedding g)` for every retained `g`.
 - Lines 322-341 require a valid evaluation for each affine point and define point-surjectivity by a source lift for every target point. Lines 343-349 say a polynomial section additionally carries `precompose_valid` and `retract_embedding`.
