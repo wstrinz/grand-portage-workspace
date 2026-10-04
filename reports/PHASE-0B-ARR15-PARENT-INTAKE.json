@@ -13,7 +13,7 @@
       "decision": "accept recorded correction as two premise failures in one triage episode; selected incidence equations/guards are not full matroid realization and proper ideal over Q is not a Q-point",
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-22-n15-realization-triage.md",
+          "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-22-n15-realization-triage.md",
           "lines": [
             46,
             68
@@ -22,7 +22,7 @@
           "latest_path_history": "b78dbc257e0c7c19eba89abea72b94db88a26bfe|2026-08-22T15:59:12-05:00|Accept GP v0.25 and prepare full realization wave"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             135,
             141
@@ -43,7 +43,7 @@
       "decision": "accept recorded correction as two premise failures in one triage episode; selected incidence equations/guards are not full matroid realization and proper ideal over Q is not a Q-point",
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-22-n15-realization-triage.md",
+          "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-22-n15-realization-triage.md",
           "lines": [
             53,
             65
@@ -64,7 +64,7 @@
       "decision": "retain attributed accepted-receipt source transcription correction; primary TeX/database/determinant outputs not independently checked",
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-22-m13-1-source-discrepancy.md",
+          "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-22-m13-1-source-discrepancy.md",
           "lines": [
             22,
             49
@@ -73,7 +73,7 @@
           "latest_path_history": "b78dbc257e0c7c19eba89abea72b94db88a26bfe|2026-08-22T15:59:12-05:00|Accept GP v0.25 and prepare full realization wave"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             114,
             147
@@ -94,7 +94,7 @@
       "decision": "retain bounded terminology/source/theorem-application or novelty correction; no global literature/theorem verification or wrong public census inferred",
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             430,
             450
@@ -115,7 +115,7 @@
       "decision": "retain bounded terminology/source/theorem-application or novelty correction; no global literature/theorem verification or wrong public census inferred",
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             247,
             257
@@ -124,7 +124,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\RESULTS_SO_FAR.md",
+          "path": "$DEV/math-research/campaigns/arr15/RESULTS_SO_FAR.md",
           "lines": [
             27,
             31
@@ -133,7 +133,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\RESULTS_SO_FAR.md",
+          "path": "$DEV/math-research/campaigns/arr15/RESULTS_SO_FAR.md",
           "lines": [
             175,
             186
@@ -142,7 +142,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-22-n15-realization-triage.md",
+          "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-22-n15-realization-triage.md",
           "lines": [
             30,
             44
@@ -163,7 +163,7 @@
       "decision": "retain bounded terminology/source/theorem-application or novelty correction; no global literature/theorem verification or wrong public census inferred",
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             378,
             400
@@ -172,7 +172,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\RESULTS_SO_FAR.md",
+          "path": "$DEV/math-research/campaigns/arr15/RESULTS_SO_FAR.md",
           "lines": [
             117,
             138
@@ -181,7 +181,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/arr15/RESULTS.md",
           "lines": [
             63,
             79
@@ -190,7 +190,7 @@
           "latest_path_history": "619744193411d40a0f37f01b76e4f0c9bf96c86a|2026-08-23T14:13:48-05:00|Add reader package and Lean backstop"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/arr15/CHECKPOINT.md",
           "lines": [
             61,
             70
@@ -211,7 +211,7 @@
       "decision": "retain bounded terminology/source/theorem-application or novelty correction; no global literature/theorem verification or wrong public census inferred",
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-23-publication-readiness-closeout.md",
+          "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-publication-readiness-closeout.md",
           "lines": [
             31,
             35
@@ -220,7 +220,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-23-publication-readiness-closeout.md",
+          "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-publication-readiness-closeout.md",
           "lines": [
             81,
             94
@@ -229,7 +229,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             402,
             409
@@ -250,7 +250,7 @@
       "decision": "accept recorded packet hash mismatch as custody failure; failing literal trial and passing regression wrapper are distinct; no fresh trial execution",
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/arr15/CHECKPOINT.md",
           "lines": [
             86,
             96
@@ -259,7 +259,7 @@
           "latest_path_history": "619744193411d40a0f37f01b76e4f0c9bf96c86a|2026-08-23T14:13:48-05:00|Add reader package and Lean backstop"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-23-publication-readiness-closeout.md",
+          "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-publication-readiness-closeout.md",
           "lines": [
             69,
             77
@@ -268,7 +268,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\REPRODUCIBILITY.md",
+          "path": "$DEV/math-research/campaigns/arr15/REPRODUCIBILITY.md",
           "lines": [
             25,
             27
@@ -289,7 +289,7 @@
       "decision": "retain historical GP implementation/debt observation with source-version limits; no current0.37 result or false ARR15 theorem inferred; exact corpus family reconciliation remains final GP consolidation",
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             199,
             213
@@ -298,7 +298,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             504,
             509
@@ -307,7 +307,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-23-gp-v026-live-acceptance-r2.md",
+          "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-gp-v026-live-acceptance-r2.md",
           "lines": [
             14,
             19
@@ -328,7 +328,7 @@
       "decision": "retain historical GP implementation/debt observation with source-version limits; no current0.37 result or false ARR15 theorem inferred; exact corpus family reconciliation remains final GP consolidation",
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             199,
             213
@@ -337,7 +337,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-23-gp-v026-live-acceptance-r2.md",
+          "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-gp-v026-live-acceptance-r2.md",
           "lines": [
             14,
             26
@@ -346,7 +346,7 @@
           "latest_path_history": "791f962c778bb77584a1984482728bdd8169d5f9|2026-08-23T09:12:44-05:00|Accept cyclotomic summit and close post-68 intake"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/arr15/CHECKPOINT.md",
           "lines": [
             134,
             144
@@ -367,7 +367,7 @@
       "decision": "retain historical GP implementation/debt observation with source-version limits; no current0.37 result or false ARR15 theorem inferred; exact corpus family reconciliation remains final GP consolidation",
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-23-gp-v026-live-acceptance-r2.md",
+          "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-gp-v026-live-acceptance-r2.md",
           "lines": [
             8,
             26
@@ -376,7 +376,7 @@
           "latest_path_history": "791f962c778bb77584a1984482728bdd8169d5f9|2026-08-23T09:12:44-05:00|Accept cyclotomic summit and close post-68 intake"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\RESULTS_SO_FAR.md",
+          "path": "$DEV/math-research/campaigns/arr15/RESULTS_SO_FAR.md",
           "lines": [
             151,
             157
@@ -385,7 +385,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/arr15/CHECKPOINT.md",
           "lines": [
             134,
             144
@@ -406,7 +406,7 @@
       "decision": "retain four operational subepisodes separately; environment/binding/schema conflicts are not mathematical contradictions",
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             31,
             70
@@ -415,7 +415,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             149,
             159
@@ -424,7 +424,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             313,
             320
@@ -433,7 +433,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             490,
             501
@@ -454,7 +454,7 @@
       "decision": "retain summary-attributed unreliable backend outputs; ten rejected outputs are not ten independently verified mathematical mistakes",
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             215,
             225
@@ -463,7 +463,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             495,
             499
@@ -496,7 +496,7 @@
   "dedup_limit": "C01/C02 share the64-case triage; M13 correction/forensics/retained negative are one episode; G10 two scale mechanisms not assumed identical; O12 four distinct operational subepisodes.13rows are not13independent wrong claims.",
   "worker_scope_and_custody_context": {
     "evidence_policy_source": {
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\EVIDENCE_POLICY.md",
+      "path": "$DEV/math-research/campaigns/arr15/EVIDENCE_POLICY.md",
       "lines": [
         3,
         47
@@ -515,7 +515,7 @@
     "formats": "Markdown result cards/accepted receipts; JSON manifests/ledgers/certificates and JSONL row exports; deterministic artifact scripts/logs; append-only GP JSONL and artifact digests; external CAS versus compact replay versus bounded Lean implication layer.",
     "scope": "Specified bounded173-seed extension universe; characteristic zero only unless explicit; partial incidence versus full determinant-pattern open; coefficient field versus point field; pointwise/module profile versus universal freeness; fine labeled realization versus automorphism quotient.",
     "result_cards": {
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\RESULTS.md",
+      "path": "$DEV/math-research/campaigns/arr15/RESULTS.md",
       "lines": [
         1,
         104
@@ -524,7 +524,7 @@
       "latest_path_history": "619744193411d40a0f37f01b76e4f0c9bf96c86a|2026-08-23T14:13:48-05:00|Add reader package and Lean backstop"
     },
     "reproducibility": {
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\REPRODUCIBILITY.md",
+      "path": "$DEV/math-research/campaigns/arr15/REPRODUCIBILITY.md",
       "lines": [
         3,
         62
@@ -535,23 +535,23 @@
     "graph_history_limit": "FRONTIER reports successive graphs364/397/416/418/447/452 events and associated historical hashes; r2 uses448-event input. This pass does not normalize them into one current head, inspect GP ledger or recompute prefix/file hashes.",
     "harvest_candidates": [
       {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/arr15/results/accepted/2026-08-22-m13-1-source-discrepancy.md",
+        "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-22-m13-1-source-discrepancy.md",
         "status": "accepted correction receipt fully read; raw/hash/history in sources"
       },
       {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/arr15/results/accepted/2026-08-22-n15-realization-triage.md",
+        "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-22-n15-realization-triage.md",
         "status": "accepted scope-correction receipt fully read; artifact hash list retained as source report"
       },
       {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/arr15/results/accepted/2026-08-23-gp-v026-live-acceptance-r2.md",
+        "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-gp-v026-live-acceptance-r2.md",
         "status": "accepted GP receipt fully read; binds base/lane/build and points to detailed artifacts"
       },
       {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/arr15/results/accepted/2026-08-23-publication-readiness-closeout.md",
+        "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-publication-readiness-closeout.md",
         "status": "accepted closeout receipt fully read; external source/checker SHA retained as reported values"
       },
       {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/arr15/artifacts/publication-positioning/cold-trial/ledger.json",
+        "path": "$DEV/math-research/campaigns/arr15/artifacts/publication-positioning/cold-trial/ledger.json",
         "status": "existing filename located; content/hash not read; cold-trial disposition from accepted receipt"
       }
     ],
@@ -564,7 +564,7 @@
       "item": "Bounded classification / coarse keys / obstruction cover",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             96,
             112
@@ -573,7 +573,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/arr15/RESULTS.md",
           "lines": [
             6,
             41
@@ -588,7 +588,7 @@
       "item": "Rational realizations, universal Fitting and cyclotomic geometry",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\RESULTS_SO_FAR.md",
+          "path": "$DEV/math-research/campaigns/arr15/RESULTS_SO_FAR.md",
           "lines": [
             47,
             144
@@ -597,7 +597,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/arr15/RESULTS.md",
           "lines": [
             43,
             104
@@ -612,7 +612,7 @@
       "item": "Q(sqrt5) refutation contrasted with Q(zeta10) witness",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             291,
             312
@@ -621,7 +621,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\RESULTS_SO_FAR.md",
+          "path": "$DEV/math-research/campaigns/arr15/RESULTS_SO_FAR.md",
           "lines": [
             76,
             104
@@ -636,7 +636,7 @@
       "item": "M11 reduced fiber versus nilpotent thickening",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             75,
             94
@@ -645,7 +645,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             452,
             466
@@ -660,7 +660,7 @@
       "item": "M12/E10 module variation controls",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             31,
             53
@@ -669,7 +669,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             443,
             450
@@ -678,7 +678,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\EVIDENCE_POLICY.md",
+          "path": "$DEV/math-research/campaigns/arr15/EVIDENCE_POLICY.md",
           "lines": [
             33,
             47
@@ -693,7 +693,7 @@
       "item": "Cuntz supplement / novelty",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-23-publication-readiness-closeout.md",
+          "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-publication-readiness-closeout.md",
           "lines": [
             18,
             30
@@ -702,7 +702,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-23-publication-readiness-closeout.md",
+          "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-publication-readiness-closeout.md",
           "lines": [
             40,
             67
@@ -711,7 +711,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-23-publication-readiness-closeout.md",
+          "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-publication-readiness-closeout.md",
           "lines": [
             79,
             85
@@ -726,7 +726,7 @@
       "item": "Capped vectors and deferred work",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/arr15/CHECKPOINT.md",
           "lines": [
             98,
             116
@@ -735,7 +735,7 @@
           "latest_path_history": "619744193411d40a0f37f01b76e4f0c9bf96c86a|2026-08-23T14:13:48-05:00|Add reader package and Lean backstop"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\RESULTS_SO_FAR.md",
+          "path": "$DEV/math-research/campaigns/arr15/RESULTS_SO_FAR.md",
           "lines": [
             146,
             171

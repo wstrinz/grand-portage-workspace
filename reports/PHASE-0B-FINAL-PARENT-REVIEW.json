@@ -4,7 +4,7 @@
   "status": "final parent review accepted with five classification corrections",
   "worker": {
     "path": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-    "sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d"
+    "sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849"
   },
   "checks": {
     "input_hashes": 16,
@@ -34,7 +34,7 @@
       "original_parent_adjudication": {
         "report": "reports/PHASE-0B-PIGEON-RIVER-PARENT-INTAKE.json",
         "pointer": "/dispositions/7",
-        "sha256": "7caa351bb5c7b4897affa48c4a45637b1db86b97adc570a7e74b9bb9ccc58e1a",
+        "sha256": "fda1430feb9c8900c7a239f168d1cd1f132e9796ee51ab68746dff7dc6ff85dc",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       }
@@ -45,7 +45,7 @@
       "original_parent_adjudication": {
         "report": "reports/PHASE-0B-PIGEON-RIVER-PARENT-INTAKE.json",
         "pointer": "/dispositions/9",
-        "sha256": "7caa351bb5c7b4897affa48c4a45637b1db86b97adc570a7e74b9bb9ccc58e1a",
+        "sha256": "fda1430feb9c8900c7a239f168d1cd1f132e9796ee51ab68746dff7dc6ff85dc",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       }
@@ -56,7 +56,7 @@
       "original_parent_adjudication": {
         "report": "reports/PHASE-0B-PIGEON-RIVER-PARENT-INTAKE.json",
         "pointer": "/dispositions/11",
-        "sha256": "7caa351bb5c7b4897affa48c4a45637b1db86b97adc570a7e74b9bb9ccc58e1a",
+        "sha256": "fda1430feb9c8900c7a239f168d1cd1f132e9796ee51ab68746dff7dc6ff85dc",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       }
@@ -67,7 +67,7 @@
       "original_parent_adjudication": {
         "report": "reports/PHASE-0B-PIGEON-RIVER-PARENT-INTAKE.json",
         "pointer": "/dispositions/12",
-        "sha256": "7caa351bb5c7b4897affa48c4a45637b1db86b97adc570a7e74b9bb9ccc58e1a",
+        "sha256": "fda1430feb9c8900c7a239f168d1cd1f132e9796ee51ab68746dff7dc6ff85dc",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       }
@@ -78,7 +78,7 @@
       "original_parent_adjudication": {
         "report": "reports/PHASE-0B-PIGEON-RIVER-PARENT-INTAKE.json",
         "pointer": "/dispositions/15",
-        "sha256": "7caa351bb5c7b4897affa48c4a45637b1db86b97adc570a7e74b9bb9ccc58e1a",
+        "sha256": "fda1430feb9c8900c7a239f168d1cd1f132e9796ee51ab68746dff7dc6ff85dc",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       }
@@ -189,7 +189,7 @@
   },
   "accepted_manifest": {
     "path": "corpus/incident-registers/MANIFEST.json",
-    "sha256": "4712b949f9a403e445cb255c6a2d94f7e97fbc52d3303aea8c843b0d352ad331"
+    "sha256": "e8bb858d7cc6a397c56fb76ec7dc669e3600e2142d18e73a537ec89dc6ff260f"
   },
   "no_fresh_campaign_execution_or_repair": true,
   "g0_complete": false

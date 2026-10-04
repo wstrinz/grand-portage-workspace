@@ -76,13 +76,13 @@
       "genuinely_missing_obligation": null,
       "incident_disposition": "metadata_only_no_neutral_case_obligation",
       "source_review_pointers": [
-        "C:/Users/wstri/dev/grand-portage git cat-file blob 05bacca06ba0fbb8c15c52b359d68688e715a187",
+        "$DEV/grand-portage git cat-file blob 05bacca06ba0fbb8c15c52b359d68688e715a187",
         "corpus/IR-PROJECTION-REVIEW.json#/findings",
         "corpus/IR-INTERPRETER-DOCUMENT-REVIEW.json#/sources",
         "reports/PHASE-0A-BATCH-68.md",
         "reports/PHASE-0A-BATCH-79.md",
-        "C:/Users/wstri/dev/grand-portage/tests/test_project_v2.py:91-95",
-        "C:/Users/wstri/dev/grand-portage/grandportage/project_v2.py:265-269"
+        "$DEV/grand-portage/tests/test_project_v2.py:91-95",
+        "$DEV/grand-portage/grandportage/project_v2.py:265-269"
       ]
     },
     {
@@ -146,13 +146,13 @@
       "genuinely_missing_obligation": null,
       "incident_disposition": "metadata_only_no_neutral_case_obligation",
       "source_review_pointers": [
-        "C:/Users/wstri/dev/grand-portage git cat-file blob 48917af2aa15ebb83f92dc08432622f2f1c000f5",
+        "$DEV/grand-portage git cat-file blob 48917af2aa15ebb83f92dc08432622f2f1c000f5",
         "corpus/IR-PROJECTION-REVIEW.json#/findings",
         "corpus/IR-INTERPRETER-DOCUMENT-REVIEW.json#/sources",
         "reports/PHASE-0A-BATCH-68.md",
         "reports/PHASE-0A-BATCH-79.md",
-        "C:/Users/wstri/dev/grand-portage/tests/test_project_v2.py:91-95",
-        "C:/Users/wstri/dev/grand-portage/grandportage/project_v2.py:265-269"
+        "$DEV/grand-portage/tests/test_project_v2.py:91-95",
+        "$DEV/grand-portage/grandportage/project_v2.py:265-269"
       ]
     },
     {
@@ -215,13 +215,13 @@
       "genuinely_missing_obligation": null,
       "incident_disposition": "metadata_only_no_neutral_case_obligation",
       "source_review_pointers": [
-        "C:/Users/wstri/dev/grand-portage git cat-file blob 7256d0fa3c129f29a153815db1d5f78cb9219246",
+        "$DEV/grand-portage git cat-file blob 7256d0fa3c129f29a153815db1d5f78cb9219246",
         "corpus/IR-PROJECTION-REVIEW.json#/findings",
         "corpus/IR-INTERPRETER-DOCUMENT-REVIEW.json#/sources",
         "reports/PHASE-0A-BATCH-68.md",
         "reports/PHASE-0A-BATCH-79.md",
-        "C:/Users/wstri/dev/grand-portage/tests/test_project_v2.py:91-95",
-        "C:/Users/wstri/dev/grand-portage/grandportage/project_v2.py:265-269"
+        "$DEV/grand-portage/tests/test_project_v2.py:91-95",
+        "$DEV/grand-portage/grandportage/project_v2.py:265-269"
       ]
     },
     {
@@ -268,13 +268,13 @@
       "genuinely_missing_obligation": null,
       "incident_disposition": "metadata_only_no_neutral_case_obligation",
       "source_review_pointers": [
-        "C:/Users/wstri/dev/grand-portage git cat-file blob 307f4d4b6e2b88bd219e023400be49d8927af935",
+        "$DEV/grand-portage git cat-file blob 307f4d4b6e2b88bd219e023400be49d8927af935",
         "corpus/IR-PROJECTION-REVIEW.json#/findings",
         "corpus/IR-INTERPRETER-DOCUMENT-REVIEW.json#/sources",
         "reports/PHASE-0A-BATCH-68.md",
         "reports/PHASE-0A-BATCH-79.md",
-        "C:/Users/wstri/dev/grand-portage/tests/test_project_v2.py:91-95",
-        "C:/Users/wstri/dev/grand-portage/grandportage/project_v2.py:265-269"
+        "$DEV/grand-portage/tests/test_project_v2.py:91-95",
+        "$DEV/grand-portage/grandportage/project_v2.py:265-269"
       ]
     },
     {
@@ -321,13 +321,13 @@
       "genuinely_missing_obligation": null,
       "incident_disposition": "metadata_only_no_neutral_case_obligation",
       "source_review_pointers": [
-        "C:/Users/wstri/dev/grand-portage git cat-file blob b8ca78a87419a46d353d6887605516baaf8410f1",
+        "$DEV/grand-portage git cat-file blob b8ca78a87419a46d353d6887605516baaf8410f1",
         "corpus/IR-PROJECTION-REVIEW.json#/findings",
         "corpus/IR-INTERPRETER-DOCUMENT-REVIEW.json#/sources",
         "reports/PHASE-0A-BATCH-68.md",
         "reports/PHASE-0A-BATCH-79.md",
-        "C:/Users/wstri/dev/grand-portage/tests/test_project_v2.py:91-95",
-        "C:/Users/wstri/dev/grand-portage/grandportage/project_v2.py:265-269"
+        "$DEV/grand-portage/tests/test_project_v2.py:91-95",
+        "$DEV/grand-portage/grandportage/project_v2.py:265-269"
       ]
     },
     {
@@ -381,12 +381,12 @@
       "genuinely_missing_obligation": null,
       "incident_disposition": "covered_by_existing_case",
       "source_review_pointers": [
-        "C:/Users/wstri/dev/grand-portage git cat-file blob 69639fe8ee804c099b1aec85c7f7ba5438d54f2e",
+        "$DEV/grand-portage git cat-file blob 69639fe8ee804c099b1aec85c7f7ba5438d54f2e",
         "corpus/IR-PROJECTION-REVIEW.json#/findings",
         "corpus/IR-INTERPRETER-DOCUMENT-REVIEW.json#/sources",
         "reports/PHASE-0A-BATCH-68.md",
         "reports/PHASE-0A-BATCH-79.md",
-        "C:/Users/wstri/dev/grand-portage/grandportage/project_v2.py:265-269"
+        "$DEV/grand-portage/grandportage/project_v2.py:265-269"
       ]
     },
     {
@@ -425,13 +425,13 @@
       "genuinely_missing_obligation": "Add paired minimal controls: refuse an inference whose family PREDICATE premise lacks family_bridge; accept the same inference only with a checked bridge to an exhibited proved member.",
       "incident_disposition": "unresolved_minimal_mechanism",
       "source_review_pointers": [
-        "C:/Users/wstri/dev/grand-portage git cat-file blob c298c3276732a6d5cb912280d170d1eeba51b807",
+        "$DEV/grand-portage git cat-file blob c298c3276732a6d5cb912280d170d1eeba51b807",
         "corpus/IR-PROJECTION-REVIEW.json#/findings",
         "corpus/IR-INTERPRETER-DOCUMENT-REVIEW.json#/sources",
         "reports/PHASE-0A-BATCH-68.md",
         "reports/PHASE-0A-BATCH-79.md",
-        "C:/Users/wstri/dev/grand-portage/tests/test_guard_release.py:26-28",
-        "C:/Users/wstri/dev/grand-portage/scripts/replay_guard_fixtures.py:42-52"
+        "$DEV/grand-portage/tests/test_guard_release.py:26-28",
+        "$DEV/grand-portage/scripts/replay_guard_fixtures.py:42-52"
       ]
     },
     {
@@ -477,13 +477,13 @@
       "genuinely_missing_obligation": null,
       "incident_disposition": "metadata_only_positive_replay_no_neutral_case_obligation",
       "source_review_pointers": [
-        "C:/Users/wstri/dev/grand-portage git cat-file blob 9150c5de4d97bb04f14f3de4e25960e05d70b473",
+        "$DEV/grand-portage git cat-file blob 9150c5de4d97bb04f14f3de4e25960e05d70b473",
         "corpus/IR-PROJECTION-REVIEW.json#/findings",
         "corpus/IR-INTERPRETER-DOCUMENT-REVIEW.json#/sources",
         "reports/PHASE-0A-BATCH-68.md",
         "reports/PHASE-0A-BATCH-79.md",
-        "C:/Users/wstri/dev/grand-portage/tests/test_guard_release.py:121-132",
-        "C:/Users/wstri/dev/grand-portage/scripts/replay_guard_fixtures.py:54-61"
+        "$DEV/grand-portage/tests/test_guard_release.py:121-132",
+        "$DEV/grand-portage/scripts/replay_guard_fixtures.py:54-61"
       ]
     },
     {
@@ -529,13 +529,13 @@
       "genuinely_missing_obligation": null,
       "incident_disposition": "metadata_only_positive_replay_no_neutral_case_obligation",
       "source_review_pointers": [
-        "C:/Users/wstri/dev/grand-portage git cat-file blob 1d874371ac0bb4fa2bb18df8b11a24948d77096f",
+        "$DEV/grand-portage git cat-file blob 1d874371ac0bb4fa2bb18df8b11a24948d77096f",
         "corpus/IR-PROJECTION-REVIEW.json#/findings",
         "corpus/IR-INTERPRETER-DOCUMENT-REVIEW.json#/sources",
         "reports/PHASE-0A-BATCH-68.md",
         "reports/PHASE-0A-BATCH-79.md",
-        "C:/Users/wstri/dev/grand-portage/tests/test_guard_release.py:121-132",
-        "C:/Users/wstri/dev/grand-portage/scripts/replay_guard_fixtures.py:54-61"
+        "$DEV/grand-portage/tests/test_guard_release.py:121-132",
+        "$DEV/grand-portage/scripts/replay_guard_fixtures.py:54-61"
       ]
     },
     {
@@ -586,13 +586,13 @@
       "genuinely_missing_obligation": "Paired with D3-before: accept a typed COUNT disposition as explicit unresolved coverage debt, while refusing the same COUNT-only fields on PREDICATE.",
       "incident_disposition": "unresolved_minimal_mechanism",
       "source_review_pointers": [
-        "C:/Users/wstri/dev/grand-portage git cat-file blob 8e9f77bfda8bbf5c4ba0b79433b0068d17e030fb",
+        "$DEV/grand-portage git cat-file blob 8e9f77bfda8bbf5c4ba0b79433b0068d17e030fb",
         "corpus/IR-PROJECTION-REVIEW.json#/findings",
         "corpus/IR-INTERPRETER-DOCUMENT-REVIEW.json#/sources",
         "reports/PHASE-0A-BATCH-68.md",
         "reports/PHASE-0A-BATCH-79.md",
-        "C:/Users/wstri/dev/grand-portage/tests/test_guard_release.py:49-53",
-        "C:/Users/wstri/dev/grand-portage/scripts/replay_guard_fixtures.py:42-52"
+        "$DEV/grand-portage/tests/test_guard_release.py:49-53",
+        "$DEV/grand-portage/scripts/replay_guard_fixtures.py:42-52"
       ]
     },
     {
@@ -631,13 +631,13 @@
       "genuinely_missing_obligation": "Paired with D3-after: refuse a PREDICATE payload containing COUNT-only fields; accept a correctly typed COUNT payload and retain the coverage-debt finding.",
       "incident_disposition": "unresolved_minimal_mechanism",
       "source_review_pointers": [
-        "C:/Users/wstri/dev/grand-portage git cat-file blob f5bcf0270017a72d683b25c9f471538e4cf9295f",
+        "$DEV/grand-portage git cat-file blob f5bcf0270017a72d683b25c9f471538e4cf9295f",
         "corpus/IR-PROJECTION-REVIEW.json#/findings",
         "corpus/IR-INTERPRETER-DOCUMENT-REVIEW.json#/sources",
         "reports/PHASE-0A-BATCH-68.md",
         "reports/PHASE-0A-BATCH-79.md",
-        "C:/Users/wstri/dev/grand-portage/tests/test_guard_release.py:49-53",
-        "C:/Users/wstri/dev/grand-portage/scripts/replay_guard_fixtures.py:42-52"
+        "$DEV/grand-portage/tests/test_guard_release.py:49-53",
+        "$DEV/grand-portage/scripts/replay_guard_fixtures.py:42-52"
       ]
     },
     {
@@ -695,13 +695,13 @@
       "genuinely_missing_obligation": null,
       "incident_disposition": "metadata_only_no_neutral_case_obligation",
       "source_review_pointers": [
-        "C:/Users/wstri/dev/grand-portage git cat-file blob 7d1178424e07b650941879a1bffcb41434e30e2d",
+        "$DEV/grand-portage git cat-file blob 7d1178424e07b650941879a1bffcb41434e30e2d",
         "corpus/IR-PROJECTION-REVIEW.json#/findings",
         "corpus/IR-INTERPRETER-DOCUMENT-REVIEW.json#/sources",
         "reports/PHASE-0A-BATCH-68.md",
         "reports/PHASE-0A-BATCH-79.md",
-        "C:/Users/wstri/dev/grand-portage/tests/test_guard_release.py:76-80",
-        "C:/Users/wstri/dev/grand-portage/grandportage/project_v2.py:265-269"
+        "$DEV/grand-portage/tests/test_guard_release.py:76-80",
+        "$DEV/grand-portage/grandportage/project_v2.py:265-269"
       ]
     },
     {
@@ -770,13 +770,13 @@
       "genuinely_missing_obligation": "A paired transport control: refuse family COUNT evidence without its E5 completeness bridge and a frozen corpus without actual-source/parent-cover binding; accept only with those separately checked premises.",
       "incident_disposition": "partially_covered_with_unresolved_transport_gate",
       "source_review_pointers": [
-        "C:/Users/wstri/dev/grand-portage git cat-file blob 26fe2a3842cc0a5f27fbe8807e649ce7db4d5199",
+        "$DEV/grand-portage git cat-file blob 26fe2a3842cc0a5f27fbe8807e649ce7db4d5199",
         "corpus/IR-PROJECTION-REVIEW.json#/findings",
         "corpus/IR-INTERPRETER-DOCUMENT-REVIEW.json#/sources",
         "reports/PHASE-0A-BATCH-68.md",
         "reports/PHASE-0A-BATCH-79.md",
-        "C:/Users/wstri/dev/grand-portage/tests/test_guard_release.py:81-85",
-        "C:/Users/wstri/dev/grand-portage/tests/fixtures/dk_retrodiction/transports/verbatim-v0.31.2.md"
+        "$DEV/grand-portage/tests/test_guard_release.py:81-85",
+        "$DEV/grand-portage/tests/fixtures/dk_retrodiction/transports/verbatim-v0.31.2.md"
       ]
     },
     {
@@ -825,13 +825,13 @@
       "genuinely_missing_obligation": null,
       "incident_disposition": "metadata_only_no_neutral_case_obligation",
       "source_review_pointers": [
-        "C:/Users/wstri/dev/grand-portage git cat-file blob 63516b8e324acc630ae5a7135cbf922a27e718ab",
+        "$DEV/grand-portage git cat-file blob 63516b8e324acc630ae5a7135cbf922a27e718ab",
         "corpus/IR-PROJECTION-REVIEW.json#/findings",
         "corpus/IR-INTERPRETER-DOCUMENT-REVIEW.json#/sources",
         "reports/PHASE-0A-BATCH-68.md",
         "reports/PHASE-0A-BATCH-79.md",
-        "C:/Users/wstri/dev/grand-portage/tests/test_project_v2.py:91-95",
-        "C:/Users/wstri/dev/grand-portage/grandportage/project_v2.py:265-269"
+        "$DEV/grand-portage/tests/test_project_v2.py:91-95",
+        "$DEV/grand-portage/grandportage/project_v2.py:265-269"
       ]
     }
   ]

@@ -6,7 +6,7 @@
   "scope_or_region": "N/A",
   "sources": [
     {
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+      "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
       "lines": [
         456,
         466
@@ -14,7 +14,7 @@
       "sha256": "006cd2976fae0457e5162411668791b98d52611a9c98a1235f27960f7e66cf2a"
     },
     {
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+      "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
       "lines": [
         531,
         558
@@ -41,12 +41,12 @@
   "original_pointer": {
     "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
     "pointer": "/rows/67",
-    "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+    "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
     "review_date": "2026-09-29",
     "date_kind": "retained report review date; not incident date or source publication date"
   },
   "source": {
-    "repo": "F:/repos/grandportage-0.50",
+    "repo": "$WORKSPACE",
     "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/rows/67",
     "date": "2026-09-29",
     "review_date": "2026-09-29",
@@ -71,7 +71,7 @@
       "qualifications": "Distinct subepisodes loop-erasure, metered accounting, payload/source binding grouped. No code/details read; no invalid accepted AC path inferred.",
       "source": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
           "lines": [
             456,
             466
@@ -79,7 +79,7 @@
           "sha256": "006cd2976fae0457e5162411668791b98d52611a9c98a1235f27960f7e66cf2a"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
           "lines": [
             531,
             558
@@ -90,7 +90,7 @@
       "pointer": {
         "report": "reports/PHASE-0B-PIGEON-RIVER-PARENT-INTAKE.json",
         "pointer": "/dispositions/15",
-        "sha256": "7caa351bb5c7b4897affa48c4a45637b1db86b97adc570a7e74b9bb9ccc58e1a",
+        "sha256": "fda1430feb9c8900c7a239f168d1cd1f132e9796ee51ab68746dff7dc6ff85dc",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       }
@@ -106,7 +106,7 @@
   },
   "parent_integration": {
     "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-    "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+    "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
     "register": "incident/correction/group"
   }
 }

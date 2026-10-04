@@ -33,7 +33,7 @@
           "content": [
             {
               "type": "text",
-              "text": "recorded 1 model in F:\\repos\\grandportage-0.50\\tmp\\mcp-boundary-g6prcayg\\.portage\\graph.jsonl\n\nno findings: every recorded conclusion is licensed by the transport it rests on."
+              "text": "recorded 1 model in tmp/mcp-boundary-g6prcayg/.portage/graph.jsonl/n/nno findings: every recorded conclusion is licensed by the transport it rests on."
             }
           ]
         }
@@ -50,7 +50,7 @@
           "content": [
             {
               "type": "text",
-              "text": "GraphError: <new>:1: epoch-1 model event has unknown field `unknown`. Native schemas are closed; fix the spelling or add the field to the format.\n\ngraph unchanged: F:\\repos\\grandportage-0.50\\tmp\\mcp-boundary-g6prcayg\\.portage\\graph.jsonl\nroot provenance: input=absolute; resolved GP_ROOT=F:\\repos\\grandportage-0.50\\tmp\\mcp-boundary-g6prcayg; server cwd=F:\\repos\\grandportage-0.50"
+              "text": "GraphError: <new>:1: epoch-1 model event has unknown field `unknown`. Native schemas are closed; fix the spelling or add the field to the format.\n\ngraph unchanged: tmp/mcp-boundary-g6prcayg/.portage/graph.jsonl/nroot provenance: input=absolute; resolved GP_ROOT=tmp/mcp-boundary-g6prcayg; server cwd=$WORKSPACE"
             }
           ],
           "isError": true
@@ -68,7 +68,7 @@
           "content": [
             {
               "type": "text",
-              "text": "unhandled error:\nTraceback (most recent call last):\n  File \"F:\\repos\\grandportage-0.50\\oracle\\checkout\\grandportage\\mcp.py\", line 1414, in dispatch\n    return _ok(rid, handler(args, call_root))\n                    ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\repos\\grandportage-0.50\\oracle\\checkout\\grandportage\\mcp.py\", line 918, in h_portage_declare\n    findings = C.run(S.load(S.graph_path(root)), accepted)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wstri\\AppData\\Roaming\\uv\\python\\cpython-3.12.9-windows-x86_64-none\\Lib\\unittest\\mock.py\", line 1139, in __call__\n    return self._mock_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wstri\\AppData\\Roaming\\uv\\python\\cpython-3.12.9-windows-x86_64-none\\Lib\\unittest\\mock.py\", line 1143, in _mock_call\n    return self._execute_mock_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wstri\\AppData\\Roaming\\uv\\python\\cpython-3.12.9-windows-x86_64-none\\Lib\\unittest\\mock.py\", line 1198, in _execute_mock_call\n    raise effect\nRuntimeError: synthetic report failure\n"
+              "text": "unhandled error:\nTraceback (most recent call last):\n  File \"oracle/checkout/grandportage/mcp.py/", line 1414, in dispatch\n    return _ok(rid, handler(args, call_root))\n                    ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"oracle/checkout/grandportage/mcp.py/", line 918, in h_portage_declare\n    findings = C.run(S.load(S.graph_path(root)), accepted)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/unittest/mock.py/", line 1139, in __call__\n    return self._mock_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/unittest/mock.py/", line 1143, in _mock_call\n    return self._execute_mock_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/unittest/mock.py/", line 1198, in _execute_mock_call\n    raise effect\nRuntimeError: synthetic report failure\n"
             }
           ],
           "isError": true

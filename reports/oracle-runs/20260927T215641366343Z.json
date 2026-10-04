@@ -2,7 +2,7 @@
   "schema_version": 1,
   "timestamp_utc": "20260927T215641366343Z",
   "oracle_commit": "ac4155787207e2847d248cffed7be871d5dcd577",
-  "oracle_path": "F:\\repos\\grandportage-0.50\\oracle\\checkout",
+  "oracle_path": "oracle/checkout",
   "runner_sha256": "32e6ac0b8578b66d11c88b71493b27536da4ae3a1348d29a7fe2d3a67889574a",
   "routes_sha256": "ad6b0cea73153116236db7e1dbdfaedc3207941b9c0d398de793e366cd19be24",
   "historical_manifest_sha256": "bde011b35fd6a8073cda9fa374be85ad29e374428257293fe5f8a6b52568b220",

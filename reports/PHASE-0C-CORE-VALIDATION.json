@@ -2407,7 +2407,7 @@
     "spikes/lean-core/lakefile.toml": "58fbe882740022e201afcb5799574dfa13689866f62cb3ce2ad6fe85b994ed3a",
     "spikes/lean-core/lean-toolchain": "97402b00d0468725baf4a753bf630ad69d0c588df2a7f5a849429b7926dfe000",
     "spikes/lean-core/Main.lean": "ca675d85e6c8394295e8c04d7059b9c35bb5b3065a6f6225f3607dda310e0832",
-    "spikes/lean-core/README.md": "1c754ae75bfd058eef3c58238b8dceb1b1a619c27495d9198c56cf79f1742a33",
+    "spikes/lean-core/README.md": "7c45d349bea8dc1687de60dc58235694bd172230d6c7767633695087f079a6e7",
     "spikes/lean-core/Spike.lean": "25a8dab731bf2bd57c304e64d49d124d93b93728ee3c428c266553d4e3467068",
     "spikes/lean-core/Spike/Lrat.lean": "2579f941911d69b866eea069b519a75f120d06c27904f4e0fb2e056c9d0cacc9",
     "spikes/lean-core/Spike/Poly.lean": "ffb91c9e357482ea04ce6980fca9fd8a33bc29fe5ee022cfa9e307a2542961db"

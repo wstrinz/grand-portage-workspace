@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "title": "Phase 0b GP reuse consolidation",
-  "workspace": "F:/repos/grandportage-0.50",
+  "workspace": "$WORKSPACE",
   "prepared_date": "2026-09-29",
   "status": "Bounded report-only reconciliation complete; coordinator owns admission and final coverage",
   "scope": {
@@ -48,29 +48,29 @@
   "source_reports": [
     {
       "path": "reports/PHASE-0B-DK-BOUNDED-REVIEW.json",
-      "sha256": "ea28b23d8ddd6926c50b8798dbb2e954ed49d49868979bb4153a6f4e3de29576"
+      "sha256": "1c9db66d38949da3ce2101a5ea3a67520f699b0509d90e9a7a4bb5220556c062"
     },
     {
       "path": "reports/PHASE-0B-CLOQUET-BOUNDED-REVIEW.json",
-      "sha256": "f649692f6f86d7cd40ca5b6b20f420a7c3cc7b5a9a4a43c2815fbde4a9d2c6f6"
+      "sha256": "5a9b18734fa53a435818a400d3d4fd1e6b5f93087a36bdf414903442c5ff733d"
     },
     {
       "path": "reports/PHASE-0B-ARR15-BOUNDED-REVIEW.json",
-      "sha256": "93b08c237be8449e6892eebb05c39f499878ba9760cf3e6cbe29155db930fe66"
+      "sha256": "ad715538a1d68d69d5aedb6586f773b9cbd16dfea45db4113bf4ced8394f4f48"
     },
     {
       "path": "reports/PHASE-0B-PIGEON-RIVER-BOUNDED-REVIEW.json",
-      "sha256": "40fba861a3887277bc14962e94ca55567a60bd5ad339afb765a4e6181020239d"
+      "sha256": "e41a6500c258c8b79f4f395b25af8e3aa0c8d11fc3d96ab8dc9ba959ba47c630"
     }
   ],
   "named_row_register": [
     {
       "id": "DK-GP01",
       "report": "reports/PHASE-0B-DK-BOUNDED-REVIEW.json",
-      "report_sha256": "ea28b23d8ddd6926c50b8798dbb2e954ed49d49868979bb4153a6f4e3de29576",
+      "report_sha256": "1c9db66d38949da3ce2101a5ea3a67520f699b0509d90e9a7a4bb5220556c062",
       "evidence": [
         {
-          "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
           "lines": "473-499",
           "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
         }
@@ -83,10 +83,10 @@
     {
       "id": "DK-GP02",
       "report": "reports/PHASE-0B-DK-BOUNDED-REVIEW.json",
-      "report_sha256": "ea28b23d8ddd6926c50b8798dbb2e954ed49d49868979bb4153a6f4e3de29576",
+      "report_sha256": "1c9db66d38949da3ce2101a5ea3a67520f699b0509d90e9a7a4bb5220556c062",
       "evidence": [
         {
-          "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
           "lines": "680-717",
           "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
         }
@@ -99,10 +99,10 @@
     {
       "id": "DK-GP03",
       "report": "reports/PHASE-0B-DK-BOUNDED-REVIEW.json",
-      "report_sha256": "ea28b23d8ddd6926c50b8798dbb2e954ed49d49868979bb4153a6f4e3de29576",
+      "report_sha256": "1c9db66d38949da3ce2101a5ea3a67520f699b0509d90e9a7a4bb5220556c062",
       "evidence": [
         {
-          "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
           "lines": "434-456;916-925",
           "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
         }
@@ -117,10 +117,10 @@
     {
       "id": "DK-GP04",
       "report": "reports/PHASE-0B-DK-BOUNDED-REVIEW.json",
-      "report_sha256": "ea28b23d8ddd6926c50b8798dbb2e954ed49d49868979bb4153a6f4e3de29576",
+      "report_sha256": "1c9db66d38949da3ce2101a5ea3a67520f699b0509d90e9a7a4bb5220556c062",
       "evidence": [
         {
-          "path": "C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction/REPORT.md",
+          "path": "$DEV/math-research/campaigns/dk-retrodiction/REPORT.md",
           "lines": "211-219;412-417",
           "sha256": "c56fe65d9e246bd06c525e9da5c642c24fa378681525d602679cd37e88228153"
         }
@@ -132,10 +132,10 @@
     {
       "id": "DK-GP05",
       "report": "reports/PHASE-0B-DK-BOUNDED-REVIEW.json",
-      "report_sha256": "ea28b23d8ddd6926c50b8798dbb2e954ed49d49868979bb4153a6f4e3de29576",
+      "report_sha256": "1c9db66d38949da3ce2101a5ea3a67520f699b0509d90e9a7a4bb5220556c062",
       "evidence": [
         {
-          "path": "C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction/REPORT.md",
+          "path": "$DEV/math-research/campaigns/dk-retrodiction/REPORT.md",
           "lines": "515-528;534-537;570-573",
           "sha256": "c56fe65d9e246bd06c525e9da5c642c24fa378681525d602679cd37e88228153"
         }
@@ -147,10 +147,10 @@
     {
       "id": "DK-GP06",
       "report": "reports/PHASE-0B-DK-BOUNDED-REVIEW.json",
-      "report_sha256": "ea28b23d8ddd6926c50b8798dbb2e954ed49d49868979bb4153a6f4e3de29576",
+      "report_sha256": "1c9db66d38949da3ce2101a5ea3a67520f699b0509d90e9a7a4bb5220556c062",
       "evidence": [
         {
-          "path": "C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction/REPORT.md",
+          "path": "$DEV/math-research/campaigns/dk-retrodiction/REPORT.md",
           "lines": "322-329;412-417",
           "sha256": "c56fe65d9e246bd06c525e9da5c642c24fa378681525d602679cd37e88228153"
         }
@@ -163,10 +163,10 @@
     {
       "id": "DK-GP07",
       "report": "reports/PHASE-0B-DK-BOUNDED-REVIEW.json",
-      "report_sha256": "ea28b23d8ddd6926c50b8798dbb2e954ed49d49868979bb4153a6f4e3de29576",
+      "report_sha256": "1c9db66d38949da3ce2101a5ea3a67520f699b0509d90e9a7a4bb5220556c062",
       "evidence": [
         {
-          "path": "C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction/REPORT.md",
+          "path": "$DEV/math-research/campaigns/dk-retrodiction/REPORT.md",
           "lines": "113-170",
           "sha256": "c56fe65d9e246bd06c525e9da5c642c24fa378681525d602679cd37e88228153"
         }
@@ -179,10 +179,10 @@
     {
       "id": "DK-GP08",
       "report": "reports/PHASE-0B-DK-BOUNDED-REVIEW.json",
-      "report_sha256": "ea28b23d8ddd6926c50b8798dbb2e954ed49d49868979bb4153a6f4e3de29576",
+      "report_sha256": "1c9db66d38949da3ce2101a5ea3a67520f699b0509d90e9a7a4bb5220556c062",
       "evidence": [
         {
-          "path": "C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction/REPORT.md",
+          "path": "$DEV/math-research/campaigns/dk-retrodiction/REPORT.md",
           "lines": "172-188",
           "sha256": "c56fe65d9e246bd06c525e9da5c642c24fa378681525d602679cd37e88228153"
         }
@@ -194,10 +194,10 @@
     {
       "id": "DK-GP09",
       "report": "reports/PHASE-0B-DK-BOUNDED-REVIEW.json",
-      "report_sha256": "ea28b23d8ddd6926c50b8798dbb2e954ed49d49868979bb4153a6f4e3de29576",
+      "report_sha256": "1c9db66d38949da3ce2101a5ea3a67520f699b0509d90e9a7a4bb5220556c062",
       "evidence": [
         {
-          "path": "C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction/REPORT.md",
+          "path": "$DEV/math-research/campaigns/dk-retrodiction/REPORT.md",
           "lines": "192-219;271-291;295-320",
           "sha256": "c56fe65d9e246bd06c525e9da5c642c24fa378681525d602679cd37e88228153"
         }
@@ -217,10 +217,10 @@
     {
       "id": "DK-GP10",
       "report": "reports/PHASE-0B-DK-BOUNDED-REVIEW.json",
-      "report_sha256": "ea28b23d8ddd6926c50b8798dbb2e954ed49d49868979bb4153a6f4e3de29576",
+      "report_sha256": "1c9db66d38949da3ce2101a5ea3a67520f699b0509d90e9a7a4bb5220556c062",
       "evidence": [
         {
-          "path": "C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction/REPORT.md",
+          "path": "$DEV/math-research/campaigns/dk-retrodiction/REPORT.md",
           "lines": "475-508;549-553",
           "sha256": "c56fe65d9e246bd06c525e9da5c642c24fa378681525d602679cd37e88228153"
         }
@@ -232,10 +232,10 @@
     {
       "id": "CQ-G01",
       "report": "reports/PHASE-0B-CLOQUET-BOUNDED-REVIEW.json",
-      "report_sha256": "f649692f6f86d7cd40ca5b6b20f420a7c3cc7b5a9a4a43c2815fbde4a9d2c6f6",
+      "report_sha256": "5a9b18734fa53a435818a400d3d4fd1e6b5f93087a36bdf414903442c5ff733d",
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             61,
             71
@@ -243,7 +243,7 @@
           "sha256": "2e0f9e5028cacf0a93150a566b6b86d85c8378e4d7cdabcafa00da5f5fd80736"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             137,
             150
@@ -251,7 +251,7 @@
           "sha256": "2e0f9e5028cacf0a93150a566b6b86d85c8378e4d7cdabcafa00da5f5fd80736"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/match4/CHECKPOINT.md",
           "lines": [
             49,
             53
@@ -266,10 +266,10 @@
     {
       "id": "CQ-G02",
       "report": "reports/PHASE-0B-CLOQUET-BOUNDED-REVIEW.json",
-      "report_sha256": "f649692f6f86d7cd40ca5b6b20f420a7c3cc7b5a9a4a43c2815fbde4a9d2c6f6",
+      "report_sha256": "5a9b18734fa53a435818a400d3d4fd1e6b5f93087a36bdf414903442c5ff733d",
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             73,
             78
@@ -277,7 +277,7 @@
           "sha256": "2e0f9e5028cacf0a93150a566b6b86d85c8378e4d7cdabcafa00da5f5fd80736"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             152,
             165
@@ -285,7 +285,7 @@
           "sha256": "2e0f9e5028cacf0a93150a566b6b86d85c8378e4d7cdabcafa00da5f5fd80736"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/match4/CHECKPOINT.md",
           "lines": [
             49,
             53
@@ -300,10 +300,10 @@
     {
       "id": "CQ-G03",
       "report": "reports/PHASE-0B-CLOQUET-BOUNDED-REVIEW.json",
-      "report_sha256": "f649692f6f86d7cd40ca5b6b20f420a7c3cc7b5a9a4a43c2815fbde4a9d2c6f6",
+      "report_sha256": "5a9b18734fa53a435818a400d3d4fd1e6b5f93087a36bdf414903442c5ff733d",
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             112,
             118
@@ -311,7 +311,7 @@
           "sha256": "2e0f9e5028cacf0a93150a566b6b86d85c8378e4d7cdabcafa00da5f5fd80736"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\match4\\lanes\\G\\RESULTS.md",
+          "path": "$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md",
           "lines": [
             167,
             173
@@ -326,10 +326,10 @@
     {
       "id": "ARR-G09",
       "report": "reports/PHASE-0B-ARR15-BOUNDED-REVIEW.json",
-      "report_sha256": "93b08c237be8449e6892eebb05c39f499878ba9760cf3e6cbe29155db930fe66",
+      "report_sha256": "ad715538a1d68d69d5aedb6586f773b9cbd16dfea45db4113bf4ced8394f4f48",
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             199,
             213
@@ -338,7 +338,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             504,
             509
@@ -347,7 +347,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-23-gp-v026-live-acceptance-r2.md",
+          "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-gp-v026-live-acceptance-r2.md",
           "lines": [
             14,
             19
@@ -364,10 +364,10 @@
     {
       "id": "ARR-G10",
       "report": "reports/PHASE-0B-ARR15-BOUNDED-REVIEW.json",
-      "report_sha256": "93b08c237be8449e6892eebb05c39f499878ba9760cf3e6cbe29155db930fe66",
+      "report_sha256": "ad715538a1d68d69d5aedb6586f773b9cbd16dfea45db4113bf4ced8394f4f48",
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             199,
             213
@@ -376,7 +376,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-23-gp-v026-live-acceptance-r2.md",
+          "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-gp-v026-live-acceptance-r2.md",
           "lines": [
             14,
             26
@@ -385,7 +385,7 @@
           "latest_path_history": "791f962c778bb77584a1984482728bdd8169d5f9|2026-08-23T09:12:44-05:00|Accept cyclotomic summit and close post-68 intake"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/arr15/CHECKPOINT.md",
           "lines": [
             134,
             144
@@ -402,10 +402,10 @@
     {
       "id": "ARR-G11",
       "report": "reports/PHASE-0B-ARR15-BOUNDED-REVIEW.json",
-      "report_sha256": "93b08c237be8449e6892eebb05c39f499878ba9760cf3e6cbe29155db930fe66",
+      "report_sha256": "ad715538a1d68d69d5aedb6586f773b9cbd16dfea45db4113bf4ced8394f4f48",
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\results\\accepted\\2026-08-23-gp-v026-live-acceptance-r2.md",
+          "path": "$DEV/math-research/campaigns/arr15/results/accepted/2026-08-23-gp-v026-live-acceptance-r2.md",
           "lines": [
             8,
             26
@@ -414,7 +414,7 @@
           "latest_path_history": "791f962c778bb77584a1984482728bdd8169d5f9|2026-08-23T09:12:44-05:00|Accept cyclotomic summit and close post-68 intake"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\RESULTS_SO_FAR.md",
+          "path": "$DEV/math-research/campaigns/arr15/RESULTS_SO_FAR.md",
           "lines": [
             151,
             157
@@ -423,7 +423,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/arr15/CHECKPOINT.md",
           "lines": [
             134,
             144
@@ -439,10 +439,10 @@
     {
       "id": "ARR-O12",
       "report": "reports/PHASE-0B-ARR15-BOUNDED-REVIEW.json",
-      "report_sha256": "93b08c237be8449e6892eebb05c39f499878ba9760cf3e6cbe29155db930fe66",
+      "report_sha256": "ad715538a1d68d69d5aedb6586f773b9cbd16dfea45db4113bf4ced8394f4f48",
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             31,
             70
@@ -451,7 +451,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             149,
             159
@@ -460,7 +460,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             313,
             320
@@ -469,7 +469,7 @@
           "latest_path_history": "ae1d9bcff7665cdd2d767574d93df9f0c1c87b8e|2026-08-23T12:37:14-05:00|Checkpoint ARR15 after publication closeout"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\arr15\\FRONTIER.md",
+          "path": "$DEV/math-research/campaigns/arr15/FRONTIER.md",
           "lines": [
             490,
             501
@@ -488,10 +488,10 @@
     {
       "id": "PR-G14",
       "report": "reports/PHASE-0B-PIGEON-RIVER-BOUNDED-REVIEW.json",
-      "report_sha256": "40fba861a3887277bc14962e94ca55567a60bd5ad339afb765a4e6181020239d",
+      "report_sha256": "e41a6500c258c8b79f4f395b25af8e3aa0c8d11fc3d96ab8dc9ba959ba47c630",
       "evidence": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             10,
             224
@@ -499,7 +499,7 @@
           "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             227,
             378
@@ -507,7 +507,7 @@
           "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             381,
             559
@@ -515,7 +515,7 @@
           "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             562,
             713
@@ -523,7 +523,7 @@
           "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             715,
             832
@@ -531,7 +531,7 @@
           "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             835,
             1081
@@ -539,7 +539,7 @@
           "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\coordination\\PRG-E11-CLOSEOUT-REVIEW.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/coordination/PRG-E11-CLOSEOUT-REVIEW.md",
           "lines": [
             18,
             30
@@ -568,7 +568,7 @@
     },
     {
       "path": "reports/MIGRATION-CUSTODY-BOUNDARY.json",
-      "sha256": "81944f36c19d6f9b0f182d04e9645926e5cda4ce50e2684e1afb09c629f3222f"
+      "sha256": "a73aecf0dc50c08c0487e1eb5a7dc43bc548c6f885272aa204831c698127a628"
     },
     {
       "path": "reports/NUMBER-FIELD-BOUNDARIES.json",
@@ -592,7 +592,7 @@
     },
     {
       "path": "reports/PHASE-0A-GUARD-EXTRACTION.json",
-      "sha256": "fd32a75e15c7cccdc45fc8e994e64701b6a03b96f322d286c295d6fe2f1770dc"
+      "sha256": "b8a02001bbe1f4c328a7d93c256b8dabf7262c356d4396e70219c1f8d1c8f2d3"
     },
     {
       "path": "reports/AUTHORITY-SCOPE-RELEASE-HISTORY-REVIEW.json",
@@ -1788,14 +1788,14 @@
       "GP-X370": {
         "kind": "operational_retained_observation",
         "layer": "retained_operational_diagnostic",
-        "manifest_sha256": "b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+        "manifest_sha256": "b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
         "case_sha256": "ca4c4a6225b577a12a737841f3a0d044087d48ba47a547bc4df8789f627a5e14",
         "limitation": "Verifies retained incident evidence bindings only; no fresh operational execution, native verdict, mathematical checker admission or agreement."
       },
       "GP-X371": {
         "kind": "operational_retained_observation",
         "layer": "retained_operational_diagnostic",
-        "manifest_sha256": "b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+        "manifest_sha256": "b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
         "case_sha256": "403eb3068528e43cea031aaf40b0f7a0e16264647dd6ab64d8fc72d0c970706d",
         "limitation": "Verifies retained incident evidence bindings only; no fresh operational execution, native verdict, mathematical checker admission or agreement."
       },

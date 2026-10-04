@@ -16,6 +16,9 @@ ROOT = Path(__file__).resolve().parents[1]
 ALLOWLIST = ROOT / "tools/local-paths-allowlist.json"
 PATTERN = re.compile(rb"[A-Za-z]:(?:/|\\\\?)(?:Users|repos)(?:/|\\\\?)|/c/Users/")
 EXCLUDED = ("oracle/checkout/", "oracle/history/checkout/")
+# These files carry the patterns as examples or rules.
+EXEMPT = {"tools/check-local-paths.py", "tools/local-paths-allowlist.json", "tools/neutralize-local-paths.py",
+          "tests/test_gp50_local_paths.py"}
 
 
 def counts():
@@ -23,7 +26,7 @@ def counts():
     result = {}
     for raw in tracked.split(b"\0"):
         path = raw.decode("utf-8")
-        if not path or path.startswith(EXCLUDED) or path == "tools/local-paths-allowlist.json":
+        if not path or path.startswith(EXCLUDED) or path in EXEMPT:
             continue
         try:
             data = (ROOT / path).read_bytes()

@@ -13,13 +13,13 @@
       "check": "corpus_source_pin_validation",
       "status": "fulfilled",
       "exit_code": 0,
-      "output": "warning: unable to access 'C:\\Users\\wstri/.config/git/ignore': Permission denied\nValidated 459 cases, source anchors and pinned oracle identity.\r\n"
+      "output": "warning: unable to access '$HOME/.config/git/ignore': Permission denied\nValidated 459 cases, source anchors and pinned oracle identity.\r\n"
     },
     {
       "check": "incident_inventory_private_custody_validation",
       "status": "fulfilled",
       "exit_code": 0,
-      "output": "warning: unable to access 'C:\\Users\\wstri/.config/git/ignore': Permission denied\n{\"status\": \"passed\", \"incident_correction_group_records\": 76, \"separate_main_records\": 39, \"all_main_records\": 115, \"unique_original_pointers\": 115, \"nested_gp_subdispositions\": 47, \"auxiliary_index_entries\": 17, \"private_files_hash_size_ignore_checked\": 89, \"pivot_screen\": \"indeterminate\", \"fresh_campaign_execution\": false}\r\n"
+      "output": "warning: unable to access '$HOME/.config/git/ignore': Permission denied\n{\"status\": \"passed\", \"incident_correction_group_records\": 76, \"separate_main_records\": 39, \"all_main_records\": 115, \"unique_original_pointers\": 115, \"nested_gp_subdispositions\": 47, \"auxiliary_index_entries\": 17, \"private_files_hash_size_ignore_checked\": 89, \"pivot_screen\": \"indeterminate\", \"fresh_campaign_execution\": false}\r\n"
     },
     {
       "check": "publish_tree_history_boundary_and_review_links",

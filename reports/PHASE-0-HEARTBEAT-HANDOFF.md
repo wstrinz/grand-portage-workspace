@@ -6,7 +6,7 @@ Updated 2026-09-28. User authorized a 50-minute same-thread heartbeat, ongoing S
 
 ## Workspace and authority
 
-Work explicitly in F:/repos/grandportage-0.50. Read AGENTS/DECISIONS and closure proposal. C: predecessor and frozen oracle are read-only. No external campaign harvest until complete manifest confirmation; no new kernel before0a/0b; Lean requires their completion and agreed cap. No publication. Cleared goal stays cleared.
+Work explicitly in $WORKSPACE. Read AGENTS/DECISIONS and closure proposal. C: predecessor and frozen oracle are read-only. No external campaign harvest until complete manifest confirmation; no new kernel before0a/0b; Lean requires their completion and agreed cap. No publication. Cleared goal stays cleared.
 
 ## Current integrated evidence
 

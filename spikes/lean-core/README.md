@@ -1,7 +1,7 @@
 # Private Phase0c Lean experiment
 Pin: Lean4.32.1 (f054605aea4b840552cca2e725580bffd1e1b704), no Mathlib imports. This is disposable feasibility code, not the Phase1 kernel.
 
-From F:/repos/grandportage-0.50:
+From $WORKSPACE:
 ```powershell
 ./.venv/Scripts/python.exe -B tools/build-lean-spike.py
 ./.venv/Scripts/python.exe -B tools/check-lean-spike.py

@@ -268,8 +268,8 @@
     "No external campaign read, CAS execution, new kernel/checker admission, or publication."
   ],
   "sha256": {
-    "reports/oracle-runs/20260929T003257767801Z.json": "9bd87748d0943d05c4ed399ed00bfe9ed8efc8214fc4fe698629baaf6f5bcec4",
-    "reports/oracle-runs/20260929T012356934782Z.json": "095f69903041743da2914581963e4c2154f67c81a198c534a1dbdaba6cbcc93b",
+    "reports/oracle-runs/20260929T003257767801Z.json": "5a0c3d59c02dd06505415b5b571251e676d06ef76b291302deaacedce48bfe86",
+    "reports/oracle-runs/20260929T012356934782Z.json": "b24859836e54daffe5095c4203b4266875ef2fa1bd571de0db723b971e746b05",
     "oracle/ROUTES.json": "548e274261c6fd6f0d5573752e70585bd93c819e5d8823b95e869bd3dfa80f51",
     "tools/check-corpus.py": "8d10f551b5bb459dd344932fa8a9e3a1885a05e28f0d2e8aefa46c184b2c7b92",
     "tools/q2_exact_probes.py": "28931ad13ae2e6c3317c6ca6cbe7de75fcc1f52e4a985c92c7ec1cda89c56e13",

@@ -1,6 +1,6 @@
 # Cloquet bounded Phase 0b review
 
-Completed the five required full reads and exactly five pointer followups. This is a finite source review, not a complete mathematical audit or an executed GP replay. Only this report and its JSON companion were written. Source root: `C:/Users/wstri/dev/math-research/campaigns/match4`; source HEAD: `a343801c9af4bb06f1cb514dfecdc745a8f5ac64`. Frozen oracle remains `ac4155787207e2847d248cffed7be871d5dcd577`; all 454 cases, routes, trackers and immutable replay files are unchanged.
+Completed the five required full reads and exactly five pointer followups. This is a finite source review, not a complete mathematical audit or an executed GP replay. Only this report and its JSON companion were written. Source root: `$DEV/math-research/campaigns/match4`; source HEAD: `a343801c9af4bb06f1cb514dfecdc745a8f5ac64`. Frozen oracle remains `ac4155787207e2847d248cffed7be871d5dcd577`; all 454 cases, routes, trackers and immutable replay files are unchanged.
 
 There are twelve proposal rows: four attributed source corrections, five deliberate mathematical misuse controls, and three GP mechanics observations. These are not twelve independent mathematical incidents. Every shipping and incident-cost value stays unknown; every `core_expressible` and `core_would_refuse` stays null. Shipping means a wrong claim published or handed off for reliance, not a commit or merge. The private-origin and “published” checkpoint wording do not establish which wrong claim, if any, was relied upon.
 
@@ -35,7 +35,7 @@ Discovery: Scouting records exact pentagon checks; LSA reports a subsequent PDF 
 
 Disposition: One discrepancy across scouting, LSA and checkpoint, not three incidents. Retain as attributed source statement: this worker did not open the primary PDF or execute pentagon code. No GP case asserted to certify LP-to-geometry validity.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\match4\packets\founding\cq-scouting.md`, lines 259–327 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\match4\literature\READS.md`, lines 25–77 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\match4\CHECKPOINT.md`, lines 41–45 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/match4/packets/founding/cq-scouting.md`, lines 259–327 (raw SHA in table); `$DEV/math-research/campaigns/match4/literature/READS.md`, lines 25–77 (raw SHA in table); `$DEV/math-research/campaigns/match4/CHECKPOINT.md`, lines 41–45 (raw SHA in table).
 
 ### CQ-C02 — General34 bound citation conflated with3-connected source
 
@@ -49,7 +49,7 @@ Discovery: LSA citation-chain read; founding scouting had already left provenanc
 
 Disposition: Proposal for a source/scope correction, not evidence general34 is false. No direct primary read here; no native GP reuse for bibliography fact.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\match4\literature\READS.md`, lines 81–108 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\match4\literature\READS.md`, lines 354–363 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\match4\CHECKPOINT.md`, lines 41–45 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/match4/literature/READS.md`, lines 81–108 (raw SHA in table); `$DEV/math-research/campaigns/match4/literature/READS.md`, lines 354–363 (raw SHA in table); `$DEV/math-research/campaigns/match4/CHECKPOINT.md`, lines 41–45 (raw SHA in table).
 
 ### CQ-C03 — Order8 uniqueness unsupported by cited source
 
@@ -63,7 +63,7 @@ Discovery: Scouting flags unverified uniqueness; LSA recommends dropping or sour
 
 Disposition: One corrected attribution episode; unknown original author/cost/reliance. No distinct GP mathematical defect.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\match4\packets\founding\CQ-PLAN.md`, lines 108–112 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\match4\literature\READS.md`, lines 110–129 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\match4\literature\READS.md`, lines 364–368 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\match4\CHECKPOINT.md`, lines 41–45 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/match4/packets/founding/CQ-PLAN.md`, lines 108–112 (raw SHA in table); `$DEV/math-research/campaigns/match4/literature/READS.md`, lines 110–129 (raw SHA in table); `$DEV/math-research/campaigns/match4/literature/READS.md`, lines 364–368 (raw SHA in table); `$DEV/math-research/campaigns/match4/CHECKPOINT.md`, lines 41–45 (raw SHA in table).
 
 ### CQ-C04 — 53 target paper/calculator identity conflation
 
@@ -77,7 +77,7 @@ Discovery: LSA caption-text comparison against already-replayed calculator ident
 
 Disposition: Source-binding correction proposal, with paper symmetry still inconclusive. Do not infer an exact graph exclusion from separated numerical closure roots.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\match4\packets\founding\cq-scouting.md`, lines 36–60 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\match4\literature\READS.md`, lines 279–350 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\match4\literature\READS.md`, lines 369–375 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\match4\CHECKPOINT.md`, lines 41–45 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/match4/packets/founding/cq-scouting.md`, lines 36–60 (raw SHA in table); `$DEV/math-research/campaigns/match4/literature/READS.md`, lines 279–350 (raw SHA in table); `$DEV/math-research/campaigns/match4/literature/READS.md`, lines 369–375 (raw SHA in table); `$DEV/math-research/campaigns/match4/CHECKPOINT.md`, lines 41–45 (raw SHA in table).
 
 ### CQ-P05 — Collapsed K222 witness promoted to injective realization
 
@@ -91,7 +91,7 @@ Discovery: Prewritten miniature, historical guarded replay. Parent separately ch
 
 Disposition: Reuse parent A24 source grounding; do not duplicate extraction or edit seed. Current A24 attempted conclusion is no-realization, and parent clarification remains pending Will. No wrong GP verdict shown.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\match4\packets\founding\cq-scouting.md`, lines 221–257 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\match4\fixtures\gp-miniatures\M5.json`, lines 8–48 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\match4\lanes\G\RESULTS.md`, lines 103–110 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/match4/packets/founding/cq-scouting.md`, lines 221–257 (raw SHA in table); `$DEV/math-research/campaigns/match4/fixtures/gp-miniatures/M5.json`, lines 8–48 (raw SHA in table); `$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md`, lines 103–110 (raw SHA in table).
 
 ### CQ-P06 — Ordered vector obstruction offered as complex emptiness
 
@@ -105,7 +105,7 @@ Discovery: Prewritten M2 answer key then Lane G exercise.
 
 Disposition: Not a newly observed wrong campaign conclusion. A10-R/C reuse the ordered-versus-complex reach decision, not M2's particular model or literal cofactor.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\match4\packets\founding\gp-cq-read.md`, lines 191–219 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\match4\lanes\G\RESULTS.md`, lines 89–101 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/match4/packets/founding/gp-cq-read.md`, lines 191–219 (raw SHA in table); `$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md`, lines 89–101 (raw SHA in table).
 
 ### CQ-P07 — One correct chart offered as complete coverage
 
@@ -119,7 +119,7 @@ Discovery: Prewritten M6; Lane G records positive two-open cover and hostile omi
 
 Disposition: Existing A16 covered/missing captures required exhaustion but has Boolean cover inputs. It does not encode these circle opens, graph family reconstruction or all sign/degenerate branches.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\match4\packets\founding\gp-cq-read.md`, lines 235–289 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\match4\lanes\G\RESULTS.md`, lines 80–87 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/match4/packets/founding/gp-cq-read.md`, lines 235–289 (raw SHA in table); `$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md`, lines 80–87 (raw SHA in table).
 
 ### CQ-P08 — Infinitesimal tangent direction offered as finite flex
 
@@ -133,7 +133,7 @@ Discovery: Prewritten M7 then deliberate free-parameter witness attempt.
 
 Disposition: No distinct actual mathematical incident demonstrated. No exact existing case selected: affine rank/existence or Jacobian sampling examples are not the same higher-order flex assertion. Parser diagnostic is separately CQ-G03 with same dedup episode.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\match4\packets\founding\cq-scouting.md`, lines 361–367 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\match4\packets\founding\gp-cq-read.md`, lines 306–314 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\match4\lanes\G\RESULTS.md`, lines 112–118 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/match4/packets/founding/cq-scouting.md`, lines 361–367 (raw SHA in table); `$DEV/math-research/campaigns/match4/packets/founding/gp-cq-read.md`, lines 306–314 (raw SHA in table); `$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md`, lines 112–118 (raw SHA in table).
 
 ### CQ-P09 — Budget exhaustion offered as empty-family evidence
 
@@ -147,7 +147,7 @@ Discovery: Prewritten M8 hostile; extra count finding arose in exercise.
 
 Disposition: X96/X106 reuse the unfinished-search authority boundary but concern JC extraction/search, not the literal work sidecar or family-declaration path. Count refusal is a successful defense within same exercise.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\match4\packets\founding\CQ-PLAN.md`, lines 229–235 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\match4\lanes\G\RESULTS.md`, lines 120–129 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\match4\lanes\G\RESULTS.md`, lines 175–179 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/match4/packets/founding/CQ-PLAN.md`, lines 229–235 (raw SHA in table); `$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md`, lines 120–129 (raw SHA in table); `$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md`, lines 175–179 (raw SHA in table).
 
 ### CQ-G01 — False ambient cofactor reads as VERIFIED_DERIVED at unit ideal
 
@@ -161,7 +161,7 @@ Discovery: Deliberate mutation and anchoring comparison, source explicitly files
 
 Disposition: A13 ambient/derived distinction is relevant semantic reuse but does not test zero quotient or message wording. Retain specific presentation probe only if parent needs it; do not count legitimate derived identity as mathematical incident.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\match4\lanes\G\RESULTS.md`, lines 61–71 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\match4\lanes\G\RESULTS.md`, lines 137–150 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\match4\CHECKPOINT.md`, lines 49–53 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md`, lines 61–71 (raw SHA in table); `$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md`, lines 137–150 (raw SHA in table); `$DEV/math-research/campaigns/match4/CHECKPOINT.md`, lines 49–53 (raw SHA in table).
 
 ### CQ-G02 — Live stale-model finding hidden by later unrelated supersession
 
@@ -175,7 +175,7 @@ Discovery: Lane G staged supersession sequence then separate CLI reload, as reco
 
 Disposition: A18/X160 supply stale evidence/retired context decision reuse, but neither includes unrelated later supersession plus default-vs-history display. Candidate defect remains historical0.32 observation, not confirmed at frozen0.37.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\match4\lanes\G\RESULTS.md`, lines 73–78 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\match4\lanes\G\RESULTS.md`, lines 152–165 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\match4\CHECKPOINT.md`, lines 49–53 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md`, lines 73–78 (raw SHA in table); `$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md`, lines 152–165 (raw SHA in table); `$DEV/math-research/campaigns/match4/CHECKPOINT.md`, lines 49–53 (raw SHA in table).
 
 ### CQ-G03 — Free-parameter witness refusal exposes raw CAS parse error
 
@@ -189,7 +189,7 @@ Discovery: Same M7 attempt as CQ-P08; no second mathematical episode.
 
 Disposition: Diagnostic-quality proposal only. No exact corpus reuse selected for wording. No backend invoked in this pass.
 
-Evidence: `C:\Users\wstri\dev\math-research\campaigns\match4\lanes\G\RESULTS.md`, lines 112–118 (raw SHA in table); `C:\Users\wstri\dev\math-research\campaigns\match4\lanes\G\RESULTS.md`, lines 167–173 (raw SHA in table).
+Evidence: `$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md`, lines 112–118 (raw SHA in table); `$DEV/math-research/campaigns/match4/lanes/G/RESULTS.md`, lines 167–173 (raw SHA in table).
 
 ## Existing 0a reuse and its limits
 
@@ -205,12 +205,12 @@ Read the parent resumption Markdown/JSON and eleven existing case payloads fully
 
 ## No-distinct-incident dispositions
 
-- **Lane D signatures and53 angle scan:** Recorded reconnaissance/calibration and seed-branch numerical roots, no newly proved family/graph/order exclusion. No solver run in this pass. Evidence: `C:\Users\wstri\dev\math-research\campaigns\match4\CHECKPOINT.md`, lines 8–20.
-- **Gerbracht polynomial and Winkler4x4 checks:** Recorded transcription/compatibility controls. One coordinate polynomial is not full Harborth reconstruction; rank checks are not nonlinear closure. No error episode identified. Evidence: `C:\Users\wstri\dev\math-research\campaigns\match4\literature\READS.md`, lines 187–246.
-- **M3 selected root; M4 nonedge; degeneration controls:** Prewritten proposed positive/negative contract controls; Tier(c) deposit, not implemented by Lane G. No adverse actual verdict demonstrated. Evidence: `C:\Users\wstri\dev\math-research\campaigns\match4\packets\founding\CQ-PLAN.md`, lines 142–160.
-- **Laman/degree/rational-coordinate/uniqueness advice:** Conceptual corrections with no traced run or published wrong conclusion in this bounded record. Retain risk guidance; no fabricated independent incidents. Evidence: `C:\Users\wstri\dev\math-research\campaigns\match4\packets\founding\cq-scouting.md`, lines 361–367.
-- **Custody and intake fixes:** Mailbox dirt, parser bullet-list requirements, stale blocked tempo and CRLF handling are process fixes. No mathematical contamination or wrong shipping established. Evidence: `C:\Users\wstri\dev\math-research\campaigns\match4\CHECKPOINT.md`, lines 44–54.
-- **verdict schema promotion clauses:** Scope policy read and recorded, including a stated Whitney promotion with3-connectivity premise. This worker did not audit its sufficiency for geometric realizations; no blanket theorem endorsement or new incident finding. Evidence: `C:\Users\wstri\dev\math-research\campaigns\match4\verdicts\SCHEMA.md`, lines 17–23.
+- **Lane D signatures and53 angle scan:** Recorded reconnaissance/calibration and seed-branch numerical roots, no newly proved family/graph/order exclusion. No solver run in this pass. Evidence: `$DEV/math-research/campaigns/match4/CHECKPOINT.md`, lines 8–20.
+- **Gerbracht polynomial and Winkler4x4 checks:** Recorded transcription/compatibility controls. One coordinate polynomial is not full Harborth reconstruction; rank checks are not nonlinear closure. No error episode identified. Evidence: `$DEV/math-research/campaigns/match4/literature/READS.md`, lines 187–246.
+- **M3 selected root; M4 nonedge; degeneration controls:** Prewritten proposed positive/negative contract controls; Tier(c) deposit, not implemented by Lane G. No adverse actual verdict demonstrated. Evidence: `$DEV/math-research/campaigns/match4/packets/founding/CQ-PLAN.md`, lines 142–160.
+- **Laman/degree/rational-coordinate/uniqueness advice:** Conceptual corrections with no traced run or published wrong conclusion in this bounded record. Retain risk guidance; no fabricated independent incidents. Evidence: `$DEV/math-research/campaigns/match4/packets/founding/cq-scouting.md`, lines 361–367.
+- **Custody and intake fixes:** Mailbox dirt, parser bullet-list requirements, stale blocked tempo and CRLF handling are process fixes. No mathematical contamination or wrong shipping established. Evidence: `$DEV/math-research/campaigns/match4/CHECKPOINT.md`, lines 44–54.
+- **verdict schema promotion clauses:** Scope policy read and recorded, including a stated Whitney promotion with3-connectivity premise. This worker did not audit its sufficiency for geometric realizations; no blanket theorem endorsement or new incident finding. Evidence: `$DEV/math-research/campaigns/match4/verdicts/SCHEMA.md`, lines 17–23.
 
 The literature allegations remain attributed to scouting/LSA. This worker read their reports, not the original PDFs. In particular, unsupported uniqueness attribution is not proof of nonuniqueness; the LP discrepancy is not proof the 34 bound is false; missing caption text is not proof two geometric graphs differ. Broad source warnings are not converted into invented runs or wrong published claims.
 
@@ -226,23 +226,23 @@ Historical Lane G identity: GP 0.32.0, source `cca5b05d1d74df68d2fb8eb0e13429d3d
 
 Selected existing paths below were located by filename inventory. Except M5, their bodies were not read. They are pointers for parent private harvest only:
 
-- `C:/Users/wstri/dev/math-research/campaigns/match4/lanes/G/.portage/graph.jsonl`
-- `C:/Users/wstri/dev/math-research/campaigns/match4/lanes/G/.portage/work.jsonl`
-- `C:/Users/wstri/dev/math-research/campaigns/match4/lanes/G/.portage/artifacts/sha256/`
-- `C:/Users/wstri/dev/math-research/campaigns/match4/fixtures/gp-miniatures/M1.json`
-- `C:/Users/wstri/dev/math-research/campaigns/match4/fixtures/gp-miniatures/M2.json`
-- `C:/Users/wstri/dev/math-research/campaigns/match4/fixtures/gp-miniatures/M5.json`
-- `C:/Users/wstri/dev/math-research/campaigns/match4/fixtures/gp-miniatures/M6.json`
-- `C:/Users/wstri/dev/math-research/campaigns/match4/fixtures/gp-miniatures/M7.json`
-- `C:/Users/wstri/dev/math-research/campaigns/match4/fixtures/gp-miniatures/M8.json`
-- `C:/Users/wstri/dev/math-research/campaigns/match4/data/raw/MANIFEST.json`
-- `C:/Users/wstri/dev/math-research/campaigns/match4/data/raw/mikematics_matchstick-graphs-calculator_2019-06-25.htm`
-- `C:/Users/wstri/dev/math-research/campaigns/match4/data/graphs/calculator_records_2019-06-25.json`
-- `C:/Users/wstri/dev/math-research/campaigns/match4/verdicts/INDEX.jsonl`
-- `C:/Users/wstri/dev/math-research/campaigns/match4/results/inbox/p05-source-reads-v1.md`
-- `C:/Users/wstri/dev/math-research/campaigns/match4/results/inbox/lane-g-tier-ab-v1.md`
-- `C:/Users/wstri/dev/math-research/campaigns/match4/results/intake/2026-09-11-wave1-intake.md`
-- `C:/Users/wstri/dev/math-research/campaigns/match4/results/intake/2026-09-11-wave1-intake-laneG.md`
+- `$DEV/math-research/campaigns/match4/lanes/G/.portage/graph.jsonl`
+- `$DEV/math-research/campaigns/match4/lanes/G/.portage/work.jsonl`
+- `$DEV/math-research/campaigns/match4/lanes/G/.portage/artifacts/sha256/`
+- `$DEV/math-research/campaigns/match4/fixtures/gp-miniatures/M1.json`
+- `$DEV/math-research/campaigns/match4/fixtures/gp-miniatures/M2.json`
+- `$DEV/math-research/campaigns/match4/fixtures/gp-miniatures/M5.json`
+- `$DEV/math-research/campaigns/match4/fixtures/gp-miniatures/M6.json`
+- `$DEV/math-research/campaigns/match4/fixtures/gp-miniatures/M7.json`
+- `$DEV/math-research/campaigns/match4/fixtures/gp-miniatures/M8.json`
+- `$DEV/math-research/campaigns/match4/data/raw/MANIFEST.json`
+- `$DEV/math-research/campaigns/match4/data/raw/mikematics_matchstick-graphs-calculator_2019-06-25.htm`
+- `$DEV/math-research/campaigns/match4/data/graphs/calculator_records_2019-06-25.json`
+- `$DEV/math-research/campaigns/match4/verdicts/INDEX.jsonl`
+- `$DEV/math-research/campaigns/match4/results/inbox/p05-source-reads-v1.md`
+- `$DEV/math-research/campaigns/match4/results/inbox/lane-g-tier-ab-v1.md`
+- `$DEV/math-research/campaigns/match4/results/intake/2026-09-11-wave1-intake.md`
+- `$DEV/math-research/campaigns/match4/results/intake/2026-09-11-wave1-intake-laneG.md`
 
 receipts inventory showed only SCHEMA.md. Verdict INDEX path exists; no claim about its entries. rg inventory does not list ignored PDFs; this pass does not assert current PDF presence/absence. Historical LSA PDF hashes in READS are not newly verified PDF bytes. Literature/scouting bundle sandbox links not fetched.
 

@@ -7,13 +7,13 @@
 The adapter requires the caller to supply a trusted whole-file manifest SHA-256. Current digest:
 
 ```text
-b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7
+b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad
 ```
 
 Example:
 
 ```powershell
-.venv\Scripts\python.exe -B tools/operational-retained-observation.py --candidate GP-X378 --manifest-sha256 b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7
+.venv\Scripts\python.exe -B tools/operational-retained-observation.py --candidate GP-X378 --manifest-sha256 b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad
 ```
 
 A verified binding returns `diagnostic_status=RETAINED_DIAGNOSTIC_BINDINGS_VERIFIED`, `observed_verdict=null`, `agreement=null`, and `oracle_called=false`. It does not read the candidate's expected verdict to derive an observation. Missing or changed bindings produce `RETAINED_DIAGNOSTIC_BINDING_FAILED`, the same null verdict fields, and exit code 2. The manifest digest must be pinned by the integrating caller; without an external trusted digest, a replaced manifest could rebind changed content.

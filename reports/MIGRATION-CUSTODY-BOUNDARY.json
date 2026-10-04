@@ -3,7 +3,7 @@
     {
       "id": "historical_missing_identity",
       "accepted": false,
-      "error": "F:\\repos\\grandportage-0.50\\tmp\\migration-audit-7728p4zt\\historical_missing_identity.jsonl:1: historical meta event has the wrong fields; missing: implementation; extra: (none)",
+      "error": "tmp/migration-audit-7728p4zt/historical_missing_identity.jsonl:1: historical meta event has the wrong fields; missing: implementation; extra: (none)",
       "source_sha256": "5800550caa436fc88610eb360b45014b3fafa150f5a97862d7407ac4086a35e8",
       "source_unchanged": true,
       "dry_run": true

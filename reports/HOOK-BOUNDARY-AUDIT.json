@@ -14,11 +14,11 @@
       "control": "changed_malformed_graph",
       "outputs": [
         {
-          "evaluate_message": "the graph at F:\\repos\\grandportage-0.50\\tmp\\hook-boundary-6n5h8lgm\\.portage\\graph.jsonl does not fold:\n  F:\\repos\\grandportage-0.50\\tmp\\hook-boundary-6n5h8lgm\\.portage\\graph.jsonl:1: not valid JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)\n\nA log that cannot be folded is worse than a rejected write -- nothing downstream of it can be trusted.",
-          "hook_message": "the graph at F:\\repos\\grandportage-0.50\\tmp\\hook-boundary-6n5h8lgm\\.portage\\graph.jsonl does not fold:\n  F:\\repos\\grandportage-0.50\\tmp\\hook-boundary-6n5h8lgm\\.portage\\graph.jsonl:1: not valid JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)\n\nA log that cannot be folded is worse than a rejected write -- nothing downstream of it can be trusted."
+          "evaluate_message": "the graph at tmp/hook-boundary-6n5h8lgm/.portage/graph.jsonl does not fold:\n  tmp/hook-boundary-6n5h8lgm/.portage/graph.jsonl:1: not valid JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)\n\nA log that cannot be folded is worse than a rejected write -- nothing downstream of it can be trusted.",
+          "hook_message": "the graph at tmp/hook-boundary-6n5h8lgm/.portage/graph.jsonl does not fold:\n  tmp/hook-boundary-6n5h8lgm/.portage/graph.jsonl:1: not valid JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)\n\nA log that cannot be folded is worse than a rejected write -- nothing downstream of it can be trusted."
         },
         {
-          "evaluate_message": "the graph at F:\\repos\\grandportage-0.50\\tmp\\hook-boundary-6n5h8lgm\\.portage\\graph.jsonl does not fold:\n  F:\\repos\\grandportage-0.50\\tmp\\hook-boundary-6n5h8lgm\\.portage\\graph.jsonl:1: not valid JSON: Expecting value: line 1 column 2 (char 1)\n\nA log that cannot be folded is worse than a rejected write -- nothing downstream of it can be trusted.",
+          "evaluate_message": "the graph at tmp/hook-boundary-6n5h8lgm/.portage/graph.jsonl does not fold:\n  tmp/hook-boundary-6n5h8lgm/.portage/graph.jsonl:1: not valid JSON: Expecting value: line 1 column 2 (char 1)\n\nA log that cannot be folded is worse than a rejected write -- nothing downstream of it can be trusted.",
           "hook_message": "GRAND PORTAGE: still refused, unchanged -- see gp check.\nFull detail and the discharge move were printed above, or run `gp check`.\n"
         }
       ],

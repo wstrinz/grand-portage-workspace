@@ -2,7 +2,7 @@
 
 Source: Will's response to the backbrief review: "ok i am good with those recs" with the change to use the development partition on F: for the new workspace and all practical activity; moving old files is unnecessary.
 
-1. Backbrief approved. Workspace: F:\repos\grandportage-0.50. Keep practical build, cache and scratch activity on F:; read old sources in place.
+1. Backbrief approved. Workspace: $WORKSPACE. Keep practical build, cache and scratch activity on F:; read old sources in place.
 2. Apply the recommended corpus-first schedule. Early environment feasibility is permitted; toy kernel implementation waits for 0a and 0b. No disposable-spike exception was explicitly requested, so none is assumed.
 3. Replay-only authority remains the default. A trusted enumerator requires a future explicit exception. Independent enumeration agreement is evidence to investigate, not an automatic completeness warrant.
 4. Every checker admission needs a stated soundness argument and adversarial controls. Two consumers alone do not suffice.
@@ -24,18 +24,18 @@ The retained packet is unedited. These clarifications take precedence where they
 
 0e initial review is authorized with a two-hour active-review cap, all 18 rows accounted for (P13 M1-only, P15 post-G5; P12/P16 reading may be combined), primary-source evidence and explicit unresolved items. No installations, code imports or implementation prototypes in that reading pass. The cap does not waive an incomplete gate. Three G1 adoption decisions remain evidence-backed decisions for later sign-off, not approved adoption of particular packages. 0c still needs completed 0a/0b and a separately agreed measurable cap; include its new separate-package Mathlib timing experiment. Heartbeats stay cancelled. Approval releases the revision-3 backbrief pause and authorizes bounded 0a closeout and corrected A27 work.
 
-2026-09-29 source confirmation: Will confirmed all five campaign folders under C:/Users/wstri/dev/math-research/campaigns (cfg23, dk-retrodiction, match4, arr15, ac-2gen), read-only, with private harvested copies on F:. Remaining manifest questions are pending; this partial confirmation does not yet start0b.
+2026-09-29 source confirmation: Will confirmed all five campaign folders under $DEV/math-research/campaigns (cfg23, dk-retrodiction, match4, arr15, ac-2gen), read-only, with private harvested copies on F:. Remaining manifest questions are pending; this partial confirmation does not yet start0b.
 
-2026-09-29 manifest discovery: Will authorized filename-only search under C:/Users/wstri/dev. Three configuration-23-4 notes/archive candidates were found; no newly discovered content was opened. Their inclusion and disposition of missing named packets remain pending confirmation. See reports/PHASE-0B-FILENAME-DISCOVERY.json.
+2026-09-29 manifest discovery: Will authorized filename-only search under $DEV. Three configuration-23-4 notes/archive candidates were found; no newly discovered content was opened. Their inclusion and disposition of missing named packets remain pending confirmation. See reports/PHASE-0B-FILENAME-DISCOVERY.json.
 
-2026-09-29 confirmed: Will approved all three configuration-23-4 files in C:/Users/wstri/dev/math-research/tmp (v1.2.0-notes.md, v1.2.0-zenodo.zip, v1.1.0-zenodo.zip), read-only with private F: extraction. Missing-packet disposition and optional/nonlocal scope remain pending; no complete-manifest sweep yet.
+2026-09-29 confirmed: Will approved all three configuration-23-4 files in $DEV/math-research/tmp (v1.2.0-notes.md, v1.2.0-zenodo.zip, v1.1.0-zenodo.zip), read-only with private F: extraction. Missing-packet disposition and optional/nonlocal scope remain pending; no complete-manifest sweep yet.
 
 2026-09-29 sweep boundary finalized: Will accepted the recommendation to mark the missing named packets unavailable for this pass and proceed without optional/nonlocal sources. Use the confirmed roots/files in SWEEP-SOURCES.md. Ask for a missing item only if a concrete indispensable dependency emerges. Phase0b is authorized to begin; A24 expectations and all other gates remain unchanged.
 
 
 2026-09-29 Phase0b shipping criterion: Will confirmed that shipped means a wrong claim was published or handed off for others to rely on. A local commit alone is insufficient. When publication/handoff is not evidenced, retain unknown shipping status; do not infer false or force a completed cost classification. Continue independent sweep work.
 
-2026-09-29 worker transition: Will requested a fresh Sol6.1 Medium or Low worker while retaining this coordinator. Created GPT-6.1 Sol Medium chat01a0eeca-572e-7202-a708-c730d410b901 for bounded separate-output work. All commands/writes must explicitly use F:/repos/grandportage-0.50; the saved C: project remains read-only. Previous worker is idle after its completed assignment. No heartbeat or goal is recreated.
+2026-09-29 worker transition: Will requested a fresh Sol6.1 Medium or Low worker while retaining this coordinator. Created GPT-6.1 Sol Medium chat01a0eeca-572e-7202-a708-c730d410b901 for bounded separate-output work. All commands/writes must explicitly use $WORKSPACE; the saved C: project remains read-only. Previous worker is idle after its completed assignment. No heartbeat or goal is recreated.
 
 2026-09-29 heartbeat renewal: Will explicitly requested processing the completed worker output and setting50-minute heartbeats to keep work moving. Created active same-chat heartbeat grand-portage-phase-0-shepherd; this supersedes previous cancellation notes. Preserve coordinator/worker split, F: writes, confirmed source boundaries and all gates. Pause when complete or no meaningful authorized work remains without a required decision. The cleared goal remains cleared. This authorization does not answer the pending A24 semantic clarification.
 
@@ -333,3 +333,11 @@ Also proposed: GP-X22–X24 (3b) are ruling 2's shape and now pass through the s
 2026-10-03 Will: v0.50.0-alpha stays checked in to grand-portage-workspace for now, not published. Removing every local machine path, so that everything is CI-capable, is considered a necessary step before any work moves to the public repository.
 
 2026-10-03 Will: Phase 4 (census) proceeds now, side by side with removing local paths. Order: the local-path CI check (current files allowlisted), then the M4 memo, then the Phase 4 build, with the path migration (neutral tool output, then one recorded rebinding migration) interleaved.
+
+2026-10-03 Local-path migration (alpha prerequisite).
+- `tools/neutralize-local-paths.py` rewrote 247 files to portable forms: workspace paths are repo-relative, and other roots become `$DEV`, `$ELAN_HOME`, `$APPDATA`, `$HOME` and `$REPOS`.
+- It then re-bound every SHA-256 that bound a rewritten file's bytes, chaining updates until nothing changed; 296 files changed in all. `reports/LOCAL-PATH-MIGRATION.json` records every old and new digest.
+- External-source hashes (campaign files, private harvests) are untouched, and check-incidents still verifies all 89 private files.
+- Checks after the migration: check-corpus 462 cases, check-incidents, layer tags, and the 0.50 suite (412 passed).
+- Three tools that read predecessor repos resolve them from `$GP_DEV_ROOT` (default `~/dev`).
+- The ratchet allowlist is empty: tracked files on the branch carry no local machine paths. Regenerating a receipt must be followed by the neutralizer; the ratchet test enforces this.

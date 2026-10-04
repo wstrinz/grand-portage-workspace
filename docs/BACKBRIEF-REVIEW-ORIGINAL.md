@@ -1,6 +1,6 @@
 # GP 0.50 — backbrief
 
-2026-09-27 · For Will's approval before Phase 0. Source: `C:\Users\wstri\Downloads\GP-0.50-REWORK-PACKET.md`, read in full. This review copy is in ignored scratch space; it is not the new working repository.
+2026-09-27 · For Will's approval before Phase 0. Source: `$HOME/Downloads/GP-0.50-REWORK-PACKET.md`, read in full. This review copy is in ignored scratch space; it is not the new working repository.
 
 **Goal.** Make a math campaign's entitlement explicit: which claims are supported, in which contexts, by which replayed evidence, and what is missing. Test whether a small shared custody kernel earns its keep across algebra and census work, including comparison with simpler alternatives.
 
@@ -10,7 +10,7 @@
 
 **Decisions or clarification needed.**
 
-- Where should the fresh private repository live, and which local/remote sources are authorized in `SWEEP-SOURCES.md`? Proposed local directory: `C:\Users\wstri\dev\grandportage-0.50`.
+- Where should the fresh private repository live, and which local/remote sources are authorized in `SWEEP-SOURCES.md`? Proposed local directory: `$DEV/grandportage-0.50`.
 - Phase 0 says four parallel lanes, but forbids kernel code until 0a/0b finish; 0c implements K1/K2/K4. Recommended default: environment feasibility first, toy fold after the corpus, unless Will explicitly permits a disposable spike exception. Replace “token cycle / agent-days” with a measurable effort cap.
 - M4 permits a trusted enumerator; §9 forbids enumerators in the TCB. Recommended default: preserve replay-only authority; treat enumeration and independent agreement as research evidence until a completeness warrant is justified. Any trusted-generator exception needs an explicit decision.
 - “Touch a public repo” should distinguish reading authorized local clones from mutating/publishing. Prepare 0d privately; ask before public changes.

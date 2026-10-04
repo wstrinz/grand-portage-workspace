@@ -20,7 +20,7 @@
 - **Campaign paths.** None outside the custody allowlist.
 - **Tests in the materialized snapshot.** The v0.37 CI selection passes 1,748/1,748. One v0.37 contract test was fixed to read the release markers from `HISTORY/`.
 - **Secrets.** None: no tokens, keys or email addresses.
-- **Local paths, Will to note.** 203 files contain local machine paths (`C:/Users/wstri/...`, `F:/repos/...`). They are mostly hash-bound receipts and incident records, so rewriting them would break their bindings. The same files are already public in the workspace repository.
+- **Local paths, Will to note.** 203 files contain local machine paths (`$HOME...`, `$REPOS...`). They are mostly hash-bound receipts and incident records, so rewriting them would break their bindings. The same files are already public in the workspace repository.
 
 ## Publication steps (after approval)
 

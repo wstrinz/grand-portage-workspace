@@ -18,7 +18,7 @@ T/F/? denote true/false/null. Columns show old E/R then proposed E/R. For every 
 
 ### ARR-C03 (BINDING; source-attributed correction/group)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/ARR-C03.json](F:/repos/grandportage-0.50/corpus/incidents/ARR-C03.json) `#/problem` and `#/class`; SHA-256 `71eb46191be374f87504c484d478cb61873cc956eaf318f399a7da800e140659`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/ARR-C03.json](corpus/incidents/ARR-C03.json) `#/problem` and `#/class`; SHA-256 `d6198d54217e3521f98b935dbdf8c2291f66e9d1446fc4b5651ae325b246224c`.
 
 - **S:** The printed matrix M and database arrangement D are presentation-equivalent and induce the same dependent-triple set.
 - **M:** Named M13^1 matrices, selected presentation and column ordering.
@@ -29,7 +29,7 @@ Refusal remains: Literal versus corrected arrangement identity needs an admitted
 
 ### ARR-C04 (BINDING; source-attributed correction/group)
 
-Old **F/F** → proposed **F/F**. Source: [corpus/incidents/ARR-C04.json](F:/repos/grandportage-0.50/corpus/incidents/ARR-C04.json) `#/problem` and `#/class`; SHA-256 `dcfaec356736b71992d352f764c5ac736b8310a067462260610e6c0ef6d9efb0`.
+Old **F/F** → proposed **F/F**. Source: [corpus/incidents/ARR-C04.json](corpus/incidents/ARR-C04.json) `#/problem` and `#/class`; SHA-256 `f6e80134b9d0c56540a79ed7a07538740d745de8cb77fec3c5ec1ecf3b683511`.
 
 Naming/attribution confusion identifies the intended literature source; no fully specified machine custody contract represents the whole historical interpretation.
 
@@ -37,7 +37,7 @@ Refusal remains: Bibliographic attribution and naming confusion is external inte
 
 ### ARR-C06 (SCOPE; source-attributed correction/group)
 
-Old **F/F** → proposed **F/F**. Source: [corpus/incidents/ARR-C06.json](F:/repos/grandportage-0.50/corpus/incidents/ARR-C06.json) `#/problem` and `#/class`; SHA-256 `7ceedba88c8c1095983858d96f06f09bd6fe323a8beac736b3190fb5b3d0c1ba`.
+Old **F/F** → proposed **F/F**. Source: [corpus/incidents/ARR-C06.json](corpus/incidents/ARR-C06.json) `#/problem` and `#/class`; SHA-256 `b56c10cf91400a66082580cfb9ac0be86e19d97cc340d77a4bc2159b7432c10d`.
 
 Arrangement newness/priority remains external historical interpretation; a mathematical identification statement could be encoded but does not represent the novelty claim.
 
@@ -45,7 +45,7 @@ Refusal remains: Global novelty is not a scope-inclusion judgment; identificatio
 
 ### ARR-C07 (WARRANT; source-attributed correction/group)
 
-Old **T/T** → proposed **T/T**. Source: [corpus/incidents/ARR-C07.json](F:/repos/grandportage-0.50/corpus/incidents/ARR-C07.json) `#/problem` and `#/class`; SHA-256 `9b6cbb11c593fcdef137b1d747da91d3ae0fea1acf213c6617b3c50ea352e038`.
+Old **T/T** → proposed **T/T**. Source: [corpus/incidents/ARR-C07.json](corpus/incidents/ARR-C07.json) `#/problem` and `#/class`; SHA-256 `cdfdbb641affa4cbe0004712f47ef64c4618f2629af36744f142540cb02dc21f`.
 
 - **S:** The computed field-gap example satisfies the premises and conclusion of the specifically named obstruction theorem.
 - **M:** Named arrangement/descent object, normalizer, quotient and lift data.
@@ -56,7 +56,7 @@ Refusal remains: Computed field gap cannot support the specific obstruction with
 
 ### ARR-O08 (BINDING; documented incident)
 
-Old **T/T** → proposed **T/T**. Source: [corpus/incidents/ARR-O08.json](F:/repos/grandportage-0.50/corpus/incidents/ARR-O08.json) `#/problem` and `#/class`; SHA-256 `fea1fa54063bb0a5fcb648ad310ef71723d733b20449096adfd42df3133dbd73`.
+Old **T/T** → proposed **T/T**. Source: [corpus/incidents/ARR-O08.json](corpus/incidents/ARR-O08.json) `#/problem` and `#/class`; SHA-256 `c2baa6caf8037e99b9a9440d03edee10eff5222ee82d53ac851254fdaafc7835`.
 
 - **S:** The trial's declared base-blob digest equals the actual pinned RESULTS_SO_FAR blob digest.
 - **M:** Named packet and base628c24e blob bytes.
@@ -67,7 +67,7 @@ Refusal remains: Declared base-blob digest mismatch is exactly K4 custody, provi
 
 ### ARR-T13 (ADAPTER; source-attributed correction/group)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/ARR-T13.json](F:/repos/grandportage-0.50/corpus/incidents/ARR-T13.json) `#/problem` and `#/class`; SHA-256 `18a64988e61b6994dbd32822deb97d52755e06e0e958f2693f1b349153b642ed`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/ARR-T13.json](corpus/incidents/ARR-T13.json) `#/problem` and `#/class`; SHA-256 `5caeba1ccdd162931755871ef07ee3e710fcc8fd701f658692f27aafca5e7b80`.
 
 - **S:** Each claimed D(A) baseline is certified by an exact resolution of the declared module; any Jacobian/D0 finite-prime result has only its declared reach.
 - **M:** The 18 declared arrangement/module baselines and associated chain maps.
@@ -78,7 +78,7 @@ Refusal remains: Validity of high-generator Singular resolutions and prime versu
 
 ### CQ-C01 (SCOPE; source-attributed correction/group)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/CQ-C01.json](F:/repos/grandportage-0.50/corpus/incidents/CQ-C01.json) `#/problem` and `#/class`; SHA-256 `8f0e8c363b37b58f2eb8cf52023cff4fbfef41936093823cbbba5a480e8a70e6`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/CQ-C01.json](corpus/incidents/CQ-C01.json) `#/problem` and `#/class`; SHA-256 `a3f8982c1a1892e344ef1fc653e1bfc13ac428fb9cbadc0f89eb595eb7f076ff`.
 
 - **S:** Every realization of the declared graph satisfying the geometric premises satisfies the proposed adjacent-angle inequality; the LP survivor count covers all declared feasible candidates.
 - **M:** Graph, selected adjacent vertices, plane realization and angle convention; explicit LP polytope.
@@ -89,7 +89,7 @@ Refusal remains: Stronger LP inequality versus geometric necessary condition nee
 
 ### CQ-C02 (SCOPE; source-attributed correction/group)
 
-Old **T/T** → proposed **T/T**. Source: [corpus/incidents/CQ-C02.json](F:/repos/grandportage-0.50/corpus/incidents/CQ-C02.json) `#/problem` and `#/class`; SHA-256 `7429cec2fcc6b03cf18bcf99448cf02d679b6160116dd1b4f434892ad88faa45`.
+Old **T/T** → proposed **T/T**. Source: [corpus/incidents/CQ-C02.json](corpus/incidents/CQ-C02.json) `#/problem` and `#/class`; SHA-256 `0818eacf811e4df423755c5b7730bef91db6a36acc675ed85770413a298fcae1`.
 
 - **S:** The bound m(4)>=34 holds for the stated graph class; cited evidence supports only the separately stated 3-connected class.
 - **M:** Finite simple 4-regular unit-distance graph family.
@@ -100,7 +100,7 @@ Refusal remains: Citation to a 3-connected result cannot authorize the general b
 
 ### CQ-C03 (WARRANT; source-attributed correction/group)
 
-Old **T/T** → proposed **T/T**. Source: [corpus/incidents/CQ-C03.json](F:/repos/grandportage-0.50/corpus/incidents/CQ-C03.json) `#/problem` and `#/class`; SHA-256 `31684dfc71081ba1e297f9e0dc87fa9c188aed23f3af01b52f3a29e36ddfec8e`.
+Old **T/T** → proposed **T/T**. Source: [corpus/incidents/CQ-C03.json](corpus/incidents/CQ-C03.json) `#/problem` and `#/class`; SHA-256 `924bb32c6b471449d3b30c80a28869756cb5b01fd4e15a1fb16e2466663aff79`.
 
 - **S:** Up to specified graph isomorphism there is exactly one 8-vertex 3-regular graph in the intended geometric family.
 - **M:** Explicit finite graph family and equivalence relation.
@@ -111,7 +111,7 @@ Refusal remains: Citation/exercise cannot become a held uniqueness theorem witho
 
 ### CQ-C04 (BINDING; source-attributed correction/group)
 
-Old **F/F** → proposed **F/F**. Source: [corpus/incidents/CQ-C04.json](F:/repos/grandportage-0.50/corpus/incidents/CQ-C04.json) `#/problem` and `#/class`; SHA-256 `a04d919c4518eb323ffc416194a3cedd9e77f6bef56ad0dd9e80ac7dd1872b37`.
+Old **F/F** → proposed **F/F**. Source: [corpus/incidents/CQ-C04.json](corpus/incidents/CQ-C04.json) `#/problem` and `#/class`; SHA-256 `dc87ef631dcff58aefb1db18c549a1907ba5c87c4d236972495f8bb5587a814a`.
 
 The recorded issue is choosing PDF versus calculator as the intended source of symmetry; source/figure interpretation remains unmodelled, not rescued by encoding a graph subset.
 
@@ -119,7 +119,7 @@ Refusal remains: Choosing calculator versus PDF as source of symmetry is an attr
 
 ### DK-B001 (COVER; documented incident)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B001.json](F:/repos/grandportage-0.50/corpus/incidents/DK-B001.json) `#/problem` and `#/class`; SHA-256 `8275e3de819d9ed4074c622591120130b4ec5a56c7b9100983d09caf1697926b`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B001.json](corpus/incidents/DK-B001.json) `#/problem` and `#/class`; SHA-256 `19d58ce28842ac78824729abc49a70ae0d78f8df62721549005caf14a5a241b6`.
 
 - **S:** The complete depth-6 search produces exactly 351 distinct keys and every shallow-replay obligation is discharged.
 - **M:** Pinned producer search space, depth bound, graph objects and key equivalence.
@@ -130,7 +130,7 @@ Refusal remains: Count/shallow replay completeness needs a finite search univers
 
 ### DK-B002 (SCOPE; source-attributed correction/group)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B002.json](F:/repos/grandportage-0.50/corpus/incidents/DK-B002.json) `#/problem` and `#/class`; SHA-256 `ff5212d9d4b3f85dec5e9a366c1eb563ecea9cb55d1064d46091aa04da06ebb5`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B002.json](corpus/incidents/DK-B002.json) `#/problem` and `#/class`; SHA-256 `e5cc5318f743ed3c9dd82dadd40308f9948204eac1ac974d39cc3d4b9878d7c5`.
 
 - **S:** The 31 chart restrictions are redundant for the declared realization model, or the replacement genuine factors and boundary charts cover it.
 - **M:** CT1 scalar/vector chart model, 31 guards and repaired five-factor atlas.
@@ -141,7 +141,7 @@ Refusal remains: Scalar guards versus vector nonvanishing needs algebraic guard-
 
 ### DK-B003 (SCOPE; source-attributed correction/group)
 
-Old **T/T** → proposed **T/T**. Source: [corpus/incidents/DK-B003.json](F:/repos/grandportage-0.50/corpus/incidents/DK-B003.json) `#/problem` and `#/class`; SHA-256 `4b1cf88f0c74667ee68e87ca85875a97fecce6d8460f0287323b30da649fd8a0`.
+Old **T/T** → proposed **T/T**. Source: [corpus/incidents/DK-B003.json](corpus/incidents/DK-B003.json) `#/problem` and `#/class`; SHA-256 `589981e6cc1303222dbffb7c2b8748b576144ad53b844ca4d48033956e67353e`.
 
 - **S:** The declared incidence configuration has no realization; distinguish no CLEAN_MINIMAL completion from no bare-incidence completion.
 - **M:** CT1/Type-A and Poncelet configurations, explicit specified/unspecified triples.
@@ -152,7 +152,7 @@ Refusal remains: CLEAN_MINIMAL completion is a premise. K2 cannot turn its negat
 
 ### DK-B004 (ADAPTER; documented incident)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B004.json](F:/repos/grandportage-0.50/corpus/incidents/DK-B004.json) `#/problem` and `#/class`; SHA-256 `201b50eec7153db465d4049a7760d4d7b13cedd2c002f2c36f0fec487a420a6c`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B004.json](corpus/incidents/DK-B004.json) `#/problem` and `#/class`; SHA-256 `ccd0da5315ec4572aaf708f5665e973bd86013a7ac3c1a8d022e7e18809c6f1b`.
 
 - **S:** Graphs G and H are non-isomorphic; none of the 1847 declared configurations is self-dual.
 - **M:** Finite Levi graphs with point/line roles, full incidence and allowed duality.
@@ -163,7 +163,7 @@ Refusal remains: Greedy Levi false negatives require correspondence/completeness
 
 ### DK-B006 (SCOPE; documented incident)
 
-Old **T/T** → proposed **T/T**. Source: [corpus/incidents/DK-B006.json](F:/repos/grandportage-0.50/corpus/incidents/DK-B006.json) `#/problem` and `#/class`; SHA-256 `10ac929f1fc969a007704dfb261423d2a1da10c012deb84aec248f4977be9589`.
+Old **T/T** → proposed **T/T**. Source: [corpus/incidents/DK-B006.json](corpus/incidents/DK-B006.json) `#/problem` and `#/class`; SHA-256 `1a364b8a66306ec99f01f1975edac0b590c287ce8eb765e4836f6568c73bfd17`.
 
 - **S:** The input is a valid CFG23 success: exactly 23 lines and all declared configuration predicates hold.
 - **M:** Concrete finite incidence state including n and k.
@@ -174,7 +174,7 @@ Refusal remains: CFG23 statement/model must bind n=23. Exact model/statement bin
 
 ### DK-B007 (ADAPTER; documented incident)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B007.json](F:/repos/grandportage-0.50/corpus/incidents/DK-B007.json) `#/problem` and `#/class`; SHA-256 `1afa586302397a4b061333ce2aa8dba97f7caf2f7cb820fbc26cef3ebf1f1f24`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B007.json](corpus/incidents/DK-B007.json) `#/problem` and `#/class`; SHA-256 `d76dd14d424522eb37465952226e0901b8831b1979c67d70c1b495e70379a0d9`.
 
 - **S:** This run is partial because its cap was reached, or failed dedup according to the stated classification predicate; completeness status remains separate.
 - **M:** Finite run transcript, cap, stopping reason and dedup invariants.
@@ -185,7 +185,7 @@ Refusal remains: Partial versus dedup-failure disposition is adapter result sema
 
 ### DK-B008 (COVER; documented incident)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B008.json](F:/repos/grandportage-0.50/corpus/incidents/DK-B008.json) `#/problem` and `#/class`; SHA-256 `5dd9a2ecda1de8766d7d77ddf157dcb61bd7690686080adab4db13e0ed0d1e5f`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B008.json](corpus/incidents/DK-B008.json) `#/problem` and `#/class`; SHA-256 `ef28b8e0c129e4e44e516c2ac43bb25896f3db3581a0e86893411e4ab8bac884`.
 
 - **S:** Two finite V4 action configurations are equivalent under one globally coherent group/role relabeling.
 - **M:** Incidence structures with coherent r/s/sr actions and coupled point/line permutations.
@@ -196,7 +196,7 @@ Refusal remains: Globally coupled action equivalence needs admitted coherent can
 
 ### DK-B009 (COVER; documented incident)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B009.json](F:/repos/grandportage-0.50/corpus/incidents/DK-B009.json) `#/problem` and `#/class`; SHA-256 `ea12b65a8967374e6043db983d8a2a9f19162afc5abf784922ff5b267e4cc0c2`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B009.json](corpus/incidents/DK-B009.json) `#/problem` and `#/class`; SHA-256 `b94a171503c2f575a3ac2bed033dd7c6a500ba595f9d8f2a74ed3cbd53c8931a`.
 
 - **S:** Canonical bytes identify exactly the declared role-preserving isomorphism class; exhaustion returns partial, never a canonical certificate.
 - **M:** Point/line-tagged finite V4 leaf structure, encoding and run budget.
@@ -207,7 +207,7 @@ Refusal remains: Role-byte omissions and budget None require faithful encoding a
 
 ### DK-B010 (ADAPTER; documented incident)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B010.json](F:/repos/grandportage-0.50/corpus/incidents/DK-B010.json) `#/problem` and `#/class`; SHA-256 `22c5c0566dd090ab5558dee23635f00ad7f6969ffa96bfabf38612595977adcc`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B010.json](corpus/incidents/DK-B010.json) `#/problem` and `#/class`; SHA-256 `70e05f3e29a2505cecf4999c5ad2adee9fd355e897d5134092903fc348ac435e`.
 
 - **S:** The coherent incidence-coupled Aut(V4) stabilizer equals the stated finite set.
 - **M:** Cuntz point/line incidence and coupled V4 action.
@@ -218,7 +218,7 @@ Refusal remains: Incidence-coupled stabilizer correctness requires actual action
 
 ### DK-B011 (COVER; documented incident)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B011.json](F:/repos/grandportage-0.50/corpus/incidents/DK-B011.json) `#/problem` and `#/class`; SHA-256 `c8a00f40c5ac71bad1b015f5aa5ae1f18605b286e1a0389f6bf2fcfbf6b65563`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B011.json](corpus/incidents/DK-B011.json) `#/problem` and `#/class`; SHA-256 `fdb773644f55437e32b71fc89f9daac260ab5bd2e0ba3d001144078a211598a7`.
 
 - **S:** Each positive history satisfies working-line crossings; the negative covers every admissible base-point choice for the candidate.
 - **M:** Fixed candidate, wiring histories, base-point choices and crossing model.
@@ -229,7 +229,7 @@ Refusal remains: Crossing correctness and all-base-point topology coverage need 
 
 ### DK-B012 (ADAPTER; documented incident)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B012.json](F:/repos/grandportage-0.50/corpus/incidents/DK-B012.json) `#/problem` and `#/class`; SHA-256 `819f158af9f929ba3040a9aeb3e28871c4a7a6d28d8a072cd72c491efdab7bf9`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B012.json](corpus/incidents/DK-B012.json) `#/problem` and `#/class`; SHA-256 `8d89f302c113dae263e9657e903988d2778c0f1fc5d5b7d2a4139aaa905f22a6`.
 
 - **S:** Generated initialized crossing reverses the correct block and its terminal/width certificate describes the resulting valid history.
 - **M:** Concrete modernization state, k-fold crossing block, transition sequence and terminal width.
@@ -240,7 +240,7 @@ Refusal remains: Crossing block reversal and terminal-width semantics lie in gen
 
 ### DK-B013 (WARRANT; source-attributed correction/group)
 
-Old **T/T** → proposed **T/T**. Source: [corpus/incidents/DK-B013.json](F:/repos/grandportage-0.50/corpus/incidents/DK-B013.json) `#/problem` and `#/class`; SHA-256 `a066838c60e8f9d8821f5f99f584240666f5b7ccf354d78a6c03f87d9f8e5204`.
+Old **T/T** → proposed **T/T**. Source: [corpus/incidents/DK-B013.json](corpus/incidents/DK-B013.json) `#/problem` and `#/class`; SHA-256 `442aed9463bb82f94e04c0ba0c422c7ecad890678240237c8dd257f9ec59382a`.
 
 - **S:** There exists a nonconstant formal/convergent branch through the selected rank35 germ; distinguish the finite order16 jet statement.
 - **M:** Named five germs, selected base point and truncated jets.
@@ -251,7 +251,7 @@ Refusal remains: Finite order16 jets do not authorize infinite formal/convergent
 
 ### DK-B014 (SCOPE; source-attributed correction/group)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B014.json](F:/repos/grandportage-0.50/corpus/incidents/DK-B014.json) `#/problem` and `#/class`; SHA-256 `ccebead48acb19cf2cbcc35e4c9d9c739fcf1dc8299e9931e2d85107fa4f3d90`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B014.json](corpus/incidents/DK-B014.json) `#/problem` and `#/class`; SHA-256 `364dd163f1d6e0feb99545a8b4608d09cb49d65f249af423157177db68641195`.
 
 - **S:** Repair equations vanish at the selected parent point and the local Jacobian/IFT premises imply the claimed local repair geometry.
 - **M:** Parent point, original and added repair equations, selected local neighborhood.
@@ -262,7 +262,7 @@ Refusal remains: IFT application requires equations vanish at selected parent po
 
 ### DK-B019 (BINDING; source-attributed correction/group)
 
-Old **F/F** → proposed **F/F**. Source: [corpus/incidents/DK-B019.json](F:/repos/grandportage-0.50/corpus/incidents/DK-B019.json) `#/problem` and `#/class`; SHA-256 `42a1f31516bcf62fdcaa6ad04d980a5de1f0538da84d98a9e3f234559c8c920d`.
+Old **F/F** → proposed **F/F**. Source: [corpus/incidents/DK-B019.json](corpus/incidents/DK-B019.json) `#/problem` and `#/class`; SHA-256 `2c7deb06b1d312daeb1e8b933ffc9534866082c8a985871e278b6f0848a8c641`.
 
 Whole episode includes mistaken raster-panel attribution and obsolete parser/block explanation. A finite marker-count substatement would omit unmodelled source recovery/intent.
 
@@ -270,7 +270,7 @@ Refusal remains: Raster marker attribution and obsolete parser explanation are s
 
 ### DK-B020 (OTHER; source-attributed correction/group)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B020.json](F:/repos/grandportage-0.50/corpus/incidents/DK-B020.json) `#/problem` and `#/class`; SHA-256 `87728fce638b7133fafd6b799b5c4ff1309b50d94b9df865691847877004fd6d`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B020.json](corpus/incidents/DK-B020.json) `#/problem` and `#/class`; SHA-256 `cb885896d90017d03065830edba1fe86df21843c2aad762bbc0e210125daea3a`.
 
 - **S:** The declared exhaustive finite sweep has histogram {8:16521,7:604,6:7} and each reported blob digest equals its actual committed bytes.
 - **M:** Pinned rational-component sweep universe, rank matrices/results and committed report artifacts.
@@ -281,7 +281,7 @@ Refusal remains: Blob identity is representable; rank-histogram correctness is a
 
 ### DK-B021 (COVER; source-attributed correction/group)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B021.json](F:/repos/grandportage-0.50/corpus/incidents/DK-B021.json) `#/problem` and `#/class`; SHA-256 `ee0b7a84631047af508224415105bfdb1f51833f517f4ab3892eeb5763aad2da`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B021.json](corpus/incidents/DK-B021.json) `#/problem` and `#/class`; SHA-256 `b5e373951ed8f311bbfd0b034d538b97d312d6482b79648b76114693a4b9ab33`.
 
 - **S:** The split-aware declared finite menu universe has exactly the claimed number of unordered equivalence classes.
 - **M:** General-valence superposition menus, allowed splits and unordered equivalence.
@@ -292,7 +292,7 @@ Refusal remains: Split-aware menu count needs exhaustive enumeration/partition p
 
 ### DK-B022 (SCOPE; source-attributed correction/group)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B022.json](F:/repos/grandportage-0.50/corpus/incidents/DK-B022.json) `#/problem` and `#/class`; SHA-256 `95f8b8746752184ca6c5dc6669395b700b80482f7519442ac9bf93f323141f67`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B022.json](corpus/incidents/DK-B022.json) `#/problem` and `#/class`; SHA-256 `4f103d9d257cf7b9ddbbbf70650f53b0d8ccd12137c8d86704124d82f3d1cd91`.
 
 - **S:** A-0003 witness and SAT orientation are equivalent under the specified element-wise reorientation action.
 - **M:** Named witness/orientation sign arrays and element labels.
@@ -303,7 +303,7 @@ Refusal remains: Correct reorientation equivalence needs a signed-action corresp
 
 ### DK-B024 (BINDING; documented incident)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B024.json](F:/repos/grandportage-0.50/corpus/incidents/DK-B024.json) `#/problem` and `#/class`; SHA-256 `e106fb2dcbdbca1d1ab62e631764c0d32361500bcc6fece4a21016dd657b5071`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/DK-B024.json](corpus/incidents/DK-B024.json) `#/problem` and `#/class`; SHA-256 `2a508d1382a7878464bea587834809a30bbccf6af4cff23f94c3df41a127ae3c`.
 
 - **S:** The current chart certificate consists of the specified 92 rows partitioned 82+10 and validates the class122 negative.
 - **M:** Named class122 chart, row sets and unchanged certificate.
@@ -314,7 +314,7 @@ Refusal remains: Versioned chart identity is representable, but hardcoded split 
 
 ### DK-B025 (WARRANT; source-attributed correction/group)
 
-Old **T/T** → proposed **T/T**. Source: [corpus/incidents/DK-B025.json](F:/repos/grandportage-0.50/corpus/incidents/DK-B025.json) `#/problem` and `#/class`; SHA-256 `1ad98e1706f68b4d714db298d0ce16ab113851fb9d64b2d31d47b07c7a21d6e4`.
+Old **T/T** → proposed **T/T**. Source: [corpus/incidents/DK-B025.json](corpus/incidents/DK-B025.json) `#/problem` and `#/class`; SHA-256 `129a54d5cb53cebe60d296df5ee31e7ee665c64cd5415146ca9255f20c1b69e6`.
 
 - **S:** CT1 has no real realization, distinguished from the content of a Galois remark.
 - **M:** CT1 incidence/equation model.
@@ -325,7 +325,7 @@ Refusal remains: Galois remark is citation/assertion, not real-emptiness authori
 
 ### DK-B027 (SCOPE; source-attributed correction/group)
 
-Old **T/T** → proposed **?/T**. Source: [corpus/incidents/DK-B027.json](F:/repos/grandportage-0.50/corpus/incidents/DK-B027.json) `#/problem` and `#/class`; SHA-256 `f50b6ec8c6a4dace5992740ad4e9a858f431abff6f87b9e3ab045294ed29e002`.
+Old **T/T** → proposed **?/T**. Source: [corpus/incidents/DK-B027.json](corpus/incidents/DK-B027.json) `#/problem` and `#/class`; SHA-256 `60c531303b7a403412d136edfa94494fc07cdbf9f98534030d8961a0ba05a518`.
 
 Integral-model specialization is mathematically representable, but owner also includes a repaired 1-WL helper with insufficient retained mechanism to propose its computational statement. Whole-row remains unresolved.
 
@@ -333,7 +333,7 @@ Refusal remains: No direct Q-to-F19 scope narrowing exists. An integral model/su
 
 ### DK-B028 (WARRANT; source-attributed correction/group)
 
-Old **T/T** → proposed **T/T**. Source: [corpus/incidents/DK-B028.json](F:/repos/grandportage-0.50/corpus/incidents/DK-B028.json) `#/problem` and `#/class`; SHA-256 `2f7ba3f1d5b428a2fa29ace080407aca464bec360c326c06897099a9fc66a46d`.
+Old **T/T** → proposed **T/T**. Source: [corpus/incidents/DK-B028.json](corpus/incidents/DK-B028.json) `#/problem` and `#/class`; SHA-256 `9b2bb757964c760227527c45543e457cd402a351c970353162e4df362ce4b759`.
 
 - **S:** Each retained sign assignment satisfies the named SAT instance; each negative has a retained LRAT proof accepted against the exact CNF.
 - **M:** Named CNFs, assignments, LRAT bytes and prefix/full instance distinction.
@@ -344,7 +344,7 @@ Refusal remains: Missing positive assignments and lost LRAT bytes cannot form re
 
 ### GP-SRC-ARR-G09 (ADAPTER; source-attributed correction/group)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/GP-SRC-ARR-G09.json](F:/repos/grandportage-0.50/corpus/incidents/GP-SRC-ARR-G09.json) `#/problem` and `#/class`; SHA-256 `3f834db5e114bba0cf60697c000cdfbea6cba249c6eb5e587612dfb8806b675d`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/GP-SRC-ARR-G09.json](corpus/incidents/GP-SRC-ARR-G09.json) `#/problem` and `#/class`; SHA-256 `5229303e10b23dd573e2493754ef64a0137f1a70c23fc5232a6911d99ce3bca8`.
 
 - **S:** A selected ordinary point satisfies every model equation and every declared nonzero guard, including an empty equation list.
 - **M:** Point coordinates, generators and open-guard list; selected point is statement/model identity.
@@ -355,7 +355,7 @@ Refusal remains: Point validity must include every open guard even with no equat
 
 ### GP-SRC-ARR-G10 (ADAPTER; source-attributed correction/group)
 
-Old **F/F** → proposed **F/F**. Source: [corpus/incidents/GP-SRC-ARR-G10.json](F:/repos/grandportage-0.50/corpus/incidents/GP-SRC-ARR-G10.json) `#/problem` and `#/class`; SHA-256 `adc4df5fd9a183047a229d980d2a14be9131ce9846d8f40504cf8f75673eb8b1`.
+Old **F/F** → proposed **F/F**. Source: [corpus/incidents/GP-SRC-ARR-G10.json](corpus/incidents/GP-SRC-ARR-G10.json) `#/problem` and `#/class`; SHA-256 `67f37946bc4129401ea701e6e0cff0269b0854f5c443ce825b18289b9afba0de`.
 
 Whole group is producer crash and packaging capacity. A point/emptiness substatement cannot represent host availability or make max-guard route complete.
 
@@ -363,7 +363,7 @@ Refusal remains: Crash and guard packaging capacity are availability/product lim
 
 ### GP-SRC-ARR-G11 (WARRANT; source-attributed correction/group)
 
-Old **T/T** → proposed **T/T**. Source: [corpus/incidents/GP-SRC-ARR-G11.json](F:/repos/grandportage-0.50/corpus/incidents/GP-SRC-ARR-G11.json) `#/problem` and `#/class`; SHA-256 `4f5b0cdcdc3c5b24141189e387c2c25a854add0f00280bb1807c0df05e328ef2`.
+Old **T/T** → proposed **T/T**. Source: [corpus/incidents/GP-SRC-ARR-G11.json](corpus/incidents/GP-SRC-ARR-G11.json) `#/problem` and `#/class`; SHA-256 `7834512ac16fe9ff84b8c299d7459848f256be09e0dac2c8f8a56c5cc38eddae`.
 
 - **S:** The NONSQUARE_CLASS claim for the specified class has a live verifying warrant, or remains unverified debt without authority.
 - **M:** Named nonsquare object and immutable warrant records in a finite snapshot.
@@ -374,7 +374,7 @@ Refusal remains: Stored kind name without an admitted verifying contract gives n
 
 ### GP-SRC-CQ-G02 (BINDING; source-attributed correction/group)
 
-Old **?/?** → proposed **?/?**. Source: [corpus/incidents/GP-SRC-CQ-G02.json](F:/repos/grandportage-0.50/corpus/incidents/GP-SRC-CQ-G02.json) `#/problem` and `#/class`; SHA-256 `9cd4e19e3083d2a567ea1a64cc7742f9495a7d85e9c354970569415bf80e01af`.
+Old **?/?** → proposed **?/?**. Source: [corpus/incidents/GP-SRC-CQ-G02.json](corpus/incidents/GP-SRC-CQ-G02.json) `#/problem` and `#/class`; SHA-256 `a47830302ba1e43147755f8d7edada5081b5bf3042664900344fb83794d3d419`.
 
 Live stale support is representable, but default-view suppression is an external presentation mechanism not supplied by the abstract held interface. Whole visibility sequence remains unresolved.
 
@@ -382,7 +382,7 @@ Refusal remains: Live stale warrant can be represented by K4/supersession, but d
 
 ### GP-SRC-DK-GP01 (SCOPE; source-attributed correction/group)
 
-Old **T/T** → proposed **T/T**. Source: [corpus/incidents/GP-SRC-DK-GP01.json](F:/repos/grandportage-0.50/corpus/incidents/GP-SRC-DK-GP01.json) `#/problem` and `#/class`; SHA-256 `04d07ace4ff89c6218f2012e72666a0fad32162294d48e6f51957345a5ab85a9`.
+Old **T/T** → proposed **T/T**. Source: [corpus/incidents/GP-SRC-DK-GP01.json](corpus/incidents/GP-SRC-DK-GP01.json) `#/problem` and `#/class`; SHA-256 `22cfec107c8f7c209db12fcdf3310a599ef426d91806a29d538a1306817fabe8`.
 
 - **S:** A selected point-equivalence/descent map is valid at the declared BASE or closure universe with the named embedding.
 - **M:** Point models, selected embeddings, source/target maps and universes.
@@ -393,7 +393,7 @@ Refusal remains: BASE-to-closure equivalence cannot imply descent to BASE. Selec
 
 ### GP-SRC-DK-GP02 (BINDING; source-attributed correction/group)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/GP-SRC-DK-GP02.json](F:/repos/grandportage-0.50/corpus/incidents/GP-SRC-DK-GP02.json) `#/problem` and `#/class`; SHA-256 `63be6b28cba2b44d990d451992954ab2241b817c11670be83ccaa01e6151e2c0`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/GP-SRC-DK-GP02.json](corpus/incidents/GP-SRC-DK-GP02.json) `#/problem` and `#/class`; SHA-256 `48ca1704c709053555b5efc3681a9cc9325b6733c69d16cee45081c63cb3e02b`.
 
 - **S:** Reading or migrating a format5/6 header obeys its closed identity schema and preserves authentic required identity values.
 - **M:** Finite historical header bytes, format versions and typed read/migration relation.
@@ -404,7 +404,7 @@ Refusal remains: Typed decoder/header identity contract is proposed but not spec
 
 ### GP-SRC-DK-GP03 (SCOPE; source-attributed correction/group)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/GP-SRC-DK-GP03.json](F:/repos/grandportage-0.50/corpus/incidents/GP-SRC-DK-GP03.json) `#/problem` and `#/class`; SHA-256 `5a3347abf9e6548446cb8f2b533c15e3e0ebe3d0616dbd67e10ed89cb21cbc1f`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/GP-SRC-DK-GP03.json](corpus/incidents/GP-SRC-DK-GP03.json) `#/problem` and `#/class`; SHA-256 `f0f8ad3c92867899591464a18693547de67c5fb9e270d2e8cbf9431d228cc1ff`.
 
 - **S:** An EMPTY receipt proves emptiness of the named typed model at its declared field reach, has compatible content, and retry selection preserves independently applicable support.
 - **M:** Typed model, certificate payload/kind and finite set of immutable warrants/retries.
@@ -415,7 +415,7 @@ Refusal remains: Field-relative scope is representable, but group includes unres
 
 ### GP-SRC-DK-GP04 (ADAPTER; source-attributed correction/group)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/GP-SRC-DK-GP04.json](F:/repos/grandportage-0.50/corpus/incidents/GP-SRC-DK-GP04.json) `#/problem` and `#/class`; SHA-256 `2e35d9e09c97f6b0f59cf8791b5e690a9cd2e875f395db1426ceb542e6ce26dc`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/GP-SRC-DK-GP04.json](corpus/incidents/GP-SRC-DK-GP04.json) `#/problem` and `#/class`; SHA-256 `64f9ec3dc9a8b79bc76e4eba6215f872c1627d77a2f5e2afaf71073f18ac7d41`.
 
 - **S:** A family-scoped predicate licenses the target model only through a validated family-to-model bridge with all required typed endpoints.
 - **M:** Family predicate, target model and concrete bridge/endpoint data.
@@ -426,7 +426,7 @@ Refusal remains: Missing model/family bridge can be a K3 side condition if a rul
 
 ### GP-SRC-DK-GP05 (ADAPTER; source-attributed correction/group)
 
-Old **F/F** → proposed **F/F**. Source: [corpus/incidents/GP-SRC-DK-GP05.json](F:/repos/grandportage-0.50/corpus/incidents/GP-SRC-DK-GP05.json) `#/problem` and `#/class`; SHA-256 `f1354108749842ca395a73254a9c55c4046674c0c9e20e5ef437ed0d21f756a1`.
+Old **F/F** → proposed **F/F**. Source: [corpus/incidents/GP-SRC-DK-GP05.json](corpus/incidents/GP-SRC-DK-GP05.json) `#/problem` and `#/class`; SHA-256 `e92cd93b0942a31619916afa478afa5d6710ad10f1e1a68406c280c14e67c096`.
 
 The actual owner is encoder capacity at 96/97/138 variables, including untested/current-asserted-success limits. A substitution identity subclaim cannot represent missing execution or product availability.
 
@@ -434,7 +434,7 @@ Refusal remains: Variable-count encoder capacity is implementation availability;
 
 ### GP-SRC-DK-GP06 (ADAPTER; source-attributed correction/group)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/GP-SRC-DK-GP06.json](F:/repos/grandportage-0.50/corpus/incidents/GP-SRC-DK-GP06.json) `#/problem` and `#/class`; SHA-256 `0d9db604665e3a6cbddee2008d2c7ba11e63355b6015ca39cc30e8c30e213508`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/GP-SRC-DK-GP06.json](corpus/incidents/GP-SRC-DK-GP06.json) `#/problem` and `#/class`; SHA-256 `25b0abad2c776045af9f71ebf4b178f520ce69731a16529152d33c8cd83eb65c`.
 
 - **S:** A typed COUNT/PREDICATE declaration covers precisely its declared family partition, with unsupported count debt retained rather than inert fields granting authority.
 - **M:** Finite family, partition/count declaration and immutable count warrants.
@@ -445,7 +445,7 @@ Refusal remains: Family count coverage must be interpreted by a declared partiti
 
 ### JC-B002 (COVER; documented incident)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/JC-B002.json](F:/repos/grandportage-0.50/corpus/incidents/JC-B002.json) `#/problem` and `#/class`; SHA-256 `ea6ddeda0c8c73f41b6b907df7788d889c7771a5bf670483a6c2b6fe00276d6c`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/JC-B002.json](corpus/incidents/JC-B002.json) `#/problem` and `#/class`; SHA-256 `1816a12322257267302d2db7a283d60020c0c74c2e111aba28dba3f599dd8182`.
 
 - **S:** The P/Q slice conclusions cover both M<0 and M>=0 domains, or an explicit stopping/exclusion proof justifies omitted domain.
 - **M:** P/Q models and two sign-defined half-line regions.
@@ -456,7 +456,7 @@ Refusal remains: Omitted M>=0 half-line requires coverage/stopping proof for dom
 
 ### JC-B003 (SCOPE; source-attributed correction/group)
 
-Old **T/T** → proposed **T/T**. Source: [corpus/incidents/JC-B003.json](F:/repos/grandportage-0.50/corpus/incidents/JC-B003.json) `#/problem` and `#/class`; SHA-256 `c85265562f46d2b916529e721589dbb2a230050aacdb84c6710e6c0c5f197d56`.
+Old **T/T** → proposed **T/T**. Source: [corpus/incidents/JC-B003.json](corpus/incidents/JC-B003.json) `#/problem` and `#/class`; SHA-256 `c64acf7fea07a518878de64ad05f660b445307c95558cf71c56b958413358461`.
 
 - **S:** The named C08/C20 model has no points over the specified coefficient field class.
 - **M:** Equations/guards and selected named model; distinct Q, splitting-field and arbitrary-field claims.
@@ -467,7 +467,7 @@ Refusal remains: Q/splitting-field emptiness cannot widen to arbitrary char0 K u
 
 ### JC-B004 (ADAPTER; documented incident)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/JC-B004.json](F:/repos/grandportage-0.50/corpus/incidents/JC-B004.json) `#/problem` and `#/class`; SHA-256 `91ae2d89581dfd5b2c5273313733259d109ce118eb71003137b9e1be74048030`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/JC-B004.json](corpus/incidents/JC-B004.json) `#/problem` and `#/class`; SHA-256 `ba76651c7d682ebebeb99d8bd60bcc0c13b4d13a7ba29a3c8c7b5bbbe48ee5f2`.
 
 - **S:** There is no Phi-column relation modulo the span of the other designated columns.
 - **M:** Exact weight43 matrix with distinguished Phi/G1/G2 columns and coefficient basis.
@@ -478,7 +478,7 @@ Refusal remains: Phi dependence modulo other columns versus full nullity is actu
 
 ### JC-B005 (BINDING; source-attributed correction/group)
 
-Old **F/F** → proposed **F/F**. Source: [corpus/incidents/JC-B005.json](F:/repos/grandportage-0.50/corpus/incidents/JC-B005.json) `#/problem` and `#/class`; SHA-256 `d988d20c7798fdd734677758d79be2f05b212da26a7324158c8a6b96696cb543`.
+Old **F/F** → proposed **F/F**. Source: [corpus/incidents/JC-B005.json](corpus/incidents/JC-B005.json) `#/problem` and `#/class`; SHA-256 `d2dcfa8c7df209bc67b33b6c5be527c13f3ea541c5d6149c7c822b061486b5e0`.
 
 Known-high-cost whole event is reviewer reading stale prose/recommendation. A current-warrant subset cannot represent or prevent that external consumer behavior.
 
@@ -486,7 +486,7 @@ Refusal remains: Recorded error is prose-only reading/recommendation by external
 
 ### JC-B007 (ADAPTER; documented incident)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/JC-B007.json](F:/repos/grandportage-0.50/corpus/incidents/JC-B007.json) `#/problem` and `#/class`; SHA-256 `ee04497953d1c7a54673b6e5a1d0af0970d9d214e0ac6e654cfab76090fba94e`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/JC-B007.json](corpus/incidents/JC-B007.json) `#/problem` and `#/class`; SHA-256 `fdfa636db4d25754367c6c1613136a2692bc677181b5fb59ac72153854dd38bc`.
 
 - **S:** The authoritative residual-gauge status at the bound snapshot is REOPENED, rather than a historical substring of prose now DISSOLVED.
 - **M:** Versioned structured residual-gauge state and ordered transitions.
@@ -497,7 +497,7 @@ Refusal remains: Substring status check is adapter parsing, not missing evidence
 
 ### JC-B008 (ADAPTER; documented incident)
 
-Old **F/F** → proposed **T/F**. Source: [corpus/incidents/JC-B008.json](F:/repos/grandportage-0.50/corpus/incidents/JC-B008.json) `#/problem` and `#/class`; SHA-256 `4697125ceca5e4ca23b5ce65e0e01ae69ca15b50a7bf3ab0c0be36029363d3b0`.
+Old **F/F** → proposed **T/F**. Source: [corpus/incidents/JC-B008.json](corpus/incidents/JC-B008.json) `#/problem` and `#/class`; SHA-256 `f40eb51e90e04b5ebda08eae72b3eabd7ca76f43b6e13097b15cffb906dbcf49`.
 
 - **S:** A_T_MIN >= 1; separately A_T_MIN >= 9 is a stronger requested statement.
 - **M:** Named bound object and exact threshold literal in statement.
@@ -508,7 +508,7 @@ Refusal remains: An honestly held >=1 statement does not establish the intended 
 
 ### JC-B009 (ADAPTER; documented incident)
 
-Old **F/F** → proposed **T/F**. Source: [corpus/incidents/JC-B009.json](F:/repos/grandportage-0.50/corpus/incidents/JC-B009.json) `#/problem` and `#/class`; SHA-256 `8f4961dacb2456626e8dc7b572c554225e3a9757bbcddbabf5a2b720425b2cca`.
+Old **F/F** → proposed **T/F**. Source: [corpus/incidents/JC-B009.json](corpus/incidents/JC-B009.json) `#/problem` and `#/class`; SHA-256 `698518d513b9a2ab4d0a2b125a77ca1740e4b0b762bcbdcc538a9a5d49f4b15e`.
 
 - **S:** The recorded Riemann-Hurwitz arithmetic expression is an identity for all inputs in its stated domain.
 - **M:** Exact test expression and input tuple with genus/degree/ramification convention.
@@ -519,7 +519,7 @@ Refusal remains: Tautological checker can correctly prove a tautology while fail
 
 ### JC-B010 (ADAPTER; documented incident)
 
-Old **?/?** → proposed **?/?**. Source: [corpus/incidents/JC-B010.json](F:/repos/grandportage-0.50/corpus/incidents/JC-B010.json) `#/problem` and `#/class`; SHA-256 `293cacaa29c6f18f4e8fed5f9cdb3577ae06c5bdda48b954bec0a95179b0dd05`.
+Old **?/?** → proposed **?/?**. Source: [corpus/incidents/JC-B010.json](corpus/incidents/JC-B010.json) `#/problem` and `#/class`; SHA-256 `85830d30fbd1ffb8736ab8a979a1219bac96e9d1b9d22c25f2d89e2077e90d0c`.
 
 Four vacuous/filter/self-scope checks plus false monotonicity are mathematical/computationally representable in principle, but retained summary lacks exact four predicates/domains. Whole-row concrete expression remains unresolved; no formulas invented.
 
@@ -527,7 +527,7 @@ Refusal remains: Composite vacuous checks and false monotonicity require actual 
 
 ### JC-B011 (ADAPTER; documented incident)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/JC-B011.json](F:/repos/grandportage-0.50/corpus/incidents/JC-B011.json) `#/problem` and `#/class`; SHA-256 `d81465f04f6592e503c41f90d02dc4983cc0253050990f723d88f6de10e904ab`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/JC-B011.json](corpus/incidents/JC-B011.json) `#/problem` and `#/class`; SHA-256 `c3f46c153db2511c86ab18d236627f49b9c20b1d41fcc664ce7af9c6cf44c969`.
 
 - **S:** The declared polynomial ideal is the unit ideal, meaning an explicit cofactor combination equals 1 in the intended polynomial ring.
 - **M:** Actual generator polynomials, variable names, ring and modular specialization.
@@ -538,7 +538,7 @@ Refusal remains: Variable shadowing manufactures false UNIT; faithfully bound pr
 
 ### JC-B012 (SCOPE; documented incident)
 
-Old **T/T** → proposed **T/T**. Source: [corpus/incidents/JC-B012.json](F:/repos/grandportage-0.50/corpus/incidents/JC-B012.json) `#/problem` and `#/class`; SHA-256 `8a005c2a575b14080a778773cb2f348058d698a757da0cd5948528d49e7729f0`.
+Old **T/T** → proposed **T/T**. Source: [corpus/incidents/JC-B012.json](corpus/incidents/JC-B012.json) `#/problem` and `#/class`; SHA-256 `28b1dee6fe2bfafeb343b6c73856f685fc100c33633db96e1f883cd8598dada2`.
 
 - **S:** The claimed a_t<=9 bound follows in the shifted chart only when the required divisibility/cascade premises hold there.
 - **M:** Shifted/unshifted charts, selected chart transformation and point/locus.
@@ -549,7 +549,7 @@ Refusal remains: Unshifted chart premise cannot license shifted bound without ad
 
 ### JC-B014 (BINDING; documented incident)
 
-Old **?/?** → proposed **?/?**. Source: [corpus/incidents/JC-B014.json](F:/repos/grandportage-0.50/corpus/incidents/JC-B014.json) `#/problem` and `#/class`; SHA-256 `bf9bc320fa50313dc106d3cecc9f452f4ff583cb875e1ab5f66c749a378e64ed`.
+Old **?/?** → proposed **?/?**. Source: [corpus/incidents/JC-B014.json](corpus/incidents/JC-B014.json) `#/problem` and `#/class`; SHA-256 `33b86987b8a351cfba2ac10172b8f12cbcb979ffc64abade871a63f11c2bcbc0`.
 
 Actual episode includes stale compiler/prose misquotation versus recomputed/current column. Versioned tables are representable but whole external frontier-reading/compiler correspondence lacks a concrete retained consumer contract.
 
@@ -557,7 +557,7 @@ Refusal remains: Old compiler/prose versus current audit is version-custody repr
 
 ### JC-C001 (SCOPE; documented incident)
 
-Old **T/T** → proposed **T/T**. Source: [corpus/incidents/JC-C001.json](F:/repos/grandportage-0.50/corpus/incidents/JC-C001.json) `#/problem` and `#/class`; SHA-256 `d74ca3514171d195308c2230da7ad37380ce08a7af5472e1ee8c2a7f18cdf814`.
+Old **T/T** → proposed **T/T**. Source: [corpus/incidents/JC-C001.json](corpus/incidents/JC-C001.json) `#/problem` and `#/class`; SHA-256 `97047fea6e8ae31fef714b4adfbb6a341f21e2456bc8c8c9953c599480688d4e`.
 
 - **S:** The characteristic-zero ledger's claimed valuation covers every relevant quartic branch, distinguishing rational irreducibility from algebraic-closure branchwise behavior.
 - **M:** Quartic polynomial and selected branch/root labels in valuation model.
@@ -568,7 +568,7 @@ Refusal remains: Q irreducibility does not supply algebraically closed branch co
 
 ### JC-C002 (SCOPE; documented incident)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/JC-C002.json](F:/repos/grandportage-0.50/corpus/incidents/JC-C002.json) `#/problem` and `#/class`; SHA-256 `369e4fb2b6d4bf5c5aeb26f1f13e1e31f66a4b7400e75cdf09ca8a28aa67fc71`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/JC-C002.json](corpus/incidents/JC-C002.json) `#/problem` and `#/class`; SHA-256 `8ec9c4444bb81fcd8d18d1ce4f538425f01296f233e1e6d04e5b523e8bc254c7`.
 
 - **S:** At chart (5,20) the dictionary is applicable and supplies the actual chart exponent, including its retraction-shape guard.
 - **M:** Named chart, selected dictionary row, retraction shape and exponent literal.
@@ -579,7 +579,7 @@ Refusal remains: Dictionary requires actual retraction shape and chart exponent,
 
 ### JC-C003 (JOIN; documented incident)
 
-Old **T/T** → proposed **T/T**. Source: [corpus/incidents/JC-C003.json](F:/repos/grandportage-0.50/corpus/incidents/JC-C003.json) `#/problem` and `#/class`; SHA-256 `8a017ee3e74534bdf6c9d555ffb5fd1df5f7da02b273a9abe1593d7276b1d9d5`.
+Old **T/T** → proposed **T/T**. Source: [corpus/incidents/JC-C003.json](corpus/incidents/JC-C003.json) `#/problem` and `#/class`; SHA-256 `d0f5e06e324d2ba0d0df9373c2e1d13001035269e903c339b2f9c4cc0b2d49a8`.
 
 - **S:** The exact period jump explains failure of tower transfer via the specified derivation connecting the two computations.
 - **M:** Named base-case/tower and period objects with explicit relation.
@@ -590,7 +590,7 @@ Refusal remains: Disjoint exact computations do not imply explanatory link. K3 r
 
 ### PR-C04 (WARRANT; source-attributed correction/group)
 
-Old **T/T** → proposed **T/T**. Source: [corpus/incidents/PR-C04.json](F:/repos/grandportage-0.50/corpus/incidents/PR-C04.json) `#/problem` and `#/class`; SHA-256 `b23493cc2663e2a51c214211e93634229b47e44c653fa7a26989d55df8eb59eb`.
+Old **T/T** → proposed **T/T**. Source: [corpus/incidents/PR-C04.json](corpus/incidents/PR-C04.json) `#/problem` and `#/class`; SHA-256 `f2db992515f1615fca62b90e9a9136a1ba608a25818f92930954755721982743`.
 
 - **S:** No allowed small finite quotient/run family reaches the claimed coverage target, distinguishing actually attempted cell/family outcomes.
 - **M:** Declared finite orientation cells, quotient/run families and target coverage measure.
@@ -601,7 +601,7 @@ Refusal remains: Unattempted/exhausted finite families cannot authorize universa
 
 ### PR-C05 (WARRANT; source-attributed correction/group)
 
-Old **T/T** → proposed **T/T**. Source: [corpus/incidents/PR-C05.json](F:/repos/grandportage-0.50/corpus/incidents/PR-C05.json) `#/problem` and `#/class`; SHA-256 `c516e1a8308602ba330915af264af035d557d50896dcee6bac5ed8dad6ff4cf4`.
+Old **T/T** → proposed **T/T**. Source: [corpus/incidents/PR-C05.json](corpus/incidents/PR-C05.json) `#/problem` and `#/class`; SHA-256 `08e05a8cb5a8d53fc351b85675be2ef076a266ba1afdedec2949199c3f063b3f`.
 
 - **S:** The exact site-sequencing optimization has the claimed optimum or no path at n8.
 - **M:** State graph, transition costs, n-specific start/goal and scheduling rules.
@@ -612,7 +612,7 @@ Refusal remains: Heuristic beam and capped n8 do not authorize exact optimal DP/
 
 ### PR-C10 (COVER; source-attributed correction/group)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/PR-C10.json](F:/repos/grandportage-0.50/corpus/incidents/PR-C10.json) `#/problem` and `#/class`; SHA-256 `32e8b75f5a2e5d593e0fd5bab38e590c7e64929aa1087dcc23a8484f4b0677b3`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/PR-C10.json](corpus/incidents/PR-C10.json) `#/problem` and `#/class`; SHA-256 `e7b7508481be5c92a6952d194417076e3b5197d2ffb61b72fc00ccfd6c1c1959`.
 
 - **S:** The developing-map checker matrix includes every required pair and uses correct pair-rotation compatibility labels.
 - **M:** n6/n7 finite position/pair matrix, 18 real rotations and source developing maps.
@@ -623,7 +623,7 @@ Refusal remains: Direct developing-map matrix and rotation partition completenes
 
 ### PR-C11 (OTHER; source-attributed correction/group)
 
-Old **F/F** → proposed **T/F**. Source: [corpus/incidents/PR-C11.json](F:/repos/grandportage-0.50/corpus/incidents/PR-C11.json) `#/problem` and `#/class`; SHA-256 `07e0d984e3843e50a88c469ead02ab5c52db39a69675e63b3b37b955e85e2c1f`.
+Old **F/F** → proposed **T/F**. Source: [corpus/incidents/PR-C11.json](corpus/incidents/PR-C11.json) `#/problem` and `#/class`; SHA-256 `5233ac37d2ff06adcaafaed12ad1f6574103dadcb3f7ac86b8034e79bdea7954`.
 
 - **S:** The 181 missing rows partition into the stated shard/benchmark and metered-wave categories.
 - **M:** Finite missing-row list with category labels and reported aggregates.
@@ -634,7 +634,7 @@ Refusal remains: Arithmetic shard-category reporting discrepancy is external agg
 
 ### PR-C12 (BINDING; source-attributed correction/group)
 
-Old **F/F** → proposed **F/F**. Source: [corpus/incidents/PR-C12.json](F:/repos/grandportage-0.50/corpus/incidents/PR-C12.json) `#/problem` and `#/class`; SHA-256 `22e6ecff2bff64585be03be408c5e3665dd6e592acf1410d387664f8ccaa892b`.
+Old **F/F** → proposed **F/F**. Source: [corpus/incidents/PR-C12.json](corpus/incidents/PR-C12.json) `#/problem` and `#/class`; SHA-256 `32f1eb8b63efbd069e0f196f511905e0723240bab038c7b85883d6d3aac0906a`.
 
 Whole group combines erratum interpretation, proof attribution, bibliography-only citation and publication retraction history. Encoding isolated formulas/counts would omit the source-meaning/reliance mechanisms.
 
@@ -642,7 +642,7 @@ Refusal remains: Mixed erratum/bibliography/retraction attributions require sour
 
 ### PR-C13 (SCOPE; source-attributed correction/group)
 
-Old **?/?** → proposed **?/?**. Source: [corpus/incidents/PR-C13.json](F:/repos/grandportage-0.50/corpus/incidents/PR-C13.json) `#/problem` and `#/class`; SHA-256 `123269d5af364e6d0bd8bfcca64da37de9e390007b49ba97343b402f1944d27d`.
+Old **?/?** → proposed **?/?**. Source: [corpus/incidents/PR-C13.json](corpus/incidents/PR-C13.json) `#/problem` and `#/class`; SHA-256 `970297f383604baf4efd46b99ae460c3f2a8164360428095fdcbeaaca3c07653`.
 
 Composite bounds/mates, k1 enumeration, F3 split, missing base rows and dated record prose are partly representable, but whole source/prose reconciliation lacks complete retained statement predicates. No blanket subpart score.
 
@@ -650,7 +650,7 @@ Refusal remains: Composite bound/residual/count/F3/stale-record errors require m
 
 ### PR-O01 (BINDING; source-attributed correction/group)
 
-Old **?/?** → proposed **?/?**. Source: [corpus/incidents/PR-O01.json](F:/repos/grandportage-0.50/corpus/incidents/PR-O01.json) `#/problem` and `#/class`; SHA-256 `19c94aa225d425485bb23b3d4c319be6e6400fc6b5ea5fe9f9c4e77a71b6b133`.
+Old **?/?** → proposed **?/?**. Source: [corpus/incidents/PR-O01.json](corpus/incidents/PR-O01.json) `#/problem` and `#/class`; SHA-256 `f1bf38ac4a43525c2c3748834564dccec301fd83fb9b8456b736098e695e5ce5`.
 
 Package scripts existence, wall-time-dependent summary byte determinism and exercise accounting need explicit packaging/host/report contracts. A digest/count substatement cannot represent whole executable-package behavior.
 
@@ -658,7 +658,7 @@ Refusal remains: Missing scripts, timing-dependent deterministic summary and wit
 
 ### PR-T06 (ADAPTER; source-attributed correction/group)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/PR-T06.json](F:/repos/grandportage-0.50/corpus/incidents/PR-T06.json) `#/problem` and `#/class`; SHA-256 `95dced4dd38ec4864dc24007f995be9fe6b7e6d290f69baf8f49d66d9f981279`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/PR-T06.json](corpus/incidents/PR-T06.json) `#/problem` and `#/class`; SHA-256 `ca1e3db3f4247b00036b3415045d3114980d009ae9076cc4d9da7df7819c8551`.
 
 - **S:** The A* heuristic h is an admissible lower bound for every state under the exact transition metric, including inversion.
 - **M:** State graph, inversion transition e_a -> -e_a and heuristic formula.
@@ -669,7 +669,7 @@ Refusal remains: A* heuristic admissibility under inversion is a soundness premi
 
 ### PR-T07 (ADAPTER; source-attributed correction/group)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/PR-T07.json](F:/repos/grandportage-0.50/corpus/incidents/PR-T07.json) `#/problem` and `#/class`; SHA-256 `d47b8189f3e8efa7fb338b29fd429c801c8ce3b3efcb54748cf0dd6db0690a63`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/PR-T07.json](corpus/incidents/PR-T07.json) `#/problem` and `#/class`; SHA-256 `d15a76252b21e7222ff5bbc777aa0908c60e8480ce75e5f0f07c13eb817d16c3`.
 
 - **S:** The finite SL2(Fp) comparison respects the declared conjugacy equivalence; inversion changes the relevant unipotent classes when appropriate.
 - **M:** Exact matrices/conjugacy relation, selected trace classes and inversion operation.
@@ -680,7 +680,7 @@ Refusal remains: SL2 inversion/conjugacy semantics depend on prime and classes; 
 
 ### PR-T09 (ADAPTER; source-attributed correction/group)
 
-Old **?/?** → proposed **T/?**. Source: [corpus/incidents/PR-T09.json](F:/repos/grandportage-0.50/corpus/incidents/PR-T09.json) `#/problem` and `#/class`; SHA-256 `a38d3f061117a859e5969a001bf750db517e289a2e1b802808c795655cbc299f`.
+Old **?/?** → proposed **T/?**. Source: [corpus/incidents/PR-T09.json](corpus/incidents/PR-T09.json) `#/problem` and `#/class`; SHA-256 `5cb4b01589408d6507bfee2a33ca78cfeb78f0098b8dff7b0cbfe6d8361dd8bf`.
 
 - **S:** For each named row, C*residual*C^-1 equals anchor in the declared group.
 - **M:** Three concrete quotient words and selected conjugating witness.
@@ -691,7 +691,7 @@ Refusal remains: Noncanonical Britton equality causes false refusal; core cannot
 
 ### PR-T15 (BINDING; documented incident)
 
-Old **T/T** → proposed **T/T**. Source: [corpus/incidents/PR-T15.json](F:/repos/grandportage-0.50/corpus/incidents/PR-T15.json) `#/problem` and `#/class`; SHA-256 `6d36e61abe5e14ac616023b26ebea52e68d189a14aab5bec1d32fda75bcdea95`.
+Old **T/T** → proposed **T/T**. Source: [corpus/incidents/PR-T15.json](corpus/incidents/PR-T15.json) `#/problem` and `#/class`; SHA-256 `54034f6772d3d9a66da3e626014af0bdbb3fe68c4dea29aa913295f9971b2163`.
 
 - **S:** The literal source row yields the claimed replay history; a normalized matching key is a distinct bound input.
 - **M:** ac00174 literal row, checkpoint edge history and normalization function.
@@ -702,7 +702,7 @@ Refusal remains: Literal checkpoint history and normalized key are distinct iden
 
 ### PR-T16 (ADAPTER; source-attributed correction/group)
 
-Old **?/?** → proposed **?/?**. Source: [corpus/incidents/PR-T16.json](F:/repos/grandportage-0.50/corpus/incidents/PR-T16.json) `#/problem` and `#/class`; SHA-256 `79ba9b38cab68c0e0ea144a06a50e5eb9c7c3ee0df46bbfb012de655027b07bd`.
+Old **?/?** → proposed **?/?**. Source: [corpus/incidents/PR-T16.json](corpus/incidents/PR-T16.json) `#/problem` and `#/class`; SHA-256 `b766fd3ca6d091bf875998916c295d38487b33bf99f777568377aff7b1b324a3`.
 
 Owner combines loop-erasure/optimality, runner/cap accounting and payload aliasing/source correspondence. Path replay/algorithm predicates are possible, but retained summary does not specify every host/accounting relation; whole-row remains unresolved.
 

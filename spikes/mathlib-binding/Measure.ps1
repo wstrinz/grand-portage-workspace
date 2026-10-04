@@ -1,10 +1,10 @@
 $ErrorActionPreference = 'Stop'
-$bindingRoot = 'F:/repos/grandportage-0.50/spikes/mathlib-binding'
+$bindingRoot = 'spikes/mathlib-binding'
 Set-Location -LiteralPath $bindingRoot
 . './environment.ps1'
-$lakeExe = 'C:/Users/wstri/.elan/toolchains/leanprover--lean4---v4.32.1/bin/lake.exe'
+$lakeExe = '$ELAN_HOME/toolchains/leanprover--lean4---v4.32.1/bin/lake.exe'
 $bindingBuild = [IO.Path]::GetFullPath("$bindingRoot/.lake/build")
-$expectedBuild = 'F:\repos\grandportage-0.50\spikes\mathlib-binding\.lake\build'
+$expectedBuild = 'spikes/mathlib-binding/.lake/build'
 if ($bindingBuild -ne $expectedBuild) { throw 'Unexpected build directory' }
 if (Test-Path -LiteralPath $bindingBuild) {
   if ((Get-Item -LiteralPath $bindingBuild).Attributes -band [IO.FileAttributes]::ReparsePoint) { throw 'Refuse reparse-point build cleanup' }

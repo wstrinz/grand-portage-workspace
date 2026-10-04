@@ -1,6 +1,6 @@
 # Phase 2 Lean kernel
 
-Mathlib-free package pinned to Lean 4.32.1. From F:/repos/grandportage-0.50:
+Mathlib-free package pinned to Lean 4.32.1. From $WORKSPACE:
 
 ```powershell
 lake -d phase2/lean build

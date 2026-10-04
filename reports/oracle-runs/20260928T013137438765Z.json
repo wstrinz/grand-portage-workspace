@@ -2,13 +2,13 @@
   "schema_version": 1,
   "timestamp_utc": "20260928T013137438765Z",
   "oracle_commit": "ac4155787207e2847d248cffed7be871d5dcd577",
-  "oracle_path": "F:\\repos\\grandportage-0.50\\oracle\\checkout",
+  "oracle_path": "oracle/checkout",
   "runner_sha256": "43f39dd44da0f5971f2c61a597f404c7b81747c9b272b4d9c978c1d27899687b",
   "historical_probe_sha256": "b85c9cffda5964c36f7ff81d32e334ed43a2c69ef84bc6c55db58194bd33c38d",
   "current_algebra_probe_sha256": "d76af36869c5da824adf54cb8ef1f1883bb68d9231d23be3d0b4a3d6f7fc1ed3",
   "lifecycle_probe_sha256": "14187b13e9a17f8f4ab561ce43881cac08f2ae507be7746a10c33fd432e804e3",
   "routes_sha256": "dbc25d449e699de329d181b4c433407adddee0ee197530fb4c7116229484d7a8",
-  "historical_manifest_sha256": "4f1c64b8aaa28da4032f9e407dac929083b5436aedf122fba2d98a37c296633a",
+  "historical_manifest_sha256": "2ca0a95db90819ac44928ecd8564cc0ddcfbcdb63c897c921355447106545d2c",
   "schema_sha256": "76029f1faf4265c01e711e32ea255d5ca6e16811fa2e174fc7ba62454a9c782b",
   "python": "3.12.9 (main, Feb 12 2025, 14:52:31) [MSC v.1942 64 bit (AMD64)]",
   "summary": {
@@ -3521,7 +3521,7 @@
       "status": "ERROR",
       "observed_verdict": null,
       "reason": "<log>:0: epoch-1 verdict event needs `backend`, `input_fingerprint`, `kernel_epoch`, `verifier`, `verifier_version`",
-      "traceback": "Traceback (most recent call last):\n  File \"F:\\repos\\grandportage-0.50\\tools\\check-corpus.py\", line 604, in main\n    record.update(probe(case,route))\n                  ^^^^^^^^^^^^^^^^^\n  File \"F:\\repos\\grandportage-0.50\\tools\\check-corpus.py\", line 580, in probe\n    return lifecycle_probe(case,route)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\repos\\grandportage-0.50\\tools\\lifecycle_probes.py\", line 51, in probe\n    g.apply(event);active=g.verdicts[event['id']]['current'] and g.claims['C'].get('identity_verdict')=='VERIFIED_DERIVED'\n    ^^^^^^^^^^^^^^\n  File \"F:\\repos\\grandportage-0.50\\oracle\\checkout\\grandportage\\store.py\", line 342, in apply\n    F.validate_native_event(ev, where, GraphError)\n  File \"F:\\repos\\grandportage-0.50\\oracle\\checkout\\grandportage\\format.py\", line 218, in validate_native_event\n    raise error(\ngrandportage.store.GraphError: <log>:0: epoch-1 verdict event needs `backend`, `input_fingerprint`, `kernel_epoch`, `verifier`, `verifier_version`\n"
+      "traceback": "Traceback (most recent call last):\n  File \"tools/check-corpus.py/", line 604, in main\n    record.update(probe(case,route))\n                  ^^^^^^^^^^^^^^^^^\n  File \"tools/check-corpus.py/", line 580, in probe\n    return lifecycle_probe(case,route)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"tools/lifecycle_probes.py/", line 51, in probe\n    g.apply(event);active=g.verdicts[event['id']]['current'] and g.claims['C'].get('identity_verdict')=='VERIFIED_DERIVED'\n    ^^^^^^^^^^^^^^\n  File \"oracle/checkout/grandportage/store.py/", line 342, in apply\n    F.validate_native_event(ev, where, GraphError)\n  File \"oracle/checkout/grandportage/format.py/", line 218, in validate_native_event\n    raise error(\ngrandportage.store.GraphError: <log>:0: epoch-1 verdict event needs `backend`, `input_fingerprint`, `kernel_epoch`, `verifier`, `verifier_version`\n"
     },
     {
       "id": "GP-X171",

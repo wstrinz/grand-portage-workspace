@@ -267,7 +267,7 @@
         "response_text_both": "DEBT  UNTYPED-EDGE:E\n    edge E (A -> B) has no declared relaxation type.\n      debt: needs classification\n      inferences crossing it: (none yet)\n    -> DISCHARGE: Name the relaxation.  What does this step LOSE?  Nothing -> EQUIVALENCE (and you must be able to exhibit the converse).  Equations -> NECESSARY_CONDITION.  A larger coefficient field -> BASE_EXTENSION.  An elimination or a projection -> IMAGE_CLOSURE.  A change of characteristic -> SPECIALIZATION.  Until it is named, no conclusion crosses this edge.\n\nclean inferences (0): -",
         "responses_equal": true,
         "graph_unchanged": true,
-        "scratch_graph": "F:/repos/grandportage-0.50/tmp/op-floor-0338nmm5/.portage/graph.jsonl",
+        "scratch_graph": "tmp/op-floor-0338nmm5/.portage/graph.jsonl",
         "positive_control": "floor DEBT legitimately displays the DEBT finding; both accepted request values were handled"
       },
       "evidence_refs": [],
@@ -910,7 +910,7 @@
       "response_text_both": "DEBT  UNTYPED-EDGE:E\n    edge E (A -> B) has no declared relaxation type.\n      debt: needs classification\n      inferences crossing it: (none yet)\n    -> DISCHARGE: Name the relaxation.  What does this step LOSE?  Nothing -> EQUIVALENCE (and you must be able to exhibit the converse).  Equations -> NECESSARY_CONDITION.  A larger coefficient field -> BASE_EXTENSION.  An elimination or a projection -> IMAGE_CLOSURE.  A change of characteristic -> SPECIALIZATION.  Until it is named, no conclusion crosses this edge.\n\nclean inferences (0): -",
       "responses_equal": true,
       "graph_unchanged": true,
-      "scratch_graph": "F:/repos/grandportage-0.50/tmp/op-floor-0338nmm5/.portage/graph.jsonl",
+      "scratch_graph": "tmp/op-floor-0338nmm5/.portage/graph.jsonl",
       "positive_control": "floor DEBT legitimately displays the DEBT finding; both accepted request values were handled"
     },
     "76.8b": {
@@ -986,18 +986,18 @@
   "retained_evidence_file_sha256": {
     "reports/BACKEND-TRANSCRIPT-BOUNDARY.json": "67c62aa081705686dd2a52400b834c8cd42c35321e01dc6219549ab01ac9161c",
     "reports/CAS-PROGRAM-CUSTODY.json": "48066692fdd7df7b6b128d5f5aca26b03441f3dccea072d7bfda4d9f131d31e6",
-    "reports/CORPUS-INTAKE-BOUNDARIES.json": "20e591a71b8a6e67993b8c9fcb02d83f71a12c842b796373bfe17b7ed3345aba",
-    "reports/DOSSIER-BOUNDARIES-AUDIT.json": "c721cb8a3105da7216dfdbb714d40208980e3081cc360fe3883edc350c57d285",
+    "reports/CORPUS-INTAKE-BOUNDARIES.json": "beaac8f643eab4e0a9a0a4a81cf92f362a3f1102a998752c2be010718bea94bb",
+    "reports/DOSSIER-BOUNDARIES-AUDIT.json": "1e5ddda5f4bbfbdf6b60be0ea2a58009481d072302275c8f1c1be9e5b868ea93",
     "reports/FRONTIER-BUNDLE-BOUNDARIES.json": "064f437fe37f2721c0386676e4daea305c0563f3a4aeb6fc07d56d976c85f36f",
     "reports/FRONTIER-PROJECTION-BOUNDARIES.json": "229dbd424a60b8bb4cbe79dc125e47eb1bdf8fbb8f14d853a9cde2e4829f7b02",
-    "reports/HOOK-BOUNDARY-AUDIT.json": "322cc83425ecc4f71ea6b1b7110af2a104dad26fecc96287f6493ce15ba5fa71",
+    "reports/HOOK-BOUNDARY-AUDIT.json": "a17469ccc412422b96121535167b4b9428155503d177fbdf642f86b906778c34",
     "reports/IMPLEMENTATION-IDENTITY-BOUNDARY.json": "8dcb40e7067cbaf2800e75346a7400bc10b36941c63be121b945d9a422b1aaee",
     "reports/MATERIALIZATION-BOUNDARY-AUDIT.json": "7dba85e62dae570a81622bbcdadee68a672bf5183df246599368a011ad3a97de",
     "reports/MCP-HANDOFF-CONTEXT-BOUNDARY.json": "cf17908f7d49257c0190605534f80f22fcf6b15f0ecdc15c5359fcdfddf8cbe3",
-    "reports/MCP-REQUEST-COMMIT-BOUNDARY.json": "c68c8a5cb7cad9c0543a26fe69601d070e046701af4944d85aac119168194bb5",
-    "reports/MIGRATION-CUSTODY-BOUNDARY.json": "81944f36c19d6f9b0f182d04e9645926e5cda4ce50e2684e1afb09c629f3222f",
+    "reports/MCP-REQUEST-COMMIT-BOUNDARY.json": "06a91c234253688af679fc7cbc7ba25d409f0b2effe81092bb2d9eaf146432fa",
+    "reports/MIGRATION-CUSTODY-BOUNDARY.json": "a73aecf0dc50c08c0487e1eb5a7dc43bc548c6f885272aa204831c698127a628",
     "reports/PACKET-ATTEMPT-BINDING-AUDIT.json": "def6d942d6342ee483ff73d5c2042521ffe70fb64ea4e91dd62a04368b94f9d1",
-    "reports/PHASE-0A-GENERATOR-IDENTITY-CONTRAST.json": "87153f4b218c8cffbacf3d2edb56066b1d23501be6fdd3b47ce73d4f049d3782",
+    "reports/PHASE-0A-GENERATOR-IDENTITY-CONTRAST.json": "515f8759fc6d8122e4496fa7a76d023233c02b0d73b0e7a281c99d481de0b4c0",
     "reports/SCHEMA-HEALTH-BOUNDARY.json": "0a6b9a3f6d3db563ae6069ec4222095a444d9c08da4826506608e5de9263e776"
   }
 }

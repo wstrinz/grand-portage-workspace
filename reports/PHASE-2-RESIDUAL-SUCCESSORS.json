@@ -8,7 +8,7 @@
   "complete_ten_case_slice": false,
   "source_contract": {
     "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
-    "pin_file_sha256": "9bb807c3034e045927dfc277f9ac268317ae2fdf7c07fd77c1643749794ee11f",
+    "pin_file_sha256": "180d920db790d5b5e318ce318b7b7e1467e6b11fd44e05e759e8b7cc7f4459db",
     "functions": {
       "GP-X159": {
         "path": "tests/test_supersession_noise.py",
@@ -28,11 +28,11 @@
     "boundary": "Named predecessor contracts only. Replay literal fixture abstractions, not predecessor object classes or message rendering."
   },
   "protected_input_hashes": {
-    "F:\\repos\\grandportage-0.50\\oracle\\PIN.json": "9bb807c3034e045927dfc277f9ac268317ae2fdf7c07fd77c1643749794ee11f",
-    "F:\\repos\\grandportage-0.50\\oracle\\ROUTES.json": "5e66d807591f8f9dc5e6eda0de2dfbed6364fbcdba50d0d3d2da9f384c9f5648",
-    "F:\\repos\\grandportage-0.50\\corpus\\LAYER-TAGS.json": "046b353edf02f2e6972d00c2ee4fe974cb3bef1fc7062cede0d36ec4c1c83838"
+    "oracle/PIN.json": "180d920db790d5b5e318ce318b7b7e1467e6b11fd44e05e759e8b7cc7f4459db",
+    "oracle/ROUTES.json": "cce1e91123d58b6c3a452cd911b129a21e6d4fad3e9042b1d0ff43e73e6e7750",
+    "corpus/LAYER-TAGS.json": "046b353edf02f2e6972d00c2ee4fe974cb3bef1fc7062cede0d36ec4c1c83838"
   },
-  "runner_path": "F:\\repos\\grandportage-0.50\\phase2\\lean\\.lake\\build\\bin\\gp_lifecycle_runner.exe",
+  "runner_path": "phase2/lean/.lake/build/bin/gp_lifecycle_runner.exe",
   "runner_sha256": "4affc188563f818aad3c798a4b49b0ccd25438c12a16cfd9283d9789f1128ab3",
   "native_source_sha256": {
     "Events.lean": "1e3d7497baaff4015d4706bccef0a62bdbf99d92ae64d7e2069907a221d091f3",

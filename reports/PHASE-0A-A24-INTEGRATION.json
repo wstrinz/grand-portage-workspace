@@ -9,7 +9,7 @@
   "source_pin_schema_preserved": true,
   "previous_replay": "reports/oracle-runs/20260930T000850355521Z.json",
   "new_replay": "reports/oracle-runs/20260930T021113009291Z.json",
-  "new_replay_sha256": "77321d0f86e5160ef0f78f13498092061718a7b829256548cc430b1d19f302df",
+  "new_replay_sha256": "0996858153e6f1fec40aad3fe1d71a70cff72b39972cd78937646818214be04d",
   "summary": {
     "AGREES": 403,
     "DIAGNOSTIC_OBSERVED": 4,

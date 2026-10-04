@@ -23,7 +23,7 @@
       "decision": "retain historical REPORTfailure and effort; do not infer frozen regression from fixture name",
       "evidence": [
         "reports/PHASE-0A-GUARD-SNAPSHOT-PARENT-NOTES.json",
-        "C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction/REPORT.md:515-528;570-573"
+        "$DEV/math-research/campaigns/dk-retrodiction/REPORT.md:515-528;570-573"
       ],
       "reason": "Retained live test source asserts ok for both pass-96vars and fail-97vars; the historical failure needs its recorded version. No new current threshold refusal is established."
     },

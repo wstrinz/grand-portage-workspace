@@ -3,9 +3,9 @@
   "date": "2026-09-29",
   "assignment": "finite Pigeon River Phase0b source review",
   "status": "bounded pass complete; parent retains mathematics, admission, integration and sweep completion",
-  "source_root": "C:/Users/wstri/dev/math-research/campaigns/ac-2gen",
+  "source_root": "$DEV/math-research/campaigns/ac-2gen",
   "source_head": "9202e7ea12a75dac38eaa980c88008b41a4a16c0",
-  "workspace": "F:/repos/grandportage-0.50",
+  "workspace": "$WORKSPACE",
   "frozen_GP_source": "ac4155787207e2847d248cffed7be871d5dcd577",
   "bounds": {
     "required_full_documents": 7,
@@ -33,7 +33,7 @@
   "sources": [
     {
       "relative_path": "README.md",
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\README.md",
+      "path": "$DEV/math-research/campaigns/ac-2gen/README.md",
       "sha256": "2bb5c53b227efc528bb78b25cf3d5ce2b2712403f47b0d36c438e16080e51596",
       "lines": 118,
       "bytes": 6450,
@@ -45,7 +45,7 @@
     },
     {
       "relative_path": "CHECKPOINT.md",
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+      "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
       "sha256": "006cd2976fae0457e5162411668791b98d52611a9c98a1235f27960f7e66cf2a",
       "lines": 565,
       "bytes": 34213,
@@ -57,7 +57,7 @@
     },
     {
       "relative_path": "EPOCH-11-CLOSEOUT.md",
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-11-CLOSEOUT.md",
+      "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-11-CLOSEOUT.md",
       "sha256": "916af9c821dfa20a169e2c21ce606cf111efd3533c9ed783009ad39f29d96e96",
       "lines": 55,
       "bytes": 3006,
@@ -69,7 +69,7 @@
     },
     {
       "relative_path": "coordination/PRG-E11-CLOSEOUT-REVIEW.md",
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\coordination\\PRG-E11-CLOSEOUT-REVIEW.md",
+      "path": "$DEV/math-research/campaigns/ac-2gen/coordination/PRG-E11-CLOSEOUT-REVIEW.md",
       "sha256": "efd6e4e8cb82d12bb5f5355b6feff5181571551200c5a6b4a3f93ddddccb46c7",
       "lines": 42,
       "bytes": 2486,
@@ -81,7 +81,7 @@
     },
     {
       "relative_path": "EPOCH-7-CLOSEOUT.md",
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-7-CLOSEOUT.md",
+      "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-7-CLOSEOUT.md",
       "sha256": "6e458537eac2f2fbbd007c6db50064b712cc8f97be51f8833bd211d6d9dcc6dd",
       "lines": 143,
       "bytes": 8615,
@@ -93,7 +93,7 @@
     },
     {
       "relative_path": "EPOCH-6-CLOSEOUT.md",
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-6-CLOSEOUT.md",
+      "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-6-CLOSEOUT.md",
       "sha256": "6e973688a7b4ea86cdbcc6ca8c723ecfcdf433063bf89efa897dd35dc7f0ed36",
       "lines": 132,
       "bytes": 7636,
@@ -105,7 +105,7 @@
     },
     {
       "relative_path": "EPOCH-5-CLOSEOUT.md",
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-5-CLOSEOUT.md",
+      "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-5-CLOSEOUT.md",
       "sha256": "2fd2be7a735437a10f8686d2d771c667feeb8d00fd82b5cb4afcbfceb0bb1dd4",
       "lines": 173,
       "bytes": 10236,
@@ -117,7 +117,7 @@
     },
     {
       "relative_path": "results/inbox/e11-consolidation-gp-v1/RETROSPECTIVE.md",
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\RETROSPECTIVE.md",
+      "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/RETROSPECTIVE.md",
       "sha256": "f0cd169ebbf77ea32c6479a5777371a4cb370da04c1cab7c7f93d918d872ea2e",
       "lines": 170,
       "bytes": 9951,
@@ -129,7 +129,7 @@
     },
     {
       "relative_path": "results/inbox/e11-consolidation-gp-v1/PRC-ERRATUM.md",
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\PRC-ERRATUM.md",
+      "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/PRC-ERRATUM.md",
       "sha256": "b05c3144ad0d35642a95512b0aaace66a2b7893452a18b18f2357942e961b158",
       "lines": 22,
       "bytes": 1222,
@@ -141,7 +141,7 @@
     },
     {
       "relative_path": "results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+      "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
       "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b",
       "lines": 1081,
       "bytes": 53278,
@@ -153,7 +153,7 @@
     },
     {
       "relative_path": "results/inbox/e7-symbolic-quotient-v1/PRC-REVIEW.md",
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e7-symbolic-quotient-v1\\PRC-REVIEW.md",
+      "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e7-symbolic-quotient-v1/PRC-REVIEW.md",
       "sha256": "9c5f3f36959134dca381defeb5bb3b2603f61f2a140f2a98cc59c95aadae969d",
       "lines": 44,
       "bytes": 2052,
@@ -165,7 +165,7 @@
     },
     {
       "relative_path": "results/inbox/e4-stable-ak3-intake-v1/PRC-ERRATUM.md",
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e4-stable-ak3-intake-v1\\PRC-ERRATUM.md",
+      "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e4-stable-ak3-intake-v1/PRC-ERRATUM.md",
       "sha256": "736a5125f5e217ae9fdbf6f4cb6038529bbf639d24bb20650a40412449003c96",
       "lines": 29,
       "bytes": 1759,
@@ -185,7 +185,7 @@
       "episode_key": "e11-packaging",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\PRC-ERRATUM.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/PRC-ERRATUM.md",
           "lines": [
             3,
             17
@@ -193,7 +193,7 @@
           "sha256": "b05c3144ad0d35642a95512b0aaace66a2b7893452a18b18f2357942e961b158"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-11-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-11-CLOSEOUT.md",
           "lines": [
             36,
             44
@@ -223,7 +223,7 @@
       "episode_key": "e11-out-of-bound-append",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\PRC-ERRATUM.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/PRC-ERRATUM.md",
           "lines": [
             19,
             22
@@ -231,7 +231,7 @@
           "sha256": "b05c3144ad0d35642a95512b0aaace66a2b7893452a18b18f2357942e961b158"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-11-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-11-CLOSEOUT.md",
           "lines": [
             38,
             44
@@ -239,7 +239,7 @@
           "sha256": "916af9c821dfa20a169e2c21ce606cf111efd3533c9ed783009ad39f29d96e96"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             3,
             8
@@ -247,7 +247,7 @@
           "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\coordination\\PRG-E11-CLOSEOUT-REVIEW.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/coordination/PRG-E11-CLOSEOUT-REVIEW.md",
           "lines": [
             32,
             35
@@ -277,7 +277,7 @@
       "episode_key": "e7-signed-BIG",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e7-symbolic-quotient-v1\\PRC-REVIEW.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e7-symbolic-quotient-v1/PRC-REVIEW.md",
           "lines": [
             3,
             35
@@ -285,7 +285,7 @@
           "sha256": "9c5f3f36959134dca381defeb5bb3b2603f61f2a140f2a98cc59c95aadae969d"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-7-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-7-CLOSEOUT.md",
           "lines": [
             68,
             87
@@ -293,7 +293,7 @@
           "sha256": "6e458537eac2f2fbbd007c6db50064b712cc8f97be51f8833bd211d6d9dcc6dd"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             381,
             483
@@ -323,7 +323,7 @@
       "episode_key": "e5-sieve-saturation",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-5-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-5-CLOSEOUT.md",
           "lines": [
             95,
             112
@@ -331,7 +331,7 @@
           "sha256": "2fd2be7a735437a10f8686d2d771c667feeb8d00fd82b5cb4afcbfceb0bb1dd4"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-5-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-5-CLOSEOUT.md",
           "lines": [
             153,
             169
@@ -339,7 +339,7 @@
           "sha256": "2fd2be7a735437a10f8686d2d771c667feeb8d00fd82b5cb4afcbfceb0bb1dd4"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\RETROSPECTIVE.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/RETROSPECTIVE.md",
           "lines": [
             59,
             71
@@ -347,7 +347,7 @@
           "sha256": "f0cd169ebbf77ea32c6479a5777371a4cb370da04c1cab7c7f93d918d872ea2e"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-6-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-6-CLOSEOUT.md",
           "lines": [
             56,
             65
@@ -377,7 +377,7 @@
       "episode_key": "e6-beam-versus-DP",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-6-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-6-CLOSEOUT.md",
           "lines": [
             72,
             100
@@ -385,7 +385,7 @@
           "sha256": "6e973688a7b4ea86cdbcc6ca8c723ecfcdf433063bf89efa897dd35dc7f0ed36"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\RETROSPECTIVE.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/RETROSPECTIVE.md",
           "lines": [
             26,
             32
@@ -393,7 +393,7 @@
           "sha256": "f0cd169ebbf77ea32c6479a5777371a4cb370da04c1cab7c7f93d918d872ea2e"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-7-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-7-CLOSEOUT.md",
           "lines": [
             95,
             103
@@ -423,7 +423,7 @@
       "episode_key": "e5-astar-heuristic",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-5-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-5-CLOSEOUT.md",
           "lines": [
             105,
             112
@@ -431,7 +431,7 @@
           "sha256": "2fd2be7a735437a10f8686d2d771c667feeb8d00fd82b5cb4afcbfceb0bb1dd4"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-5-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-5-CLOSEOUT.md",
           "lines": [
             128,
             136
@@ -439,7 +439,7 @@
           "sha256": "2fd2be7a735437a10f8686d2d771c667feeb8d00fd82b5cb4afcbfceb0bb1dd4"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\RETROSPECTIVE.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/RETROSPECTIVE.md",
           "lines": [
             26,
             32
@@ -469,7 +469,7 @@
       "episode_key": "SL2-inversion-class",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-5-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-5-CLOSEOUT.md",
           "lines": [
             46,
             59
@@ -477,7 +477,7 @@
           "sha256": "2fd2be7a735437a10f8686d2d771c667feeb8d00fd82b5cb4afcbfceb0bb1dd4"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\RETROSPECTIVE.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/RETROSPECTIVE.md",
           "lines": [
             26,
             32
@@ -507,7 +507,7 @@
       "episode_key": "e2-relative-HNN-corrections",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
           "lines": [
             311,
             364
@@ -515,7 +515,7 @@
           "sha256": "006cd2976fae0457e5162411668791b98d52611a9c98a1235f27960f7e66cf2a"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
           "lines": [
             288,
             296
@@ -545,7 +545,7 @@
       "episode_key": "e2-n6-equality-test",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
           "lines": [
             149,
             157
@@ -553,7 +553,7 @@
           "sha256": "006cd2976fae0457e5162411668791b98d52611a9c98a1235f27960f7e66cf2a"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
           "lines": [
             185,
             197
@@ -583,7 +583,7 @@
       "episode_key": "e2-direct-checker-matrices",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
           "lines": [
             230,
             237
@@ -591,7 +591,7 @@
           "sha256": "006cd2976fae0457e5162411668791b98d52611a9c98a1235f27960f7e66cf2a"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
           "lines": [
             250,
             275
@@ -599,7 +599,7 @@
           "sha256": "006cd2976fae0457e5162411668791b98d52611a9c98a1235f27960f7e66cf2a"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
           "lines": [
             185,
             192
@@ -629,7 +629,7 @@
       "episode_key": "e2-prefix-count-split",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
           "lines": [
             250,
             276
@@ -659,7 +659,7 @@
       "episode_key": "e4-ak3-source-erratum",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e4-stable-ak3-intake-v1\\PRC-ERRATUM.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e4-stable-ak3-intake-v1/PRC-ERRATUM.md",
           "lines": [
             1,
             29
@@ -667,7 +667,7 @@
           "sha256": "736a5125f5e217ae9fdbf6f4cb6038529bbf639d24bb20650a40412449003c96"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
           "lines": [
             72,
             103
@@ -697,7 +697,7 @@
       "episode_key": "closeout-and-frontier-repairs",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-5-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-5-CLOSEOUT.md",
           "lines": [
             105,
             112
@@ -705,7 +705,7 @@
           "sha256": "2fd2be7a735437a10f8686d2d771c667feeb8d00fd82b5cb4afcbfceb0bb1dd4"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-5-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-5-CLOSEOUT.md",
           "lines": [
             171,
             173
@@ -713,7 +713,7 @@
           "sha256": "2fd2be7a735437a10f8686d2d771c667feeb8d00fd82b5cb4afcbfceb0bb1dd4"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-6-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-6-CLOSEOUT.md",
           "lines": [
             89,
             100
@@ -721,7 +721,7 @@
           "sha256": "6e973688a7b4ea86cdbcc6ca8c723ecfcdf433063bf89efa897dd35dc7f0ed36"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-7-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-7-CLOSEOUT.md",
           "lines": [
             93,
             106
@@ -751,7 +751,7 @@
       "episode_key": "e11-GP-sixpair",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             10,
             224
@@ -759,7 +759,7 @@
           "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             227,
             378
@@ -767,7 +767,7 @@
           "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             381,
             559
@@ -775,7 +775,7 @@
           "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             562,
             713
@@ -783,7 +783,7 @@
           "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             715,
             832
@@ -791,7 +791,7 @@
           "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             835,
             1081
@@ -799,7 +799,7 @@
           "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\coordination\\PRG-E11-CLOSEOUT-REVIEW.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/coordination/PRG-E11-CLOSEOUT-REVIEW.md",
           "lines": [
             18,
             30
@@ -829,7 +829,7 @@
       "episode_key": "e1-ac00174-literal-frame",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
           "lines": [
             393,
             398
@@ -837,7 +837,7 @@
           "sha256": "006cd2976fae0457e5162411668791b98d52611a9c98a1235f27960f7e66cf2a"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
           "lines": [
             25,
             112
@@ -845,7 +845,7 @@
           "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
           "lines": [
             405,
             413
@@ -875,7 +875,7 @@
       "episode_key": "e1-postprocessing-repairs",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
           "lines": [
             456,
             466
@@ -883,7 +883,7 @@
           "sha256": "006cd2976fae0457e5162411668791b98d52611a9c98a1235f27960f7e66cf2a"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
           "lines": [
             531,
             558
@@ -908,7 +908,7 @@
   ],
   "assay_read_assessment": {
     "source": {
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+      "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
       "lines": [
         1,
         1081
@@ -965,7 +965,7 @@
     "attributed_examples": [
       {
         "source": {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
           "lines": [
             495,
             503
@@ -977,7 +977,7 @@
       },
       {
         "source": {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-5-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-5-CLOSEOUT.md",
           "lines": [
             126,
             149
@@ -989,7 +989,7 @@
       },
       {
         "source": {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\RETROSPECTIVE.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/RETROSPECTIVE.md",
           "lines": [
             112,
             118
@@ -1006,7 +1006,7 @@
       "item": "Official submissions, competition standing and bridge positives",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-6-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-6-CLOSEOUT.md",
           "lines": [
             16,
             24
@@ -1014,7 +1014,7 @@
           "sha256": "6e973688a7b4ea86cdbcc6ca8c723ecfcdf433063bf89efa897dd35dc7f0ed36"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-6-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-6-CLOSEOUT.md",
           "lines": [
             43,
             70
@@ -1022,7 +1022,7 @@
           "sha256": "6e973688a7b4ea86cdbcc6ca8c723ecfcdf433063bf89efa897dd35dc7f0ed36"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
           "lines": [
             436,
             484
@@ -1036,7 +1036,7 @@
       "item": "Arbitrary-mate compiler and priced null panel",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-7-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-7-CLOSEOUT.md",
           "lines": [
             38,
             59
@@ -1050,7 +1050,7 @@
       "item": "Exact211-move tightening",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-7-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-7-CLOSEOUT.md",
           "lines": [
             61,
             66
@@ -1064,7 +1064,7 @@
       "item": "Fixed-donor exits, C7 and geometry null results",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-5-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-5-CLOSEOUT.md",
           "lines": [
             46,
             59
@@ -1072,7 +1072,7 @@
           "sha256": "2fd2be7a735437a10f8686d2d771c667feeb8d00fd82b5cb4afcbfceb0bb1dd4"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-6-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-6-CLOSEOUT.md",
           "lines": [
             62,
             80
@@ -1080,7 +1080,7 @@
           "sha256": "6e973688a7b4ea86cdbcc6ca8c723ecfcdf433063bf89efa897dd35dc7f0ed36"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\RETROSPECTIVE.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/RETROSPECTIVE.md",
           "lines": [
             34,
             85
@@ -1094,7 +1094,7 @@
       "item": "Wider shear, literature attribution and stable AK3",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\RETROSPECTIVE.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/RETROSPECTIVE.md",
           "lines": [
             120,
             144
@@ -1102,7 +1102,7 @@
           "sha256": "f0cd169ebbf77ea32c6479a5777371a4cb370da04c1cab7c7f93d918d872ea2e"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e4-stable-ak3-intake-v1\\PRC-ERRATUM.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e4-stable-ak3-intake-v1/PRC-ERRATUM.md",
           "lines": [
             16,
             29
@@ -1116,7 +1116,7 @@
       "item": "Epoch3 interchange mismatch",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
           "lines": [
             117,
             135
@@ -1130,7 +1130,7 @@
       "item": "Other process notices",
       "sources": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-5-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-5-CLOSEOUT.md",
           "lines": [
             105,
             112
@@ -1138,7 +1138,7 @@
           "sha256": "2fd2be7a735437a10f8686d2d771c667feeb8d00fd82b5cb4afcbfceb0bb1dd4"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
           "lines": [
             263,
             283
@@ -1146,7 +1146,7 @@
           "sha256": "006cd2976fae0457e5162411668791b98d52611a9c98a1235f27960f7e66cf2a"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\CHECKPOINT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/CHECKPOINT.md",
           "lines": [
             488,
             538
@@ -1167,7 +1167,7 @@
     "determinism": "Stored replay summary repaired to exclude wall time; timing printed separately. Before/after identical summaries are historical PRC reports, not this worker reruns.",
     "harvest_pointers": [
       {
-        "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\gp\\receipts\\six-pair-assay.json",
+        "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/gp/receipts/six-pair-assay.json",
         "exists": true,
         "bytes": 53278,
         "sha256": "753d7c910df9720c6b449c0dff33b069234f74489ebe3ed9850975671e7f348b",
@@ -1175,7 +1175,7 @@
         "copied": false
       },
       {
-        "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\CLAIM-EVIDENCE-MANIFEST.json",
+        "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/CLAIM-EVIDENCE-MANIFEST.json",
         "exists": true,
         "bytes": 22884,
         "sha256": "e1595c666091e291196fcf929e73fcf73b10c9055d1b6b98c2d5efd8de982172",
@@ -1183,7 +1183,7 @@
         "copied": false
       },
       {
-        "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\replay\\receipts\\run-all-summary.json",
+        "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/replay/receipts/run-all-summary.json",
         "exists": true,
         "bytes": 270,
         "sha256": "ec5c8425513f05cbb58c91e52df10a70121061dba54654ef4672ffd9337d866f",
@@ -1191,7 +1191,7 @@
         "copied": false
       },
       {
-        "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e7-symbolic-quotient-v1\\receipts\\counterexample-search.json",
+        "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e7-symbolic-quotient-v1/receipts/counterexample-search.json",
         "exists": true,
         "bytes": 36582,
         "sha256": "c9a771478caec21d6c8c5f15832db34e155f449441ac8067dfbc02ce480d42da",
@@ -1199,7 +1199,7 @@
         "copied": false
       },
       {
-        "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e4-stable-ak3-intake-v1\\receipts\\chain.json",
+        "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e4-stable-ak3-intake-v1/receipts/chain.json",
         "exists": true,
         "bytes": 8441,
         "sha256": "2b67f60cdf10334d9ff409ba6290b68a3385a79ee0b557d4f38a4c36e50e751c",
@@ -1212,7 +1212,7 @@
   },
   "necessary_remaining": [
     "Parent integrates these bounded dispositions and chooses whether grouped summary-only historical corrections need later exact neutral-case evidence. No cases or expectations proposed/admitted here.",
-    "Exact unread dependency for the Epoch4 bound/residual correction: C:/Users/wstri/dev/math-research/campaigns/ac-2gen/EPOCH-4-CLOSEOUT.md (located by inventory; not read under12-document cap). The Epoch5 summary alone does not identify its exact corrected bound statement. For any independent Epoch2 equality/convention diagnosis, the original checker/body and accepted e2-n6-multiseam-v1 receipt must be scoped separately; they were not opened here.",
+    "Exact unread dependency for the Epoch4 bound/residual correction: $DEV/math-research/campaigns/ac-2gen/EPOCH-4-CLOSEOUT.md (located by inventory; not read under12-document cap). The Epoch5 summary alone does not identify its exact corrected bound statement. For any independent Epoch2 equality/convention diagnosis, the original checker/body and accepted e2-n6-multiseam-v1 receipt must be scoped separately; they were not opened here.",
     "Primary literature texts/versioned indexed abstract are required before upgrading the stableAK3/source-attribution statements beyond attributed erratum. No external fetch/render lead commissioned.",
     "Any broader GP semantic or revocation assertion needs an AC interpretation contract, earned license and successful scoped dependency withdrawal; existing assay does not supply them. No rerun or kernel expansion authorized.",
     "Parent harvest may use only the five selected pointers with sizes/byte hashes. Costs, reliance and wrong shipping may remain unknown; metadata gaps do not authorize an unbounded followup."

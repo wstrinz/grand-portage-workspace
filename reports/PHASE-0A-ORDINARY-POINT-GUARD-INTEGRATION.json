@@ -13,7 +13,7 @@
     "ACCEPT": 138
   },
   "replay": "reports/oracle-runs/20260930T000850355521Z.json",
-  "replay_sha256": "3f1beef35d7fa604971cc8087e0e44aca38ce48489e8f42cc9b31825ac4f8ab0",
+  "replay_sha256": "ff24154e8cac12fdb3e2bbefe9cab3bafd0bbebb2d5e38976e1c85bfcb90a81d",
   "summary": {
     "AGREES": 402,
     "DIAGNOSTIC_OBSERVED": 4,
@@ -36,7 +36,7 @@
   "adapter_sha256": "719e2a15504b840ad199bb563b5acf57ffd2f98ccb7c111743c0bbb86c12b76d",
   "candidate_report": {
     "path": "reports/PHASE-0A-ORDINARY-POINT-GUARD-CANDIDATE.json",
-    "sha256": "fad6b4d7a6d94fc1758d27d447a0168b162bb863ad7f8a736f1bf6ea32e724f7",
+    "sha256": "02582a58d9dc6c9fca1d6dcabdf17028d96cb720472de6e688830a465617c1de",
     "meaning": "Unmodified pre-admission design; its route binding is to the pre-admission route file, not the changed current route."
   },
   "independent_argument": [

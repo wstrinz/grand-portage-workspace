@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="24" skipped="0" tests="271" time="237.534" timestamp="2026-09-27T19:29:48.870063-05:00" hostname="DESKTOP-I0P7IC0"><testcase classname="oracle.history.checkout.tests.test_current_frontier_bundle" name="test_current_bundle_has_one_explicit_research_boundary" time="0.007" /><testcase classname="oracle.history.checkout.tests.test_current_frontier_bundle" name="test_current_bundle_refuses_implicit_last_writer_wins" time="0.010" /><testcase classname="oracle.history.checkout.tests.test_current_frontier_bundle" name="test_current_bundle_refuses_false_scope_agreement" time="0.005" /><testcase classname="oracle.history.checkout.tests.test_current_frontier_bundle" name="test_current_checked_review_receipt_regenerates_exactly" time="0.005" /><testcase classname="oracle.history.checkout.tests.test_current_frontier_bundle" name="test_support_seam_supersessions_preserve_the_named_remainders" time="0.004" /><testcase classname="oracle.history.checkout.tests.test_f2_75_125_publication_audit" name="test_audit_distinguishes_math_consistency_from_release_debt" time="0.002" /><testcase classname="oracle.history.checkout.tests.test_f2_75_125_publication_audit" name="test_audit_can_report_positive_custody_evidence_without_promoting_it" time="0.002" /><testcase classname="oracle.history.checkout.tests.test_f2_75_125_publication_audit" name="test_partial_formalization_package_fails_closed" time="0.002" /><testcase classname="oracle.history.checkout.tests.test_f2_75_125_publication_audit" name="test_formalization_declaration_and_scope_drift_fails_closed" time="0.003" /><testcase classname="oracle.history.checkout.tests.test_f2_75_125_publication_audit" name="test_formalization_flags_broad_tactic_import_as_replay_debt" time="0.003" /><testcase classname="oracle.history.checkout.tests.test_f2_75_125_publication_audit" name="test_manifest_formal_replay_layers_are_audited_together" time="0.002" /><testcase classname="oracle.history.checkout.tests.test_f2_75_125_publication_audit" name="test_export_scan_prunes_build_and_vcs_trees" time="0.008" /><testcase classname="oracle.history.checkout.tests.test_f2_75_125_publication_audit" name="test_git_object_source_audit_ignores_live_worktree_drift" time="0.002"><failure message="TypeError: expected str, bytes or os.PathLike object, not NoneType">tmp_path = WindowsPath('F:/repos/grandportage-0.50/tmp/pytest-history7/test_git_object_source_audit_i0')
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="24" skipped="0" tests="271" time="237.534" timestamp="2026-09-27T19:29:48.870063-05:00" hostname="DESKTOP-I0P7IC0"><testcase classname="oracle.history.checkout.tests.test_current_frontier_bundle" name="test_current_bundle_has_one_explicit_research_boundary" time="0.007" /><testcase classname="oracle.history.checkout.tests.test_current_frontier_bundle" name="test_current_bundle_refuses_implicit_last_writer_wins" time="0.010" /><testcase classname="oracle.history.checkout.tests.test_current_frontier_bundle" name="test_current_bundle_refuses_false_scope_agreement" time="0.005" /><testcase classname="oracle.history.checkout.tests.test_current_frontier_bundle" name="test_current_checked_review_receipt_regenerates_exactly" time="0.005" /><testcase classname="oracle.history.checkout.tests.test_current_frontier_bundle" name="test_support_seam_supersessions_preserve_the_named_remainders" time="0.004" /><testcase classname="oracle.history.checkout.tests.test_f2_75_125_publication_audit" name="test_audit_distinguishes_math_consistency_from_release_debt" time="0.002" /><testcase classname="oracle.history.checkout.tests.test_f2_75_125_publication_audit" name="test_audit_can_report_positive_custody_evidence_without_promoting_it" time="0.002" /><testcase classname="oracle.history.checkout.tests.test_f2_75_125_publication_audit" name="test_partial_formalization_package_fails_closed" time="0.002" /><testcase classname="oracle.history.checkout.tests.test_f2_75_125_publication_audit" name="test_formalization_declaration_and_scope_drift_fails_closed" time="0.003" /><testcase classname="oracle.history.checkout.tests.test_f2_75_125_publication_audit" name="test_formalization_flags_broad_tactic_import_as_replay_debt" time="0.003" /><testcase classname="oracle.history.checkout.tests.test_f2_75_125_publication_audit" name="test_manifest_formal_replay_layers_are_audited_together" time="0.002" /><testcase classname="oracle.history.checkout.tests.test_f2_75_125_publication_audit" name="test_export_scan_prunes_build_and_vcs_trees" time="0.008" /><testcase classname="oracle.history.checkout.tests.test_f2_75_125_publication_audit" name="test_git_object_source_audit_ignores_live_worktree_drift" time="0.002"><failure message="TypeError: expected str, bytes or os.PathLike object, not NoneType">tmp_path = WindowsPath('tmp/pytest-history7/test_git_object_source_audit_i0')
 
     def test_git_object_source_audit_ignores_live_worktree_drift(tmp_path):
         repo = tmp_path / "source"
@@ -14,12 +14,12 @@ oracle\history\checkout\tests\test_f2_75_125_publication_audit.py:226:
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 oracle\history\checkout\tests\test_f2_75_125_publication_audit.py:223: in git
     subprocess.run(["git", "-C", str(repo), *args], check=True,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:550: in run
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:550: in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1028: in __init__
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1028: in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1536: in _execute_child
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1536: in _execute_child
     sys.audit("subprocess.Popen", executable, args, cwd, env)
 tools\run-historical-review.py:42: in guard
     executable=os.fsdecode(args[0]).replace('\\','/').split('/')[-1].lower()
@@ -57,12 +57,12 @@ oracle\checkout\grandportage\identity.py:32: in source_root
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 oracle\checkout\grandportage\identity.py:16: in _git
     completed = subprocess.run(
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:550: in run
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:550: in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1028: in __init__
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1028: in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1536: in _execute_child
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1536: in _execute_child
     sys.audit("subprocess.Popen", executable, args, cwd, env)
 tools\run-historical-review.py:42: in guard
     executable=os.fsdecode(args[0]).replace('\\','/').split('/')[-1].lower()
@@ -97,12 +97,12 @@ oracle\checkout\grandportage\identity.py:32: in source_root
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 oracle\checkout\grandportage\identity.py:16: in _git
     completed = subprocess.run(
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:550: in run
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:550: in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1028: in __init__
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1028: in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1536: in _execute_child
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1536: in _execute_child
     sys.audit("subprocess.Popen", executable, args, cwd, env)
 tools\run-historical-review.py:42: in guard
     executable=os.fsdecode(args[0]).replace('\\','/').split('/')[-1].lower()
@@ -140,12 +140,12 @@ oracle\checkout\grandportage\identity.py:32: in source_root
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 oracle\checkout\grandportage\identity.py:16: in _git
     completed = subprocess.run(
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:550: in run
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:550: in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1028: in __init__
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1028: in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1536: in _execute_child
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1536: in _execute_child
     sys.audit("subprocess.Popen", executable, args, cwd, env)
 tools\run-historical-review.py:42: in guard
     executable=os.fsdecode(args[0]).replace('\\','/').split('/')[-1].lower()
@@ -185,12 +185,12 @@ oracle\checkout\grandportage\identity.py:32: in source_root
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 oracle\checkout\grandportage\identity.py:16: in _git
     completed = subprocess.run(
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:550: in run
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:550: in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1028: in __init__
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1028: in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1536: in _execute_child
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1536: in _execute_child
     sys.audit("subprocess.Popen", executable, args, cwd, env)
 tools\run-historical-review.py:42: in guard
     executable=os.fsdecode(args[0]).replace('\\','/').split('/')[-1].lower()
@@ -227,12 +227,12 @@ oracle\checkout\grandportage\identity.py:32: in source_root
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 oracle\checkout\grandportage\identity.py:16: in _git
     completed = subprocess.run(
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:550: in run
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:550: in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1028: in __init__
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1028: in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1536: in _execute_child
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1536: in _execute_child
     sys.audit("subprocess.Popen", executable, args, cwd, env)
 tools\run-historical-review.py:42: in guard
     executable=os.fsdecode(args[0]).replace('\\','/').split('/')[-1].lower()
@@ -267,12 +267,12 @@ oracle\checkout\grandportage\identity.py:32: in source_root
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 oracle\checkout\grandportage\identity.py:16: in _git
     completed = subprocess.run(
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:550: in run
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:550: in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1028: in __init__
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1028: in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1536: in _execute_child
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1536: in _execute_child
     sys.audit("subprocess.Popen", executable, args, cwd, env)
 tools\run-historical-review.py:42: in guard
     executable=os.fsdecode(args[0]).replace('\\','/').split('/')[-1].lower()
@@ -319,12 +319,12 @@ oracle\checkout\grandportage\identity.py:32: in source_root
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 oracle\checkout\grandportage\identity.py:16: in _git
     completed = subprocess.run(
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:550: in run
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:550: in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1028: in __init__
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1028: in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1536: in _execute_child
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1536: in _execute_child
     sys.audit("subprocess.Popen", executable, args, cwd, env)
 tools\run-historical-review.py:42: in guard
     executable=os.fsdecode(args[0]).replace('\\','/').split('/')[-1].lower()
@@ -371,12 +371,12 @@ oracle\checkout\grandportage\identity.py:32: in source_root
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 oracle\checkout\grandportage\identity.py:16: in _git
     completed = subprocess.run(
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:550: in run
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:550: in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1028: in __init__
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1028: in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1536: in _execute_child
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1536: in _execute_child
     sys.audit("subprocess.Popen", executable, args, cwd, env)
 tools\run-historical-review.py:42: in guard
     executable=os.fsdecode(args[0]).replace('\\','/').split('/')[-1].lower()
@@ -420,12 +420,12 @@ oracle\checkout\grandportage\identity.py:32: in source_root
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 oracle\checkout\grandportage\identity.py:16: in _git
     completed = subprocess.run(
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:550: in run
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:550: in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1028: in __init__
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1028: in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1536: in _execute_child
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1536: in _execute_child
     sys.audit("subprocess.Popen", executable, args, cwd, env)
 tools\run-historical-review.py:42: in guard
     executable=os.fsdecode(args[0]).replace('\\','/').split('/')[-1].lower()
@@ -469,12 +469,12 @@ oracle\checkout\grandportage\identity.py:32: in source_root
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 oracle\checkout\grandportage\identity.py:16: in _git
     completed = subprocess.run(
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:550: in run
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:550: in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1028: in __init__
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1028: in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1536: in _execute_child
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1536: in _execute_child
     sys.audit("subprocess.Popen", executable, args, cwd, env)
 tools\run-historical-review.py:42: in guard
     executable=os.fsdecode(args[0]).replace('\\','/').split('/')[-1].lower()
@@ -518,12 +518,12 @@ oracle\checkout\grandportage\identity.py:32: in source_root
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 oracle\checkout\grandportage\identity.py:16: in _git
     completed = subprocess.run(
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:550: in run
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:550: in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1028: in __init__
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1028: in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1536: in _execute_child
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1536: in _execute_child
     sys.audit("subprocess.Popen", executable, args, cwd, env)
 tools\run-historical-review.py:42: in guard
     executable=os.fsdecode(args[0]).replace('\\','/').split('/')[-1].lower()
@@ -558,12 +558,12 @@ oracle\checkout\grandportage\identity.py:32: in source_root
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 oracle\checkout\grandportage\identity.py:16: in _git
     completed = subprocess.run(
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:550: in run
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:550: in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1028: in __init__
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1028: in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1536: in _execute_child
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1536: in _execute_child
     sys.audit("subprocess.Popen", executable, args, cwd, env)
 tools\run-historical-review.py:42: in guard
     executable=os.fsdecode(args[0]).replace('\\','/').split('/')[-1].lower()
@@ -597,12 +597,12 @@ oracle\checkout\grandportage\identity.py:32: in source_root
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 oracle\checkout\grandportage\identity.py:16: in _git
     completed = subprocess.run(
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:550: in run
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:550: in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1028: in __init__
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1028: in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1536: in _execute_child
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1536: in _execute_child
     sys.audit("subprocess.Popen", executable, args, cwd, env)
 tools\run-historical-review.py:42: in guard
     executable=os.fsdecode(args[0]).replace('\\','/').split('/')[-1].lower()
@@ -639,12 +639,12 @@ oracle\checkout\grandportage\identity.py:32: in source_root
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 oracle\checkout\grandportage\identity.py:16: in _git
     completed = subprocess.run(
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:550: in run
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:550: in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1028: in __init__
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1028: in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1536: in _execute_child
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1536: in _execute_child
     sys.audit("subprocess.Popen", executable, args, cwd, env)
 tools\run-historical-review.py:42: in guard
     executable=os.fsdecode(args[0]).replace('\\','/').split('/')[-1].lower()
@@ -678,12 +678,12 @@ oracle\checkout\grandportage\identity.py:32: in source_root
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 oracle\checkout\grandportage\identity.py:16: in _git
     completed = subprocess.run(
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:550: in run
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:550: in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1028: in __init__
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1028: in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1536: in _execute_child
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1536: in _execute_child
     sys.audit("subprocess.Popen", executable, args, cwd, env)
 tools\run-historical-review.py:42: in guard
     executable=os.fsdecode(args[0]).replace('\\','/').split('/')[-1].lower()
@@ -721,12 +721,12 @@ oracle\checkout\grandportage\identity.py:32: in source_root
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 oracle\checkout\grandportage\identity.py:16: in _git
     completed = subprocess.run(
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:550: in run
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:550: in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1028: in __init__
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1028: in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1536: in _execute_child
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1536: in _execute_child
     sys.audit("subprocess.Popen", executable, args, cwd, env)
 tools\run-historical-review.py:42: in guard
     executable=os.fsdecode(args[0]).replace('\\','/').split('/')[-1].lower()
@@ -765,12 +765,12 @@ oracle\checkout\grandportage\identity.py:32: in source_root
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 oracle\checkout\grandportage\identity.py:16: in _git
     completed = subprocess.run(
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:550: in run
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:550: in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1028: in __init__
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1028: in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1536: in _execute_child
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1536: in _execute_child
     sys.audit("subprocess.Popen", executable, args, cwd, env)
 tools\run-historical-review.py:42: in guard
     executable=os.fsdecode(args[0]).replace('\\','/').split('/')[-1].lower()
@@ -804,12 +804,12 @@ oracle\checkout\grandportage\identity.py:32: in source_root
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 oracle\checkout\grandportage\identity.py:16: in _git
     completed = subprocess.run(
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:550: in run
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:550: in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1028: in __init__
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1028: in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1536: in _execute_child
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1536: in _execute_child
     sys.audit("subprocess.Popen", executable, args, cwd, env)
 tools\run-historical-review.py:42: in guard
     executable=os.fsdecode(args[0]).replace('\\','/').split('/')[-1].lower()
@@ -873,12 +873,12 @@ oracle\checkout\grandportage\identity.py:32: in source_root
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 oracle\checkout\grandportage\identity.py:16: in _git
     completed = subprocess.run(
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:550: in run
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:550: in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1028: in __init__
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1028: in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1536: in _execute_child
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1536: in _execute_child
     sys.audit("subprocess.Popen", executable, args, cwd, env)
 tools\run-historical-review.py:42: in guard
     executable=os.fsdecode(args[0]).replace('\\','/').split('/')[-1].lower()
@@ -912,12 +912,12 @@ oracle\checkout\grandportage\identity.py:32: in source_root
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 oracle\checkout\grandportage\identity.py:16: in _git
     completed = subprocess.run(
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:550: in run
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:550: in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1028: in __init__
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1028: in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1536: in _execute_child
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1536: in _execute_child
     sys.audit("subprocess.Popen", executable, args, cwd, env)
 tools\run-historical-review.py:42: in guard
     executable=os.fsdecode(args[0]).replace('\\','/').split('/')[-1].lower()
@@ -951,12 +951,12 @@ oracle\checkout\grandportage\identity.py:32: in source_root
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 oracle\checkout\grandportage\identity.py:16: in _git
     completed = subprocess.run(
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:550: in run
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:550: in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1028: in __init__
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1028: in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1536: in _execute_child
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1536: in _execute_child
     sys.audit("subprocess.Popen", executable, args, cwd, env)
 tools\run-historical-review.py:42: in guard
     executable=os.fsdecode(args[0]).replace('\\','/').split('/')[-1].lower()
@@ -990,12 +990,12 @@ oracle\checkout\grandportage\identity.py:32: in source_root
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 oracle\checkout\grandportage\identity.py:16: in _git
     completed = subprocess.run(
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:550: in run
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:550: in run
     with Popen(*popenargs, **kwargs) as process:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1028: in __init__
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1028: in __init__
     self._execute_child(args, executable, preexec_fn, close_fds,
-C:\Users\wstri\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py:1536: in _execute_child
+$APPDATA/Roaming/uv/python/cpython-3.12.9-windows-x86_64-none/Lib/subprocess.py:1536: in _execute_child
     sys.audit("subprocess.Popen", executable, args, cwd, env)
 tools\run-historical-review.py:42: in guard
     executable=os.fsdecode(args[0]).replace('\\','/').split('/')[-1].lower()

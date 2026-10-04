@@ -17,7 +17,7 @@ Publish 0.50 as the successor major line on public master. Use one snapshot comm
 ## Prerequisites
 
 1. **Release gate.** Will picks the public gate. The default proposal is after Phase 3 (minimal algebraic profile), when 0.50 first does mathematics a user can run.
-2. **Portable harnesses.** Harnesses hard-code the local Lean 4.32.1 path under `C:/Users/wstri/.elan`. Resolve the toolchain from `lean-toolchain` through `elan`/`lake env`, then add a CI job that builds `phase2/lean` and runs the 0.50 suite. Because receipts bind adapter bytes, re-execute and re-integrate every harness after the path change.
+2. **Portable harnesses.** Harnesses hard-code the local Lean 4.32.1 path under `$ELAN_HOME`. Resolve the toolchain from `lean-toolchain` through `elan`/`lake env`, then add a CI job that builds `phase2/lean` and runs the 0.50 suite. Because receipts bind adapter bytes, re-execute and re-integrate every harness after the path change.
 3. **Snapshot manifest v2.** Extend the manifest for the merged tree, keeping the v0.37 public/private split:
    - public: 0.50 sources, corpus fixtures, layer tags, reports and Lean;
    - private: private harvests, oracle checkouts, caches and machine-local scratch.

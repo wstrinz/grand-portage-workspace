@@ -25,15 +25,15 @@
   "accepted_evidence": [
     {
       "path": "reports/PHASE-0A-CLOSEOUT-PARENT-REVIEW.json",
-      "sha256": "bac53f76359c7623d4c95552d6425a79bdd5acba868a33e76e51cc3141cb91d3"
+      "sha256": "4019b3bd56044bf374c13cec6801ea1e9519673fe130eaa8a8e9b409bb78b0a5"
     },
     {
       "path": "reports/PHASE-0A-A24-INTEGRATION.json",
-      "sha256": "421d88982ad1534272d0b355f74169ad65f43dfbba636e7f84e1f39808307079"
+      "sha256": "73cce79484e84a7e2bb5bcfd00c675cbce00bcf3f5b6b7fbe8320dec542a2693"
     },
     {
       "path": "reports/PHASE-0A-CLOSEOUT-CONCORDANCE.json",
-      "sha256": "b22508eeadaa1e4056086c19bfafecbec533430523e2e47ca89ce4185e944206"
+      "sha256": "5972d37d4019a782b9bcf17fb373baaf084692b8728897f5ddabdf1a7156dbaf"
     },
     {
       "path": "reports/PHASE-0A-FINAL-BOUNDARY-CHECK.json",
@@ -65,7 +65,7 @@
     },
     {
       "path": "reports/PHASE-0A-COORDINATOR-RESUMPTION.json",
-      "sha256": "b3be15e9d50fdf2f9158d719c1b49fafb80623cf780ebe1491cfb14fe2c337bf"
+      "sha256": "7b9364e365d67e100c3401b4d29218116c7d56be83226dd6895dcb5775532758"
     },
     {
       "path": "reports/NEUTRAL-LIFECYCLE-AUDIT.json",
@@ -77,11 +77,11 @@
     },
     {
       "path": "reports/PHASE-0A-CONTRACTION-LIFT-INTEGRATION.json",
-      "sha256": "8279efce9ad136b4e4a1485080ba8baf556c122fc4a3406965ed97d9392e456f"
+      "sha256": "2f2f2367bb680596fb267e3148044efb3f855eac30fbf9d6668d26c6779ad097"
     },
     {
       "path": "reports/PHASE-0A-ORDINARY-POINT-GUARD-INTEGRATION.json",
-      "sha256": "1abe7db6b0d0ed7c16fb181bcc4bd4a4c0c39d3d3b1e7423fb5e9d1023273478"
+      "sha256": "7f21e9a2f96e337c6279e18603fb38035fff1f5722f5d3b35c9dad48f6f8ddd6"
     }
   ],
   "checklist": {
@@ -99,7 +99,7 @@
   },
   "replay": {
     "path": "reports/oracle-runs/20260930T021113009291Z.json",
-    "sha256": "77321d0f86e5160ef0f78f13498092061718a7b829256548cc430b1d19f302df",
+    "sha256": "0996858153e6f1fec40aad3fe1d71a70cff72b39972cd78937646818214be04d",
     "summary": {
       "AGREES": 403,
       "DIAGNOSTIC_OBSERVED": 4,
@@ -185,7 +185,7 @@
     "source_pin_schema_preserved": true,
     "previous_replay": "reports/oracle-runs/20260930T000850355521Z.json",
     "new_replay": "reports/oracle-runs/20260930T021113009291Z.json",
-    "new_replay_sha256": "77321d0f86e5160ef0f78f13498092061718a7b829256548cc430b1d19f302df",
+    "new_replay_sha256": "0996858153e6f1fec40aad3fe1d71a70cff72b39972cd78937646818214be04d",
     "summary": {
       "AGREES": 403,
       "DIAGNOSTIC_OBSERVED": 4,

@@ -558,7 +558,7 @@
       "reports/PHASE-0E-CERTIFICATE-CAMPAIGN-REVIEW.md",
       "reports/PHASE-0E-CERTIFICATE-CAMPAIGN-REVIEW.json"
     ],
-    "workspace": "F:/repos/grandportage-0.50",
+    "workspace": "$WORKSPACE",
     "method": "Primary text read in memory; no source checkout/import/build, checker execution, tests, prototype, contact, or shared-surface mutation.",
     "parent_owned": [
       "P13",

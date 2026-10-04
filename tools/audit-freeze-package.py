@@ -1,7 +1,7 @@
 """Verify the private doc-only freeze package without modifying either source repo."""
 from pathlib import Path
 import hashlib,importlib.util,json,re,subprocess,tempfile
-ROOT=Path(__file__).resolve().parents[1]; O=ROOT/'oracle/checkout'; P=ROOT/'reports/freeze-v0.37.1'; OLD=Path('C:/Users/wstri/dev/grand-portage')
+ROOT=Path(__file__).resolve().parents[1]; O=ROOT/'oracle/checkout'; P=ROOT/'reports/freeze-v0.37.1'; OLD=(Path(__import__('os').environ.get('GP_DEV_ROOT') or Path.home()/'dev'))/'grand-portage'
 def git(root,*args):return subprocess.check_output(['git','-c','safe.directory='+root.as_posix(),'-C',str(root),*args])
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 pin=json.loads((ROOT/'oracle/PIN.json').read_text(encoding='utf-8'))

@@ -4,7 +4,7 @@
 
 ## Verified baseline
 
-F:/repos/grandportage-0.50, branch codex/phase-0; last verified implementation commit d8ac02a. Phase0 complete, G1 ratified, early Phase2 slice complete. **G2 remains open at46/79**,33 remaining. Prior checkpoint:256 host tests/744 subtests;553 native component controls and83 compiled proof controls. Production logic636, decoder263, statement26, proofs1668. All459 cases and67 protected artifacts preserved there.
+$WORKSPACE, branch codex/phase-0; last verified implementation commit d8ac02a. Phase0 complete, G1 ratified, early Phase2 slice complete. **G2 remains open at46/79**,33 remaining. Prior checkpoint:256 host tests/744 subtests;553 native component controls and83 compiled proof controls. Production logic636, decoder263, statement26, proofs1668. All459 cases and67 protected artifacts preserved there.
 
 Read AGENTS.md, STATUS.md, LIMITS.md, DECISIONS.md, SPEC-CORE.md and docs/GP-0.50-PHASE-2-HANDOFF.md. Commands/writes/scratch/caches stay onF:. Predecessor C: is read-only. Local commits and finite GPB assignments authorized; no public push, heartbeat restart, new corpus cases, profile adoption or broad audit. Mathlib-free Lean4.32.1; standard axioms only.
 

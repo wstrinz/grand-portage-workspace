@@ -1,7 +1,7 @@
 {
   "scope": "Bounded provenance review requested by reports/PHASE-0A-RECURRENCE-CRAMER-PARENT-NOTES.json: pinned compatibility adapter generator lines 550-610, validator lines 743-794, and directly adjacent custody/validation slices needed to answer their relationship.",
   "pinned_source": {
-    "repository": "C:/Users/wstri/dev/grand-portage",
+    "repository": "$DEV/grand-portage",
     "commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
     "path": "experiments/jc_h3_b0_compatibility/adapter.py",
     "blob": "e00b1f667f38fd5bbfcf015c346c54c11290da21",

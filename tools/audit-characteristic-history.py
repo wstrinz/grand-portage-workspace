@@ -1,7 +1,7 @@
 """Audit the historical characteristic predicate without executing the old application."""
 from pathlib import Path
 import ast,hashlib,importlib.util,json,subprocess
-ROOT=Path(__file__).resolve().parents[1];COMMIT='f2b7c49e59d382ba182e90aee057c3441911d183';SOURCE='C:/Users/wstri/dev/grand-portage'
+ROOT=Path(__file__).resolve().parents[1];COMMIT='f2b7c49e59d382ba182e90aee057c3441911d183';SOURCE=str((Path(__import__('os').environ.get('GP_DEV_ROOT') or Path.home()/'dev'))/'grand-portage')
 spec=importlib.util.spec_from_file_location('replay',ROOT/'tools/check-corpus.py');r=importlib.util.module_from_spec(spec);spec.loader.exec_module(r);r.validate()
 from grandportage import store as S
 raw=subprocess.check_output(['git','-C',SOURCE,'show',COMMIT+':grandportage/store.py']);tree=ast.parse(raw)

@@ -2,8 +2,8 @@
   "title": "JC bounded summary and incident review",
   "date": "2026-09-29",
   "status": "Finite assignment complete; proposals only; no JC/0b closure or admission",
-  "workspace": "F:/repos/grandportage-0.50",
-  "source_root": "C:/Users/wstri/dev/math-stuff",
+  "workspace": "$WORKSPACE",
+  "source_root": "$DEV/math-stuff",
   "source_HEAD": "45ff0c37ec642ceb8bf00c3e22840f2a0be90bbd",
   "oracle": "ac4155787207e2847d248cffed7be871d5dcd577",
   "existing_corpus_count": 454,
@@ -23,79 +23,79 @@
   ],
   "read_extent": [
     {
-      "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/F2_TOWER.md",
+      "path": "$DEV/math-stuff/d2_plane_72_108/F2_TOWER.md",
       "ranges": "1-327",
       "line_count": 327,
       "sha256": "624b38c92fea86b74e875d77a074f583623e0d12d207787503bc644723ac10b9"
     },
     {
-      "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/PASSPORT_75_125_REPAIR.md",
+      "path": "$DEV/math-stuff/d2_plane_72_108/PASSPORT_75_125_REPAIR.md",
       "ranges": "1-432",
       "line_count": 432,
       "sha256": "4bde9e54296c02bad2fda8417c55a5b89085482dffbe49acf80cc399cd8633d1"
     },
     {
-      "path": "C:/Users/wstri/dev/math-stuff/whetstone/MODELLING_GAPS.md",
+      "path": "$DEV/math-stuff/whetstone/MODELLING_GAPS.md",
       "ranges": "1-655",
       "line_count": 655,
       "sha256": "155804b33a822dcf2d4ae4e2b274f718d01d0ccd1bc740c4aea0147740609dfe"
     },
     {
-      "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/POSITIVE_SLICE.md",
+      "path": "$DEV/math-stuff/d2_plane_72_108/POSITIVE_SLICE.md",
       "ranges": "1-100",
       "line_count": 561,
       "sha256": "8ed580d6a1e9d1e081a05cdaf1bcaa68533ca91c348e8ed112cb37b01a3281d4"
     },
     {
-      "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/GAUGE_LEAK.md",
+      "path": "$DEV/math-stuff/d2_plane_72_108/GAUGE_LEAK.md",
       "ranges": "1-100",
       "line_count": 543,
       "sha256": "e6b932757a9f82b7e59a5af60f856fc5668f321e31fb03ba29e11bfa32d80d8a"
     },
     {
-      "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/TRANSFORM_AUDIT.md",
+      "path": "$DEV/math-stuff/d2_plane_72_108/TRANSFORM_AUDIT.md",
       "ranges": "1-100",
       "line_count": 320,
       "sha256": "889838fe818931b72522e3c9819a1ad544f2615fc35c4db6b80919ec1c0dcfff"
     },
     {
-      "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/FIELD_SCOPE_AUDIT.md",
+      "path": "$DEV/math-stuff/d2_plane_72_108/FIELD_SCOPE_AUDIT.md",
       "ranges": "1-100",
       "line_count": 780,
       "sha256": "7f1ec681a0a3f61a837ecacc433873bfb9d5e28afb371adc2d61c1254835e605"
     },
     {
-      "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/F2_BRANCH_MANIFEST.md",
+      "path": "$DEV/math-stuff/d2_plane_72_108/F2_BRANCH_MANIFEST.md",
       "ranges": "1-100;195-270;328-373",
       "line_count": 480,
       "sha256": "14193b04fcf866d9bf7eea2efa8cc2a5b8da5394d3e44d58ba04d0c54369e4d5"
     },
     {
-      "path": "C:/Users/wstri/dev/math-stuff/whetstone/whetstone_dag.py",
+      "path": "$DEV/math-stuff/whetstone/whetstone_dag.py",
       "ranges": "804-885; targeted rg matches",
       "line_count": 1307,
       "sha256": "627749285c45566edddd05b01ae1f44c2488b29564b1ea98cc663099aad4992c"
     },
     {
-      "path": "C:/Users/wstri/dev/math-stuff/whetstone/WHETSTONE_DAG.md",
+      "path": "$DEV/math-stuff/whetstone/WHETSTONE_DAG.md",
       "ranges": "1-100;367-418; targeted rg matches",
       "line_count": 443,
       "sha256": "d3ca7fea68e1e6362b83794cd47d126adc7860d1b05d95baedf7e647577580dd"
     },
     {
-      "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/AT_LE9_AUDIT.md",
+      "path": "$DEV/math-stuff/d2_plane_72_108/AT_LE9_AUDIT.md",
       "ranges": "1-110; targeted rg matches",
       "line_count": 478,
       "sha256": "c4be3c3d4272ac32d504e8f2c962b7bdb0eb5662799613541fe95ccd290c176d"
     },
     {
-      "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/SESSION_HANDOFF.md",
+      "path": "$DEV/math-stuff/d2_plane_72_108/SESSION_HANDOFF.md",
       "ranges": "1-4",
       "line_count": 4,
       "sha256": "1c3fee5d28140afe49b4896797bcb333a71a0138c3f6f75ba9d267c1565674d3"
     },
     {
-      "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/archive/coordination/through-2026-08-10-reset/SESSION_HANDOFF.md",
+      "path": "$DEV/math-stuff/d2_plane_72_108/archive/coordination/through-2026-08-10-reset/SESSION_HANDOFF.md",
       "ranges": "1-40; targeted rg matches only",
       "line_count": 3904,
       "sha256": "2bab8a3a2871f7c79693ae2af16230761984805140c0c883d644e4a97c360584"
@@ -109,7 +109,7 @@
       "class": "MEANING",
       "scope_or_region": "REGION",
       "source": {
-        "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/GAUGE_LEAK.md",
+        "path": "$DEV/math-stuff/d2_plane_72_108/GAUGE_LEAK.md",
         "lines": "10-31;35-62;68-90",
         "sha256": "e6b932757a9f82b7e59a5af60f856fc5668f321e31fb03ba29e11bfa32d80d8a"
       },
@@ -141,7 +141,7 @@
       "class": "COVER",
       "scope_or_region": "REGION",
       "source": {
-        "path": "C:/Users/wstri/dev/math-stuff/whetstone/MODELLING_GAPS.md",
+        "path": "$DEV/math-stuff/whetstone/MODELLING_GAPS.md",
         "lines": "72-79;97-113;399-409;435-447",
         "sha256": "155804b33a822dcf2d4ae4e2b274f718d01d0ccd1bc740c4aea0147740609dfe"
       },
@@ -173,7 +173,7 @@
       "class": "SCOPE",
       "scope_or_region": "SCOPE",
       "source": {
-        "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/FIELD_SCOPE_AUDIT.md",
+        "path": "$DEV/math-stuff/d2_plane_72_108/FIELD_SCOPE_AUDIT.md",
         "lines": "12-47;76-100",
         "sha256": "7f1ec681a0a3f61a837ecacc433873bfb9d5e28afb371adc2d61c1254835e605"
       },
@@ -198,7 +198,7 @@
         "Cross-0a dedup/admission"
       ],
       "shipping_evidence": {
-        "path": "C:/Users/wstri/dev/math-stuff/whetstone/WHETSTONE_DAG.md",
+        "path": "$DEV/math-stuff/whetstone/WHETSTONE_DAG.md",
         "lines": "14-18;413-415",
         "sha256": "d3ca7fea68e1e6362b83794cd47d126adc7860d1b05d95baedf7e647577580dd"
       },
@@ -211,7 +211,7 @@
       "class": "ADAPTER",
       "scope_or_region": "N/A",
       "source": {
-        "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/PASSPORT_75_125_REPAIR.md",
+        "path": "$DEV/math-stuff/d2_plane_72_108/PASSPORT_75_125_REPAIR.md",
         "lines": "248-278;381-382",
         "sha256": "4bde9e54296c02bad2fda8417c55a5b89085482dffbe49acf80cc399cd8633d1"
       },
@@ -243,7 +243,7 @@
       "class": "BINDING",
       "scope_or_region": "N/A",
       "source": {
-        "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/F2_TOWER.md",
+        "path": "$DEV/math-stuff/d2_plane_72_108/F2_TOWER.md",
         "lines": "305-312",
         "sha256": "624b38c92fea86b74e875d77a074f583623e0d12d207787503bc644723ac10b9"
       },
@@ -268,7 +268,7 @@
         "Cross-0a dedup"
       ],
       "shipping_evidence": {
-        "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/F2_BRANCH_MANIFEST.md",
+        "path": "$DEV/math-stuff/d2_plane_72_108/F2_BRANCH_MANIFEST.md",
         "lines": "349-362",
         "sha256": "14193b04fcf866d9bf7eea2efa8cc2a5b8da5394d3e44d58ba04d0c54369e4d5"
       },
@@ -281,7 +281,7 @@
       "class": "MEANING",
       "scope_or_region": "REGION",
       "source": {
-        "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/F2_TOWER.md",
+        "path": "$DEV/math-stuff/d2_plane_72_108/F2_TOWER.md",
         "lines": "123-154",
         "sha256": "624b38c92fea86b74e875d77a074f583623e0d12d207787503bc644723ac10b9"
       },
@@ -313,7 +313,7 @@
       "class": "ADAPTER",
       "scope_or_region": "N/A",
       "source": {
-        "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/PASSPORT_75_125_REPAIR.md",
+        "path": "$DEV/math-stuff/d2_plane_72_108/PASSPORT_75_125_REPAIR.md",
         "lines": "164-185",
         "sha256": "4bde9e54296c02bad2fda8417c55a5b89085482dffbe49acf80cc399cd8633d1"
       },
@@ -345,7 +345,7 @@
       "class": "ADAPTER",
       "scope_or_region": "N/A",
       "source": {
-        "path": "C:/Users/wstri/dev/math-stuff/whetstone/MODELLING_GAPS.md",
+        "path": "$DEV/math-stuff/whetstone/MODELLING_GAPS.md",
         "lines": "146-162",
         "sha256": "155804b33a822dcf2d4ae4e2b274f718d01d0ccd1bc740c4aea0147740609dfe"
       },
@@ -377,7 +377,7 @@
       "class": "ADAPTER",
       "scope_or_region": "N/A",
       "source": {
-        "path": "C:/Users/wstri/dev/math-stuff/whetstone/MODELLING_GAPS.md",
+        "path": "$DEV/math-stuff/whetstone/MODELLING_GAPS.md",
         "lines": "146-162",
         "sha256": "155804b33a822dcf2d4ae4e2b274f718d01d0ccd1bc740c4aea0147740609dfe"
       },
@@ -409,7 +409,7 @@
       "class": "ADAPTER",
       "scope_or_region": "N/A",
       "source": {
-        "path": "C:/Users/wstri/dev/math-stuff/whetstone/whetstone_dag.py",
+        "path": "$DEV/math-stuff/whetstone/whetstone_dag.py",
         "lines": "851-865",
         "sha256": "627749285c45566edddd05b01ae1f44c2488b29564b1ea98cc663099aad4992c"
       },
@@ -441,7 +441,7 @@
       "class": "ADAPTER",
       "scope_or_region": "N/A",
       "source": {
-        "path": "C:/Users/wstri/dev/math-stuff/whetstone/whetstone_dag.py",
+        "path": "$DEV/math-stuff/whetstone/whetstone_dag.py",
         "lines": "836-842",
         "sha256": "627749285c45566edddd05b01ae1f44c2488b29564b1ea98cc663099aad4992c"
       },
@@ -473,7 +473,7 @@
       "class": "SCOPE",
       "scope_or_region": "REGION",
       "source": {
-        "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/AT_LE9_AUDIT.md",
+        "path": "$DEV/math-stuff/d2_plane_72_108/AT_LE9_AUDIT.md",
         "lines": "35-68",
         "sha256": "c4be3c3d4272ac32d504e8f2c962b7bdb0eb5662799613541fe95ccd290c176d"
       },
@@ -505,7 +505,7 @@
       "class": "WARRANT",
       "scope_or_region": "N/A",
       "source": {
-        "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/AT_LE9_AUDIT.md",
+        "path": "$DEV/math-stuff/d2_plane_72_108/AT_LE9_AUDIT.md",
         "lines": "35-44",
         "sha256": "c4be3c3d4272ac32d504e8f2c962b7bdb0eb5662799613541fe95ccd290c176d"
       },
@@ -537,7 +537,7 @@
       "class": "BINDING",
       "scope_or_region": "N/A",
       "source": {
-        "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/FIELD_SCOPE_AUDIT.md",
+        "path": "$DEV/math-stuff/d2_plane_72_108/FIELD_SCOPE_AUDIT.md",
         "lines": "49-74",
         "sha256": "7f1ec681a0a3f61a837ecacc433873bfb9d5e28afb371adc2d61c1254835e605"
       },
@@ -568,7 +568,7 @@
       "item": "C001-C003",
       "decision": "Keep unchanged. C002 covers corrected constants, degenerate cone, dissolved Galois inputs, residual-free law branch and other suspect same-dictionary corners. C003 covers repeated coprimality-bridge endorsement.",
       "source": {
-        "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/PASSPORT_75_125_REPAIR.md",
+        "path": "$DEV/math-stuff/d2_plane_72_108/PASSPORT_75_125_REPAIR.md",
         "lines": "116-134;194-244;304-331;409-432",
         "sha256": "4bde9e54296c02bad2fda8417c55a5b89085482dffbe49acf80cc399cd8633d1"
       }
@@ -577,7 +577,7 @@
       "item": "F2 pure-ansatz branches",
       "decision": "Recorded selection/completeness defect in superseded chart; C002-related witness, not additional current F2 branch count. Corrected chart has no cubic. Wider family effect unknown.",
       "source": {
-        "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/F2_BRANCH_MANIFEST.md",
+        "path": "$DEV/math-stuff/d2_plane_72_108/F2_BRANCH_MANIFEST.md",
         "lines": "12-31;46-61;264-269",
         "sha256": "14193b04fcf866d9bf7eea2efa8cc2a5b8da5394d3e44d58ba04d0c54369e4d5"
       }
@@ -586,7 +586,7 @@
       "item": "C0 partition 39 vs4690",
       "decision": "Recorded unresolved COVER gap; no established false completeness claim or shipment. Gap disposition only.",
       "source": {
-        "path": "C:/Users/wstri/dev/math-stuff/whetstone/whetstone_dag.py",
+        "path": "$DEV/math-stuff/whetstone/whetstone_dag.py",
         "lines": "830-835",
         "sha256": "627749285c45566edddd05b01ae1f44c2488b29564b1ea98cc663099aad4992c"
       }
@@ -595,7 +595,7 @@
       "item": "Weak y lattice",
       "decision": "Seven condition miss retained as numerical-strength limit of B001/B002, no extra gauge count.",
       "source": {
-        "path": "C:/Users/wstri/dev/math-stuff/whetstone/whetstone_dag.py",
+        "path": "$DEV/math-stuff/whetstone/whetstone_dag.py",
         "lines": "816-822",
         "sha256": "627749285c45566edddd05b01ae1f44c2488b29564b1ea98cc663099aad4992c"
       }
@@ -604,7 +604,7 @@
       "item": "3/3 headline",
       "decision": "B001 is one incident/three witnesses; no extra count for corrected independence headline.",
       "source": {
-        "path": "C:/Users/wstri/dev/math-stuff/whetstone/MODELLING_GAPS.md",
+        "path": "$DEV/math-stuff/whetstone/MODELLING_GAPS.md",
         "lines": "487-499;650-652",
         "sha256": "155804b33a822dcf2d4ae4e2b274f718d01d0ccd1bc740c4aea0147740609dfe"
       }
@@ -613,7 +613,7 @@
       "item": "QQ1, synthetic infinity, tropical recommendation and gate predictions",
       "decision": "Open premises/controls/proposals, not new incidents.",
       "source": {
-        "path": "C:/Users/wstri/dev/math-stuff/whetstone/MODELLING_GAPS.md",
+        "path": "$DEV/math-stuff/whetstone/MODELLING_GAPS.md",
         "lines": "115-120;411-480",
         "sha256": "155804b33a822dcf2d4ae4e2b274f718d01d0ccd1bc740c4aea0147740609dfe"
       }
@@ -625,23 +625,23 @@
   ],
   "next_sources": [
     {
-      "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/c0_partition.py",
+      "path": "$DEV/math-stuff/d2_plane_72_108/c0_partition.py",
       "purpose": "Check whether case-coverage gap includes an actual withdrawn completeness claim."
     },
     {
-      "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/modular_triage.py",
+      "path": "$DEV/math-stuff/d2_plane_72_108/modular_triage.py",
       "purpose": "Incident-led history to locate shadowing correction and cross-0a identity; no execution."
     },
     {
-      "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/FRONTIER_REBUILD.md",
+      "path": "$DEV/math-stuff/d2_plane_72_108/FRONTIER_REBUILD.md",
       "purpose": "Resolve exact stale-draft record/status; no regeneration."
     },
     {
-      "path": "C:/Users/wstri/dev/math-stuff/d2_plane_72_108/polygon_reduction_verify.py",
+      "path": "$DEV/math-stuff/d2_plane_72_108/polygon_reduction_verify.py",
       "purpose": "Exact substring-check history if required for B007 admission; no execution."
     },
     {
-      "path": "C:/Users/wstri/dev/math-stuff/whetstone/WHETSTONE_DAG.md:16",
+      "path": "$DEV/math-stuff/whetstone/WHETSTONE_DAG.md:16",
       "purpose": "Follow a retained v0.3.2 release pointer only if present; no external rediscovery."
     }
   ],

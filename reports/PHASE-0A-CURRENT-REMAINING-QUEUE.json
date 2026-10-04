@@ -5356,12 +5356,12 @@
     "reports/PHASE-0A-CLOSURE-DECISIONS.json": "a3c2fda0b3701737eb7585c8fb69f3cdccc81b29e7139f4836bbdc507296e86b",
     "reports/PHASE-0A-DELETED-CONTENT-RECONCILIATION.json": "46747a37541afc6bd1dd3a3d17dd5bc7e27c9b9c8ddf3db39c5765b3918e0836",
     "reports/PHASE-0A-DELETED-MAPPING-REVIEW.json": "89c9020eadebd624553d7fefae2c673263bdc225413868c26cc169bd7fbb845d",
-    "reports/PHASE-0A-DELETED-IR-SNAPSHOT-REVIEW.json": "cceff295affe037a4a2be495d41586b6827640a3dc7dd42c2eb909860303a54a",
+    "reports/PHASE-0A-DELETED-IR-SNAPSHOT-REVIEW.json": "84f4472fe301c8ce5301ee2c02984657c5f3572834d5df963ff4e835a2f34372",
     "reports/PHASE-0A-DELETED-DOCUMENT-REVIEW.json": "3a75b98a2f036139691a6542c9c7c45084fd6f6f367010ebc6492c6a02bd00ab",
-    "reports/PHASE-0A-SIX-DELETED-NOTES-REVIEW.json": "8d53dd063872e36c4ec21861629561ba0575b44ad8ebb5f1723efc0751baacd7",
+    "reports/PHASE-0A-SIX-DELETED-NOTES-REVIEW.json": "c815843507aec82acb209945b8376fae05651163b320530e3ab14e0ba89d1406",
     "reports/PHASE-0A-OPERATION-CONTRACT-CLOSE-READ.json": "e0e20bd1cef9e767ddd9c2675c24a234f55d507bc0f7da8be5fc7394e8ad2f92",
     "reports/PHASE-0A-OPERATION-COUNTERMODEL-MAPPINGS.json": "2e7131da880863948e7777ce64be00abeeaad3230a89241bb1ecd86faf94ef18",
-    "reports/ORACLE-RESULTS.json": "e70d6176f214fdc9d1bba3ee41345c483824cbdd21c499fa9ff7aabf31f0ef23"
+    "reports/ORACLE-RESULTS.json": "c0a28dd6b4885a5928068a656a5273f29d10ac6f3bb5d4b380e4c20724cd46c7"
   },
   "parent_correction": "Parent review linked prior membership/contraction integration to73.3 and75.3; absence of row ID in the earlier parent ledger did not mean no extraction evidence existed. Batch Q2 now has four original candidate obligations plus separate stronger-premise saturation residual.",
   "parent_current_note": "Nine of historical47 candidate obligations extracted;38 remain proposals. Stronger-premise OperationContract:664 separately covered byX357. Historical universes retained."

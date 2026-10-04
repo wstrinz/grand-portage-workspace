@@ -2,7 +2,7 @@
   "schema_version": 1,
   "timestamp_utc": "20260928T141913475576Z",
   "oracle_commit": "ac4155787207e2847d248cffed7be871d5dcd577",
-  "oracle_path": "F:\\repos\\grandportage-0.50\\oracle\\checkout",
+  "oracle_path": "oracle/checkout",
   "runner_sha256": "0b8e866309c64486826dccd9693f8075dcaecc80707e134cdf50513b9f633f44",
   "historical_probe_sha256": "b85c9cffda5964c36f7ff81d32e334ed43a2c69ef84bc6c55db58194bd33c38d",
   "current_algebra_probe_sha256": "d76af36869c5da824adf54cb8ef1f1883bb68d9231d23be3d0b4a3d6f7fc1ed3",
@@ -27,7 +27,7 @@
   "lifecycle_input_adapter_sha256": "8b242271dd66f2ddf2df7280101956096dc46000500a0df0cd0ee01dc1fa7857",
   "lifecycle_baseline_sha256": "b949659741c193c4b632304c10a767cb13a3913a9b8d88a99fe8f649795ded1e",
   "routes_sha256": "e34c05ffc6cde1ecb154ff0c15b4925120fff25eb53ce6e7d9bf58e4a01ff5a1",
-  "historical_manifest_sha256": "4f1c64b8aaa28da4032f9e407dac929083b5436aedf122fba2d98a37c296633a",
+  "historical_manifest_sha256": "2ca0a95db90819ac44928ecd8564cc0ddcfbcdb63c897c921355447106545d2c",
   "schema_sha256": "76029f1faf4265c01e711e32ea255d5ca6e16811fa2e174fc7ba62454a9c782b",
   "python": "3.12.9 (main, Feb 12 2025, 14:52:31) [MSC v.1942 64 bit (AMD64)]",
   "summary": {

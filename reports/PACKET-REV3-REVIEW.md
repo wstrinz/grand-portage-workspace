@@ -4,7 +4,7 @@ Approval: Will approved this review and BACKBRIEF-REV3.md on 2026-09-29. Propose
 
 2026-09-29. Read the entire 1,045-line supplied packet. Preserved it verbatim as `docs/GP-0.50-REWORK-PACKET-rev3.md`; earlier packet and approved decisions remain unchanged. This review does not close a phase or change case expectations.
 
-Source attachment: `C:/Users/wstri/.codex/attachments/1f13aad9-a9f4-4902-aa9b-c0663ad2737e/Pasted text.txt`.
+Source attachment: `$HOME/.codex/attachments/1f13aad9-a9f4-4902-aa9b-c0663ad2737e/Pasted text.txt`.
 
 - Revision 3 SHA-256: `c718b9f2905520da658ba5cd9accc957fa3f5d4407419b10de68833de0118983`
 - Retained revision 1 SHA-256: `949cc271a0a353e593961974349aa99711d2dd7bde1b26a51a5e8260ed1c2110`

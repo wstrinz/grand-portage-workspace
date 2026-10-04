@@ -7,7 +7,7 @@
     "P5",
     "P7"
   ],
-  "workspace": "F:/repos/grandportage-0.50",
+  "workspace": "$WORKSPACE",
   "gate_effect": {
     "phase_0e_complete": false,
     "G0_complete": false,

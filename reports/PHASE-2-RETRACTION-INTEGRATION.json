@@ -34,7 +34,7 @@
   "parent_review": {
     "pinned_named_functions": {
       "commit": "ac4155787207e2847d248cffed7be871d5dcd577",
-      "pin_file_sha256": "9bb807c3034e045927dfc277f9ac268317ae2fdf7c07fd77c1643749794ee11f",
+      "pin_file_sha256": "180d920db790d5b5e318ce318b7b7e1467e6b11fd44e05e759e8b7cc7f4459db",
       "functions": {
         "tests/test_store.py": {
           "line": 36,

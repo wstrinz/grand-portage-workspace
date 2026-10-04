@@ -6,7 +6,7 @@
       "campaign": "JC",
       "origin": "own",
       "source": {
-        "repo": "C:\\Users\\wstri\\dev\\math-stuff",
+        "repo": "$DEV/math-stuff",
         "ref": "d2_plane_72_108/FIELD_SPLIT_AUDIT.md:13-59",
         "date": "2026-07-21",
         "harvest_sha256": "db4d7a74aa30e6fcbe3e810c98f25e78073f5dcc15e7548710f299c6ceee6e00",
@@ -36,7 +36,7 @@
       "campaign": "JC",
       "origin": "own",
       "source": {
-        "repo": "C:\\Users\\wstri\\dev\\math-stuff",
+        "repo": "$DEV/math-stuff",
         "ref": "d2_plane_72_108/PASSPORT_75_125_REPAIR.md:11-63",
         "date": "2026-07-26",
         "harvest_sha256": "4bde9e54296c02bad2fda8417c55a5b89085482dffbe49acf80cc399cd8633d1",
@@ -66,7 +66,7 @@
       "campaign": "JC",
       "origin": "own",
       "source": {
-        "repo": "C:\\Users\\wstri\\dev\\math-stuff",
+        "repo": "$DEV/math-stuff",
         "ref": "d2_plane_72_108/F2_TOWER.md:75-114",
         "date": "2026-07-26",
         "harvest_sha256": "624b38c92fea86b74e875d77a074f583623e0d12d207787503bc644723ac10b9",

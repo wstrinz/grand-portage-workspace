@@ -11,7 +11,7 @@
     {
       "name": "ready intake then native loading",
       "exception": "GraphError",
-      "reason": "F:\\repos\\grandportage-0.50\\tmp\\intake-boundary-u03qd7g7\\synthetic-corpus\\arr15\\graph.jsonl:1: `kernel_epoch` must be an integer, not None",
+      "reason": "tmp/intake-boundary-u03qd7g7/synthetic-corpus/arr15/graph.jsonl:1: `kernel_epoch` must be an integer, not None",
       "report_written": false
     },
     {

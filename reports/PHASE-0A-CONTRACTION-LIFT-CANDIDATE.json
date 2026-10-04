@@ -2,7 +2,7 @@
   "schema_version": 1,
   "task": "Smallest neutral candidate for OperationContract exact-contraction/no-valid-evaluation-lift residual",
   "source": {
-    "repository_checkout": "C:/Users/wstri/dev/grand-portage",
+    "repository_checkout": "$DEV/grand-portage",
     "pin": "ac4155787207e2847d248cffed7be871d5dcd577",
     "path": "lean/GrandPortage/OperationContract.lean",
     "git_blob": "c805f85ff1288553f855daf072695578afebde2d",

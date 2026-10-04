@@ -2,7 +2,7 @@
   "title": "DK bounded summary/disposition review",
   "date": "2026-09-29",
   "status": "Finite summary assignment complete; DK/Phase0b completion not asserted; all rows proposed only",
-  "workspace": "F:/repos/grandportage-0.50",
+  "workspace": "$WORKSPACE",
   "source_HEADs": {
     "cfg23": "5538685491ad210dcef5dcf3df37c2f24380ff54",
     "dk_retrodiction": "b876fe4ed5c8963a0e8c19e18c829821c0686654"
@@ -11,73 +11,73 @@
   "existing_corpus_count": 454,
   "read_extent": [
     {
-      "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/README.md",
+      "path": "$DEV/math-research/campaigns/cfg23/README.md",
       "lines": 46,
       "sha256": "e6781d8d5f221f3d56e77f8ec04c642ef0d4934dba67e27cff02818883334291",
       "read_extent": "full text"
     },
     {
-      "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+      "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
       "lines": 1397,
       "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d",
       "read_extent": "full text"
     },
     {
-      "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/FRONTIER.md",
+      "path": "$DEV/math-research/campaigns/cfg23/FRONTIER.md",
       "lines": 1214,
       "sha256": "122718f3c2313f334fa8b9e6b00c64e7eb90c1cc181182f1bad5d0a5faa54e34",
       "read_extent": "full text"
     },
     {
-      "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/EXTERNAL_REVIEW.md",
+      "path": "$DEV/math-research/campaigns/cfg23/EXTERNAL_REVIEW.md",
       "lines": 91,
       "sha256": "0cb377b4027e7f187a267e9cbac60bf84fab7e0b1624b79d6afa059e537e086c",
       "read_extent": "full text"
     },
     {
-      "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/EVIDENCE_POLICY.md",
+      "path": "$DEV/math-research/campaigns/cfg23/EVIDENCE_POLICY.md",
       "lines": 68,
       "sha256": "f309a63690be6c321d838506ec599bc39c44dac42a8f88ac9e5986ae26232830",
       "read_extent": "full text"
     },
     {
-      "path": "C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction/REPORT.md",
+      "path": "$DEV/math-research/campaigns/dk-retrodiction/REPORT.md",
       "lines": 606,
       "sha256": "c56fe65d9e246bd06c525e9da5c642c24fa378681525d602679cd37e88228153",
       "read_extent": "full text"
     },
     {
-      "path": "C:/Users/wstri/dev/math-research/tmp/configuration-23-4-v1.2.0-notes.md",
+      "path": "$DEV/math-research/tmp/configuration-23-4-v1.2.0-notes.md",
       "lines": 11,
       "sha256": "fe0b3e15726ee01f00be62d793a9a623ab20319186ee68c9e23ad47b378aee47",
       "read_extent": "full text"
     },
     {
-      "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/results/accepted/2026-08-31-c2-b11-shallow-canonicalization-audit-closeout.md",
+      "path": "$DEV/math-research/campaigns/cfg23/results/accepted/2026-08-31-c2-b11-shallow-canonicalization-audit-closeout.md",
       "lines": 92,
       "sha256": "08d8757ad384bf27679f62715a5d7bc9264d32c15f016d0a6e0943d3ea9b196f",
       "read_extent": "full text"
     },
     {
-      "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/results/accepted/2026-08-25-compatible-matroid-completion-intake.md",
+      "path": "$DEV/math-research/campaigns/cfg23/results/accepted/2026-08-25-compatible-matroid-completion-intake.md",
       "lines": 104,
       "sha256": "6ca9d7b31a2e8dfd6105b8a68def16d28687ccf867f8aeba1e1f0b404d020cd6",
       "read_extent": "full text"
     },
     {
-      "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/results/accepted/2026-08-28-cuntz23-search-core-intake.md",
+      "path": "$DEV/math-research/campaigns/cfg23/results/accepted/2026-08-28-cuntz23-search-core-intake.md",
       "lines": 58,
       "sha256": "851041ec756ec300d43495cfea901fa558c83345376b2309cb9654af95a0b2a3",
       "read_extent": "full text"
     },
     {
-      "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/results/accepted/2026-08-28-v4-coherent-canonical-form-intake.md",
+      "path": "$DEV/math-research/campaigns/cfg23/results/accepted/2026-08-28-v4-coherent-canonical-form-intake.md",
       "lines": 76,
       "sha256": "75975c3cf4dd9fee14c0b1f3e2c668f23b65b84d1b9456c0b9b2fd54fd23a547",
       "read_extent": "full text"
     },
     {
-      "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/results/accepted/2026-08-23-ct1-nonrealizability-v1.md",
+      "path": "$DEV/math-research/campaigns/cfg23/results/accepted/2026-08-23-ct1-nonrealizability-v1.md",
       "lines": 33,
       "sha256": "b72ec3b48c9e1c81503b26cb2ea10eb74a8ececbdafae226fe1dc13304628b2f",
       "read_extent": "full text"
@@ -92,11 +92,11 @@
     "allowed_maximum": 5,
     "actual": 5,
     "files": [
-      "C:/Users/wstri/dev/math-research/campaigns/cfg23/results/accepted/2026-08-31-c2-b11-shallow-canonicalization-audit-closeout.md",
-      "C:/Users/wstri/dev/math-research/campaigns/cfg23/results/accepted/2026-08-25-compatible-matroid-completion-intake.md",
-      "C:/Users/wstri/dev/math-research/campaigns/cfg23/results/accepted/2026-08-28-cuntz23-search-core-intake.md",
-      "C:/Users/wstri/dev/math-research/campaigns/cfg23/results/accepted/2026-08-28-v4-coherent-canonical-form-intake.md",
-      "C:/Users/wstri/dev/math-research/campaigns/cfg23/results/accepted/2026-08-23-ct1-nonrealizability-v1.md"
+      "$DEV/math-research/campaigns/cfg23/results/accepted/2026-08-31-c2-b11-shallow-canonicalization-audit-closeout.md",
+      "$DEV/math-research/campaigns/cfg23/results/accepted/2026-08-25-compatible-matroid-completion-intake.md",
+      "$DEV/math-research/campaigns/cfg23/results/accepted/2026-08-28-cuntz23-search-core-intake.md",
+      "$DEV/math-research/campaigns/cfg23/results/accepted/2026-08-28-v4-coherent-canonical-form-intake.md",
+      "$DEV/math-research/campaigns/cfg23/results/accepted/2026-08-23-ct1-nonrealizability-v1.md"
     ],
     "all_full_text": true,
     "no_remaining_required_ranges": []
@@ -111,7 +111,7 @@
       "class": "COVER",
       "scope_or_region": "REGION",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/results/accepted/2026-08-31-c2-b11-shallow-canonicalization-audit-closeout.md",
+        "path": "$DEV/math-research/campaigns/cfg23/results/accepted/2026-08-31-c2-b11-shallow-canonicalization-audit-closeout.md",
         "lines": "35-53",
         "sha256": "08d8757ad384bf27679f62715a5d7bc9264d32c15f016d0a6e0943d3ea9b196f"
       },
@@ -144,7 +144,7 @@
       "class": "SCOPE",
       "scope_or_region": "REGION",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "527-530",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -177,7 +177,7 @@
       "class": "SCOPE",
       "scope_or_region": "REGION",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/results/accepted/2026-08-25-compatible-matroid-completion-intake.md",
+        "path": "$DEV/math-research/campaigns/cfg23/results/accepted/2026-08-25-compatible-matroid-completion-intake.md",
         "lines": "7-36",
         "sha256": "6ca9d7b31a2e8dfd6105b8a68def16d28687ccf867f8aeba1e1f0b404d020cd6"
       },
@@ -210,7 +210,7 @@
       "class": "ADAPTER",
       "scope_or_region": "N/A",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/results/accepted/2026-08-25-compatible-matroid-completion-intake.md",
+        "path": "$DEV/math-research/campaigns/cfg23/results/accepted/2026-08-25-compatible-matroid-completion-intake.md",
         "lines": "70-87",
         "sha256": "6ca9d7b31a2e8dfd6105b8a68def16d28687ccf867f8aeba1e1f0b404d020cd6"
       },
@@ -243,7 +243,7 @@
       "class": "MEANING",
       "scope_or_region": "REGION",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "1112-1124",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -276,7 +276,7 @@
       "class": "SCOPE",
       "scope_or_region": "REGION",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/results/accepted/2026-08-28-cuntz23-search-core-intake.md",
+        "path": "$DEV/math-research/campaigns/cfg23/results/accepted/2026-08-28-cuntz23-search-core-intake.md",
         "lines": "11-24;31-46",
         "sha256": "851041ec756ec300d43495cfea901fa558c83345376b2309cb9654af95a0b2a3"
       },
@@ -309,7 +309,7 @@
       "class": "ADAPTER",
       "scope_or_region": "N/A",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "1207-1212;1235-1247",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -342,7 +342,7 @@
       "class": "COVER",
       "scope_or_region": "REGION",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "1184-1199",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -375,7 +375,7 @@
       "class": "COVER",
       "scope_or_region": "REGION",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "1252-1276",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -408,7 +408,7 @@
       "class": "ADAPTER",
       "scope_or_region": "REGION",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/results/accepted/2026-08-28-v4-coherent-canonical-form-intake.md",
+        "path": "$DEV/math-research/campaigns/cfg23/results/accepted/2026-08-28-v4-coherent-canonical-form-intake.md",
         "lines": "59-66",
         "sha256": "75975c3cf4dd9fee14c0b1f3e2c668f23b65b84d1b9456c0b9b2fd54fd23a547"
       },
@@ -441,7 +441,7 @@
       "class": "COVER",
       "scope_or_region": "REGION",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "659-664;697-702",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -474,7 +474,7 @@
       "class": "ADAPTER",
       "scope_or_region": "REGION",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "665-706",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -507,7 +507,7 @@
       "class": "WARRANT",
       "scope_or_region": "REGION",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/FRONTIER.md",
+        "path": "$DEV/math-research/campaigns/cfg23/FRONTIER.md",
         "lines": "714-729",
         "sha256": "122718f3c2313f334fa8b9e6b00c64e7eb90c1cc181182f1bad5d0a5faa54e34"
       },
@@ -540,7 +540,7 @@
       "class": "SCOPE",
       "scope_or_region": "REGION",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/FRONTIER.md",
+        "path": "$DEV/math-research/campaigns/cfg23/FRONTIER.md",
         "lines": "412-416",
         "sha256": "122718f3c2313f334fa8b9e6b00c64e7eb90c1cc181182f1bad5d0a5faa54e34"
       },
@@ -573,7 +573,7 @@
       "class": "MEANING",
       "scope_or_region": "REGION",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "211-225",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -606,7 +606,7 @@
       "class": "ADAPTER",
       "scope_or_region": "N/A",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "71-83",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -639,7 +639,7 @@
       "class": "ADAPTER",
       "scope_or_region": "N/A",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "302-318",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -672,7 +672,7 @@
       "class": "BINDING",
       "scope_or_region": "N/A",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "510-548;594-597",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -705,7 +705,7 @@
       "class": "BINDING",
       "scope_or_region": "N/A",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "729-748",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -738,7 +738,7 @@
       "class": "OTHER",
       "scope_or_region": "N/A",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "443-447",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -771,7 +771,7 @@
       "class": "COVER",
       "scope_or_region": "REGION",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/FRONTIER.md",
+        "path": "$DEV/math-research/campaigns/cfg23/FRONTIER.md",
         "lines": "445-450",
         "sha256": "122718f3c2313f334fa8b9e6b00c64e7eb90c1cc181182f1bad5d0a5faa54e34"
       },
@@ -804,7 +804,7 @@
       "class": "SCOPE",
       "scope_or_region": "REGION",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "1092-1107",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -837,7 +837,7 @@
       "class": "MEANING",
       "scope_or_region": "REGION",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "1021-1033",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -870,7 +870,7 @@
       "class": "BINDING",
       "scope_or_region": "N/A",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "374-391",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -903,7 +903,7 @@
       "class": "WARRANT",
       "scope_or_region": "SCOPE",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "759-763",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -936,7 +936,7 @@
       "class": "MEANING",
       "scope_or_region": "REGION",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/FRONTIER.md",
+        "path": "$DEV/math-research/campaigns/cfg23/FRONTIER.md",
         "lines": "1200-1214",
         "sha256": "122718f3c2313f334fa8b9e6b00c64e7eb90c1cc181182f1bad5d0a5faa54e34"
       },
@@ -969,7 +969,7 @@
       "class": "SCOPE",
       "scope_or_region": "SCOPE",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "510-512",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -1002,7 +1002,7 @@
       "class": "WARRANT",
       "scope_or_region": "N/A",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "737-748;1289-1293;1342-1353",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -1035,7 +1035,7 @@
       "class": "BINDING",
       "scope_or_region": "REGION",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/FRONTIER.md",
+        "path": "$DEV/math-research/campaigns/cfg23/FRONTIER.md",
         "lines": "246-255",
         "sha256": "122718f3c2313f334fa8b9e6b00c64e7eb90c1cc181182f1bad5d0a5faa54e34"
       },
@@ -1070,7 +1070,7 @@
       "class": "SCOPE",
       "scope_or_region": "SCOPE",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "473-499",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -1103,7 +1103,7 @@
       "class": "ADAPTER",
       "scope_or_region": "N/A",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "680-717",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -1136,7 +1136,7 @@
       "class": "SCOPE",
       "scope_or_region": "SCOPE",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "434-456;916-925",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -1169,7 +1169,7 @@
       "class": "ADAPTER",
       "scope_or_region": "N/A",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction/REPORT.md",
+        "path": "$DEV/math-research/campaigns/dk-retrodiction/REPORT.md",
         "lines": "211-219;412-417",
         "sha256": "c56fe65d9e246bd06c525e9da5c642c24fa378681525d602679cd37e88228153"
       },
@@ -1202,7 +1202,7 @@
       "class": "ADAPTER",
       "scope_or_region": "N/A",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction/REPORT.md",
+        "path": "$DEV/math-research/campaigns/dk-retrodiction/REPORT.md",
         "lines": "515-528;534-537;570-573",
         "sha256": "c56fe65d9e246bd06c525e9da5c642c24fa378681525d602679cd37e88228153"
       },
@@ -1235,7 +1235,7 @@
       "class": "ADAPTER",
       "scope_or_region": "N/A",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction/REPORT.md",
+        "path": "$DEV/math-research/campaigns/dk-retrodiction/REPORT.md",
         "lines": "322-329;412-417",
         "sha256": "c56fe65d9e246bd06c525e9da5c642c24fa378681525d602679cd37e88228153"
       },
@@ -1268,7 +1268,7 @@
       "class": "SCOPE",
       "scope_or_region": "SCOPE",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction/REPORT.md",
+        "path": "$DEV/math-research/campaigns/dk-retrodiction/REPORT.md",
         "lines": "113-170",
         "sha256": "c56fe65d9e246bd06c525e9da5c642c24fa378681525d602679cd37e88228153"
       },
@@ -1301,7 +1301,7 @@
       "class": "WARRANT",
       "scope_or_region": "N/A",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction/REPORT.md",
+        "path": "$DEV/math-research/campaigns/dk-retrodiction/REPORT.md",
         "lines": "172-188",
         "sha256": "c56fe65d9e246bd06c525e9da5c642c24fa378681525d602679cd37e88228153"
       },
@@ -1334,7 +1334,7 @@
       "class": "SCOPE",
       "scope_or_region": "BOTH",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction/REPORT.md",
+        "path": "$DEV/math-research/campaigns/dk-retrodiction/REPORT.md",
         "lines": "192-219;271-291;295-320",
         "sha256": "c56fe65d9e246bd06c525e9da5c642c24fa378681525d602679cd37e88228153"
       },
@@ -1367,7 +1367,7 @@
       "class": "MEANING",
       "scope_or_region": "REGION",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction/REPORT.md",
+        "path": "$DEV/math-research/campaigns/dk-retrodiction/REPORT.md",
         "lines": "475-508;549-553",
         "sha256": "c56fe65d9e246bd06c525e9da5c642c24fa378681525d602679cd37e88228153"
       },
@@ -1397,7 +1397,7 @@
     {
       "item": "Release v1.2.0 acknowledgment",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/tmp/configuration-23-4-v1.2.0-notes.md",
+        "path": "$DEV/math-research/tmp/configuration-23-4-v1.2.0-notes.md",
         "lines": 11,
         "sha256": "fe0b3e15726ee01f00be62d793a9a623ab20319186ee68c9e23ad47b378aee47",
         "read_extent": "full text"
@@ -1407,7 +1407,7 @@
     {
       "item": "Literature nineteenth-order count/erratum",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "605-609;637-645",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -1416,7 +1416,7 @@
     {
       "item": "Primary references across summaries",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/EXTERNAL_REVIEW.md",
+        "path": "$DEV/math-research/campaigns/cfg23/EXTERNAL_REVIEW.md",
         "lines": "62-73",
         "sha256": "0cb377b4027e7f187a267e9cbac60bf84fab7e0b1624b79d6afa059e537e086c"
       },
@@ -1425,7 +1425,7 @@
     {
       "item": "Lifecycle/custody parser failures",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "17-19;122-125;272-275;319-348;383-395;1083-1090",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -1434,7 +1434,7 @@
     {
       "item": "Numerical/finite-field/capped/sampled negative searches",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/EVIDENCE_POLICY.md",
+        "path": "$DEV/math-research/campaigns/cfg23/EVIDENCE_POLICY.md",
         "lines": "5-10;20-41",
         "sha256": "f309a63690be6c321d838506ec599bc39c44dac42a8f88ac9e5986ae26232830"
       },
@@ -1443,7 +1443,7 @@
     {
       "item": "Ordinary incomplete proof custody",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "211-240;1342-1360",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -1452,7 +1452,7 @@
     {
       "item": "Class68 chart/keystone/guard corrections",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "398-419;1374-1380",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -1461,7 +1461,7 @@
     {
       "item": "V4 C2 fence/remainder counts",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/CHECKPOINT.md",
+        "path": "$DEV/math-research/campaigns/cfg23/CHECKPOINT.md",
         "lines": "242-255;257-318",
         "sha256": "7af6de6b1c8c1d359e268293caac18c11123547b2c62629c70947b52b3be434d"
       },
@@ -1470,7 +1470,7 @@
     {
       "item": "Optimization and deployment hazards",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/cfg23/results/accepted/2026-08-28-v4-coherent-canonical-form-intake.md",
+        "path": "$DEV/math-research/campaigns/cfg23/results/accepted/2026-08-28-v4-coherent-canonical-form-intake.md",
         "lines": "38-57",
         "sha256": "75975c3cf4dd9fee14c0b1f3e2c668f23b65b84d1b9456c0b9b2fd54fd23a547"
       },
@@ -1479,7 +1479,7 @@
     {
       "item": "Retrodiction reporting arithmetic/history wording",
       "source": {
-        "path": "C:/Users/wstri/dev/math-research/campaigns/dk-retrodiction/REPORT.md",
+        "path": "$DEV/math-research/campaigns/dk-retrodiction/REPORT.md",
         "lines": "40-85;108-111;421-469",
         "sha256": "c56fe65d9e246bd06c525e9da5c642c24fa378681525d602679cd37e88228153"
       },
@@ -1490,7 +1490,7 @@
   "zip_index_digest_definition": "SHA256 of UTF8 without BOM of PowerShell ConvertTo-Json -InputObject metadata_array -Depth4 -Compress. Central-directory order; properties name,uncompressed_bytes,compressed_bytes,timestamp,external_attributes. Values include exact path and offset timestamp; not archive member content hashes.",
   "zip_indexes": [
     {
-      "path": "C:/Users/wstri/dev/math-research/tmp/configuration-23-4-v1.2.0-zenodo.zip",
+      "path": "$DEV/math-research/tmp/configuration-23-4-v1.2.0-zenodo.zip",
       "archive_bytes": 3052383,
       "archive_sha256": "76600baf258f79e1ad8c8519151105837e32a3f49feb52f073f72d86c642516f",
       "index_sha256": "2d3f78e98d61d45ee6b184213f2ada0b1b9d01baa61910bed708ef3fa8047073",
@@ -2891,7 +2891,7 @@
       ]
     },
     {
-      "path": "C:/Users/wstri/dev/math-research/tmp/configuration-23-4-v1.1.0-zenodo.zip",
+      "path": "$DEV/math-research/tmp/configuration-23-4-v1.1.0-zenodo.zip",
       "archive_bytes": 3048037,
       "archive_sha256": "fffd84147e93809913b076ba32896e3c9085476a02d0b0da1cd6c92e36678f49",
       "index_sha256": "8564202835bafb3243b3e2bf8c18c3328644d6cf8fc649b9e2d963fa8e0939cc",

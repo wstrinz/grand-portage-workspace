@@ -73,26 +73,26 @@
       "commit": "7991c9052f13e8dcaa78b5eae36f31663e080c1e",
       "file_sha256": "ceb621c769a0048828f08d38b0049394d32bf1acc886484ce82c22a6c836f655",
       "git_blob": "96e936e5c51b691091f7b3fdfb8c4f0ce640db9b",
-      "history_pin_sha256": "4f1c64b8aaa28da4032f9e407dac929083b5436aedf122fba2d98a37c296633a",
+      "history_pin_sha256": "2ca0a95db90819ac44928ecd8564cc0ddcfbcdb63c897c921355447106545d2c",
       "line": 73,
       "anchor": "def test_intermediate_rung_commitment_is_not_promoted_to_polynomial_proof(",
       "function_sha256": "92550e008eff06db16945c416502ee759338f814c3ce4191c0646067307109c6"
     }
   },
   "protected_input_hashes": {
-    "F:\\repos\\grandportage-0.50\\oracle\\PIN.json": "9bb807c3034e045927dfc277f9ac268317ae2fdf7c07fd77c1643749794ee11f",
-    "F:\\repos\\grandportage-0.50\\oracle\\history\\PIN.json": "4f1c64b8aaa28da4032f9e407dac929083b5436aedf122fba2d98a37c296633a",
-    "F:\\repos\\grandportage-0.50\\oracle\\ROUTES.json": "5e66d807591f8f9dc5e6eda0de2dfbed6364fbcdba50d0d3d2da9f384c9f5648",
-    "F:\\repos\\grandportage-0.50\\corpus\\LAYER-TAGS.json": "046b353edf02f2e6972d00c2ee4fe974cb3bef1fc7062cede0d36ec4c1c83838",
-    "F:\\repos\\grandportage-0.50\\docs\\GP-0.50-REWORK-PACKET.md": "949cc271a0a353e593961974349aa99711d2dd7bde1b26a51a5e8260ed1c2110"
+    "oracle/PIN.json": "180d920db790d5b5e318ce318b7b7e1467e6b11fd44e05e759e8b7cc7f4459db",
+    "oracle/history/PIN.json": "2ca0a95db90819ac44928ecd8564cc0ddcfbcdb63c897c921355447106545d2c",
+    "oracle/ROUTES.json": "cce1e91123d58b6c3a452cd911b129a21e6d4fad3e9042b1d0ff43e73e6e7750",
+    "corpus/LAYER-TAGS.json": "046b353edf02f2e6972d00c2ee4fe974cb3bef1fc7062cede0d36ec4c1c83838",
+    "docs/GP-0.50-REWORK-PACKET.md": "949cc271a0a353e593961974349aa99711d2dd7bde1b26a51a5e8260ed1c2110"
   },
   "executables": {
     "span": {
-      "path": "F:\\repos\\grandportage-0.50\\phase2\\lean\\.lake\\build\\bin\\gp_span_runner.exe",
+      "path": "phase2/lean/.lake/build/bin/gp_span_runner.exe",
       "sha256": "0ff86be251c032a6bc47b211972e81e3beb86fddc59bac0c386d06ee1601b89a"
     },
     "lifecycle": {
-      "path": "F:\\repos\\grandportage-0.50\\phase2\\lean\\.lake\\build\\bin\\gp_lifecycle_runner.exe",
+      "path": "phase2/lean/.lake/build/bin/gp_lifecycle_runner.exe",
       "sha256": "4affc188563f818aad3c798a4b49b0ccd25438c12a16cfd9283d9789f1128ab3"
     }
   },

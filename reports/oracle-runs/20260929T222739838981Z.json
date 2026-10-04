@@ -2,7 +2,7 @@
   "schema_version": 1,
   "timestamp_utc": "20260929T222739838981Z",
   "oracle_commit": "ac4155787207e2847d248cffed7be871d5dcd577",
-  "oracle_path": "F:\\repos\\grandportage-0.50\\oracle\\checkout",
+  "oracle_path": "oracle/checkout",
   "runner_sha256": "0e65b05f9695685eb406572f7ef685d3f4298b199f5d3b598dcdcb96a93e04cc",
   "closure_fixture_probe_sha256": "3d87964420a6e1f95478d7c4fb6390136865b3d4db5e1c79db9b65984be28214",
   "guard_snapshot_probe_sha256": "b5309e42e749fbffe88ae261cae164b4f4acde14bf769bfacc3a2a18f92ffb01",
@@ -44,7 +44,7 @@
   "lifecycle_input_adapter_sha256": "8b242271dd66f2ddf2df7280101956096dc46000500a0df0cd0ee01dc1fa7857",
   "lifecycle_baseline_sha256": "b949659741c193c4b632304c10a767cb13a3913a9b8d88a99fe8f649795ded1e",
   "routes_sha256": "fd27d50bfeb2013ec94ef8f863e89d8524108440d1b3e7f87be310d773195e99",
-  "historical_manifest_sha256": "4f1c64b8aaa28da4032f9e407dac929083b5436aedf122fba2d98a37c296633a",
+  "historical_manifest_sha256": "2ca0a95db90819ac44928ecd8564cc0ddcfbcdb63c897c921355447106545d2c",
   "schema_sha256": "76029f1faf4265c01e711e32ea255d5ca6e16811fa2e174fc7ba62454a9c782b",
   "python": "3.12.9 (main, Feb 12 2025, 14:52:31) [MSC v.1942 64 bit (AMD64)]",
   "summary": {
@@ -9060,7 +9060,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 3,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9080,7 +9080,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 1,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9100,7 +9100,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 1,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9120,7 +9120,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 1,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9140,7 +9140,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 2,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9160,7 +9160,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 2,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9180,7 +9180,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 3,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9200,7 +9200,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 2,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9220,7 +9220,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 1,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9240,7 +9240,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 2,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9273,7 +9273,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 2,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9293,7 +9293,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 2,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9313,7 +9313,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 1,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9333,7 +9333,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 2,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9353,7 +9353,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 1,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9373,7 +9373,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 3,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9393,7 +9393,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 1,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9413,7 +9413,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 1,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9433,7 +9433,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 2,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9453,7 +9453,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 2,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9486,7 +9486,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 2,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9506,7 +9506,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 1,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9526,7 +9526,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 2,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9546,7 +9546,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 1,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9566,7 +9566,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 1,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9586,7 +9586,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 1,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9606,7 +9606,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 4,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9626,7 +9626,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 2,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },
@@ -9646,7 +9646,7 @@
       "oracle_called": false,
       "agreement": null,
       "evidence_refs_verified": 1,
-      "binding_manifest_sha256": "sha256:b8f4802d1caea0b870dd910cea9536ff550de31856e56688acdc235919896fe7",
+      "binding_manifest_sha256": "sha256:b262813e6331971cd5bcddc2a100e7958f9940c364c0184932938cf3a176ccad",
       "status": "RETAINED_DIAGNOSTIC",
       "reason": "Retained operational evidence bindings verified; incident not freshly executed and no native verdict inferred."
     },

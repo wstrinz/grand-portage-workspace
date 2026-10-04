@@ -6,7 +6,7 @@
   "scope_or_region": "N/A",
   "sources": [
     {
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\PRC-ERRATUM.md",
+      "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/PRC-ERRATUM.md",
       "lines": [
         3,
         17
@@ -14,7 +14,7 @@
       "sha256": "b05c3144ad0d35642a95512b0aaace66a2b7893452a18b18f2357942e961b158"
     },
     {
-      "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-11-CLOSEOUT.md",
+      "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-11-CLOSEOUT.md",
       "lines": [
         36,
         44
@@ -41,12 +41,12 @@
   "original_pointer": {
     "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
     "pointer": "/rows/54",
-    "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+    "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
     "review_date": "2026-09-29",
     "date_kind": "retained report review date; not incident date or source publication date"
   },
   "source": {
-    "repo": "F:/repos/grandportage-0.50",
+    "repo": "$WORKSPACE",
     "ref": "reports/PHASE-0B-INVENTORY-DRAFT.json#/rows/54",
     "date": "2026-09-29",
     "review_date": "2026-09-29",
@@ -71,7 +71,7 @@
       "qualifications": "Three defect dimensions in one packaging intake. No mathematical outcome altered. This worker did not read original script or hash-table bytes or rerun package.",
       "source": [
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\PRC-ERRATUM.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/PRC-ERRATUM.md",
           "lines": [
             3,
             17
@@ -79,7 +79,7 @@
           "sha256": "b05c3144ad0d35642a95512b0aaace66a2b7893452a18b18f2357942e961b158"
         },
         {
-          "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-11-CLOSEOUT.md",
+          "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-11-CLOSEOUT.md",
           "lines": [
             36,
             44
@@ -90,7 +90,7 @@
       "pointer": {
         "report": "reports/PHASE-0B-PIGEON-RIVER-PARENT-INTAKE.json",
         "pointer": "/dispositions/0",
-        "sha256": "7caa351bb5c7b4897affa48c4a45637b1db86b97adc570a7e74b9bb9ccc58e1a",
+        "sha256": "fda1430feb9c8900c7a239f168d1cd1f132e9796ee51ab68746dff7dc6ff85dc",
         "review_date": "2026-09-29",
         "date_kind": "retained report review date; not incident date or source publication date"
       }
@@ -104,7 +104,7 @@
     "scope_or_region": "N/A",
     "sources": [
       {
-        "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\results\\inbox\\e11-consolidation-gp-v1\\PRC-ERRATUM.md",
+        "path": "$DEV/math-research/campaigns/ac-2gen/results/inbox/e11-consolidation-gp-v1/PRC-ERRATUM.md",
         "lines": [
           3,
           17
@@ -112,7 +112,7 @@
         "sha256": "b05c3144ad0d35642a95512b0aaace66a2b7893452a18b18f2357942e961b158"
       },
       {
-        "path": "C:\\Users\\wstri\\dev\\math-research\\campaigns\\ac-2gen\\EPOCH-11-CLOSEOUT.md",
+        "path": "$DEV/math-research/campaigns/ac-2gen/EPOCH-11-CLOSEOUT.md",
         "lines": [
           36,
           44
@@ -145,7 +145,7 @@
     "related_occurrence_limit": "Same e11 GP intake context, but missing scripts/deterministic summary/stale hashes are packaging claims. Eleven exercises is repeated assay bookkeeping; no semantic-catch incident is added.",
     "source_pointer": {
       "report": "reports/PHASE-0B-INVENTORY-DRAFT.json",
-      "sha256": "adb5aad2ff9a75802300bd3dbbb79cb28e6b66008a36959878925aee11c696f0",
+      "sha256": "ab1a7c4728bf5ff36129df136adb9c2f612181662ef29ee23358323d866a8ab2",
       "pointer": "/rows/54"
     },
     "observed_vs_attributed": "Existing source-attributed campaign draft only; no new campaign/source content or execution.",
@@ -155,7 +155,7 @@
   "evidence_level": "retained source-backed report; no new source read, execution, or authentication",
   "parent_integration": {
     "worker_report": "reports/PHASE-0B-FINAL-RECORD-CANDIDATES.json",
-    "worker_report_sha256": "a459ad20306086f1a8a765c974253a4d8692325739a245741e83c161c7e36c0d",
+    "worker_report_sha256": "f5e7db279905a97d921020215f20fd102c42a49147d78c63c54f28986d2eb849",
     "register": "incident/correction/group"
   }
 }

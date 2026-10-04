@@ -63,7 +63,7 @@
         }
       ],
       "source_and_review_pointers": [
-        "C:/Users/wstri/dev/grand-portage git cat-file blob d128209c92ddbc71511d9a10550782fef284e406",
+        "$DEV/grand-portage git cat-file blob d128209c92ddbc71511d9a10550782fef284e406",
         "pinned blob lines 12-37, 44-61",
         "corpus/must/GP-X118.json",
         "corpus/must/GP-X318.json",
@@ -127,7 +127,7 @@
         }
       ],
       "source_and_review_pointers": [
-        "C:/Users/wstri/dev/grand-portage git cat-file blob 9715cf9f6353e5ba528ffc88f1e84fb8d9e6622d",
+        "$DEV/grand-portage git cat-file blob 9715cf9f6353e5ba528ffc88f1e84fb8d9e6622d",
         "pinned blob lines 10-28, 30-43",
         "corpus/must/GP-X118.json",
         "corpus/must/GP-X318.json",
@@ -181,7 +181,7 @@
         }
       ],
       "source_and_review_pointers": [
-        "C:/Users/wstri/dev/grand-portage git cat-file blob c231b42735dac46181ec92c1dabd875a2f12d4d9",
+        "$DEV/grand-portage git cat-file blob c231b42735dac46181ec92c1dabd875a2f12d4d9",
         "pinned blob lines 5-25, 38-59",
         "corpus/must/GP-X119.json",
         "corpus/must/GP-X120.json",
@@ -225,7 +225,7 @@
         }
       ],
       "source_and_review_pointers": [
-        "C:/Users/wstri/dev/grand-portage git cat-file blob 1c4031d814955ef76a6a6ed54e191721e66df6d3",
+        "$DEV/grand-portage git cat-file blob 1c4031d814955ef76a6a6ed54e191721e66df6d3",
         "pinned blob lines 6-26",
         "corpus/must/GP-X119.json",
         "corpus/must/GP-X120.json",
@@ -296,7 +296,7 @@
         }
       ],
       "source_and_review_pointers": [
-        "C:/Users/wstri/dev/grand-portage git cat-file blob 75f155b924bcef6e0ae5458d30431e17851531a0",
+        "$DEV/grand-portage git cat-file blob 75f155b924bcef6e0ae5458d30431e17851531a0",
         "pinned blob lines 5-32",
         "corpus/must/GP-X319.json",
         "corpus/must/GP-X320.json",
@@ -353,7 +353,7 @@
         }
       ],
       "source_and_review_pointers": [
-        "C:/Users/wstri/dev/grand-portage git cat-file blob 0fe77533ca0795f5095c1cbfdb6dda68b9112eed",
+        "$DEV/grand-portage git cat-file blob 0fe77533ca0795f5095c1cbfdb6dda68b9112eed",
         "pinned blob lines 15-57, 59-100",
         "corpus/must/GP-X324.json",
         "corpus/must/GP-X327.json",
