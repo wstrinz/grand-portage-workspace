@@ -25,7 +25,7 @@ WORKSPACE = "grandportage-0.50"
 EXCLUDED = ("oracle/checkout/", "oracle/history/checkout/")
 # These files carry the patterns as examples or rules.
 EXEMPT = {"tools/check-local-paths.py", "tools/local-paths-allowlist.json", "tools/neutralize-local-paths.py",
-          "tests/test_gp50_local_paths.py"}
+          "tests/test_gp50_local_paths.py", "reports/LOCAL-PATH-MIGRATION.json"}
 TOKEN = re.compile(r"(?i)(?:\b[a-z]:(?:\\\\|\\|/)+|/c/)(?:users|repos)(?:\\\\|\\|/)+[^\"'\s,;)\]>`|*<]*")
 HEX64 = re.compile(r"\b[0-9a-f]{64}\b")
 TRAIL = ".:"  # sentence punctuation that may end a token in prose

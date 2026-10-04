@@ -18,7 +18,7 @@ PATTERN = re.compile(rb"[A-Za-z]:(?:/|\\\\?)(?:Users|repos)(?:/|\\\\?)|/c/Users/
 EXCLUDED = ("oracle/checkout/", "oracle/history/checkout/")
 # These files carry the patterns as examples or rules.
 EXEMPT = {"tools/check-local-paths.py", "tools/local-paths-allowlist.json", "tools/neutralize-local-paths.py",
-          "tests/test_gp50_local_paths.py"}
+          "tests/test_gp50_local_paths.py", "reports/LOCAL-PATH-MIGRATION.json"}
 
 
 def counts():
