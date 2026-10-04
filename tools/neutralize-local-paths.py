@@ -61,7 +61,8 @@ def rewrite(data):
 
 def tracked():
     out = subprocess.run(["git", "ls-files", "-z"], cwd=ROOT, capture_output=True, check=True).stdout
-    return [p for p in out.decode("utf-8").split("\0") if p and not p.startswith(EXCLUDED) and p not in EXEMPT]
+    return [p for p in out.decode("utf-8").split("\0") if p and not p.startswith(EXCLUDED) and p not in EXEMPT
+            and not p.startswith("reports/LOCAL-PATH-MIGRATION")]
 
 
 def sha(b):
