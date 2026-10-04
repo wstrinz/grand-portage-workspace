@@ -329,3 +329,5 @@ Also proposed: GP-X22–X24 (3b) are ruling 2's shape and now pass through the s
 - Same 79 cases and statuses; Kernel axioms standard.
 - The hand-assembled PHASE-2-*-INTEGRATION receipts have no writer. They stay as dated records of the harness bytes at integration time, which git keeps reachable.
 - Excluded on purpose: the Phase 1 spike tools and two audits that pin the old repo path.
+
+2026-10-03 Will: v0.50.0-alpha stays checked in to grand-portage-workspace for now, not published. Removing every local machine path, so that everything is CI-capable, is considered a necessary step before any work moves to the public repository.

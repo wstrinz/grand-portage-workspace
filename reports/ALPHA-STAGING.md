@@ -1,6 +1,6 @@
 # v0.50.0-alpha staging
 
-2026-10-03. Prepared per [PUBLIC-INTEGRATION-PLAN.md](PUBLIC-INTEGRATION-PLAN.md). Will's decisions: release gate G3a, corpus and source-pinned reports public, label `v0.50.0-alpha`. **Nothing has been pushed to the public `wstrinz/grandportage`; publication needs Will's explicit approval.**
+2026-10-03. Prepared per [PUBLIC-INTEGRATION-PLAN.md](PUBLIC-INTEGRATION-PLAN.md). Will's decisions: release gate G3a, corpus and source-pinned reports public, label `v0.50.0-alpha`. **Nothing has been pushed to the public `wstrinz/grandportage`; publication needs Will's explicit approval.** Will, 2026-10-03: hold in the workspace; removing all local machine paths, so that everything is CI-capable, is a prerequisite for moving work to the public repository.
 
 ## Prerequisites
 
