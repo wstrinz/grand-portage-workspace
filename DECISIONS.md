@@ -331,3 +331,5 @@ Also proposed: GP-X22–X24 (3b) are ruling 2's shape and now pass through the s
 - Excluded on purpose: the Phase 1 spike tools and two audits that pin the old repo path.
 
 2026-10-03 Will: v0.50.0-alpha stays checked in to grand-portage-workspace for now, not published. Removing every local machine path, so that everything is CI-capable, is considered a necessary step before any work moves to the public repository.
+
+2026-10-03 Will: Phase 4 (census) proceeds now, side by side with removing local paths. Order: the local-path CI check (current files allowlisted), then the M4 memo, then the Phase 4 build, with the path migration (neutral tool output, then one recorded rebinding migration) interleaved.
